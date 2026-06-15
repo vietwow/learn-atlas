@@ -8,11 +8,10 @@ The autonomous loop (`/improve-atlas`) reads this file first. Keep it the live q
 done items move to CHANGELOG and out; new ideas land in the backlog.
 
 ## Now (highest priority)
-- **INTEGRATE the comprehensive-content workflow output** (run `wf_acfb2503-efd`, author→adversarial-verify
-  per lesson, generating full curricula for all 6 topics). When it lands:
-  1. Write per-topic `data/<topic>.js` files (`(window.COURSES=window.COURSES||[]).push({...})`), remove `data/courses.js`.
-  2. Update `index.html` script tags + `sw.js` `ASSETS` list, and **bump `CACHE` `atlas-v1`→`atlas-v2`**.
-  3. Follow-up workflow: add cross-topic `prereqs` edges + expand the question bank + standalone `examples`.
+- **Cross-topic prerequisite edges** — connect the 6 Knowledge-Map columns (e.g. Deep Learning depends on
+  Linear Algebra + Calculus). data/prereqs.js (window.PREREQS) consumed by learningPath/directPrereqs.
+- Embed Visualization-Lab widgets inline in the lessons they illustrate (`<div data-viz>`).
+- Embed runnable code exercises (`<div data-code>`) in algorithm/DL lessons.
 
 ## Improvement compass — rotate; broken always wins; biggest value first
 1. **Content details** — depth, accuracy, missing sub-topics, new lessons/modules, worked examples.

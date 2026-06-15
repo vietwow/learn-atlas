@@ -2,6 +2,15 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1 — Comprehensive content integrated: 113 lessons across 6 topics (content details)
+Replaced the 15-lesson seed with the workflow-generated, adversarially fact-checked curriculum:
+**6 topics · 113 lessons · 452 MCQs · 678 flashcards · 337 homework problems** (212 verifier fixes applied).
+Split content into per-topic data files (data/<topic>.js, push to window.COURSES); removed data/courses.js;
+wired index.html script tags + sw.js ASSETS and bumped CACHE atlas-v1->v2. Verified: 25 routes errs=0,
+lessons render with KaTeX math, Knowledge Map populated with all 113 concepts, 0 bad MCQ answer-indices,
+0 duplicate lesson ids.
+
+
 ## iter 0 — Foundation (hand-built before the loop)
 The base platform: a static, gamified, GitHub-Pages-ready personal learning site for 6 topics
 (linear algebra, calculus, algorithms, deep learning, reinforcement learning, LLMs).
