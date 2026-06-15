@@ -44,15 +44,21 @@
     })));
     return _index;
   }
-  // All lessons that should be learned before `lid`: explicit `prereqs` closure
+  // explicit prerequisites = lesson.prereqs (in data) ∪ window.PREREQS[id] (cross-topic graph)
+  function explicitPrereqs(id) {
+    const node = index()[id]; if (!node) return [];
+    const a = node.lesson.prereqs || [], b = (window.PREREQS && window.PREREQS[id]) || [];
+    return a.concat(b).filter((v, i, arr) => arr.indexOf(v) === i);
+  }
+  // All lessons that should be learned before `lid`: explicit prereqs closure
   // PLUS the lessons preceding it within its own course (natural ordering).
   function learningPath(lid) {
     const idx = index(), seen = {}, out = [];
     function visit(id) {
       if (seen[id]) return; seen[id] = true;
       const node = idx[id]; if (!node) return;
-      // explicit cross-topic prerequisites first
-      (node.lesson.prereqs || []).forEach(visit);
+      // explicit prerequisites first (incl. cross-topic)
+      explicitPrereqs(id).forEach(visit);
       // in-course preceding lessons (implicit prerequisites)
       flatLessons(node.course).forEach(l => { if (idx[l.id].order < node.order) visit(l.id); });
       out.push(id);
@@ -829,7 +835,7 @@
   // ---------- knowledge map (dependency graph, colored by mastery) ----------
   function directPrereqs(lid) {
     const idx = index(), node = idx[lid]; if (!node) return [];
-    const res = new Set(node.lesson.prereqs || []);
+    const res = new Set(explicitPrereqs(lid));
     const flat = flatLessons(node.course), pos = flat.findIndex(l => l.id === lid);
     if (pos > 0) res.add(flat[pos - 1].id);
     return [...res].filter(id => idx[id]);

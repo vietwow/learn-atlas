@@ -8,8 +8,6 @@ The autonomous loop (`/improve-atlas`) reads this file first. Keep it the live q
 done items move to CHANGELOG and out; new ideas land in the backlog.
 
 ## Now (highest priority)
-- **Cross-topic prerequisite edges** — connect the 6 Knowledge-Map columns (e.g. Deep Learning depends on
-  Linear Algebra + Calculus). data/prereqs.js (window.PREREQS) consumed by learningPath/directPrereqs.
 - Embed Visualization-Lab widgets inline in the lessons they illustrate (`<div data-viz>`).
 - Embed runnable code exercises (`<div data-code>`) in algorithm/DL lessons.
 

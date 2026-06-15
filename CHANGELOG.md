@@ -2,6 +2,13 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 2 — Cross-topic prerequisite graph connects the 6 topics (content details / understandability)
+Added data/prereqs.js (window.PREREQS): 40 hand-verified cross-topic edges (e.g. backprop → chain-rule +
+matrix-multiplication; self-attention → attention-mechanism + dot-product; RLHF → policy-gradients + PPO;
+LoRA → low-rank/PCA). app.js learningPath/directPrereqs now merge these with in-course ordering, so the
+Knowledge Map links its columns (147 edges) and a path like "Self-Attention" traverses Linear Algebra →
+Deep Learning → LLM from the beginning. All ids validated cross-topic; 9 routes errs=0.
+
 ## iter 1 — Comprehensive content integrated: 113 lessons across 6 topics (content details)
 Replaced the 15-lesson seed with the workflow-generated, adversarially fact-checked curriculum:
 **6 topics · 113 lessons · 452 MCQs · 678 flashcards · 337 homework problems** (212 verifier fixes applied).
