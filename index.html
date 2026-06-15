@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="ink">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Atlas · Personal Learning Codex</title>
+  <meta name="description" content="A personal, gamified learning codex for linear algebra, calculus, algorithms, deep learning, reinforcement learning, and LLMs." />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#141110" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icon.svg" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Atlas" />
+
+  <!-- KaTeX for math typesetting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="brand" onclick="location.hash='#/'">
+        <div class="glyph">A</div>
+        <div>
+          <h1>Atlas</h1>
+          <div class="sub">Learning Codex</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="#/" data-route><span class="i">⌂</span> Dashboard</a>
+        <a href="#/review" data-route><span class="i">⚡</span> Daily Review</a>
+        <a href="#/test" data-route><span class="i">📝</span> Spawn a Test</a>
+        <a href="#/lab" data-route><span class="i">🎛️</span> Visualization Lab</a>
+        <a href="#/map" data-route><span class="i">🗺️</span> Knowledge Map</a>
+        <a href="#/playground" data-route><span class="i">💻</span> Code Playground</a>
+        <a href="#/library" data-route><span class="i">📚</span> Library</a>
+        <a href="#/achievements" data-route><span class="i">🏆</span> Achievements</a>
+        <a href="#/stats" data-route><span class="i">📊</span> Progress</a>
+      </nav>
+
+      <div class="nav nav-courses">
+        <div class="nav-label">Topics</div>
+        <div id="nav-courses"></div>
+      </div>
+
+      <div class="side-foot">
+        <button class="theme-toggle" id="search-btn">🔎 Search <span style="margin-left:auto;opacity:.6;font-family:monospace">⌘K</span></button>
+        <button class="theme-toggle" id="theme-toggle">☾ Ink theme</button>
+        <span>Built for focused, lifelong study.</span>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <div class="main">
+      <header class="topbar">
+        <button class="menu-btn" id="menu-btn">☰</button>
+        <div class="level-badge">
+          <div class="level-ring" id="ring"><span id="ring-num">1</span></div>
+          <div class="level-meta">
+            <div class="t" id="lvl-name">Novice</div>
+            <div class="s" id="lvl-sub">Level 1</div>
+          </div>
+        </div>
+        <div class="xp-wrap">
+          <div class="xp-bar"><div class="xp-fill" id="xp-fill" style="width:0%"></div></div>
+          <div class="xp-text" id="xp-text">0 XP</div>
+        </div>
+        <div class="streak">
+          <span class="flame">🔥</span>
+          <span class="num" id="streak-num">0</span>
+          <span class="lbl">day<br>streak</span>
+        </div>
+      </header>
+
+      <main id="app"></main>
+    </div>
+  </div>
+
+  <!-- data + logic (classic scripts, order matters; work on file:// and Pages) -->
+  <script src="data/courses.js"></script>
+  <script src="data/references.js"></script>
+  <script src="js/viz.js"></script>
+  <script src="js/playground.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+
+  <!-- PWA: offline app shell (only over http/https; no-op on file://) -->
+  <script>
+    if ("serviceWorker" in navigator && location.protocol.indexOf("http") === 0) {
+      window.addEventListener("load", function () { navigator.serviceWorker.register("sw.js").catch(function () {}); });
+    }
+  </script>
+</body>
+</html>

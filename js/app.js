@@ -1,0 +1,1125 @@
+/* ============================================================
+   ATLAS — SPA router + views + interactive engines
+   ============================================================ */
+(function () {
+  "use strict";
+  const C = () => window.COURSES;
+  const app = document.getElementById("app");
+  const esc = s => String(s == null ? "" : s);
+
+  // ---------- math typeset ----------
+  function typeset(retries) {
+    if (window.renderMathInElement) {
+      try {
+        window.renderMathInElement(app, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      } catch (e) {}
+    } else if ((retries || 0) < 40) {
+      // KaTeX CDN script may not have attached yet — retry briefly.
+      setTimeout(() => typeset((retries || 0) + 1), 120);
+    }
+  }
+
+  // ---------- lookups ----------
+  function findCourse(id) { return C().find(c => c.id === id); }
+  function findLesson(cid, lid) {
+    const c = findCourse(cid); if (!c) return null;
+    for (const m of c.modules) { const l = m.lessons.find(x => x.id === lid); if (l) return { course: c, module: m, lesson: l }; }
+    return null;
+  }
+  function flatLessons(c) { const out = []; c.modules.forEach(m => m.lessons.forEach(l => out.push(l))); return out; }
+
+  // ---------- lesson index + prerequisites / learning path ----------
+  let _index = null;
+  function index() {
+    if (_index) return _index;
+    _index = {}; let ord = 0;
+    C().forEach(c => c.modules.forEach((m, mi) => m.lessons.forEach(l => {
+      _index[l.id] = { course: c, module: m, lesson: l, order: ord++, moduleIdx: mi };
+    })));
+    return _index;
+  }
+  // All lessons that should be learned before `lid`: explicit `prereqs` closure
+  // PLUS the lessons preceding it within its own course (natural ordering).
+  function learningPath(lid) {
+    const idx = index(), seen = {}, out = [];
+    function visit(id) {
+      if (seen[id]) return; seen[id] = true;
+      const node = idx[id]; if (!node) return;
+      // explicit cross-topic prerequisites first
+      (node.lesson.prereqs || []).forEach(visit);
+      // in-course preceding lessons (implicit prerequisites)
+      flatLessons(node.course).forEach(l => { if (idx[l.id].order < node.order) visit(l.id); });
+      out.push(id);
+    }
+    visit(lid);
+    // stable order by global index, target last
+    return out.map(id => idx[id]).filter(Boolean).sort((a, b) => a.order - b.order);
+  }
+
+  // ---------- question bank ----------
+  function allQuestions() {
+    const out = [];
+    C().forEach(c => c.modules.forEach(m => m.lessons.forEach(l => {
+      (l.mcq || []).forEach((q, i) => out.push({ q, courseId: c.id, color: c.color, lessonId: l.id, lessonTitle: l.title, courseTitle: c.title }));
+    })));
+    if (Array.isArray(window.QUESTION_BANK)) window.QUESTION_BANK.forEach(b => out.push(b));
+    return out;
+  }
+  function shuffle(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+  // ---------- deterministic daily concept ----------
+  function dayNumber() { const d = new Date(); return Math.floor(Date.parse(d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0") + "T00:00:00") / 86400000); }
+  function mulberry(seed) { return function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+  function dailyConcept() {
+    const all = []; C().forEach(c => c.modules.forEach(m => m.lessons.forEach(l => all.push(l.id))));
+    if (!all.length) return null;
+    const rng = mulberry(dayNumber() + 7);
+    const undone = all.filter(id => !Store.isLessonDone(id));
+    // 35% chance: surface an "advanced" concept the learner hasn't reached yet
+    const advanced = undone.length && rng() < 0.35;
+    const pool = advanced ? undone : all;
+    const id = pool[Math.floor(rng() * pool.length)];
+    return { node: index()[id], advanced };
+  }
+
+  // ---------- toast ----------
+  let toastWrap;
+  function toast(icon, title, desc) {
+    if (!toastWrap) { toastWrap = document.createElement("div"); toastWrap.className = "toast-wrap"; document.body.appendChild(toastWrap); }
+    const el = document.createElement("div");
+    el.className = "toast";
+    el.innerHTML = `<div class="t-ico">${icon}</div><div><div class="t-t">${esc(title)}</div><div class="t-d">${esc(desc)}</div></div>`;
+    toastWrap.appendChild(el);
+    setTimeout(() => { el.style.transition = "opacity .4s, transform .4s"; el.style.opacity = "0"; el.style.transform = "translateX(40px)"; setTimeout(() => el.remove(), 420); }, 3200);
+  }
+  function flushAchievements() {
+    Store.drainUnlocked().forEach(a => toast(a.icon, "Achievement unlocked", a.name));
+  }
+
+  // ---------- chrome (sidebar + topbar) ----------
+  function renderChrome() {
+    const lv = Store.levelInfo();
+    document.getElementById("nav-courses").innerHTML = C().map(c => {
+      const p = Store.courseProgress(c.id);
+      return `<a href="#/course/${c.id}" data-route><span class="dot" style="background:${c.color}"></span>${esc(c.title)} <span style="margin-left:auto;font-size:11px;color:var(--ink-mute)">${p.pct}%</span></a>`;
+    }).join("");
+
+    document.getElementById("ring").style.setProperty("--ring", lv.pct + "%");
+    document.getElementById("ring-num").textContent = lv.level;
+    document.getElementById("lvl-name").textContent = lv.name;
+    document.getElementById("lvl-sub").textContent = "Level " + lv.level;
+    document.getElementById("xp-fill").style.width = lv.pct + "%";
+    document.getElementById("xp-text").textContent = lv.next
+      ? `${lv.xp.toLocaleString()} XP · ${lv.toNext.toLocaleString()} to ${lv.next.name}`
+      : `${lv.xp.toLocaleString()} XP · max level`;
+    const st = Store.stats();
+    document.getElementById("streak-num").textContent = st.streak;
+    // highlight active nav
+    const hash = location.hash || "#/";
+    document.querySelectorAll("[data-route]").forEach(a => {
+      a.classList.toggle("active", a.getAttribute("href") === hash ||
+        (hash.startsWith("#/course/") && a.getAttribute("href") === hash) ||
+        (a.getAttribute("href") === "#/" && hash === "#/"));
+    });
+  }
+
+  // ============================================================
+  //  VIEWS
+  // ============================================================
+  function viewDashboard() {
+    const st = Store.stats();
+    const lv = Store.levelInfo();
+    const goal = Store.raw.goalXp || 50, today = Store.todayXP(), goalPct = Math.min(100, Math.round(today / goal * 100));
+    const weak = Store.weakSpots();
+    const cd = dailyConcept();
+    const cdHtml = cd ? `
+      <div class="cotd reveal" style="--c:${cd.node.course.color}" data-go="#/lesson/${cd.node.course.id}/${cd.node.lesson.id}">
+        <div class="cotd-side">
+          <div class="cotd-ico" style="color:${cd.node.course.color};border-color:${cd.node.course.color}">${esc(cd.node.course.icon)}</div>
+          <div class="cotd-tag">Concept of the Day${cd.advanced ? ` · <span style="color:var(--gold)">a stretch ↗</span>` : ""}</div>
+        </div>
+        <div class="cotd-body">
+          <div class="cotd-course">${esc(cd.node.course.title)} · ${esc(cd.node.module.title)}</div>
+          <h3>${esc(cd.node.lesson.title)}</h3>
+          <p>${cd.advanced ? "A peek ahead — something you haven't reached yet. Curiosity is rewarded." : "Today's pick to keep your mind moving. A few minutes is enough."}</p>
+          <span class="btn primary" style="pointer-events:none">Study now →</span>
+        </div>
+      </div>` : "";
+    const cards = C().map(c => {
+      const p = Store.courseProgress(c.id);
+      const lc = flatLessons(c).length;
+      return `
+      <div class="course-card reveal" style="--c:${c.color}" data-go="#/course/${c.id}">
+        <div class="cc-icon">${esc(c.icon)}</div>
+        <h3>${esc(c.title)}</h3>
+        <div class="blurb">${esc(c.blurb)}</div>
+        <div class="cc-foot">
+          <div class="mini-bar"><div class="mini-fill" style="width:${p.pct}%;background:${c.color}"></div></div>
+          <span>${p.done}/${lc}</span>
+        </div>
+      </div>`;
+    }).join("");
+
+    app.innerHTML = `
+    <div class="view">
+      <div class="page-head reveal">
+        <div class="eyebrow">Your learning codex</div>
+        <h2>Welcome back, <em>${lv.name}</em>.</h2>
+        <p>Pick up where you left off, drill due flashcards, or open a new topic. Every lesson, quiz, and review earns XP toward your next rank.</p>
+      </div>
+
+      <div class="stat-strip">
+        <div class="stat reveal" style="--c:var(--gold)"><div class="v">${st.lessonsDone}/${st.totalLessons}</div><div class="k">Lessons done</div></div>
+        <div class="stat reveal" style="--c:var(--sage)"><div class="v">${st.accuracy}%</div><div class="k">Quiz accuracy</div></div>
+        <div class="stat reveal" style="--c:var(--rust)"><div class="v">${st.dueCount}</div><div class="k">Cards due</div></div>
+        <div class="stat reveal" style="--c:var(--violet)"><div class="v">${st.streak}</div><div class="k">Day streak</div></div>
+      </div>
+
+      <div class="today-strip reveal">
+        <div class="goal-ring" style="--p:${goalPct}"><span>${goalPct}%</span></div>
+        <div class="today-text">
+          <div class="t-main">Today's goal: <b>${today} / ${goal} XP</b> ${goalPct >= 100 ? "<span style='color:var(--sage)'>· hit! 🎉</span>" : ""}</div>
+          <div class="t-sub">${weak.length ? `<span style="color:var(--rust)">⚠ ${weak.length} concept${weak.length === 1 ? "" : "s"} need review</span>` : "🔥 streak " + st.streak + " days · no weak spots right now"}${Store.raw.freezes ? ` · ❄️ ${Store.raw.freezes} freeze${Store.raw.freezes === 1 ? "" : "s"}` : ""}</div>
+        </div>
+        ${weak.length ? `<a class="btn" href="#/test" data-route style="margin-left:auto">Drill weak spots →</a>` : ""}
+      </div>
+
+      ${cdHtml}
+
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:34px" class="reveal">
+        <a class="btn primary" href="#/review" data-route>⚡ Review ${st.dueCount} due card${st.dueCount === 1 ? "" : "s"}</a>
+        <a class="btn" href="#/test" data-route>📝 Spawn a test</a>
+        <a class="btn ghost" href="#/lab" data-route>🎛️ Visualization Lab</a>
+        <a class="btn ghost" href="#/library" data-route>📚 References</a>
+      </div>
+
+      <div class="page-head reveal" style="margin-bottom:18px"><h2 style="font-size:26px">Topics</h2></div>
+      <div class="grid">${cards}</div>
+    </div>`;
+    bindGo();
+    typeset();
+  }
+
+  function viewCourse(id) {
+    const c = findCourse(id);
+    if (!c) return view404();
+    const p = Store.courseProgress(id);
+    const modules = c.modules.map((m, mi) => {
+      const rows = m.lessons.map(l => {
+        const done = Store.isLessonDone(l.id);
+        const eff = Store.effectiveMastery(l.id), lvl = Store.masteryLevel(eff);
+        const nMcq = (l.mcq || []).length, nCards = (l.flashcards || []).length, nHw = (l.homework || []).length;
+        return `
+        <div class="lesson-row ${done ? "done" : ""}" data-go="#/lesson/${c.id}/${l.id}">
+          <div class="lesson-check">✓</div>
+          <div style="flex:1">
+            <div class="l-title">${esc(l.title)}</div>
+            <div class="l-meta">${l.minutes || 10} min read · <span style="color:${lvl.color}">${lvl.label}</span></div>
+            <div class="mastery-bar"><div class="mastery-fill" style="width:${Math.round(eff * 100)}%;background:${lvl.color}"></div></div>
+          </div>
+          <div class="l-right">
+            ${nMcq ? `<span class="pill gold">${nMcq} MCQ</span>` : ""}
+            ${nCards ? `<span class="pill violet">${nCards} cards</span>` : ""}
+            ${nHw ? `<span class="pill sage">${nHw} HW</span>` : ""}
+          </div>
+        </div>`;
+      }).join("");
+      return `
+      <div class="module reveal">
+        <div class="module-head">
+          <span class="mnum">MODULE ${mi + 1}</span>
+          <h3>${esc(m.title)}</h3>
+          <span class="mcount">${m.lessons.length} lesson${m.lessons.length === 1 ? "" : "s"}</span>
+        </div>
+        ${rows}
+      </div>`;
+    }).join("");
+
+    app.innerHTML = `
+    <div class="view">
+      <div class="crumbs"><a href="#/" data-route>Codex</a> &nbsp;›&nbsp; ${esc(c.title)}</div>
+      <div class="page-head reveal" style="display:flex;align-items:center;gap:20px">
+        <div class="cc-icon" style="--c:${c.color};width:64px;height:64px;font-size:32px;color:${c.color};border-color:${c.color};background:color-mix(in srgb, ${c.color} 12%, transparent)">${esc(c.icon)}</div>
+        <div>
+          <div class="eyebrow" style="color:${c.color}">${p.done} of ${p.total} lessons · ${p.pct}% complete</div>
+          <h2 style="font-size:38px">${esc(c.title)}</h2>
+        </div>
+      </div>
+      <p style="color:var(--ink-soft);max-width:640px;margin:-14px 0 28px" class="reveal">${esc(c.blurb)}</p>
+      <div class="mini-bar reveal" style="height:8px;margin-bottom:18px;max-width:none"><div class="mini-fill" style="width:${p.pct}%;background:${c.color}"></div></div>
+      <div class="reveal" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:30px">
+        <a class="btn ghost" href="#/cheatsheet/${c.id}" data-route>📄 Cheatsheet</a>
+        <a class="btn ghost" href="#/placement/${c.id}" data-route>🎚️ Placement test</a>
+        <a class="btn ghost" href="#/test" data-route>📝 Quiz me</a>
+      </div>
+      ${modules}
+      ${refsBlock(c.id, "References for " + c.title)}
+    </div>`;
+    bindGo();
+    typeset();
+  }
+
+  // references block (shared by course page + library)
+  const KIND = { video: "🎬", course: "🎓", book: "📕", paper: "📄", article: "📝", interactive: "🕹️", reference: "🔖" };
+  function refsBlock(topicId, heading) {
+    const refs = (window.REFERENCES || {})[topicId];
+    if (!refs || !refs.length) return "";
+    return `
+      <div class="module reveal" style="margin-top:34px">
+        <div class="module-head"><span class="mnum">📚</span><h3>${esc(heading)}</h3></div>
+        ${refs.map(r => `
+          <a class="ref-item" href="${esc(r.url)}" target="_blank" rel="noopener">
+            <span class="ref-kind">${KIND[r.kind] || "🔗"}</span>
+            <span class="ref-main"><span class="ref-title">${esc(r.title)}</span><span class="ref-by">${esc(r.by)}</span>${r.note ? `<span class="ref-note">${esc(r.note)}</span>` : ""}</span>
+            <span class="ref-tag">${esc(r.kind)} ↗</span>
+          </a>`).join("")}
+      </div>`;
+  }
+
+  // ---------- lesson (tabbed) ----------
+  function viewLesson(cid, lid) {
+    const found = findLesson(cid, lid);
+    if (!found) return view404();
+    const { course, lesson } = found;
+    const all = flatLessons(course);
+    const idx = all.findIndex(l => l.id === lid);
+    const prev = all[idx - 1], next = all[idx + 1];
+
+    const nMcq = (lesson.mcq || []).length, nCards = (lesson.flashcards || []).length, nHw = (lesson.homework || []).length, nEx = (lesson.examples || []).length;
+    const tabs = [
+      { id: "lecture", label: "Lecture", icon: "📖" },
+      nEx ? { id: "examples", label: "Examples", icon: "🔍", badge: nEx } : null,
+      nMcq ? { id: "quiz", label: "Quiz", icon: "✎", badge: nMcq } : null,
+      nCards ? { id: "cards", label: "Flashcards", icon: "🃏", badge: nCards } : null,
+      nHw ? { id: "homework", label: "Homework", icon: "✦", badge: nHw } : null
+    ].filter(Boolean);
+
+    // prerequisite path: lessons that come before this one and aren't done yet
+    const pending = learningPath(lid).filter(n => n.lesson.id !== lid && !Store.isLessonDone(n.lesson.id));
+    const pathBanner = pending.length ? `
+      <div class="path-banner reveal">
+        <div class="pb-head"><span>🧭</span> <b>${pending.length} prerequisite${pending.length === 1 ? "" : "s"}</b> build up to this concept.</div>
+        <a class="btn" href="#/path/${course.id}/${lid}" data-route>See the full learning path →</a>
+      </div>` : "";
+
+    app.innerHTML = `
+    <div class="view">
+      <div class="crumbs"><a href="#/" data-route>Codex</a> &nbsp;›&nbsp; <a href="#/course/${course.id}" data-route>${esc(course.title)}</a> &nbsp;›&nbsp; ${esc(lesson.title)}</div>
+      <div class="page-head" style="margin-bottom:18px">
+        <div class="eyebrow" style="color:${course.color}">${esc(course.title)} · ${lesson.minutes || 10} min</div>
+        <h2>${esc(lesson.title)}</h2>
+      </div>
+      ${pathBanner}
+      <div class="tabs">${tabs.map((t, i) => `<div class="tab ${i === 0 ? "active" : ""}" data-tab="${t.id}">${t.icon} ${t.label}${t.badge ? `<span class="badge">${t.badge}</span>` : ""}</div>`).join("")}</div>
+      <div id="tab-body"></div>
+    </div>`;
+
+    const body = document.getElementById("tab-body");
+    function setTab(name) {
+      document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.tab === name));
+      if (name === "lecture") renderLecture(body, course, lesson, prev, next);
+      else if (name === "examples") renderExamples(body, lesson);
+      else if (name === "quiz") renderQuiz(body, lesson);
+      else if (name === "cards") renderCards(body, lesson);
+      else if (name === "homework") renderHomework(body, lesson);
+    }
+    document.querySelectorAll(".tab").forEach(t => t.addEventListener("click", () => setTab(t.dataset.tab)));
+    setTab("lecture");
+  }
+
+  function renderLecture(body, course, lesson, prev, next) {
+    const done = Store.isLessonDone(lesson.id);
+    body.innerHTML = `
+      <div class="prose reveal">${lesson.content || "<p>Content coming soon.</p>"}</div>
+      <div class="notes-box reveal">
+        <div class="notes-head">📝 My notes <span id="notes-saved"></span></div>
+        <textarea id="notes-area" placeholder="Jot your own notes, questions, or 'aha' moments — saved automatically on this device.">${esc(Store.getNote(lesson.id))}</textarea>
+      </div>
+      <div class="lesson-actions">
+        <button class="btn primary" id="complete-btn">${done ? "✓ Completed" : "Mark complete (+50 XP)"}</button>
+        ${prev ? `<a class="btn ghost" href="#/lesson/${course.id}/${prev.id}" data-route>← ${esc(prev.title)}</a>` : ""}
+        ${next ? `<a class="btn" href="#/lesson/${course.id}/${next.id}" data-route>${esc(next.title)} →</a>` : `<a class="btn" href="#/course/${course.id}" data-route>Back to course →</a>`}
+      </div>`;
+    const area = document.getElementById("notes-area");
+    let nt; area.addEventListener("input", () => { clearTimeout(nt); nt = setTimeout(() => { Store.setNote(lesson.id, area.value); const s = document.getElementById("notes-saved"); s.textContent = "saved ✓"; setTimeout(() => s.textContent = "", 1500); }, 500); });
+    const btn = document.getElementById("complete-btn");
+    btn.addEventListener("click", () => {
+      const was = Store.isLessonDone(lesson.id);
+      Store.completeLesson(lesson.id);
+      btn.textContent = "✓ Completed";
+      if (!was) toast("✨", "+50 XP", "Lesson complete: " + lesson.title);
+      flushAchievements();
+      renderChrome();
+    });
+    bindGo();
+    hydrateViz(body);
+    hydrateCode(body);
+    typeset();
+  }
+
+  // ---------- quiz engine ----------
+  function renderQuiz(body, lesson) {
+    const qs = lesson.mcq || [];
+    let i = 0, correct = 0, locked = false;
+    function draw() {
+      if (i >= qs.length) { finish(); return; }
+      const q = qs[i];
+      body.innerHTML = `
+      <div class="quiz reveal">
+        <div class="q-progress">Question ${i + 1} of ${qs.length} · ${correct} correct so far</div>
+        <div class="q-stem">${q.q}</div>
+        <div class="choices">
+          ${q.choices.map((ch, ci) => `<button class="choice" data-ci="${ci}"><span class="key">${String.fromCharCode(65 + ci)}</span><span>${ch}</span></button>`).join("")}
+        </div>
+        <div id="explain-slot"></div>
+        <div id="next-slot" style="margin-top:22px"></div>
+      </div>`;
+      locked = false;
+      body.querySelectorAll(".choice").forEach(btn => btn.addEventListener("click", () => pick(parseInt(btn.dataset.ci, 10), q)));
+      typeset();
+    }
+    function pick(ci, q) {
+      if (locked) return;
+      locked = true;
+      const right = q.answer;
+      body.querySelectorAll(".choice").forEach((btn, bi) => {
+        btn.classList.add("locked");
+        if (bi === right) btn.classList.add("correct");
+        else if (bi === ci) btn.classList.add("wrong");
+      });
+      if (ci === right) correct++;
+      document.getElementById("explain-slot").innerHTML =
+        `<div class="explain"><div class="et">${ci === right ? "Correct ✓" : "Not quite"}</div>${q.explain || ""}</div>`;
+      const nextBtn = document.createElement("button");
+      nextBtn.className = "btn primary";
+      nextBtn.textContent = i === qs.length - 1 ? "See results →" : "Next question →";
+      nextBtn.addEventListener("click", () => { i++; draw(); });
+      document.getElementById("next-slot").appendChild(nextBtn);
+      typeset();
+    }
+    function finish() {
+      const pct = Math.round((correct / qs.length) * 100);
+      Store.recordQuiz(correct, qs.length, lesson.id);
+      const msg = pct === 100 ? "Flawless! 🎯" : pct >= 70 ? "Solid work." : "Review the lecture and try again.";
+      body.innerHTML = `
+      <div class="quiz quiz-result reveal">
+        <div class="big">${pct}%</div>
+        <p style="color:var(--ink-soft);font-size:18px">${correct} of ${qs.length} correct · ${msg}</p>
+        <p style="color:var(--ink-mute);margin:6px 0 22px">+${correct * 10}${pct === 100 ? " +30 perfect bonus" : ""} XP</p>
+        <button class="btn primary" id="retry">↻ Retry quiz</button>
+      </div>`;
+      document.getElementById("retry").addEventListener("click", () => { i = 0; correct = 0; draw(); });
+      flushAchievements();
+      renderChrome();
+    }
+    draw();
+  }
+
+  // ---------- flashcards ----------
+  function renderCards(body, lesson) {
+    const cards = (lesson.flashcards || []).map((c, i) => ({ c, id: lesson.id + ":" + i }));
+    runFlashcards(body, cards, "Lesson flashcards");
+  }
+
+  function runFlashcards(body, cards, label) {
+    if (!cards.length) { body.innerHTML = emptyState("🃏", "No flashcards here yet."); return; }
+    let i = 0, flipped = false, reviewed = 0;
+    function draw() {
+      if (i >= cards.length) { done(); return; }
+      const { c } = cards[i];
+      body.innerHTML = `
+      <div class="flash-wrap reveal">
+        <div class="flash-counter">${label} · ${i + 1} / ${cards.length}</div>
+        <div class="card3d" id="card3d">
+          <div class="card3d-inner">
+            <div class="card-face"><span class="ftag">Prompt</span><div class="fcontent">${c.front}</div></div>
+            <div class="card-face card-back"><span class="ftag">Answer</span><div class="fcontent">${c.back}</div></div>
+          </div>
+        </div>
+        <div id="flash-controls"></div>
+      </div>`;
+      flipped = false;
+      const card = document.getElementById("card3d");
+      card.addEventListener("click", flip);
+      drawControls();
+      typeset();
+    }
+    function flip() {
+      flipped = !flipped;
+      document.getElementById("card3d").classList.toggle("flipped", flipped);
+      drawControls();
+    }
+    function drawControls() {
+      const slot = document.getElementById("flash-controls");
+      if (!flipped) {
+        slot.innerHTML = `<div class="flash-hint">Tap the card to reveal the answer</div>`;
+      } else {
+        slot.innerHTML = `
+          <div class="flash-grade">
+            <button class="grade-btn again" data-g="0">Again</button>
+            <button class="grade-btn hard"  data-g="1">Hard</button>
+            <button class="grade-btn good"  data-g="2">Good</button>
+            <button class="grade-btn easy"  data-g="3">Easy</button>
+          </div>
+          <div class="flash-hint">How well did you recall it? This schedules the next review.</div>`;
+        slot.querySelectorAll(".grade-btn").forEach(b => b.addEventListener("click", () => {
+          Store.gradeCard(cards[i].id, parseInt(b.dataset.g, 10));
+          reviewed++; i++; draw(); renderChrome();
+        }));
+      }
+    }
+    function done() {
+      body.innerHTML = `
+      <div class="flash-wrap reveal" style="text-align:center;padding:40px 0">
+        <div style="font-size:56px">🌟</div>
+        <h3 style="font-family:var(--font-disp);font-size:28px;margin:12px 0">Deck cleared</h3>
+        <p style="color:var(--ink-soft)">Reviewed ${reviewed} card${reviewed === 1 ? "" : "s"} · +${reviewed * 4} XP</p>
+        <p style="color:var(--ink-mute);margin-top:6px">Spaced-repetition will resurface them when it's time.</p>
+        <button class="btn primary" id="again-deck" style="margin-top:18px">↻ Run deck again</button>
+      </div>`;
+      document.getElementById("again-deck").addEventListener("click", () => { i = 0; reviewed = 0; draw(); });
+      flushAchievements();
+    }
+    draw();
+  }
+
+  // ---------- homework ----------
+  function renderHomework(body, lesson) {
+    const hw = lesson.homework || [];
+    if (!hw.length) { body.innerHTML = emptyState("✦", "No homework for this lesson."); return; }
+    body.innerHTML = `<div class="hw reveal">` + hw.map((h, i) => `
+      <div class="hw-item">
+        <div class="hw-num">PROBLEM ${i + 1}</div>
+        <div class="hw-prompt">${h.prompt}</div>
+        <div class="hw-reveal">
+          ${h.hint ? `<button class="btn ghost" data-hint="${i}">💡 Hint</button>` : ""}
+          <button class="btn" data-sol="${i}">Show solution</button>
+        </div>
+        <div id="hint-${i}"></div>
+        <div id="sol-${i}"></div>
+      </div>`).join("") + `</div>`;
+
+    hw.forEach((h, i) => {
+      const hintBtn = body.querySelector(`[data-hint="${i}"]`);
+      if (hintBtn) hintBtn.addEventListener("click", () => {
+        document.getElementById("hint-" + i).innerHTML = `<div class="hw-sol" style="border-color:var(--gold-deep)"><div class="sl" style="color:var(--gold)">Hint</div>${h.hint}</div>`;
+        typeset();
+      });
+      body.querySelector(`[data-sol="${i}"]`).addEventListener("click", () => {
+        Store.revealHomework(lesson.id + ":hw" + i);
+        document.getElementById("sol-" + i).innerHTML = `<div class="hw-sol"><div class="sl">Solution</div>${h.solution}</div>`;
+        typeset(); renderChrome();
+      });
+    });
+    typeset();
+  }
+
+  // ---------- global review (all due cards) ----------
+  function viewReview() {
+    const due = [];
+    C().forEach(c => c.modules.forEach(m => m.lessons.forEach(l => {
+      (l.flashcards || []).forEach((card, i) => {
+        const id = l.id + ":" + i;
+        if (Store.cardDue(id)) due.push({ c: card, id });
+      });
+    })));
+    app.innerHTML = `
+    <div class="view">
+      <div class="crumbs"><a href="#/" data-route>Codex</a> &nbsp;›&nbsp; Daily review</div>
+      <div class="page-head reveal"><div class="eyebrow">Spaced repetition</div><h2>Daily <em>Review</em></h2>
+      <p>${due.length ? `${due.length} card${due.length === 1 ? "" : "s"} due across all your topics. Grade honestly — the schedule adapts.` : "Nothing due right now. Come back tomorrow, or study a lesson's deck directly."}</p></div>
+      <div id="review-body"></div>
+    </div>`;
+    bindGo();
+    if (due.length) runFlashcards(document.getElementById("review-body"), shuffle(due), "Due across all topics");
+    else document.getElementById("review-body").innerHTML = emptyState("✅", "Inbox zero. Your memory is up to date.");
+  }
+
+  // ---------- examples tab ----------
+  function renderExamples(body, lesson) {
+    const ex = lesson.examples || [];
+    if (!ex.length) { body.innerHTML = emptyState("🔍", "No standalone examples — the lecture has worked examples inline."); return; }
+    body.innerHTML = `<div class="hw reveal">` + ex.map((e, i) => `
+      <div class="hw-item">
+        <div class="hw-num">EXAMPLE ${i + 1}${e.title ? " · " + esc(e.title) : ""}</div>
+        <div class="prose" style="max-width:none">${e.body || e.prompt || ""}</div>
+        ${e.solution ? `<div class="hw-reveal"><button class="btn" data-ex="${i}">Show working</button></div><div id="ex-${i}"></div>` : ""}
+      </div>`).join("") + `</div>`;
+    ex.forEach((e, i) => {
+      const b = body.querySelector(`[data-ex="${i}"]`);
+      if (b) b.addEventListener("click", () => { document.getElementById("ex-" + i).innerHTML = `<div class="hw-sol"><div class="sl">Working</div>${e.solution}</div>`; typeset(); });
+    });
+    hydrateViz(body); typeset();
+  }
+
+  // ---------- interactive viz hydration ----------
+  function hydrateViz(root) {
+    if (!window.VIZ) return;
+    (root || app).querySelectorAll("[data-viz]").forEach(node => {
+      const id = node.getAttribute("data-viz");
+      if (node.dataset.vizDone) return;
+      node.dataset.vizDone = "1"; node.classList.add("viz");
+      if (window.VIZ[id]) { try { window.VIZ[id](node); Store.unlock("visualizer"); flushAchievements(); } catch (e) { node.innerHTML = '<div class="viz-note">Visualization failed to load.</div>'; } }
+      else node.innerHTML = `<div class="viz-note">Unknown visualization: ${esc(id)}</div>`;
+    });
+  }
+
+  // ---------- custom test / exam spawner ----------
+  function viewTest() {
+    const courses = C();
+    const completed = courses.flatMap(c => c.modules.flatMap(m => m.lessons)).filter(l => Store.isLessonDone(l.id));
+    app.innerHTML = `
+    <div class="view">
+      <div class="crumbs"><a href="#/" data-route>Codex</a> &nbsp;›&nbsp; Test</div>
+      <div class="page-head reveal"><div class="eyebrow">Question bank · ${allQuestions().length} questions</div><h2>Spawn a <em>Test</em></h2>
+      <p>Build a fresh test on demand. Choose the scope and length — by default it draws <strong>only from what you've already learned</strong>, so you're never tested on what you haven't seen.</p></div>
+      <div class="test-config reveal">
+        <div class="tc-row">
+          <label class="viz-slab">Scope</label>
+          <select id="t-scope">
+            <option value="mastered">✓ Only lessons I've completed (${completed.length})</option>
+            <option value="weak">⚠ Focus my weak spots (${Store.weakSpots().length})</option>
+            <option value="all">Everything (all topics)</option>
+            ${courses.map(c => `<option value="course:${c.id}">${esc(c.title)} only</option>`).join("")}
+          </select>
+        </div>
+        <div class="tc-row">
+          <label class="viz-slab">Length</label>
+          <select id="t-len"><option value="5">5 questions</option><option value="10" selected>10 questions</option><option value="20">20 questions</option></select>
+        </div>
+        <button class="btn primary" id="t-start">Start test →</button>
+        <div id="t-warn" class="viz-note"></div>
+      </div>
+      ${Store.raw.tests.length ? `<div class="module reveal" style="margin-top:34px"><div class="module-head"><span class="mnum">🗂️</span><h3>Recent tests</h3></div>
+        ${Store.raw.tests.slice(0, 8).map(t => `<div class="lesson-row" style="cursor:default"><div class="l-title" style="font-size:15px">${esc(t.label)}</div><div class="l-right"><span class="pill ${t.correct === t.total ? "sage" : "gold"}">${t.correct}/${t.total} · ${Math.round(t.correct / t.total * 100)}%</span></div></div>`).join("")}</div>` : ""}
+    </div>`;
+    bindGo();
+    document.getElementById("t-start").addEventListener("click", () => {
+      const scope = document.getElementById("t-scope").value, len = parseInt(document.getElementById("t-len").value, 10);
+      let pool = allQuestions(), label = "All topics";
+      if (scope === "mastered") { const done = {}; completed.forEach(l => done[l.id] = 1); pool = pool.filter(q => done[q.lessonId]); label = "Mastered material"; }
+      else if (scope === "weak") { const weak = {}; Store.weakSpots().forEach(w => weak[w.lessonId] = 1); pool = pool.filter(q => weak[q.lessonId]); label = "Weak spots"; }
+      else if (scope.startsWith("course:")) { const cid = scope.slice(7); pool = pool.filter(q => q.courseId === cid); label = (findCourse(cid) || {}).title || "Topic"; }
+      if (pool.length < 3) { document.getElementById("t-warn").textContent = "Not enough questions in that scope yet — complete a few more lessons, or widen the scope."; return; }
+      runTest(shuffle(pool).slice(0, Math.min(len, pool.length)), label);
+    });
+  }
+
+  function runTest(items, label, opts) {
+    opts = opts || {};
+    let i = 0; const answers = new Array(items.length).fill(null);
+    function draw() {
+      const q = items[i].q;
+      app.innerHTML = `
+      <div class="view"><div class="quiz reveal">
+        <div class="q-progress">${esc(label)} · Question ${i + 1} of ${items.length}</div>
+        <div class="q-stem">${q.q}</div>
+        <div class="choices">${q.choices.map((ch, ci) => `<button class="choice ${answers[i] === ci ? "sel" : ""}" data-ci="${ci}"><span class="key">${String.fromCharCode(65 + ci)}</span><span>${ch}</span></button>`).join("")}</div>
+        <div style="display:flex;gap:12px;margin-top:26px;flex-wrap:wrap">
+          ${i > 0 ? `<button class="btn ghost" id="t-prev">← Back</button>` : ""}
+          <button class="btn primary" id="t-next" ${answers[i] == null ? "disabled" : ""}>${i === items.length - 1 ? "Submit test ✓" : "Next →"}</button>
+          <span class="viz-note" style="margin:auto 0">${answers.filter(a => a != null).length} / ${items.length} answered</span>
+        </div>
+      </div></div>`;
+      app.querySelectorAll(".choice").forEach(b => b.addEventListener("click", () => { answers[i] = parseInt(b.dataset.ci, 10); draw(); }));
+      const nx = document.getElementById("t-next"); if (nx) nx.addEventListener("click", () => { if (i === items.length - 1) finish(); else { i++; draw(); } });
+      const pv = document.getElementById("t-prev"); if (pv) pv.addEventListener("click", () => { i--; draw(); });
+      typeset();
+    }
+    function finish() {
+      if (opts.placement) return finishPlacement();
+      let correct = 0; items.forEach((it, k) => { const ok = answers[k] === it.q.answer; if (ok) correct++; Store.bumpMastery(it.lessonId, { correct: ok }); });
+      const pct = Math.round(correct / items.length * 100);
+      Store.recordTest(correct, items.length, `${label} · ${items.length}Q`);
+      app.innerHTML = `
+      <div class="view"><div class="quiz quiz-result reveal">
+        <div class="big">${pct}%</div>
+        <p style="color:var(--ink-soft);font-size:18px">${correct} of ${items.length} correct · ${esc(label)}</p>
+        <p style="color:var(--ink-mute);margin:6px 0 20px">+${correct * 8}${items.length >= 10 && correct === items.length ? " +50 perfect bonus" : ""} XP</p>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap"><button class="btn primary" id="t-again">↻ New test</button><a class="btn ghost" href="#/" data-route>Done</a></div>
+      </div>
+      <div class="hw reveal" style="margin-top:30px"><div class="module-head"><span class="mnum">📋</span><h3>Review</h3></div>
+        ${items.map((it, k) => { const ok = answers[k] === it.q.answer; return `<div class="hw-item" style="border-color:${ok ? "var(--sage-deep)" : "var(--rust)"}">
+          <div class="hw-num" style="color:${ok ? "var(--sage)" : "var(--rust)"}">${ok ? "✓ Correct" : "✗ Incorrect"} · ${esc(it.lessonTitle)}</div>
+          <div class="hw-prompt">${it.q.q}</div>
+          <div class="viz-note">Correct answer: <b>${String.fromCharCode(65 + it.q.answer)}.</b> ${it.q.choices[it.q.answer]}${answers[k] != null && !ok ? ` · you chose ${String.fromCharCode(65 + answers[k])}` : answers[k] == null ? " · you skipped this" : ""}</div>
+          ${it.q.explain ? `<div class="hw-sol"><div class="sl">Why</div>${it.q.explain}</div>` : ""}
+        </div>`; }).join("")}
+      </div></div>`;
+      bindGo();
+      document.getElementById("t-again").addEventListener("click", () => { location.hash = "#/test"; });
+      flushAchievements(); renderChrome(); typeset();
+    }
+    function finishPlacement() {
+      const course = opts.course;
+      let correct = 0;
+      items.forEach((it, k) => { const ok = answers[k] === it.q.answer; if (ok) { correct++; Store.markKnown(it.lessonId); } else Store.bumpMastery(it.lessonId, { correct: false }); });
+      // recommended starting point = first lesson in order that isn't "known"
+      const known = {}; items.forEach((it, k) => { if (answers[k] === it.q.answer) known[it.lessonId] = 1; });
+      const flat = flatLessons(course);
+      const start = flat.find(l => !known[l.id]) || flat[flat.length - 1];
+      app.innerHTML = `
+      <div class="view"><div class="quiz quiz-result reveal">
+        <div class="big">${correct}/${items.length}</div>
+        <p style="color:var(--ink-soft);font-size:18px">Placement complete · ${esc(course.title)}</p>
+        <p style="color:var(--ink-mute);margin:6px 0 20px">${correct} concept${correct === 1 ? "" : "s"} marked as known — they'll show as Proficient and the map will skip ahead.</p>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+          <a class="btn primary" href="#/lesson/${course.id}/${start.id}" data-route>▶ Start at: ${esc(start.title)}</a>
+          <a class="btn ghost" href="#/map" data-route>See the map</a>
+        </div>
+      </div>
+      <div class="hw reveal" style="margin-top:30px"><div class="module-head"><span class="mnum">🎚️</span><h3>Your results</h3></div>
+        ${items.map((it, k) => { const ok = answers[k] === it.q.answer; return `<div class="lesson-row" style="cursor:default"><div class="lesson-check ${ok ? "done2" : ""}" style="${ok ? "background:var(--sage);border-color:var(--sage);color:var(--bg)" : "color:var(--rust);border-color:var(--rust)"}">${ok ? "✓" : "?"}</div><div style="flex:1"><div class="l-title" style="font-size:15px">${esc(it.lessonTitle)}</div><div class="l-meta">${ok ? "known — marked Proficient" : "to learn"}</div></div></div>`; }).join("")}
+      </div></div>`;
+      bindGo(); renderChrome();
+    }
+    draw();
+  }
+
+  // ---------- learning path (knowledge dependency) ----------
+  function viewPath(cid, lid) {
+    const found = findLesson(cid, lid); if (!found) return view404();
+    const target = found.lesson;
+    const path = learningPath(lid);
+    const firstUndone = path.find(n => !Store.isLessonDone(n.lesson.id));
+    Store.unlock("pathfinder"); flushAchievements();
+    app.innerHTML = `
+    <div class="view">
+      <div class="crumbs"><a href="#/" data-route>Codex</a> &nbsp;›&nbsp; <a href="#/lesson/${cid}/${lid}" data-route>${esc(target.title)}</a> &nbsp;›&nbsp; Path</div>
+      <div class="page-head reveal"><div class="eyebrow">Knowledge dependency · ${path.length} steps</div><h2>Path to <em>${esc(target.title)}</em></h2>
+      <p>Master these in order and you'll have every prerequisite this concept rests on. Completed steps are checked; start at the first open one.</p></div>
+      ${firstUndone ? `<a class="btn primary reveal" href="#/lesson/${firstUndone.course.id}/${firstUndone.lesson.id}" data-route style="margin-bottom:24px">▶ Start at: ${esc(firstUndone.lesson.title)}</a>` : `<div class="callout sage reveal" style="margin-bottom:24px"><div class="c-tag">Ready</div>You've completed every prerequisite — dive into ${esc(target.title)}.</div>`}
+      <div class="path-list reveal">
+        ${path.map((n, k) => { const done = Store.isLessonDone(n.lesson.id), isTarget = n.lesson.id === lid;
+          return `<a class="path-step ${done ? "done" : ""} ${isTarget ? "target" : ""}" href="#/lesson/${n.course.id}/${n.lesson.id}" data-route>
+            <span class="ps-num" style="--c:${n.course.color}">${done ? "✓" : k + 1}</span>
+            <span class="ps-main"><span class="ps-title">${esc(n.lesson.title)}${isTarget ? " 🎯" : ""}</span><span class="ps-course" style="color:${n.course.color}">${esc(n.course.title)}</span></span>
+            <span class="ps-min">${n.lesson.minutes || 10}m</span>
+          </a>`; }).join("")}
+      </div>
+    </div>`;
+    bindGo();
+  }
+
+  // ---------- visualization lab ----------
+  function viewLab() {
+    const cat = window.VIZ_CATALOG || [];
+    const byTopic = {};
+    cat.forEach(v => { (byTopic[v.topic] = byTopic[v.topic] || []).push(v); });
+    const groups = C().map(c => {
+      const items = byTopic[c.id] || []; if (!items.length) return "";
+      return `<div class="module reveal"><div class="module-head"><span class="mnum" style="color:${c.color}">${esc(c.icon)}</span><h3>${esc(c.title)}</h3></div>
+        <div class="lab-grid">${items.map(v => `<a class="lab-card" href="#/lab/${v.id}" data-route style="--c:${c.color}"><h4>${esc(v.title)}</h4><p>${esc(v.blurb)}</p><span class="lab-go">Open ↗</span></a>`).join("")}</div></div>`;
+    }).join("");
+    app.innerHTML = `
+    <div class="view">
+      <div class="crumbs"><a href="#/" data-route>Codex</a> &nbsp;›&nbsp; Lab</div>
+      <div class="page-head reveal"><div class="eyebrow">${cat.length} interactive widgets</div><h2>Visualization <em>Lab</em></h2>
+      <p>Play with the ideas directly — drag, slide, and animate. Manipulating a concept builds intuition faster than reading about it.</p></div>
+      ${groups || emptyState("🎛️", "No visualizations loaded.")}
+    </div>`;
+    bindGo();
+  }
+  function viewLabItem(id) {
+    const meta = (window.VIZ_CATALOG || []).find(v => v.id === id);
+    if (!meta) return view404();
+    const course = findCourse(meta.topic);
+    app.innerHTML = `
+    <div class="view">
+      <div class="crumbs"><a href="#/" data-route>Codex</a> &nbsp;›&nbsp; <a href="#/lab" data-route>Lab</a> &nbsp;›&nbsp; ${esc(meta.title)}</div>
+      <div class="page-head reveal"><div class="eyebrow" style="color:${course ? course.color : "var(--gold)"}">${course ? esc(course.title) : "Visualization"}</div><h2>${esc(meta.title)}</h2><p>${esc(meta.blurb)}</p></div>
+      <div class="viz reveal" data-viz="${esc(id)}"></div>
+      ${course ? `<a class="btn ghost reveal" href="#/course/${course.id}" data-route style="margin-top:24px">Study ${esc(course.title)} →</a>` : ""}
+    </div>`;
+    bindGo(); hydrateViz(app);
+  }
+
+  // ---------- library (all references) ----------
+  function viewLibrary() {
+    const refs = window.REFERENCES || {};
+    const order = C().map(c => c.id).concat(["general"]);
+    const titleFor = id => id === "general" ? "General & Foundations" : (findCourse(id) || {}).title || id;
+    const colorFor = id => id === "general" ? "var(--gold)" : (findCourse(id) || {}).color || "var(--gold)";
+    const blocks = order.filter(id => refs[id]).map(id => `
+      <div class="module reveal"><div class="module-head"><span class="mnum" style="color:${colorFor(id)}">📚</span><h3>${esc(titleFor(id))}</h3></div>
+        ${refs[id].map(r => `<a class="ref-item" href="${esc(r.url)}" target="_blank" rel="noopener">
+          <span class="ref-kind">${KIND[r.kind] || "🔗"}</span>
+          <span class="ref-main"><span class="ref-title">${esc(r.title)}</span><span class="ref-by">${esc(r.by)}</span>${r.note ? `<span class="ref-note">${esc(r.note)}</span>` : ""}</span>
+          <span class="ref-tag">${esc(r.kind)} ↗</span></a>`).join("")}
+      </div>`).join("");
+    app.innerHTML = `
+    <div class="view">
+      <div class="crumbs"><a href="#/" data-route>Codex</a> &nbsp;›&nbsp; Library</div>
+      <div class="page-head reveal"><div class="eyebrow">Curated external resources</div><h2>The <em>Library</em></h2>
+      <p>The best book, video, course, and paper for each topic — when you want to go deeper than the lessons.</p></div>
+      ${blocks}
+    </div>`;
+    bindGo();
+  }
+
+  // ---------- cheatsheet (printable) ----------
+  function viewCheatsheet(cid) {
+    const c = findCourse(cid); if (!c) return view404();
+    const sections = c.modules.map(m => {
+      const cards = []; m.lessons.forEach(l => (l.flashcards || []).forEach(f => cards.push(f)));
+      if (!cards.length) return "";
+      return `<div class="cs-section"><h3>${esc(m.title)}</h3><div class="cs-grid">${cards.map(f => `<div class="cs-card"><div class="cs-front">${f.front}</div><div class="cs-back">${f.back}</div></div>`).join("")}</div></div>`;
+    }).join("");
+    app.innerHTML = `
+    <div class="view cheatsheet">
+      <div class="crumbs no-print"><a href="#/" data-route>Codex</a> &nbsp;›&nbsp; <a href="#/course/${cid}" data-route>${esc(c.title)}</a> &nbsp;›&nbsp; Cheatsheet</div>
+      <div class="cs-head">
+        <div><div class="eyebrow" style="color:${c.color}">${esc(c.icon)} Quick reference</div><h2 style="font-family:var(--font-disp);font-size:34px">${esc(c.title)} — Cheatsheet</h2></div>
+        <button class="btn no-print" id="print-btn">🖨️ Print / Save PDF</button>
+      </div>
+      ${sections || emptyState("🗂️", "No flashcards to summarize yet — add some content first.")}
+    </div>`;
+    bindGo(); typeset();
+    const pb = document.getElementById("print-btn"); if (pb) pb.addEventListener("click", () => window.print());
+  }
+
+  // ---------- placement diagnostic ----------
+  function viewPlacement(cid) {
+    if (!cid) {
+      app.innerHTML = `
+      <div class="view">
+        <div class="crumbs"><a href="#/" data-route>Codex</a> &nbsp;›&nbsp; Placement</div>
+        <div class="page-head reveal"><div class="eyebrow">Skip what you already know</div><h2>Placement <em>Test</em></h2>
+        <p>A quick diagnostic per topic — one question per concept. Concepts you answer correctly get marked as known, so the dashboard and map can point you straight to what's actually new.</p></div>
+        <div class="lab-grid reveal">${C().map(c => `<a class="lab-card" href="#/placement/${c.id}" data-route style="--c:${c.color}"><h4>${esc(c.icon)} ${esc(c.title)}</h4><p>Diagnose your level across this topic.</p><span class="lab-go">Start →</span></a>`).join("")}</div>
+      </div>`;
+      bindGo(); return;
+    }
+    const c = findCourse(cid); if (!c) return view404();
+    const items = [];
+    c.modules.forEach(m => m.lessons.forEach(l => { if ((l.mcq || []).length) { const q = l.mcq[Math.floor(Math.random() * l.mcq.length)]; items.push({ q, lessonId: l.id, lessonTitle: l.title, courseId: c.id, color: c.color }); } }));
+    if (items.length < 3) { app.innerHTML = `<div class="view"><div class="crumbs"><a href="#/" data-route>Codex</a></div>${emptyState("🎚️", "Not enough questions in this topic for a placement test yet.")}</div>`; bindGo(); return; }
+    runTest(shuffle(items), c.title + " placement", { placement: true, course: c });
+  }
+
+  // ---------- code playground ----------
+  function viewPlayground() {
+    app.innerHTML = `
+    <div class="view">
+      <div class="crumbs"><a href="#/" data-route>Codex</a> &nbsp;›&nbsp; Playground</div>
+      <div class="page-head reveal"><div class="eyebrow">Run code in your browser</div><h2>Code <em>Playground</em></h2>
+      <p>Implement the ideas for real. Python runs via Pyodide (the first run downloads it — needs internet); JavaScript runs instantly. Pick an example or write your own.</p></div>
+      <div class="reveal" id="pg-host"></div>
+    </div>`;
+    bindGo();
+    if (window.Playground) { window.Playground.mount(document.getElementById("pg-host"), { lang: "python" }); Store.unlock("coder"); flushAchievements(); }
+    else document.getElementById("pg-host").innerHTML = emptyState("💻", "Playground failed to load.");
+  }
+  function hydrateCode(root) {
+    if (!window.Playground) return;
+    (root || app).querySelectorAll("[data-code]").forEach(node => {
+      if (node.dataset.codeDone) return; node.dataset.codeDone = "1";
+      const lang = node.getAttribute("data-code") || "python", expected = node.getAttribute("data-expected"), code = node.textContent.trim();
+      const host = document.createElement("div"); node.textContent = ""; node.appendChild(host);
+      window.Playground.mount(host, { lang, code, expected: expected });
+    });
+  }
+
+  // ---------- knowledge map (dependency graph, colored by mastery) ----------
+  function directPrereqs(lid) {
+    const idx = index(), node = idx[lid]; if (!node) return [];
+    const res = new Set(node.lesson.prereqs || []);
+    const flat = flatLessons(node.course), pos = flat.findIndex(l => l.id === lid);
+    if (pos > 0) res.add(flat[pos - 1].id);
+    return [...res].filter(id => idx[id]);
+  }
+  function viewMap() {
+    const courses = C();
+    const colW = 250, rowH = 56, padTop = 86, padL = 24;
+    const pos = {}; const nodes = [];
+    let maxRows = 0;
+    courses.forEach((c, ci) => {
+      let r = 0;
+      c.modules.forEach(m => m.lessons.forEach(l => {
+        const x = padL + ci * colW + 26, y = padTop + r * rowH;
+        pos[l.id] = { x, y }; nodes.push({ id: l.id, c, l, x, y }); r++;
+      }));
+      maxRows = Math.max(maxRows, r);
+    });
+    const W = padL + courses.length * colW + 10, H = padTop + maxRows * rowH + 30;
+    // edges
+    let edges = "";
+    nodes.forEach(n => directPrereqs(n.id).forEach(pid => {
+      const a = pos[pid], b = pos[n.id]; if (!a || !b) return;
+      const mx = (a.x + b.x) / 2;
+      edges += `<path class="map-edge" data-to="${n.id}" data-from="${pid}" d="M${a.x} ${a.y} C ${mx} ${a.y}, ${mx} ${b.y}, ${b.x} ${b.y}" />`;
+    }));
+    // topic headers
+    let heads = "";
+    courses.forEach((c, ci) => { heads += `<g><text class="map-head" x="${padL + ci * colW + 12}" y="40" fill="${c.color}">${esc(c.icon)} ${esc(c.title)}</text></g>`; });
+    // nodes
+    let circles = "";
+    nodes.forEach(n => {
+      const eff = Store.effectiveMastery(n.id), lvl = Store.masteryLevel(eff), done = Store.isLessonDone(n.id);
+      const label = n.l.title.length > 26 ? n.l.title.slice(0, 25) + "…" : n.l.title;
+      circles += `<g class="map-node" data-id="${n.id}" data-go="#/lesson/${n.c.id}/${n.l.id}" transform="translate(${n.x} ${n.y})">
+        <circle r="9" fill="${lvl.color}" stroke="${done ? "var(--ink)" : "var(--line)"}" stroke-width="${done ? 2 : 1}"></circle>
+        <text x="16" y="4" class="map-label">${esc(label)}</text>
+      </g>`;
+    });
+    const legend = [["Mastered", "var(--sage)"], ["Proficient", "var(--gold)"], ["Learning", "var(--violet)"], ["Seen", "var(--ink-mute)"], ["New", "var(--line)"]]
+      .map(([t, c]) => `<span class="map-leg"><span class="map-dot" style="background:${c}"></span>${t}</span>`).join("");
+    app.innerHTML = `
+    <div class="view" style="max-width:none">
+      <div class="crumbs"><a href="#/" data-route>Codex</a> &nbsp;›&nbsp; Knowledge Map</div>
+      <div class="page-head reveal"><div class="eyebrow">${nodes.length} concepts · prerequisites as edges</div><h2>Knowledge <em>Map</em></h2>
+      <p>Every concept and what it builds on. Nodes glow with your mastery; hover to trace what a concept depends on, click to open it.</p></div>
+      <div class="map-legend reveal">${legend}</div>
+      <div class="map-scroll reveal"><svg width="${W}" height="${H}" class="map-svg">${edges}${heads}${circles}</svg></div>
+    </div>`;
+    bindGo();
+    // hover: highlight incoming prereq edges + this node's chain
+    const svg = app.querySelector(".map-svg");
+    svg.querySelectorAll(".map-node").forEach(g => {
+      g.addEventListener("mouseenter", () => {
+        const id = g.dataset.id; svg.classList.add("dim");
+        const lit = new Set([id]); let frontier = [id];
+        while (frontier.length) { const cur = frontier.pop(); directPrereqs(cur).forEach(p => { if (!lit.has(p)) { lit.add(p); frontier.push(p); } }); }
+        svg.querySelectorAll(".map-node").forEach(n => n.classList.toggle("lit", lit.has(n.dataset.id)));
+        svg.querySelectorAll(".map-edge").forEach(e => e.classList.toggle("lit", lit.has(e.dataset.to) && lit.has(e.dataset.from)));
+      });
+      g.addEventListener("mouseleave", () => { svg.classList.remove("dim"); svg.querySelectorAll(".lit").forEach(x => x.classList.remove("lit")); });
+    });
+  }
+
+  // ---------- achievements ----------
+  function viewAchievements() {
+    const have = Store.raw.achievements;
+    const grid = Store.ACHIEVEMENTS.map(a => `
+      <div class="ach ${have[a.id] ? "unlocked" : ""}">
+        <div class="a-ico">${a.icon}</div>
+        <div><div class="a-t">${a.name}</div><div class="a-d">${a.desc}</div></div>
+      </div>`).join("");
+    const got = Object.keys(have).length;
+    app.innerHTML = `
+    <div class="view">
+      <div class="crumbs"><a href="#/" data-route>Codex</a> &nbsp;›&nbsp; Achievements</div>
+      <div class="page-head reveal"><div class="eyebrow">${got} of ${Store.ACHIEVEMENTS.length} unlocked</div><h2>Hall of <em>Achievements</em></h2></div>
+      <div class="ach-grid reveal">${grid}</div>
+    </div>`;
+    bindGo();
+  }
+
+  // ---------- stats ----------
+  function viewStats() {
+    const st = Store.stats();
+    const lv = Store.levelInfo();
+    const perCourse = C().map(c => {
+      const p = Store.courseProgress(c.id), mm = Math.round(Store.topicMastery(c.id) * 100);
+      return `<div style="margin-bottom:18px">
+        <div style="display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px"><span style="font-family:var(--font-disp)">${esc(c.title)}</span><span style="color:var(--ink-mute)">${p.done}/${p.total} done · ${mm}% mastery</span></div>
+        <div class="mini-bar" style="height:8px;max-width:none"><div class="mini-fill" style="width:${p.pct}%;background:${c.color}"></div></div>
+      </div>`;
+    }).join("");
+    // mastery distribution
+    const dist = { mastered: 0, proficient: 0, learning: 0, seen: 0, unseen: 0 };
+    C().forEach(c => c.modules.forEach(m => m.lessons.forEach(l => { dist[Store.masteryLevel(Store.effectiveMastery(l.id)).key]++; })));
+    const distRow = [["mastered", "var(--sage)"], ["proficient", "var(--gold)"], ["learning", "var(--violet)"], ["seen", "var(--ink-mute)"], ["unseen", "var(--line)"]]
+      .map(([k, col]) => `<div class="dist-cell"><div class="dist-num" style="color:${col}">${dist[k]}</div><div class="dist-lbl">${k}</div></div>`).join("");
+
+    app.innerHTML = `
+    <div class="view">
+      <div class="crumbs"><a href="#/" data-route>Codex</a> &nbsp;›&nbsp; Progress</div>
+      <div class="page-head reveal"><div class="eyebrow">${lv.name} · Level ${lv.level}</div><h2>Your <em>Progress</em></h2></div>
+      <div class="stat-strip reveal">
+        <div class="stat" style="--c:var(--gold)"><div class="v">${lv.xp.toLocaleString()}</div><div class="k">Total XP</div></div>
+        <div class="stat" style="--c:var(--sage)"><div class="v">${st.lessonsDone}/${st.totalLessons}</div><div class="k">Lessons</div></div>
+        <div class="stat" style="--c:var(--rust)"><div class="v">${st.cardsReviewed}</div><div class="k">Cards reviewed</div></div>
+        <div class="stat" style="--c:var(--violet)"><div class="v">${st.accuracy}%</div><div class="k">Quiz accuracy</div></div>
+      </div>
+
+      <div class="page-head reveal" style="margin:8px 0 14px"><h2 style="font-size:24px">Concept mastery</h2></div>
+      <div class="dist-strip reveal">${distRow}</div>
+
+      <div class="page-head reveal" style="margin:24px 0 14px"><h2 style="font-size:24px">Study activity</h2></div>
+      <div class="reveal" id="heatmap"></div>
+
+      <div class="page-head reveal" style="margin:24px 0 16px"><h2 style="font-size:24px">By topic</h2></div>
+      <div class="reveal" style="max-width:700px">${perCourse}</div>
+
+      <div class="page-head reveal" style="margin:24px 0 14px"><h2 style="font-size:24px">Settings</h2></div>
+      <div class="settings-box reveal">
+        <label class="viz-slider" style="gap:10px">Daily XP goal
+          <input id="goal-input" type="number" min="10" step="10" value="${Store.raw.goalXp}" style="width:90px">
+          <button class="btn" id="goal-save">Save</button>
+        </label>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+          <button class="btn ghost" id="export-btn">⬇ Export progress</button>
+          <button class="btn ghost" id="import-btn">⬆ Import progress</button>
+          <button class="btn ghost" id="reset-btn" style="border-color:var(--rust);color:var(--rust)">Reset all</button>
+        </div>
+        <input type="file" id="import-file" accept="application/json" style="display:none">
+      </div>
+    </div>`;
+    bindGo();
+    document.getElementById("heatmap").appendChild(buildHeatmap());
+    document.getElementById("goal-save").addEventListener("click", () => { Store.setGoal(parseInt(document.getElementById("goal-input").value, 10)); toast("🎯", "Goal updated", "Daily target set to " + Store.raw.goalXp + " XP"); });
+    document.getElementById("export-btn").addEventListener("click", () => {
+      const blob = new Blob([Store.exportData()], { type: "application/json" }); const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob); a.download = "atlas-progress.json"; a.click();
+    });
+    document.getElementById("import-btn").addEventListener("click", () => document.getElementById("import-file").click());
+    document.getElementById("import-file").addEventListener("change", e => {
+      const f = e.target.files[0]; if (!f) return; const r = new FileReader();
+      r.onload = () => { if (Store.importData(r.result)) { toast("✅", "Imported", "Progress restored."); renderChrome(); router(); } else alert("That file isn't a valid Atlas export."); };
+      r.readAsText(f);
+    });
+    document.getElementById("reset-btn").addEventListener("click", () => {
+      if (confirm("Reset ALL progress, XP, streaks and flashcard schedules? This cannot be undone.")) { Store.resetAll(); renderChrome(); router(); }
+    });
+  }
+
+  // GitHub-style activity heatmap (last ~17 weeks)
+  function buildHeatmap() {
+    const wrap = document.createElement("div"); wrap.className = "heatmap";
+    const days = 119, today = new Date(); today.setHours(0, 0, 0, 0);
+    const act = Store.raw.activity || {};
+    let max = 1; Object.values(act).forEach(v => { if (v > max) max = v; });
+    for (let i = days - 1; i >= 0; i--) {
+      const d = new Date(today.getTime() - i * 86400000);
+      const key = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+      const v = act[key] || 0, lvl = v === 0 ? 0 : v < max * 0.25 ? 1 : v < max * 0.5 ? 2 : v < max * 0.8 ? 3 : 4;
+      const cell = document.createElement("div"); cell.className = "hm-cell hm-" + lvl; cell.title = key + ": " + v + " XP";
+      wrap.appendChild(cell);
+    }
+    return wrap;
+  }
+
+  function view404() {
+    app.innerHTML = `<div class="view"><div class="empty"><div class="e-ico">🧭</div><h2 style="font-family:var(--font-disp)">Lost in the stacks</h2><p>That page doesn't exist. <a href="#/" data-route style="color:var(--gold)">Return to your codex</a>.</p></div></div>`;
+    bindGo();
+  }
+
+  function emptyState(icon, msg) { return `<div class="empty"><div class="e-ico">${icon}</div><p>${esc(msg)}</p></div>`; }
+
+  // ---------- navigation helpers ----------
+  function bindGo() {
+    app.querySelectorAll("[data-go]").forEach(el => el.addEventListener("click", () => { location.hash = el.dataset.go; }));
+  }
+
+  // ---------- command palette (⌘K) ----------
+  function searchIndex() {
+    const out = [];
+    C().forEach(c => {
+      out.push({ t: c.title, sub: "Topic", hash: "#/course/" + c.id, icon: c.icon });
+      c.modules.forEach(m => m.lessons.forEach(l => out.push({ t: l.title, sub: c.title, hash: "#/lesson/" + c.id + "/" + l.id, icon: "📖" })));
+    });
+    (window.VIZ_CATALOG || []).forEach(v => out.push({ t: v.title, sub: "Visualization", hash: "#/lab/" + v.id, icon: "🎛️" }));
+    [["Dashboard", "#/", "⌂"], ["Daily Review", "#/review", "⚡"], ["Spawn a Test", "#/test", "📝"], ["Knowledge Map", "#/map", "🗺️"], ["Code Playground", "#/playground", "💻"], ["Library", "#/library", "📚"], ["Progress", "#/stats", "📊"], ["Achievements", "#/achievements", "🏆"]].forEach(([t, h, i]) => out.push({ t, sub: "Page", hash: h, icon: i }));
+    Object.keys(window.REFERENCES || {}).forEach(k => (window.REFERENCES[k] || []).forEach(r => out.push({ t: r.title, sub: "Reference · " + r.by, hash: r.url, ext: true, icon: "🔖" })));
+    return out;
+  }
+  let paletteEl = null;
+  function openPalette() {
+    if (paletteEl) return;
+    const idx = searchIndex();
+    paletteEl = document.createElement("div"); paletteEl.className = "palette-scrim";
+    paletteEl.innerHTML = `<div class="palette"><input class="palette-in" placeholder="Search concepts, visualizations, pages, references…"><div class="palette-list"></div><div class="palette-foot">↑↓ navigate · ↵ open · esc close</div></div>`;
+    document.body.appendChild(paletteEl);
+    const inp = paletteEl.querySelector(".palette-in"), list = paletteEl.querySelector(".palette-list");
+    let sel = 0, results = [];
+    function render() {
+      const q = inp.value.trim().toLowerCase();
+      results = (q ? idx.filter(x => x.t.toLowerCase().includes(q) || x.sub.toLowerCase().includes(q)) : idx).slice(0, 50);
+      if (sel >= results.length) sel = Math.max(0, results.length - 1);
+      list.innerHTML = results.length ? results.map((r, i) => `<div class="palette-item ${i === sel ? "sel" : ""}" data-i="${i}"><span class="pi-ico">${r.icon}</span><span class="pi-main"><span class="pi-t">${esc(r.t)}</span><span class="pi-sub">${esc(r.sub)}</span></span>${r.ext ? '<span class="pi-ext">↗</span>' : ""}</div>`).join("") : '<div class="palette-empty">No matches</div>';
+      list.querySelectorAll(".palette-item").forEach(e => e.addEventListener("click", () => go(parseInt(e.dataset.i, 10))));
+    }
+    function go(i) { const r = results[i]; if (!r) return; closePalette(); if (r.ext) window.open(r.hash, "_blank", "noopener"); else location.hash = r.hash; }
+    function scrollSel() { const e = list.querySelector(".sel"); if (e) e.scrollIntoView({ block: "nearest" }); }
+    inp.addEventListener("input", () => { sel = 0; render(); });
+    inp.addEventListener("keydown", e => {
+      if (e.key === "ArrowDown") { e.preventDefault(); sel = Math.min(sel + 1, results.length - 1); render(); scrollSel(); }
+      else if (e.key === "ArrowUp") { e.preventDefault(); sel = Math.max(sel - 1, 0); render(); scrollSel(); }
+      else if (e.key === "Enter") { e.preventDefault(); go(sel); }
+      else if (e.key === "Escape") { closePalette(); }
+    });
+    paletteEl.addEventListener("click", e => { if (e.target === paletteEl) closePalette(); });
+    render(); inp.focus();
+  }
+  function closePalette() { if (paletteEl) { paletteEl.remove(); paletteEl = null; } }
+
+  // ---------- router ----------
+  function router() {
+    if (window.VIZUtil) window.VIZUtil.stopAll(); // kill any running animation loops
+    const h = (location.hash || "#/").slice(1);
+    const parts = h.split("/").filter(Boolean); // e.g. ["course","linear-algebra"]
+    window.scrollTo(0, 0);
+    if (parts.length === 0) viewDashboard();
+    else if (parts[0] === "course") viewCourse(parts[1]);
+    else if (parts[0] === "lesson") viewLesson(parts[1], parts[2]);
+    else if (parts[0] === "review") viewReview();
+    else if (parts[0] === "test") viewTest();
+    else if (parts[0] === "lab") parts[1] ? viewLabItem(parts[1]) : viewLab();
+    else if (parts[0] === "map") viewMap();
+    else if (parts[0] === "playground") viewPlayground();
+    else if (parts[0] === "library") viewLibrary();
+    else if (parts[0] === "cheatsheet") viewCheatsheet(parts[1]);
+    else if (parts[0] === "placement") viewPlacement(parts[1]);
+    else if (parts[0] === "path") viewPath(parts[1], parts[2]);
+    else if (parts[0] === "achievements") viewAchievements();
+    else if (parts[0] === "stats") viewStats();
+    else view404();
+    renderChrome();
+    closeSidebar();
+  }
+
+  // ---------- theme ----------
+  function initTheme() {
+    const saved = localStorage.getItem("atlas.theme") || "ink";
+    document.documentElement.setAttribute("data-theme", saved);
+    updateThemeLabel(saved);
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+      const cur = document.documentElement.getAttribute("data-theme");
+      const nx = cur === "ink" ? "parchment" : "ink";
+      document.documentElement.setAttribute("data-theme", nx);
+      localStorage.setItem("atlas.theme", nx);
+      updateThemeLabel(nx);
+      renderChrome();
+    });
+  }
+  function updateThemeLabel(t) {
+    document.getElementById("theme-toggle").innerHTML = t === "ink" ? "☾ &nbsp;Ink theme" : "☀ &nbsp;Parchment theme";
+  }
+
+  // ---------- mobile sidebar ----------
+  function closeSidebar() {
+    document.getElementById("sidebar").classList.remove("open");
+    const s = document.getElementById("scrim"); if (s) s.remove();
+  }
+  function initMobile() {
+    document.getElementById("menu-btn").addEventListener("click", () => {
+      const sb = document.getElementById("sidebar");
+      sb.classList.add("open");
+      const sc = document.createElement("div"); sc.className = "scrim"; sc.id = "scrim";
+      sc.addEventListener("click", closeSidebar);
+      document.body.appendChild(sc);
+    });
+  }
+
+  // ---------- boot ----------
+  function boot() {
+    Store.touchStreak();           // count today toward streak on open
+    initTheme();
+    initMobile();
+    window.addEventListener("hashchange", router);
+    window.addEventListener("keydown", e => { if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); openPalette(); } });
+    const sb = document.getElementById("search-btn"); if (sb) sb.addEventListener("click", openPalette);
+    router();
+    flushAchievements();
+    if (Store.freezeJustUsed()) toast("❄️", "Streak saved!", "A freeze covered the day you missed.");
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+  else boot();
+})();
