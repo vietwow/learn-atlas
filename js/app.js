@@ -842,60 +842,83 @@
   }
   function viewMap() {
     const courses = C();
-    const colW = 250, rowH = 56, padTop = 86, padL = 24;
-    const pos = {}; const nodes = [];
-    let maxRows = 0;
-    courses.forEach((c, ci) => {
-      let r = 0;
-      c.modules.forEach(m => m.lessons.forEach(l => {
-        const x = padL + ci * colW + 26, y = padTop + r * rowH;
-        pos[l.id] = { x, y }; nodes.push({ id: l.id, c, l, x, y }); r++;
-      }));
-      maxRows = Math.max(maxRows, r);
+    const N = courses.length || 1;
+    const topicLessons = courses.map(c => { const ls = []; c.modules.forEach(m => m.lessons.forEach(l => ls.push(l))); return ls; });
+    const maxN = Math.max(1, ...topicLessons.map(a => a.length));
+    const R0 = 92, DR = 27, RAD = Math.PI / 180;
+    const Rmax = R0 + (maxN - 1) * DR + 40;
+    const size = 2 * (Rmax + 84), cx = size / 2, cy = size / 2;
+    const baseAng = ti => (-90 + ti * (360 / N)) * RAD;     // start at top, clockwise
+    const sectorHalf = (360 / N / 2 - 1.5) * RAD;
+    const pos = {}, nodes = [];
+    courses.forEach((c, ti) => {
+      topicLessons[ti].forEach((l, j) => {
+        const r = R0 + j * DR, ang = baseAng(ti) + Math.sin(j * 0.5) * 8 * RAD;
+        const x = cx + r * Math.cos(ang), y = cy + r * Math.sin(ang);
+        pos[l.id] = { x, y }; nodes.push({ id: l.id, c, l, x, y });
+      });
     });
-    const W = padL + courses.length * colW + 10, H = padTop + maxRows * rowH + 30;
-    // edges
+    // faint colored sector wedges
+    let sectors = "";
+    courses.forEach((c, ti) => {
+      const a1 = baseAng(ti) - sectorHalf, a2 = baseAng(ti) + sectorHalf, R = Rmax + 30;
+      const x1 = cx + R * Math.cos(a1), y1 = cy + R * Math.sin(a1), x2 = cx + R * Math.cos(a2), y2 = cy + R * Math.sin(a2);
+      sectors += `<path class="map-sector" d="M ${cx} ${cy} L ${x1.toFixed(1)} ${y1.toFixed(1)} A ${R} ${R} 0 0 1 ${x2.toFixed(1)} ${y2.toFixed(1)} Z" fill="${c.color}"></path>`;
+    });
+    // concentric guide rings
+    let rings = "";
+    for (let k = 1; k <= maxN; k += 4) rings += `<circle class="map-ring" cx="${cx}" cy="${cy}" r="${R0 + k * DR}"></circle>`;
+    // edges (curve control pulled toward centre → spokes stay straight, cross-links arc through the hub)
     let edges = "";
     nodes.forEach(n => directPrereqs(n.id).forEach(pid => {
       const a = pos[pid], b = pos[n.id]; if (!a || !b) return;
-      const mx = (a.x + b.x) / 2;
-      edges += `<path class="map-edge" data-to="${n.id}" data-from="${pid}" d="M${a.x} ${a.y} C ${mx} ${a.y}, ${mx} ${b.y}, ${b.x} ${b.y}" />`;
+      const mx = (a.x + b.x) / 2 + (cx - (a.x + b.x) / 2) * 0.3, my = (a.y + b.y) / 2 + (cy - (a.y + b.y) / 2) * 0.3;
+      edges += `<path class="map-edge" data-to="${n.id}" data-from="${pid}" d="M ${a.x.toFixed(1)} ${a.y.toFixed(1)} Q ${mx.toFixed(1)} ${my.toFixed(1)} ${b.x.toFixed(1)} ${b.y.toFixed(1)}"></path>`;
     }));
-    // topic headers
-    let heads = "";
-    courses.forEach((c, ci) => { heads += `<g><text class="map-head" x="${padL + ci * colW + 12}" y="40" fill="${c.color}">${esc(c.icon)} ${esc(c.title)}</text></g>`; });
-    // nodes
+    // nodes (dots only; hover shows the caption)
     let circles = "";
     nodes.forEach(n => {
       const eff = Store.effectiveMastery(n.id), lvl = Store.masteryLevel(eff), done = Store.isLessonDone(n.id);
-      const label = n.l.title.length > 26 ? n.l.title.slice(0, 25) + "…" : n.l.title;
-      circles += `<g class="map-node" data-id="${n.id}" data-go="#/lesson/${n.c.id}/${n.l.id}" transform="translate(${n.x} ${n.y})">
-        <circle r="9" fill="${lvl.color}" stroke="${done ? "var(--ink)" : "var(--line)"}" stroke-width="${done ? 2 : 1}"></circle>
-        <text x="16" y="4" class="map-label">${esc(label)}</text>
+      circles += `<g class="map-node" data-id="${n.id}" data-go="#/lesson/${n.c.id}/${n.l.id}" transform="translate(${n.x.toFixed(1)} ${n.y.toFixed(1)})">
+        <circle r="7" fill="${lvl.color}" stroke="${done ? "var(--ink)" : "var(--bg)"}" stroke-width="${done ? 2 : 1.5}"></circle>
+        <title>${esc(n.l.title)} — ${esc(n.c.title)}</title>
       </g>`;
     });
+    // rim labels per topic
+    let labels = "";
+    courses.forEach((c, ti) => {
+      const r = Rmax + 50, a = baseAng(ti), lx = cx + r * Math.cos(a), ly = cy + r * Math.sin(a);
+      const anchor = Math.abs(Math.cos(a)) < 0.35 ? "middle" : (Math.cos(a) > 0 ? "start" : "end");
+      labels += `<text class="map-rim" x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" fill="${c.color}" text-anchor="${anchor}">${esc(c.icon)} ${esc(c.title)}</text>`;
+    });
+    // centre hub
+    const hub = `<g><circle class="map-hub-bg" cx="${cx}" cy="${cy}" r="46"></circle>
+      <text class="map-hub-t" x="${cx}" y="${cy - 2}" text-anchor="middle">ATLAS</text>
+      <text class="map-hub-s" x="${cx}" y="${cy + 15}" text-anchor="middle">${nodes.length} concepts</text></g>`;
     const legend = [["Mastered", "var(--sage)"], ["Proficient", "var(--gold)"], ["Learning", "var(--violet)"], ["Seen", "var(--ink-mute)"], ["New", "var(--line)"]]
       .map(([t, c]) => `<span class="map-leg"><span class="map-dot" style="background:${c}"></span>${t}</span>`).join("");
     app.innerHTML = `
     <div class="view" style="max-width:none">
       <div class="crumbs"><a href="#/" data-route>Codex</a> &nbsp;›&nbsp; Knowledge Map</div>
-      <div class="page-head reveal"><div class="eyebrow">${nodes.length} concepts · prerequisites as edges</div><h2>Knowledge <em>Map</em></h2>
-      <p>Every concept and what it builds on. Nodes glow with your mastery; hover to trace what a concept depends on, click to open it.</p></div>
-      <div class="map-legend reveal">${legend}</div>
-      <div class="map-scroll reveal"><svg width="${W}" height="${H}" class="map-svg">${edges}${heads}${circles}</svg></div>
+      <div class="page-head reveal"><div class="eyebrow">${nodes.length} concepts · 6 paths radiating outward</div><h2>Knowledge <em>Constellation</em></h2>
+      <p>Each subject branches out from the core — foundations near the centre, mastery toward the rim. Hover a star to trace what it depends on; click to open it.</p></div>
+      <div class="map-legend reveal">${legend}<span class="map-caption" id="map-caption">Hover a concept…</span></div>
+      <div class="map-scroll reveal" id="map-scroll"><svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" class="map-svg">${sectors}${rings}${edges}${hub}${circles}${labels}</svg></div>
     </div>`;
     bindGo();
-    // hover: highlight incoming prereq edges + this node's chain
-    const svg = app.querySelector(".map-svg");
+    const sc = document.getElementById("map-scroll");
+    setTimeout(() => { sc.scrollLeft = (size - sc.clientWidth) / 2; sc.scrollTop = (size - sc.clientHeight) / 2; }, 0);
+    const svg = app.querySelector(".map-svg"), cap = document.getElementById("map-caption");
     svg.querySelectorAll(".map-node").forEach(g => {
       g.addEventListener("mouseenter", () => {
-        const id = g.dataset.id; svg.classList.add("dim");
+        const id = g.dataset.id, node = index()[id]; svg.classList.add("dim");
+        if (node) { const eff = Store.effectiveMastery(id), lv = Store.masteryLevel(eff); cap.innerHTML = `<b style="color:${node.course.color}">${esc(node.course.title)}</b> · ${esc(node.lesson.title)} · <span style="color:${lv.color}">${lv.label}</span>`; }
         const lit = new Set([id]); let frontier = [id];
         while (frontier.length) { const cur = frontier.pop(); directPrereqs(cur).forEach(p => { if (!lit.has(p)) { lit.add(p); frontier.push(p); } }); }
         svg.querySelectorAll(".map-node").forEach(n => n.classList.toggle("lit", lit.has(n.dataset.id)));
         svg.querySelectorAll(".map-edge").forEach(e => e.classList.toggle("lit", lit.has(e.dataset.to) && lit.has(e.dataset.from)));
       });
-      g.addEventListener("mouseleave", () => { svg.classList.remove("dim"); svg.querySelectorAll(".lit").forEach(x => x.classList.remove("lit")); });
+      g.addEventListener("mouseleave", () => { svg.classList.remove("dim"); cap.textContent = "Hover a concept…"; svg.querySelectorAll(".lit").forEach(x => x.classList.remove("lit")); });
     });
   }
 

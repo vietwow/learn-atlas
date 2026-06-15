@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 3 — Knowledge Map redesigned as a radial Constellation (UI / visualization)
+Owner ask: make the map game-like. Replaced the 6-column layout with a radial skill-tree — a central glowing
+ATLAS hub, the 6 subjects as colored sectors radiating outward (foundations near the core, advanced concepts
+toward the rim), cross-topic prerequisites arcing through the middle, concentric guide rings, and rim labels.
+Hovering a star lights its full dependency chain plus a caption; click opens it. Verified errs=0, 113 nodes, 6 sectors.
+
 ## iter 2 — Cross-topic prerequisite graph connects the 6 topics (content details / understandability)
 Added data/prereqs.js (window.PREREQS): 40 hand-verified cross-topic edges (e.g. backprop → chain-rule +
 matrix-multiplication; self-attention → attention-mechanism + dot-product; RLHF → policy-gradients + PPO;

@@ -578,9 +578,16 @@ body::after {
 .map-legend { display: flex; gap: 18px; flex-wrap: wrap; margin-bottom: 16px; }
 .map-leg { font-size: 12.5px; color: var(--ink-soft); display: inline-flex; align-items: center; gap: 6px; }
 .map-dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
-.map-scroll { overflow: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-2); max-height: 72vh; }
-.map-svg { display: block; }
+.map-scroll { overflow: auto; border: 1px solid var(--line); border-radius: var(--radius); background: radial-gradient(circle at 50% 50%, var(--panel) 0%, var(--bg-2) 45%, var(--bg) 100%); max-height: 76vh; }
+.map-svg { display: block; margin: 0 auto; }
 .map-head { font-family: var(--font-disp); font-size: 15px; font-weight: 600; }
+.map-caption { margin-left: auto; font-size: 13px; color: var(--ink-soft); }
+.map-sector { opacity: .06; transition: opacity .2s; }
+.map-ring { fill: none; stroke: var(--line); opacity: .35; }
+.map-rim { font-family: var(--font-disp); font-size: 16px; font-weight: 600; letter-spacing: .2px; }
+.map-hub-bg { fill: var(--panel); stroke: var(--gold); stroke-width: 2; filter: drop-shadow(0 0 16px color-mix(in srgb, var(--gold) 50%, transparent)); }
+.map-hub-t { font-family: var(--font-disp); font-size: 18px; font-weight: 700; fill: var(--gold); letter-spacing: 2px; }
+.map-hub-s { font-family: var(--font-mono); font-size: 10px; fill: var(--ink-mute); }
 .map-edge { fill: none; stroke: var(--line); stroke-width: 1.5; transition: stroke .2s, opacity .2s; }
 .map-edge.lit { stroke: var(--gold); stroke-width: 2.5; }
 .map-node { cursor: pointer; }
