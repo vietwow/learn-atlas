@@ -444,7 +444,7 @@
       const q = qs[i];
       body.innerHTML = `
       <div class="quiz reveal">
-        <div class="q-progress">Question ${i + 1} of ${qs.length} · ${correct} correct so far</div>
+        <div class="q-progress">Question ${i + 1} of ${qs.length} · ${correct} correct so far · <kbd>1</kbd>–<kbd>4</kbd> to answer</div>
         <div class="q-stem">${q.q}</div>
         <div class="choices">
           ${q.choices.map((ch, ci) => `<button class="choice" data-ci="${ci}"><span class="key">${String.fromCharCode(65 + ci)}</span><span>${ch}</span></button>`).join("")}
@@ -531,7 +531,7 @@
     function drawControls() {
       const slot = document.getElementById("flash-controls");
       if (!flipped) {
-        slot.innerHTML = `<div class="flash-hint">Tap the card to reveal the answer</div>`;
+        slot.innerHTML = `<div class="flash-hint">Tap the card — or press <kbd>Space</kbd> — to reveal the answer</div>`;
       } else {
         slot.innerHTML = `
           <div class="flash-grade">
@@ -540,7 +540,7 @@
             <button class="grade-btn good"  data-g="2">Good</button>
             <button class="grade-btn easy"  data-g="3">Easy</button>
           </div>
-          <div class="flash-hint">How well did you recall it? This schedules the next review.</div>`;
+          <div class="flash-hint">How well did you recall it? <kbd>1</kbd>–<kbd>4</kbd> grade · this schedules the next review.</div>`;
         slot.querySelectorAll(".grade-btn").forEach(b => b.addEventListener("click", () => {
           Store.gradeCard(cards[i].id, parseInt(b.dataset.g, 10));
           reviewed++; i++; draw(); renderChrome(); flushAchievements();
@@ -1292,6 +1292,26 @@
     });
   }
 
+  // ---------- keyboard shortcuts for the study loop ----------
+  function studyKeys(e) {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    const tag = (e.target && e.target.tagName) || "";
+    if (/INPUT|TEXTAREA|SELECT/.test(tag)) return;
+    if (document.querySelector(".palette-scrim, .levelup-ov, .intro-ov")) return; // a modal owns the keys
+    // flashcards: Space/Enter flips; once flipped, 1-4 grades
+    const card = document.getElementById("card3d");
+    if (card) {
+      if (e.key === " " || e.key === "Enter") { e.preventDefault(); card.click(); return; }
+      if (card.classList.contains("flipped")) { const i = "1234".indexOf(e.key); if (i >= 0) { const gb = document.querySelectorAll(".grade-btn")[i]; if (gb) { e.preventDefault(); gb.click(); } } }
+      return;
+    }
+    // MCQ choices (quiz / test / mastery drill): 1-4 or a-d to pick
+    const choices = document.querySelectorAll(".choice:not(.locked)");
+    if (choices.length) { let i = "1234".indexOf(e.key); if (i < 0) i = "abcd".indexOf(e.key.toLowerCase()); if (i >= 0 && i < choices.length) { e.preventDefault(); choices[i].click(); return; } }
+    // Enter advances (next / submit / continue)
+    if (e.key === "Enter") { const nb = document.getElementById("t-next") || document.querySelector("#md-next .btn, #next-slot .btn"); if (nb) { e.preventDefault(); nb.click(); } }
+  }
+
   // ---------- boot ----------
   function boot() {
     Store.touchStreak();           // count today toward streak on open
@@ -1299,6 +1319,7 @@
     initMobile();
     window.addEventListener("hashchange", router);
     window.addEventListener("keydown", e => { if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); openPalette(); } });
+    window.addEventListener("keydown", studyKeys);
     const sb = document.getElementById("search-btn"); if (sb) sb.addEventListener("click", openPalette);
     const skip = document.getElementById("skip-link"); if (skip) skip.addEventListener("click", () => { app.focus(); app.scrollIntoView(); });
     const guide = document.getElementById("guide-btn"); if (guide) guide.addEventListener("click", () => showIntro(true));

@@ -2,6 +2,13 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 24 — Keyboard shortcuts for the study loop (UX / accessibility)
+A single global key handler speeds up daily practice without touching the mouse: press 1–4 (or a–d) to
+answer any MCQ (quiz, custom test, mastery drill), Space to flip a flashcard then 1–4 to grade it, and Enter
+to advance/submit/continue. It ignores typing in inputs and yields to open modals. Discoverable via small
+`<kbd>` hints in the quiz progress line and flashcard prompts. Verified: errs=0, a quiz driven purely by
+keystrokes selects answers and advances.
+
 ## iter 23 — New visualization: RNN unrolling & memory (visualizations)
 Built dl-rnn for the recurrent-network idea. The network is unrolled across 6 time steps (input → hidden →
 output rows) with the recurrent edge h_{t-1}→h_t drawn explicitly and an animated pulse along the hidden
