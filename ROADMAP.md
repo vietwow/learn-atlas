@@ -66,8 +66,9 @@ from 8 → 12 MCQs, topic by topic, via author→adversarial-verify (verificatio
 teaches the wrong thing; iter 60 caught a self-contradictory stem + bad KaTeX + wrong explanations). Tooling:
 `/tmp/gen_mcq_wf.js <topicId> <noun> <addN>` → `Workflow({scriptPath})` → `/tmp/inject_mcq.js <topicId> <out>`
 (APPENDS to existing `l.mcq`, validates each item) → gate → quiz-render check. DONE: Linear Algebra (iter 60, +64), Calculus (iter 61, +88), Algorithms (iter 62, +80), Deep Learning
-(iter 63, +76) — all at 12/lesson; site-wide 1,205 MCQs. NEXT: Reinforcement Learning, LLMs. RL has 2 thin
-lessons (rl-td-learning 5, rl-trpo-ppo 4) — top them up to 12 (i.e. +7 and +8) rather than the flat +4.
+(iter 63, +76), Reinforcement Learning (iter 64, +75, target-12 so thin lessons topped up) — all at 12/lesson;
+site-wide 1,280 MCQs. NEXT: **LLMs — the last topic; after it the bank sweep is COMPLETE** (every lesson at 12).
+Use `/tmp/gen_mcq_target_wf.js <topicId> <noun> 12` (targets 12/lesson, the better generator).
 
 ## Owner priority — worked examples sweep ✅ COMPLETE (iters 47–52)
 "Examples when we need it." Added 2 verified worked examples to every lesson that warranted them, all six

@@ -2,6 +2,17 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 64 — Question-bank growth: +75 MCQs across Reinforcement Learning, all lessons now at 12 (content; owner-requested)
+Bank-growth sweep reaches Reinforcement Learning. Upgraded the generator to **target a per-lesson count** (12)
+rather than a flat +4, so the two historically-thin lessons get topped all the way up: rl-td-learning 5 → 12
+(+7) and rl-trpo-ppo 4 → 12 (+8), while the other 15 lessons go 8 → 12 (+4). Result: **every one of the 17 RL
+lessons now sits at exactly 12 MCQs** (RL 129 → 204, **site-wide 1,205 → 1,280**). Topics include credit
+assignment, MDP/Markov sufficiency, discounting & effective horizon, GAE bootstrapping & stop-gradient targets,
+PPO clipping (both advantage signs) vs gradient clipping, Thompson sampling, the noisy-TV curiosity trap,
+reward hacking, KL-regularized RLHF, and offline-RL trajectory stitching. Same author→adversarial-verify
+pipeline (every answer independently re-solved). Verified: the previously-thin rl-trpo-ppo quiz now offers 12
+MCQs and answers cleanly (errs=0 across routes), a script confirms all 17 lessons = 12, `node gate.js` ALL GREEN.
+
 ## iter 63 — Question-bank growth: +76 MCQs across Deep Learning (content; owner-requested)
 Bank-growth sweep reaches Deep Learning: +4 MCQs on each of the 19 lessons (8 → 12/lesson; DL 152 → 228,
 **site-wide 1,129 → 1,205**). Topics span dead-ReLU debugging, gradient accumulation, bias-variance,
