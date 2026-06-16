@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 26 — New visualization: gradient descent in 2D (visualizations)
+Built calc-gd2d — the optimization picture the 1-D widget can't show. An elliptical contour map of
+$f=0.12x^2+y^2$ with the descent path animated down it; the elongated bowl makes the path visibly zig-zag
+across the steep axis, and pushing the learning-rate slider past the curvature limit makes it diverge. Click
+anywhere to drop a new start point. Embedded in the Gradient/Directional-Derivatives lesson. Lab catalog 16 → 17. errs=0.
+
 ## iter 25 — Ranks ladder on the Progress page (gamification)
 The 10-rank journey (Novice → Polymath) was only ever glimpsed as the current rank in the topbar. Added a
 full Ranks ladder to Progress: every rank with its XP threshold, reached ones lit with a gold badge, the

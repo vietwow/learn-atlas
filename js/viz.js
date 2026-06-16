@@ -740,4 +740,40 @@
     loop(() => { phase = (phase + 0.02) % 1; draw(); });
   });
 
+  /* ========================================================
+     17. Gradient descent in 2D (contour map)
+     ======================================================== */
+  register({ id: 'calc-gd2d', topic: 'calculus', title: 'Gradient Descent in 2D', blurb: 'Watch descent wind down a contour map — and zig-zag or diverge as you raise the learning rate.' },
+  function (root) {
+    const W = 540, H = 380, xmin = -5, xmax = 5, ymin = -3.4, ymax = 3.4, a = 0.12, b = 1.0;
+    const { c, ctx } = canvas(root, W, H);
+    const f = (x, y) => a * x * x + b * y * y, gx = x => 2 * a * x, gy = y => 2 * b * y;
+    let lr = 0.4, start = [-4.5, 2.6], path = [], runH = null;
+    const X = x => 40 + (x - xmin) / (xmax - xmin) * (W - 80), Y = y => H - 40 - (y - ymin) / (ymax - ymin) * (H - 80);
+    const invX = px => xmin + (px - 40) / (W - 80) * (xmax - xmin), invY = py => ymin + (H - 40 - py) / (H - 80) * (ymax - ymin);
+    const ctl = controls(root);
+    slider(ctl, { label: 'learning rate', min: 0.05, max: 1.1, step: 0.05, value: lr, fmt: v => v.toFixed(2), onInput: v => { lr = v; } });
+    const btns = controls(root);
+    button(btns, '▶ Run', () => { if (runH) { runH.stop(); runH = null; } else { reset(); let fr = 0; runH = loop(() => { if (fr++ % 6 === 0) step(); }); } }, 'primary');
+    button(btns, 'Step', () => step());
+    button(btns, '↻ Reset', () => reset());
+    const info = note(root);
+    function reset() { if (runH) { runH.stop(); runH = null; } path = [start.slice()]; draw(); }
+    function step() { const p = path[path.length - 1], nx = p[0] - lr * gx(p[0]), ny = p[1] - lr * gy(p[1]); if (Math.abs(nx) > 30 || Math.abs(ny) > 30) { draw(true); if (runH) { runH.stop(); runH = null; } return; } path.push([nx, ny]); if (path.length > 220) path.shift(); draw(); }
+    c.addEventListener('mousedown', e => { const m = pointer(c, W, H, e); start = [invX(m.x), invY(m.y)]; reset(); e.preventDefault(); });
+    function draw(diverged) {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      ctx.strokeStyle = p.line; ctx.lineWidth = 1;
+      [0.3, 1, 2, 4, 7, 11].forEach(cv => { ctx.beginPath(); for (let t = 0; t <= 6.3; t += 0.1) { const x = Math.sqrt(cv / a) * Math.cos(t), y = Math.sqrt(cv / b) * Math.sin(t), q = { x: X(x), y: Y(y) }; t === 0 ? ctx.moveTo(q.x, q.y) : ctx.lineTo(q.x, q.y); } ctx.closePath(); ctx.stroke(); });
+      ctx.fillStyle = p.sage; ctx.beginPath(); ctx.arc(X(0), Y(0), 5, 0, 7); ctx.fill();
+      ctx.strokeStyle = p.gold; ctx.lineWidth = 2; ctx.beginPath(); path.forEach((pt, i) => { const q = { x: X(pt[0]), y: Y(pt[1]) }; i === 0 ? ctx.moveTo(q.x, q.y) : ctx.lineTo(q.x, q.y); }); ctx.stroke();
+      path.forEach((pt, i) => { ctx.fillStyle = p.gold; ctx.globalAlpha = 0.3 + 0.7 * i / path.length; ctx.beginPath(); ctx.arc(X(pt[0]), Y(pt[1]), 2.5, 0, 7); ctx.fill(); }); ctx.globalAlpha = 1;
+      const cur = path[path.length - 1]; ctx.fillStyle = p.violet; ctx.beginPath(); ctx.arc(X(cur[0]), Y(cur[1]), 6, 0, 7); ctx.fill();
+      info.innerHTML = diverged
+        ? `<span style="color:${p.rust}"><b>Diverged!</b> lr=${lr.toFixed(2)} overshoots the steep (y) axis — for $f=ax^2+by^2$, descent needs lr &lt; 2/(largest curvature).</span>`
+        : `step ${path.length - 1} · f=${f(cur[0], cur[1]).toFixed(3)} · the elongated bowl makes descent <b>zig-zag</b> across the steep axis. Click anywhere to drop a new start point.`;
+    }
+    reset();
+  });
+
 })();
