@@ -568,6 +568,10 @@ body::after {
 .goal-ring::before { content: ''; position: absolute; inset: 5px; border-radius: 50%; background: var(--panel); }
 .goal-ring span { position: relative; z-index: 1; }
 .today-text .t-main { font-size: 15.5px; } .today-text .t-main b { color: var(--gold); }
+.fc-cell { flex: 1; text-align: center; padding: 6px 4px; border-right: 1px solid var(--line); }
+.fc-cell:last-child { border-right: none; }
+.fc-n { font-family: var(--font-disp); font-size: 28px; font-weight: 600; line-height: 1; }
+.fc-k { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
 .today-text .t-sub { font-size: 13px; color: var(--ink-mute); margin-top: 3px; }
 
 .notes-box { margin-top: 34px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; max-width: 760px; }

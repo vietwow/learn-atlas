@@ -611,18 +611,28 @@
 
   // ---------- global review (all due cards) ----------
   function viewReview() {
-    const due = [];
+    const due = [], cards = Store.raw.cards || {}, now = Date.now(), DAY = 86400000;
+    let soon = 0, week = 0, seen = 0;
     C().forEach(c => c.modules.forEach(m => m.lessons.forEach(l => {
       (l.flashcards || []).forEach((card, i) => {
         const id = l.id + ":" + i;
         if (Store.cardDue(id)) due.push({ c: card, id });
+        const rec = cards[id];
+        if (rec) { seen++; const d = rec.due || 0; if (d > now && d <= now + DAY) soon++; if (d > now && d <= now + 7 * DAY) week++; }
       });
     })));
+    const forecast = `<div class="today-strip reveal" style="gap:0">
+      <div class="fc-cell"><div class="fc-n" style="color:var(--rust)">${due.length}</div><div class="fc-k">due now</div></div>
+      <div class="fc-cell"><div class="fc-n" style="color:var(--gold)">${soon}</div><div class="fc-k">next 24h</div></div>
+      <div class="fc-cell"><div class="fc-n" style="color:var(--sage)">${week}</div><div class="fc-k">next 7 days</div></div>
+      <div class="fc-cell"><div class="fc-n" style="color:var(--violet)">${seen}</div><div class="fc-k">cards in rotation</div></div>
+    </div>`;
     app.innerHTML = `
     <div class="view">
       <div class="crumbs"><a href="#/" data-route>Codex</a> &nbsp;›&nbsp; Daily review</div>
       <div class="page-head reveal"><div class="eyebrow">Spaced repetition</div><h2>Daily <em>Review</em></h2>
       <p>${due.length ? `${due.length} card${due.length === 1 ? "" : "s"} due across all your topics. Grade honestly — the schedule adapts.` : "Nothing due right now. Come back tomorrow, or study a lesson's deck directly."}</p></div>
+      ${forecast}
       <div id="review-body"></div>
     </div>`;
     bindGo();

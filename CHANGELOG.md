@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 35 — Review-load forecast on the Daily Review (spaced repetition)
+Pairs with iter 34's interval previews: the Daily Review now opens with a forecast strip — due now / next 24h
+/ next 7 days / cards in rotation — computed from each card's stored due date, so you can see your upcoming
+workload and plan sessions. Verified: errs=0, gate ALL GREEN; with 2 cards graded forward the buckets read
+676 due / 1 next-24h / 2 next-7-day / 2 in rotation, matching the schedule.
+
 ## iter 34 — Anki-style interval previews on flashcard grades (spaced repetition)
 The Again/Hard/Good/Easy buttons gave no sense of *when* you'd see a card again. Each now shows its projected
 next-review interval under the label (e.g. Hard 1d · Good 3d · Easy 5d), via a non-mutating `projectInterval`
