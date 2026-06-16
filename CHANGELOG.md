@@ -2,6 +2,22 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 60 — Question-bank growth starts: +64 MCQs across Linear Algebra (content; owner-requested) — 10-iter checkpoint
+Honoring the owner's most-repeated, most-emphatic ask ("add more and more and more questions … think again
+until I pass, not casual remembering") — untouched since iter 9. Every lesson sat at exactly 8 MCQs, enough
+that a determined learner could memorize answer positions rather than re-derive. Added **4 new MCQs to each of
+the 16 Linear Algebra lessons** (8 → 12/lesson; LA 128 → 192, site-wide 897 → **961**). Authored to test
+understanding — each batch includes a computational item and one that baits a common misconception — then
+**adversarially verified**: a second agent independently re-solved every question and checked the marked answer,
+the distractors, and the explanation. This caught real, harmful errors the author missed — a self-contradictory
+stem ("spans ℝ³ but is dependent" with 3 vectors, impossible), an unsupported `\begin{psmallmatrix}` KaTeX
+environment, and two explanations whose rationale was wrong — all fixed before injection. New questions are
+appended (existing stems were fed to the author to prevent duplicates) and the answer position is varied.
+**10-iteration checkpoint:** since the examples sweep the loop has rotated cleanly through every compass area;
+the only neglected owner-priority was the question bank — now addressed, and this kicks off a per-topic
+bank-growth sweep (LA done; calc/algo/DL/RL/LLM next). Verified: a lesson's quiz now offers 12 MCQs and answers
+cleanly (errs=0 across routes), `node gate.js` ALL GREEN (answer ranges + structure validated).
+
 ## iter 59 — Backpropagation visualization: the chain rule on a computational graph (visualizations)
 A new interactive widget (`dl-backprop`, the 20th) for the concept DL learners struggle with most — and it had
 a dedicated lesson ("Backpropagation: The Chain Rule at Scale") with no visual. It lays out the computational

@@ -60,6 +60,15 @@ shared "topics index" (id/title/blurb/color) loaded first + full lessons on dema
 - Prefer the **biggest-value** move; a bold swing (new pillar, overhaul) beats a tidy tweak when warranted.
 - **Broken always wins**: a real bug / console error / broken render preempts everything.
 
+## Owner priority — question-bank growth sweep (in progress, iter 60+)
+Owner's most-repeated ask: "more and more and more questions … think again until I pass." Growing every lesson
+from 8 → 12 MCQs, topic by topic, via author→adversarial-verify (verification is CRITICAL — a wrong answer key
+teaches the wrong thing; iter 60 caught a self-contradictory stem + bad KaTeX + wrong explanations). Tooling:
+`/tmp/gen_mcq_wf.js <topicId> <noun> <addN>` → `Workflow({scriptPath})` → `/tmp/inject_mcq.js <topicId> <out>`
+(APPENDS to existing `l.mcq`, validates each item) → gate → quiz-render check. DONE: Linear Algebra (iter 60,
++64 → 12/lesson). NEXT: Calculus, Algorithms, Deep Learning, Reinforcement Learning, LLMs. Also bump the 2 thin
+RL lessons (rl-td-learning 5, rl-trpo-ppo 4) up to 12 when RL's turn comes.
+
 ## Owner priority — worked examples sweep ✅ COMPLETE (iters 47–52)
 "Examples when we need it." Added 2 verified worked examples to every lesson that warranted them, all six
 topics, via the author→adversarial-verify workflow. DONE: Linear Algebra (47), Calculus (48), Algorithms (49),
