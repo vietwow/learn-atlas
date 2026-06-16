@@ -2,6 +2,20 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 49 — Worked examples for all 18 Algorithms lessons (content; owner-requested)
+Examples sweep reaches Algorithms: every one of the 18 lessons that lacked examples now has 2 (36 total),
+tuned to the domain — concrete algorithm TRACES on small inputs (Kruskal + union-by-rank/path-compression,
+Kahn's topo-sort + DAG longest-path critical path, KMP prefix function, Rabin-Karp rolling hash with a
+spurious-hit, BFS/DFS), solved recurrences (Master Theorem Case 1 with a recursion-tree cross-check, the
+unequal n/3 + 2n/3 split Akra-Bazzi can't touch), Big-O proofs with explicit witnesses, NP certificate
+verification + a 3-SAT→Independent-Set reduction, a Vertex-Cover 2-approximation and randomized MAX-SAT 7/8,
+and gradient-descent/SGD cost analysis. Each is a full step-by-step `{title, body, solution}` (KaTeX + HTML
+list traces) behind a "Show working" reveal. Authored then adversarially verified by a 36-agent workflow that
+re-traced every algorithm and re-derived every bound (caught & fixed real errors: an asymptotic witness
+off-by-one n_0=6→7, an MST cut crossing-edge list, a malformed `C^\*`→`C^*`). Algorithms examples 4 → 40
+(116 site-wide). Verified: Examples render desktop (collapsed + expanded list traces) + 390px mobile,
+`node gate.js` ALL GREEN, all-routes errs=0.
+
 ## iter 48 — Worked examples for all 20 Calculus lessons (content; owner-requested)
 Extended the examples push to Calculus: every one of the 20 lessons that lacked examples now has 2 worked
 examples (40 total) — limits (factor/cancel, piecewise-continuity, conjugates, L'Hôpital), derivatives

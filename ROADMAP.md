@@ -53,10 +53,10 @@ done items move to CHANGELOG and out; new ideas land in the backlog.
 
 ## Owner priority — worked examples sweep (in progress)
 "Examples when we need it." Adding 2 verified worked examples to every lesson that lacks them, topic by topic
-via the author→adversarial-verify workflow. DONE: Linear Algebra (iter 47, 9 lessons), Calculus (iter 48, all
-20 lessons). NEXT: Algorithms, Deep Learning, Reinforcement Learning, LLMs — same pipeline (`/tmp/gen_*_wf.js`
-generator → `Workflow({scriptPath})` → inject → gate → all-routes → 390px). Skip purely-conceptual lessons
-(the verify step returns none for them, as 5 LA lessons correctly did).
+via the author→adversarial-verify workflow. DONE: Linear Algebra (iter 47, 9 lessons), Calculus (iter 48, all 20), Algorithms (iter 49, all 18).
+NEXT: Deep Learning, Reinforcement Learning, LLMs — reuse `/tmp/gen_examples_wf.js <topicId> <noun>` →
+`Workflow({scriptPath})` → `/tmp/inject_examples.js <topicId> <outputFile>` → gate → all-routes → 390px.
+Skip purely-conceptual lessons (the verify step returns none for them, as 5 LA lessons correctly did).
 
 ## Notes / discoveries
 - **Architecture review (iter 36):** layer discipline is clean — content in `data/*.js`, visualizations in
