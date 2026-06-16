@@ -105,6 +105,50 @@
               ],
               "answer": 0,
               "explain": "A curve passes the vertical line test iff each input has exactly one output (it is a function), while passing the horizontal line test means each output comes from at most one input (injective), which is what permits an inverse."
+            },
+            {
+              "q": "A relation $R$ pairs students with the courses they are enrolled in this semester. Treating \"student\" as the input, under what condition is $R$ a function from students to courses?",
+              "choices": [
+                "Whenever every course has at least one student enrolled",
+                "Whenever each student is enrolled in exactly one course",
+                "Whenever no two students share the same course",
+                "Whenever the number of students equals the number of courses"
+              ],
+              "answer": 1,
+              "explain": "A function requires each input to map to exactly one output, so every student must have exactly one course. Conditions on courses (surjectivity, distinctness, counts) constrain the codomain side and are irrelevant to whether the rule is well-defined as a function."
+            },
+            {
+              "q": "Consider $f : \\mathbb{R} \\to \\mathbb{R}$ defined by $f(x) = x^2$. A student claims \"$f$ is not really a function because both $-3$ and $3$ give output $9$.\" What is wrong with this reasoning?",
+              "choices": [
+                "Nothing is wrong; one output reached by two inputs violates the definition",
+                "The definition forbids one input giving two outputs, not one output coming from two inputs",
+                "It is wrong because $f$ fails the vertical line test at $x = 9$",
+                "It is wrong only because the codomain should have been $[0, \\infty)$ instead of $\\mathbb{R}$"
+              ],
+              "answer": 1,
+              "explain": "The rule \"exactly one output per input\" says nothing about how many inputs share an output; many-to-one is perfectly allowed (only one-to-many is forbidden). $f(x)=x^2$ passes the vertical line test, and the codomain choice does not affect functionhood."
+            },
+            {
+              "q": "The unit circle $x^2 + y^2 = 1$ fails to define $y$ as a function of $x$. Using the lesson's geometric criterion, what is the precise reason?",
+              "choices": [
+                "Some horizontal line meets the curve more than once",
+                "The curve is bounded, and functions must have unbounded graphs",
+                "Some vertical line (e.g. $x = 0$) meets the curve more than once",
+                "The equation cannot be solved algebraically for $y$"
+              ],
+              "answer": 2,
+              "explain": "The vertical line test says a curve is the graph of a function of $x$ iff every vertical line meets it at most once; the line $x=0$ hits the circle at $y=1$ and $y=-1$, giving one input two outputs. Horizontal-line behavior and solvability are unrelated to this test."
+            },
+            {
+              "q": "Let $g : \\{1, 2, 3\\} \\to \\{a, b, c, d\\}$ with $g(1)=a$, $g(2)=c$, $g(3)=a$. Which statement correctly identifies the codomain and range?",
+              "choices": [
+                "Codomain $= \\{a, c\\}$ and range $= \\{a, b, c, d\\}$",
+                "Codomain $= \\{a, b, c, d\\}$ and range $= \\{a, c\\}$",
+                "Codomain $= \\{1, 2, 3\\}$ and range $= \\{a, c\\}$",
+                "Codomain and range are both $\\{a, b, c, d\\}$"
+              ],
+              "answer": 1,
+              "explain": "The codomain is the declared target set $\\{a,b,c,d\\}$, while the range is the set of outputs actually achieved, $\\{a, c\\}$ (note $a$ is reached twice but listed once). The range is a strict subset of the codomain here, and the domain $\\{1,2,3\\}$ is neither."
             }
           ],
           "flashcards": [
@@ -256,6 +300,50 @@
               ],
               "answer": 2,
               "explain": "A two-sided limit exists only when the left and right behaviors agree on a single number, so disagreeing one-sided values means the limit does not exist."
+            },
+            {
+              "q": "A function is defined so that $f(x) = x + 4$ for every $x \\neq 1$, but $f(1) = 100$. What is $\\lim_{x\\to 1} f(x)$?",
+              "choices": [
+                "$100$, because that is the function's value at the point",
+                "$5$, because the limit cares about the trend near $x=1$, not the value at $x=1$",
+                "The limit does not exist, because $f(1)$ disagrees with the trend",
+                "$1$, because $x$ is approaching $1$"
+              ],
+              "answer": 1,
+              "explain": "A limit describes where the function is headed as $x$ approaches $1$, which is $1+4=5$; the assigned value $f(1)=100$ is irrelevant. Choosing $100$ confuses 'arrival' (the value at the point) with 'destination' (the trend)."
+            },
+            {
+              "q": "Which statement most accurately describes what $\\lim_{x\\to a} f(x) = L$ asserts?",
+              "choices": [
+                "$f(a) = L$, so the function must be defined and equal to $L$ at $a$",
+                "$f(x)$ can be made arbitrarily close to $L$ by taking $x$ sufficiently close to (but not equal to) $a$",
+                "$f(x)$ eventually equals $L$ exactly once $x$ is close enough to $a$",
+                "$f$ is increasing toward $L$ as $x$ increases toward $a$"
+              ],
+              "answer": 1,
+              "explain": "The limit is about outputs getting arbitrarily close to $L$ as inputs approach $a$, with $x=a$ itself excluded. It does not require $f(a)=L$, does not require $f$ to ever exactly equal $L$, and says nothing about monotonicity."
+            },
+            {
+              "q": "Evaluate $\\lim_{x\\to 4}\\dfrac{x^2 - 16}{x - 4}$.",
+              "choices": [
+                "The limit does not exist because the expression is $\\tfrac{0}{0}$ at $x=4$",
+                "$0$",
+                "$16$",
+                "$8$"
+              ],
+              "answer": 3,
+              "explain": "Factor the top: $\\frac{(x-4)(x+4)}{x-4} = x+4$ for $x\\neq 4$, so the limit is $4+4=8$. The form $\\frac{0}{0}$ signals you must simplify, not that the limit fails to exist."
+            },
+            {
+              "q": "A road points straight at a town, but the road has a permanent pothole exactly where the town sign sits, and the sign reads a different town's name. In limit terms, which feature determines $\\lim_{x\\to a} f(x)$?",
+              "choices": [
+                "The direction the road points (where the outputs are headed as $x\\to a$)",
+                "The town named on the sign (the assigned value $f(a)$)",
+                "Whether the pothole exists (whether $f$ is defined at $a$)",
+                "All three must agree for the limit to be defined"
+              ],
+              "answer": 0,
+              "explain": "The limit tracks the destination the trend points toward, i.e. where $f(x)$ heads as $x\\to a$. The sign's name ($f(a)$) and the pothole (whether $f(a)$ exists) do not affect the limit's value."
             }
           ],
           "flashcards": [
@@ -407,6 +495,50 @@
               ],
               "answer": 0,
               "explain": "A nonzero constant over a quantity shrinking to $0^+$ is forced to $+\\infty$, so its value is determined by the form alone. In contrast, $1^{\\infty}$, $0^0$, and $0\\cdot\\infty$ are classic indeterminate forms whose values depend on the specific functions involved."
+            },
+            {
+              "q": "A student writes: \"Since $\\lim_{x\\to 0}\\dfrac{\\sin x}{x}$ gives $\\frac{0}{0}$, the limit does not exist.\" What is wrong with this reasoning?",
+              "choices": [
+                "Nothing is wrong; $\\frac{0}{0}$ always means the limit fails to exist",
+                "The form $\\frac{0}{0}$ is indeterminate, meaning the limit's value is not determined by the form alone and could still exist (here it equals $1$)",
+                "The limit is actually $0$ because the numerator is $0$",
+                "The student should have plugged in $x=0$ to get $\\sin(0)=0$, so the limit is undefined"
+              ],
+              "answer": 1,
+              "explain": "$\\frac{0}{0}$ is indeterminate: it signals that substitution failed, not that the limit fails to exist. In fact $\\lim_{x\\to 0}\\frac{\\sin x}{x}=1$, so concluding nonexistence from the form is the core misconception."
+            },
+            {
+              "q": "Evaluate $\\lim_{x\\to\\infty}\\left(\\sqrt{x^2 + 6x} - x\\right)$.",
+              "choices": [
+                "$0$",
+                "$\\infty$",
+                "$3$",
+                "$6$"
+              ],
+              "answer": 2,
+              "explain": "Multiply by the conjugate: $\\frac{(x^2+6x)-x^2}{\\sqrt{x^2+6x}+x}=\\frac{6x}{\\sqrt{x^2+6x}+x}$. Dividing top and bottom by $x$ gives $\\frac{6}{\\sqrt{1+6/x}+1}\\to\\frac{6}{2}=3$. The tempting $0$ wrongly assumes $\\sqrt{x^2+6x}\\approx x$ exactly."
+            },
+            {
+              "q": "Consider $f(x)=\\dfrac{x-5}{|x-5|}$. What can you say about $\\lim_{x\\to 5} f(x)$?",
+              "choices": [
+                "It equals $1$",
+                "It equals $0$",
+                "It equals $-1$",
+                "It does not exist, because the left-hand limit is $-1$ and the right-hand limit is $1$"
+              ],
+              "answer": 3,
+              "explain": "For $x>5$, $f(x)=\\frac{x-5}{x-5}=1$; for $x<5$, $f(x)=\\frac{x-5}{-(x-5)}=-1$. Since the one-sided limits disagree, the two-sided limit does not exist — this is not a $0/0$ cancellation situation."
+            },
+            {
+              "q": "You want to compute $\\lim_{x\\to 1}\\dfrac{x^2 - 1}{x^2 - 3x + 2}$. Which first step correctly sets up the cancellation?",
+              "choices": [
+                "Factor to $\\dfrac{(x-1)(x+1)}{(x-1)(x-2)}$, cancel $(x-1)$, then substitute to get $-2$",
+                "Plug in $x=1$ directly to get $\\frac{0}{0}=1$",
+                "Factor to $\\dfrac{(x-1)(x+1)}{(x-1)(x-2)}$, cancel $(x-1)$, then substitute to get $2$",
+                "Conclude the limit is $\\infty$ because the denominator approaches $0$"
+              ],
+              "answer": 0,
+              "explain": "Both factor as $(x-1)(x+1)$ and $(x-1)(x-2)$; canceling the common $(x-1)$ leaves $\\frac{x+1}{x-2}$, which at $x=1$ gives $\\frac{2}{-1}=-2$. The distractor $2$ comes from forgetting the sign of $(x-2)=-1$ at $x=1$."
             }
           ],
           "flashcards": [
@@ -558,6 +690,50 @@
               ],
               "answer": 1,
               "explain": "Bolzano's corollary guarantees a root where a continuous function changes sign, and $f(1)=-1<0<0.875=f(1.5)$ is the sign change, so a root lies in $[1,1.5]$."
+            },
+            {
+              "q": "Let $f(x) = \\dfrac{x^2 - 4}{x - 2}$ for $x \\neq 2$. What single value should we assign to $f(2)$ to make $f$ continuous at $x = 2$?",
+              "choices": [
+                "$f(2) = 4$",
+                "$f(2) = 0$",
+                "No value works; the discontinuity is not removable",
+                "$f(2) = 2$"
+              ],
+              "answer": 0,
+              "explain": "For $x \\neq 2$, $\\frac{x^2-4}{x-2} = \\frac{(x-2)(x+2)}{x-2} = x+2$, so $\\lim_{x\\to 2} f(x) = 4$. Defining $f(2) = 4$ makes the value equal the limit. The discontinuity is removable, ruling out the 'no value' distractor."
+            },
+            {
+              "q": "The IVT guarantees that a continuous $f$ on $[a,b]$ attains every value between $f(a)$ and $f(b)$. Which converse-style claim is a COMMON misconception that the IVT does NOT support?",
+              "choices": [
+                "If $f(a)$ and $f(b)$ have opposite signs, some $c$ in $(a,b)$ has $f(c)=0$",
+                "If $f$ attains every intermediate value on $[a,b]$, then $f$ must be continuous on $[a,b]$",
+                "A continuous $f$ on $[a,b]$ attains the value $\\tfrac{f(a)+f(b)}{2}$ somewhere",
+                "The IVT says nothing about how many times a given value is attained"
+              ],
+              "answer": 1,
+              "explain": "Attaining every intermediate value (the 'Darboux property') does not imply continuity; e.g. $\\sin(1/x)$ extended by $f(0)=0$ takes all intermediate values near 0 yet is discontinuous there. The other three are all correct consequences or limitations of the IVT."
+            },
+            {
+              "q": "Suppose $f$ and $g$ are both continuous at $a$, but $h(x) = \\dfrac{f(x)}{g(x)}$ where $g(a) = 0$. What does the lesson's closure theorem for quotients let you conclude about $h$ at $a$?",
+              "choices": [
+                "$h$ is automatically continuous at $a$ because $f$ and $g$ are",
+                "$h$ has a removable discontinuity at $a$ in every case",
+                "The quotient theorem does not apply, since it requires $g(a) \\neq 0$, so continuity of $h$ at $a$ is not guaranteed",
+                "$h$ must have a jump discontinuity at $a$"
+              ],
+              "answer": 2,
+              "explain": "The quotient closure theorem only certifies continuity of $f/g$ at points where the denominator is nonzero; with $g(a)=0$ the hypothesis fails, so no conclusion follows (the behavior could be a vertical asymptote or a removable hole depending on $f$). Choices claiming a specific outcome over-state what the theorem provides."
+            },
+            {
+              "q": "A continuous function $f$ satisfies $f(0) = 5$ and $f(4) = 5$. A student claims 'by the IVT, $f$ must equal $5$ everywhere on $[0,4]$.' What is the precise error?",
+              "choices": [
+                "The IVT requires the endpoints to have different values, so it cannot be applied here at all",
+                "The IVT only guarantees values are attained between $f(0)$ and $f(4)$; since both are $5$ it guarantees nothing beyond $f(0)=f(4)=5$, and $f$ may take many other values in between",
+                "The claim is actually correct: equal endpoints force a constant function",
+                "The IVT guarantees a maximum but not that it equals $5$"
+              ],
+              "answer": 1,
+              "explain": "The IVT only promises that every value strictly between $f(0)$ and $f(4)$ is attained; when those endpoints are equal the 'between' set collapses, so the theorem imposes no constraint on interior values. A continuous $f$ with $f(0)=f(4)=5$ (e.g. a bump) can clearly be non-constant, refuting the student's claim."
             }
           ],
           "flashcards": [
@@ -715,6 +891,50 @@
               ],
               "answer": 1,
               "explain": "The derivative requires the difference quotient to approach one single finite number from both sides; if the one-sided limits disagree, the limit does not exist and $f$ is not differentiable there."
+            },
+            {
+              "q": "A particle's position is $s(t) = t^2 - 4t$ (meters, seconds). Using the limit definition, what is its instantaneous velocity $s'(t)$ at $t = 3$?",
+              "choices": [
+                "$-3$ m/s",
+                "$2$ m/s",
+                "$9$ m/s",
+                "$6$ m/s"
+              ],
+              "answer": 1,
+              "explain": "$\\frac{s(3+h)-s(3)}{h} = \\frac{(9+6h+h^2-12-4h)-(-3)}{h} = \\frac{2h+h^2}{h} = 2+h \\to 2$. The distractor $-3$ is the value of $s(3)$ itself, not the rate of change."
+            },
+            {
+              "q": "For $f(x) = x^2$ at the point $x = 1$, what happens to the slope of the secant line as $h \\to 0$, and what does it approach?",
+              "choices": [
+                "It approaches the slope of the tangent line, which is $2$",
+                "It approaches $0/0$, which is undefined, so no slope exists",
+                "It stays constant at the average slope $1$ for all $h$",
+                "It approaches $1$, the value of $f$ at $x=1$"
+              ],
+              "answer": 0,
+              "explain": "The secant slope $\\frac{(1+h)^2-1}{h} = 2+h \\to 2$, the tangent slope. We never substitute $h=0$; we take a limit, so the $0/0$ objection does not apply, and the limit is a single finite number, not the constant or the function value."
+            },
+            {
+              "q": "A student computes the difference quotient $\\frac{f(x+h)-f(x)}{h}$ for $f(x)=x^3$, simplifies to $3x^2 + 3xh + h^2$, then writes $f'(x) = 3x^2 + 3xh + h^2$. What is the error?",
+              "choices": [
+                "The algebraic simplification of the cubic is wrong",
+                "The difference quotient should not have been simplified before taking the limit",
+                "They forgot to take the limit as $h \\to 0$, which removes the $h$-terms and gives $3x^2$",
+                "The derivative of $x^3$ cannot be found from the limit definition"
+              ],
+              "answer": 2,
+              "explain": "The simplification is correct, but the difference quotient is not yet the derivative — one must take $\\lim_{h\\to 0}$, which sends the $3xh$ and $h^2$ terms to $0$, leaving $f'(x)=3x^2$. Leaving $h$ in the answer means the limit step was skipped."
+            },
+            {
+              "q": "Which units correctly describe the derivative $f'(t)$ if $f(t)$ measures the temperature (in $^\\circ$C) of a cooling cup of coffee as a function of time $t$ (in minutes)?",
+              "choices": [
+                "$^\\circ$C $\\cdot$ min",
+                "minutes",
+                "$^\\circ$C",
+                "$^\\circ$C per minute"
+              ],
+              "answer": 3,
+              "explain": "The derivative is a limit of $\\frac{f(t+h)-f(t)}{h}$, whose units are (units of $f$)/(units of $t$) = $^\\circ$C/min — a rate of change. Plain $^\\circ$C are the units of $f$ itself, not its rate."
             }
           ],
           "flashcards": [
@@ -866,6 +1086,50 @@
               ],
               "answer": 1,
               "explain": "$\\pi^2$ is a constant (not a variable raised to a power), so by the constant rule its derivative is $0$."
+            },
+            {
+              "q": "Differentiate $f(x) = x^2(3x - 1)$ using the product rule.",
+              "choices": [
+                "$2x \\cdot 3 = 6x$",
+                "$9x^2 - 2x$",
+                "$3x^2 - x$",
+                "$6x^2$"
+              ],
+              "answer": 1,
+              "explain": "With $f'=2x,\\,g=3x-1$ and $g'=3$: $2x(3x-1) + x^2(3) = 6x^2 - 2x + 3x^2 = 9x^2 - 2x$. Expanding first to $3x^3 - x^2$ then differentiating gives the same $9x^2 - 2x$; the tempting $2x\\cdot 3$ wrongly multiplies the two derivatives."
+            },
+            {
+              "q": "A student claims $\\dfrac{d}{dx}\\big[f(x)g(x)\\big] = f'(x)g'(x)$. What is the single best reason this is wrong?",
+              "choices": [
+                "The product rule has two terms because wiggling each factor contributes its own strip of area; $f'g'$ keeps only the negligible corner",
+                "It is actually correct whenever both $f$ and $g$ are polynomials",
+                "The correct rule is $f'(x)g'(x)$ but with the factors in the opposite order",
+                "Products can never be differentiated without first expanding them"
+              ],
+              "answer": 0,
+              "explain": "The rectangle-area picture shows the change in $fg$ comes from a strip $f'g$ plus a strip $fg'$; the product $f'g'$ corresponds only to the tiny corner square, a higher-order term that vanishes. So the correct rule is the two-term $f'g + fg'$, never $f'g'$."
+            },
+            {
+              "q": "What is the fastest correct way to find $\\dfrac{d}{dx}\\!\\left[\\dfrac{x^3 + x}{x}\\right]$, and what is the result?",
+              "choices": [
+                "Apply the quotient rule directly to get $\\dfrac{3x^2+1}{x}$",
+                "Simplify to $x^2 + 1$ first, then differentiate to get $2x$",
+                "Differentiate top and bottom separately to get $\\dfrac{3x^2+1}{1}$",
+                "The expression cannot be simplified, so the quotient rule gives $3x^2$"
+              ],
+              "answer": 1,
+              "explain": "Splitting the fraction gives $\\frac{x^3}{x} + \\frac{x}{x} = x^2 + 1$, whose derivative is $2x$ by the power and constant rules. Simplifying before differentiating avoids the quotient rule entirely and the sign errors that come with it; differentiating numerator and denominator separately is never valid."
+            },
+            {
+              "q": "The lesson derives the quotient rule by writing $\\dfrac{f}{g} = f\\cdot g^{-1}$. What does this show about the quotient rule?",
+              "choices": [
+                "That the quotient rule only works when $f$ and $g$ are powers of $x$",
+                "That the quotient rule is a separate axiom independent of the other rules",
+                "That the quotient rule follows from the product rule combined with differentiating $g^{-1}$",
+                "That $\\dfrac{f}{g}$ and $f\\cdot g^{-1}$ have different derivatives"
+              ],
+              "answer": 2,
+              "explain": "Treating $f/g$ as $f\\cdot g^{-1}$ and applying the product rule (with $\\frac{d}{dx}[g^{-1}] = -g^{-2}g'$) reproduces $\\frac{f'g - fg'}{g^2}$ exactly. So the quotient rule is not a new axiom — it is the product rule in disguise, valid for any differentiable $f,g$ with $g\\neq 0$."
             }
           ],
           "flashcards": [
@@ -1017,6 +1281,50 @@
               ],
               "answer": 0,
               "explain": "The cancellation is a useful mnemonic, but $\\frac{dy}{du}$ and $\\frac{du}{dx}$ are limits of difference quotients, not fractions whose differentials literally cancel."
+            },
+            {
+              "q": "What is the derivative of $y = e^{3x^2}$?",
+              "choices": [
+                "$e^{3x^2}$",
+                "$6x\\,e^{3x^2}$",
+                "$6x\\,e^{6x}$",
+                "$3x^2\\,e^{3x^2 - 1}$"
+              ],
+              "answer": 1,
+              "explain": "Outer $f(u)=e^u$ gives $f'(u)=e^u$ evaluated at $u=3x^2$, times inner derivative $\\frac{d}{dx}(3x^2)=6x$, yielding $6x\\,e^{3x^2}$. Choice 0 forgets the inner derivative entirely; the exponent does not change under differentiation of $e^u$."
+            },
+            {
+              "q": "Suppose $y = f(g(x))$ with $g(2) = 5$, $g'(2) = 3$, and $f'(5) = 4$. What is $\\left.\\frac{dy}{dx}\\right|_{x=2}$?",
+              "choices": [
+                "$7$",
+                "$20$",
+                "$12$",
+                "$8$"
+              ],
+              "answer": 2,
+              "explain": "By the chain rule $\\frac{dy}{dx}=f'(g(x))\\cdot g'(x)$, so at $x=2$ we need $f'(g(2))\\cdot g'(2)=f'(5)\\cdot g'(2)=4\\cdot 3=12$. The trap is using $f'(2)$ or $g(2)$ instead of evaluating $f'$ at $g(2)=5$, and the values multiply, they do not add."
+            },
+            {
+              "q": "A student differentiates $y = \\sqrt{x^2 + 1}$ and writes $\\frac{dy}{dx} = \\frac{1}{2\\sqrt{x^2+1}}$. What did they do wrong?",
+              "choices": [
+                "They forgot to multiply by the inner derivative $2x$, so the answer should be $\\frac{x}{\\sqrt{x^2+1}}$",
+                "Nothing — the answer is correct as written",
+                "They should have evaluated the outer derivative at $x$ instead of $x^2+1$",
+                "The power rule does not apply to square roots, so the derivative is undefined"
+              ],
+              "answer": 0,
+              "explain": "They differentiated the outer function $\\sqrt{u}$ correctly to $\\frac{1}{2\\sqrt{u}}$ but stopped before multiplying by the inner derivative $\\frac{d}{dx}(x^2+1)=2x$; the correct result is $\\frac{2x}{2\\sqrt{x^2+1}}=\\frac{x}{\\sqrt{x^2+1}}$. Forgetting the inner factor is the single most common chain-rule error."
+            },
+            {
+              "q": "Which of these functions is NOT a genuine composition that requires the chain rule to differentiate?",
+              "choices": [
+                "$y = \\tan(5x)$",
+                "$y = (x^3 - 2)^{10}$",
+                "$y = x^2 + \\sin x$",
+                "$y = \\cos(e^x)$"
+              ],
+              "answer": 2,
+              "explain": "$y = x^2 + \\sin x$ is a sum of two basic functions of $x$, not one function nested inside another, so it needs only the sum rule. The other three each feed a non-trivial inner function into an outer function, which is exactly when the chain rule is required."
             }
           ],
           "flashcards": [
@@ -1173,6 +1481,50 @@
               ],
               "answer": 0,
               "explain": "Because $M$ increases with the base and $M(2)<1<M(3)$, the base $e$ with $M(e)=1$ must fall between 2 and 3 (about 2.71828)."
+            },
+            {
+              "q": "Compute $\\frac{d}{dx}\\left[x^2 \\sin x\\right]$.",
+              "choices": [
+                "$2x\\cos x$",
+                "$2x\\sin x + x^2\\cos x$",
+                "$2x\\sin x - x^2\\cos x$",
+                "$x^2\\cos x$"
+              ],
+              "answer": 1,
+              "explain": "This needs the product rule: $(uv)' = u'v + uv'$ with $u=x^2,\\ v=\\sin x$, giving $2x\\sin x + x^2\\cos x$. Choices 0 and 3 are the classic error of differentiating the factors separately and multiplying or dropping a term; choice 2 has the wrong sign on the second term."
+            },
+            {
+              "q": "A radioactive sample decays as $N(t) = N_0\\,e^{-kt}$ with $k>0$. What is the instantaneous rate of change $N'(t)$?",
+              "choices": [
+                "$-k\\,N_0\\,e^{-kt}$",
+                "$N_0\\,e^{-kt}$",
+                "$-kt\\,N_0\\,e^{-kt}$",
+                "$k\\,N_0\\,e^{-kt}$"
+              ],
+              "answer": 0,
+              "explain": "By the chain rule, $\\frac{d}{dt}e^{-kt} = -k\\,e^{-kt}$, so $N'(t) = -k\\,N_0\\,e^{-kt}$, which is negative (decay). Forgetting the inner derivative $-k$ gives the distractor $N_0 e^{-kt}$, and writing $-kt$ instead of $-k$ confuses the exponent with the chain-rule factor."
+            },
+            {
+              "q": "A student claims $\\frac{d}{dx}\\,e^{x^2} = e^{x^2}$ because '$e^x$ is its own derivative.' What is the actual derivative, and why is the student wrong?",
+              "choices": [
+                "$e^{x^2}$ — the student is correct.",
+                "$2x\\,e^{x^2}$ — the exponent is not just $x$, so the chain rule contributes the factor $\\frac{d}{dx}(x^2)=2x$.",
+                "$x^2 e^{x^2-1}$ — apply the power rule to the exponent.",
+                "$2x\\,e^{2x}$ — bring the exponent down and reduce it."
+              ],
+              "answer": 1,
+              "explain": "The rule $\\frac{d}{dx}e^u = e^u\\,u'$ requires multiplying by the derivative of the inner function $u=x^2$, giving $2x\\,e^{x^2}$. The 'self-derivative' shortcut only holds when the exponent is exactly $x$; treating $e^{x^2}$ like a power function or like $e^{2x}$ are common slips."
+            },
+            {
+              "q": "Using $\\frac{d}{dx}\\ln x = \\frac{1}{x}$ and the chain rule, what is $\\frac{d}{dx}\\,\\ln(3x)$?",
+              "choices": [
+                "$\\frac{3}{x}$",
+                "$\\frac{1}{3x}$",
+                "$\\frac{1}{x}$",
+                "$\\frac{3}{x^2}$"
+              ],
+              "answer": 2,
+              "explain": "By the chain rule $\\frac{d}{dx}\\ln(3x) = \\frac{1}{3x}\\cdot 3 = \\frac{1}{x}$; equivalently $\\ln(3x)=\\ln 3 + \\ln x$ and the constant $\\ln 3$ differentiates to 0. The tempting wrong answer $\\frac{1}{3x}$ forgets to multiply by the inner derivative $3$; $\\frac{3}{x}$ keeps the factor but drops the $3$ in the denominator, and $\\frac{3}{x^2}$ mistakenly applies a power-rule-style $x^{-2}$."
             }
           ],
           "flashcards": [
@@ -1330,6 +1682,50 @@
               ],
               "answer": 0,
               "explain": "Move the $y'$ terms to one side and the rest to the other: $2y\\,y' - 4y' = 4x - 2x$, so $y'(2y - 4) = 4x - 2x$, giving $y' = \\frac{4x - 2x}{2y - 4}$."
+            },
+            {
+              "q": "For the folium of Descartes $x^3 + y^3 = 6xy$, differentiating implicitly gives $3x^2 + 3y^2 y' = 6y + 6x y'$. Solving for $y'$ yields:",
+              "choices": [
+                "$y' = \\dfrac{6y - 3x^2}{3y^2 - 6x}$",
+                "$y' = \\dfrac{3x^2 - 6y}{3y^2 - 6x}$",
+                "$y' = \\dfrac{6y - 3x^2}{6x - 3y^2}$",
+                "$y' = \\dfrac{3x^2 + 6y}{3y^2 + 6x}$"
+              ],
+              "answer": 0,
+              "explain": "Collect the $y'$ terms on one side: $3y^2 y' - 6x y' = 6y - 3x^2$, so $y'(3y^2 - 6x) = 6y - 3x^2$, giving the first option. The product term $6xy$ requires the product rule, producing both $6y$ and $6x y'$, which the sign-flipped distractors mishandle."
+            },
+            {
+              "q": "A 13-ft ladder slides down a wall with the base moving away at $\\frac{dx}{dt} = 2$ ft/s. Using $x^2 + y^2 = 169$, what is the correct first step toward finding $\\frac{dy}{dt}$?",
+              "choices": [
+                "Solve for $y$ as $\\sqrt{169 - x^2}$ and plug in the numbers before differentiating",
+                "Differentiate to get $2x\\frac{dx}{dt} + 2y\\frac{dy}{dt} = 0$, then solve for $\\frac{dy}{dt}$",
+                "Set $\\frac{dy}{dt} = -\\frac{dx}{dt}$ since the ladder length is constant",
+                "Differentiate to get $2x + 2y\\frac{dy}{dt} = 0$, treating $x$ as a constant"
+              ],
+              "answer": 1,
+              "explain": "Both $x$ and $y$ are functions of time, so differentiating $x^2+y^2=169$ with respect to $t$ gives $2x\\frac{dx}{dt} + 2y\\frac{dy}{dt} = 0$ via the chain rule. The last option wrongly drops $\\frac{dx}{dt}$, and the third ignores that the rates relate through the geometry, not by a fixed ratio."
+            },
+            {
+              "q": "Differentiating $e^{y} = x + y$ implicitly with respect to $x$ gives which equation?",
+              "choices": [
+                "$e^{y} = 1 + y'$",
+                "$y' \\, e^{y} = 1$",
+                "$e^{y} y' = 1 + y'$",
+                "$e^{y} = 1$"
+              ],
+              "answer": 2,
+              "explain": "The chain rule sends $\\frac{d}{dx}[e^y] = e^y \\cdot y'$, while the right side $x+y$ differentiates to $1 + y'$. Forgetting the $y'$ factor on $e^y$ (first option) is the classic error; the second option drops the $+y$ term's derivative."
+            },
+            {
+              "q": "Water drains from a cone so the volume satisfies $V = \\frac{1}{3}\\pi r^2 h$ with $r$ and $h$ both shrinking. Treating all quantities as functions of $t$, $\\frac{dV}{dt}$ equals:",
+              "choices": [
+                "$\\frac{1}{3}\\pi \\left(2r\\frac{dr}{dt}\\right) h$",
+                "$\\frac{1}{3}\\pi r^2 \\frac{dh}{dt}$",
+                "$\\frac{1}{3}\\pi \\left(2r\\frac{dr}{dt}\\cdot h + r^2 \\frac{dh}{dt}\\right)$",
+                "$\\frac{1}{3}\\pi \\left(2r\\,h + r^2\\right)$"
+              ],
+              "answer": 2,
+              "explain": "Since $r^2 h$ is a product of two time-varying factors, the product rule and chain rule give $\\frac{d}{dt}[r^2 h] = 2r\\frac{dr}{dt}\\,h + r^2\\frac{dh}{dt}$. The first two options each hold one variable artificially constant, and the last forgets the $\\frac{dr}{dt}$ and $\\frac{dh}{dt}$ chain-rule factors entirely."
             }
           ],
           "flashcards": [
@@ -1481,6 +1877,50 @@
               ],
               "answer": 1,
               "explain": "By the Extreme Value Theorem a max exists; the candidates are interior critical points and endpoints, so with no interior critical points it must occur at an endpoint."
+            },
+            {
+              "q": "Find the absolute minimum value of $f(x) = x^3 - 3x$ on the interval $[0, 2]$.",
+              "choices": [
+                "$-2$",
+                "$0$",
+                "$2$",
+                "$-1$"
+              ],
+              "answer": 0,
+              "explain": "$f'(x) = 3x^2 - 3 = 0$ gives $x = 1$ (the one critical point in $[0,2]$). Comparing $f(0)=0$, $f(1)=-2$, $f(2)=2$, the smallest is $-2$ at $x=1$."
+            },
+            {
+              "q": "A function has $f''(x) > 0$ for all $x$. Which statement is necessarily true?",
+              "choices": [
+                "$f$ is increasing everywhere",
+                "$f$ is concave up everywhere, so any critical point is a local minimum",
+                "$f$ has no critical points",
+                "$f$ is concave down everywhere"
+              ],
+              "answer": 1,
+              "explain": "$f'' > 0$ means the graph bends upward (concave up); by the Second Derivative Test any point with $f'(c)=0$ is a local minimum. The sign of $f''$ controls bending, not whether $f$ rises (that is the sign of $f'$), so 'increasing everywhere' is the tempting but wrong choice."
+            },
+            {
+              "q": "If $f'(c) = 0$ and $f''(c) > 0$ at an interior point $c$, the Second Derivative Test concludes that $f$ has at $c$ a:",
+              "choices": [
+                "local maximum",
+                "saddle point (inconclusive)",
+                "local minimum",
+                "inflection point"
+              ],
+              "answer": 2,
+              "explain": "A horizontal tangent ($f'(c)=0$) combined with concave-up bending ($f''(c)>0$) means the curve sits in a valley, so $c$ is a local minimum. A positive second derivative rules out the local maximum case, which requires $f''(c) < 0$."
+            },
+            {
+              "q": "Consider $f(x) = x^4$. At $x = 0$ we have $f'(0) = 0$ and $f''(0) = 0$, yet $x=0$ is clearly the global minimum. What does this illustrate?",
+              "choices": [
+                "The Second Derivative Test can be inconclusive ($f''=0$) even when an extremum genuinely exists",
+                "Fermat's Theorem fails for polynomials",
+                "A point with $f''=0$ can never be an extremum",
+                "$x=0$ must be an inflection point because $f''(0)=0$"
+              ],
+              "answer": 0,
+              "explain": "When $f''(c)=0$ the Second Derivative Test gives no information, but $x^4$ still has a true minimum at $0$ (confirmed by the First Derivative Test, since $f'$ goes negative-to-positive). The misconception is that $f''=0$ forces an inflection point or rules out an extremum, which $x^4$ disproves."
             }
           ],
           "flashcards": [
@@ -1632,6 +2072,50 @@
               ],
               "answer": 1,
               "explain": "Following the gradient downhill drives the gradient toward zero, and since a zero gradient marks any critical point, descent can halt at a local minimum rather than the global one."
+            },
+            {
+              "q": "You want to maximize $f(x) = 6x^2 - x^3$ on the closed interval $[1, 5]$. After finding the critical points, what is the global maximum value?",
+              "choices": [
+                "$f(4) = 32$, the interior critical point",
+                "$f(5) = 25$, the right endpoint",
+                "$f(1) = 5$, the left endpoint",
+                "$f(0) = 0$, the only place the derivative vanishes"
+              ],
+              "answer": 0,
+              "explain": "$f'(x) = 12x - 3x^2 = 3x(4 - x)$ vanishes at $x=0$ (outside $[1,5]$) and $x=4$. Comparing the candidates inside the domain, $f(1)=5$, $f(4)=32$, $f(5)=25$, so the interior critical point $x=4$ wins; $x=0$ is irrelevant because it lies outside the domain."
+            },
+            {
+              "q": "A loss surface $L(w)$ has a flat plateau where $\\nabla L \\approx \\mathbf{0}$ but the point is not a minimum. With a fixed learning rate $\\eta$, what does gradient descent do there?",
+              "choices": [
+                "It overshoots wildly because zero gradient makes the step size blow up",
+                "It takes very small steps and can stall, since the update $-\\eta\\,\\nabla L$ is nearly zero",
+                "It immediately jumps to the global minimum because flat regions are always optimal",
+                "It reverses direction and climbs back uphill"
+              ],
+              "answer": 1,
+              "explain": "The update is $-\\eta\\,\\nabla L$, so when the gradient is near zero the step is near zero regardless of $\\eta$, causing slow progress or stalling. Zero gradient cannot cause overshoot (it makes steps smaller, not larger), and a vanishing gradient does not distinguish a plateau or saddle from a true minimum."
+            },
+            {
+              "q": "A student claims: 'If $\\eta$ is small the loss always goes down, so to train fastest I should just pick the largest $\\eta$ possible.' What is the flaw?",
+              "choices": [
+                "A large $\\eta$ has no downside; bigger steps always reach the minimum sooner",
+                "Large $\\eta$ keeps the loss decreasing but rounds the answer incorrectly",
+                "Too large an $\\eta$ can overshoot the valley, making the loss oscillate or diverge instead of decrease",
+                "The learning rate has no effect on convergence, only on memory usage"
+              ],
+              "answer": 2,
+              "explain": "Gradient descent is guaranteed to decrease the loss only for sufficiently small $\\eta$; an overly large step can jump past the minimum and land somewhere with a higher loss, producing oscillation or divergence. The 'bigger is always faster' intuition is exactly the common misconception."
+            },
+            {
+              "q": "Consider $f(x) = x^4 - 4x^3$. At $x = 0$ we have $f'(0) = 0$ and $f''(0) = 0$. Using the sign of $f'(x) = 4x^3 - 12x^2 = 4x^2(x-3)$ near $x=0$, what kind of point is $x=0$?",
+              "choices": [
+                "A local minimum, because $f'(c) = 0$",
+                "Neither a max nor a min, because $f'$ is negative on both sides of $0$",
+                "A local maximum, because $f''(0) = 0$",
+                "Impossible to classify without computing $f'''$"
+              ],
+              "answer": 1,
+              "explain": "For $x$ slightly less than $0$ and slightly greater than $0$ (but below $3$), the factor $4x^2 \\ge 0$ while $(x-3) < 0$, so $f'(x) < 0$ on both sides; the function decreases through $x=0$ with no sign change, giving neither a max nor a min. The first-derivative sign test resolves it directly, so $f'''$ is unnecessary."
             }
           ],
           "flashcards": [
@@ -1783,6 +2267,50 @@
               ],
               "answer": 2,
               "explain": "Both numerator and denominator give $0/0$; differentiating once gives $\\frac{e^x-1}{2x}$ (still $0/0$), and again gives $\\frac{e^x}{2}\\to\\frac12$ as $x\\to 0$."
+            },
+            {
+              "q": "Use the linearization of $f(x)=\\ln x$ at $a=1$ to estimate $\\ln(1.1)$. What value does it give?",
+              "choices": [
+                "$0.1$",
+                "$1.1$",
+                "$0.0953$",
+                "$0$"
+              ],
+              "answer": 0,
+              "explain": "Here $f(1)=0$ and $f'(x)=1/x$ so $f'(1)=1$, giving $L(x)=0+1\\cdot(x-1)=x-1$; thus $\\ln(1.1)\\approx 0.1$. The choice $0.0953$ is the true value, not the linear estimate, and $1.1$ confuses the input with the output."
+            },
+            {
+              "q": "For the indeterminate form $\\lim_{x\\to 0^+} x\\ln x$, what is the correct first step before applying L'Hôpital's rule?",
+              "choices": [
+                "Apply L'Hôpital directly to $x\\ln x$ since it is $0\\cdot\\infty$",
+                "Rewrite it as $\\dfrac{\\ln x}{1/x}$ to get an $\\infty/\\infty$ form",
+                "Conclude the limit is $0$ because $x\\to 0$",
+                "Rewrite it as $\\dfrac{x}{1/\\ln x}$, which is already a determinate form"
+              ],
+              "answer": 1,
+              "explain": "L'Hôpital requires a $0/0$ or $\\infty/\\infty$ quotient, so the product $0\\cdot\\infty$ must first be rewritten as a fraction; $\\frac{\\ln x}{1/x}$ gives $\\infty/\\infty$ (the limit then works out to $0$). Concluding $0$ from $x\\to 0$ alone ignores that $\\ln x\\to-\\infty$, which is exactly why it is indeterminate."
+            },
+            {
+              "q": "A sphere's radius is measured as $r=10$ cm. Using differentials with $V=\\tfrac{4}{3}\\pi r^3$, what is the approximate change in volume $dV$ if the radius increases by $dr=0.1$ cm?",
+              "choices": [
+                "$\\dfrac{4}{3}\\pi (0.1)^3 \\approx 0.004$ cm$^3$",
+                "$4\\pi(10)^2 \\approx 1257$ cm$^3$",
+                "$4\\pi(10)^2(0.1) \\approx 126$ cm$^3$",
+                "$\\dfrac{4}{3}\\pi(10.1)^3 \\approx 4316$ cm$^3$"
+              ],
+              "answer": 2,
+              "explain": "Since $dV = V'(r)\\,dr = 4\\pi r^2\\,dr = 4\\pi(10)^2(0.1)\\approx 126$ cm$^3$. The value $1257$ forgets to multiply by $dr$, and $4316$ computes the full new volume rather than the small change $dV$."
+            },
+            {
+              "q": "You estimate $f(x)$ with its tangent line at $a$. As you move farther from $a$, what generally happens to the linear approximation, and why?",
+              "choices": [
+                "The error stays constant, because the slope $f'(a)$ is fixed",
+                "The error grows, because the tangent line ignores curvature ($f''$) that increasingly matters far from $a$",
+                "The error shrinks, because the curve eventually straightens out",
+                "The approximation becomes exact once $x$ is far enough from $a$"
+              ],
+              "answer": 1,
+              "explain": "The remainder term $\\tfrac12 f''(\\xi)(x-a)^2$ grows with $(x-a)^2$, so error increases with distance because the line cannot capture the curvature the true function has. A fixed slope does not keep error constant, since the gap between line and curve widens."
             }
           ],
           "flashcards": [
@@ -1940,6 +2468,50 @@
               ],
               "answer": 0,
               "explain": "An indefinite integral denotes the entire family of antiderivatives, so the mandatory $+C$ must be included."
+            },
+            {
+              "q": "Which of the following is the most general antiderivative of $f(x) = e^{2x}$?",
+              "choices": [
+                "$2e^{2x} + C$",
+                "$\\frac{1}{2}e^{2x} + C$",
+                "$e^{2x} + C$",
+                "$\\frac{1}{3}e^{3x} + C$"
+              ],
+              "answer": 1,
+              "explain": "Since $\\frac{d}{dx}\\left(\\frac{1}{2}e^{2x}\\right) = \\frac{1}{2}\\cdot 2 e^{2x} = e^{2x}$, the antiderivative is $\\frac{1}{2}e^{2x}+C$. The tempting answer $2e^{2x}+C$ reverses the chain-rule factor instead of dividing by it."
+            },
+            {
+              "q": "A student claims that since both $F(x)=\\tan^2 x$ and $G(x)=\\sec^2 x$ have the same derivative, the theorem says they must differ by a constant. Is this reasoning sound?",
+              "choices": [
+                "No, because $\\tan^2 x$ and $\\sec^2 x$ have different derivatives",
+                "Yes, and indeed $\\sec^2 x - \\tan^2 x = 1$, a constant, consistent with the theorem",
+                "No, because the theorem only applies to polynomial functions",
+                "Yes, but the constant they differ by is $0$"
+              ],
+              "answer": 1,
+              "explain": "Both have derivative $2\\sec^2 x\\tan x$, so the theorem guarantees a constant difference; the identity $\\sec^2 x - \\tan^2 x = 1$ confirms it. The constant is $1$, not $0$."
+            },
+            {
+              "q": "Suppose $f'(x) = \\frac{1}{x}$ on the domain $(-\\infty,0)\\cup(0,\\infty)$, and you know $f(1)=0$ and $f(-1)=5$. What does this reveal?",
+              "choices": [
+                "The antiderivative is forced to be $\\ln|x|$ everywhere, contradicting the data",
+                "The two conditions are inconsistent, so no such $f$ exists",
+                "The domain is two separate intervals, so $f$ can use a different constant on each piece",
+                "$f$ cannot exist because $1/x$ has no antiderivative"
+              ],
+              "answer": 2,
+              "explain": "The 'differ by a constant' theorem requires a connected interval; on a disconnected domain each piece carries its own independent constant, so $f(x)=\\ln|x|$ on the positive side and $\\ln|x|+5$ on the negative side is perfectly valid. Antiderivatives of $1/x$ certainly exist on each interval."
+            },
+            {
+              "q": "If $g'(x) = 3x^2 - 4x + 1$ and the graph of $g$ passes through the origin, what is $g(x)$?",
+              "choices": [
+                "$6x - 4$",
+                "$x^3 - 2x^2 + x$",
+                "$x^3 - 2x^2 + x + C$",
+                "$x^3 - 4x^2 + x$"
+              ],
+              "answer": 1,
+              "explain": "Antidifferentiating gives $x^3 - 2x^2 + x + C$, and passing through the origin means $g(0)=0$, which forces $C=0$. Leaving $+C$ in the final answer (third option) ignores the initial condition that pins down the unique solution."
             }
           ],
           "flashcards": [
@@ -2091,6 +2663,50 @@
               ],
               "answer": 1,
               "explain": "Taking more and more rectangles drives each width $\\Delta x_i \\to 0$, and the limit of the Riemann sums, when it converges, defines the definite integral."
+            },
+            {
+              "q": "On $[0,2]$ with $f(x)=x^2$ and $n=2$ equal subintervals (so $\\Delta x = 1$), what is the right-endpoint Riemann sum approximation of $\\int_0^2 x^2\\,dx$?",
+              "choices": [
+                "$5$",
+                "$1$",
+                "$\\tfrac{8}{3}$",
+                "$2$"
+              ],
+              "answer": 0,
+              "explain": "The right endpoints are $x=1$ and $x=2$, giving $f(1)\\cdot 1 + f(2)\\cdot 1 = 1 + 4 = 5$. The value $8/3$ is the exact integral (the limit), not this two-rectangle estimate."
+            },
+            {
+              "q": "For a function that is concave up (like $f(x)=e^x$) and increasing on $[a,b]$, how does the midpoint Riemann sum compare to the exact value of $\\int_a^b f(x)\\,dx$?",
+              "choices": [
+                "It always overestimates, because $f$ is increasing",
+                "It slightly underestimates, because each midpoint rectangle sits below the chord of a concave-up curve",
+                "It equals the exact value, because midpoints are unbiased",
+                "It always overestimates, because the curve bulges upward"
+              ],
+              "answer": 1,
+              "explain": "For a concave-up curve the tangent at the midpoint lies below the curve while the chord lies above; the midpoint rectangle equals the area under that tangent, so it underestimates. The 'increasing means overestimate' reasoning confuses the midpoint rule with the right-endpoint rule."
+            },
+            {
+              "q": "If $\\int_a^b f(x)\\,dx = 0$ for some function $f$, which conclusion is justified?",
+              "choices": [
+                "$f(x) = 0$ everywhere on $[a,b]$",
+                "$f$ must be an odd function on $[a,b]$",
+                "The signed area above the $x$-axis exactly cancels the signed area below it on $[a,b]$",
+                "The interval has zero width, so $a = b$"
+              ],
+              "answer": 2,
+              "explain": "A zero definite integral means the positive (above-axis) and negative (below-axis) contributions cancel; the function need not be zero, odd, nor the interval degenerate. For example $\\int_0^{2\\pi}\\sin x\\,dx = 0$ even though $\\sin x$ is not identically zero."
+            },
+            {
+              "q": "Acceleration $a(t)=t$ (m/s$^2$) acts on an object over $[0,4]$ seconds. What does the definite integral $\\int_0^4 t\\,dt$ compute, and what is its value?",
+              "choices": [
+                "The object's position at $t=4$, equal to $4$ m",
+                "The change in velocity over the interval, equal to $8$ m/s",
+                "The average acceleration, equal to $2$ m/s$^2$",
+                "The total distance traveled, equal to $16$ m"
+              ],
+              "answer": 1,
+              "explain": "Integrating a rate (acceleration) accumulates the total change in its antiderivative quantity (velocity): $\\int_0^4 t\\,dt = \\tfrac{1}{2}(4)^2 = 8$ m/s. Integrating acceleration gives change in velocity, not position or distance, and $8$ is a sum of rate$\\times$time, not an average."
             }
           ],
           "flashcards": [
@@ -2242,6 +2858,50 @@
               ],
               "answer": 0,
               "explain": "$\\sin x$ is a valid antiderivative of $\\cos x$ and the computation is right: the positive area on $[0,\\pi/2]$ and the equal negative area on $[\\pi/2,\\pi]$ (where $\\cos x \\le 0$) cancel as signed area."
+            },
+            {
+              "q": "Let $g(x) = \\displaystyle\\int_{x}^{5} e^{-t^2}\\,dt$. Compute $g'(x)$.",
+              "choices": [
+                "$e^{-x^2}$",
+                "$-e^{-x^2}$",
+                "$e^{-25}$",
+                "$-2x\\,e^{-x^2}$"
+              ],
+              "answer": 1,
+              "explain": "Here $x$ is the LOWER limit, so swap the limits to get $g(x) = -\\int_5^x e^{-t^2}\\,dt$; FTC Part 1 then gives $g'(x) = -e^{-x^2}$. The tempting $e^{-x^2}$ forgets the sign flip from $x$ being the lower limit."
+            },
+            {
+              "q": "A continuous function $f$ has antiderivative $F$ with $F(1)=3$ and $F(4)=10$. What is $\\displaystyle\\int_{1}^{4} f(x)\\,dx$, and would the answer change if you used a different antiderivative $G$ of $f$?",
+              "choices": [
+                "$13$, and it could change since $G$ differs from $F$",
+                "$7$, but only because $F(1)$ and $F(4)$ happened to be given",
+                "$7$, and it is unchanged for any antiderivative of $f$",
+                "Cannot be determined without knowing the formula for $f$"
+              ],
+              "answer": 2,
+              "explain": "FTC Part 2 gives $F(4)-F(1)=10-3=7$. Any other antiderivative $G=F+C$ yields $G(4)-G(1)=(F(4)+C)-(F(1)+C)=7$, so the constant cancels and the formula for $f$ is never needed."
+            },
+            {
+              "q": "For which integral does the equation $\\displaystyle\\int_a^b f(x)\\,dx = F(b)-F(a)$ (with $F$ an antiderivative of $f$) FAIL to apply directly as stated?",
+              "choices": [
+                "$\\displaystyle\\int_{1}^{2} \\frac{1}{x}\\,dx$",
+                "$\\displaystyle\\int_{0}^{3} \\frac{1}{x-1}\\,dx$",
+                "$\\displaystyle\\int_{0}^{\\pi} \\sin x\\,dx$",
+                "$\\displaystyle\\int_{-2}^{2} x^3\\,dx$"
+              ],
+              "answer": 1,
+              "explain": "FTC Part 2 requires $f$ to be continuous on $[a,b]$; $\\frac{1}{x-1}$ has an infinite discontinuity at $x=1$ inside $[0,3]$, so the theorem does not apply directly (the integral is improper). The other integrands are continuous on their stated intervals."
+            },
+            {
+              "q": "Let $g(x) = \\displaystyle\\int_0^x f(t)\\,dt$ where $f$ is continuous, $f(c)=0$, and $f$ changes from positive to negative as $t$ increases through $c$. What can you conclude about $g$ at $x=c$?",
+              "choices": [
+                "$g$ has a local maximum at $x=c$",
+                "$g$ has a local minimum at $x=c$",
+                "$g(c)=0$",
+                "$g$ has an inflection point at $x=c$"
+              ],
+              "answer": 0,
+              "explain": "By FTC Part 1, $g'(x)=f(x)$, so $g'(c)=f(c)=0$ and $g'$ changes from $+$ to $-$ at $c$, the first-derivative test condition for a local maximum. The distractor $g(c)=0$ confuses the value of the derivative $f(c)=0$ with the value of the accumulated area $g(c)$."
             }
           ],
           "flashcards": [
@@ -2393,6 +3053,50 @@
               ],
               "answer": 0,
               "explain": "The lesson frames $du = g'(x)\\,dx$ as the heuristic that $u$ changes $g'(x)$ times as fast as $x$, making $g'(x)\\,dx$ the conversion rate between variables and exactly the leftover piece the chain rule produces."
+            },
+            {
+              "q": "Evaluate $\\int_0^{\\pi/2} \\sin x \\cos x \\, dx$ using the substitution $u = \\sin x$.",
+              "choices": [
+                "$\\tfrac{1}{2}$",
+                "$1$",
+                "$0$",
+                "$\\tfrac{\\pi}{4}$"
+              ],
+              "answer": 0,
+              "explain": "With $u=\\sin x$, $du=\\cos x\\,dx$; the limits become $u=0$ to $u=1$, giving $\\int_0^1 u\\,du = \\tfrac{1}{2}u^2\\big|_0^1 = \\tfrac12$. The value $\\tfrac{\\pi}{4}$ is a distractor from mistakenly keeping the original $x$-limits."
+            },
+            {
+              "q": "When applying integration by parts $\\int u\\,dv = uv - \\int v\\,du$, what is the role of the constant of integration when finding $v$ from $dv$?",
+              "choices": [
+                "You must include $+C$ in $v$, or the final answer will be wrong",
+                "Any antiderivative works for $v$; choosing $C=0$ is simplest and does not change the result",
+                "You must include $+C$ only when the integral is definite",
+                "$v$ must be the antiderivative whose value is zero at the lower limit"
+              ],
+              "answer": 1,
+              "explain": "Adding a constant $C$ to $v$ contributes $Cu - \\int C\\,du = Cu - Cu = 0$, so it always cancels; hence $C=0$ is chosen for simplicity. Believing you must carry $+C$ in $v$ is a common misconception."
+            },
+            {
+              "q": "A student tries to integrate $\\int 2x\\sqrt{x^2+1}\\,dx$ by parts, setting $u=2x$ and $dv=\\sqrt{x^2+1}\\,dx$. Why is this the wrong technique here?",
+              "choices": [
+                "Integration by parts never works on products containing a square root",
+                "LIATE says the algebraic factor $2x$ should be $dv$, not $u$",
+                "The factor $2x$ is (up to a constant) the derivative of the inside $x^2+1$, so u-substitution applies directly and by parts needs $\\int\\sqrt{x^2+1}\\,dx$, which is harder",
+                "By parts requires $u$ to be a trig or exponential function"
+              ],
+              "answer": 2,
+              "explain": "Spotting that $2x\\,dx = d(x^2+1)$ signals u-substitution ($u=x^2+1$), giving $\\int\\sqrt{u}\\,du$ immediately. Choosing by parts forces you to compute $\\int\\sqrt{x^2+1}\\,dx$ for $v$, which is genuinely harder than the original problem."
+            },
+            {
+              "q": "For $\\int e^x \\sin x\\,dx$, applying integration by parts twice returns the original integral with a coefficient. What does this 'circular' outcome tell you to do?",
+              "choices": [
+                "The integral diverges and has no antiderivative",
+                "Treat the result as an algebraic equation in the unknown integral $I$ and solve for $I$",
+                "You picked $u$ and $dv$ inconsistently, so restart with a different choice each step",
+                "Switch to u-substitution since by parts has failed"
+              ],
+              "answer": 1,
+              "explain": "Two consistent applications give $I = e^x\\sin x - e^x\\cos x - I$, an equation you solve to get $I = \\tfrac12 e^x(\\sin x - \\cos x) + C$. The recurrence is the intended mechanism, not a sign of failure or divergence."
             }
           ],
           "flashcards": [
@@ -2550,6 +3254,50 @@
               ],
               "answer": 2,
               "explain": "The theorem guarantees the function actually attains its average value $\\bar f = \\frac{1}{b-a}\\int_a^b f\\,dx$ at some interior point $c$; choice 3 is the average of the endpoints and choice 4 is the secant slope from the derivative MVT."
+            },
+            {
+              "q": "You computed the average value of $f$ on $[a,b]$ as $\\bar f=\\frac{1}{b-a}\\int_a^b f\\,dx$. A student claims the Mean Value Theorem for Integrals guarantees the function actually hits $\\bar f$ somewhere on the interval. For which function does this guarantee FAIL?",
+              "choices": [
+                "$f(x)=x^2$ on $[0,3]$",
+                "$f(x)=\\sin x$ on $[0,\\pi]$",
+                "$f(x)=\\begin{cases}0,&x<1\\\\1,&x\\ge 1\\end{cases}$ on $[0,2]$",
+                "$f(x)=e^x$ on $[0,1]$"
+              ],
+              "answer": 2,
+              "explain": "The MVT for Integrals requires $f$ to be continuous; the step function is discontinuous at $x=1$, has average value $\\tfrac12$, yet never equals $\\tfrac12$, so the guarantee fails. The other three are continuous, so the theorem applies."
+            },
+            {
+              "q": "Find the area enclosed between $y=4-x^2$ and $y=x^2-4$.",
+              "choices": [
+                "$\\dfrac{64}{3}$",
+                "$\\dfrac{32}{3}$",
+                "$16$",
+                "$\\dfrac{128}{3}$"
+              ],
+              "answer": 0,
+              "explain": "The curves meet where $4-x^2=x^2-4\\Rightarrow x=\\pm 2$, and on $(-2,2)$ the upper curve is $4-x^2$. So $A=\\int_{-2}^{2}\\big[(4-x^2)-(x^2-4)\\big]dx=\\int_{-2}^{2}(8-2x^2)dx=\\big[8x-\\tfrac{2x^3}{3}\\big]_{-2}^{2}=\\tfrac{64}{3}$. The distractor $\\tfrac{32}{3}$ comes from integrating only over $[0,2]$ and forgetting the region's symmetry."
+            },
+            {
+              "q": "The region bounded by $y=x$ and $y=x^2$ is revolved about the $x$-axis. Which integral correctly gives the volume by washers?",
+              "choices": [
+                "$\\displaystyle\\int_0^1 \\pi\\big(x-x^2\\big)^2\\,dx$",
+                "$\\displaystyle\\int_0^1 \\pi\\big(x-x^2\\big)\\,dx$",
+                "$\\displaystyle\\int_0^1 \\pi\\big(x^2-x^4\\big)\\,dx$",
+                "$\\displaystyle\\int_0^1 2\\pi\\, x\\,(x-x^2)\\,dx$"
+              ],
+              "answer": 2,
+              "explain": "On $[0,1]$ the line $y=x$ is the outer radius and $y=x^2$ the inner, so each washer is $\\pi(R^2-r^2)=\\pi\\big(x^2-(x^2)^2\\big)=\\pi(x^2-x^4)$. Choice (a) is the classic error of squaring the difference of radii instead of subtracting the squares; choice (b) integrates $\\pi$ times the height difference $x-x^2$ (the region's area, not a washer cross-section); choice (d) is a shell integrand for the wrong axis."
+            },
+            {
+              "q": "The region under $y=\\sqrt{x}$ on $[0,4]$ is revolved about the $y$-axis. Using cylindrical shells in $x$, what is the correct volume integral?",
+              "choices": [
+                "$\\displaystyle\\int_0^4 \\pi\\,(\\sqrt{x})^2\\,dx$",
+                "$\\displaystyle\\int_0^2 2\\pi\\, y\\,(4-y^2)\\,dy$",
+                "$\\displaystyle\\int_0^4 2\\pi\\,\\sqrt{x}\\,(\\sqrt{x})\\,dx$",
+                "$\\displaystyle\\int_0^4 2\\pi\\, x\\,\\sqrt{x}\\,dx$"
+              ],
+              "answer": 3,
+              "explain": "A shell at position $x$ has radius $x$ (distance to the $y$-axis), height $\\sqrt{x}$, and thickness $dx$, giving $\\int_0^4 2\\pi\\, x\\sqrt{x}\\,dx=\\tfrac{128\\pi}{5}$. Choice (c) wrongly uses $\\sqrt{x}$ as the radius (that is the height, not the distance to the axis), and choice (a) is a disk integrand about the wrong axis."
             }
           ],
           "flashcards": [
@@ -2701,6 +3449,50 @@
               ],
               "answer": 2,
               "explain": "Even though the density normalizes to 1, the mean integral $\\int x f(x)\\,dx$ fails to converge as a true (non-principal-value) integral, so the expectation is undefined."
+            },
+            {
+              "q": "Evaluate $\\int_0^\\infty x e^{-x}\\,dx$ (the area under $xe^{-x}$ over all positive $x$).",
+              "choices": [
+                "$0$, because $xe^{-x}\\to 0$ as $x\\to\\infty$",
+                "$1$",
+                "$\\infty$, because the interval is infinite",
+                "$e$"
+              ],
+              "answer": 1,
+              "explain": "Compute $\\int_0^t xe^{-x}\\,dx = [-(x+1)e^{-x}]_0^t = 1-(t+1)e^{-t}$, and the boundary term $\\to 0$, so the limit is $1$. The choice $0$ confuses the integrand's limit with the integral's value, and the interval being infinite does not force divergence when the integrand decays fast enough."
+            },
+            {
+              "q": "Which statement about $\\int_1^\\infty f(x)\\,dx$ for a continuous $f(x)\\ge 0$ is TRUE?",
+              "choices": [
+                "If $f(x)\\to 0$ as $x\\to\\infty$, then $\\int_1^\\infty f(x)\\,dx$ must converge",
+                "$\\int_1^\\infty f(x)\\,dx$ can converge even though $f(x)$ never reaches $0$ for any finite $x$",
+                "Convergence of $\\int_1^\\infty f(x)\\,dx$ requires $f$ to be eventually decreasing",
+                "If $\\int_1^\\infty f(x)\\,dx$ converges then $\\int_1^\\infty f(x)^2\\,dx$ must also converge"
+              ],
+              "answer": 1,
+              "explain": "A positive integrand like $1/x^2$ stays strictly above $0$ everywhere yet has a finite improper integral, so convergence does not require the function to hit zero. The first claim is the classic trap ($1/x\\to 0$ but its integral diverges), monotonicity is not required, and squaring can ruin convergence (e.g. behavior near a singularity)."
+            },
+            {
+              "q": "Evaluate $\\int_0^1 \\frac{1}{\\sqrt{x}}\\,dx$, an integral whose integrand blows up at the left endpoint.",
+              "choices": [
+                "It diverges, since $1/\\sqrt{x}\\to\\infty$ as $x\\to 0^+$",
+                "$2$",
+                "$1$",
+                "$\\tfrac{1}{2}$"
+              ],
+              "answer": 1,
+              "explain": "Define it as $\\lim_{t\\to 0^+}\\int_t^1 x^{-1/2}\\,dx = \\lim_{t\\to 0^+}[2\\sqrt{x}]_t^1 = 2-2\\sqrt{t} \\to 2$. An infinite integrand at an endpoint does not by itself force divergence; here $p=\\tfrac12<1$ so it converges, unlike the $1/x^2$ case."
+            },
+            {
+              "q": "You want to prove $\\int_1^\\infty \\frac{1}{x^2+x}\\,dx$ converges by comparison. Which single comparison correctly settles it?",
+              "choices": [
+                "$\\frac{1}{x^2+x}\\le \\frac{1}{x}$ for $x\\ge 1$, and $\\int_1^\\infty \\frac{1}{x}\\,dx$ converges",
+                "$\\frac{1}{x^2+x}\\ge \\frac{1}{2x^2}$ for $x\\ge 1$, and $\\int_1^\\infty \\frac{1}{2x^2}\\,dx$ converges",
+                "$\\frac{1}{x^2+x}\\le \\frac{1}{x^2}$ for $x\\ge 1$, and $\\int_1^\\infty \\frac{1}{x^2}\\,dx$ converges",
+                "$\\frac{1}{x^2+x}\\ge \\frac{1}{x^2}$ for $x\\ge 1$, and $\\int_1^\\infty \\frac{1}{x^2}\\,dx$ converges"
+              ],
+              "answer": 2,
+              "explain": "To prove convergence you bound the integrand ABOVE by a convergent benchmark: since $x^2+x>x^2$, we get $\\frac{1}{x^2+x}<\\frac{1}{x^2}$, whose integral converges. Bounding below proves nothing about convergence, and the $1/x$ comparison fails because $\\int_1^\\infty \\tfrac1x$ diverges."
             }
           ],
           "flashcards": [
@@ -2852,6 +3644,50 @@
               ],
               "answer": 2,
               "explain": "First-order equations are clean because they say the velocity is determined by the current state, capturing the essential structure of a flow."
+            },
+            {
+              "q": "Is the function $y(t) = 3e^{2t}$ a solution of the differential equation $\\frac{dy}{dt} = 2y$?",
+              "choices": [
+                "No, because plugging in $t = 0$ gives $y = 3$, not $0$",
+                "Yes, because $\\frac{dy}{dt} = 6e^{2t}$ and $2y = 6e^{2t}$ agree for every $t$",
+                "No, because a solution must pass through the origin",
+                "Yes, but only at the single instant $t = 0$"
+              ],
+              "answer": 1,
+              "explain": "To verify a solution you substitute and check the equation holds at every $t$: here $\\frac{dy}{dt}=6e^{2t}$ equals $2y=2(3e^{2t})=6e^{2t}$ identically, so it is a solution. The distractors confuse a solution with an initial condition or a single-point match, but a solution must obey the rule at every instant, and the constant $3$ is perfectly allowed."
+            },
+            {
+              "q": "The differential equation $\\frac{dy}{dt} = f(t, y)$ assigns a slope to every point $(t, y)$ in the plane. Geometrically, what is a solution curve?",
+              "choices": [
+                "The single point where the slope equals zero",
+                "A curve whose slope at each point it passes through matches the value $f(t,y)$ there",
+                "The set of all points where $f(t, y) = 0$",
+                "Any straight line drawn through the slope field"
+              ],
+              "answer": 1,
+              "explain": "A solution is a trajectory that is everywhere tangent to the prescribed slope field, so at each point on the curve its slope equals $f(t,y)$. The other options describe equilibrium points or unrelated lines, not the everywhere-tangent path the DE demands."
+            },
+            {
+              "q": "A population grows at a rate proportional to its current size: $\\frac{dy}{dt} = 0.05\\, y$, with $y(0) = 200$. What is the population $y(t)$?",
+              "choices": [
+                "$y(t) = 200 e^{0.05 t}$",
+                "$y(t) = 200 + 0.05 t$",
+                "$y(t) = 200 e^{t} + 0.05$",
+                "$y(t) = 0.05\\, t^2 + 200$"
+              ],
+              "answer": 0,
+              "explain": "Equations of the form $\\frac{dy}{dt}=ky$ have exponential solutions $y(t)=y_0 e^{kt}$, and the initial condition fixes $y_0 = 200$. The linear and quadratic options describe constant or constant-acceleration growth, not growth proportional to the current value."
+            },
+            {
+              "q": "A student claims that since $\\frac{dy}{dt} = 2t$ has general solution $y(t) = t^2 + C$, the 'differential equation has infinitely many solutions, so it tells us almost nothing.' What is the best response?",
+              "choices": [
+                "The student is right; without a unique answer the equation is not useful",
+                "The constant $C$ should always be taken as $0$ by convention, so there is really one solution",
+                "The equation pins down the entire shape of every solution curve; $C$ only shifts it vertically, and one initial condition selects a single curve",
+                "Differential equations never have unique solutions, which is why they are rarely used in science"
+              ],
+              "answer": 2,
+              "explain": "The DE fully determines the rule of change and hence the shape of the family $t^2 + C$; the free constant merely reflects a vertical shift, and supplying one initial condition selects exactly one curve. The misconception is treating the constant of integration as a failure rather than the expected freedom that an initial condition resolves."
             }
           ],
           "flashcards": [
@@ -3009,6 +3845,50 @@
               ],
               "answer": 2,
               "explain": "Stacking the first-order partial derivatives into a vector yields the gradient, the exact object the tangent-plane/linearization picture scales up to and that gradient-descent optimizers use to step downhill."
+            },
+            {
+              "q": "For $f(x,y) = e^{xy}$, what is $f_x(1,2)$?",
+              "choices": [
+                "$e^2$",
+                "$2e^2$",
+                "$xy\\,e^{xy}$",
+                "$2e$"
+              ],
+              "answer": 1,
+              "explain": "Treating $y$ as a constant, $f_x = y\\,e^{xy}$, so $f_x(1,2) = 2\\,e^{(1)(2)} = 2e^2$. The distractor $e^2$ forgets the factor $y=2$ that the chain rule pulls down from the exponent."
+            },
+            {
+              "q": "A student computes $f_x$ for $f(x,y)=x^2+3y$ and gets $2x+3$. What mistake did they make?",
+              "choices": [
+                "No mistake; $2x+3$ is correct",
+                "They treated $y$ as a variable instead of a constant, so $3y$ should differentiate to $0$ (giving $f_x=2x$)",
+                "They forgot to apply the chain rule to $x^2$",
+                "They should have gotten $2x+3y$ because the $y$ stays attached"
+              ],
+              "answer": 1,
+              "explain": "When taking $\\partial/\\partial x$, the term $3y$ is constant in $x$ and differentiates to $0$, so $f_x = 2x$. Carrying along a $+3$ wrongly treats $y$ as if it varied with $x$."
+            },
+            {
+              "q": "Using the tangent-plane linearization $L(x,y)=f(a,b)+f_x(a,b)(x-a)+f_y(a,b)(y-b)$, estimate $f(3.1,3.9)$ for $f(x,y)=x^2+y^2$ at $(a,b)=(3,4)$.",
+              "choices": [
+                "$24.8$",
+                "$25.0$",
+                "$24.6$",
+                "$25.4$"
+              ],
+              "answer": 0,
+              "explain": "With $f(3,4)=25$, $f_x=2x=6$, and $f_y=2y=8$, we get $L=25+6(0.1)+8(-0.1)=25+0.6-0.8=24.8$. Choosing $25.0$ ignores the linear correction terms entirely."
+            },
+            {
+              "q": "Both $f_x(0,0)$ and $f_y(0,0)$ exist. What does differentiability (a valid tangent plane) require beyond this that the partials alone do NOT guarantee?",
+              "choices": [
+                "That $f_{xy}=f_{yx}$ at the origin",
+                "That the linear approximation approximates $f$ well along every direction of approach to $(0,0)$, not just along the axes",
+                "That $f$ is bounded near $(0,0)$",
+                "Nothing more — existence of both partials guarantees differentiability"
+              ],
+              "answer": 1,
+              "explain": "Partials only probe the two axis directions; differentiability demands the linear map approximate $f$ along all approach directions, which can fail even when both partials exist. Assuming partials alone imply differentiability is the classic misconception."
             }
           ],
           "flashcards": [
@@ -3160,6 +4040,50 @@
               ],
               "answer": 1,
               "explain": "The direction of steepest descent is the negative of the gradient, $-\\nabla f = (-1, 2)$, which is exactly the direction gradient descent steps along."
+            },
+            {
+              "q": "Compute the directional derivative of $f(x,y) = x^2 + 3xy$ at the point $(1, 2)$ in the direction of $\\mathbf{v} = (3, 4)$.",
+              "choices": [
+                "$\\frac{36}{5}$",
+                "$36$",
+                "$\\frac{27}{5}$",
+                "$\\frac{30}{5}$"
+              ],
+              "answer": 0,
+              "explain": "$\\nabla f = (2x + 3y,\\ 3x) = (8, 3)$ at $(1,2)$. Normalizing $\\mathbf{v}=(3,4)$ to the unit vector $(3/5, 4/5)$, $D_{\\mathbf{u}}f = (8,3)\\cdot(3/5, 4/5) = (24+12)/5 = 36/5$. The distractor $36$ forgets to divide by $\\lVert\\mathbf v\\rVert = 5$."
+            },
+            {
+              "q": "At a point $P$ where $\\nabla f(P) = (0, 0)$, which conclusion is justified about $f$ at $P$?",
+              "choices": [
+                "$P$ must be a local maximum of $f$",
+                "The directional derivative of $f$ at $P$ is zero in every direction",
+                "$f$ must be constant in a neighborhood of $P$",
+                "$f$ has no well-defined tangent plane at $P$"
+              ],
+              "answer": 1,
+              "explain": "Since $D_{\\mathbf u}f = \\nabla f\\cdot\\mathbf u = (0,0)\\cdot\\mathbf u = 0$ for every unit $\\mathbf u$, the instantaneous rate of change vanishes in all directions. A zero gradient marks a critical point, which may be a max, min, or saddle, so claiming a maximum or constancy is the tempting but unjustified leap."
+            },
+            {
+              "q": "Two unit vectors $\\mathbf{u}$ and $\\mathbf{w}$ point in opposite directions. If the directional derivative $D_{\\mathbf{u}} f = 5$ at a point, what is $D_{\\mathbf{w}} f$ there?",
+              "choices": [
+                "$5$",
+                "$0$",
+                "$-5$",
+                "Cannot be determined without knowing $\\nabla f$"
+              ],
+              "answer": 2,
+              "explain": "With $\\mathbf w = -\\mathbf u$, $D_{\\mathbf w}f = \\nabla f\\cdot(-\\mathbf u) = -(\\nabla f\\cdot\\mathbf u) = -5$. The directional derivative is odd in direction; expecting the same value $5$ ignores the sign flip, and it is fully determined by the given quantity."
+            },
+            {
+              "q": "A student rescales the gradient before a step: instead of $\\theta \\leftarrow \\theta - \\alpha\\nabla L$, they use $\\theta \\leftarrow \\theta - \\alpha\\,\\frac{\\nabla L}{\\lVert \\nabla L \\rVert}$. Compared to plain gradient descent, what changes?",
+              "choices": [
+                "The step still points downhill, but its length no longer shrinks as the gradient gets small near a minimum",
+                "The step now points uphill because dividing by the norm flips the sign",
+                "Convergence is guaranteed in one step regardless of $\\alpha$",
+                "The descent direction is reversed relative to the level sets"
+              ],
+              "answer": 0,
+              "explain": "Dividing by $\\lVert\\nabla L\\rVert$ keeps the same downhill direction (the sign is unchanged) but fixes the step length at $\\alpha$, so it no longer automatically tapers near a minimum where $\\nabla L\\to 0$. The other options misread normalization as a sign change or a magic convergence guarantee."
             }
           ],
           "flashcards": [
@@ -3311,6 +4235,50 @@
               ],
               "answer": 1,
               "explain": "A saddle is a critical point that curves up in some directions and down in others, a mixed behavior impossible with a single variable's single direction."
+            },
+            {
+              "q": "You find a critical point of $f(x,y)$ with $f_{xx}=-2$, $f_{yy}=-8$, and $f_{xy}=1$. Using the discriminant $D = f_{xx}f_{yy} - f_{xy}^2$, classify the point.",
+              "choices": [
+                "Saddle point, because $f_{xy} \\neq 0$",
+                "Local maximum, because $D = 15 > 0$ and $f_{xx} < 0$",
+                "Local minimum, because both pure second partials are nonzero",
+                "Inconclusive, because $D = 0$"
+              ],
+              "answer": 1,
+              "explain": "$D = (-2)(-8) - 1^2 = 16 - 1 = 15 > 0$, so it is a genuine extremum, and since $f_{xx} = -2 < 0$ the surface curves down in every direction, giving a local maximum. The off-diagonal $f_{xy}$ being nonzero does not by itself signal a saddle; only the sign of $D$ determines that."
+            },
+            {
+              "q": "A neural network's loss reaches a flat region where the gradient is essentially zero, yet it is NOT a minimum. The Hessian there has eigenvalues that are all $\\geq 0$ with several exactly equal to zero. What does the second-derivative test conclude, and what is actually going on?",
+              "choices": [
+                "It concludes a strict local minimum, since no eigenvalue is negative",
+                "It concludes a saddle point, since some eigenvalues are zero",
+                "It is inconclusive; the zero eigenvalues mark flat directions the second-order test cannot classify",
+                "It concludes a maximum, since the Hessian is not positive definite"
+              ],
+              "answer": 2,
+              "explain": "When the Hessian is positive semidefinite but singular (zero eigenvalues present), the test is inconclusive: along the zero-eigenvalue directions curvature vanishes and higher-order terms decide the behavior. A strict-minimum claim requires all eigenvalues strictly positive, which fails here."
+            },
+            {
+              "q": "Two students debate the gradient condition $\\nabla f(\\mathbf{x}^*) = \\mathbf{0}$ at a critical point. Which statement is correct about its relationship to extrema?",
+              "choices": [
+                "Every point where $\\nabla f = \\mathbf{0}$ is a local minimum or maximum",
+                "$\\nabla f = \\mathbf{0}$ is necessary but not sufficient for a local extremum",
+                "$\\nabla f = \\mathbf{0}$ is sufficient but not necessary for a local extremum",
+                "A local extremum can occur where $\\nabla f \\neq \\mathbf{0}$ in the interior of the domain"
+              ],
+              "answer": 1,
+              "explain": "A vanishing gradient is necessary for an interior extremum (otherwise you could descend or ascend along the gradient), but it is not sufficient because saddle points also satisfy $\\nabla f = \\mathbf{0}$. The first option ignores saddles, and the last is false for smooth interior points."
+            },
+            {
+              "q": "Minimizing $f(\\mathbf{x})$ subject to $g(\\mathbf{x}) = c$, a student writes the Lagrangian $\\mathcal{L} = f - \\lambda g$ and finds a stationary point with $\\lambda = 0$. What does $\\lambda = 0$ indicate about the solution?",
+              "choices": [
+                "The constraint is active and tightly binding at the optimum",
+                "The constraint is effectively inactive: the unconstrained gradient already vanishes there",
+                "The problem has no solution because $\\lambda$ must be positive",
+                "The point is automatically a saddle of the constrained problem"
+              ],
+              "answer": 1,
+              "explain": "The stationarity condition is $\\nabla f = \\lambda \\nabla g$, so $\\lambda = 0$ forces $\\nabla f = \\mathbf{0}$, meaning the optimum coincides with an unconstrained critical point and the constraint exerts no pull. A nonzero $\\lambda$ is what signals a binding constraint, so the first option is exactly backwards."
             }
           ],
           "flashcards": [

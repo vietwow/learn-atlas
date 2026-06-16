@@ -2,6 +2,15 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 61 — Question-bank growth: +88 MCQs across Calculus (content; owner-requested)
+Bank-growth sweep continues to Calculus: +4 MCQs on each of the 22 lessons (8 → 12/lesson; calculus 176 → 264,
+**site-wide 961 → 1,049 — past 1,000**). Same author→adversarial-verify pipeline; the verify pass again earned
+its keep — it caught a question with **two identical correct choices** ($\pi(x^2-(x^2)^2)$ and $\pi(x^2-x^4)$
+are the same integrand) and replaced the duplicate with a genuinely-wrong distractor, plus other fixes — before
+injection. Each batch mixes a computational item with a misconception-bait; answer positions varied; existing
+stems fed to the author to avoid duplicates. Verified: a calculus quiz now offers 12 MCQs and answers cleanly
+(errs=0 across routes), `node gate.js` ALL GREEN (answer ranges + structure validated).
+
 ## iter 60 — Question-bank growth starts: +64 MCQs across Linear Algebra (content; owner-requested) — 10-iter checkpoint
 Honoring the owner's most-repeated, most-emphatic ask ("add more and more and more questions … think again
 until I pass, not casual remembering") — untouched since iter 9. Every lesson sat at exactly 8 MCQs, enough
