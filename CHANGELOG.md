@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 39 — Show mastery in the lesson header (mastery model / UX)
+Your grasp of a concept was visible on the course list but not while you studied it. The lesson header now
+shows the mastery level + percent ("Learning · 42%") and a thin mastery bar (when you've practiced it), so
+you always know where you stand on the page you're reading. Gate ALL GREEN, errs=0.
+
 ## iter 38 — Surface the Knowledge Map & Glossary on the dashboard (UX / discoverability)
 The dashboard's quick-action row promoted Review/Test/Lab/Library but not two of the most useful pages.
 Added 🗺️ Knowledge Map and 📔 Glossary so they're reachable in one tap from the home screen (they were only

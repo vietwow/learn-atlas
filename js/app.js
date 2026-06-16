@@ -386,8 +386,9 @@
     <div class="view">
       <div class="crumbs"><a href="#/" data-route>Codex</a> &nbsp;›&nbsp; <a href="#/course/${course.id}" data-route>${esc(course.title)}</a> &nbsp;›&nbsp; ${esc(lesson.title)}</div>
       <div class="page-head" style="margin-bottom:18px">
-        <div class="eyebrow" style="color:${course.color}">${esc(course.title)} · ${lesson.minutes || 10} min</div>
+        <div class="eyebrow" style="color:${course.color}">${esc(course.title)} · ${lesson.minutes || 10} min${(() => { const eff = Store.effectiveMastery(lid), L = Store.masteryLevel(eff); return ` · <span style="color:${L.color}">${L.label}${eff > 0 ? " · " + Math.round(eff * 100) + "%" : ""}</span>`; })()}</div>
         <h2>${esc(lesson.title)}</h2>
+        ${(() => { const eff = Store.effectiveMastery(lid), L = Store.masteryLevel(eff); return eff > 0 ? `<div class="mastery-bar" style="margin-top:10px;max-width:220px"><div class="mastery-fill" style="width:${Math.round(eff * 100)}%;background:${L.color}"></div></div>` : ""; })()}
       </div>
       ${pathBanner}
       <div class="tabs">${tabs.map((t, i) => `<div class="tab ${i === 0 ? "active" : ""}" data-tab="${t.id}">${t.icon} ${t.label}${t.badge ? `<span class="badge">${t.badge}</span>` : ""}</div>`).join("")}</div>
