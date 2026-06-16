@@ -2,6 +2,13 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 13 — Onboarding: first-visit welcome tour (understandability)
+A new learner now gets oriented instead of dropped into a feature-dense app. A first-visit modal introduces
+Atlas and its four pillars — Learn (lessons + viz), Master (Mastery-mode tests), Navigate (Knowledge
+Constellation), Build (Code Playground) — with the ⌘K tip and a save-is-local note; it shows once
+(localStorage flag) and a sidebar "Guide / tour" button reopens it anytime. Esc/backdrop/CTA all close it.
+Verified: errs=0, shows on first visit, reopens via Guide, no errors navigating after dismiss.
+
 ## iter 12 — Juice: level-up celebration + confetti (animations)
 Added a delight beat. The store now detects level-ups (XP crossing a rank threshold) and queues them;
 flushAchievements fires a centered "Level N · <rank name>" celebration modal with a 130-particle confetti
