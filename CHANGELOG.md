@@ -2,6 +2,14 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 32 — Graceful PWA update prompt (distribution)
+Since the loop ships to the live site constantly, installed/returning PWA users could sit on cached content.
+The service worker now WAITS instead of skip-waiting on install, and the page detects an installed-but-waiting
+worker and shows a small "✨ A new version of Atlas is available — Refresh" prompt; clicking posts SKIP_WAITING,
+the worker activates, and `controllerchange` reloads once into the fresh build. First-time install/caching is
+unchanged. Verified: gate ALL GREEN, sw.js parses, site loads errs=0 (SW is a no-op on file://; the flow
+engages live on the next deploy).
+
 ## iter 31 — Hardening pass + a committed content gate (workflow / tooling)
 A maturity checkpoint after 24 autonomous iterations: full regression audit — old-shape save migrates safely
 (all numbers finite), and all 30 routes + 18 widgets render with errs=0 and zero viz-hydration failures.

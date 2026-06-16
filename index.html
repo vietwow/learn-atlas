@@ -99,10 +99,29 @@
   <script src="js/store.js"></script>
   <script src="js/app.js"></script>
 
-  <!-- PWA: offline app shell (only over http/https; no-op on file://) -->
+  <!-- PWA: offline app shell + graceful update prompt (only over http/https; no-op on file://) -->
   <script>
     if ("serviceWorker" in navigator && location.protocol.indexOf("http") === 0) {
-      window.addEventListener("load", function () { navigator.serviceWorker.register("sw.js").catch(function () {}); });
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("sw.js").then(function (reg) {
+          function promptUpdate(worker) {
+            if (document.getElementById("sw-update")) return;
+            var b = document.createElement("div");
+            b.id = "sw-update";
+            b.style.cssText = "position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:400;background:#211c19;color:#f1e8da;border:1px solid #c8853a;border-radius:12px;padding:12px 16px;font-family:Spectral,Georgia,serif;font-size:14px;box-shadow:0 16px 44px rgba(0,0,0,.5);display:flex;gap:14px;align-items:center";
+            b.innerHTML = "✨ A new version of Atlas is available. <button id='sw-refresh' style='background:#e0a458;color:#2a1c08;border:none;border-radius:8px;padding:6px 14px;font-weight:600;cursor:pointer'>Refresh</button>";
+            document.body.appendChild(b);
+            document.getElementById("sw-refresh").onclick = function () { worker.postMessage({ type: "SKIP_WAITING" }); b.remove(); };
+          }
+          if (reg.waiting && navigator.serviceWorker.controller) promptUpdate(reg.waiting);
+          reg.addEventListener("updatefound", function () {
+            var nw = reg.installing;
+            if (nw) nw.addEventListener("statechange", function () { if (nw.state === "installed" && navigator.serviceWorker.controller) promptUpdate(nw); });
+          });
+        }).catch(function () {});
+        var reloaded = false;
+        navigator.serviceWorker.addEventListener("controllerchange", function () { if (reloaded) return; reloaded = true; location.reload(); });
+      });
     }
   </script>
 </body>
