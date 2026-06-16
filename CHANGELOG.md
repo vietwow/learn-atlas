@@ -2,6 +2,13 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 27 — "Connections" footer turns the dependency graph into in-lesson navigation (understandability)
+Each lecture now ends with a Connections block: "Builds on" (the lesson's direct prerequisites, incl.
+cross-topic ones) and "Leads to" (lessons that depend on it, computed as reverse edges) as color-coded
+clickable chips. So from Backpropagation you can jump back to the Chain Rule & matrix multiplication, or
+forward to DQN & policy gradients. Makes the knowledge graph usable while reading, not just on the map.
+Verified: errs=0, both rows render with correct prereq/dependent links.
+
 ## iter 26 — New visualization: gradient descent in 2D (visualizations)
 Built calc-gd2d — the optimization picture the 1-D widget can't show. An elliptical contour map of
 $f=0.12x^2+y^2$ with the descent path animated down it; the elongated bowl makes the path visibly zig-zag

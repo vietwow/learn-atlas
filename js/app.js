@@ -405,6 +405,20 @@
     setTab("lecture");
   }
 
+  // "Builds on" (direct prereqs) + "Leads to" (lessons depending on this one)
+  function lessonConnections(lid) {
+    const idx = index();
+    const builds = directPrereqs(lid).map(id => idx[id]).filter(Boolean);
+    const leads = [];
+    C().forEach(c => c.modules.forEach(m => m.lessons.forEach(l => { if (l.id !== lid && directPrereqs(l.id).indexOf(lid) >= 0) leads.push(idx[l.id]); })));
+    if (!builds.length && !leads.length) return "";
+    const chip = n => `<a class="conn-chip" href="#/lesson/${n.course.id}/${n.lesson.id}" data-route style="--c:${n.course.color}"><span class="cc-dot" style="background:${n.course.color}"></span>${esc(n.lesson.title)}</a>`;
+    return `<div class="connections reveal">
+      ${builds.length ? `<div class="conn-row"><span class="conn-label">Builds on</span><div class="conn-chips">${builds.map(chip).join("")}</div></div>` : ""}
+      ${leads.length ? `<div class="conn-row"><span class="conn-label">Leads to</span><div class="conn-chips">${leads.slice(0, 6).map(chip).join("")}</div></div>` : ""}
+    </div>`;
+  }
+
   function renderLecture(body, course, lesson, prev, next) {
     const done = Store.isLessonDone(lesson.id);
     body.innerHTML = `
@@ -417,7 +431,8 @@
         <button class="btn primary" id="complete-btn">${done ? "✓ Completed" : "Mark complete (+50 XP)"}</button>
         ${prev ? `<a class="btn ghost" href="#/lesson/${course.id}/${prev.id}" data-route>← ${esc(prev.title)}</a>` : ""}
         ${next ? `<a class="btn" href="#/lesson/${course.id}/${next.id}" data-route>${esc(next.title)} →</a>` : `<a class="btn" href="#/course/${course.id}" data-route>Back to course →</a>`}
-      </div>`;
+      </div>
+      ${lessonConnections(lesson.id)}`;
     const area = document.getElementById("notes-area");
     let nt; area.addEventListener("input", () => { clearTimeout(nt); nt = setTimeout(() => { Store.setNote(lesson.id, area.value); const s = document.getElementById("notes-saved"); s.textContent = "saved ✓"; setTimeout(() => s.textContent = "", 1500); }, 500); });
     const btn = document.getElementById("complete-btn");

@@ -702,6 +702,17 @@ kbd { font-family: var(--font-mono); background: var(--panel-2); border: 1px sol
 .palette-foot { padding: 10px 16px; border-top: 1px solid var(--line); font-size: 11px; color: var(--ink-mute); letter-spacing: .5px; }
 
 /* ============================================================
+   Lesson connections (builds on / leads to)
+   ============================================================ */
+.connections { margin-top: 28px; padding-top: 22px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 14px; max-width: 760px; }
+.conn-row { display: flex; gap: 14px; align-items: baseline; flex-wrap: wrap; }
+.conn-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-mute); flex: none; width: 80px; padding-top: 4px; }
+.conn-chips { display: flex; gap: 8px; flex-wrap: wrap; flex: 1; }
+.conn-chip { display: inline-flex; align-items: center; gap: 7px; text-decoration: none; font-size: 13.5px; color: var(--ink-soft); background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 6px 13px; transition: .15s; }
+.conn-chip:hover { border-color: var(--c, var(--gold)); color: var(--ink); transform: translateY(-2px); }
+.conn-chip .cc-dot { width: 7px; height: 7px; border-radius: 50%; flex: none; }
+
+/* ============================================================
    Glossary
    ============================================================ */
 .gloss-search { width: 100%; max-width: 420px; background: var(--bg-2); color: var(--ink); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; font-family: var(--font-body); font-size: 16px; margin-bottom: 22px; }
