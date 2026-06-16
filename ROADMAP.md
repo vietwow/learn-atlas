@@ -13,8 +13,9 @@ done items move to CHANGELOG and out; new ideas land in the backlog.
   iteration** — more MCQs per concept with varied phrasings/numbers/distractors so retries can't be rote-
   memorized. Target a few topics' lessons each pass; grow toward ~8–10 MCQs per lesson. (Wrong answers
   already lower mastery so weak concepts resurface in weak-spot tests & Concept-of-Day.)
-  PROGRESS: Linear Algebra done (iter 7, 8/lesson). NEXT topics to expand: calculus, algorithms,
+  PROGRESS: Linear Algebra (iter 7) + Calculus (iter 8) done — 8/lesson. NEXT: algorithms,
   deep-learning, reinforcement-learning, llm (one per iteration via the baked-script MCQ workflow).
+  After all 6 reach 8/lesson, INTERLEAVE other compass areas (viz, UI, a11y) so the loop stays well-rounded.
 - More inline visualizations: build NEW widgets for high-value concepts that lack one
   (PCA/eigenbasis, convolution, attention heatmap, Bayes, MDP policy iteration) and embed them.
 
