@@ -2,6 +2,13 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 5 — Runnable code exercises embedded in algorithm & DL lessons (examples / new functionality)
+Added in-lesson `<div data-code>` exercises (Pyodide Python) with `data-expected` self-check badges: bubble
+sort, binary search, and DP-Fibonacci in the algorithms lessons; a one-neuron forward pass and a numerical-
+gradient (backprop building block) in the DL lessons. Code is HTML-escaped in storage so `<`/`>` survive
+innerHTML and decode back to runnable source. Expected outputs verified against real python3. Verified:
+syntax green, all routes errs=0, the embedded playground hydrates and the code decodes correctly.
+
 ## iter 4 — Interactive visualizations embedded inline in the lessons they illustrate (understandability)
 Wired the 10 Lab widgets into 13 lessons across all 6 topics via `<div data-viz>` — e.g. the vector-add
 widget now sits inside "Vectors and Vector Operations", the matrix-transform widget in "Matrices as Linear
