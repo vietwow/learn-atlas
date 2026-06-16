@@ -2,6 +2,14 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 16 — Flow reflection + responsive Knowledge Map on mobile (mobile / UI)
+~10-iteration flow reflection: rotation is healthy (content 7–9 · viz 10/14/15 · a11y 11 · juice 12 ·
+onboarding 13) and a 390px audit found the platform holds up well (intro, lessons, tests, widgets all
+scale/stack). The one real weakness: the radial Knowledge Map was a fixed ~1450px SVG that forced awkward
+panning on phones. Fix: on ≤760px the map SVG scales to fit the viewport (viewBox does the work), so the
+whole constellation is visible at a glance; desktop keeps the large scrollable version. Verified: desktop
+map errs=0 / 113 nodes unchanged, mobile map now fits the width.
+
 ## iter 15 — New visualization: convolution & feature maps (visualizations)
 Built dl-convolution, the core CNN operation. An 8×8 input (a bright square) with a selectable 3×3 kernel
 (vertical/horizontal edge, blur, sharpen, identity); Play/Step slides the receptive field cell-by-cell,
