@@ -8,14 +8,12 @@ The autonomous loop (`/improve-atlas`) reads this file first. Keep it the live q
 done items move to CHANGELOG and out; new ideas land in the backlog.
 
 ## Now (highest priority)
-- **OWNER ASK (2026-06-16): EVER-GROWING QUESTION BANK (ongoing, every iteration).** Mastery mode shipped
-  (iter 6 — wrong answers re-queue until passed). Now the standing job: **keep adding MORE questions every
-  iteration** — more MCQs per concept with varied phrasings/numbers/distractors so retries can't be rote-
-  memorized. Target a few topics' lessons each pass; grow toward ~8–10 MCQs per lesson. (Wrong answers
-  already lower mastery so weak concepts resurface in weak-spot tests & Concept-of-Day.)
-  PROGRESS: Linear Algebra (iter 7) + Calculus (iter 8) done — 8/lesson. NEXT: algorithms,
-  deep-learning, reinforcement-learning, llm (one per iteration via the baked-script MCQ workflow).
-  After all 6 reach 8/lesson, INTERLEAVE other compass areas (viz, UI, a11y) so the loop stays well-rounded.
+- **QUESTION BANK — phase 1 DONE (iters 7–9): all 6 topics at ~8 MCQs/lesson, bank 452 → 897.** Mastery mode
+  (iter 6) recycles misses until passed. Standing low-priority job: keep topping up weak/thin lessons toward
+  ~10/lesson over time, but this is no longer the lead — INTERLEAVE it with the rest of the compass now.
+- **NOW INTERLEAVE (bank goal met):** rotate the compass — new visualizations for concepts that lack one
+  (PCA/eigenbasis, convolution, attention heatmap, MDP policy iteration, Bayes), more inline viz/code embeds,
+  UI/animation polish, accessibility (reduced-motion, ARIA, focus), onboarding/empty-states, a glossary.
 - More inline visualizations: build NEW widgets for high-value concepts that lack one
   (PCA/eigenbasis, convolution, attention heatmap, Bayes, MDP policy iteration) and embed them.
 

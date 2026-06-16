@@ -2,6 +2,13 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 9 — Question bank: batched expansion of the remaining 4 topics (content / owner ask)
+Finished the bank-doubling goal in one batched pass: a 150-agent author+verify workflow added ~4 new
+adversarially-checked MCQs to each of the 75 lessons in algorithms, deep learning, RL, and LLMs — 293 added
+(algorithms +80, deep-learning +76, RL +61, llm +76; duplicates auto-skipped). **Whole bank 604 → 897**, all
+6 topics now ~8 MCQs/lesson. With Mastery mode, misses recur until passed. Verified: 0 bad indices, errs=0.
+Next: the loop interleaves other compass areas (new visualizations, UI/a11y polish) now the bank goal is met.
+
 ## iter 8 — Question bank expansion: Calculus doubled to 176 MCQs (content / owner ask)
 Continued the ever-growing-bank push: a 44-agent author+verify workflow added 4 new adversarially-checked
 MCQs to each of the 22 Calculus lessons — 88 added (88 → 176, 8/lesson); whole bank 516 → 604. Verified:
