@@ -2,6 +2,18 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 48 — Worked examples for all 20 Calculus lessons (content; owner-requested)
+Extended the examples push to Calculus: every one of the 20 lessons that lacked examples now has 2 worked
+examples (40 total) — limits (factor/cancel, piecewise-continuity, conjugates, L'Hôpital), derivatives
+(definition, rules, special functions, implicit/related-rates, curve-sketching, linearization), integrals
+(antiderivatives, Riemann sums, FTC both parts, substitution & by-parts, area/volume, improper + probability),
+ODEs, and the multivariable trio (partials, gradient/directional, Hessian classification). Each is a complete
+step-by-step `{title, body, solution}` with KaTeX behind a "Show working" reveal. Authored then adversarially
+verified by a 40-agent workflow that independently re-derived every answer (caught & fixed real errors, e.g. a
+linearization accuracy claim of "2%" corrected to "9%"). Calculus examples 5 → 45 (80 site-wide). Verified:
+Examples tab renders on c-integration-techniques (desktop) and c-area-volume (390px mobile), `node gate.js`
+ALL GREEN, all-routes errs=0.
+
 ## iter 47 — Worked examples for 9 Linear Algebra lessons (content; owner-requested)
 "Examples when we need it": added 18 worked examples (2 each) to nine LA lessons that had none —
 la-vectors-operations, la-dot-product-norms, la-span-independence, la-inverse-and-systems,

@@ -51,6 +51,13 @@ done items move to CHANGELOG and out; new ideas land in the backlog.
 - Prefer the **biggest-value** move; a bold swing (new pillar, overhaul) beats a tidy tweak when warranted.
 - **Broken always wins**: a real bug / console error / broken render preempts everything.
 
+## Owner priority — worked examples sweep (in progress)
+"Examples when we need it." Adding 2 verified worked examples to every lesson that lacks them, topic by topic
+via the author→adversarial-verify workflow. DONE: Linear Algebra (iter 47, 9 lessons), Calculus (iter 48, all
+20 lessons). NEXT: Algorithms, Deep Learning, Reinforcement Learning, LLMs — same pipeline (`/tmp/gen_*_wf.js`
+generator → `Workflow({scriptPath})` → inject → gate → all-routes → 390px). Skip purely-conceptual lessons
+(the verify step returns none for them, as 5 LA lessons correctly did).
+
 ## Notes / discoveries
 - **Architecture review (iter 36):** layer discipline is clean — content in `data/*.js`, visualizations in
   `js/viz.js` (818 ln, cohesive registry of 18 widgets), playground in `js/playground.js`, state + SM-2 +
