@@ -2,6 +2,17 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 41 — Independent MCQ correctness audit: 0 errors found (content quality)
+A second, independent adversarial pass over the question bank: a 6-agent workflow (one subject-expert
+professor per topic) re-derived the answer to a 72-MCQ sample (≈12 per topic, spread across lessons) and
+checked each for a wrong key, ambiguity, or a factual/explanation error. Result: **0 genuine problems
+flagged** across all six topics — validating that the original generate→adversarial-verify pipeline produced
+a correctly-keyed bank. No content changes needed; documented as a quality checkpoint.
+
+## iter 40 — Advertise keyboard shortcuts in Test + Mastery modes (UX consistency)
+Added the 1–4 / Enter `<kbd>` hints to the custom-test and mastery-drill progress lines (the shortcuts already
+worked there since iter 24; now they're discoverable). Gate ALL GREEN.
+
 ## iter 39 — Show mastery in the lesson header (mastery model / UX)
 Your grasp of a concept was visible on the course list but not while you studied it. The lesson header now
 shows the mastery level + percent ("Learning · 42%") and a thin mastery bar (when you've practiced it), so
