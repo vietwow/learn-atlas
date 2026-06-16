@@ -2,6 +2,18 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 55 — XP-reward juice: floating "+XP", animated level ring, stat count-up (animations / juice)
+Made the core reward loop *feel* rewarding. Earning XP (lesson, quiz, recall, etc.) now (1) floats a gold
+"+N XP" chip up from the topbar level ring, (2) gives the ring a springy pop and smoothly fills its
+conic-gradient progress (via a registered `@property --ring` + transition; the fill jumps cleanly on a
+level-up wrap instead of animating backward), and (3) the dashboard hero stats count up from zero on landing.
+`renderChrome` diffs XP against the last render so the float fires only on genuine gains (not route changes).
+All three respect `prefers-reduced-motion` (JS guards + the global reduced-motion media query). Built in
+`app.js` + `styles.css` — no new state, no store.js change. SW cache → `atlas-v7`. Verified on a clean
+(clear+reload) profile: full flow errs=0 with `floatFired=true`, dashboard stats settle correctly (2/113 · 0%
+· 678 · 1), renders desktop & 390px mobile, `node gate.js` ALL GREEN. (Note: headless localStorage is shared
+across runs and was showing corrupt negative stats — verified on a clear+reload clean state, per the landmine.)
+
 ## iter 54 — Overfitting / bias–variance visualization (visualizations)
 A new interactive widget (`dl-overfitting`, the 19th) for the most important — and previously un-visualized —
 concept in ML. It fits a polynomial of adjustable **degree** to a noisy sample of a hidden $\sin(2\pi x)$:

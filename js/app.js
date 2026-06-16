@@ -114,6 +114,33 @@
     if (lus.length) levelUpCelebrate(lus[lus.length - 1]); // celebrate the highest reached
   }
 
+  // ---------- juice: XP-gain float + ring pulse + stat count-up ----------
+  function reducedMotion() { return !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches); }
+  function floatXP(n) {
+    if (!(n > 0) || reducedMotion()) return;
+    const ring = document.getElementById("ring"); if (!ring) return;
+    const r = ring.getBoundingClientRect();
+    const f = document.createElement("div");
+    f.className = "xp-float"; f.textContent = "+" + n + " XP";
+    f.style.left = (r.left + r.width / 2) + "px"; f.style.top = (r.top + 2) + "px";
+    document.body.appendChild(f);
+    setTimeout(() => f.remove(), 1300);
+    ring.classList.remove("xp-pop"); void ring.offsetWidth; ring.classList.add("xp-pop");
+  }
+  function countUp(el) {
+    const m = String(el.textContent).trim().match(/^(\d[\d,]*)(.*)$/s);
+    if (!m) return;
+    const target = parseInt(m[1].replace(/,/g, ""), 10), rest = m[2];
+    if (!(target > 0) || reducedMotion()) return;
+    const dur = 700, t0 = performance.now();
+    el.textContent = "0" + rest;
+    (function tick(t) {
+      const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+      el.textContent = Math.round(target * e).toLocaleString() + rest;
+      if (k < 1) requestAnimationFrame(tick); else el.textContent = target.toLocaleString() + rest;
+    })(t0);
+  }
+
   // ---------- onboarding / welcome tour ----------
   function showIntro(force) {
     if (!force) { try { if (localStorage.getItem("atlas.introSeen")) return; } catch (e) {} }
@@ -167,6 +194,7 @@
   }
 
   // ---------- chrome (sidebar + topbar) ----------
+  let lastXP = null, lastLevel = null;
   function renderChrome() {
     const lv = Store.levelInfo();
     document.getElementById("nav-courses").innerHTML = C().map(c => {
@@ -174,7 +202,12 @@
       return `<a href="#/course/${c.id}" data-route><span class="dot" style="background:${c.color}"></span>${esc(c.title)} <span style="margin-left:auto;font-size:11px;color:var(--ink-mute)">${p.pct}%</span></a>`;
     }).join("");
 
-    document.getElementById("ring").style.setProperty("--ring", lv.pct + "%");
+    const ring = document.getElementById("ring");
+    if (lastLevel != null && lv.level !== lastLevel) {           // level changed: jump the fill, don't animate backward through the wrap
+      ring.style.transition = "none"; ring.style.setProperty("--ring", lv.pct + "%"); void ring.offsetWidth; ring.style.transition = "";
+    } else {
+      ring.style.setProperty("--ring", lv.pct + "%");
+    }
     document.getElementById("ring-num").textContent = lv.level;
     document.getElementById("lvl-name").textContent = lv.name;
     document.getElementById("lvl-sub").textContent = "Level " + lv.level;
@@ -191,6 +224,8 @@
       a.classList.toggle("active", active);
       if (active) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
     });
+    if (lastXP != null && lv.xp > lastXP) floatXP(lv.xp - lastXP);   // celebrate the gain since last render
+    lastXP = lv.xp; lastLevel = lv.level;
   }
 
   // ============================================================
@@ -280,6 +315,7 @@
       <div class="grid">${cards}</div>
     </div>`;
     bindGo();
+    document.querySelectorAll(".stat-strip .v").forEach(countUp);   // count-up the hero stats on landing
     typeset();
   }
 
