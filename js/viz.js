@@ -815,4 +815,78 @@
     reset();
   });
 
+  /* ========================================================
+     19. Overfitting & the bias–variance tradeoff
+     ======================================================== */
+  register({ id: 'dl-overfitting', topic: 'deep-learning', title: 'Overfitting & Bias–Variance', blurb: 'Fit a polynomial to noisy data. Crank the degree: training error keeps dropping while held-out error U-turns — the model starts memorizing noise.' },
+  function (root) {
+    const W = 540, H = 360, pad = 38;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    const truth = x => Math.sin(2 * Math.PI * x);          // hidden true function on [0,1]
+    let deg = 3, sigma = 0.18, seed = 7;
+    function rng() { seed |= 0; seed = (seed + 0x6D2B79F5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }
+    function gauss() { let u = 0, v = 0; while (u === 0) u = rng(); while (v === 0) v = rng(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
+    // fixed sample x-locations
+    const N = 11, MT = 40;
+    const trainX = Array.from({ length: N }, (_, i) => 0.03 + 0.94 * i / (N - 1));
+    const testX = Array.from({ length: MT }, () => rng());
+    let trainY = [], testY = [], w = [];
+    function regenY() { trainY = trainX.map(x => truth(x) + sigma * gauss()); testY = testX.map(x => truth(x) + sigma * gauss()); }
+    // polynomial least squares with tiny ridge (x normalized to [-1,1])
+    const nx = x => 2 * x - 1;
+    function solve(A, b) {
+      const n = b.length, M = A.map((r, i) => r.concat(b[i]));
+      for (let col = 0; col < n; col++) {
+        let piv = col; for (let r = col + 1; r < n; r++) if (Math.abs(M[r][col]) > Math.abs(M[piv][col])) piv = r;
+        const tmp = M[col]; M[col] = M[piv]; M[piv] = tmp;
+        const d = M[col][col] || 1e-12;
+        for (let r = 0; r < n; r++) { if (r === col) continue; const f = M[r][col] / d; for (let cc = col; cc <= n; cc++) M[r][cc] -= f * M[col][cc]; }
+      }
+      return M.map((r, i) => r[n] / (M[i][i] || 1e-12));
+    }
+    function fit() {
+      const m = deg + 1, AtA = Array.from({ length: m }, () => new Array(m).fill(0)), Aty = new Array(m).fill(0);
+      for (let i = 0; i < N; i++) {
+        const pw = []; let p = 1; for (let k = 0; k < m; k++) { pw.push(p); p *= nx(trainX[i]); }
+        for (let a = 0; a < m; a++) { Aty[a] += pw[a] * trainY[i]; for (let b2 = 0; b2 < m; b2++) AtA[a][b2] += pw[a] * pw[b2]; }
+      }
+      for (let a = 0; a < m; a++) AtA[a][a] += 1e-6;
+      w = solve(AtA, Aty);
+    }
+    const pred = x => { let p = 1, s = 0, xn = nx(x); for (let k = 0; k < w.length; k++) { s += w[k] * p; p *= xn; } return s; };
+    const rmse = (xs, ys) => Math.sqrt(xs.reduce((a, x, i) => a + (pred(x) - ys[i]) ** 2, 0) / xs.length);
+    slider(ctl, { label: 'degree', min: 0, max: 10, step: 1, value: deg, fmt: v => 'd=' + v, onInput: v => { deg = v; fit(); draw(); } });
+    slider(ctl, { label: 'noise', min: 0, max: 0.4, step: 0.02, value: sigma, fmt: v => v.toFixed(2), onInput: v => { sigma = v; regenY(); fit(); draw(); } });
+    button(ctl, '↻ new sample', () => { regenY(); fit(); draw(); });
+    const ymin = -1.8, ymax = 1.8;
+    const X = x => pad + x * (W - 2 * pad);
+    const Y = y => H - pad - (y - ymin) / (ymax - ymin) * (H - 2 * pad);
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      // axes
+      ctx.strokeStyle = p.line; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(pad, Y(0)); ctx.lineTo(W - pad, Y(0)); ctx.moveTo(X(0), pad); ctx.lineTo(X(0), H - pad); ctx.stroke();
+      ctx.save(); ctx.beginPath(); ctx.rect(pad, pad - 6, W - 2 * pad, H - 2 * pad + 12); ctx.clip();
+      // true function
+      ctx.strokeStyle = p.sage; ctx.setLineDash([5, 4]); ctx.lineWidth = 1.8; ctx.beginPath();
+      for (let i = 0; i <= 200; i++) { const x = i / 200, py = Y(truth(x)); i ? ctx.lineTo(X(x), py) : ctx.moveTo(X(x), py); } ctx.stroke(); ctx.setLineDash([]);
+      // held-out test points (faint)
+      ctx.fillStyle = p.mute; testX.forEach((x, i) => { ctx.globalAlpha = 0.5; ctx.beginPath(); ctx.arc(X(x), Y(testY[i]), 2.4, 0, 7); ctx.fill(); }); ctx.globalAlpha = 1;
+      // fitted curve
+      ctx.strokeStyle = p.rust; ctx.lineWidth = 2.6; ctx.beginPath();
+      for (let i = 0; i <= 240; i++) { const x = i / 240, py = Y(pred(x)); i ? ctx.lineTo(X(x), py) : ctx.moveTo(X(x), py); } ctx.stroke();
+      ctx.restore();
+      // training points (gold)
+      trainX.forEach((x, i) => { ctx.fillStyle = p.gold; ctx.strokeStyle = p.bg; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(X(x), Y(trainY[i]), 4.5, 0, 7); ctx.fill(); ctx.stroke(); });
+      const trE = rmse(trainX, trainY), teE = rmse(testX, testY);
+      let verdict, vc;
+      if (teE <= sigma * 1.45 + 0.04) { verdict = 'Good fit'; vc = p.sage; }
+      else if (deg <= 1 || trE > sigma * 1.4 + 0.08) { verdict = 'Underfitting — too rigid'; vc = p.violet; }
+      else { verdict = 'Overfitting — memorizing noise'; vc = p.rust; }
+      info.innerHTML = `degree <b>${deg}</b> &nbsp;·&nbsp; <span style="color:${p.gold}">train RMSE ${trE.toFixed(3)}</span> &nbsp;·&nbsp; <span style="color:${p.mute}">test RMSE ${teE.toFixed(3)}</span> &nbsp;·&nbsp; <b style="color:${vc}">${verdict}</b><br><span style="color:${p.sage}">— true f(x)</span> &nbsp; <span style="color:${p.gold}">● train</span> &nbsp; <span style="color:${p.mute}">● held-out</span> — raise the degree and watch train error fall while held-out error turns back up.`;
+    }
+    regenY(); fit(); draw();
+  });
+
 })();

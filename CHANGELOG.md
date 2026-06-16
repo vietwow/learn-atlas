@@ -2,6 +2,20 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 54 — Overfitting / bias–variance visualization (visualizations)
+A new interactive widget (`dl-overfitting`, the 19th) for the most important — and previously un-visualized —
+concept in ML. It fits a polynomial of adjustable **degree** to a noisy sample of a hidden $\sin(2\pi x)$:
+crank the degree and watch the fitted curve go from a rigid underfit (degree 0–1), through a clean fit
+(~degree 3), to a wildly oscillating overfit (degree 8–10) that threads every training point while missing
+the true function. A live readout shows **train RMSE falling monotonically while held-out test RMSE U-turns**,
+with a Good-fit / Underfitting / Overfitting verdict — the bias–variance tradeoff made visible. Controls:
+degree, noise level, and "new sample". Embedded in the *Overfitting, Underfitting, and Regularization* lesson
+and available in the Visualization Lab. Implemented in `js/viz.js` with a from-scratch ridge-stabilized
+polynomial least-squares fit (normalized Vandermonde + Gaussian-elimination solver) and a seeded PRNG so the
+demo is reproducible; synchronous initial `draw()` so the canvas paints on first frame. Bumped SW cache to
+`atlas-v6`. Verified: renders in Lab (degree 10 = overfit) + embedded in lesson + 390px mobile (degree 3 =
+good fit), `node gate.js` ALL GREEN (data-viz id validated), all-routes errs=0.
+
 ## iter 53 — "Explain it back": a free-recall (Feynman) study mode (new functionality)
 First non-content iteration since the examples sweep, and a direct answer to the owner's deepest learning ask
 ("not casual remembering — I have to think again until I pass"): a new **Recall** tab on every lesson with
