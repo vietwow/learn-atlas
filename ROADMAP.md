@@ -8,12 +8,11 @@ The autonomous loop (`/improve-atlas`) reads this file first. Keep it the live q
 done items move to CHANGELOG and out; new ideas land in the backlog.
 
 ## Now (highest priority)
-- **OWNER ASK (2026-06-16): MASTERY-GATED PRACTICE + ever-growing question bank.** The owner wants that a
-  concept you got wrong keeps coming back until you can answer it correctly — "think again until I pass,
-  not casual remembering." Build: (1) a **test-until-mastery mode** that re-queues every wrong question to
-  the end and only finishes when ALL are answered correctly; (2) **keep expanding the question bank** every
-  iteration (more MCQs per concept, varied phrasings/numbers) so retries aren't rote-memorized; (3) wrong
-  answers already lower mastery — make weak concepts resurface in Daily Review / Concept-of-Day.
+- **OWNER ASK (2026-06-16): EVER-GROWING QUESTION BANK (ongoing, every iteration).** Mastery mode shipped
+  (iter 6 — wrong answers re-queue until passed). Now the standing job: **keep adding MORE questions every
+  iteration** — more MCQs per concept with varied phrasings/numbers/distractors so retries can't be rote-
+  memorized. Target a few topics' lessons each pass; grow toward ~8–10 MCQs per lesson. (Wrong answers
+  already lower mastery so weak concepts resurface in weak-spot tests & Concept-of-Day.)
 - More inline visualizations: build NEW widgets for high-value concepts that lack one
   (PCA/eigenbasis, convolution, attention heatmap, Bayes, MDP policy iteration) and embed them.
 

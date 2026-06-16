@@ -597,9 +597,10 @@
         </div>
         <div class="tc-row">
           <label class="viz-slab">Length</label>
-          <select id="t-len"><option value="5">5 questions</option><option value="10" selected>10 questions</option><option value="20">20 questions</option></select>
+          <select id="t-len"><option value="5">5 questions</option><option value="10" selected>10 questions</option><option value="20">20 questions</option><option value="40">40 questions</option></select>
         </div>
-        <button class="btn primary" id="t-start">Start test →</button>
+        <label class="tc-check"><input type="checkbox" id="t-mastery" checked> <span><b>Mastery mode</b> — wrong answers come back until you get them right (no casual remembering).</span></label>
+        <button class="btn primary" id="t-start">Start →</button>
         <div id="t-warn" class="viz-note"></div>
       </div>
       ${Store.raw.tests.length ? `<div class="module reveal" style="margin-top:34px"><div class="module-head"><span class="mnum">🗂️</span><h3>Recent tests</h3></div>
@@ -613,8 +614,64 @@
       else if (scope === "weak") { const weak = {}; Store.weakSpots().forEach(w => weak[w.lessonId] = 1); pool = pool.filter(q => weak[q.lessonId]); label = "Weak spots"; }
       else if (scope.startsWith("course:")) { const cid = scope.slice(7); pool = pool.filter(q => q.courseId === cid); label = (findCourse(cid) || {}).title || "Topic"; }
       if (pool.length < 3) { document.getElementById("t-warn").textContent = "Not enough questions in that scope yet — complete a few more lessons, or widen the scope."; return; }
-      runTest(shuffle(pool).slice(0, Math.min(len, pool.length)), label);
+      const picked = shuffle(pool).slice(0, Math.min(len, pool.length));
+      if (document.getElementById("t-mastery").checked) runMasteryDrill(picked, label);
+      else runTest(picked, label);
     });
+  }
+
+  // ---------- mastery drill: re-queue wrong answers until ALL are passed ----------
+  function runMasteryDrill(items, label) {
+    const total = items.length;
+    let queue = items.map((it, k) => ({ it, key: k })); // each unique question
+    queue = shuffle(queue);
+    const remaining = new Set(queue.map(q => q.key));
+    let firstTryRight = 0, attempts = 0, seenKeys = new Set();
+    function draw() {
+      if (!queue.length) return finish();
+      const { it, key } = queue[0], q = it.q;
+      const masteredN = total - remaining.size;
+      app.innerHTML = `
+      <div class="view"><div class="quiz reveal">
+        <div class="q-progress">${esc(label)} · Mastery mode — <b style="color:var(--sage)">${masteredN}/${total} mastered</b>${queue.length > 1 ? ` · ${queue.length} in queue` : ""}</div>
+        <div class="mastery-track"><div class="mastery-track-fill" style="width:${Math.round(masteredN / total * 100)}%"></div></div>
+        <div class="q-stem">${q.q}</div>
+        <div class="choices">${q.choices.map((ch, ci) => `<button class="choice" data-ci="${ci}"><span class="key">${String.fromCharCode(65 + ci)}</span><span>${ch}</span></button>`).join("")}</div>
+        <div id="md-explain"></div><div id="md-next" style="margin-top:20px"></div>
+      </div></div>`;
+      let locked = false;
+      app.querySelectorAll(".choice").forEach(b => b.addEventListener("click", () => {
+        if (locked) return; locked = true;
+        const ci = parseInt(b.dataset.ci, 10), right = q.answer, ok = ci === right;
+        attempts++;
+        if (!seenKeys.has(key)) { seenKeys.add(key); if (ok) firstTryRight++; }
+        Store.bumpMastery(it.lessonId, { correct: ok });
+        app.querySelectorAll(".choice").forEach((bb, bi) => { bb.classList.add("locked"); if (bi === right) bb.classList.add("correct"); else if (bi === ci) bb.classList.add("wrong"); });
+        if (ok) { remaining.delete(key); queue.shift(); }
+        else { const item = queue.shift(); queue.push(item); } // back of the line
+        document.getElementById("md-explain").innerHTML = `<div class="explain"><div class="et">${ok ? "Correct ✓ — mastered" : "Not yet — you'll see this again"}</div>${q.explain || ""}${!ok ? `<div style="margin-top:6px;color:var(--ink-mute)">${esc(it.lessonTitle)} · <a href="#/lesson/${it.courseId}/${it.lessonId}" data-route style="color:var(--gold)">review the lesson →</a></div>` : ""}</div>`;
+        const nb = document.createElement("button"); nb.className = "btn primary";
+        nb.textContent = remaining.size ? "Continue →" : "Finish ✓";
+        nb.addEventListener("click", draw); document.getElementById("md-next").appendChild(nb);
+        bindGo(); typeset();
+      }));
+      typeset();
+    }
+    function finish() {
+      const pct = Math.round(firstTryRight / total * 100);
+      Store.recordTest(total, total, `${label} · mastery (${total}Q)`); // all eventually correct
+      app.innerHTML = `
+      <div class="view"><div class="quiz quiz-result reveal">
+        <div class="big">✓ ${total}/${total}</div>
+        <p style="color:var(--ink-soft);font-size:18px">All ${total} mastered · ${esc(label)}</p>
+        <p style="color:var(--ink-mute);margin:6px 0 20px">${firstTryRight} right on the first try (${pct}%) · ${attempts} total attempts</p>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap"><button class="btn primary" id="md-again">↻ New drill</button><a class="btn ghost" href="#/" data-route>Done</a></div>
+      </div></div>`;
+      bindGo();
+      document.getElementById("md-again").addEventListener("click", () => { location.hash = "#/test"; });
+      flushAchievements(); renderChrome();
+    }
+    draw();
   }
 
   function runTest(items, label, opts) {

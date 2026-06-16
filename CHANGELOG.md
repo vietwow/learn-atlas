@@ -2,6 +2,14 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 6 — Mastery mode: wrong answers re-queue until you pass (gamification / new functionality)
+OWNER ASK — "think again until I pass, not casual remembering." The Spawn-a-Test page now has a default-on
+**Mastery mode**: every question you miss goes to the back of the queue and keeps coming back until you
+answer it correctly; the drill only finishes when ALL are mastered. Immediate feedback + explanation +
+a "review the lesson" link on each miss, a live mastered-progress track, and a first-try-accuracy summary.
+Each answer feeds the mastery model (wrong lowers it, so weak concepts resurface). Verified end-to-end:
+errs=0, a drive that missed most first-tries re-queued and drained to ✓5/5 over 9 attempts.
+
 ## iter 5 — Runnable code exercises embedded in algorithm & DL lessons (examples / new functionality)
 Added in-lesson `<div data-code>` exercises (Pyodide Python) with `data-expected` self-check badges: bubble
 sort, binary search, and DP-Fibonacci in the algorithms lessons; a one-neuron forward pass and a numerical-

@@ -522,6 +522,11 @@ body::after {
 .tc-row select { flex: 1; min-width: 200px; }
 .choice.sel { border-color: var(--gold); background: color-mix(in srgb, var(--gold) 10%, transparent); }
 .choice.sel .key { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+.tc-check { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; color: var(--ink-soft); line-height: 1.5; cursor: pointer; }
+.tc-check input { margin-top: 3px; accent-color: var(--gold); width: 16px; height: 16px; flex: none; }
+.tc-check b { color: var(--ink); }
+.mastery-track { height: 8px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--line); overflow: hidden; margin: 4px 0 22px; }
+.mastery-track-fill { height: 100%; background: linear-gradient(90deg, var(--sage-deep), var(--sage)); border-radius: 8px; transition: width .4s; }
 
 @media (max-width: 600px) {
   .cotd { flex-direction: column; gap: 14px; }
