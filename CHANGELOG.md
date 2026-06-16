@@ -2,6 +2,20 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 50 — Worked examples for all 17 Deep Learning lessons (content; owner-requested)
+Examples sweep reaches Deep Learning: every one of the 17 lessons that lacked examples now has 2 (34 total) —
+empirical vs true risk & the generalization gap, a neuron/MLP forward pass in matrix form, activation/loss
+(softmax+cross-entropy) computations, LR schedules, regularization & dropout/normalization math, init &
+gradient flow, a convolution feature-map computation, pooling/CNN sizing, transfer-learning param counts,
+RNN unrolling + an LSTM cell step (the additive memory highway), embeddings/tokenization, scaled
+dot-product attention + causal self-attention with masking, the Transformer end-to-end, pretraining/fine-tuning,
+and practical debugging. Each is a full step-by-step `{title, body, solution}` with KaTeX behind a "Show working"
+reveal. 15 lessons were authored+verified by a 33-agent workflow; the 2 heaviest (RNN, attention) reliably
+stalled the workflow agent, so I authored those 4 examples directly with concrete small-number computations and
+had an independent agent adversarially re-derive every value (verdict: ALL CORRECT). DL examples 4 → 38
+(150 site-wide). Verified: attention (bmatrix/masking) + RNN render desktop & 390px mobile, `node gate.js`
+ALL GREEN, all-routes errs=0.
+
 ## iter 49 — Worked examples for all 18 Algorithms lessons (content; owner-requested)
 Examples sweep reaches Algorithms: every one of the 18 lessons that lacked examples now has 2 (36 total),
 tuned to the domain — concrete algorithm TRACES on small inputs (Kruskal + union-by-rank/path-compression,

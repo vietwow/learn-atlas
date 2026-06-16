@@ -53,10 +53,16 @@ done items move to CHANGELOG and out; new ideas land in the backlog.
 
 ## Owner priority — worked examples sweep (in progress)
 "Examples when we need it." Adding 2 verified worked examples to every lesson that lacks them, topic by topic
-via the author→adversarial-verify workflow. DONE: Linear Algebra (iter 47, 9 lessons), Calculus (iter 48, all 20), Algorithms (iter 49, all 18).
-NEXT: Deep Learning, Reinforcement Learning, LLMs — reuse `/tmp/gen_examples_wf.js <topicId> <noun>` →
-`Workflow({scriptPath})` → `/tmp/inject_examples.js <topicId> <outputFile>` → gate → all-routes → 390px.
+via the author→adversarial-verify workflow. DONE: Linear Algebra (iter 47, 9), Calculus (iter 48, all 20), Algorithms (iter 49, all 18),
+Deep Learning (iter 50, all 17). NEXT: Reinforcement Learning, then LLMs — reuse
+`/tmp/gen_examples_wf.js <topicId> <noun>` → `Workflow({scriptPath})` →
+`/tmp/inject_examples.js <topicId> <outputFile>` → gate → all-routes → 390px. Re-running the generator
+after a partial inject re-bakes ONLY the still-missing lessons (handy for retrying failures).
 Skip purely-conceptual lessons (the verify step returns none for them, as 5 LA lessons correctly did).
+**Landmine (iter 50):** a few very matrix/token-heavy lessons (DL RNN + attention) reliably STALLED the
+workflow author agent on all 6 retries (~3h wasted, 180s no-progress each). If a lesson fails twice, don't
+re-run the workflow — author those 1–2 examples DIRECTLY in the main loop (use a node script with
+`String.raw` so LaTeX backslashes stay literal) and have ONE Agent adversarially re-derive the numbers.
 
 ## Notes / discoveries
 - **Architecture review (iter 36):** layer discipline is clean — content in `data/*.js`, visualizations in
