@@ -604,6 +604,20 @@ body::after {
 }
 #notes-area:focus, .recall-area:focus { outline: none; border-color: var(--gold-deep); }
 
+/* ---- inline glossary tooltips ---- */
+.gloss { border-bottom: 1px dotted var(--gold-deep); cursor: help; position: relative; color: inherit; }
+.gloss:focus { outline: 2px solid var(--gold-deep); outline-offset: 2px; border-radius: 2px; }
+.gloss-pop {
+  position: absolute; left: 0; bottom: 130%; z-index: 60; width: 270px; max-width: 76vw;
+  background: var(--panel-2); border: 1px solid var(--gold-deep); border-radius: 11px; padding: 11px 13px;
+  font-family: var(--font-body); font-size: 13px; line-height: 1.55; color: var(--ink-soft); text-align: left;
+  box-shadow: 0 14px 36px -10px rgba(0,0,0,.65);
+  opacity: 0; visibility: hidden; transform: translateY(5px); transition: opacity .15s, transform .15s, visibility .15s;
+  pointer-events: none; white-space: normal; font-weight: 400;
+}
+.gloss:hover .gloss-pop, .gloss:focus .gloss-pop, .gloss:focus-within .gloss-pop { opacity: 1; visibility: visible; transform: translateY(0); }
+.gloss-pop::before { content: ""; position: absolute; top: 100%; left: 16px; border: 6px solid transparent; border-top-color: var(--gold-deep); }
+
 /* ---- Recall ("explain it back") ---- */
 .recall { max-width: 780px; }
 .recall-intro h3 { font-family: var(--font-disp); font-size: 22px; margin: 0 0 8px; }

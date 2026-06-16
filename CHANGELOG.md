@@ -2,6 +2,19 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 57 — Inline glossary tooltips in lessons (understandability)
+"Understand faster": the first occurrence of each glossary term in a lecture now gets a dotted underline and a
+hover/tap definition popup (with its own KaTeX rendered), so you can recall what "eigenvalue" or "span" means
+without leaving the page. A `linkGlossary` pass runs over the lecture `.prose` BEFORE `typeset()`, walking text
+nodes and skipping anything inside math, code, links, headings, viz, or already-wrapped spans — and crucially
+skipping any text node containing `$`, so KaTeX delimiters are never split. Conservative by design: terms ≥4
+chars, first-occurrence-only (one wrap per term per lesson), capped at 14, longest-term-first matching.
+Keyboard- and touch-accessible (`tabindex`/`role=button`, shows on `:focus`); `prefers-reduced-motion`
+respected via the global media query. Built in `app.js` + `styles.css` reusing `window.GLOSSARY` (48 terms);
+no new state. SW cache → `atlas-v9`. Verified via DOM dump (4 tooltips wrapped on a lesson, 328 KaTeX spans
+intact — math unbroken), a desktop + 390px screenshot of a live tooltip, and all-routes errs=0 across the
+glossary-bearing lessons; `node gate.js` ALL GREEN.
+
 ## iter 56 — Five new achievements (incl. the Recall pillar) + a collection-progress bar (gamification)
 The badge set predated several features — most notably the iter-53 Recall pillar earned no recognition. Added
 five achievements (20 → 25): **Explain It Back** (score your first free recall), **Total Recall** (recall 100%

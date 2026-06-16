@@ -141,6 +141,65 @@
     })(t0);
   }
 
+  // ---------- inline glossary tooltips (understandability) ----------
+  // Wrap the first occurrence of each glossary term in lecture prose with a hover/tap
+  // definition. Runs BEFORE typeset() and skips any text node containing "$" so KaTeX
+  // delimiters are never split; the tooltip's own math is rendered by the following typeset().
+  let _glossTerms = null;
+  function glossTerms() {
+    if (_glossTerms) return _glossTerms;
+    const g = (window.GLOSSARY || []).filter(t => t.term && t.term.length >= 4);
+    const seen = {}, list = [];
+    g.forEach(t => { const k = t.term.toLowerCase(); if (!seen[k]) { seen[k] = 1; list.push(t); } });
+    list.sort((a, b) => b.term.length - a.term.length);                       // longer terms win (multi-word first)
+    const escRe = s => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    _glossTerms = { defByLc: list.reduce((o, t) => (o[t.term.toLowerCase()] = t.def, o), {}),
+      re: list.length ? new RegExp("\\b(" + list.map(t => escRe(t.term)).join("|") + ")\\b", "i") : null };
+    return _glossTerms;
+  }
+  function linkGlossary(root) {
+    if (!root) return;
+    const G = glossTerms(); if (!G.re) return;
+    const SKIP = /^(A|CODE|PRE|BUTTON|H1|H2|H3|H4|SCRIPT|STYLE)$/;
+    const blocked = node => {
+      let p = node.parentNode;
+      while (p && p !== root) {
+        if (p.nodeType === 1) {
+          if (SKIP.test(p.tagName)) return true;
+          if (p.classList && (p.classList.contains("gloss") || p.classList.contains("katex"))) return true;
+          if (p.hasAttribute && (p.hasAttribute("data-viz") || p.hasAttribute("data-code"))) return true;
+        }
+        p = p.parentNode;
+      }
+      return false;
+    };
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: n => (n.nodeValue && /\S/.test(n.nodeValue) && n.nodeValue.indexOf("$") === -1 && !blocked(n))
+        ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT
+    });
+    const nodes = []; let t; while ((t = walker.nextNode())) nodes.push(t);
+    const used = new Set(); let count = 0; const MAX = 14;
+    const escHtml = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    for (const node of nodes) {
+      if (count >= MAX) break;
+      const text = node.nodeValue; G.re.lastIndex = 0;
+      const m = G.re.exec(text); if (!m) continue;
+      const lc = m[0].toLowerCase(); if (used.has(lc)) continue;
+      const def = G.defByLc[lc]; if (!def) continue;
+      used.add(lc); count++;
+      const span = document.createElement("span");
+      span.className = "gloss"; span.tabIndex = 0; span.setAttribute("role", "button");
+      span.setAttribute("aria-label", m[0] + " — show definition");
+      span.innerHTML = escHtml(m[0]) + `<span class="gloss-pop" role="tooltip">${def}</span>`;
+      const frag = document.createDocumentFragment();
+      const before = text.slice(0, m.index), after = text.slice(m.index + m[0].length);
+      if (before) frag.appendChild(document.createTextNode(before));
+      frag.appendChild(span);
+      if (after) frag.appendChild(document.createTextNode(after));
+      node.parentNode.replaceChild(frag, node);
+    }
+  }
+
   // ---------- onboarding / welcome tour ----------
   function showIntro(force) {
     if (!force) { try { if (localStorage.getItem("atlas.introSeen")) return; } catch (e) {} }
@@ -499,6 +558,7 @@
     bindGo();
     hydrateViz(body);
     hydrateCode(body);
+    linkGlossary(body.querySelector(".prose"));   // inline term tooltips (before typeset, so tooltip math renders)
     typeset();
   }
 
