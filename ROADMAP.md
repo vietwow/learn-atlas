@@ -65,9 +65,9 @@ Owner's most-repeated ask: "more and more and more questions … think again unt
 from 8 → 12 MCQs, topic by topic, via author→adversarial-verify (verification is CRITICAL — a wrong answer key
 teaches the wrong thing; iter 60 caught a self-contradictory stem + bad KaTeX + wrong explanations). Tooling:
 `/tmp/gen_mcq_wf.js <topicId> <noun> <addN>` → `Workflow({scriptPath})` → `/tmp/inject_mcq.js <topicId> <out>`
-(APPENDS to existing `l.mcq`, validates each item) → gate → quiz-render check. DONE: Linear Algebra (iter 60, +64), Calculus (iter 61, +88), Algorithms (iter 62, +80) — all at 12/lesson;
-site-wide 1,129 MCQs. NEXT: Deep Learning, Reinforcement Learning, LLMs. Also bump the 2 thin RL lessons
-(rl-td-learning 5, rl-trpo-ppo 4) up to 12 when RL's turn comes.
+(APPENDS to existing `l.mcq`, validates each item) → gate → quiz-render check. DONE: Linear Algebra (iter 60, +64), Calculus (iter 61, +88), Algorithms (iter 62, +80), Deep Learning
+(iter 63, +76) — all at 12/lesson; site-wide 1,205 MCQs. NEXT: Reinforcement Learning, LLMs. RL has 2 thin
+lessons (rl-td-learning 5, rl-trpo-ppo 4) — top them up to 12 (i.e. +7 and +8) rather than the flat +4.
 
 ## Owner priority — worked examples sweep ✅ COMPLETE (iters 47–52)
 "Examples when we need it." Added 2 verified worked examples to every lesson that warranted them, all six

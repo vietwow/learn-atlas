@@ -2,6 +2,16 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 63 — Question-bank growth: +76 MCQs across Deep Learning (content; owner-requested)
+Bank-growth sweep reaches Deep Learning: +4 MCQs on each of the 19 lessons (8 → 12/lesson; DL 152 → 228,
+**site-wide 1,129 → 1,205**). Topics span dead-ReLU debugging, gradient accumulation, bias-variance,
+embedding-table sizing, LSTM gradient flow, multi-head attention, causal masking with $-\infty$, cross- vs
+self-attention, residual connections, LoRA serving economics, and in-context learning. Same
+author→adversarial-verify pipeline (every answer independently re-solved); no stalls this time (MCQs are far
+lighter than the iter-50 worked examples that hung on the matrix-heavy lessons). Verified: a DL quiz (the
+attention lesson, which also embeds the backprop-adjacent viz) now offers 12 MCQs and answers cleanly
+(errs=0 across routes), `node gate.js` ALL GREEN.
+
 ## iter 62 — Question-bank growth: +80 MCQs across Algorithms (content; owner-requested)
 Bank-growth sweep reaches Algorithms: +4 MCQs on each of the 20 lessons (8 → 12/lesson; algorithms 160 → 240,
 **site-wide 1,049 → 1,129**). The adversarial verify pass keeps paying off on this topic's subtle bounds: it
