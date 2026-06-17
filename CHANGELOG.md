@@ -2,6 +2,19 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 92 — Convex vs. non-convex gradient-descent landscape visualization (visualizations; "deepen the existing six")
+A new interactive widget (`calc-convex-landscape`, the 27th) that makes the convexity lesson's central payoff *visible*.
+Pick a landscape — a **convex bowl** ($0.25x^2$) or a **bumpy non-convex** curve ($0.12x^2+0.8\cos 1.8x$ with several
+local valleys) — set a **start x**, choose a **learning rate η**, and press **Drop ball** to animate gradient descent
+($x_{k+1}=x_k-\eta f'(x_k)$) rolling downhill, leaving a trail. On the convex bowl it reaches the global minimum from
+*any* start; on the bumpy landscape it settles into whichever local valley it started above — frequently missing the
+global minimum (a dashed green marker), which is precisely the trap convexity eliminates. Embedded in the *Convex Sets
+& Functions* lesson right after the "marble in a bowl" intuition callout, and in the Lab. SW cache → `atlas-v36`; README
+viz counts 26→27. Verified: Lab hydrates (canvas + select + 2 sliders + 2 buttons, errs=0); the demo run on the bumpy
+landscape started at x=−3.2 and **settled (trapped) at x=−1.60 while the global min is at x=+1.60** — the intended
+"aha"; embedded canvas hydrates in-lesson (katex-error=0); legible at 390px; blurb/note use plain text (Lab isn't
+KaTeX-typeset); `node gate.js` ALL GREEN (27 widgets); stray Chrome cleaned up.
+
 ## iter 91 — Calculus Convex-Optimization module — 12 MCQs per lesson (content; owner "more questions" ask)
 Completed the new Convex & Constrained Optimization module: all three lessons (convexity, GD convergence, Lagrange
 multipliers) brought from 0 → 12 MCQs each via the author→adversarial-verify pipeline — **+36 fact-checked questions**,

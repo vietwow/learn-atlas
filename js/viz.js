@@ -1317,4 +1317,75 @@
     seed(); draw();
   });
 
+  /* ========================================================
+     27. Convex vs non-convex: gradient descent & the local-minimum trap
+     ======================================================== */
+  register({ id: 'calc-convex-landscape', topic: 'calculus', title: 'Convex vs. Non-convex: the Local-Minimum Trap', blurb: 'Drop a ball and run gradient descent: on a convex bowl it always finds the global minimum; on a bumpy landscape it gets stuck in whatever local valley it started above.' },
+  function (root) {
+    const W = 560, H = 380, padL = 36, padR = 14, padT = 16, padB = 40, lo = -4, hi = 4;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    const MONO = "JetBrains Mono, monospace";
+    const fns = {
+      'convex bowl': { f: x => 0.25 * x * x, fp: x => 0.5 * x },
+      'bumpy (non-convex)': { f: x => 0.12 * x * x + 0.8 * Math.cos(1.8 * x), fp: x => 0.24 * x - 1.44 * Math.sin(1.8 * x) }
+    };
+    let key = 'bumpy (non-convex)', startX = -3.2, eta = 0.15, ball = null, running = null, settled = null;
+    function F() { return fns[key]; }
+    // y-range over the domain
+    function yrange() { let mn = 1e9, mx = -1e9; for (let i = 0; i <= 200; i++) { const x = lo + (hi - lo) * i / 200, y = F().f(x); mn = Math.min(mn, y); mx = Math.max(mx, y); } return [mn, mx]; }
+    const X = x => padL + (x - lo) / (hi - lo) * (W - padL - padR);
+    let YR = yrange();
+    const Y = y => { const [mn, mx] = YR, pad = (mx - mn) * 0.12 || 1; return H - padB - (y - mn + pad) / (mx - mn + 2 * pad) * (H - padT - padB); };
+    function globalMin() { let bx = lo, by = 1e9; for (let i = 0; i <= 400; i++) { const x = lo + (hi - lo) * i / 400, y = F().f(x); if (y < by) { by = y; bx = x; } } return { x: bx, y: by }; }
+    function reset() { if (running) { running.stop(); running = null; runBtn.innerHTML = '▶ Drop ball'; } ball = { x: startX, trail: [] }; settled = null; YR = yrange(); draw(); }
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      // axis
+      ctx.strokeStyle = p.line; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(padL, H - padB); ctx.lineTo(W - padR, H - padB); ctx.stroke();
+      // the curve
+      ctx.strokeStyle = p.ink; ctx.lineWidth = 2.4; ctx.beginPath();
+      for (let i = 0; i <= 300; i++) { const x = lo + (hi - lo) * i / 300; i ? ctx.lineTo(X(x), Y(F().f(x))) : ctx.moveTo(X(x), Y(F().f(x))); } ctx.stroke();
+      // global-min marker
+      const gm = globalMin();
+      ctx.strokeStyle = p.sage; ctx.lineWidth = 1.2; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(X(gm.x), Y(gm.y) + 8); ctx.lineTo(X(gm.x), H - padB); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = p.sage; ctx.font = '10px ' + MONO; ctx.textAlign = 'center'; ctx.fillText('global min', X(gm.x), H - padB + 13);
+      // start marker
+      ctx.fillStyle = p.mute; ctx.fillText('start', X(startX), Y(F().f(startX)) - 12);
+      ctx.strokeStyle = p.mute; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(X(startX), Y(F().f(startX)), 3, 0, 2 * Math.PI); ctx.stroke();
+      // trail + ball
+      if (ball) {
+        ctx.strokeStyle = p.gold; ctx.globalAlpha = 0.4; ctx.lineWidth = 1.5; ctx.beginPath();
+        ball.trail.forEach((tx, i) => { i ? ctx.lineTo(X(tx), Y(F().f(tx))) : ctx.moveTo(X(tx), Y(F().f(tx))); }); ctx.stroke(); ctx.globalAlpha = 1;
+        ctx.fillStyle = p.rust; ctx.beginPath(); ctx.arc(X(ball.x), Y(F().f(ball.x)), 6, 0, 2 * Math.PI); ctx.fill();
+      }
+      const gmx = gm.x;
+      info.innerHTML = settled == null
+        ? `<b>${key}</b> — the ball starts at <b>x=${startX.toFixed(1)}</b>. Press <b>Drop ball</b> to run gradient descent (each step rolls downhill by η·f′(x)).`
+        : `Started at <b>x=${startX.toFixed(1)}</b>, settled at <b>x=${settled.toFixed(2)}</b> &nbsp;·&nbsp; global min at x=${gmx.toFixed(2)}.<br>` +
+          (Math.abs(settled - gmx) < 0.25
+            ? (key === 'convex bowl'
+              ? `Reached the <span style="color:${p.sage}">global minimum</span> — and on a <b>convex</b> bowl it <em>always</em> will, from any start.`
+              : `This time it happened to land in the global basin. Move the start and try again — on a bumpy landscape it won't always.`)
+            : `<span style="color:${p.rust}">Trapped in a local minimum</span>, not the global one — gradient descent only rolls downhill into whatever valley it started above. This trap is exactly what convexity eliminates.`);
+    }
+    function dropStep() {
+      if (!ball) return;
+      const g = F().fp(ball.x); ball.trail.push(ball.x); ball.x = ball.x - eta * g;
+      if (ball.x < lo) ball.x = lo; if (ball.x > hi) ball.x = hi;
+      if (Math.abs(g) < 0.004 || ball.trail.length > 400) { settled = ball.x; running.stop(); running = null; runBtn.innerHTML = '▶ Drop ball'; }
+    }
+    select(ctl, { label: 'landscape', value: key, options: Object.keys(fns).map(k => ({ value: k, label: k })), onChange: v => { key = v; reset(); } });
+    slider(ctl, { label: 'start x', min: -4, max: 4, step: 0.1, value: startX, fmt: v => 'x=' + v.toFixed(1), onInput: v => { startX = v; reset(); } });
+    slider(ctl, { label: 'learning rate η', min: 0.02, max: 0.5, step: 0.01, value: eta, fmt: v => 'η=' + v.toFixed(2), onInput: v => { eta = v; } });
+    const runBtn = button(ctl, '▶ Drop ball', () => {
+      if (running) { running.stop(); running = null; runBtn.innerHTML = '▶ Drop ball'; return; }
+      if (settled != null) reset();
+      runBtn.innerHTML = '⏸ Pause'; let f = 0; running = loop(() => { f++; if (f % 4 === 0) { dropStep(); draw(); } });
+    });
+    button(ctl, '↻ Reset', () => reset());
+    reset();
+  });
+
 })();
