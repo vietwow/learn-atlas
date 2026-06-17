@@ -2,6 +2,23 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 136 — Optimizer Race viz: SGD vs Momentum vs RMSProp vs Adam (visualization)
+The **34th** interactive widget (`dl-optimizers`), embedded in *Optimizers: SGD, Momentum, RMSProp, and Adam* — which
+until now only embedded the weak 1-D `calc-gradient-descent` ball. Drops all four optimizers from the **same** start on
+an **ill-conditioned** loss valley ($f=0.06x^2+1.8y^2$, condition number 30 — steep across, shallow along) and animates
+their paths simultaneously, each a distinct colour, with a live legend (step count, ✓ converged, ✗ diverged) and a global
+*learning-rate ×* slider. The lesson is in the picture: plain **SGD** (rust) zig-zags across the steep walls while it
+crawls along the floor; **Momentum** (gold) builds velocity along the consistent direction and cancels the oscillation;
+**RMSProp** (violet) and **Adam** (sage) rescale each coordinate by its own gradient history and step almost straight to
+the minimum. All four optimizer updates are the textbook formulas (incl. Adam's bias-corrected $\hat m,\hat v$).
+- **Numerically pre-tuned**: simulated all four in Node before writing any canvas code — per-optimizer learning rates
+  chosen so the race is correct *and* legible (SGD lr=0.50 gives a persistent visible decaying zig-zag −2.08, 1.66,
+  −1.33, …; all paths stay in-viewport at every multiplier 0.4–1.6; diverging runs are caught and flagged, not drawn off-canvas).
+- **Verified**: `node gate.js` ALL GREEN (now **34 widgets**, `data-viz` id resolves); Lab route + lesson embed render
+  with **errs=0**; all-routes smoke errs=0; desktop (race to convergence — Momentum first at 25 steps, SGD still zig-zagging)
+  + 390px mobile screenshots read. SW cache **v78 → v79**. README viz count 33 → 34 (+ list updated with beam-search,
+  cross-entropy, and the new optimizer race).
+
 ## iter 135 — MCQ arc → Linear Algebra · Matrices 12 → 16 (content — owner's #1 ask)
 The 12→16 growth arc advances to LA's **Matrices** module. **+4 new MCQs each** to *Matrices as Linear Transformations*,
 *Matrix Multiplication*, and *Inverses & Systems* (**+12, bank 1,884 → 1,896**), all foundational angles the existing

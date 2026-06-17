@@ -117,6 +117,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    Refactored `achProgressMap()` out of `viewAchievements` + added `nearestAchievement()`. SW cache →v77.
    ✅ iter 135: MCQ arc → Linear Algebra·Matrices 12→16 (+12, bank →1,896). LA 2/7 modules (foundations, matrices).
    Adversarial agent ALL PASS; positions shuffled; render-check "of 16" errs=0; SW cache →v78.
+   ✅ iter 136: Optimizer Race viz (dl-optimizers, 34th) — SGD/Momentum/RMSProp/Adam race on an ill-conditioned valley;
+   embedded in the DL optimizers lesson (replaced the weak 1-D calc-gradient-descent embed). Math pre-tuned in Node;
+   errs=0; SW cache →v79. VIZ BACKLOG remaining: MDP policy-iteration (3rd gridworld — lower priority), VAE latent-space,
+   GAN training-dynamics.
    LA REMAINING: structure(2), eigen(3), orthogonality(2), svd-applications(2), matrix-calculus(3). Then Calc/DL/RL/LLM/PS.
    ARC PROGRESS: Algorithms modules at 16 = foundations, data-structures. REMAINING in Algorithms: sorting-searching,
    algorithm-design, graphs, advanced-ml-connections, advanced-techniques (5). Then LA/Calc/DL/RL/LLM/PS. Interleave!

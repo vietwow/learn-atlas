@@ -1793,4 +1793,96 @@
     draw();
   });
 
+  /* ========================================================
+     34. Optimizer race: SGD vs Momentum vs RMSProp vs Adam
+     ======================================================== */
+  register({ id: 'dl-optimizers', topic: 'deep-learning', title: 'Optimizer Race: SGD vs Momentum vs RMSProp vs Adam', blurb: 'Drop four optimizers on the same ill-conditioned loss valley and watch them race to the minimum. Plain SGD zig-zags across the steep walls; momentum and the adaptive methods (RMSProp, Adam) cut straighter and arrive faster.' },
+  function (root) {
+    const W = 560, H = 392, xmin = -5, xmax = 5, ymin = -3.4, ymax = 3.4;
+    const a = 0.06, b = 1.8, START = [-4.4, 2.6], MAXSTEP = 110;   // f = a x² + b y², κ = b/a = 30
+    const gx = x => 2 * a * x, gy = y => 2 * b * y, f = (x, y) => a * x * x + b * y * y;
+    const { c, ctx } = canvas(root, W, H);
+    const MONO = "JetBrains Mono, monospace";
+    const X = x => 44 + (x - xmin) / (xmax - xmin) * (W - 88);
+    const Y = y => H - 30 - (y - ymin) / (ymax - ymin) * (H - 86);
+    // each optimizer: base lr (tuned for a fair race) + per-step update of [dx,dy]
+    const OPTS = [
+      { name: 'SGD', key: 'sgd', col: 'rust', lr: 0.50, init: () => ({}), upd: (g, s, lr) => [lr * g[0], lr * g[1]] },
+      { name: 'Momentum', key: 'mom', col: 'gold', lr: 0.08, init: () => ({ vx: 0, vy: 0 }), upd: (g, s, lr) => { s.vx = 0.9 * s.vx + g[0]; s.vy = 0.9 * s.vy + g[1]; return [lr * s.vx, lr * s.vy]; } },
+      { name: 'RMSProp', key: 'rms', col: 'violet', lr: 0.15, init: () => ({ sx: 0, sy: 0 }), upd: (g, s, lr) => { s.sx = 0.9 * s.sx + 0.1 * g[0] * g[0]; s.sy = 0.9 * s.sy + 0.1 * g[1] * g[1]; return [lr * g[0] / (Math.sqrt(s.sx) + 1e-8), lr * g[1] / (Math.sqrt(s.sy) + 1e-8)]; } },
+      { name: 'Adam', key: 'adam', col: 'sage', lr: 0.40, init: () => ({ mx: 0, my: 0, vx: 0, vy: 0 }), upd: (g, s, lr, t) => { s.mx = 0.9 * s.mx + 0.1 * g[0]; s.my = 0.9 * s.my + 0.1 * g[1]; s.vx = 0.999 * s.vx + 0.001 * g[0] * g[0]; s.vy = 0.999 * s.vy + 0.001 * g[1] * g[1]; const mhx = s.mx / (1 - Math.pow(0.9, t)), mhy = s.my / (1 - Math.pow(0.9, t)), vhx = s.vx / (1 - Math.pow(0.999, t)), vhy = s.vy / (1 - Math.pow(0.999, t)); return [lr * mhx / (Math.sqrt(vhx) + 1e-8), lr * mhy / (Math.sqrt(vhy) + 1e-8)]; } }
+    ];
+    let mult = 1.0, runH = null, runners = [], steps = 0;
+    function reset() {
+      if (runH) { runH.stop(); runH = null; runBtn.innerHTML = '▶ Race'; }
+      steps = 0;
+      runners = OPTS.map(o => ({ o: o, x: START[0], y: START[1], st: o.init(), path: [[START[0], START[1]]], conv: -1, dead: false }));
+      draw();
+    }
+    function stepAll() {
+      steps++;
+      runners.forEach(r => {
+        if (r.dead) return;
+        const g = [gx(r.x), gy(r.y)];
+        const d = r.o.upd(g, r.st, r.o.lr * mult, steps);
+        const nx = r.x - d[0], ny = r.y - d[1];
+        if (!isFinite(nx) || !isFinite(ny) || Math.abs(nx) > xmax + 1.2 || Math.abs(ny) > ymax + 1.2) { r.dead = true; return; } // diverged
+        r.x = nx; r.y = ny; r.path.push([nx, ny]);
+        if (r.conv < 0 && f(nx, ny) < 0.01) r.conv = steps;
+      });
+      const allDone = runners.every(r => r.dead || r.conv > 0);
+      if ((allDone || steps >= MAXSTEP) && runH) { runH.stop(); runH = null; runBtn.innerHTML = '▶ Race'; }
+      draw();
+    }
+    function draw() {
+      const p = P(); const COL = k => p[k]; ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      // contour ellipses of the loss valley
+      ctx.strokeStyle = p.line; ctx.lineWidth = 1;
+      [0.2, 0.6, 1.3, 2.4, 4, 6.2, 9].forEach(cv => { ctx.beginPath(); for (let t = 0; t <= 6.3; t += 0.1) { const x = Math.sqrt(cv / a) * Math.cos(t), y = Math.sqrt(cv / b) * Math.sin(t); const px = X(x), py = Y(y); t === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py); } ctx.closePath(); ctx.stroke(); });
+      // minimum marker
+      ctx.fillStyle = p.sage; ctx.beginPath(); ctx.arc(X(0), Y(0), 4, 0, 7); ctx.fill();
+      ctx.fillStyle = p.mute; ctx.font = '10px ' + MONO; ctx.textAlign = 'center'; ctx.fillText('min', X(0), Y(0) - 8);
+      // start marker
+      ctx.strokeStyle = p.mute; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(X(START[0]), Y(START[1]), 3, 0, 7); ctx.stroke();
+      ctx.fillStyle = p.mute; ctx.fillText('start', X(START[0]), Y(START[1]) - 8);
+      // each optimizer's path + head
+      runners.forEach(r => {
+        const col = COL(r.o.col);
+        ctx.strokeStyle = col; ctx.lineWidth = 1.8; ctx.globalAlpha = 0.9; ctx.beginPath();
+        r.path.forEach((pt, i) => { const px = X(pt[0]), py = Y(pt[1]); i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py); }); ctx.stroke(); ctx.globalAlpha = 1;
+        const last = r.path[r.path.length - 1];
+        ctx.fillStyle = col; ctx.beginPath(); ctx.arc(X(last[0]), Y(last[1]), r.conv > 0 ? 3.5 : 5, 0, 7); ctx.fill();
+      });
+      // legend (top-left), with live step / converged / diverged status
+      ctx.textAlign = 'left'; ctx.font = '11px ' + MONO;
+      runners.forEach((r, i) => {
+        const lx = 52, ly = 20 + i * 16; const col = COL(r.o.col);
+        ctx.fillStyle = col; ctx.beginPath(); ctx.arc(lx, ly - 3, 4, 0, 7); ctx.fill();
+        const status = r.dead ? '✗ diverged' : r.conv > 0 ? '✓ ' + r.conv + ' steps' : steps > 0 ? '… ' + steps : '';
+        ctx.fillStyle = r.dead ? p.rust : (r.conv > 0 ? p.soft : p.mute);
+        ctx.fillText(r.o.name + '  ' + status, lx + 10, ly);
+      });
+      const done = runners.filter(r => r.conv > 0).sort((m, n) => m.conv - n.conv);
+      const winner = done.length ? done[0] : null;
+      info.innerHTML = steps === 0
+        ? `An <b>ill-conditioned</b> loss valley ($f=${a}x^2+${b}y^2$, condition number ${(b / a).toFixed(0)}): steep across, shallow along. Press <b>Race</b> to drop all four optimizers from the same start. Watch <span style="color:${P().rust}">SGD</span> zig-zag across the steep walls while it crawls along the floor.`
+        : `Step <b>${steps}</b>${winner ? ` &nbsp;·&nbsp; first to the minimum: <b style="color:${P()[winner.o.col]}">${winner.o.name}</b> (${winner.conv} steps)` : ''}.<br>` +
+          `<span style="color:${P().rust}">SGD</span> is bounded by the <em>steep</em> direction — a step big enough to make progress along the valley overshoots across it, so it <b>zig-zags</b>. <span style="color:${P().gold}">Momentum</span> builds velocity along the consistent direction and cancels the oscillation; <span style="color:${P().violet}">RMSProp</span> and <span style="color:${P().sage}">Adam</span> rescale each coordinate by its own gradient history, so they step almost straight toward the minimum.`;
+    }
+    const ctl = controls(root);
+    slider(ctl, { label: 'learning rate ×', min: 0.4, max: 1.6, step: 0.1, value: mult, fmt: v => '×' + v.toFixed(1), onInput: v => { mult = v; reset(); } });
+    const btns = controls(root);
+    const runBtn = button(btns, '▶ Race', () => {
+      if (runH) { runH.stop(); runH = null; runBtn.innerHTML = '▶ Race'; return; }
+      if (runners.every(r => r.dead || r.conv > 0) || steps >= MAXSTEP) reset();
+      runBtn.innerHTML = '⏸ Pause'; let fr = 0; runH = loop(() => { if (fr++ % 5 === 0) stepAll(); });
+    }, 'primary');
+    button(btns, 'Step', () => { if (runners.every(r => r.dead || r.conv > 0) || steps >= MAXSTEP) reset(); stepAll(); });
+    button(btns, '↻ Reset', () => reset());
+    const info = note(root);
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'A contour map of an elongated loss valley with four colored optimizer paths racing from a shared start toward the minimum: SGD, Momentum, RMSProp, and Adam.');
+    reset();
+  });
+
 })();
