@@ -2,6 +2,23 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 181 — MCQ arc → Reinforcement Learning · Function Approximation 12 → 16 (content — owner's #1 ask)
+The arc continues through RL's *Function Approximation & Value-Based Deep RL* module. Both lessons go 12 → 16 (**+8,
+bank 2,168 → 2,176**), stating the bedrock the existing 12 assumed:
+- **Value Function Approximation**: *why* FA is needed (state spaces too large/continuous to tabulate, and tables
+  can't generalize) / what a *feature vector* $\mathbf{x}(s)$ is / the *linear* approximator form ($\hat v=\mathbf
+  w^\top\mathbf x$, gradient $=\mathbf x$) / a neural net as a *learned feature constructor* (hidden layers = features,
+  final linear = weights).
+- **Deep Q-Networks**: what a *DQN* is (a neural net $Q(s,a;\theta)$ replacing the table, fit on squared TD error) /
+  what *experience replay* is (buffer + random minibatches) / what the *target network* $\theta^-$ is / the DQN
+  *architecture* (one forward pass outputs Q for all actions).
+- **Verified**: byte-stable JSON round-trip guard; `node gate.js` **ALL GREEN · 2,176 MCQs**; direct key-dump confirms
+  answer indices map to the intended choices, **balanced 2/2/2/2** with two *distinct* per-lesson patterns
+  (1,3,0,2 / 2,0,3,1); an independent adversarial fact-check agent returned **ALL PASS** (it confirmed the Mnih-2015
+  DQN architecture — state-in / one Q-value-per-action-out, single pass); render-checks on the Value-Approximation and
+  DQN quizzes → `errs=0 | "Question 1 of 16" | rawDollars=0 kErr=0`; all-routes smoke (11) `errs=0`. SW cache
+  **v123 → v124**; README 2,168 → 2,176. RL now **4/7 modules at 16**.
+
 ## iter 180 — Modal focus management: trap + restore + dialog semantics (accessibility) · ★180 reflection
 Accessibility was the most-neglected compass area (last dedicated at iter 160, 20 iters ago). The four overlays
 (command palette, welcome tour, level-up, keyboard-shortcuts) all handled Escape, but shared three real a11y gaps:

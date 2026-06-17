@@ -2318,6 +2318,50 @@
               ],
               "answer": 1,
               "explain": "Because $d \\ll |\\mathcal{S}|$, the approximator cannot independently set every state's value, so minimizing $\\overline{VE}$ generally leaves nonzero error at many states; exact representation of every state is precisely the tabular (one-parameter-per-state) extreme. Linear independence across all states would require $d \\geq |\\mathcal{S}|$, defeating the purpose of approximation."
+            },
+            {
+              "q": "Why does large-scale RL need <em>function approximation</em> instead of a value table?",
+              "choices": [
+                "To make the value function train faster on a small gridworld",
+                "Because real state spaces (images, continuous control, Go's $10^{170}$ states) are far too large or infinite to store one value per state — and a table can't generalize to states never visited",
+                "Because tables cannot represent negative values",
+                "To avoid having to define a reward function"
+              ],
+              "answer": 1,
+              "explain": "A lookup table needs one entry per state, which is impossible for continuous or astronomically large state spaces — and even if you could store it, it would say nothing about unseen states. A parameterized $\\hat v(s,\\mathbf w)$ with $d\\ll|\\mathcal S|$ both fits in memory and <em>generalizes</em> across similar states."
+            },
+            {
+              "q": "What is a <em>feature vector</em> $\\mathbf{x}(s)$ in value-function approximation?",
+              "choices": [
+                "The vector of weights $\\mathbf{w}$ that the model learns",
+                "The sequence of rewards collected during an episode",
+                "A one-hot encoding of the action the agent chose",
+                "An encoding of a state as a numeric vector $\\mathbf{x}(s)=(x_1(s),\\dots,x_d(s))$ that the approximator consumes — good features expose the structure that predicts return"
+              ],
+              "answer": 3,
+              "explain": "Before a function approximator can score a state it must be turned into numbers. The feature vector does that; choices range from state aggregation and tile coding to RBFs or learned (neural-net) features. The quality of $\\mathbf x(s)$ largely determines how well the values generalize."
+            },
+            {
+              "q": "What is the form of a <em>linear</em> value-function approximator?",
+              "choices": [
+                "$\\hat v(s,\\mathbf{w})=\\mathbf{w}^\\top\\mathbf{x}(s)$ — a weighted sum of the features; its gradient w.r.t. $\\mathbf{w}$ is simply $\\mathbf{x}(s)$",
+                "$\\hat v(s,\\mathbf{w})=\\max_a \\mathbf{w}^\\top\\mathbf{x}(s,a)$",
+                "$\\hat v(s,\\mathbf{w})=\\mathbf{w}^\\top\\mathbf{w}$, independent of the state",
+                "a lookup table with one entry per state"
+              ],
+              "answer": 0,
+              "explain": "Linear VFA takes the inner product of weights and features. Because $\\nabla_{\\mathbf w}\\hat v=\\mathbf x(s)$ (independent of $\\mathbf w$), the optimization surface is well-behaved — which is why linear methods enjoy the strongest convergence guarantees, while nonlinear nets trade those guarantees for expressiveness."
+            },
+            {
+              "q": "In what sense is a neural network a value-function approximator?",
+              "choices": [
+                "The whole network is discarded and replaced by a table at test time",
+                "A neural network cannot be used as a value-function approximator",
+                "Its hidden layers learn the feature representation $\\mathbf{x}(s)$ while the final linear layer learns the weights $\\mathbf{w}$ — a learned, scalable feature constructor",
+                "Only the input layer matters; the hidden layers are fixed random projections"
+              ],
+              "answer": 2,
+              "explain": "A deep net is a <em>learned</em> feature constructor: its hidden layers transform the raw state into useful features and its last linear layer combines them into a value. This is the modern, scalable answer to feature design and the foundation of value-based deep RL (DQN)."
             }
           ],
           "flashcards": [
@@ -2513,6 +2557,50 @@
               ],
               "answer": 2,
               "explain": "With $C=1$ the target $y$ uses parameters that change every step alongside the online net, so $y$ chases the predictor again, the exact moving-target instability the frozen target was designed to break. (a) inverts the truth; (b) data reuse is governed by replay, not $C$; (d) overestimation comes from the $\\max$/shared selection-evaluation, addressed by Double DQN, not by $C$."
+            },
+            {
+              "q": "What is a Deep Q-Network (DQN)?",
+              "choices": [
+                "A tabular Q-learning agent that simply uses a larger table",
+                "A policy-gradient method that directly outputs action probabilities",
+                "Q-learning in which a neural network $Q(s,a;\\theta)$ replaces the lookup table, fit by minimizing the squared TD error — so Q-learning scales to huge or image-based state spaces",
+                "A model-based planner that learns the transition dynamics and plans against them"
+              ],
+              "answer": 2,
+              "explain": "DQN keeps the Q-learning target $r+\\gamma\\max_{a'}Q(s',a')$ but represents $Q$ with a neural network, training it like a regression toward that target. That is what let Q-learning play Atari from raw pixels — but the naive version diverges without the two stabilizing tricks below."
+            },
+            {
+              "q": "What is <em>experience replay</em> in DQN?",
+              "choices": [
+                "Storing past transitions $(s,a,r,s')$ in a buffer and training on uniformly-sampled random minibatches from it, rather than learning from only the latest transition",
+                "Replaying the single best episode over and over until the agent memorizes it",
+                "A second network that predicts the immediate reward",
+                "Gradually decaying the exploration rate $\\varepsilon$ over training"
+              ],
+              "answer": 0,
+              "explain": "A FIFO replay buffer (often $10^6$ transitions) is sampled at random each update. This breaks the temporal correlation of consecutive frames (restoring SGD's near-i.i.d. assumption), reuses each costly interaction many times, and smooths the data distribution. It's legitimate precisely because Q-learning is off-policy."
+            },
+            {
+              "q": "What is the <em>target network</em> in DQN?",
+              "choices": [
+                "The policy network that selects actions during play",
+                "A network that predicts the environment's next state",
+                "The replay buffer that stores past transitions",
+                "A periodically-frozen copy of the Q-network, with weights $\\theta^-$, used to compute the bootstrap target $y=r+\\gamma\\max_{a'}Q(s',a';\\theta^-)$ so the target doesn't move every gradient step"
+              ],
+              "answer": 3,
+              "explain": "If the target $y$ used the live weights $\\theta$, each gradient step would move $Q(s,a)$ and the target together — chasing a runaway target. Freezing a copy $\\theta^-$ (synced every $C$ steps, or slowly via a soft update) holds the target still long enough for stable regression."
+            },
+            {
+              "q": "Given a state, how does a DQN produce action-values?",
+              "choices": [
+                "It requires a separate forward pass for every possible action",
+                "The network outputs the Q-values for <em>all</em> actions in a single forward pass, so the greedy action and $\\max_{a'}Q$ are read straight off the output vector",
+                "It outputs a single scalar that must be thresholded to pick an action",
+                "It outputs the next state rather than any action values"
+              ],
+              "answer": 1,
+              "explain": "The standard DQN maps a state to a length-$|\\mathcal A|$ vector of Q-values in one pass. This is efficient (one network evaluation per state) and makes the $\\max_{a'}Q(s',a')$ in the target and the greedy $\\arg\\max$ for acting trivial to compute."
             }
           ],
           "flashcards": [
