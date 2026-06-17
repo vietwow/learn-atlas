@@ -177,6 +177,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 179: MCQ arc → Reinforcement Learning·Model-Free Prediction 12→16 (+16, bank →2,168). All 4 lessons (monte-
+   carlo/td-learning/sarsa-qlearning/eligibility-traces). RL 3/7 modules. Adversarial agent ALL PASS; positions
+   balanced 4/4/4/4 (distinct patterns); render "of 16" errs=0; SW →v122. RL REMAINING (arc): function-approximation(2),
+   policy-gradient(3), practice-frontiers(3), advanced(3). Then LLMs, Prob & Stats.
    ✅ iter 178: TD-vs-Monte-Carlo viz (`rl-td-mc`, **40th widget**, visualizations — non-content; pairs w/ upcoming
    model-free-prediction module). Sutton & Barto 5-state random walk; Run-episodes plays TD(0) (gold) + MC (sage) vs
    true 1/6…5/6 (dashed) with live RMS. Embedded in `rl-td-learning`. node sim confirms RMS→TD .044/MC .086 @100ep;

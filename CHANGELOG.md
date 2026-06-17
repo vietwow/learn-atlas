@@ -2,6 +2,25 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 179 — MCQ arc → Reinforcement Learning · Model-Free Prediction 12 → 16 (content — owner's #1 ask)
+The arc continues through RL's *Model-Free Prediction & Control* module. All **four** lessons go 12 → 16 (**+16, bank
+2,152 → 2,168**), stating the bedrock the existing 12 assumed:
+- **Monte Carlo**: the core idea (average actual returns over sampled episodes) / what *model-free* means / that MC
+  assumes only *termination* (not the Markov property) / the incremental-mean update's purpose.
+- **TD Learning**: the *TD target* ($R_{t+1}+\gamma V(S_{t+1})$) / what the *TD error* represents (a prediction
+  error) / TD as model-free-but-bootstrapping (the MC↔DP synthesis) / TD(0) prediction converges to $v_\pi$.
+- **SARSA & Q-Learning**: *prediction vs control* / the SARSA update & its name (on-policy, uses the action actually
+  taken) / *behavior vs target* policy / why control must keep exploring (ε-greedy).
+- **Eligibility Traces**: the $n$-step return as the TD(0)↔MC interpolation / what the *λ-return* is / what an
+  *eligibility trace* is / the *forward vs backward* view equivalence.
+- **Verified**: byte-stable JSON round-trip guard; `node gate.js` **ALL GREEN · 2,168 MCQs** (position-bias note even
+  dropped 10→9 lessons — the balanced additions de-skewed another); direct key-dump confirms answer indices map to the
+  intended choices, **balanced 4/4/4/4** with four *distinct* per-lesson patterns (0,2,1,3 / 2,0,3,1 / 3,1,2,0 /
+  1,3,0,2); an independent adversarial fact-check agent returned **ALL PASS** (it validated the 1/N incremental-mean,
+  the Robbins-Monro TD(0)→$v_\pi$ convergence, and the λ-return weights vs S&B Eq 12.2); render-checks on the
+  (KaTeX-heavy) Eligibility-Traces and SARSA/Q quizzes → `errs=0 | "Question 1 of 16" | rawDollars=0 kErr=0`;
+  all-routes smoke (11) `errs=0`. SW cache **v121 → v122**; README 2,152 → 2,168. RL now **3/7 modules at 16**.
+
 ## iter 178 — TD-vs-Monte-Carlo visualization (`rl-td-mc`, the 40th widget) (visualizations)
 RL is the current content focus but was viz-thin (only the gridworld + Q-learning widgets), and the single most
 illuminating idea of the upcoming *Model-Free Prediction* module — how **TD bootstraps** while **MC waits for the

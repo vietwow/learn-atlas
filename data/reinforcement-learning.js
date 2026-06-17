@@ -1356,6 +1356,50 @@
               ],
               "answer": 0,
               "explain": "MC methods average complete returns and therefore require episodes that terminate; in a purely continuing task there is no episode boundary at which the return $G_t$ becomes available, so plain MC cannot form an update. The other three are all episodic tasks with guaranteed termination, exactly where MC applies."
+            },
+            {
+              "q": "What is the core idea of Monte Carlo prediction?",
+              "choices": [
+                "Estimate $v_\\pi(s)$ by averaging the actual returns $G_t$ observed after visits to $s$ across many sampled episodes — a sample mean standing in for the expectation",
+                "Sweep all states using the known transition probabilities $p(s'\\mid s,a)$",
+                "Bootstrap each state's value from the estimated value of the next state",
+                "Fit a neural network to predict the immediate reward at each step"
+              ],
+              "answer": 0,
+              "explain": "$v_\\pi(s)=\\mathbb{E}_\\pi[G_t\\mid S_t=s]$ is an expectation, so the most direct estimator is to roll out the policy, collect the actual returns following $s$, and average them. By the law of large numbers that sample average converges to $v_\\pi(s)$."
+            },
+            {
+              "q": "What does it mean that Monte Carlo methods are <em>model-free</em>?",
+              "choices": [
+                "They use a smaller discount factor than dynamic programming",
+                "They require the full transition and reward model to be known in advance",
+                "They learn purely from sampled experience (episodes the agent actually generates), needing no model of the transition dynamics or reward function",
+                "They only work in deterministic environments"
+              ],
+              "answer": 2,
+              "explain": "Unlike dynamic programming, which needs $p(s',r\\mid s,a)$, MC just acts and observes. It estimates values straight from the returns it experiences — exactly the situation of an agent that does not possess the equations of its world."
+            },
+            {
+              "q": "Monte Carlo prediction notably does <em>not</em> rely on the Markov property. What does it assume instead?",
+              "choices": [
+                "That the environment is deterministic",
+                "Only that episodes terminate, so a complete return $G_t$ can actually be observed",
+                "That the transition probabilities are known",
+                "That the state space is finite and small"
+              ],
+              "answer": 1,
+              "explain": "Because MC averages whole observed returns rather than bootstrapping off a state estimate, it doesn't need the current state to be a sufficient statistic (the Markov property). Its one real requirement is termination — a return is a sum that runs to the end of an episode."
+            },
+            {
+              "q": "Why rewrite the Monte Carlo average as the incremental update $V(s)\\leftarrow V(s)+\\frac{1}{N(s)}\\big(G-V(s)\\big)$?",
+              "choices": [
+                "It changes the estimate from a mean into a maximum",
+                "It introduces bootstrapping into Monte Carlo",
+                "It deliberately makes the estimate biased",
+                "It maintains the running average <em>online</em> — algebraically the same sample mean, but updated after each new return without storing all past returns"
+              ],
+              "answer": 3,
+              "explain": "The incremental form is exactly the batch average rewritten so you can update on the fly: keep a count $N(s)$ and nudge $V(s)$ toward each new return by $1/N(s)$. Replacing $1/N(s)$ with a constant $\\alpha$ gives a \"recency-weighted\" average, useful when the target is non-stationary."
             }
           ],
           "flashcards": [
@@ -1551,6 +1595,50 @@
               ],
               "answer": 2,
               "explain": "The TD target uses just $R_{t+1}$ and one bootstrapped value, so it has lower variance than the full random return $G_t$, but bootstrapping on an imperfect estimate makes it biased. MC's $G_t$ is unbiased but accumulates randomness over the whole episode, giving higher variance."
+            },
+            {
+              "q": "What is the TD(0) <em>target</em>?",
+              "choices": [
+                "The full return $G_t$ summed all the way to the end of the episode",
+                "The maximum action-value available at the next state",
+                "$R_{t+1} + \\gamma V(S_{t+1})$ — one observed reward plus the discounted <em>current estimate</em> of the next state's value",
+                "The average reward across all states"
+              ],
+              "answer": 2,
+              "explain": "TD exploits the Bellman expectation equation: instead of waiting for the whole return, it takes one real step and substitutes its own estimate $V(S_{t+1})$ for the unknown remainder. That $R_{t+1}+\\gamma V(S_{t+1})$ is the TD target — \"one real reward, then trust my guess about the rest.\""
+            },
+            {
+              "q": "What does the TD error $\\delta_t$ represent?",
+              "choices": [
+                "A prediction error — the TD target minus the current estimate, $\\delta_t=R_{t+1}+\\gamma V(S_{t+1})-V(S_t)$ — i.e. \"was my one-step prediction consistent with what actually happened?\"",
+                "The total reward collected over the whole episode",
+                "The difference between two successive policies",
+                "The gradient of the value function with respect to its parameters"
+              ],
+              "answer": 0,
+              "explain": "$\\delta_t$ is the surprise: how far the observed reward-plus-next-value was from what you predicted. TD nudges $V(S_t)$ by $\\alpha\\delta_t$. If an outcome is exactly as good as predicted, $\\delta_t=0$ and nothing changes — the same quantity that mirrors dopamine reward-prediction-error signals."
+            },
+            {
+              "q": "In what sense is TD learning like Monte Carlo, and how does it differ?",
+              "choices": [
+                "It needs the full transition model, exactly like dynamic programming",
+                "It can only be used for prediction, never for control",
+                "It requires storing every reward of the episode before updating",
+                "Like MC, it learns directly from raw experience with no model of the environment — but unlike MC it updates after <em>every step</em> instead of waiting for the episode to end"
+              ],
+              "answer": 3,
+              "explain": "TD is the synthesis: model-free like MC (learns from experience), bootstrapping like DP (updates an estimate from another estimate). That bootstrapping is what lets it update online, every step, and even on continuing (non-terminating) tasks."
+            },
+            {
+              "q": "Run as a prediction method for a fixed policy $\\pi$ (with a suitably decaying step size), TD(0) converges to what?",
+              "choices": [
+                "The optimal value function $v_*$, regardless of the policy followed",
+                "The value function $v_\\pi$ of the policy $\\pi$ that is generating the experience",
+                "The average reward per step",
+                "Zero for every state"
+              ],
+              "answer": 1,
+              "explain": "TD(0) prediction estimates the value of whatever policy is producing the data: it converges to $v_\\pi$. Finding $v_*$ requires <em>control</em> (improving the policy too), which is the job of SARSA and Q-learning in the next lesson."
             }
           ],
           "flashcards": [
@@ -1746,6 +1834,50 @@
               ],
               "answer": 2,
               "explain": "The $\\max$ of noisy estimates selects whichever action's noise happened to be largest, and since $\\max$ is convex, $\\mathbb{E}[\\max_a Q] \\ge \\max_a \\mathbb{E}[Q]$ (Jensen), giving a systematic upward bias. It is the selection-and-evaluation with one estimator, not the step size or discount, that creates the bias; Double Q-learning fixes it by decoupling the two roles."
+            },
+            {
+              "q": "What is the difference between <em>prediction</em> and <em>control</em> in RL?",
+              "choices": [
+                "They are two names for the same task",
+                "Prediction finds the best policy; control merely evaluates a fixed one",
+                "Control requires a known model while prediction does not",
+                "Prediction estimates how good a <em>fixed</em> policy is ($v_\\pi$ or $q_\\pi$); control searches for a <em>good</em> policy — the actual goal of RL"
+              ],
+              "answer": 3,
+              "explain": "Prediction (policy evaluation) answers \"how good is this policy?\"; control answers \"what is a good policy?\" SARSA and Q-learning are control methods — they interleave estimating $Q$ with improving the policy greedily w.r.t. it (generalized policy iteration)."
+            },
+            {
+              "q": "What characterizes the SARSA update, and where does its name come from?",
+              "choices": [
+                "It updates using the maximum action-value at the next state, ignoring what the policy does",
+                "It updates $Q(S_t,A_t)$ toward $R_{t+1}+\\gamma Q(S_{t+1},A_{t+1})$ using the next action $A_{t+1}$ <em>actually chosen</em> by the current policy — the tuple $(S,A,R,S,A)$ names it, and makes it on-policy",
+                "It requires the environment's transition model to compute the target",
+                "It can only evaluate a policy, never improve it"
+              ],
+              "answer": 1,
+              "explain": "SARSA bootstraps off the action the agent <em>actually takes next</em> under its current ($\\varepsilon$-greedy) policy, so it evaluates and improves that very policy — on-policy. The five symbols $S_t,A_t,R_{t+1},S_{t+1},A_{t+1}$ give the method its name."
+            },
+            {
+              "q": "What is the difference between an agent's <em>behavior</em> policy and its <em>target</em> policy?",
+              "choices": [
+                "They must always be identical",
+                "The behavior policy is the one we deploy; the target policy only explores",
+                "The <em>behavior</em> policy $b$ is the one the agent follows to generate experience (it must explore); the <em>target</em> policy $\\pi$ is the one whose value we are learning and ultimately want to deploy",
+                "Both are fixed and never change during learning"
+              ],
+              "answer": 2,
+              "explain": "On-policy methods (SARSA) use $b=\\pi$; off-policy methods (Q-learning) let $b\\ne\\pi$ — act with an exploratory $b$ but learn the value of a greedy target $\\pi$. Off-policy decouples exploration from the policy being evaluated."
+            },
+            {
+              "q": "In TD control, why must the behavior policy keep exploring (e.g. $\\varepsilon$-greedy) rather than act purely greedily?",
+              "choices": [
+                "If it acted purely greedily it might never try other actions, so their $Q$ estimates stay wrong and it can lock onto a suboptimal choice — exploration keeps improving every action-value",
+                "Exploration is only ever needed in dynamic programming",
+                "A greedy policy cannot be represented by a $Q$-table",
+                "Random actions are required to satisfy the Markov property"
+              ],
+              "answer": 0,
+              "explain": "Control estimates $Q(s,a)$ from experience, so an action that is never tried never gets a reliable value. A purely greedy agent can fixate on a seemingly-best action and never discover a better one; $\\varepsilon$-greedy guarantees every action keeps being sampled."
             }
           ],
           "flashcards": [
@@ -1941,6 +2073,50 @@
               ],
               "answer": 1,
               "explain": "When estimates are already good, bootstrapping introduces little bias, so leaning on it (smaller $\\lambda$) is safe; meanwhile high stochasticity makes long returns very noisy, so a smaller $\\lambda$ cuts variance. Picking $\\lambda=1$ ignores that MC's main cost — variance — is worst exactly in stochastic settings."
+            },
+            {
+              "q": "The $n$-step return interpolates between which two methods?",
+              "choices": [
+                "Between supervised and unsupervised learning",
+                "Between TD(0) and Monte Carlo: $n=1$ is exactly the TD(0) target, and $n\\to\\infty$ (reaching termination) is the full Monte-Carlo return",
+                "Between on-policy and off-policy control",
+                "Between deterministic and stochastic policies"
+              ],
+              "answer": 1,
+              "explain": "$G_t^{(n)}=R_{t+1}+\\gamma R_{t+2}+\\cdots+\\gamma^{n-1}R_{t+n}+\\gamma^n V(S_{t+n})$ takes $n$ real reward steps then bootstraps. $n=1$ recovers the TD(0) target; $n=\\infty$ recovers the full return $G_t$ (MC). $n$ is thus a bias–variance knob in the temporal dimension."
+            },
+            {
+              "q": "What is the $\\lambda$-return?",
+              "choices": [
+                "The largest $n$-step return among all $n$",
+                "The $n$-step return for the single best choice of $n$",
+                "The return achieved by the greedy policy",
+                "A single target that geometrically averages <em>all</em> $n$-step returns, weighting $G_t^{(n)}$ by $(1-\\lambda)\\lambda^{n-1}$ — a smooth blend controlled by $\\lambda\\in[0,1]$"
+              ],
+              "answer": 3,
+              "explain": "Rather than commit to one $n$, the $\\lambda$-return $G_t^\\lambda=(1-\\lambda)\\sum_{n\\ge1}\\lambda^{n-1}G_t^{(n)}$ averages them all. Any weighted average of valid targets (weights summing to 1) is itself valid. $\\lambda=0$ gives TD(0); $\\lambda=1$ gives the Monte-Carlo return."
+            },
+            {
+              "q": "What is an <em>eligibility trace</em>?",
+              "choices": [
+                "A short-term, fading memory marking how recently (and often) each state was visited, so a single TD error can update all recently-visited states in proportion to their trace",
+                "A log of every reward received during the episode",
+                "The gradient of the policy with respect to its parameters",
+                "A fixed table listing the optimal action in each state"
+              ],
+              "answer": 0,
+              "explain": "In the backward view, each state's trace is bumped when visited and decays by $\\gamma\\lambda$ each step. When a TD error occurs, every state is updated scaled by its current trace — so credit flows back to the states that led here, implementing the $\\lambda$-return online."
+            },
+            {
+              "q": "What is the relationship between the <em>forward view</em> and the <em>backward view</em> of TD($\\lambda$)?",
+              "choices": [
+                "They are unrelated algorithms that merely share a name",
+                "The forward view is for control; the backward view is for prediction",
+                "The forward view defines the target by looking ahead (the $\\lambda$-return); the backward view implements it online with eligibility traces, looking back to credit recent states — and the two are equivalent",
+                "The backward view requires a model of the environment"
+              ],
+              "answer": 2,
+              "explain": "Forward view: at each state, look ahead and update toward the $\\lambda$-return — conceptually clean but acausal (needs the future). Backward view: keep eligibility traces and apply each TD error to all recently-visited states — causal and online. They produce the same total updates (exactly so, offline)."
             }
           ],
           "flashcards": [
