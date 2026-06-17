@@ -2,6 +2,26 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 165 — MCQ arc → Deep Learning · Generalization 12 → 16 (content — owner's #1 ask)
+The arc continues through DL's third module, *Generalization: Regularization and Stable Training*. All **three**
+lessons go 12 → 16 (**+12, bank 2,072 → 2,084**), stating the bedrock the existing 12 assumed:
+- **Overfitting & Regularization**: overfit = low-train/high-val (variance term) vs underfit (bias) / what a
+  *validation* set is for (vs the test set) / the *generalization gap* = $R(f) - \hat R(f)$ / $L_2$ adds a
+  $\lambda\lVert w\rVert_2^2$ penalty (shrinks effective capacity).
+- **Dropout & Normalization**: dropout zeros each unit with prob $p$ (keeps with $q=1-p$) / why it's *off* at test
+  (deterministic prediction) / BatchNorm normalizes a feature to ~zero-mean/unit-variance across the batch then
+  applies learnable $\gamma,\beta$ / LayerNorm normalizes across *one example's features* vs BatchNorm across the batch.
+- **Initialization & Gradient Flow**: what the *vanishing-gradient* problem is (geometric decay back through layers)
+  / why weights need *random* (not constant) init — symmetry breaking / what *fan-in* means / the core goal: keep
+  signal variance ~constant layer to layer (per-layer multiplier ≈ 1).
+- **Verified**: byte-stable JSON round-trip guard; `node gate.js` **ALL GREEN · 2,084 MCQs** (position-bias note even
+  dropped 13→12 lessons — the balanced additions de-skewed one); direct key-dump confirms answer indices map to the
+  intended choices, **balanced 3/3/3/3**; an independent adversarial fact-check agent returned **ALL PASS** (it
+  scrutinized the Q10 symmetry-breaking edge case — holds for any constant init); render-checks on the Overfitting and
+  Initialization quizzes → `errs=0 | "Question 1 of 16" | rawDollars=0 kErr=0`; all-routes smoke (13, incl. the
+  dropout lesson that also carries the iter-162 viz) `errs=0`. SW cache **v107 → v108**; README 2,072 → 2,084.
+  ★ **Deep Learning is now 3/7 modules at 16** (foundations, training-mechanics, generalization).
+
 ## iter 164 — Inline "Quick Check": low-stakes retrieval at the end of every lecture (new functionality / understandability)
 The lecture reading flow had **no retrieval practice** — the Quiz tab is a deliberate, separate switch, so learners
 who read and move on never test recall, forfeiting the single best-evidenced retention lever (the *testing effect*,

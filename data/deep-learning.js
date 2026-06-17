@@ -1834,6 +1834,50 @@
               ],
               "answer": 0,
               "explain": "The L2 penalty shrinks weights toward the origin; in the limit of huge $\\lambda$ the data-fit term is negligible and $\\hat{w} \\to 0$, yielding a near-constant predictor with high bias but low variance. Driving individual weights to exactly zero is the behavior of L1, not L2."
+            },
+            {
+              "q": "A model achieves very low training error but much higher error on held-out validation data. Which phenomenon is this, and which term of the bias–variance decomposition dominates?",
+              "choices": [
+                "Underfitting — the bias term dominates",
+                "Overfitting — the variance term dominates",
+                "The irreducible-noise floor $\\sigma^2$ has been reached",
+                "A vanishing-gradient problem"
+              ],
+              "answer": 1,
+              "explain": "Low training error with a large train→validation gap is the signature of overfitting: the model has fit idiosyncrasies of the training sample that do not generalize, so the variance term \\(\\operatorname{Var}[\\hat f(x)]\\) dominates the expected test error."
+            },
+            {
+              "q": "What is the purpose of holding out a validation set, separate from both the training set and the test set?",
+              "choices": [
+                "To give the model more examples to memorize during training",
+                "To compute the training loss more accurately",
+                "To estimate generalization to unseen data and tune choices (when to stop, how much to regularize) without contaminating the final test set",
+                "To make each gradient step run faster"
+              ],
+              "answer": 2,
+              "explain": "The training set fits parameters; the validation set is unseen data used to estimate the generalization gap and to choose hyperparameters / when to stop. Keeping it separate from the test set preserves the test set as an untouched final estimate of real-world performance."
+            },
+            {
+              "q": "The \"generalization gap\" is defined as which quantity?",
+              "choices": [
+                "The difference between the true expected risk $R(f)$ and the empirical training risk $\\hat R(f)$",
+                "The difference between the training loss at the start and end of training",
+                "The number of parameters minus the number of training examples",
+                "The gap between the learning rate and the batch size"
+              ],
+              "answer": 0,
+              "explain": "Generalization gap \\(= R(f) - \\hat R(f)\\): how much worse the model does on the true data distribution than on its training sample. Training drives \\(\\hat R\\) down; the question of generalization is whether \\(R\\) follows. Overfitting is exactly this gap growing large."
+            },
+            {
+              "q": "How does $L_2$ regularization (weight decay) modify the training objective?",
+              "choices": [
+                "It removes the least-used neurons from the network after training",
+                "It automatically collects more training data",
+                "It raises the learning rate as training proceeds",
+                "It adds a penalty proportional to the squared magnitude of the weights, $\\lambda\\lVert w\\rVert_2^2$, to the loss — discouraging large weights and shrinking effective capacity"
+              ],
+              "answer": 3,
+              "explain": "\\(L_2\\) adds \\(\\lambda\\lVert w\\rVert_2^2\\) to the loss, so the optimizer is pulled toward smaller weights. Like every regularizer, its effect is to reduce the model's *effective capacity*, trading a little bias for a large drop in variance."
             }
           ],
           "flashcards": [
@@ -2029,6 +2073,50 @@
               ],
               "answer": 1,
               "explain": "Using fixed running statistics at eval makes a sample's output depend only on itself, so predictions don't change based on which other examples share its batch (or whether batch size is 1) — the key requirement for reliable inference. Speed is not the main reason, running averages aren't systematically larger, and $\\gamma/\\beta$ are valid with any normalization statistics."
+            },
+            {
+              "q": "During training, what does dropout with drop probability $p$ do on each forward pass?",
+              "choices": [
+                "Permanently deletes a fraction $p$ of the network’s weights",
+                "Independently sets each unit’s activation to zero with probability $p$ (keeping it with probability $q = 1-p$)",
+                "Multiplies every activation by the constant $p$",
+                "Adds Gaussian noise of variance $p$ to every weight"
+              ],
+              "answer": 1,
+              "explain": "Dropout samples a fresh Bernoulli mask each forward pass, zeroing each unit independently with probability \\(p\\) (kept with \\(q=1-p\\)). Nothing is deleted permanently — a different random sub-network is used on every minibatch."
+            },
+            {
+              "q": "Why is dropout turned off at test (inference) time?",
+              "choices": [
+                "Because the network has no units left to drop after training",
+                "Because dropout only affects the loss, never the predictions",
+                "Because we want a single deterministic prediction, not a randomly different output on each run",
+                "Because test data is guaranteed to contain no noise"
+              ],
+              "answer": 2,
+              "explain": "Randomly zeroing units at inference would make the prediction for one input change from run to run — unacceptable in production. So dropout is disabled and activations are scaled (or were pre-scaled via inverted dropout) so the expected values match what downstream units saw during training."
+            },
+            {
+              "q": "For a given feature, what does Batch Normalization compute?",
+              "choices": [
+                "It normalizes that feature to approximately zero mean and unit variance across the examples in the minibatch, then applies a learnable scale $\\gamma$ and shift $\\beta$",
+                "It rescales the feature to exactly the range $[0,1]$ using the global min and max",
+                "It subtracts the largest activation in the layer from every value",
+                "It converts the feature into a one-hot vector over the batch"
+              ],
+              "answer": 0,
+              "explain": "BatchNorm standardizes each feature using the current minibatch mean and variance (\\(\\hat x = (x-\\mu_B)/\\sqrt{\\sigma_B^2+\\epsilon}\\)), then restores flexibility with learnable \\(\\gamma,\\beta\\) so the network can choose the feature's scale and mean."
+            },
+            {
+              "q": "In terms of *what they normalize over*, how does Layer Normalization differ from Batch Normalization?",
+              "choices": [
+                "LayerNorm normalizes the network’s weights; BatchNorm normalizes its activations",
+                "They are identical; only the name differs",
+                "LayerNorm runs only at test time; BatchNorm only at training time",
+                "LayerNorm normalizes across the features of a single example; BatchNorm normalizes each feature across the batch"
+              ],
+              "answer": 3,
+              "explain": "Same formula, different axis. BatchNorm pools statistics over the batch (so they depend on the other examples); LayerNorm pools over one example's own feature vector — making it batch-independent with identical train/test behavior, ideal for sequences and transformers."
             }
           ],
           "flashcards": [
@@ -2224,6 +2312,50 @@
               ],
               "answer": 1,
               "explain": "He init injects extra variance to offset ReLU's halving, but tanh does not halve the signal, so the doubled variance overshoots and pushes pre-activations into tanh's flat saturated tails where gradients shrink. Xavier is the variance-matched choice for symmetric activations like tanh."
+            },
+            {
+              "q": "What does the \"vanishing gradient problem\" refer to in a deep network?",
+              "choices": [
+                "Gradients shrinking geometrically as they propagate back through many layers, so early layers receive nearly zero gradient and barely update",
+                "The gradient becoming exactly zero because the loss is already at its global minimum",
+                "The machine running out of memory to store the gradients",
+                "Gradients pointing in random directions because of label noise"
+              ],
+              "answer": 0,
+              "explain": "Backprop multiplies a product of \\(L-l\\) weight/Jacobian factors; if each has gain below 1 the product decays geometrically with depth. Early layers then get vanishingly small gradients and stay near their random init — the depth is wasted."
+            },
+            {
+              "q": "Why must the weights be initialized to small *random* values rather than all set to the same constant?",
+              "choices": [
+                "Random numbers happen to train faster on a GPU",
+                "Otherwise all units in a layer compute identical outputs and receive identical gradients, so they never differentiate — the symmetry is never broken",
+                "A constant initialization would use too much memory",
+                "Because the loss function requires non-integer weights"
+              ],
+              "answer": 1,
+              "explain": "If every weight is the same constant, all units in a layer are interchangeable: identical forward outputs and identical gradients, so they update in lockstep forever and the layer effectively has one unit. Random init breaks this symmetry so units can learn different features."
+            },
+            {
+              "q": "In initialization schemes such as He and Xavier, what does a layer’s \"fan-in\" mean?",
+              "choices": [
+                "The learning rate assigned to that layer",
+                "The number of training examples in each minibatch",
+                "The number of incoming connections (input units) feeding a neuron in that layer",
+                "The total depth of the network in layers"
+              ],
+              "answer": 2,
+              "explain": "Fan-in \\(n_{\\text{in}}\\) is how many inputs are summed into a pre-activation \\(z=\\sum_{j=1}^{n_{\\text{in}}} W_j a_j\\). Since \\(\\operatorname{Var}(z)=n_{\\text{in}}\\operatorname{Var}(W)\\operatorname{Var}(a)\\), the variance grows with fan-in — which is exactly why the init scale is set as \\(\\propto 1/n_{\\text{in}}\\)."
+            },
+            {
+              "q": "What is the central goal when choosing a weight-initialization scale for a deep network?",
+              "choices": [
+                "Make the weights as large as possible to speed up learning",
+                "Set every weight to its eventual trained value right away",
+                "Guarantee the training loss starts at exactly zero",
+                "Keep the variance of the signal roughly constant from layer to layer, so the per-layer multiplier stays near 1 — neither vanishing nor exploding"
+              ],
+              "answer": 3,
+              "explain": "Good init tunes the per-layer gain to \\(\\approx 1\\) so that \\(\\operatorname{Var}(a^{(l)})\\approx\\operatorname{Var}(a^{(l-1)})\\). With the multiplier near 1, no geometric blow-up or decay accumulates across depth, and gradients survive their trip back to the early layers."
             }
           ],
           "flashcards": [
