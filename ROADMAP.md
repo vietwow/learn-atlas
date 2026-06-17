@@ -177,7 +177,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
-   DL REMAINING (MCQ arc): training-mechanics(4), generalization(3), convolutional(3), sequences-attention(3), transformers(3),
+   ✅ iter 163: MCQ arc → Deep Learning·Training Mechanics 12→16 (+16, bank →2,072). All 4 lessons (loss/backprop/
+   optimizers/LR-schedules). DL 2/7 modules. Adversarial agent ALL PASS (one borderline training-loop distractor
+   hardened); positions balanced 4/4/4/4; render "of 16" errs=0; SW cache →v106.
+   DL REMAINING (MCQ arc): generalization(3), convolutional(3), sequences-attention(3), transformers(3),
    generative(3). Then RL/LLM/PS.
    ✅ iter 162: Dropout viz (`dl-dropout`, **37th widget**, visualizations — interleaved with the arc). 4-layer MLP drops
    hidden units with prob p (slider 0–0.8); Resample/Animate sample thinned sub-networks; Test phase keeps all (q-scaling

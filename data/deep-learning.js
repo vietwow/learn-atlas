@@ -872,6 +872,50 @@
               ],
               "answer": 1,
               "explain": "With sigmoid+MSE the chain rule introduces a $\\sigma'(z) = \\sigma(z)(1-\\sigma(z))$ factor that vanishes when the unit saturates, stalling learning; cross-entropy's logarithm exactly cancels softmax's exponential so the surviving gradient is simply $\\hat{y}-y$, which stays large precisely when the prediction is far off. The distractor about output magnitude is irrelevant, and MSE does have a closed-form gradient."
+            },
+            {
+              "q": "Fundamentally, what does a loss function compute during training?",
+              "choices": [
+                "The classification accuracy of the model on a held-out test set",
+                "A single scalar measuring how wrong the current predictions are, which training works to minimize",
+                "The number of misclassified examples in the current batch",
+                "The gradient of the predictions with respect to the parameters"
+              ],
+              "answer": 1,
+              "explain": "A loss \\(\\mathcal{L}(\\hat y, y)\\) is one scalar quantifying \"badness\" of the predictions versus the targets. The entire training procedure — backprop, gradient descent, every optimizer — exists to push the parameters in the direction that lowers this single number, averaged over the data."
+            },
+            {
+              "q": "The softmax function \\(\\hat y_k = e^{z_k}/\\sum_j e^{z_j}\\) maps a vector of logits \\(z\\) to what?",
+              "choices": [
+                "A one-hot vector with a 1 at the position of the largest logit",
+                "A vector whose entries each lie in \\([-1,1]\\)",
+                "A vector of nonnegative entries that sum to 1 — a proper probability distribution",
+                "A vector of independent probabilities that each lie in \\([0,1]\\) but need not sum to 1"
+              ],
+              "answer": 2,
+              "explain": "Exponentiating makes every entry positive, and dividing by the sum \\(\\sum_j e^{z_j}\\) forces them to add to 1. So softmax outputs a categorical distribution over the \\(K\\) mutually exclusive classes (unlike independent per-class sigmoids, whose outputs need not sum to 1)."
+            },
+            {
+              "q": "For a binary (two-class) classification problem, what is the standard output-activation + loss pairing?",
+              "choices": [
+                "A single sigmoid output + binary cross-entropy",
+                "A linear output + mean squared error",
+                "A softmax over two units + mean squared error",
+                "A ReLU output + mean absolute error"
+              ],
+              "answer": 0,
+              "explain": "A single sigmoid squashes the logit to a probability \\(\\hat y\\in(0,1)\\) for the positive class, scored by binary cross-entropy \\(-[y\\log\\hat y + (1-y)\\log(1-\\hat y)]\\) — the negative log-likelihood of a Bernoulli. (Softmax over two units + cross-entropy is mathematically equivalent; pairing softmax with MSE is not the right loss.)"
+            },
+            {
+              "q": "Why is the output layer of a plain regression network usually left linear (no sigmoid/ReLU on the output)?",
+              "choices": [
+                "Because a linear output trains faster than any nonlinear alternative",
+                "Because ReLU on the output would make the loss non-differentiable",
+                "Because regression targets are always probabilities, which behave linearly",
+                "Because the target can be any real number, and a squashing activation would artificially bound the output range and bias the predictions"
+              ],
+              "answer": 3,
+              "explain": "MSE is the maximum-likelihood loss under additive Gaussian noise, and a Gaussian target can take any real value. A sigmoid or ReLU on the output would clamp predictions to a bounded range, systematically biasing them — so the regression output stays linear."
             }
           ],
           "flashcards": [
@@ -1067,6 +1111,50 @@
               ],
               "answer": 0,
               "explain": "Forward: $u=6,\\,v=7,\\,e=3,\\,L=9$. Backward: $\\bar{e}=2e=6$, $\\bar{v}=6$, $\\bar{u}=6$, and $\\partial L/\\partial w = \\bar{u}\\cdot x = 6\\cdot 3 = 18$. The distractor $6$ forgets to multiply by the local factor $x$ at the $u=wx$ node."
+            },
+            {
+              "q": "How does a computational graph represent a function such as a neural network?",
+              "choices": [
+                "As a directed acyclic graph (DAG) whose nodes are intermediate values and whose edges record which value is computed from which",
+                "As a cyclic graph that loops until the loss converges",
+                "As a flat list of parameters with no dependency structure",
+                "As a tree in which every node has exactly one child"
+              ],
+              "answer": 0,
+              "explain": "Any composition of operations is a DAG: nodes hold intermediate values, edges carry the dependency \"this value is computed from that one.\" The forward pass evaluates it left-to-right; backprop walks it right-to-left."
+            },
+            {
+              "q": "Backprop seeds the backward pass with what value at the loss node, before propagating gradients?",
+              "choices": [
+                "\\(0\\)",
+                "the value of the loss \\(L\\) itself",
+                "\\(\\bar L = \\partial L/\\partial L = 1\\)",
+                "the learning rate \\(\\eta\\)"
+              ],
+              "answer": 2,
+              "explain": "The adjoint of the output with respect to itself is \\(\\partial L/\\partial L = 1\\). Seeding \\(\\bar L = 1\\) and applying each node's local backward rule in reverse propagates \\(\\partial L/\\partial(\\cdot)\\) to every node."
+            },
+            {
+              "q": "Why must backprop process the nodes in reverse topological order?",
+              "choices": [
+                "To save memory by discarding cached activations as early as possible",
+                "So that when a node is processed, every downstream node that uses it has already contributed its gradient, making the node's adjoint complete",
+                "Because forward-mode automatic differentiation requires that ordering",
+                "To guarantee that all the computed gradients come out positive"
+              ],
+              "answer": 1,
+              "explain": "An input's gradient is the sum over all downstream paths that use it. Processing in reverse topological order guarantees that by the time we reach a node, every node it feeds has already pushed its contribution back, so the accumulated \\(\\bar a\\) is final."
+            },
+            {
+              "q": "Once backprop has produced \\(\\partial L/\\partial\\theta_i\\) for every parameter, how does gradient descent update the parameters to reduce the loss?",
+              "choices": [
+                "\\(\\theta \\leftarrow \\theta + \\eta\\,\\nabla_\\theta L\\) — move along the gradient",
+                "\\(\\theta \\leftarrow \\nabla_\\theta L\\) — replace each parameter with its gradient",
+                "\\(\\theta \\leftarrow \\theta - \\eta\\,L\\) — subtract the scalar loss from each parameter",
+                "\\(\\theta \\leftarrow \\theta - \\eta\\,\\nabla_\\theta L\\) — take a small step opposite the gradient"
+              ],
+              "answer": 3,
+              "explain": "The gradient points toward steepest increase of \\(L\\), so stepping in the opposite direction (scaled by the learning rate \\(\\eta\\)) decreases the loss. Backprop supplies the gradient; gradient descent consumes it."
             }
           ],
           "flashcards": [
@@ -1262,6 +1350,50 @@
               ],
               "answer": 0,
               "explain": "$\\epsilon$ is a small numerical stabilizer that bounds the denominator away from zero, so coordinates with vanishing second moment do not produce enormous updates. Bias correction is handled by the $1-\\beta^t$ factors, not $\\epsilon$, and $\\eta$ still controls the step scale."
+            },
+            {
+              "q": "In which direction does the gradient \\(\\nabla L(\\theta)\\) of the loss point?",
+              "choices": [
+                "The direction of steepest decrease of the loss",
+                "The direction of steepest increase of the loss",
+                "Straight toward the nearest local minimum",
+                "Perpendicular to the loss surface, neither up nor down"
+              ],
+              "answer": 1,
+              "explain": "By definition the gradient points in the direction of steepest ascent of \\(L\\). That is exactly why gradient descent steps in the negative gradient direction to lower the loss."
+            },
+            {
+              "q": "The minibatch gradient used by SGD is called an *unbiased estimator* of the true full-dataset gradient. What does \"unbiased\" mean here?",
+              "choices": [
+                "Every individual step points in exactly the true gradient direction",
+                "It always has lower variance than the full-batch gradient",
+                "Its expected value, averaged over the random choice of example/batch, equals the true full-dataset gradient",
+                "It can never point uphill on the loss surface"
+              ],
+              "answer": 2,
+              "explain": "Unbiased means \\(\\mathbb{E}[\\nabla L_{\\text{batch}}] = \\nabla L_{\\text{full}}\\): on average the noisy estimate equals the true gradient. Any single step still jitters (nonzero variance) — that noise is what helps escape sharp minima and saddle points."
+            },
+            {
+              "q": "Momentum keeps a velocity \\(m_t = \\beta\\,m_{t-1} + g_t\\) with \\(\\beta\\) typically near \\(0.9\\). What does increasing \\(\\beta\\) toward 1 do?",
+              "choices": [
+                "Increases the influence of accumulated past gradients (more inertia), smoothing the update over a longer history",
+                "Makes the optimizer ignore past gradients and behave like plain SGD",
+                "Directly increases the learning rate \\(\\eta\\)",
+                "Forces the gradient estimate to become unbiased"
+              ],
+              "answer": 0,
+              "explain": "Larger \\(\\beta\\) weights the running average toward older gradients, so the velocity carries more inertia and averages out oscillations across a longer window. \\(\\beta = 0\\) recovers plain SGD; \\(\\beta\\) controls memory, not the step size \\(\\eta\\)."
+            },
+            {
+              "q": "What does the word \"stochastic\" in stochastic gradient descent refer to?",
+              "choices": [
+                "The random initialization of the network's weights before training",
+                "The use of a randomly chosen learning rate at each step",
+                "The non-deterministic order in which the layers are evaluated",
+                "The randomness from estimating the gradient on a randomly sampled example or minibatch rather than the full dataset"
+              ],
+              "answer": 3,
+              "explain": "\"Stochastic\" names the random sampling of the data used per step: instead of the exact full-dataset gradient, you use a noisy estimate from a random example/minibatch. The estimate is unbiased but variable, which is the defining trait of SGD."
             }
           ],
           "flashcards": [
@@ -1457,6 +1589,50 @@
               ],
               "answer": 1,
               "explain": "A sudden mid-training divergence to inf/NaN after stable progress is the signature of an exploding gradient on an outlier batch, and gradient clipping (capping the gradient norm) is the standard fix. A too-small learning rate would stall progress, not blow it up, so option 0 is the tempting but wrong diagnosis."
+            },
+            {
+              "q": "In the canonical PyTorch training loop, what is the correct order of the five core operations within one step?",
+              "choices": [
+                "forward → loss → step → backward → zero_grad",
+                "zero_grad → forward → compute loss → backward → step",
+                "forward → zero_grad → loss → step → backward",
+                "backward → step → zero_grad → forward → loss"
+              ],
+              "answer": 1,
+              "explain": "Clear old gradients (zero_grad), run the forward pass, compute the scalar loss, backpropagate to fill .grad, then step the optimizer. Forgetting zero_grad first lets last batch's gradients accumulate into this step."
+            },
+            {
+              "q": "How is an *epoch* defined?",
+              "choices": [
+                "One parameter update computed from a single batch",
+                "The set of examples used in one step",
+                "One full pass over the entire training set",
+                "The total number of parameters in the model"
+              ],
+              "answer": 2,
+              "explain": "An epoch is one complete sweep through all \\(N\\) training examples. A step (iteration) is one update from one batch; with batch size \\(B\\) there are \\(\\lceil N/B\\rceil\\) steps per epoch."
+            },
+            {
+              "q": "Why must the quantity returned by the loss function be a single scalar?",
+              "choices": [
+                "Because we differentiate it — backprop computes \\(\\partial L/\\partial\\theta\\), and the gradient is well-defined for a scalar-valued function of the parameters",
+                "Because GPUs can only store one number at a time",
+                "Because a vector-valued loss would make training run faster",
+                "Because the learning rate must be set equal to the loss value"
+              ],
+              "answer": 0,
+              "explain": "Backprop needs \\(\\partial L/\\partial\\theta_i\\) for every parameter, and the gradient of a function is defined when its output is a scalar. A multi-output objective must be reduced (e.g. summed or averaged) to a single number before \\(\\texttt{loss.backward()}\\)."
+            },
+            {
+              "q": "Why do learning-rate schedules typically *decay* the learning rate over the course of training?",
+              "choices": [
+                "To increase the gradient variance as training proceeds",
+                "Because gradients grow larger over time and must be counteracted",
+                "To keep the loss value a scalar throughout training",
+                "To take large, fast steps early while far from a minimum, then small steps later to settle in without overshooting and oscillating"
+              ],
+              "answer": 3,
+              "explain": "Early on, a large \\(\\eta\\) makes fast progress across the loss landscape; later, a smaller \\(\\eta\\) lets the optimizer settle into a minimum instead of bouncing around it. Decay schedules (step, exponential, cosine) trade exploration for fine convergence."
             }
           ],
           "flashcards": [

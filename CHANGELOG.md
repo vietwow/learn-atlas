@@ -2,6 +2,29 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 163 — MCQ arc → Deep Learning · Training Mechanics 12 → 16 (content — owner's #1 ask)
+The arc's **fourth topic continues**: all **four** lessons of the *How Networks Learn* module go 12 → 16
+(**+16, bank 2,056 → 2,072**), stating the bedrock the existing 12 assumed.
+- **Loss Functions**: a loss is *one scalar measuring badness* that training minimizes / softmax maps logits to a
+  nonnegative distribution summing to 1 / binary classification = single sigmoid + binary cross-entropy / why
+  regression keeps a *linear* output (the Gaussian target is unbounded).
+- **Backpropagation**: a computational graph is a *DAG* of intermediate values / the backward pass is seeded with
+  $\bar L=\partial L/\partial L=1$ / why *reverse topological order* (downstream contributions must accumulate
+  first) / gradient descent then steps $\theta\leftarrow\theta-\eta\nabla_\theta L$, opposite the gradient.
+- **Optimizers**: the gradient points toward steepest *increase* / "unbiased estimator" means
+  $\mathbb{E}[\nabla L_{\text{batch}}]=\nabla L_{\text{full}}$ / raising momentum $\beta$ adds inertia (longer
+  history) / what "stochastic" actually names (random data sampling).
+- **Learning Rates / Loop**: the five-step canonical loop order (zero_grad → forward → loss → backward → step) /
+  an *epoch* = one full pass over the data / why the loss must be a *scalar* (we differentiate it) / why schedules
+  *decay* the rate (big steps early, fine steps late).
+- **Verified**: byte-stable JSON round-trip guard; `node gate.js` **ALL GREEN · 2,072 MCQs**; a direct key-dump
+  confirms answer indices map to the intended choices with a **balanced 4/4/4/4** position distribution (de-skewed);
+  an independent adversarial fact-check agent returned **ALL PASS** — its one flagged borderline (the training-loop
+  ordering distractor that merely moved `zero_grad` to the end, arguably also valid) was **hardened** to an
+  unambiguously broken order (`step → backward`) via a byte-stable patch; render-checks on the Backprop and
+  Loss-Functions quizzes → `errs=0 | "Question 1 of 16" | rawDollars=0 kErr=0`; all-routes smoke (13) `errs=0`.
+  SW cache **v105 → v106**; README 2,056 → 2,072. DL now 2/7 modules at 16.
+
 ## iter 162 — Dropout visualization (`dl-dropout`, the 37th widget) (visualizations)
 A non-content move interleaved into the MCQ arc. The *Dropout & Normalization* lesson taught implicit ensembling —
 "$n$ droppable units define $2^n$ weight-sharing sub-networks" — but had **no viz**; this makes the idea
