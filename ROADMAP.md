@@ -85,9 +85,10 @@ shared "topics index" (id/title/blurb/color) loaded first + full lessons on dema
 - ~~"Explain it back" — free-text recall with self-grading (Feynman technique).~~ **DONE iter 53** (Recall tab; self-graded against the lesson's flashcards, feeds mastery + XP). Future: optional AI grading when the tutor lands.
 - Per-concept difficulty rating + adaptive question selection in tests.
 - ~~Interleaved review sessions (mix topics) beyond the SRS queue.~~ **partly DONE iter 68** — Daily Mix (`#/session`) chains due cards + a weak-spot quiz + a next lesson into one guided flow.
-- More viz ideas (25 widgets now; overfitting iter 54, backprop graph iter 59, decoding iter 67, CLT iter 74,
-  normal-explorer iter 76, covariance-scatter iter 79, CI-coverage iter 84): MDP policy-iteration, a BPE-merge
-  animation, a learning-rate-schedule plot, a p-value/hypothesis-test visual (for the upcoming testing module).
+- More viz ideas (26 widgets now; CLT iter 74, normal-explorer iter 76, covariance-scatter iter 79, CI-coverage
+  iter 84, diffusion noising iter 89): MDP policy-iteration, a BPE-merge animation, a learning-rate-schedule plot,
+  a p-value/hypothesis-test visual, a VAE latent-space explorer, a GAN training-dynamics demo.
+  NOTE: viz blurbs AND notes are NOT KaTeX-typeset (the Lab shows them raw) — use plain unicode (xₜ, √, ε, ᾱ), not $...$.
 - Lesson-embedded code exercises (`data-code` with `data-expected`) tied to each algorithm/DL lesson.
 - Reduced-motion + high-contrast accessibility modes.
 - ~~Search ranking improvements (fuzzy, recency, mastery-weighted) in ⌘K.~~ **fuzzy DONE iter 70** (typo-tolerant subsequence tier). Recency/mastery-weighting still open.

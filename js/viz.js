@@ -1253,4 +1253,68 @@
     reset();
   });
 
+  /* ========================================================
+     26. Diffusion forward/reverse process (data melts to noise and back)
+     ======================================================== */
+  register({ id: 'dl-diffusion', topic: 'deep-learning', title: 'Diffusion: Noising & Denoising', blurb: 'Watch structured data dissolve into Gaussian noise step by step (forward), then reassemble (reverse) — the core idea of diffusion models: xₜ = √ᾱₜ·x₀ + √(1−ᾱₜ)·ε.' },
+  function (root) {
+    const W = 560, H = 400, pad = 16, N = 700, T = 60;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    const MONO = "JetBrains Mono, monospace";
+    const cx = W / 2, cy = H / 2, S = 64;            // world->pixel scale
+    let x0 = [], eps = [], step = 0, running = null, dir = 1;
+    function randn() { let u = 0, v = 0; while (u === 0) u = Math.random(); while (v === 0) v = Math.random(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
+    function seed() {
+      x0 = []; eps = [];
+      for (let i = 0; i < N; i++) {
+        const f = i / N, th = f * 7 * Math.PI, r = 0.25 + 2.1 * f;   // archimedean spiral = structured "data"
+        x0.push([r * Math.cos(th), r * Math.sin(th)]);
+        eps.push([randn(), randn()]);                                 // frozen noise per point
+      }
+    }
+    // cosine schedule: ᾱ(s)=cos²(sπ/2), so signal=cos(sπ/2), noise=sin(sπ/2)
+    const sOf = () => step / T;
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const s = sOf(), sig = Math.cos(s * Math.PI / 2), noi = Math.sin(s * Math.PI / 2), abar = sig * sig;
+      // a faint frame
+      ctx.strokeStyle = p.line; ctx.lineWidth = 1; ctx.strokeRect(pad, pad, W - 2 * pad, H - 2 * pad);
+      // points: color shifts gold (data) -> violet (noise) with s
+      for (let i = 0; i < N; i++) {
+        const x = sig * x0[i][0] + noi * eps[i][0], y = sig * x0[i][1] + noi * eps[i][1];
+        const px = cx + x * S, py = cy - y * S;
+        if (px < pad || px > W - pad || py < pad || py > H - pad) continue;
+        ctx.globalAlpha = 0.55;
+        ctx.fillStyle = i % 7 === 0 ? p.rust : (s < 0.5 ? p.gold : p.violet);
+        ctx.beginPath(); ctx.arc(px, py, 1.7, 0, 2 * Math.PI); ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = p.mute; ctx.font = '11px ' + MONO; ctx.textAlign = 'left';
+      ctx.fillText('t = ' + step + ' / ' + T, pad + 8, pad + 18);
+      ctx.textAlign = 'right';
+      ctx.fillText('√ᾱ = ' + sig.toFixed(2) + '   √(1−ᾱ) = ' + noi.toFixed(2), W - pad - 8, pad + 18);
+      info.innerHTML = `step <b>t = ${step}/${T}</b> &nbsp;·&nbsp; signal weight <b>√ᾱ<sub>t</sub> = ${sig.toFixed(2)}</b> &nbsp;·&nbsp; noise weight <b>√(1−ᾱ<sub>t</sub>) = ${noi.toFixed(2)}</b><br>` +
+        (step === 0
+          ? `At <b>t=0</b> the points are the structured "data" (a spiral). Press <b>Run</b> to watch the <b>forward</b> process add noise — xₜ = √ᾱₜ·x₀ + √(1−ᾱₜ)·ε — until it becomes pure noise N(0,I), then the <b>reverse</b> process reassembles it.`
+          : step >= T
+            ? `At <b>t=T</b> all structure is gone: x_T ≈ N(0,I). Generation starts here and runs the arrow backward, denoising step by step.`
+            : `The data is ${(abar * 100).toFixed(0)}% signal, ${((1 - abar) * 100).toFixed(0)}% noise (by energy). Forward = dissolve; reverse = the network predicting the noise to subtract at each step.`);
+    }
+    function tick() {
+      step += dir;
+      if (step >= T) { step = T; dir = -1; }
+      else if (step <= 0) { step = 0; dir = 1; }
+      draw();
+    }
+    slider(ctl, { label: 'step t', min: 0, max: T, step: 1, value: 0, fmt: v => 't=' + v, onInput: v => { if (running) { running.stop(); running = null; runBtn.innerHTML = '▶ Run'; } step = v; draw(); } });
+    const runBtn = button(ctl, '▶ Run', () => {
+      if (running) { running.stop(); running = null; runBtn.innerHTML = '▶ Run'; }
+      else { runBtn.innerHTML = '⏸ Pause'; let f = 0; running = loop(() => { f++; if (f % 3 === 0) tick(); }); }
+    });
+    button(ctl, '↻ New noise', () => { seed(); step = 0; dir = 1; draw(); });
+    seed(); draw();
+  });
+
 })();

@@ -2,6 +2,20 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 89 — Diffusion noising/denoising visualization (visualizations; owner depth direction)
+A new interactive widget (`dl-diffusion`, the 26th) that makes the diffusion forward/reverse process *visible* and
+pairs with the new Generative Models module. 700 points form structured "data" (an Archimedean spiral); each carries a
+frozen noise vector ε, and at step t the widget draws $x_t=\sqrt{\bar\alpha_t}\,x_0+\sqrt{1-\bar\alpha_t}\,\varepsilon$
+using a cosine schedule ($\sqrt{\bar\alpha_t}=\cos(\tfrac{\pi}{2}\tfrac{t}{T})$). **Run** animates the round trip —
+the spiral dissolves into a Gaussian blob (forward) then reassembles (reverse) — and the **step** slider scrubs to any
+intermediate $x_t$, with the signal/noise weights and the signal-energy percentage shown live. Because ε is frozen,
+scrubbing back exactly reconstructs, honestly illustrating "if you knew the noise you could undo it" — which is what the
+network learns to predict. Points shift gold→violet as noise grows. Embedded in the *Diffusion Models* lesson after the
+reverse-process section, and in the Lab. SW cache → `atlas-v33`; README viz counts 25→26. Verified: renders in Lab
+(spiral mid-dissolve at t=24 → √ᾱ=0.81, √(1−ᾱ)=0.59, 65% signal — cosine-schedule math correct); slider drives it with
+errs=0; embedded canvas hydrates in-lesson (katex-error=0); legible at 390px; blurb/note use plain unicode (the Lab
+doesn't typeset KaTeX); `node gate.js` ALL GREEN (26 widgets); stray Chrome cleaned up.
+
 ## iter 88 — Deep Learning Generative Models — 12 MCQs per lesson (content; owner "more questions" ask)
 Completed the new Generative Models module: all three lessons (Autoencoders/VAEs, GANs, Diffusion) brought from
 0 → 12 MCQs each via the author→adversarial-verify pipeline — **+36 fact-checked questions**, all three returning
