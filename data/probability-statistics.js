@@ -1778,6 +1778,198 @@
           ]
         }
       ]
+    },
+    {
+      "id": "ps-joint",
+      "title": "Joint Distributions & Dependence",
+      "lessons": [
+        {
+          "id": "ps-joint-distributions",
+          "title": "Joint Distributions, Marginals & Independence",
+          "minutes": 16,
+          "content": "<h3>1. From one random variable to many</h3>\n<p>Real questions rarely involve a single random quantity in isolation. A doctor tracks blood pressure <em>and</em> cholesterol; an investor watches two stocks at once; a language model scores the next token given everything that came before. To reason about several random variables together we need their <strong>joint distribution</strong> — the one object that records how they co-occur, and from which every question about any subset can be recovered.</p>\n\n<h3>2. The joint PMF (discrete case)</h3>\n<p>For two discrete random variables $X$ and $Y$, the <strong>joint probability mass function</strong> is\n$$p_{X,Y}(x,y) = P(X = x,\\ Y = y),$$\nthe probability that $X$ equals $x$ <em>and</em> $Y$ equals $y$ at the same time. It is a genuine PMF: every entry is nonnegative and the whole thing sums to one,\n$$p_{X,Y}(x,y) \\ge 0, \\qquad \\sum_{x}\\sum_{y} p_{X,Y}(x,y) = 1.$$\nPicture a grid — rows indexed by the values of $X$, columns by the values of $Y$ — with each cell holding the probability of that exact pair.</p>\n\n<h3>3. Marginal distributions: collapsing the grid</h3>\n<p>From the joint, the distribution of $X$ <em>alone</em> — ignoring $Y$ — is its <strong>marginal</strong>, obtained by summing each row across all columns:\n$$p_X(x) = \\sum_{y} p_{X,Y}(x,y), \\qquad p_Y(y) = \\sum_{x} p_{X,Y}(x,y).$$\nThe name is literal: write the joint table on paper and the row sums land in the right <em>margin</em>, the column sums along the bottom. Marginalizing discards information — you can always pass from joint to marginal, but never reverse the trip without extra assumptions about how $X$ and $Y$ relate.</p>\n<div class=\"callout\">\n<div class=\"c-tag\">Intuition</div>\n<p>The joint distribution is the full picture; a marginal is its shadow on one axis. Two very different joints can cast the <em>same</em> pair of shadows — which is exactly why marginals alone cannot tell you whether the variables move together.</p>\n</div>\n\n<h3>4. The continuous case: joint densities</h3>\n<p>When $X$ and $Y$ are continuous, a single <strong>joint density</strong> $f_{X,Y}(x,y) \\ge 0$ plays the role of the table, and probabilities become <em>volumes</em> under the surface:\n$$P\\big((X,Y) \\in A\\big) = \\iint_{A} f_{X,Y}(x,y)\\,dx\\,dy, \\qquad \\int_{-\\infty}^{\\infty}\\!\\!\\int_{-\\infty}^{\\infty} f_{X,Y}(x,y)\\,dx\\,dy = 1.$$\nMarginals are recovered by <em>integrating out</em> the unwanted variable — the continuous analogue of summing a row:\n$$f_X(x) = \\int_{-\\infty}^{\\infty} f_{X,Y}(x,y)\\,dy.$$</p>\n\n<h3>5. Independence of random variables</h3>\n<p>Two random variables are <strong>independent</strong> when their joint factors into the product of their marginals for <em>every</em> pair of values:\n$$p_{X,Y}(x,y) = p_X(x)\\,p_Y(y) \\quad\\text{(discrete)}, \\qquad f_{X,Y}(x,y) = f_X(x)\\,f_Y(y) \\quad\\text{(continuous)}.$$\nEquivalently, knowing $Y$ tells you nothing about $X$. This is the direct lift of event independence $P(A\\cap B)=P(A)P(B)$ to variables, and it must hold at <em>all</em> points — a single cell that violates the product rule breaks independence everywhere.</p>\n<p><strong>A quick test.</strong> If the support of the joint is not a rectangle — if the <em>allowed</em> values of $X$ depend on $Y$ — the variables cannot be independent, no matter what the numbers are. (For independent variables every row has the same <em>shape</em>, just rescaled.)</p>\n\n<h3>6. Conditional distributions</h3>\n<p>Slice the joint at a fixed value of $Y$ and renormalize, and you get the <strong>conditional distribution</strong> of $X$ given $Y=y$:\n$$p_{X\\mid Y}(x\\mid y) = \\frac{p_{X,Y}(x,y)}{p_Y(y)}, \\qquad f_{X\\mid Y}(x\\mid y) = \\frac{f_{X,Y}(x,y)}{f_Y(y)}.$$\nThis is conditional probability applied to a whole distribution: fix what you learned ($Y=y$), zoom into that slice, and rescale so it sums (or integrates) to 1. Independence is precisely the case where the conditional does not depend on $y$ at all: $p_{X\\mid Y}(x\\mid y) = p_X(x)$.</p>\n\n<h3>7. Worked intuition: a joint table</h3>\n<p>Let $X\\in\\{0,1\\}$ and $Y\\in\\{0,1\\}$ have joint probabilities $p(0,0)=0.4,\\ p(0,1)=0.2,\\ p(1,0)=0.1,\\ p(1,1)=0.3$ (they sum to 1). The marginals are $p_X(0)=0.4+0.2=0.6$, $p_X(1)=0.4$, and $p_Y(0)=0.4+0.1=0.5$, $p_Y(1)=0.5$. Are $X$ and $Y$ independent? Check one cell: $p_X(0)p_Y(0)=0.6\\times 0.5=0.30$, but the joint says $p(0,0)=0.40\\ne 0.30$. Not independent — learning $Y=0$ shifts the odds on $X$.</p>\n\n<h3>8. Why this matters for machine learning</h3>\n<p>Almost every probabilistic model is a claim about a joint distribution. <strong>Naive Bayes</strong> assumes features are conditionally independent given the label so the joint factors into a cheap product. <strong>Generative models</strong> learn (or sample from) the joint $p(\\text{data})$ directly. And the entire game of <strong>inference</strong> — predicting a label from inputs — is computing a conditional $p(y\\mid x)$ by slicing and renormalizing a joint. Master the joint $\\to$ marginal $\\to$ conditional pipeline here and the rest of probabilistic ML is variations on it.</p>",
+          "mcq": [],
+          "flashcards": [
+            {
+              "front": "What is the joint PMF $p_{X,Y}(x,y)$, and what two conditions make it valid?",
+              "back": "$p_{X,Y}(x,y)=P(X=x,\\,Y=y)$ — the probability the two variables take those values simultaneously. Valid when every entry is $\\ge 0$ and the entire table sums to 1: $\\sum_x\\sum_y p_{X,Y}(x,y)=1$."
+            },
+            {
+              "front": "How do you get the marginal $p_X(x)$ from a joint PMF?",
+              "back": "Sum the joint over all values of the other variable: $p_X(x)=\\sum_y p_{X,Y}(x,y)$ (the row sums in the margin). For densities, integrate: $f_X(x)=\\int f_{X,Y}(x,y)\\,dy$."
+            },
+            {
+              "front": "State the definition of independence for two random variables.",
+              "back": "The joint factors into the product of marginals at every point: $p_{X,Y}(x,y)=p_X(x)\\,p_Y(y)$ (or $f_{X,Y}=f_X f_Y$). Equivalently, the conditional distribution does not depend on the conditioning value."
+            },
+            {
+              "front": "What is the conditional distribution $p_{X\\mid Y}(x\\mid y)$?",
+              "back": "$p_{X\\mid Y}(x\\mid y)=\\dfrac{p_{X,Y}(x,y)}{p_Y(y)}$ — slice the joint at $Y=y$ and renormalize by the marginal $p_Y(y)$ so it sums to 1."
+            },
+            {
+              "front": "Why can't you reconstruct the joint distribution from the two marginals alone?",
+              "back": "Marginals are shadows on each axis; many different joints cast the same shadows. The marginals carry no information about how $X$ and $Y$ co-vary, so the dependence structure is lost."
+            },
+            {
+              "front": "A \"support shape\" shortcut: when can you immediately rule out independence?",
+              "back": "If the set of allowed values of one variable depends on the other (the joint support is not a rectangle/product set), the variables cannot be independent — independence forces a product-shaped support."
+            }
+          ],
+          "homework": [
+            {
+              "prompt": "A fair coin is flipped twice. Let $X$ be the number of heads on the first flip ($0$ or $1$) and $Y$ the total number of heads ($0,1,2$). Write the joint PMF table, find both marginals, and determine whether $X$ and $Y$ are independent.",
+              "hint": "List the 4 equally likely outcomes HH, HT, TH, TT, each with probability $1/4$, and read off $(X,Y)$ for each. Then check whether $p(x,y)=p_X(x)p_Y(y)$ for even one cell.",
+              "solution": "Outcomes (prob $1/4$ each): HH$\\to(1,2)$, HT$\\to(1,1)$, TH$\\to(0,1)$, TT$\\to(0,0)$. Joint: $p(0,0)=p(0,1)=p(1,1)=p(1,2)=1/4$; all other cells $0$. Marginals: $p_X(0)=p_X(1)=1/2$; $p_Y(0)=1/4,\\ p_Y(1)=1/2,\\ p_Y(2)=1/4$. Independence fails: $p(0,2)=0$ but $p_X(0)p_Y(2)=\\tfrac12\\cdot\\tfrac14=\\tfrac18\\ne 0$. (Intuitively, knowing the first flip constrains the possible totals.)"
+            },
+            {
+              "prompt": "The joint density of $(X,Y)$ is $f(x,y)=4xy$ for $0\\le x\\le 1,\\ 0\\le y\\le 1$ and $0$ elsewhere. Find the marginal $f_X(x)$ and decide whether $X$ and $Y$ are independent.",
+              "hint": "Integrate out $y$ over $[0,1]$. Then compare the joint with the product $f_X(x)f_Y(y)$.",
+              "solution": "$f_X(x)=\\int_0^1 4xy\\,dy = 4x\\cdot\\tfrac{y^2}{2}\\Big|_0^1 = 2x$ for $0\\le x\\le 1$. By symmetry $f_Y(y)=2y$. Then $f_X(x)f_Y(y)=2x\\cdot 2y=4xy=f(x,y)$, so $X$ and $Y$ <strong>are</strong> independent."
+            },
+            {
+              "prompt": "From the joint table $p(0,0)=0.4,\\ p(0,1)=0.2,\\ p(1,0)=0.1,\\ p(1,1)=0.3$, compute the conditional distribution of $X$ given $Y=1$.",
+              "hint": "First find $p_Y(1)$ by summing the column $y=1$. Then divide each matching joint entry by it.",
+              "solution": "$p_Y(1)=p(0,1)+p(1,1)=0.2+0.3=0.5$. So $p_{X\\mid Y}(0\\mid 1)=0.2/0.5=0.4$ and $p_{X\\mid Y}(1\\mid 1)=0.3/0.5=0.6$. (Compare to the marginal $p_X(0)=0.6$: conditioning on $Y=1$ changed it to $0.4$, confirming dependence.)"
+            }
+          ],
+          "examples": [
+            {
+              "title": "Reading marginals and a conditional from a joint table",
+              "body": "A small shop records, for each customer, whether they buy coffee ($X=1$) and whether they buy a pastry ($Y=1$). The joint probabilities are $p(0,0)=0.30,\\ p(1,0)=0.35,\\ p(0,1)=0.05,\\ p(1,1)=0.30$. (i) Find the marginal probability a customer buys coffee. (ii) Find $P(\\text{pastry}\\mid\\text{coffee})$. (iii) Are coffee and pastry purchases independent?",
+              "solution": "(i) $p_X(1)=p(1,0)+p(1,1)=0.35+0.30=0.65$. So $65\\%$ buy coffee.\n\n(ii) $P(Y=1\\mid X=1)=\\dfrac{p(1,1)}{p_X(1)}=\\dfrac{0.30}{0.65}\\approx 0.46$. Among coffee buyers, about $46\\%$ also get a pastry.\n\n(iii) The marginal pastry rate is $p_Y(1)=p(0,1)+p(1,1)=0.05+0.30=0.35$, i.e. $35\\%$. Since $P(Y=1\\mid X=1)\\approx 0.46 \\ne 0.35 = P(Y=1)$, the purchases are <strong>not independent</strong> — buying coffee makes a pastry markedly more likely (a classic cross-sell signal)."
+            },
+            {
+              "title": "Using independence to build a joint from marginals",
+              "body": "A factory's two machines fail independently on a given day. Machine A fails with probability $0.1$, machine B with probability $0.2$. Find the probability that (i) both fail, (ii) exactly one fails, (iii) neither fails.",
+              "solution": "Because the failures are independent, the joint is the product of marginals.\n\n(i) Both fail: $P(A)P(B)=0.1\\times 0.2 = 0.02$.\n\n(ii) Exactly one fails $=P(A\\text{ only})+P(B\\text{ only}) = (0.1)(0.8) + (0.9)(0.2) = 0.08 + 0.18 = 0.26$.\n\n(iii) Neither fails: $(0.9)(0.8)=0.72$. Check: $0.02+0.26+0.72=1.00$. Independence is what let us multiply marginals cell-by-cell instead of needing a measured joint table."
+            }
+          ]
+        },
+        {
+          "id": "ps-covariance-correlation",
+          "title": "Covariance & Correlation",
+          "minutes": 16,
+          "content": "<h3>1. The question: do two variables move together?</h3>\n<p>Marginals tell you how each variable behaves alone; the joint hides a richer fact — whether $X$ and $Y$ tend to rise and fall <em>together</em>. Tall people tend to be heavier; hours studied tend to track exam scores; two tech stocks often lurch in unison. <strong>Covariance</strong> and its normalized cousin <strong>correlation</strong> put a single signed number on that co-movement.</p>\n\n<h3>2. Covariance: the average co-deviation</h3>\n<p>The <strong>covariance</strong> of $X$ and $Y$ is the expected product of their deviations from their means:\n$$\\operatorname{Cov}(X,Y) = \\mathbb{E}\\big[(X-\\mu_X)(Y-\\mu_Y)\\big].$$\nRead the sign off the typical term: when $X$ is above its mean <em>and</em> $Y$ is too, the product is positive; when both are below, the product of two negatives is again positive. Only when high-$X$ pairs with low-$Y$ (and vice versa) is the term negative. So $\\operatorname{Cov}>0$ means \"move together,\" $\\operatorname{Cov}<0$ means \"move oppositely,\" and $\\operatorname{Cov}=0$ means no <em>linear</em> co-movement on average.</p>\n\n<h3>3. The computational formula</h3>\n<p>Expanding the product and using linearity of expectation gives the formula you will actually compute with:\n$$\\operatorname{Cov}(X,Y) = \\mathbb{E}[XY] - \\mathbb{E}[X]\\,\\mathbb{E}[Y].$$\nIt mirrors the variance shortcut $\\operatorname{Var}(X)=\\mathbb{E}[X^2]-(\\mathbb{E}[X])^2$ — and indeed covariance generalizes variance: setting $Y=X$ gives\n$$\\operatorname{Cov}(X,X) = \\mathbb{E}[X^2]-(\\mathbb{E}[X])^2 = \\operatorname{Var}(X).$$</p>\n\n<h3>4. Properties: covariance is bilinear</h3>\n<p>Covariance behaves like a (symmetric) product, linear in each slot:</p>\n<ul>\n<li><strong>Symmetry:</strong> $\\operatorname{Cov}(X,Y)=\\operatorname{Cov}(Y,X)$.</li>\n<li><strong>Scaling & shifts:</strong> $\\operatorname{Cov}(aX+b,\\ cY+d) = ac\\,\\operatorname{Cov}(X,Y)$ — additive constants vanish (they don't deviate), multiplicative ones factor out.</li>\n<li><strong>Additivity:</strong> $\\operatorname{Cov}(X+Z,\\ Y) = \\operatorname{Cov}(X,Y)+\\operatorname{Cov}(Z,Y)$.</li>\n</ul>\n<p>Because constants shift the mean by the same amount they shift the value, they never change a covariance — covariance sees only fluctuations.</p>\n\n<h3>5. The variance of a sum</h3>\n<p>Covariance is exactly the correction term when you add random variables:\n$$\\operatorname{Var}(X+Y) = \\operatorname{Var}(X) + \\operatorname{Var}(Y) + 2\\operatorname{Cov}(X,Y).$$\nIf $X$ and $Y$ are independent (so $\\operatorname{Cov}=0$), variances simply add — the basis for \"errors add in quadrature\" and for why averaging $n$ independent samples cuts variance by $1/n$. Positive covariance inflates the spread of the sum; negative covariance damps it (the principle behind diversifying a portfolio).</p>\n\n<h3>6. Correlation: covariance on a fixed scale</h3>\n<p>Covariance has awkward units (the product of $X$'s and $Y$'s units) and an unbounded size, so it is hard to compare across problems. Dividing by both standard deviations removes units and pins the value to a fixed range — the <strong>(Pearson) correlation coefficient</strong>:\n$$\\rho_{X,Y} = \\frac{\\operatorname{Cov}(X,Y)}{\\sigma_X\\,\\sigma_Y}, \\qquad -1 \\le \\rho_{X,Y} \\le 1.$$\nThe bound (a consequence of the Cauchy–Schwarz inequality) makes $\\rho$ interpretable: $\\rho=+1$ means $Y$ is an exactly increasing linear function of $X$; $\\rho=-1$ an exactly decreasing one; $\\rho=0$ no linear relationship. Values near $\\pm 1$ mean a tight line, values near $0$ a formless cloud.</p>\n<div class=\"callout\">\n<div class=\"c-tag\">Careful</div>\n<p>Correlation measures <em>linear</em> association only. A variable can determine another completely yet have $\\rho=0$ if the relationship is curved — see the next section.</p>\n</div>\n\n<h3>7. Independence vs. uncorrelated — not the same thing</h3>\n<p>Independence is strictly stronger than zero correlation:\n$$\\text{independent} \\;\\Longrightarrow\\; \\operatorname{Cov}(X,Y)=0, \\qquad\\text{but}\\qquad \\operatorname{Cov}(X,Y)=0 \\;\\not\\Longrightarrow\\; \\text{independent}.$$\nThe forward direction holds because independence gives $\\mathbb{E}[XY]=\\mathbb{E}[X]\\mathbb{E}[Y]$. The converse fails for nonlinear dependence. <strong>Counterexample.</strong> Let $X$ be uniform on $\\{-1,0,1\\}$ and $Y=X^2$. Then $Y$ is a deterministic function of $X$ (maximal dependence!), yet $\\mathbb{E}[XY]=\\mathbb{E}[X^3]=0$ and $\\mathbb{E}[X]=0$, so $\\operatorname{Cov}(X,Y)=0$ and $\\rho=0$. Uncorrelated, but anything but independent.</p>\n\n<h3>8. Why this matters for machine learning</h3>\n<p>Stack the pairwise covariances of a random vector and you get the <strong>covariance matrix</strong> $\\Sigma$, the central object of multivariate statistics. <strong>PCA</strong> diagonalizes $\\Sigma$ to find the directions of greatest variance; the <strong>multivariate normal</strong> is parameterized by a mean vector and $\\Sigma$; feature <strong>de-correlation</strong> (whitening) and the warning that \"correlation is not causation\" both live here. Correlation is also the first thing a data scientist computes to sniff out which features carry signal about a target.</p>",
+          "mcq": [],
+          "flashcards": [
+            {
+              "front": "Define covariance two ways (definition and computational formula).",
+              "back": "Definition: $\\operatorname{Cov}(X,Y)=\\mathbb{E}[(X-\\mu_X)(Y-\\mu_Y)]$. Computational: $\\operatorname{Cov}(X,Y)=\\mathbb{E}[XY]-\\mathbb{E}[X]\\mathbb{E}[Y]$. Setting $Y=X$ recovers $\\operatorname{Var}(X)$."
+            },
+            {
+              "front": "What does the sign of the covariance tell you?",
+              "back": "Positive: $X$ and $Y$ tend to be above/below their means together (move together). Negative: when one is high the other tends to be low. Zero: no linear co-movement on average."
+            },
+            {
+              "front": "Give the formula for $\\operatorname{Var}(X+Y)$ and the special case for independence.",
+              "back": "$\\operatorname{Var}(X+Y)=\\operatorname{Var}(X)+\\operatorname{Var}(Y)+2\\operatorname{Cov}(X,Y)$. If independent, $\\operatorname{Cov}=0$ so the variances simply add."
+            },
+            {
+              "front": "Define the correlation coefficient $\\rho$ and state its range and meaning at the extremes.",
+              "back": "$\\rho_{X,Y}=\\dfrac{\\operatorname{Cov}(X,Y)}{\\sigma_X\\sigma_Y}$, with $-1\\le\\rho\\le 1$. $\\rho=\\pm1$ means an exact increasing/decreasing linear relationship; $\\rho=0$ means no <em>linear</em> association."
+            },
+            {
+              "front": "How does $\\operatorname{Cov}(aX+b,\\,cY+d)$ relate to $\\operatorname{Cov}(X,Y)$?",
+              "back": "$\\operatorname{Cov}(aX+b,cY+d)=ac\\,\\operatorname{Cov}(X,Y)$. Additive constants $b,d$ drop out (they don't fluctuate); multiplicative constants $a,c$ factor out."
+            },
+            {
+              "front": "Does zero covariance imply independence? Give the key fact and a counterexample.",
+              "back": "No. Independence $\\Rightarrow$ $\\operatorname{Cov}=0$, but not conversely. Counterexample: $X$ uniform on $\\{-1,0,1\\}$, $Y=X^2$. Then $\\operatorname{Cov}(X,Y)=0$ yet $Y$ is a deterministic function of $X$. Covariance sees only linear dependence."
+            }
+          ],
+          "homework": [
+            {
+              "prompt": "Two fair dice are rolled. Let $X$ be the first die and $S=X+Y$ the sum, where $Y$ is the second die. Find $\\operatorname{Cov}(X,S)$ and the correlation $\\rho_{X,S}$.",
+              "hint": "Use bilinearity: $\\operatorname{Cov}(X,X+Y)=\\operatorname{Cov}(X,X)+\\operatorname{Cov}(X,Y)$. The two dice are independent. Recall $\\operatorname{Var}(\\text{one die})=35/12$.",
+              "solution": "$\\operatorname{Cov}(X,S)=\\operatorname{Cov}(X,X)+\\operatorname{Cov}(X,Y)=\\operatorname{Var}(X)+0=\\tfrac{35}{12}$. For the correlation, $\\sigma_X=\\sqrt{35/12}$ and $\\operatorname{Var}(S)=\\operatorname{Var}(X)+\\operatorname{Var}(Y)=2\\cdot\\tfrac{35}{12}=\\tfrac{35}{6}$, so $\\sigma_S=\\sqrt{35/6}$. Thus $\\rho_{X,S}=\\dfrac{35/12}{\\sqrt{35/12}\\,\\sqrt{35/6}}=\\sqrt{\\dfrac{35/12}{35/6}}=\\sqrt{\\tfrac12}=\\tfrac{1}{\\sqrt2}\\approx 0.707$."
+            },
+            {
+              "prompt": "Random variables have $\\operatorname{Var}(X)=4$, $\\operatorname{Var}(Y)=9$, and $\\rho_{X,Y}=-0.5$. Compute $\\operatorname{Cov}(X,Y)$ and $\\operatorname{Var}(X+Y)$.",
+              "hint": "Back out covariance from $\\rho=\\operatorname{Cov}/(\\sigma_X\\sigma_Y)$, then plug into the variance-of-a-sum formula.",
+              "solution": "$\\sigma_X=2,\\ \\sigma_Y=3$, so $\\operatorname{Cov}(X,Y)=\\rho\\,\\sigma_X\\sigma_Y=(-0.5)(2)(3)=-3$. Then $\\operatorname{Var}(X+Y)=4+9+2(-3)=7$. The negative covariance shrank the spread of the sum below the sum of variances ($13$)."
+            },
+            {
+              "prompt": "Let $X$ take values $-1,0,1$ each with probability $1/3$, and set $Y=X^2$. Show $\\operatorname{Cov}(X,Y)=0$, then explain why $X$ and $Y$ are nonetheless dependent.",
+              "hint": "Compute $\\mathbb{E}[X]$, $\\mathbb{E}[Y]$, and $\\mathbb{E}[XY]=\\mathbb{E}[X^3]$. For dependence, compare $P(Y=1\\mid X=0)$ with $P(Y=1)$.",
+              "solution": "$\\mathbb{E}[X]=0$. $\\mathbb{E}[XY]=\\mathbb{E}[X^3]=\\tfrac13(-1)+\\tfrac13(0)+\\tfrac13(1)=0$. So $\\operatorname{Cov}(X,Y)=\\mathbb{E}[XY]-\\mathbb{E}[X]\\mathbb{E}[Y]=0-0=0$. Yet they are dependent: $P(Y=0)=P(X=0)=\\tfrac13$, but $P(Y=0\\mid X=0)=1\\ne\\tfrac13$. Knowing $X$ pins down $Y$ exactly — the dependence is purely nonlinear, which covariance is blind to."
+            }
+          ],
+          "examples": [
+            {
+              "title": "Computing covariance and correlation from a joint table",
+              "body": "$(X,Y)$ has joint PMF $p(0,0)=0.4,\\ p(0,1)=0.2,\\ p(1,0)=0.1,\\ p(1,1)=0.3$. Compute $\\operatorname{Cov}(X,Y)$ and the correlation $\\rho_{X,Y}$.",
+              "solution": "Marginals: $p_X(1)=0.1+0.3=0.4\\Rightarrow \\mathbb{E}[X]=0.4$; $p_Y(1)=0.2+0.3=0.5\\Rightarrow \\mathbb{E}[Y]=0.5$. The product $XY$ is $1$ only at $(1,1)$, so $\\mathbb{E}[XY]=1\\cdot p(1,1)=0.3$. Hence $\\operatorname{Cov}(X,Y)=0.3-(0.4)(0.5)=0.3-0.2=0.1>0$.\n\nFor correlation, since $X,Y$ are Bernoulli: $\\operatorname{Var}(X)=0.4(0.6)=0.24$, $\\operatorname{Var}(Y)=0.5(0.5)=0.25$, so $\\sigma_X\\sigma_Y=\\sqrt{0.24}\\sqrt{0.25}=0.4899\\times0.5=0.2449$. Thus $\\rho=\\dfrac{0.1}{0.2449}\\approx 0.41$ — a moderate positive linear association."
+            },
+            {
+              "title": "Why diversification reduces risk (negative covariance)",
+              "body": "An investor splits money equally between two assets with returns $X$ and $Y$, each with variance $\\sigma^2$. The portfolio return is $P=\\tfrac12 X+\\tfrac12 Y$. Find $\\operatorname{Var}(P)$ when the assets are (i) perfectly correlated ($\\rho=1$), (ii) uncorrelated ($\\rho=0$), and (iii) perfectly anti-correlated ($\\rho=-1$).",
+              "solution": "Using $\\operatorname{Var}(aX+bY)=a^2\\operatorname{Var}(X)+b^2\\operatorname{Var}(Y)+2ab\\operatorname{Cov}(X,Y)$ with $a=b=\\tfrac12$ and $\\operatorname{Cov}=\\rho\\sigma^2$:\n$$\\operatorname{Var}(P)=\\tfrac14\\sigma^2+\\tfrac14\\sigma^2+2\\cdot\\tfrac14\\rho\\sigma^2=\\tfrac{\\sigma^2}{2}(1+\\rho).$$\n(i) $\\rho=1$: $\\operatorname{Var}(P)=\\sigma^2$ — no risk reduction. (ii) $\\rho=0$: $\\operatorname{Var}(P)=\\sigma^2/2$ — risk halved. (iii) $\\rho=-1$: $\\operatorname{Var}(P)=0$ — the two assets perfectly cancel, eliminating variance. This is the mathematical heart of diversification: low or negative covariance shrinks portfolio risk."
+            }
+          ]
+        },
+        {
+          "id": "ps-conditional-expectation",
+          "title": "Conditional Expectation & the Tower Property",
+          "minutes": 15,
+          "content": "<h3>1. The best guess given partial information</h3>\n<p>You know a person's height; what's your best guess of their weight? You've seen the first half of a sentence; what word comes next? These are questions about <strong>conditional expectation</strong> — the mean of one variable once you've conditioned on what you know about another. It is the single most important object in prediction: regression, forecasting, and the value functions of reinforcement learning are all conditional expectations.</p>\n\n<h3>2. Conditional expectation given a value</h3>\n<p>Fix $Y=y$. The <strong>conditional expectation of $X$ given $Y=y$</strong> is just the mean computed under the conditional distribution:\n$$\\mathbb{E}[X\\mid Y=y] = \\sum_{x} x\\,p_{X\\mid Y}(x\\mid y) \\quad\\text{(discrete)}, \\qquad \\mathbb{E}[X\\mid Y=y]=\\int x\\,f_{X\\mid Y}(x\\mid y)\\,dx \\quad\\text{(continuous)}.$$\nFor each fixed $y$ this returns a number — the average value of $X$ among the cases where $Y=y$.</p>\n\n<h3>3. Conditional expectation as a random variable</h3>\n<p>Now let $y$ vary. The map $y \\mapsto \\mathbb{E}[X\\mid Y=y]$ defines a function of $Y$, written $\\mathbb{E}[X\\mid Y]$. Because $Y$ is random, <strong>$\\mathbb{E}[X\\mid Y]$ is itself a random variable</strong> — a function of $Y$ that, before you observe $Y$, has its own distribution, mean, and variance. This shift from \"a number for each $y$\" to \"a random variable\" is the conceptual leap of the topic, and it is what makes the next two laws possible.</p>\n<div class=\"callout\">\n<div class=\"c-tag\">Intuition</div>\n<p>Think of $\\mathbb{E}[X\\mid Y]$ as the \"best forecast\" of $X$ built from $Y$: a machine that, fed a value of $Y$, outputs the average $X$ for that group. Until you feed it a particular $Y$, the forecast it will emit is itself uncertain.</p>\n</div>\n\n<h3>4. The law of total expectation (the tower property)</h3>\n<p>Averaging the conditional forecast over all values of $Y$ recovers the plain mean of $X$:\n$$\\mathbb{E}\\big[\\,\\mathbb{E}[X\\mid Y]\\,\\big] = \\mathbb{E}[X].$$\nThis <strong>tower property</strong> (or law of total expectation) is a divide-and-conquer engine: to find $\\mathbb{E}[X]$, split the world by the value of $Y$, average $X$ within each slice, then average those slice-means weighted by how likely each slice is:\n$$\\mathbb{E}[X] = \\sum_{y} \\mathbb{E}[X\\mid Y=y]\\,p_Y(y).$$\nIt is the expectation analogue of the law of total probability, and it turns many fearsome direct sums into a short, structured calculation.</p>\n\n<h3>5. The law of total variance</h3>\n<p>Variance decomposes too, into \"within-group\" and \"between-group\" pieces:\n$$\\operatorname{Var}(X) = \\underbrace{\\mathbb{E}\\big[\\operatorname{Var}(X\\mid Y)\\big]}_{\\text{within-group, unexplained}} + \\underbrace{\\operatorname{Var}\\big(\\mathbb{E}[X\\mid Y]\\big)}_{\\text{between-group, explained}}.$$\nThe first term is the average spread of $X$ <em>inside</em> each $Y$-slice; the second is the spread of the slice-<em>means</em>. This is exactly the decomposition behind the \"explained vs. unexplained variance\" of regression and ANOVA: knowing $Y$ removes the between-group part, leaving only the within-group noise.</p>\n\n<h3>6. Worked example: a random number of terms</h3>\n<p>A hen lays $N\\sim\\text{Poisson}(\\lambda)$ eggs; each egg hatches independently with probability $p$. Let $X$ be the number that hatch. Directly summing is messy — but condition on $N$. Given $N=n$, $X\\sim\\text{Binomial}(n,p)$, so $\\mathbb{E}[X\\mid N]=Np$. By the tower property,\n$$\\mathbb{E}[X] = \\mathbb{E}\\big[\\mathbb{E}[X\\mid N]\\big] = \\mathbb{E}[Np] = p\\,\\mathbb{E}[N] = p\\lambda.$$\nThree lines replace a daunting double sum — the signature payoff of conditioning.</p>\n\n<h3>7. Why this matters for machine learning</h3>\n<p>The function $f(x)=\\mathbb{E}[Y\\mid X=x]$ is called the <strong>regression function</strong>, and it is provably the predictor that minimizes mean-squared error — so every regression model is an attempt to approximate a conditional expectation. In reinforcement learning, the <strong>value function</strong> $V(s)=\\mathbb{E}[\\text{return}\\mid \\text{state}=s]$ is a conditional expectation, and Bellman equations are tower-property identities. Conditioning to simplify an expectation is one of the most reused tricks in all of applied probability.</p>",
+          "mcq": [],
+          "flashcards": [
+            {
+              "front": "What is $\\mathbb{E}[X\\mid Y=y]$?",
+              "back": "The mean of $X$ computed under the conditional distribution given $Y=y$: $\\mathbb{E}[X\\mid Y=y]=\\sum_x x\\,p_{X\\mid Y}(x\\mid y)$ (or the integral version). For each fixed $y$ it is a number."
+            },
+            {
+              "front": "Why is $\\mathbb{E}[X\\mid Y]$ (no fixed value) a random variable?",
+              "back": "It is the function $y\\mapsto\\mathbb{E}[X\\mid Y=y]$ evaluated at the random $Y$. Since $Y$ is random, this function of $Y$ is itself random, with its own distribution, mean, and variance."
+            },
+            {
+              "front": "State the law of total expectation (tower property).",
+              "back": "$\\mathbb{E}[\\mathbb{E}[X\\mid Y]]=\\mathbb{E}[X]$, i.e. $\\mathbb{E}[X]=\\sum_y \\mathbb{E}[X\\mid Y=y]\\,p_Y(y)$. Average $X$ within each slice of $Y$, then average the slice-means."
+            },
+            {
+              "front": "State the law of total variance and name its two parts.",
+              "back": "$\\operatorname{Var}(X)=\\mathbb{E}[\\operatorname{Var}(X\\mid Y)]+\\operatorname{Var}(\\mathbb{E}[X\\mid Y])$ — the within-group (\"unexplained\") variance plus the between-group (\"explained\") variance of the conditional means."
+            },
+            {
+              "front": "What conditional expectation is the optimal least-squares predictor of $Y$ from $X$?",
+              "back": "The regression function $f(x)=\\mathbb{E}[Y\\mid X=x]$ minimizes the mean-squared error $\\mathbb{E}[(Y-g(X))^2]$ over all functions $g$. Regression models approximate this conditional expectation."
+            },
+            {
+              "front": "How does conditioning simplify $\\mathbb{E}[X]$ when $X$ depends on a random count $N$?",
+              "back": "Condition on $N$: find $\\mathbb{E}[X\\mid N]$ (often easy, e.g. a Binomial mean $Np$), then apply the tower property $\\mathbb{E}[X]=\\mathbb{E}[\\mathbb{E}[X\\mid N]]$ to average over $N$."
+            }
+          ],
+          "homework": [
+            {
+              "prompt": "A fair die is rolled. If it shows $k$, you then flip $k$ fair coins. Let $X$ be the number of heads. Find $\\mathbb{E}[X]$ using the tower property.",
+              "hint": "Condition on the die value $N$. Given $N=k$, $X\\sim\\text{Binomial}(k,\\tfrac12)$, so $\\mathbb{E}[X\\mid N]=N/2$.",
+              "solution": "$\\mathbb{E}[X]=\\mathbb{E}[\\mathbb{E}[X\\mid N]]=\\mathbb{E}[N/2]=\\tfrac12\\mathbb{E}[N]$. For a fair die $\\mathbb{E}[N]=3.5$, so $\\mathbb{E}[X]=3.5/2=1.75$ heads."
+            },
+            {
+              "prompt": "The number of customers $N$ in an hour is $\\text{Poisson}(\\lambda=20)$, and each independently spends a mean of $\\$8$ with variance $9$. Let $T$ be total spend. Find $\\mathbb{E}[T]$ and $\\operatorname{Var}(T)$.",
+              "hint": "This is a compound (random-sum) model. Given $N=n$, $T$ is a sum of $n$ i.i.d. spends. Use $\\mathbb{E}[T\\mid N]=N\\mu$ and the law of total variance; for Poisson, $\\mathbb{E}[N]=\\operatorname{Var}(N)=\\lambda$.",
+              "solution": "Let $\\mu=8,\\ \\sigma^2=9$. Mean: $\\mathbb{E}[T]=\\mathbb{E}[N]\\mu=20\\cdot 8=\\$160$. Variance (compound Poisson): $\\operatorname{Var}(T)=\\mathbb{E}[N]\\sigma^2+\\operatorname{Var}(N)\\mu^2$ via total variance $=20\\cdot 9 + 20\\cdot 64 = 180+1280=1460$. (Equivalently, for compound Poisson, $\\operatorname{Var}(T)=\\lambda\\,\\mathbb{E}[\\text{spend}^2]=20(9+64)=1460$.)"
+            },
+            {
+              "prompt": "Using the law of total variance, verify the within/between split for the die-then-coins setup of problem 1 is consistent, by computing both $\\mathbb{E}[\\operatorname{Var}(X\\mid N)]$ and $\\operatorname{Var}(\\mathbb{E}[X\\mid N])$.",
+              "hint": "Given $N=k$, $\\operatorname{Var}(X\\mid N)=k\\cdot\\tfrac12\\cdot\\tfrac12=N/4$, and $\\mathbb{E}[X\\mid N]=N/2$. Use $\\operatorname{Var}(N)=35/12$ for a fair die.",
+              "solution": "Within: $\\mathbb{E}[\\operatorname{Var}(X\\mid N)]=\\mathbb{E}[N/4]=\\tfrac14(3.5)=0.875$. Between: $\\operatorname{Var}(\\mathbb{E}[X\\mid N])=\\operatorname{Var}(N/2)=\\tfrac14\\operatorname{Var}(N)=\\tfrac14\\cdot\\tfrac{35}{12}=\\tfrac{35}{48}\\approx 0.729$. Total $\\operatorname{Var}(X)\\approx 0.875+0.729=1.604$. Both pieces are nonnegative and sum to the variance, as the law guarantees."
+            }
+          ],
+          "examples": [
+            {
+              "title": "The tower property turns a hard mean into an easy one",
+              "body": "Insurance claims arrive at a random count $N\\sim\\text{Poisson}(\\lambda=50)$ per month, and each claim's size is, on average, $\\$2000$, independent of $N$ and of the others. What is the expected total monthly payout?",
+              "solution": "Let $X_i$ be the $i$-th claim size with $\\mathbb{E}[X_i]=2000$, and total $T=\\sum_{i=1}^{N} X_i$. Condition on $N$: given $N=n$, $\\mathbb{E}[T\\mid N=n]=n\\cdot 2000$, so as a random variable $\\mathbb{E}[T\\mid N]=2000\\,N$. By the tower property,\n$$\\mathbb{E}[T]=\\mathbb{E}\\big[\\mathbb{E}[T\\mid N]\\big]=\\mathbb{E}[2000\\,N]=2000\\,\\mathbb{E}[N]=2000\\cdot 50=\\$100{,}000.$$\nNo need to grapple with the distribution of a sum of a random number of terms — conditioning on $N$ collapses it to a one-line product."
+            },
+            {
+              "title": "Decomposing variance into explained and unexplained parts",
+              "body": "Students come from two equally likely schools. School A's exam scores are $N(70,\\,5^2)$; school B's are $N(80,\\,5^2)$. Pick a random student. Use the law of total variance to find the overall variance of the score, and interpret the two pieces.",
+              "solution": "Let $Y\\in\\{A,B\\}$ with $p=\\tfrac12$ each. Within-group: each school has variance $25$, so $\\mathbb{E}[\\operatorname{Var}(\\text{score}\\mid Y)]=25$. Between-group: the conditional means are $70$ and $80$, each with probability $\\tfrac12$, so their mean is $75$ and $\\operatorname{Var}(\\mathbb{E}[\\text{score}\\mid Y])=\\tfrac12(70-75)^2+\\tfrac12(80-75)^2=\\tfrac12(25)+\\tfrac12(25)=25$. Total variance $=25+25=50$. Interpretation: half the variability is noise <em>within</em> schools (unexplained by school), half is the gap <em>between</em> school averages (explained by knowing the school). Knowing $Y$ would cut the variance from $50$ to $25$."
+            }
+          ]
+        }
+      ]
     }
   ]
 }

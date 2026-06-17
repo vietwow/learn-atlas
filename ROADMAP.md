@@ -13,8 +13,12 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    cards/homework/examples; Bayes viz embedded). ✅ iter 73: Common Distributions module (5 lessons). ✅ iter 74:
    CLT viz (`ps-clt`). ✅ iter 75: all 9 PS lessons now at 12 MCQs (108 topic / 1,464 site). NEXT for this topic:
    ✅ iter 76: normal-distribution explorer viz (`ps-normal-explorer`: μ/σ + empirical-rule bands + interval CDF).
-   NEXT for this topic: (b) more modules — Joint distributions & independence (covariance/correlation), Limit
-   theorems (LLN/CLT formal), Estimation & confidence intervals, Hypothesis testing, Bayesian inference.
+   ✅ iter 77: Module 3 "Joint Distributions & Dependence" (3 lessons: joint/marginals/independence,
+   covariance/correlation, conditional expectation/tower property) — content+cards+homework+examples, NO MCQs yet.
+   NEXT for this topic: (a) add 12 MCQs to each of the 3 Module-3 lessons via the pipeline
+   (`/tmp/gen_mcq_target_wf.js probability-statistics "probability and statistics" 12`); (b) more modules — Limit
+   theorems (LLN/CLT formal), Estimation & confidence intervals, Hypothesis testing, Bayesian inference;
+   (c) a covariance/correlation scatter viz for Module 3.
    ⚠ Lesson-authoring workflow bug (iter 71): the VERIFY agent overwrote `content` with its review notes for
    3/4 lessons. When authoring future lessons, make the verify schema/prompt EXPLICIT: "return the corrected
    LESSON HTML in `content`; put commentary ONLY in `notes`; never write a summary into `content`." (Recovered
@@ -121,4 +125,11 @@ iter 52. If the pipeline is reused, make the author/verify prompts mandate `<str
   no clean+safe+worthwhile extraction now. Defer the shared-context split until app.js becomes painful** (the
   overlay layer — confetti/levelup/intro/palette/studyKeys — is the cleanest future leaf). `node gate.js`
   guards the data layer.
+- **LaTeX-authoring convention (iter 77):** new lessons can be authored with a node generator that loads the
+  existing course, builds lesson objects with `String.raw` + SINGLE-backslash LaTeX (`\frac`, `\operatorname`),
+  pushes the new module, and rewrites the file as `header + "(window.COURSES...).push(\n" + JSON.stringify(course,
+  null,2) + "\n);\n"`. KaTeX renders this correctly (verified katex-error=0 + visual). NOTE: the iter-71/73 lessons
+  happen to carry DOUBLE backslashes in-memory and ALSO render fine — KaTeX is robust to both here — so don't be
+  alarmed by the mismatch; single-backslash is the cleaner standard. Generator pattern saved at
+  `/tmp/gen_ps_module3.js` (back up the data file first: `cp data/probability-statistics.js /tmp/ps_backup.js`).
 - (loop appends findings here)

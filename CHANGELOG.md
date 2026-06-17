@@ -2,6 +2,24 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 77 — Probability & Statistics — Module 3: Joint Distributions & Dependence (3 lessons) (content; owner depth direction)
+Deepened the newest topic with a third module covering how *multiple* random variables interact — the bridge from
+single-variable probability into multivariate statistics and ML. Three full lessons:
+**(1) Joint Distributions, Marginals & Independence** — joint PMF/PDF, marginalizing by summing/integrating out,
+independence as a product factorization, conditional distributions, the support-shape shortcut.
+**(2) Covariance & Correlation** — covariance (definition + computational formula), bilinearity, variance of a
+sum, the Pearson correlation coefficient and its $[-1,1]$ range, and the crucial *uncorrelated ≠ independent*
+counterexample ($Y=X^2$).
+**(3) Conditional Expectation & the Tower Property** — $\mathbb{E}[X\mid Y]$ as a random variable, the law of
+total expectation, the law of total variance (explained/unexplained), and the regression-function connection.
+Each lesson is a rich KaTeX lecture + 6 flashcards + 3 homework problems (hint+solution) + 2 worked examples.
+(MCQs deferred to a follow-up iteration via the proven author→verify pipeline, matching the iter 71→72 / 73→75
+pattern.) Site now **125 lessons · 751 flashcards · 373 homework · 242 examples**. SW cache → `atlas-v21`. Also
+corrected the README viz count (22→23, stale since iter 76). Verified: `node gate.js` ALL GREEN (7 topics · 125
+lessons); all three new lessons render math with **katex-error=0** (confirmed visually — covariance formulas and the
+conditional-expectation definition render as proper symbols, not literal backslashes); every lesson tab
+(lecture/examples/flashcards/homework/recall) + course/cheatsheet/map: errs=0; legible at 390px; stray Chrome cleaned up.
+
 ## iter 76 — Normal Distribution Explorer visualization (visualizations; owner depth direction)
 A new interactive widget (`ps-normal-explorer`, the 23rd) that lets you *feel* the Gaussian. Drag **μ** to slide
 the whole bell; drag **σ** to stretch/pinch it (the x-domain auto-fits to μ±4σ so the curve always fills the
