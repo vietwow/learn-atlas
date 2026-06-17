@@ -2,6 +2,22 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 223 — Three more runnable code exercises for Algorithms (new functionality / active practice)
+Extended the hands-on coding practice from **8 → 11 lessons**, adding runnable JS exercises (each a complete, correct
+reference implementation the learner runs for an instant ✓, then edits) to three foundational data-structure/algorithm
+lessons that had none — in three different modules:
+- **`a-trees-heaps`** — a **binary search tree**: insert (smaller-left/bigger-right) then inorder traversal → `1 2 3 4
+  5 6 7 8 9`, revealing the BST property that inorder is always sorted.
+- **`a-mst-union-find`** — **union-find** with path halving: merge edges, count connected components → `3` (the engine
+  inside Kruskal's MST).
+- **`a-string-algorithms`** — **naive substring search**: slide the pattern, record every match index → `0 7` (occurrences
+  of "abra" in "abracadabra"; motivates KMP/Rabin-Karp).
+JS again, so each is verifiable headless. Byte-stable injection (no-op guard; code HTML-escaped so `<`/`>`/`&` round-trip).
+Verified: **all 6 embedded JS exercises decoded + executed as the playground's `runJS` → output === `data-expected`** (6
+pass / 0 fail); `gate.js` ALL GREEN (2,368 MCQs · 48 widgets); in-browser the union-find exercise mounts (editor + Run)
+and shows **"✓ Output matches expected"** (err=0); all-routes smoke (10 routes incl. all 3 lessons + the playground)
+**errs=0/kErr=0**. Reuses the existing Playground component (no new mobile layout). SW cache `atlas-v165` → `atlas-v166`.
+
 ## iter 222 — Binary-vs-linear search race visualizer (visualizations)
 New widget **`algo-binary-search`** (the **48th**), embedded in `a-binary-search` after the classic-algorithm section —
 which already had a Python code exercise, so the lesson is now read + watch + code. The most iconic O(log n)-vs-O(n)

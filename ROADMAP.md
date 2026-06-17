@@ -177,6 +177,12 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 223: **Three more runnable code exercises (8→11 lessons)** (new functionality / active practice — diversifies from
+   viz). Added JS exercises to a-trees-heaps (BST insert+inorder → "1 2 3 4 5 6 7 8 9"), a-mst-union-find (union-find
+   components → "3"), a-string-algorithms (naive substring search → "0 7"). Byte-stable inject. Verified: all 6 embedded JS
+   exercises decoded+executed as playground runJS → output===expected (6/6); gate GREEN; browser run shows "✓ Output matches
+   expected" err=0; smoke errs=0/kErr=0 (10 routes). Reuses Playground (no new mobile layout). SW →v166.
+   (Code-exercise coverage now 11/148 — more algorithm/DL lessons remain candidates.)
    ✅ iter 222: **New viz `algo-binary-search`** (visualizations — owner-loved; 4 iters since last viz). 48th widget, in
    a-binary-search (which already had a code exercise → now read+watch+code). Binary-vs-linear race on one sorted array:
    binary narrows a lo–hi window, linear scans, live comparison counts make O(log n) vs O(n) visceral. Counts node-validated
