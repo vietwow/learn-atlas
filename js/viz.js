@@ -2348,4 +2348,71 @@
     reset();
   });
 
+  register({ id: 'ps-binomial-poisson', topic: 'probability-statistics', title: 'Binomial ⇄ Poisson Explorer', blurb: 'Drag n and p to reshape the Binomial PMF — watch the mean np, the spread, and the bell emerge — then overlay Poisson(np) to see the law of rare events (many trials, tiny p).' },
+  function (root) {
+    const W = 560, H = 380, padL = 42, padR = 14, padB = 38, padT = 30;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    const MONO = "JetBrains Mono, monospace";
+    let n = 10, p = 0.5, overlay = false;
+    // Binomial PMF via a numerically-stable recurrence (no large factorials):
+    //   P(0) = (1-p)^n ;  P(k) = P(k-1) · (n-k+1)/k · p/(1-p)
+    function binomPMF(n, p) {
+      const out = new Array(n + 1); let pk = Math.pow(1 - p, n); out[0] = pk;
+      for (let k = 1; k <= n; k++) { pk = pk * ((n - k + 1) / k) * (p / (1 - p)); out[k] = pk; }
+      return out;
+    }
+    // Poisson PMF: Q(0)=e^-λ ; Q(k)=Q(k-1)·λ/k
+    function poissonPMF(lam, kmax) {
+      const out = new Array(kmax + 1); let qk = Math.exp(-lam); out[0] = qk;
+      for (let k = 1; k <= kmax; k++) { qk = qk * lam / k; out[k] = qk; }
+      return out;
+    }
+    function draw() {
+      const pal = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = pal.bg; ctx.fillRect(0, 0, W, H);
+      const bp = binomPMF(n, p), lam = n * p;
+      const pp = overlay ? poissonPMF(lam, n) : null;
+      let ymax = Math.max.apply(null, bp); if (pp) ymax = Math.max(ymax, Math.max.apply(null, pp));
+      ymax = (ymax || 1) * 1.14;
+      const nb = n + 1, plotW = W - padL - padR, bw = plotW / nb;
+      const X = k => padL + (k + 0.5) * bw;                  // center of bar k
+      const Yb = v => H - padB - (v / ymax) * (H - padT - padB);
+      // baseline
+      ctx.strokeStyle = pal.line; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(padL, H - padB); ctx.lineTo(W - padR, H - padB); ctx.stroke();
+      // binomial bars
+      for (let k = 0; k <= n; k++) {
+        const x = padL + k * bw + bw * 0.14, w = Math.max(1, bw * 0.72), y = Yb(bp[k]);
+        ctx.fillStyle = pal.gold; ctx.globalAlpha = 0.9; ctx.fillRect(x, y, w, (H - padB) - y); ctx.globalAlpha = 1;
+      }
+      // Poisson overlay: a line through the PMF tops + dots
+      if (pp) {
+        ctx.strokeStyle = pal.violet; ctx.lineWidth = 2; ctx.beginPath();
+        for (let k = 0; k <= n; k++) { const px = X(k), py = Yb(pp[k]); k ? ctx.lineTo(px, py) : ctx.moveTo(px, py); } ctx.stroke();
+        ctx.fillStyle = pal.violet;
+        for (let k = 0; k <= n; k++) { ctx.beginPath(); ctx.arc(X(k), Yb(pp[k]), 2.4, 0, 7); ctx.fill(); }
+      }
+      // mean line at k = np
+      ctx.save(); ctx.strokeStyle = pal.rust; ctx.lineWidth = 1.4; ctx.setLineDash([4, 4]);
+      const mxc = padL + (lam + 0.5) * bw; ctx.beginPath(); ctx.moveTo(mxc, padT - 6); ctx.lineTo(mxc, H - padB); ctx.stroke(); ctx.restore();
+      ctx.fillStyle = pal.rust; ctx.font = '600 11px ' + MONO; ctx.textAlign = 'center'; ctx.fillText('mean ' + lam.toFixed(1), mxc, padT - 10);
+      // x ticks: ~9 evenly-spaced k labels
+      ctx.fillStyle = pal.mute; ctx.font = '10px ' + MONO; ctx.textAlign = 'center';
+      const step = Math.max(1, Math.ceil(n / 9));
+      for (let k = 0; k <= n; k += step) ctx.fillText(k, X(k), H - padB + 14);
+      // info note (plain unicode — NOT KaTeX)
+      const variance = n * p * (1 - p), sd = Math.sqrt(variance);
+      const shape = Math.abs(p - 0.5) < 0.04 ? 'symmetric' : (p < 0.5 ? 'right-skewed (tail toward larger k)' : 'left-skewed (tail toward smaller k)');
+      let msg = `<b>Bin(n=${n}, p=${p.toFixed(2)})</b> — mean np = <b>${lam.toFixed(2)}</b>, variance np(1−p) = <b>${variance.toFixed(2)}</b>, σ ≈ ${sd.toFixed(2)}. Shape: ${shape}; it grows more bell-like as n increases.`;
+      if (pp) msg += ` <span style="color:${pal.violet}">Poisson(λ=np=${lam.toFixed(2)})</span> overlaid: the two nearly coincide when <b>n is large and p small</b> — the <i>law of rare events</i>. (They diverge when p is large.)`;
+      info.innerHTML = msg;
+    }
+    slider(ctl, { label: 'trials n', min: 1, max: 50, step: 1, value: n, fmt: v => 'n=' + v, onInput: v => { n = v; draw(); } });
+    slider(ctl, { label: 'success p', min: 0.02, max: 0.98, step: 0.02, value: p, fmt: v => 'p=' + v.toFixed(2), onInput: v => { p = v; draw(); } });
+    button(ctl, 'Poisson(np) overlay', function () { overlay = !overlay; this.classList.toggle('active', overlay); draw(); });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Binomial distribution explorer: a bar chart of the Binomial PMF P(X=k) with sliders for the number of trials n and success probability p, a dashed line at the mean np, and an optional Poisson(np) overlay illustrating the law of rare events.');
+    draw();
+  });
+
 })();

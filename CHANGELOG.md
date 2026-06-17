@@ -2,6 +2,25 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 203 — New viz: Binomial ⇄ Poisson PMF explorer (visualizations — non-content)
+Non-content move pairing with the iter-202 Distributions content. The PS topic had 5 visualizations but **none for the
+discrete distributions** — `ps-bernoulli-binomial`, `ps-poisson`, and `ps-geometric-waiting` had no embedded widget.
+Added **`ps-binomial-poisson`** (the **42nd** Lab widget): an interactive Binomial PMF bar chart with sliders for the
+number of trials *n* and success probability *p*, a dashed line at the mean *np*, a live readout of mean/variance/σ and
+the distribution's shape, and a **Poisson(np) overlay** toggle that traces the Poisson PMF over the bars — visually
+demonstrating the **law of rare events** (Binomial → Poisson when *n* is large and *p* small) that the new MCQs cover.
+- `js/viz.js`: registered `ps-binomial-poisson`. PMFs computed via numerically-stable recurrences (no large
+  factorials): Binomial $P(k)=P(k-1)\cdot\frac{n-k+1}{k}\cdot\frac{p}{1-p}$, Poisson $Q(k)=Q(k-1)\cdot\lambda/k$.
+  Synchronous initial `draw()`; loops-free (static, redraws on input) so nothing leaks across navigations.
+- Embedded `<div data-viz="ps-binomial-poisson"></div>` in the Bernoulli/Binomial lesson.
+
+Verified: PMFs sum to 1.000000 (Bin(50,0.5), Bin(10,0.02), Poisson(4)); `gate.js` ALL GREEN — now **42 widgets**, and
+it confirms the embedded `data-viz` id resolves to a registered widget; Lab item renders (canvas + 2 sliders + overlay
+button, errs=0) and is interactive (set n=40 → note correctly reads "mean np 20.00, variance 10.00, σ ≈ 3.16"); the
+Poisson overlay correctly *diverges* at large p and converges at small p; lesson embed hydrates (errs=0); all-routes
+smoke (9 routes incl. the new Lab item) errs=0; legible at **390px** (canvas `max-width:100%` scales). README widget
+count 41→42 (+ Lab description); app.js viz-complete fallback 41→42. SW cache `atlas-v145` → `atlas-v146`.
+
 ## iter 202 — MCQ arc → PS Distributions module 12→16 (content — owner's #1 ask)
 The 12→16 arc's largest module yet: **Probability & Statistics → Common Distributions**, all **5 lessons 12 → 16
 MCQs** (+20; bank **2,304 → 2,324**). New foundational questions, adversarially fact-checked with arithmetic
