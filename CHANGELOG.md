@@ -2,6 +2,26 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 213 — Fundamental Theorem of Calculus visualizer: area accumulates (visualizations)
+New widget **`calc-ftc-accumulation`** (the **45th**), embedded in `c-fundamental-theorem` right after the
+"Accumulation Function" section. The FTC is arguably the single most important result in all of calculus, and it had
+**no visualization**. Owner loves viz; anti-monotony (last viz iter 211). Two stacked panels:
+- **Top** — the integrand f(t), with the signed area from the left endpoint up to a sweeping x shaded (green where
+  f>0, rust where f<0), and the point (x, f(x)) marked.
+- **Bottom** — the accumulation function A(x)=∫f drawn as x sweeps, with a **red tangent line whose slope always equals
+  f(x)** — making **A′(x)=f(x)** (FTC Part 1) literally visible: where f is tall A climbs steeply, where f=0 A is flat
+  (a turning point), where f<0 A falls.
+- **Play** sweeps x left→right; a **sweep-x slider** scrubs manually; an **integrand select** (a Gaussian bump, a sine
+  wave, a line) shows different accumulations (the bump → an S-curve; the odd functions → A returns to 0 by symmetry).
+A is computed by cumulative-trapezoid integration. Math validated in node before building: A matches the closed-form
+antiderivatives (line & sine both integrate to 0 over the symmetric domain; the bump → 3√π ≈ 5.317), and the numeric
+A′ matches f to <1e-3 everywhere — so the tangent-slope claim is exact. (Note text uses plain unicode "A′(x)=f(x)",
+not `$…$`, per the viz-note landmine.)
+Verified: `gate.js` ALL GREEN (**45 widgets**, embed resolves); Lab-route screenshots — (a) initial paint on the bump
+shows **A(0)=2.66** with **slope=3.00** at the peak (err=0), (b) sine at x=−1.5 shows **A=−2.01**, f<0 → "A falls",
+rust negative-area shading (err=0); all-routes smoke (10 routes incl. `#/lab/calc-ftc-accumulation` + the embedded
+lesson) **errs=0/kErr=0**; mobile 390px both panels scale and stay legible. SW cache `atlas-v155` → `atlas-v156`.
+
 ## iter 212 — "Daily goal reached!" celebration the moment you cross it (animation/juice · retention)
 The daily XP goal is the core "come back every day" mechanic, yet **crossing it was silent** — only a static "hit! 🎉"
 appeared on the *next* dashboard visit. Now the instant today's XP crosses the goal — mid-quiz, mid-review, grading a

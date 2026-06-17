@@ -2611,4 +2611,91 @@
     loop(function () { if (playing && !done) { frame++; if (frame % 9 === 0) { step(); draw(); if (done) setPlay(false); } } });
   });
 
+  /* ========================================================
+     45. Fundamental Theorem of Calculus: the accumulation function (Calculus)
+     ===================================================== */
+  register({ id: 'calc-ftc-accumulation', topic: 'calculus', title: 'The Fundamental Theorem: Area Accumulates', blurb: 'Sweep x and watch the signed area under f pile up into the accumulation function A(x)=∫f. Where f is tall, A climbs fast; where f=0, A is flat; where f<0, A falls. The slope of A is exactly f — that is the Fundamental Theorem of Calculus, made visible.' },
+  function (root) {
+    const W = 560, H = 408, padL = 44, padR = 16, MONO = "JetBrains Mono, monospace";
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    const A0 = -3.5, B0 = 3.5, N = 280, dx = (B0 - A0) / N;
+    const FNS = {
+      hump: { label: 'a bump  f(x)=3e^(−x²)', f: x => 3 * Math.exp(-x * x) },
+      sine: { label: 'a wave  f(x)=2 sin x', f: x => 2 * Math.sin(x) },
+      line: { label: 'a line  f(x)=x', f: x => x }
+    };
+    let key = 'hump', xi = Math.round((0 - A0) / dx), playing = false, frame = 0, playBtn = null;
+    let fv = [], cum = [];
+    function rebuild() {
+      const f = FNS[key].f; fv = []; cum = [];
+      for (let i = 0; i <= N; i++) fv.push(f(A0 + i * dx));
+      cum[0] = 0;
+      for (let i = 1; i <= N; i++) cum[i] = cum[i - 1] + (fv[i - 1] + fv[i]) / 2 * dx;   // cumulative trapezoid = ∫ from A0
+    }
+    function setPlay(v) { playing = v; if (playBtn) { playBtn.innerHTML = v ? '⏸ Pause' : '▶ Play'; playBtn.classList.toggle('active', v); } }
+
+    // panel geometry
+    const plotW = W - padL - padR;
+    const tT = 30, tB = 188, bT = 232, bB = H - 30;            // top panel [tT,tB], bottom [bT,bB]
+    const Xpx = x => padL + (x - A0) / (B0 - A0) * plotW;
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const x = A0 + xi * dx, fx = fv[xi], Ax = cum[xi];
+      let fmax = 0; for (let i = 0; i <= N; i++) fmax = Math.max(fmax, Math.abs(fv[i])); fmax = (fmax || 1) * 1.18;
+      let amin = Math.min.apply(null, cum), amax = Math.max.apply(null, cum); const apad = (amax - amin) * 0.12 || 1; amin -= apad; amax += apad;
+      const Fpx = v => (tT + tB) / 2 - (v / fmax) * ((tB - tT) / 2);   // f-panel: zero line at vertical center
+      const Apx = v => bB - (v - amin) / (amax - amin) * (bB - bT);
+      // ---- top panel: f(t) with signed area [A0, x] ----
+      ctx.fillStyle = p.mute; ctx.font = '600 11px ' + MONO; ctx.textAlign = 'left';
+      ctx.fillText('f(t) — the integrand', padL, tT - 12);
+      // shaded area up to x (green where f>0, rust where f<0)
+      for (let i = 0; i < xi; i++) {
+        const x0 = Xpx(A0 + i * dx), x1 = Xpx(A0 + (i + 1) * dx), y0 = Fpx(fv[i]), y1 = Fpx(fv[i + 1]), zero = Fpx(0);
+        ctx.beginPath(); ctx.moveTo(x0, zero); ctx.lineTo(x0, y0); ctx.lineTo(x1, y1); ctx.lineTo(x1, zero); ctx.closePath();
+        const pos = (fv[i] + fv[i + 1]) >= 0;
+        ctx.fillStyle = pos ? p.sage : p.rust; ctx.globalAlpha = 0.34; ctx.fill(); ctx.globalAlpha = 1;
+      }
+      // zero axis
+      ctx.strokeStyle = p.line; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(padL, Fpx(0)); ctx.lineTo(W - padR, Fpx(0)); ctx.stroke();
+      // f curve
+      ctx.strokeStyle = p.gold; ctx.lineWidth = 2.2; ctx.beginPath();
+      for (let i = 0; i <= N; i++) { const px = Xpx(A0 + i * dx), py = Fpx(fv[i]); i ? ctx.lineTo(px, py) : ctx.moveTo(px, py); } ctx.stroke();
+      // sweep line + point (x, f(x))
+      ctx.strokeStyle = p.violet; ctx.lineWidth = 1.5; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(Xpx(x), tT - 4); ctx.lineTo(Xpx(x), bB); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = p.gold; ctx.beginPath(); ctx.arc(Xpx(x), Fpx(fx), 4, 0, 7); ctx.fill();
+      ctx.fillStyle = p.soft; ctx.font = '10px ' + MONO; ctx.textAlign = 'center'; ctx.fillText('f(x)=' + fx.toFixed(2), Xpx(x), Fpx(fx) - 8);
+      // ---- bottom panel: A(x) = accumulated area ----
+      ctx.fillStyle = p.mute; ctx.font = '600 11px ' + MONO; ctx.textAlign = 'left';
+      ctx.fillText('A(x) = ∫ from −3.5 to x of f  (signed area so far)', padL, bT - 12);
+      if (amin < 0 && amax > 0) { ctx.strokeStyle = p.line; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(padL, Apx(0)); ctx.lineTo(W - padR, Apx(0)); ctx.stroke(); }
+      // full A curve (faint), then solid up to x
+      ctx.strokeStyle = p.line; ctx.lineWidth = 1.4; ctx.beginPath();
+      for (let i = 0; i <= N; i++) { const px = Xpx(A0 + i * dx), py = Apx(cum[i]); i ? ctx.lineTo(px, py) : ctx.moveTo(px, py); } ctx.stroke();
+      ctx.strokeStyle = p.sage; ctx.lineWidth = 2.6; ctx.beginPath();
+      for (let i = 0; i <= xi; i++) { const px = Xpx(A0 + i * dx), py = Apx(cum[i]); i ? ctx.lineTo(px, py) : ctx.moveTo(px, py); } ctx.stroke();
+      // tangent to A at x with slope = f(x)  (the FTC: A'(x)=f(x))
+      const hpx = 46, hdat = hpx / plotW * (B0 - A0);
+      const x1d = x - hdat, x2d = x + hdat, y1d = Ax - fx * hdat, y2d = Ax + fx * hdat;
+      ctx.strokeStyle = p.rust; ctx.lineWidth = 2.4; ctx.beginPath(); ctx.moveTo(Xpx(x1d), Apx(y1d)); ctx.lineTo(Xpx(x2d), Apx(y2d)); ctx.stroke();
+      ctx.fillStyle = p.sage; ctx.beginPath(); ctx.arc(Xpx(x), Apx(Ax), 4.5, 0, 7); ctx.fill();
+      ctx.fillStyle = p.rust; ctx.font = '10px ' + MONO; ctx.textAlign = 'left'; ctx.fillText("slope = f(x) = " + fx.toFixed(2), Xpx(x) + 8, Apx(Ax) - 6);
+      // x-axis ticks (bottom)
+      ctx.fillStyle = p.mute; ctx.font = '10px ' + MONO; ctx.textAlign = 'center';
+      for (let t = -3; t <= 3; t++) ctx.fillText(t, Xpx(t), bB + 14);
+      // note
+      const trend = Math.abs(fx) < 0.12 ? `<b>f(x)≈0</b>, so A is momentarily <b>flat</b> — a turning point of the area` : (fx > 0 ? `<b>f(x)>0</b>, so area is being <b>added</b> and A <b>rises</b>` : `<b>f(x)<0</b>, so area is <b>subtracted</b> and A <b>falls</b>`);
+      info.innerHTML = `At x = <b>${x.toFixed(2)}</b>: the accumulated signed area is A(x) = <b>${Ax.toFixed(2)}</b>. ${trend}. The red line is the <b>slope of A</b>, and it always equals the <b>height f(x)</b> of the top curve — that is the <b>Fundamental Theorem</b>: A′(x) = f(x), so differentiating the area-so-far gives back the integrand. Integration and differentiation are inverses.`;
+    }
+    playBtn = button(ctl, '▶ Play', function () { if (xi >= N) xi = 0; setPlay(!playing); draw(); });
+    const xslider = slider(ctl, { label: 'sweep x', min: A0, max: B0, step: dx, value: A0 + xi * dx, fmt: v => 'x=' + v.toFixed(2), onInput: v => { xi = Math.max(0, Math.min(N, Math.round((v - A0) / dx))); setPlay(false); draw(); } });
+    select(ctl, { label: 'integrand', value: key, options: Object.keys(FNS).map(k => ({ value: k, label: FNS[k].label })), onChange: v => { key = v; rebuild(); setPlay(false); draw(); } });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Fundamental Theorem of Calculus visualizer: the top panel plots an integrand f with the signed area from the left endpoint up to a sweeping point x shaded; the bottom panel plots the accumulation function A(x), the running integral. A tangent line on A shows its slope always equals f(x), illustrating A prime of x equals f(x).');
+    rebuild();
+    draw();                                                   // synchronous first paint
+    loop(function () { if (playing) { frame++; if (frame % 2 === 0) { xi += 1; if (xi >= N) { xi = N; setPlay(false); } if (xslider) xslider.value = (A0 + xi * dx).toFixed(3); draw(); } } });
+  });
+
 })();
