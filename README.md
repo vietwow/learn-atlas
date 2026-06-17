@@ -33,9 +33,10 @@ Zero build step (pure HTML/CSS/JS, all progress in `localStorage`); auto-deploys
 - **Keyboard shortcuts** — 1–4 to answer any MCQ, Space to flip flashcards (then 1–4 to grade), Enter to advance.
 - **Spaced repetition done right** — SM-2 scheduling with Anki-style interval previews on the grade buttons, a global **Daily Review** with a due-load forecast (now / 24h / 7 days), and weak concepts that resurface automatically.
 - **Bookmarks** — star any lesson (☆/★) to save it; bookmarked lessons surface in a dashboard section for one-tap return.
+- **Redeem your mistakes** — every MCQ you answer wrong (in any quiz or test) is logged to a persistent deck; one click drills *exactly those questions* in mastery mode (re-queued until each one sticks), and they leave the deck the moment you get them right. Turn failure into the thing you study. (The "think again until you pass" loop.)
 - **Concept of the Day** + **"Continue where you left off"** resume card on the dashboard.
 - **Daily goal + activity heatmap + streak freezes**; **Cheatsheets** (print/PDF); **Placement diagnostic** to skip ahead; **Progress export/import**; **Library** of curated references.
-- **Gamification** — XP (with a floating "+XP" reward burst and an animated level ring), 10 named levels (Novice → Polymath) shown as a ranks ladder, daily streak, **34 achievements** with a collection-progress bar, and a level-up confetti celebration.
+- **Gamification** — XP (with a floating "+XP" reward burst and an animated level ring), 10 named levels (Novice → Polymath) shown as a ranks ladder, daily streak, **35 achievements** with a collection-progress bar, and a level-up confetti celebration.
 - **Accessible** — reduced-motion support, focus-visible, ARIA + live regions, a skip link, an adjustable reading text size, keyboard/screen-reader-friendly glossary tooltips, and every interactive visualization labeled for screen readers (canvas `role="img"` + description, named sliders).
 - **Installable PWA / offline** — add to home screen; app shell + content cached; a graceful "new version available" prompt on updates.
 - **First-visit tour**, **two themes** (Ink / Parchment).

@@ -72,9 +72,19 @@
   function allQuestions() {
     const out = [];
     C().forEach(c => c.modules.forEach(m => m.lessons.forEach(l => {
-      (l.mcq || []).forEach((q, i) => out.push({ q, courseId: c.id, color: c.color, lessonId: l.id, lessonTitle: l.title, courseTitle: c.title }));
+      (l.mcq || []).forEach((q, i) => out.push({ q, courseId: c.id, color: c.color, lessonId: l.id, lessonTitle: l.title, courseTitle: c.title, qIdx: i }));
     })));
     if (Array.isArray(window.QUESTION_BANK)) window.QUESTION_BANK.forEach(b => out.push(b));
+    return out;
+  }
+  // questions the learner has answered wrong and not yet redeemed (resolved back to live question objects)
+  function missedItems() {
+    const want = {}; Store.missedKeys().forEach(k => want[k] = 1);
+    if (!Object.keys(want).length) return [];
+    const out = [];
+    C().forEach(c => c.modules.forEach(m => m.lessons.forEach(l => {
+      (l.mcq || []).forEach((q, i) => { if (want[l.id + "#" + i]) out.push({ q, courseId: c.id, color: c.color, lessonId: l.id, lessonTitle: l.title, courseTitle: c.title, qIdx: i }); });
+    })));
     return out;
   }
   function shuffle(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
@@ -374,6 +384,7 @@
         <a class="btn primary" href="#/session" data-route>🎯 Start Daily Mix</a>
         <a class="btn" href="#/review" data-route>⚡ Review ${st.dueCount} due card${st.dueCount === 1 ? "" : "s"}</a>
         <a class="btn" href="#/test" data-route>📝 Spawn a test</a>
+        ${Store.missedCount() ? `<a class="btn" href="#/mistakes" data-route style="border-color:var(--rust);color:var(--rust)">🎯 Redeem ${Store.missedCount()} mistake${Store.missedCount() === 1 ? "" : "s"}</a>` : ""}
         <a class="btn ghost" href="#/map" data-route>🗺️ Knowledge Map</a>
         <a class="btn ghost" href="#/lab" data-route>🎛️ Visualization Lab</a>
         <a class="btn ghost" href="#/glossary" data-route>📔 Glossary</a>
@@ -645,7 +656,8 @@
         if (bi === right) btn.classList.add("correct");
         else if (bi === ci) btn.classList.add("wrong");
       });
-      if (ci === right) correct++;
+      if (ci === right) { correct++; Store.clearMiss(lesson.id, i); }
+      else Store.recordMiss(lesson.id, i);
       document.getElementById("explain-slot").innerHTML =
         `<div class="explain"><div class="et">${ci === right ? "Correct ✓" : "Not quite"}</div>${q.explain || ""}</div>`;
       const nextBtn = document.createElement("button");
@@ -1000,6 +1012,11 @@
       <div class="crumbs"><a href="#/" data-route>Codex</a> &nbsp;›&nbsp; Test</div>
       <div class="page-head reveal"><div class="eyebrow">Question bank · ${allQuestions().length} questions</div><h2>Spawn a <em>Test</em></h2>
       <p>Build a fresh test on demand. Choose the scope and length — by default it draws <strong>only from what you've already learned</strong>, so you're never tested on what you haven't seen.</p></div>
+      ${(() => { const n = Store.missedCount(); return n ? `<div class="miss-cta reveal" data-go="#/mistakes">
+        <div class="miss-ico">🎯</div>
+        <div class="miss-body"><h3>Redeem your mistakes</h3><p><b>${n}</b> question${n === 1 ? "" : "s"} you've gotten wrong ${n === 1 ? "is" : "are"} waiting. Drill them in mastery mode until every one sticks.</p></div>
+        <span class="btn primary" style="pointer-events:none;white-space:nowrap">Review ${n} →</span>
+      </div>` : ""; })()}
       <div class="test-config reveal">
         <div class="tc-row">
           <label class="viz-slab">Scope</label>
@@ -1035,6 +1052,21 @@
     });
   }
 
+  // ---------- redeem-your-mistakes drill ----------
+  function viewMistakes() {
+    const items = missedItems();
+    if (!items.length) {
+      app.innerHTML = `<div class="view">
+        <div class="crumbs"><a href="#/" data-route>Codex</a> &nbsp;›&nbsp; Mistakes</div>
+        <div class="page-head reveal"><div class="eyebrow">Redeem</div><h2>No mistakes to redeem <em>🎉</em></h2>
+        <p>Every question you answer incorrectly — in a lesson quiz or a test — collects here so you can drill it in mastery mode until it sticks. Nothing's waiting right now. Keep it that way.</p></div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap" class="reveal"><a class="btn primary" href="#/test" data-route>📝 Spawn a test</a><a class="btn ghost" href="#/" data-route>← Dashboard</a></div>
+      </div>`;
+      bindGo(); return;
+    }
+    runMasteryDrill(items, "Your mistakes");
+  }
+
   // ---------- mastery drill: re-queue wrong answers until ALL are passed ----------
   function runMasteryDrill(items, label) {
     const total = items.length;
@@ -1061,6 +1093,7 @@
         attempts++;
         if (!seenKeys.has(key)) { seenKeys.add(key); if (ok) firstTryRight++; }
         Store.bumpMastery(it.lessonId, { correct: ok });
+        if (it.qIdx != null) { if (ok) Store.clearMiss(it.lessonId, it.qIdx); else Store.recordMiss(it.lessonId, it.qIdx); }
         app.querySelectorAll(".choice").forEach((bb, bi) => { bb.classList.add("locked"); if (bi === right) bb.classList.add("correct"); else if (bi === ci) bb.classList.add("wrong"); });
         if (ok) { remaining.delete(key); queue.shift(); }
         else { const item = queue.shift(); queue.push(item); } // back of the line
@@ -1112,7 +1145,7 @@
     }
     function finish() {
       if (opts.placement) return finishPlacement();
-      let correct = 0; items.forEach((it, k) => { const ok = answers[k] === it.q.answer; if (ok) correct++; Store.bumpMastery(it.lessonId, { correct: ok }); });
+      let correct = 0; items.forEach((it, k) => { const ok = answers[k] === it.q.answer; if (ok) correct++; Store.bumpMastery(it.lessonId, { correct: ok }); if (it.qIdx != null) { if (ok) Store.clearMiss(it.lessonId, it.qIdx); else Store.recordMiss(it.lessonId, it.qIdx); } });
       const pct = Math.round(correct / items.length * 100);
       Store.recordTest(correct, items.length, `${label} · ${items.length}Q`);
       app.innerHTML = `
@@ -1654,6 +1687,7 @@
     else if (parts[0] === "review") viewReview();
     else if (parts[0] === "session") viewSession();
     else if (parts[0] === "test") viewTest();
+    else if (parts[0] === "mistakes") viewMistakes();
     else if (parts[0] === "lab") parts[1] ? viewLabItem(parts[1]) : viewLab();
     else if (parts[0] === "map") viewMap();
     else if (parts[0] === "playground") viewPlayground();

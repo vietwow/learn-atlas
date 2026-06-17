@@ -46,9 +46,11 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    POST-ARC: the loop returns to the broad compass — more deeper-dives on hard concepts, UI/UX & animation polish,
    onboarding, more achievements/gamification, new functionality, and topping up any new lessons' MCQs.
    ✅ iter 101: bookmarks (★ save lessons; dashboard section). ✅ iter 102: glossary 48→75 (PS + advanced terms).
-   ✅ iter 103: per-topic mastery-composition bars on the Progress page. Ideas still open for this arc:
-   a bookmarks achievement; full-text lesson search in ⌘K; onboarding refresh; flashcard/quiz juice; more deeper-dives;
-   animation/transition polish.
+   ✅ iter 103: per-topic mastery-composition bars on the Progress page.
+   ✅ iter 104: "Redeem your mistakes" deck — every wrong MCQ is logged + drillable in mastery mode (the owner's
+   "think again until you pass" loop); + a 35th achievement (♻️ Redeemer). Ideas still open for this arc:
+   full-text lesson search in ⌘K; onboarding refresh; flashcard/quiz juice & transition polish; more deeper-dives;
+   a bookmarks ("Curator") achievement; a "redeem-streak" or surfacing missed-deck stats on the Progress page.
    (former note) RL → model-based or offline RL (the LAST of the six; LLMs are already very deep). Then deepen-the-six is COMPLETE
    and the loop returns to the broad compass / more deeper-dives / new functionality.
    Author with `String.raw` + single-backslash LaTeX; the

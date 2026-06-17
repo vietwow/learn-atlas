@@ -2,6 +2,27 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 104 — "Redeem your mistakes" deck: every wrong answer becomes drillable (new functionality + gamification)
+Directly serves the owner's most-repeated ask — *"more questions so that failing means re-thinking until you pass."*
+Now **every MCQ you answer incorrectly** — in a lesson quiz, a spawned test, or a mastery drill — is logged to a
+**persistent mistakes deck**, and a one-click **Redeem your mistakes** flow re-drills *exactly those questions* in
+mastery mode (re-queued until each one sticks). A question **leaves the deck the moment you get it right** anywhere,
+so the deck always reflects "what I currently get wrong." Surfaces in three places: a rust **🎯 Redeem N mistakes**
+quick-action on the dashboard (only when N>0), a prominent **Redeem your mistakes** card atop the Test page, and the
+dedicated **`#/mistakes`** drill (mastery-style, with the existing progress track + per-question lesson links). Added a
+**35th achievement — ♻️ Redeemer** (turn 25 missed questions into correct ones), tracked by a lifetime `missedFixed`
+counter.
+**State:** new `missed` (`"lessonId#qIdx"→1`) and `missedFixed` fields added to `blank()` AND the `load()` merge
+(`Number.isFinite`-guarded), so any prior save still loads (verified: an old save with no `missed`/`missedFixed` loads
+with `missed:{}`, `missedFixed:0`, bookmarks preserved). Store API: `recordMiss` / `clearMiss` (returns whether it
+removed one; increments `missedFixed` + unlocks Redeemer at 25) / `missedKeys` / `missedCount`. `allQuestions()` now
+carries `qIdx` so test/drill engines can record-and-clear; `missedItems()` resolves the deck back to live question
+objects (stale keys are skipped). SW cache → `atlas-v48`; README +feature +"35 achievements". Verified: `node gate.js`
+ALL GREEN (7·148·1776); a Node test confirms migration + dedup + fix-counting (no inflation on no-op clear) + null
+guards + Redeemer-at-25 + persistence across reload; an 18-route smoke run is **errs=0** and probes confirm the
+dashboard nudge, the Test card, and the `#/mistakes` mastery drill (4 choices, "mastered" progress, KaTeX rendering);
+both the Test card and the drill are legible at **390px**; stray Chrome cleaned up.
+
 ## iter 103 — Per-topic mastery-composition bars on the Progress page (UI / understandability)
 Upgraded the Progress page's "By topic" section from a plain completion bar to a **segmented mastery-distribution bar**
 per topic — each subject now shows its composition across mastered / proficient / learning / seen / new (the same

@@ -58,7 +58,8 @@
     { id: "test-veteran",icon: "🗂️", name: "Test Veteran",     desc: "Complete 10 custom tests." },
     { id: "loremaster",  icon: "🦉", name: "Loremaster",       desc: "Reach 80% mastery on 25 concepts." },
     { id: "erudite",     icon: "✨", name: "Erudite",          desc: "Earn 5,000 total XP." },
-    { id: "atlas-complete",icon:"🌐",name: "Atlas Complete",   desc: "Complete every lesson in every subject." }
+    { id: "atlas-complete",icon:"🌐",name: "Atlas Complete",   desc: "Complete every lesson in every subject." },
+    { id: "redeemer",     icon: "♻️", name: "Redeemer",         desc: "Turn 25 missed questions into correct ones." }
   ];
 
   function blank() {
@@ -79,7 +80,9 @@
       activity: {},         // "YYYY-MM-DD" -> xp earned that day (study heatmap)
       freezes: 1,           // streak-freeze tokens
       lastLesson: null,     // "courseId/lessonId" — resume point
-      bookmarks: {}         // lessonId -> true (saved/favorited lessons)
+      bookmarks: {},        // lessonId -> true (saved/favorited lessons)
+      missed: {},           // "lessonId#qIdx" -> 1 (questions answered wrong, waiting to be redeemed)
+      missedFixed: 0        // lifetime count of missed questions later answered correctly
     };
   }
 
@@ -118,6 +121,8 @@
       base.freezes = Number.isFinite(s.freezes) ? s.freezes : 1;
       base.lastLesson = s.lastLesson || null;
       base.bookmarks = s.bookmarks || {};
+      base.missed = (s.missed && typeof s.missed === "object") ? s.missed : {};
+      base.missedFixed = num(s.missedFixed);
     }
     return base;
   }
@@ -151,6 +156,20 @@
   function toggleBookmark(id) { if (!id) return false; if (state.bookmarks[id]) delete state.bookmarks[id]; else state.bookmarks[id] = true; save(); return !!state.bookmarks[id]; }
   function isBookmarked(id) { return !!state.bookmarks[id]; }
   function bookmarkIds() { return Object.keys(state.bookmarks || {}); }
+  // ---- missed-question deck (questions answered wrong → drill until redeemed) ----
+  function missKey(lessonId, qIdx) { return lessonId + "#" + qIdx; }
+  function recordMiss(lessonId, qIdx) { if (lessonId == null || qIdx == null) return; state.missed[missKey(lessonId, qIdx)] = 1; save(); }
+  function clearMiss(lessonId, qIdx) {
+    if (lessonId == null || qIdx == null) return false;
+    const k = missKey(lessonId, qIdx);
+    if (!state.missed[k]) return false;
+    delete state.missed[k];
+    state.missedFixed = num(state.missedFixed) + 1;
+    if (state.missedFixed >= 25) unlock("redeemer");
+    save(); return true;
+  }
+  function missedKeys() { return Object.keys(state.missed || {}); }
+  function missedCount() { return Object.keys(state.missed || {}).length; }
 
   // ---- XP / level ------------------------------------------------------
   const levelUps = [];
@@ -407,6 +426,7 @@
     bumpMastery, effectiveMastery, masteryLevel, weakSpots, topicMastery, markKnown,
     getNote, setNote, setGoal, todayXP, exportData, importData, freezeJustUsed, setLastLesson,
     toggleBookmark, isBookmarked, bookmarkIds,
+    recordMiss, clearMiss, missedKeys, missedCount,
     unlock, drainUnlocked, drainLevelUps,
     stats, courseProgress, resetAll, touchStreak
   };

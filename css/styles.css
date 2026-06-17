@@ -573,6 +573,13 @@ body::after {
    Test / exam config
    ============================================================ */
 .test-config { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; max-width: 560px; display: flex; flex-direction: column; gap: 18px; }
+.miss-cta { display: flex; align-items: center; gap: 18px; max-width: 720px; padding: 18px 22px; margin-bottom: 24px; border: 1.5px solid var(--rust); border-radius: 16px; background: color-mix(in srgb, var(--rust) 8%, var(--panel)); cursor: pointer; transition: transform .15s ease, box-shadow .15s ease; }
+.miss-cta:hover { transform: translateY(-2px); box-shadow: 0 16px 36px -22px var(--shadow); }
+.miss-cta .miss-ico { font-size: 30px; flex: none; }
+.miss-cta .miss-body { flex: 1; min-width: 0; }
+.miss-cta .miss-body h3 { margin: 0 0 3px; font-family: var(--font-disp); font-size: 19px; }
+.miss-cta .miss-body p { margin: 0; color: var(--ink-soft); font-size: 14px; line-height: 1.45; }
+@media (max-width: 560px) { .miss-cta { flex-wrap: wrap; gap: 12px; } .miss-cta .miss-body { flex-basis: 70%; } }
 .tc-row { display: flex; align-items: center; gap: 16px; justify-content: space-between; flex-wrap: wrap; }
 .tc-row .viz-slab { font-size: 15px; }
 .tc-row select { flex: 1; min-width: 200px; }
