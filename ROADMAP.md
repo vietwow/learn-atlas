@@ -13,12 +13,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    cards/homework/examples; Bayes viz embedded). ✅ iter 73: Common Distributions module (5 lessons). ✅ iter 74:
    CLT viz (`ps-clt`). ✅ iter 75: all 9 PS lessons now at 12 MCQs (108 topic / 1,464 site). NEXT for this topic:
    ✅ iter 76: normal-distribution explorer viz (`ps-normal-explorer`: μ/σ + empirical-rule bands + interval CDF).
-   ✅ iter 77: Module 3 "Joint Distributions & Dependence" (3 lessons: joint/marginals/independence,
-   covariance/correlation, conditional expectation/tower property) — content+cards+homework+examples, NO MCQs yet.
-   NEXT for this topic: (a) add 12 MCQs to each of the 3 Module-3 lessons via the pipeline
-   (`/tmp/gen_mcq_target_wf.js probability-statistics "probability and statistics" 12`); (b) more modules — Limit
-   theorems (LLN/CLT formal), Estimation & confidence intervals, Hypothesis testing, Bayesian inference;
-   (c) a covariance/correlation scatter viz for Module 3.
+   ✅ iter 77: Module 3 "Joint Distributions & Dependence" (3 lessons). ✅ iter 78: all 3 Module-3 lessons to 12
+   MCQs (+36; topic now 144 / site 1,500). All 12 PS lessons now at 12 MCQs.
+   NEXT for this topic: (b) more modules — Limit theorems (LLN/CLT formal), Estimation & confidence intervals,
+   Hypothesis testing, Bayesian inference; (c) a covariance/correlation scatter viz for Module 3.
    ⚠ Lesson-authoring workflow bug (iter 71): the VERIFY agent overwrote `content` with its review notes for
    3/4 lessons. When authoring future lessons, make the verify schema/prompt EXPLICIT: "return the corrected
    LESSON HTML in `content`; put commentary ONLY in `notes`; never write a summary into `content`." (Recovered

@@ -1788,7 +1788,140 @@
           "title": "Joint Distributions, Marginals & Independence",
           "minutes": 16,
           "content": "<h3>1. From one random variable to many</h3>\n<p>Real questions rarely involve a single random quantity in isolation. A doctor tracks blood pressure <em>and</em> cholesterol; an investor watches two stocks at once; a language model scores the next token given everything that came before. To reason about several random variables together we need their <strong>joint distribution</strong> — the one object that records how they co-occur, and from which every question about any subset can be recovered.</p>\n\n<h3>2. The joint PMF (discrete case)</h3>\n<p>For two discrete random variables $X$ and $Y$, the <strong>joint probability mass function</strong> is\n$$p_{X,Y}(x,y) = P(X = x,\\ Y = y),$$\nthe probability that $X$ equals $x$ <em>and</em> $Y$ equals $y$ at the same time. It is a genuine PMF: every entry is nonnegative and the whole thing sums to one,\n$$p_{X,Y}(x,y) \\ge 0, \\qquad \\sum_{x}\\sum_{y} p_{X,Y}(x,y) = 1.$$\nPicture a grid — rows indexed by the values of $X$, columns by the values of $Y$ — with each cell holding the probability of that exact pair.</p>\n\n<h3>3. Marginal distributions: collapsing the grid</h3>\n<p>From the joint, the distribution of $X$ <em>alone</em> — ignoring $Y$ — is its <strong>marginal</strong>, obtained by summing each row across all columns:\n$$p_X(x) = \\sum_{y} p_{X,Y}(x,y), \\qquad p_Y(y) = \\sum_{x} p_{X,Y}(x,y).$$\nThe name is literal: write the joint table on paper and the row sums land in the right <em>margin</em>, the column sums along the bottom. Marginalizing discards information — you can always pass from joint to marginal, but never reverse the trip without extra assumptions about how $X$ and $Y$ relate.</p>\n<div class=\"callout\">\n<div class=\"c-tag\">Intuition</div>\n<p>The joint distribution is the full picture; a marginal is its shadow on one axis. Two very different joints can cast the <em>same</em> pair of shadows — which is exactly why marginals alone cannot tell you whether the variables move together.</p>\n</div>\n\n<h3>4. The continuous case: joint densities</h3>\n<p>When $X$ and $Y$ are continuous, a single <strong>joint density</strong> $f_{X,Y}(x,y) \\ge 0$ plays the role of the table, and probabilities become <em>volumes</em> under the surface:\n$$P\\big((X,Y) \\in A\\big) = \\iint_{A} f_{X,Y}(x,y)\\,dx\\,dy, \\qquad \\int_{-\\infty}^{\\infty}\\!\\!\\int_{-\\infty}^{\\infty} f_{X,Y}(x,y)\\,dx\\,dy = 1.$$\nMarginals are recovered by <em>integrating out</em> the unwanted variable — the continuous analogue of summing a row:\n$$f_X(x) = \\int_{-\\infty}^{\\infty} f_{X,Y}(x,y)\\,dy.$$</p>\n\n<h3>5. Independence of random variables</h3>\n<p>Two random variables are <strong>independent</strong> when their joint factors into the product of their marginals for <em>every</em> pair of values:\n$$p_{X,Y}(x,y) = p_X(x)\\,p_Y(y) \\quad\\text{(discrete)}, \\qquad f_{X,Y}(x,y) = f_X(x)\\,f_Y(y) \\quad\\text{(continuous)}.$$\nEquivalently, knowing $Y$ tells you nothing about $X$. This is the direct lift of event independence $P(A\\cap B)=P(A)P(B)$ to variables, and it must hold at <em>all</em> points — a single cell that violates the product rule breaks independence everywhere.</p>\n<p><strong>A quick test.</strong> If the support of the joint is not a rectangle — if the <em>allowed</em> values of $X$ depend on $Y$ — the variables cannot be independent, no matter what the numbers are. (For independent variables every row has the same <em>shape</em>, just rescaled.)</p>\n\n<h3>6. Conditional distributions</h3>\n<p>Slice the joint at a fixed value of $Y$ and renormalize, and you get the <strong>conditional distribution</strong> of $X$ given $Y=y$:\n$$p_{X\\mid Y}(x\\mid y) = \\frac{p_{X,Y}(x,y)}{p_Y(y)}, \\qquad f_{X\\mid Y}(x\\mid y) = \\frac{f_{X,Y}(x,y)}{f_Y(y)}.$$\nThis is conditional probability applied to a whole distribution: fix what you learned ($Y=y$), zoom into that slice, and rescale so it sums (or integrates) to 1. Independence is precisely the case where the conditional does not depend on $y$ at all: $p_{X\\mid Y}(x\\mid y) = p_X(x)$.</p>\n\n<h3>7. Worked intuition: a joint table</h3>\n<p>Let $X\\in\\{0,1\\}$ and $Y\\in\\{0,1\\}$ have joint probabilities $p(0,0)=0.4,\\ p(0,1)=0.2,\\ p(1,0)=0.1,\\ p(1,1)=0.3$ (they sum to 1). The marginals are $p_X(0)=0.4+0.2=0.6$, $p_X(1)=0.4$, and $p_Y(0)=0.4+0.1=0.5$, $p_Y(1)=0.5$. Are $X$ and $Y$ independent? Check one cell: $p_X(0)p_Y(0)=0.6\\times 0.5=0.30$, but the joint says $p(0,0)=0.40\\ne 0.30$. Not independent — learning $Y=0$ shifts the odds on $X$.</p>\n\n<h3>8. Why this matters for machine learning</h3>\n<p>Almost every probabilistic model is a claim about a joint distribution. <strong>Naive Bayes</strong> assumes features are conditionally independent given the label so the joint factors into a cheap product. <strong>Generative models</strong> learn (or sample from) the joint $p(\\text{data})$ directly. And the entire game of <strong>inference</strong> — predicting a label from inputs — is computing a conditional $p(y\\mid x)$ by slicing and renormalizing a joint. Master the joint $\\to$ marginal $\\to$ conditional pipeline here and the rest of probabilistic ML is variations on it.</p>",
-          "mcq": [],
+          "mcq": [
+            {
+              "q": "A joint PMF table for $X\\in\\{0,1\\}$ and $Y\\in\\{0,1\\}$ has cells $p(0,0)=0.3,\\ p(0,1)=0.1,\\ p(1,0)=0.2$. What must $p(1,1)$ equal for this to be a valid joint PMF?",
+              "choices": [
+                "$0.4$",
+                "$0.6$",
+                "$0.5$",
+                "It cannot be determined from the information given"
+              ],
+              "answer": 0,
+              "explain": "A valid joint PMF must sum to 1, so $p(1,1)=1-(0.3+0.1+0.2)=0.4$. The normalization constraint pins it down exactly."
+            },
+            {
+              "q": "Two students each compute marginals from the same joint table but get different $p_X$ values. Without seeing their work, which mistake is most likely the cause?",
+              "choices": [
+                "One summed the joint over the wrong variable (summing across $x$ instead of $y$)",
+                "One forgot that marginals can be negative",
+                "The joint table does not have unique marginals",
+                "Marginals require the conditional distribution first, which they skipped"
+              ],
+              "answer": 0,
+              "explain": "$p_X(x)=\\sum_y p_{X,Y}(x,y)$ sums out $Y$; summing out $X$ instead yields $p_Y$, not $p_X$. Marginals are uniquely determined by the joint and never negative, so the only viable error is collapsing the wrong axis."
+            },
+            {
+              "q": "You are told only the two marginals $p_X$ and $p_Y$ (not the joint). What can you conclude about the joint distribution?",
+              "choices": [
+                "The joint is uniquely determined as $p_X(x)p_Y(y)$",
+                "The joint must equal the larger of $p_X(x)$ and $p_Y(y)$ in each cell",
+                "Many different joints are consistent with these marginals",
+                "The joint is fully determined only if both marginals are uniform"
+              ],
+              "answer": 2,
+              "explain": "Marginals are shadows on each axis; many joints cast the same shadows because the marginals carry no information about co-movement. Writing $p_X(x)p_Y(y)$ assumes independence, which is just one of the many compatible joints."
+            },
+            {
+              "q": "For the joint $p(0,0)=0.4,\\ p(0,1)=0.2,\\ p(1,0)=0.1,\\ p(1,1)=0.3$, what is the conditional probability $P(Y=0\\mid X=1)$?",
+              "choices": [
+                "$0.10$",
+                "$0.25$",
+                "$0.50$",
+                "$0.40$"
+              ],
+              "answer": 1,
+              "explain": "$p_X(1)=0.1+0.3=0.4$, so $P(Y=0\\mid X=1)=p(1,0)/p_X(1)=0.1/0.4=0.25$. The tempting $0.10$ forgets to renormalize by the marginal."
+            },
+            {
+              "q": "A joint density satisfies $f_{X,Y}(x,y)>0$ exactly on the triangle $\\{0\\le y\\le x\\le 1\\}$ and is $0$ elsewhere. What can you immediately say about $X$ and $Y$?",
+              "choices": [
+                "They are independent, since the density is a valid surface",
+                "They cannot be independent, because the support is not a rectangle",
+                "Independence depends on the exact formula, which is not given",
+                "They are independent only if $f_{X,Y}$ is constant on the triangle"
+              ],
+              "answer": 1,
+              "explain": "The allowed values of $Y$ (namely $0\\le y\\le x$) depend on $X$, so the support is not a product set. Independence forces a rectangular (product-shaped) support, so it fails here regardless of the formula's exact values."
+            },
+            {
+              "q": "For independent random variables, how does the conditional distribution $p_{X\\mid Y}(x\\mid y)$ behave as $y$ changes?",
+              "choices": [
+                "It scales up linearly with $y$",
+                "It equals the joint $p_{X,Y}(x,y)$ at every $y$",
+                "It does not depend on $y$ and equals the marginal $p_X(x)$",
+                "It becomes uniform over the values of $X$"
+              ],
+              "answer": 2,
+              "explain": "Independence means $p_{X,Y}(x,y)=p_X(x)p_Y(y)$, so $p_{X\\mid Y}(x\\mid y)=p_X(x)p_Y(y)/p_Y(y)=p_X(x)$ — constant in $y$. Knowing $Y$ tells you nothing new about $X$; it need not be uniform."
+            },
+            {
+              "q": "Machines A and B fail independently on a given day with probabilities $0.1$ and $0.2$. What is the probability that at least one machine fails?",
+              "choices": [
+                "$0.30$",
+                "$0.02$",
+                "$0.28$",
+                "$0.72$"
+              ],
+              "answer": 2,
+              "explain": "By independence, $P(\\text{neither fails})=(0.9)(0.8)=0.72$, so $P(\\text{at least one})=1-0.72=0.28$. The naive $0.1+0.2=0.30$ double-counts the both-fail outcome instead of using the complement."
+            },
+            {
+              "q": "Someone claims: 'If every row of a joint table has the same shape after rescaling, then $X$ and $Y$ are independent.' Is this correct?",
+              "choices": [
+                "No — equal row shapes are irrelevant to independence",
+                "Yes — proportional rows are exactly the independence condition",
+                "Only if the columns are also identical, not merely proportional",
+                "Only when the table is square"
+              ],
+              "answer": 1,
+              "explain": "Independence means each conditional $p_{X\\mid Y}(\\cdot\\mid y)$ equals the same marginal $p_X$, i.e. every row is a rescaled copy of one fixed shape. Proportional rows (and columns) are precisely the factorization $p_{X,Y}=p_X p_Y$."
+            },
+            {
+              "q": "A continuous joint density is $f_{X,Y}(x,y)=6e^{-2x-3y}$ for $x,y\\ge 0$ and $0$ otherwise. Are $X$ and $Y$ independent?",
+              "choices": [
+                "No, because the constant $6$ cannot be split between two marginals",
+                "Yes, because the density factors as $(2e^{-2x})(3e^{-3y})$",
+                "No, because the exponents differ ($2$ vs $3$)",
+                "Cannot tell without computing both marginals first"
+              ],
+              "answer": 1,
+              "explain": "The density factors into a function of $x$ alone times a function of $y$ alone over a rectangular support: $6e^{-2x-3y}=(2e^{-2x})(3e^{-3y})$, each a valid marginal density. That factorization is exactly independence; differing rates and the constant are no obstacle."
+            },
+            {
+              "q": "From a joint PMF you correctly compute $p_X(2)=0.5$ and $p_{X\\mid Y}(2\\mid 1)=0.5$. With only this information, can you conclude $X$ and $Y$ are independent?",
+              "choices": [
+                "Yes — the conditional matches the marginal, so they are independent",
+                "No — independence must hold for every pair of values, not just one",
+                "Yes — equality at any single point forces independence everywhere",
+                "No — independence can never be checked from conditionals"
+              ],
+              "answer": 1,
+              "explain": "Independence requires $p_{X\\mid Y}(x\\mid y)=p_X(x)$ for all $x$ and all $y$. Agreement at a single $(x,y)$ pair is necessary but far from sufficient; some other cell could still violate the product rule."
+            },
+            {
+              "q": "A six-sided die is rolled. Let $X$ be the number rolled and $Y=1$ if the roll is even, else $Y=0$. What is $p_{X,Y}(3,1)$?",
+              "choices": [
+                "$1/12$",
+                "$1/6$",
+                "$0$",
+                "$1/2$"
+              ],
+              "answer": 2,
+              "explain": "$Y=1$ means the roll is even, but $X=3$ is odd, so the event $\\{X=3,\\ Y=1\\}$ is impossible and has probability $0$. The distractor $1/6$ ignores the deterministic link forcing many joint cells to vanish."
+            },
+            {
+              "q": "In the continuous case, why do we recover the marginal $f_X(x)$ by integrating $f_{X,Y}(x,y)$ over $y$ rather than over $x$?",
+              "choices": [
+                "Because integrating over $x$ would not converge",
+                "Because integrating over $y$ removes (averages out) the variable we want to ignore, leaving a function of $x$",
+                "Because $f_X(x)$ is defined as the partial derivative in $x$",
+                "Because the marginal is the value of the joint at $y=0$"
+              ],
+              "answer": 1,
+              "explain": "Marginalizing means eliminating the unwanted variable: integrating out $y$ sums the density over all $y$-slices and returns a function of $x$ alone, the continuous analogue of summing a row. Integrating over $x$ would instead remove $X$ and give $f_Y(y)$."
+            }
+          ],
           "flashcards": [
             {
               "front": "What is the joint PMF $p_{X,Y}(x,y)$, and what two conditions make it valid?",
@@ -1850,7 +1983,140 @@
           "title": "Covariance & Correlation",
           "minutes": 16,
           "content": "<h3>1. The question: do two variables move together?</h3>\n<p>Marginals tell you how each variable behaves alone; the joint hides a richer fact — whether $X$ and $Y$ tend to rise and fall <em>together</em>. Tall people tend to be heavier; hours studied tend to track exam scores; two tech stocks often lurch in unison. <strong>Covariance</strong> and its normalized cousin <strong>correlation</strong> put a single signed number on that co-movement.</p>\n\n<h3>2. Covariance: the average co-deviation</h3>\n<p>The <strong>covariance</strong> of $X$ and $Y$ is the expected product of their deviations from their means:\n$$\\operatorname{Cov}(X,Y) = \\mathbb{E}\\big[(X-\\mu_X)(Y-\\mu_Y)\\big].$$\nRead the sign off the typical term: when $X$ is above its mean <em>and</em> $Y$ is too, the product is positive; when both are below, the product of two negatives is again positive. Only when high-$X$ pairs with low-$Y$ (and vice versa) is the term negative. So $\\operatorname{Cov}>0$ means \"move together,\" $\\operatorname{Cov}<0$ means \"move oppositely,\" and $\\operatorname{Cov}=0$ means no <em>linear</em> co-movement on average.</p>\n\n<h3>3. The computational formula</h3>\n<p>Expanding the product and using linearity of expectation gives the formula you will actually compute with:\n$$\\operatorname{Cov}(X,Y) = \\mathbb{E}[XY] - \\mathbb{E}[X]\\,\\mathbb{E}[Y].$$\nIt mirrors the variance shortcut $\\operatorname{Var}(X)=\\mathbb{E}[X^2]-(\\mathbb{E}[X])^2$ — and indeed covariance generalizes variance: setting $Y=X$ gives\n$$\\operatorname{Cov}(X,X) = \\mathbb{E}[X^2]-(\\mathbb{E}[X])^2 = \\operatorname{Var}(X).$$</p>\n\n<h3>4. Properties: covariance is bilinear</h3>\n<p>Covariance behaves like a (symmetric) product, linear in each slot:</p>\n<ul>\n<li><strong>Symmetry:</strong> $\\operatorname{Cov}(X,Y)=\\operatorname{Cov}(Y,X)$.</li>\n<li><strong>Scaling & shifts:</strong> $\\operatorname{Cov}(aX+b,\\ cY+d) = ac\\,\\operatorname{Cov}(X,Y)$ — additive constants vanish (they don't deviate), multiplicative ones factor out.</li>\n<li><strong>Additivity:</strong> $\\operatorname{Cov}(X+Z,\\ Y) = \\operatorname{Cov}(X,Y)+\\operatorname{Cov}(Z,Y)$.</li>\n</ul>\n<p>Because constants shift the mean by the same amount they shift the value, they never change a covariance — covariance sees only fluctuations.</p>\n\n<h3>5. The variance of a sum</h3>\n<p>Covariance is exactly the correction term when you add random variables:\n$$\\operatorname{Var}(X+Y) = \\operatorname{Var}(X) + \\operatorname{Var}(Y) + 2\\operatorname{Cov}(X,Y).$$\nIf $X$ and $Y$ are independent (so $\\operatorname{Cov}=0$), variances simply add — the basis for \"errors add in quadrature\" and for why averaging $n$ independent samples cuts variance by $1/n$. Positive covariance inflates the spread of the sum; negative covariance damps it (the principle behind diversifying a portfolio).</p>\n\n<h3>6. Correlation: covariance on a fixed scale</h3>\n<p>Covariance has awkward units (the product of $X$'s and $Y$'s units) and an unbounded size, so it is hard to compare across problems. Dividing by both standard deviations removes units and pins the value to a fixed range — the <strong>(Pearson) correlation coefficient</strong>:\n$$\\rho_{X,Y} = \\frac{\\operatorname{Cov}(X,Y)}{\\sigma_X\\,\\sigma_Y}, \\qquad -1 \\le \\rho_{X,Y} \\le 1.$$\nThe bound (a consequence of the Cauchy–Schwarz inequality) makes $\\rho$ interpretable: $\\rho=+1$ means $Y$ is an exactly increasing linear function of $X$; $\\rho=-1$ an exactly decreasing one; $\\rho=0$ no linear relationship. Values near $\\pm 1$ mean a tight line, values near $0$ a formless cloud.</p>\n<div class=\"callout\">\n<div class=\"c-tag\">Careful</div>\n<p>Correlation measures <em>linear</em> association only. A variable can determine another completely yet have $\\rho=0$ if the relationship is curved — see the next section.</p>\n</div>\n\n<h3>7. Independence vs. uncorrelated — not the same thing</h3>\n<p>Independence is strictly stronger than zero correlation:\n$$\\text{independent} \\;\\Longrightarrow\\; \\operatorname{Cov}(X,Y)=0, \\qquad\\text{but}\\qquad \\operatorname{Cov}(X,Y)=0 \\;\\not\\Longrightarrow\\; \\text{independent}.$$\nThe forward direction holds because independence gives $\\mathbb{E}[XY]=\\mathbb{E}[X]\\mathbb{E}[Y]$. The converse fails for nonlinear dependence. <strong>Counterexample.</strong> Let $X$ be uniform on $\\{-1,0,1\\}$ and $Y=X^2$. Then $Y$ is a deterministic function of $X$ (maximal dependence!), yet $\\mathbb{E}[XY]=\\mathbb{E}[X^3]=0$ and $\\mathbb{E}[X]=0$, so $\\operatorname{Cov}(X,Y)=0$ and $\\rho=0$. Uncorrelated, but anything but independent.</p>\n\n<h3>8. Why this matters for machine learning</h3>\n<p>Stack the pairwise covariances of a random vector and you get the <strong>covariance matrix</strong> $\\Sigma$, the central object of multivariate statistics. <strong>PCA</strong> diagonalizes $\\Sigma$ to find the directions of greatest variance; the <strong>multivariate normal</strong> is parameterized by a mean vector and $\\Sigma$; feature <strong>de-correlation</strong> (whitening) and the warning that \"correlation is not causation\" both live here. Correlation is also the first thing a data scientist computes to sniff out which features carry signal about a target.</p>",
-          "mcq": [],
+          "mcq": [
+            {
+              "q": "For random variables with $\\mathbb{E}[XY]=10$, $\\mathbb{E}[X]=3$, and $\\mathbb{E}[Y]=4$, what is $\\operatorname{Cov}(X,Y)$?",
+              "choices": [
+                "$10$",
+                "$-2$",
+                "$22$",
+                "$120$"
+              ],
+              "answer": 1,
+              "explain": "Using $\\operatorname{Cov}(X,Y)=\\mathbb{E}[XY]-\\mathbb{E}[X]\\mathbb{E}[Y]=10-(3)(4)=-2$. The tempting wrong answer $10$ ignores the subtraction of the product of means."
+            },
+            {
+              "q": "If $Y = aX + b$ with $a>0$ (a perfect increasing linear relationship), what is the correlation $\\rho_{X,Y}$?",
+              "choices": [
+                "$a$",
+                "$+1$",
+                "$a/\\sigma_X$",
+                "It depends on $b$"
+              ],
+              "answer": 1,
+              "explain": "A perfect increasing linear relationship gives $\\rho=+1$ regardless of the slope $a$ or intercept $b$, since $\\operatorname{Cov}(X,aX+b)=a\\operatorname{Var}(X)$ and $\\sigma_{aX+b}=a\\sigma_X$, so the ratio is $a\\sigma_X^2/(\\sigma_X \\cdot a\\sigma_X)=1$. The slope cancels out in the normalization, so $\\rho$ is not $a$."
+            },
+            {
+              "q": "A student computes a correlation of $\\rho = 1.4$ for two variables. What must be true?",
+              "choices": [
+                "The variables are very strongly positively related",
+                "A computational error was made — $\\rho$ cannot exceed $1$",
+                "The covariance must have been negative",
+                "The standard deviations were measured in different units"
+              ],
+              "answer": 1,
+              "explain": "By the Cauchy–Schwarz inequality, $-1 \\le \\rho \\le 1$ always, so $\\rho=1.4$ is impossible and signals an arithmetic mistake. A larger covariance never pushes $\\rho$ past $1$ because dividing by $\\sigma_X\\sigma_Y$ always rescales it into $[-1,1]$."
+            },
+            {
+              "q": "Suppose $\\operatorname{Cov}(X,Y)=0$ for two random variables. Which conclusion is justified?",
+              "choices": [
+                "$X$ and $Y$ are independent",
+                "There is no linear association between $X$ and $Y$, but they could still be dependent",
+                "$X$ and $Y$ are deterministic functions of each other",
+                "$\\operatorname{Var}(X+Y)=\\operatorname{Var}(X)\\cdot\\operatorname{Var}(Y)$"
+              ],
+              "answer": 1,
+              "explain": "Zero covariance means no linear co-movement, but dependence can still exist nonlinearly (e.g., $X$ uniform on $\\{-1,0,1\\}$ and $Y=X^2$). Independence implies zero covariance, not the reverse, so concluding independence is the classic mistake."
+            },
+            {
+              "q": "Given $\\operatorname{Var}(X)=4$, $\\operatorname{Var}(Y)=9$, and $\\operatorname{Cov}(X,Y)=-3$, what is $\\operatorname{Var}(X+Y)$?",
+              "choices": [
+                "$13$",
+                "$19$",
+                "$7$",
+                "$10$"
+              ],
+              "answer": 2,
+              "explain": "$\\operatorname{Var}(X+Y)=\\operatorname{Var}(X)+\\operatorname{Var}(Y)+2\\operatorname{Cov}(X,Y)=4+9+2(-3)=7$. The distractor $13$ forgets the covariance term; $19$ wrongly adds rather than subtracts the negative covariance contribution."
+            },
+            {
+              "q": "What is $\\operatorname{Cov}(3X+5,\\ -2Y+7)$ in terms of $\\operatorname{Cov}(X,Y)$?",
+              "choices": [
+                "$-6\\,\\operatorname{Cov}(X,Y)$",
+                "$-6\\,\\operatorname{Cov}(X,Y)+35$",
+                "$6\\,\\operatorname{Cov}(X,Y)$",
+                "$\\operatorname{Cov}(X,Y)$"
+              ],
+              "answer": 0,
+              "explain": "By bilinearity, $\\operatorname{Cov}(aX+b, cY+d)=ac\\,\\operatorname{Cov}(X,Y)$; the additive constants $5$ and $7$ vanish. Here $ac=(3)(-2)=-6$, so the answer is $-6\\,\\operatorname{Cov}(X,Y)$ — the constant $35$ never enters."
+            },
+            {
+              "q": "Why is correlation often preferred over covariance for comparing the strength of association across different pairs of variables?",
+              "choices": [
+                "Correlation can detect nonlinear relationships that covariance misses",
+                "Correlation is unitless and bounded in $[-1,1]$, while covariance has units and an unbounded magnitude",
+                "Correlation is always larger than covariance",
+                "Covariance can be negative but correlation is always positive"
+              ],
+              "answer": 1,
+              "explain": "Dividing covariance by $\\sigma_X\\sigma_Y$ strips the units and confines the value to $[-1,1]$, making magnitudes comparable across problems. Both measure only linear association, and correlation shares the same sign as covariance, so the other options are false."
+            },
+            {
+              "q": "Two fair dice are rolled; $X$ is the first die and $S=X+Y$ is the sum (with $Y$ the independent second die). What is $\\operatorname{Cov}(X,S)$?",
+              "choices": [
+                "$0$",
+                "$\\operatorname{Var}(X)+\\operatorname{Var}(Y)$",
+                "$\\operatorname{Var}(X)$",
+                "$\\operatorname{Var}(X)\\cdot\\operatorname{Var}(Y)$"
+              ],
+              "answer": 2,
+              "explain": "By bilinearity, $\\operatorname{Cov}(X,X+Y)=\\operatorname{Cov}(X,X)+\\operatorname{Cov}(X,Y)=\\operatorname{Var}(X)+0=\\operatorname{Var}(X)$, since $X$ and $Y$ are independent. It is not zero because $X$ is part of the sum $S$."
+            },
+            {
+              "q": "For a joint PMF with $p(0,0)=0.4$, $p(0,1)=0.2$, $p(1,0)=0.1$, $p(1,1)=0.3$, what is $\\mathbb{E}[XY]$?",
+              "choices": [
+                "$0.3$",
+                "$1.0$",
+                "$0.2$",
+                "$0.5$"
+              ],
+              "answer": 0,
+              "explain": "The product $XY$ equals $1$ only at $(1,1)$ and $0$ everywhere else, so $\\mathbb{E}[XY]=1\\cdot p(1,1)=0.3$. The other cells contribute zero because at least one variable is $0$ there."
+            },
+            {
+              "q": "An analyst finds zero correlation between ice-cream sales and sweater sales and concludes neither influences the other. What is the most important flaw?",
+              "choices": [
+                "Correlation of zero proves the variables are independent, so the conclusion is actually correct",
+                "A near-zero correlation can hide a strong nonlinear or seasonally-mediated relationship; $\\rho$ only captures linear association",
+                "Correlation always implies causation, so the analyst reversed the direction",
+                "Zero correlation means the covariance is undefined"
+              ],
+              "answer": 1,
+              "explain": "Pearson $\\rho$ measures only linear association, so a strong nonlinear or confounded (e.g., seasonal) relationship can still produce $\\rho \\approx 0$. Zero correlation does not establish independence, and covariance is perfectly well-defined when it equals zero."
+            },
+            {
+              "q": "Setting $Y=X$ in the covariance definition shows that covariance generalizes which quantity?",
+              "choices": [
+                "The mean $\\mathbb{E}[X]$",
+                "The variance $\\operatorname{Var}(X)$",
+                "The standard deviation $\\sigma_X$",
+                "The correlation $\\rho_{X,X}$"
+              ],
+              "answer": 1,
+              "explain": "$\\operatorname{Cov}(X,X)=\\mathbb{E}[X^2]-(\\mathbb{E}[X])^2=\\operatorname{Var}(X)$, so variance is the special case of covariance with both slots equal. (Note $\\rho_{X,X}=1$ always, which is the normalized version, not what the definition directly yields.)"
+            },
+            {
+              "q": "Two assets each have variance $\\sigma^2$ and correlation $\\rho$. An equal-weight portfolio $P=\\tfrac12 X+\\tfrac12 Y$ has variance $\\tfrac{\\sigma^2}{2}(1+\\rho)$. Which value of $\\rho$ minimizes the portfolio's risk?",
+              "choices": [
+                "$\\rho=+1$",
+                "$\\rho=0$",
+                "$\\rho=-1$",
+                "$\\rho=0.5$"
+              ],
+              "answer": 2,
+              "explain": "The portfolio variance $\\tfrac{\\sigma^2}{2}(1+\\rho)$ is smallest when $\\rho=-1$, giving variance $0$ — the assets perfectly cancel. This is the mathematical heart of diversification: the most negative covariance damps the spread of the sum the most."
+            }
+          ],
           "flashcards": [
             {
               "front": "Define covariance two ways (definition and computational formula).",
@@ -1912,7 +2178,140 @@
           "title": "Conditional Expectation & the Tower Property",
           "minutes": 15,
           "content": "<h3>1. The best guess given partial information</h3>\n<p>You know a person's height; what's your best guess of their weight? You've seen the first half of a sentence; what word comes next? These are questions about <strong>conditional expectation</strong> — the mean of one variable once you've conditioned on what you know about another. It is the single most important object in prediction: regression, forecasting, and the value functions of reinforcement learning are all conditional expectations.</p>\n\n<h3>2. Conditional expectation given a value</h3>\n<p>Fix $Y=y$. The <strong>conditional expectation of $X$ given $Y=y$</strong> is just the mean computed under the conditional distribution:\n$$\\mathbb{E}[X\\mid Y=y] = \\sum_{x} x\\,p_{X\\mid Y}(x\\mid y) \\quad\\text{(discrete)}, \\qquad \\mathbb{E}[X\\mid Y=y]=\\int x\\,f_{X\\mid Y}(x\\mid y)\\,dx \\quad\\text{(continuous)}.$$\nFor each fixed $y$ this returns a number — the average value of $X$ among the cases where $Y=y$.</p>\n\n<h3>3. Conditional expectation as a random variable</h3>\n<p>Now let $y$ vary. The map $y \\mapsto \\mathbb{E}[X\\mid Y=y]$ defines a function of $Y$, written $\\mathbb{E}[X\\mid Y]$. Because $Y$ is random, <strong>$\\mathbb{E}[X\\mid Y]$ is itself a random variable</strong> — a function of $Y$ that, before you observe $Y$, has its own distribution, mean, and variance. This shift from \"a number for each $y$\" to \"a random variable\" is the conceptual leap of the topic, and it is what makes the next two laws possible.</p>\n<div class=\"callout\">\n<div class=\"c-tag\">Intuition</div>\n<p>Think of $\\mathbb{E}[X\\mid Y]$ as the \"best forecast\" of $X$ built from $Y$: a machine that, fed a value of $Y$, outputs the average $X$ for that group. Until you feed it a particular $Y$, the forecast it will emit is itself uncertain.</p>\n</div>\n\n<h3>4. The law of total expectation (the tower property)</h3>\n<p>Averaging the conditional forecast over all values of $Y$ recovers the plain mean of $X$:\n$$\\mathbb{E}\\big[\\,\\mathbb{E}[X\\mid Y]\\,\\big] = \\mathbb{E}[X].$$\nThis <strong>tower property</strong> (or law of total expectation) is a divide-and-conquer engine: to find $\\mathbb{E}[X]$, split the world by the value of $Y$, average $X$ within each slice, then average those slice-means weighted by how likely each slice is:\n$$\\mathbb{E}[X] = \\sum_{y} \\mathbb{E}[X\\mid Y=y]\\,p_Y(y).$$\nIt is the expectation analogue of the law of total probability, and it turns many fearsome direct sums into a short, structured calculation.</p>\n\n<h3>5. The law of total variance</h3>\n<p>Variance decomposes too, into \"within-group\" and \"between-group\" pieces:\n$$\\operatorname{Var}(X) = \\underbrace{\\mathbb{E}\\big[\\operatorname{Var}(X\\mid Y)\\big]}_{\\text{within-group, unexplained}} + \\underbrace{\\operatorname{Var}\\big(\\mathbb{E}[X\\mid Y]\\big)}_{\\text{between-group, explained}}.$$\nThe first term is the average spread of $X$ <em>inside</em> each $Y$-slice; the second is the spread of the slice-<em>means</em>. This is exactly the decomposition behind the \"explained vs. unexplained variance\" of regression and ANOVA: knowing $Y$ removes the between-group part, leaving only the within-group noise.</p>\n\n<h3>6. Worked example: a random number of terms</h3>\n<p>A hen lays $N\\sim\\text{Poisson}(\\lambda)$ eggs; each egg hatches independently with probability $p$. Let $X$ be the number that hatch. Directly summing is messy — but condition on $N$. Given $N=n$, $X\\sim\\text{Binomial}(n,p)$, so $\\mathbb{E}[X\\mid N]=Np$. By the tower property,\n$$\\mathbb{E}[X] = \\mathbb{E}\\big[\\mathbb{E}[X\\mid N]\\big] = \\mathbb{E}[Np] = p\\,\\mathbb{E}[N] = p\\lambda.$$\nThree lines replace a daunting double sum — the signature payoff of conditioning.</p>\n\n<h3>7. Why this matters for machine learning</h3>\n<p>The function $f(x)=\\mathbb{E}[Y\\mid X=x]$ is called the <strong>regression function</strong>, and it is provably the predictor that minimizes mean-squared error — so every regression model is an attempt to approximate a conditional expectation. In reinforcement learning, the <strong>value function</strong> $V(s)=\\mathbb{E}[\\text{return}\\mid \\text{state}=s]$ is a conditional expectation, and Bellman equations are tower-property identities. Conditioning to simplify an expectation is one of the most reused tricks in all of applied probability.</p>",
-          "mcq": [],
+          "mcq": [
+            {
+              "q": "For a fixed value $y$, the quantity $\\mathbb{E}[X\\mid Y=y]$ is best described as:",
+              "choices": [
+                "A random variable that depends on $Y$",
+                "A single number (the mean of $X$ over cases where $Y=y$)",
+                "A probability between 0 and 1",
+                "A function of $X$ only"
+              ],
+              "answer": 1,
+              "explain": "Once $y$ is fixed, $\\mathbb{E}[X\\mid Y=y]$ is the ordinary mean of $X$ under the conditional distribution $p_{X\\mid Y}(\\cdot\\mid y)$, so it is just a number. It only becomes a random variable when you let $y$ vary and write $\\mathbb{E}[X\\mid Y]$."
+            },
+            {
+              "q": "Why is $\\mathbb{E}[X\\mid Y]$ (with $Y$ left unspecified) considered a random variable?",
+              "choices": [
+                "Because $X$ is random and we have not averaged over it",
+                "Because conditional probabilities are always random",
+                "Because it is the function $y\\mapsto\\mathbb{E}[X\\mid Y=y]$ evaluated at the random input $Y$",
+                "Because it equals $\\mathbb{E}[X]$ plus random noise"
+              ],
+              "answer": 2,
+              "explain": "$\\mathbb{E}[X\\mid Y]$ is the deterministic function $g(y)=\\mathbb{E}[X\\mid Y=y]$ composed with the random variable $Y$, i.e. $g(Y)$. A function of a random variable is itself random, which is why it has its own distribution and variance."
+            },
+            {
+              "q": "Roll a fair die; let $Y$ be the outcome and $X=1$ if $Y$ is even and $X=0$ otherwise. What is $\\mathbb{E}[X\\mid Y=4]$?",
+              "choices": [
+                "$1$",
+                "$\\tfrac{1}{2}$",
+                "$\\tfrac{1}{6}$",
+                "$0$"
+              ],
+              "answer": 0,
+              "explain": "Given $Y=4$, the value of $X$ is determined: $4$ is even so $X=1$ with certainty, giving $\\mathbb{E}[X\\mid Y=4]=1$. The distractor $\\tfrac12$ confuses the conditional value with the unconditional mean $\\mathbb{E}[X]=\\tfrac12$."
+            },
+            {
+              "q": "Suppose $X$ and $Y$ are independent. What is $\\mathbb{E}[X\\mid Y]$?",
+              "choices": [
+                "$0$",
+                "$Y$",
+                "The constant $\\mathbb{E}[X]$",
+                "$X$"
+              ],
+              "answer": 2,
+              "explain": "Independence means the conditional distribution of $X$ given any $Y=y$ equals its marginal, so $\\mathbb{E}[X\\mid Y=y]=\\mathbb{E}[X]$ for every $y$. The map is constant in $y$, hence $\\mathbb{E}[X\\mid Y]=\\mathbb{E}[X]$ — a (degenerate) random variable that never varies."
+            },
+            {
+              "q": "You collect data on people; $X$ is weight and $Y$ is height. A friend says 'the best single-number guess of $X$ given that height is $y$ is $\\mathbb{E}[X\\mid Y=y]$.' In what sense is this 'best'?",
+              "choices": [
+                "It minimizes the expected squared error among all guesses based on $Y=y$",
+                "It maximizes the probability of being exactly correct",
+                "It is the value of $X$ that occurs most often when $Y=y$",
+                "It is the median of $X$ given $Y=y$"
+              ],
+              "answer": 0,
+              "explain": "The conditional mean is the minimizer of mean squared error: among all functions $g(Y)$, $\\mathbb{E}[X\\mid Y]$ minimizes $\\mathbb{E}[(X-g(Y))^2]$. The mode (most common value) and median answer different optimization problems."
+            },
+            {
+              "q": "A bag has two coins: a fair coin ($p=0.5$) and a biased coin ($p=0.9$), picked at random. Let $Y$ identify which coin, and $X$ the indicator of heads on one flip. Compute $\\mathbb{E}[X\\mid Y=\\text{biased}]$.",
+              "choices": [
+                "$0.5$",
+                "$0.7$",
+                "$0.9$",
+                "$0.45$"
+              ],
+              "answer": 2,
+              "explain": "Conditioning on the biased coin fixes the success probability at $0.9$, so $\\mathbb{E}[X\\mid Y=\\text{biased}]=0.9$. The value $0.7$ is the overall average $\\tfrac12(0.5)+\\tfrac12(0.9)$, which answers a different (unconditional) question."
+            },
+            {
+              "q": "Which statement about the function $g(y)=\\mathbb{E}[X\\mid Y=y]$ is correct?",
+              "choices": [
+                "It must be a linear function of $y$",
+                "It is a deterministic (non-random) function of $y$",
+                "It always equals $\\mathbb{E}[X]$",
+                "It must take values in $[0,1]$"
+              ],
+              "answer": 1,
+              "explain": "For each fixed $y$, $g(y)$ is computed from the conditional distribution and yields a fixed number, so $g$ is an ordinary deterministic function. It need not be linear, need not equal the marginal mean, and (unless $X$ is an indicator) need not lie in $[0,1]$."
+            },
+            {
+              "q": "In a regression problem we model $\\hat{X}=f(Y)$. Connecting this to conditional expectation, the ideal target that $f$ tries to recover is:",
+              "choices": [
+                "The conditional variance $\\mathrm{Var}(X\\mid Y)$",
+                "The conditional expectation $\\mathbb{E}[X\\mid Y]$",
+                "The marginal mean $\\mathbb{E}[X]$",
+                "The joint density $f_{X,Y}(x,y)$"
+              ],
+              "answer": 1,
+              "explain": "Regression seeks the function of the inputs that best predicts the response in squared-error sense, and that optimal function is exactly $\\mathbb{E}[X\\mid Y]$ — which is why the lesson calls conditional expectation the central object of prediction. The conditional variance describes residual spread, not the prediction itself."
+            },
+            {
+              "q": "Let $X$ be continuous with conditional density $f_{X\\mid Y}(x\\mid y)$. The correct formula for $\\mathbb{E}[X\\mid Y=y]$ is:",
+              "choices": [
+                "$\\int x\\,f_{X\\mid Y}(x\\mid y)\\,dx$",
+                "$\\sum_y y\\,f_{X\\mid Y}(x\\mid y)$",
+                "$\\int f_{X\\mid Y}(x\\mid y)\\,dx$",
+                "$\\int x\\,f_{X,Y}(x,y)\\,dx$"
+              ],
+              "answer": 0,
+              "explain": "The conditional mean integrates $x$ against the conditional density in $x$: $\\int x\\,f_{X\\mid Y}(x\\mid y)\\,dx$. Integrating the density alone gives $1$, and using the joint density $f_{X,Y}$ instead of the conditional one omits the normalizing factor $1/f_Y(y)$."
+            },
+            {
+              "q": "A student claims: 'Since $\\mathbb{E}[X\\mid Y]$ has a distribution, it must have a larger variance than $X$ itself.' What is the right response?",
+              "choices": [
+                "Correct — conditioning always adds variability",
+                "Wrong — $\\mathbb{E}[X\\mid Y]$ is a smoothed/averaged version of $X$ and typically has variance no larger than $X$",
+                "Correct — it is a function of two random variables",
+                "Wrong — $\\mathbb{E}[X\\mid Y]$ is never random, so its variance is zero"
+              ],
+              "answer": 1,
+              "explain": "$\\mathbb{E}[X\\mid Y]$ replaces $X$ by an average within each $Y$-slice, removing within-slice variability; its variance is at most $\\mathrm{Var}(X)$ (equal only in special cases). It is random in general, so its variance is not automatically zero."
+            },
+            {
+              "q": "Suppose $Y\\in\\{1,2\\}$ each with probability $\\tfrac12$, with $\\mathbb{E}[X\\mid Y=1]=4$ and $\\mathbb{E}[X\\mid Y=2]=10$. As a random variable, $\\mathbb{E}[X\\mid Y]$ takes which values with which probabilities?",
+              "choices": [
+                "Always $7$",
+                "$4$ with prob $\\tfrac12$ and $10$ with prob $\\tfrac12$",
+                "$4$ with prob $\\tfrac{1}{4}$ and $10$ with prob $\\tfrac{3}{4}$",
+                "$1$ with prob $\\tfrac12$ and $2$ with prob $\\tfrac12$"
+              ],
+              "answer": 1,
+              "explain": "$\\mathbb{E}[X\\mid Y]=g(Y)$ where $g(1)=4,\\,g(2)=10$, so it inherits $Y$'s distribution over those outputs: $4$ and $10$ each with probability $\\tfrac12$. The constant $7$ is its mean, not its distribution, and the last option lists $Y$'s values rather than $g(Y)$'s."
+            },
+            {
+              "q": "If $X$ is a deterministic function of $Y$, say $X=h(Y)$, then $\\mathbb{E}[X\\mid Y]$ equals:",
+              "choices": [
+                "$\\mathbb{E}[X]$",
+                "A constant independent of $Y$",
+                "$h(Y)=X$ itself",
+                "$0$"
+              ],
+              "answer": 2,
+              "explain": "Once $Y$ is known, $X=h(Y)$ is fully determined, so its conditional mean is just $h(Y)$, i.e. $X$ itself. Replacing it with the constant $\\mathbb{E}[X]$ would wrongly discard the information that $Y$ pins $X$ down exactly."
+            }
+          ],
           "flashcards": [
             {
               "front": "What is $\\mathbb{E}[X\\mid Y=y]$?",

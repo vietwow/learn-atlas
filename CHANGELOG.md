@@ -2,6 +2,21 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 78 — Probability & Statistics Module 3 — 12 MCQs per lesson (content; owner "more questions" ask)
+Completed the new Joint-Distributions module by bringing all three lessons (joint distributions/marginals/
+independence, covariance & correlation, conditional expectation) from 0 → 12 MCQs each via the proven
+author→adversarial-verify workflow pipeline: **+36 fact-checked questions**. Every one of the 12 Probability &
+Statistics lessons now sits at exactly 12 MCQs (144 in the topic); the site bank crosses **1,464 → 1,500**. The
+adversarial verifier independently re-derived every answer (e.g. confirming $P(Y{=}0\mid X{=}1)=0.1/0.4=0.25$,
+the triangular-support independence test, $\operatorname{Var}(X+Y)=4+9-6=7$, and that $\mathbb{E}[X\mid Y]$ with
+$Y$ fixed is a number while $\mathbb{E}[X\mid Y]$ is a random variable) — all three lessons returned ok=true,
+unchanged. Distractors deliberately target the classic misconceptions (forgetting to renormalize a conditional,
+mistaking uncorrelated for independent, dropping the covariance term in a variance-of-a-sum). Now every PS lesson
+has a Quiz tab. SW cache → `atlas-v22`. Also refreshed three stale README counts (widgets 22→23 + the
+Normal-distribution explorer, concepts 113→125). Verified: `node gate.js` ALL GREEN (7 topics · 125 lessons ·
+**1,500 MCQs**); all three Module-3 quizzes render "Question 1 of 12" with 4 choices, errs=0, katex-error=0;
+stray Chrome cleaned up.
+
 ## iter 77 — Probability & Statistics — Module 3: Joint Distributions & Dependence (3 lessons) (content; owner depth direction)
 Deepened the newest topic with a third module covering how *multiple* random variables interact — the bridge from
 single-variable probability into multivariate statistics and ML. Three full lessons:
