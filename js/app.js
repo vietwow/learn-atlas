@@ -595,13 +595,15 @@
           </div>
         </div>`;
       }).join("");
+      const mDone = m.lessons.filter(l => Store.isLessonDone(l.id)).length, mTot = m.lessons.length, mPct = Math.round(mDone / mTot * 100), mDoneAll = mDone === mTot;
       return `
       <div class="module reveal">
         <div class="module-head">
           <span class="mnum">MODULE ${mi + 1}</span>
           <h3>${esc(m.title)}</h3>
-          <span class="mcount">${m.lessons.length} lesson${m.lessons.length === 1 ? "" : "s"}</span>
+          <span class="mcount">${mDoneAll ? `<span style="color:var(--sage)">✓ complete</span>` : mDone + "/" + mTot + " done"}</span>
         </div>
+        <div style="height:4px;background:var(--line);border-radius:3px;margin:0 0 10px;overflow:hidden"><div style="height:100%;width:${mPct}%;background:${mDoneAll ? "var(--sage)" : "var(--gold)"};transition:width .4s"></div></div>
         ${rows}
       </div>`;
     }).join("");
@@ -799,6 +801,12 @@
         toast("✨", "+50 XP", "Lesson complete: " + lesson.title);
         const newly = before ? [...readySet()].filter(id => !before.has(id)).map(id => index()[id]).filter(Boolean) : [];
         if (newly.length) toast("🔓", "Unlocked " + newly.length + " concept" + (newly.length > 1 ? "s" : ""), newly[0].lesson.title + (newly.length > 1 ? " · +" + (newly.length - 1) + " more" : ""));
+        // module-completion celebration: did this lesson finish its whole module?
+        const mod = course.modules.find(m => m.lessons.some(l => l.id === lesson.id));
+        if (mod && mod.lessons.length > 1 && mod.lessons.every(l => Store.isLessonDone(l.id))) {
+          confetti();
+          toast("📗", "Module complete!", mod.title);
+        }
       }
       flushAchievements();
       renderChrome();

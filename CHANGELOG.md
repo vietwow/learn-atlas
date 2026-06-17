@@ -2,6 +2,21 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 220 — Per-module progress bars + a module-completion celebration (gamification / UI)
+The course page listed each module's lesson *count* but showed **no progress through it**, and finishing a whole module
+— a meaningful milestone — passed silently. Fresh gamification/delight lane (last gamification was iter 209). Two parts:
+- **Per-module progress** on every course page: each module header now shows **"X/N done"** (turning a sage **"✓
+  complete"** when finished) above a thin progress bar (gold while in progress, sage when done) — so you can see how far
+  through each unit you are at a glance.
+- **Module-completion celebration**: completing a module's *last* lesson fires **confetti + a "📗 Module complete!"
+  toast** (guarded to fire once, only on the completion that finishes the module, and never for single-lesson modules).
+Pure additive to `viewCourse` + the lesson-complete handler — reuses existing `confetti()`/`toast()` and theme tokens;
+**no new state, no CSS, no data change**.
+Verified: `gate.js` ALL GREEN; with a seeded save the course page shows **5 module bars** — "Foundations ✓ complete"
+(full sage bar) and "Common Distributions 2/5 done" (partial gold), err=0; completing the last lesson of a 3/4-done
+module fired **confetti + "📗 Module complete!: Foundations of Probability"** (err=0); all-routes smoke (10 routes)
+**errs=0/kErr=0**; mobile 390px the per-module bars stay legible. SW cache `atlas-v162` → `atlas-v163`.
+
 ## iter 219 — Runnable in-lesson coding exercises for 3 algorithm lessons (new functionality / active practice)
 The `data-code` infrastructure (an embedded editor that runs JS natively / Python via Pyodide and **self-checks output
 against `data-expected`**) existed but reached only **5 of 148 lessons**. Reading about an algorithm isn't coding it —
