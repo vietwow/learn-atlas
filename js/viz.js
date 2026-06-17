@@ -2219,4 +2219,68 @@
     draw();
   });
 
+  register({ id: 'rl-td-mc', topic: 'reinforcement-learning', title: 'TD vs Monte Carlo: Learning to Predict', blurb: "The classic 5-state random walk (Sutton & Barto). Run episodes and watch TD(0) — which bootstraps off its own next estimate every step — and Monte Carlo — which waits for each episode's actual return — both crawl toward the true values 1/6…5/6. Watch the RMS errors: TD usually converges with lower variance." },
+  function (root) {
+    const W = 560, H = 384, MONO = "JetBrains Mono, monospace";
+    const N = 5, START = 2;                       // states A..E (0..4); terminals at -1 (V=0) and 5 (V=1, reward +1)
+    const TRUE = [1/6, 2/6, 3/6, 4/6, 5/6], LABELS = ['A', 'B', 'C', 'D', 'E'];
+    let Vtd, Vmc, eps, alpha = 0.1;
+    const { c, ctx } = canvas(root, W, H);
+    function reset() { Vtd = [0.5, 0.5, 0.5, 0.5, 0.5]; Vmc = [0.5, 0.5, 0.5, 0.5, 0.5]; eps = 0; draw(); }
+    function episode() {
+      // generate a random-walk trajectory from the center
+      const visited = []; let s = START, reachedRight = false;
+      while (true) {
+        const step = Math.random() < 0.5 ? -1 : 1, sp = s + step;
+        const term = (sp < 0 || sp >= N);
+        const r = (sp >= N) ? 1 : 0;              // +1 only on entering the right terminal
+        // TD(0): bootstrap off the next state's current estimate (terminal value = 0)
+        Vtd[s] += alpha * (r + (term ? 0 : Vtd[sp]) - Vtd[s]);
+        visited.push(s);
+        if (term) { reachedRight = (sp >= N); break; }
+        s = sp;
+      }
+      // every-visit constant-alpha MC: gamma=1, only terminal reward, so the return G is the same for all visited states
+      const G = reachedRight ? 1 : 0;
+      visited.forEach(st => { Vmc[st] += alpha * (G - Vmc[st]); });
+    }
+    function runEpisodes(n) { for (let i = 0; i < n; i++) episode(); eps += n; draw(); }
+    function rms(V) { let s = 0; for (let i = 0; i < N; i++) s += (V[i] - TRUE[i]) * (V[i] - TRUE[i]); return Math.sqrt(s / N); }
+    function draw() {
+      const pl = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = pl.bg; ctx.fillRect(0, 0, W, H);
+      const padL = 46, padR = 16, padT = 20, padB = 40, plotW = W - padL - padR, plotH = H - padT - padB;
+      const xOf = i => padL + (i / (N - 1)) * plotW, yOf = v => padT + plotH - Math.max(0, Math.min(1, v)) * plotH;
+      ctx.strokeStyle = pl.line; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(padL, padT); ctx.lineTo(padL, padT + plotH); ctx.lineTo(padL + plotW, padT + plotH); ctx.stroke();
+      ctx.fillStyle = pl.mute; ctx.font = '10px ' + MONO; ctx.textAlign = 'right';
+      [0, 0.5, 1].forEach(v => ctx.fillText(v.toFixed(1), padL - 6, yOf(v) + 3));
+      ctx.textAlign = 'center';
+      for (let i = 0; i < N; i++) ctx.fillText(LABELS[i], xOf(i), padT + plotH + 15);
+      function series(V, color, dash) {
+        ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.setLineDash(dash || []); ctx.beginPath();
+        for (let i = 0; i < N; i++) { const x = xOf(i), y = yOf(V[i]); i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); }
+        ctx.stroke(); ctx.setLineDash([]);
+        if (!dash) for (let i = 0; i < N; i++) { ctx.fillStyle = color; ctx.beginPath(); ctx.arc(xOf(i), yOf(V[i]), 3.5, 0, 7); ctx.fill(); }
+      }
+      series(TRUE, pl.mute, [5, 4]);               // true values (dashed)
+      series(Vmc, pl.sage);                         // Monte Carlo
+      series(Vtd, pl.gold);                         // TD(0)
+      ctx.textAlign = 'left'; ctx.font = '11px ' + MONO;
+      ctx.fillStyle = pl.gold; ctx.fillText('● TD(0)', padL + 6, padT + 12);
+      ctx.fillStyle = pl.sage; ctx.fillText('● Monte Carlo', padL + 78, padT + 12);
+      ctx.fillStyle = pl.mute; ctx.fillText('-- true', padL + 196, padT + 12);
+      info.innerHTML = `<b>Random walk (5 states).</b> Episodes start at <b>C</b> and step left/right with equal probability until a terminal; reward is +1 only at the right end, so the true values rise linearly: A=1/6 … E=5/6 (dashed). <b>${eps} episodes run</b> (α=${alpha.toFixed(2)}). Current RMS error — <span style="color:var(--gold)">TD(0) = ${rms(Vtd).toFixed(3)}</span>, <span style="color:var(--sage)">MC = ${rms(Vmc).toFixed(3)}</span>. TD updates every step by <i>bootstrapping</i> off its own estimate of the next state; MC waits for each episode's actual return — noisier, so MC's curve is usually rougher and slower to settle.`;
+    }
+    const ctl = controls(root);
+    slider(ctl, { label: 'step size α', min: 0.02, max: 0.3, step: 0.02, value: alpha, fmt: v => 'α=' + v.toFixed(2), onInput: v => { alpha = v; } });
+    const btns = controls(root);
+    button(btns, '▶ Run 10 episodes', () => runEpisodes(10), 'primary');
+    button(btns, '▶▶ Run 100', () => runEpisodes(100));
+    button(btns, '↻ Reset', () => reset());
+    const info = note(root);
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', "The 5-state random walk. TD(0) and Monte Carlo value estimates are plotted against the true linear values 1/6 to 5/6; running more episodes drives both toward the truth, with TD typically lower-variance. RMS errors for each method are shown.");
+    reset();
+  });
+
 })();

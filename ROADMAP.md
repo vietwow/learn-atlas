@@ -177,6 +177,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 178: TD-vs-Monte-Carlo viz (`rl-td-mc`, **40th widget**, visualizations — non-content; pairs w/ upcoming
+   model-free-prediction module). Sutton & Barto 5-state random walk; Run-episodes plays TD(0) (gold) + MC (sage) vs
+   true 1/6…5/6 (dashed) with live RMS. Embedded in `rl-td-learning`. node sim confirms RMS→TD .044/MC .086 @100ep;
+   gate ALL GREEN · 40 widgets; lab Run-100 drives RMS .236→.079 errs=0; lesson embed host+canvas; 390px good; SW →v121.
    ✅ iter 177: MCQ arc → Reinforcement Learning·Dynamic Programming 12→16 (+8, bank →2,152). Both lessons (policy-
    iteration/value-iteration). RL 2/7 modules. Adversarial agent ALL PASS; positions balanced 2/2/2/2 (distinct
    patterns); render "of 16" errs=0; SW →v120. RL REMAINING (arc): model-free-prediction(4), function-approximation(2),
@@ -326,7 +330,7 @@ shared "topics index" (id/title/blurb/color) loaded first + full lessons on dema
 - ~~"Explain it back" — free-text recall with self-grading (Feynman technique).~~ **DONE iter 53** (Recall tab; self-graded against the lesson's flashcards, feeds mastery + XP). Future: optional AI grading when the tutor lands.
 - Per-concept difficulty rating + adaptive question selection in tests.
 - ~~Interleaved review sessions (mix topics) beyond the SRS queue.~~ **partly DONE iter 68** — Daily Mix (`#/session`) chains due cards + a weak-spot quiz + a next lesson into one guided flow.
-- More viz ideas (39 widgets now; CLT iter 74, normal-explorer iter 76, covariance-scatter iter 79, CI-coverage
+- More viz ideas (40 widgets now; CLT iter 74, normal-explorer iter 76, covariance-scatter iter 79, CI-coverage
   iter 84, diffusion noising iter 89, convex-landscape/GD-trap iter 92, hypothesis-test/p-value iter 98, BPE-merge
   trainer iter 105, LR-schedule explorer iter 112, Q-learning gridworld iter 117, optimizer-race iter 136, Riemann-sum
   iter 148, Taylor-polynomial iter 152, dropout iter 162, positional-encoding iter 166, KL-divergence iter 172): MDP

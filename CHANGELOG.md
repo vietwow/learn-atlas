@@ -2,6 +2,23 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 178 — TD-vs-Monte-Carlo visualization (`rl-td-mc`, the 40th widget) (visualizations)
+RL is the current content focus but was viz-thin (only the gridworld + Q-learning widgets), and the single most
+illuminating idea of the upcoming *Model-Free Prediction* module — how **TD bootstraps** while **MC waits for the
+return** — had no visual. New `rl-td-mc` widget runs the canonical **Sutton & Barto 5-state random walk**: episodes
+start at center C, step left/right with equal probability, reward +1 only at the right terminal, so the true values
+rise linearly (A=1/6 … E=5/6, drawn dashed). A **▶ Run 10 / ▶▶ Run 100 / ↻ Reset** control plays episodes and plots
+**TD(0)** (gold) and **every-visit Monte-Carlo** (sage) estimates crawling toward the truth, with **live RMS errors**
+for each — so the learner *sees* TD converge with lower variance. An **α** slider tunes the step size. Rigorous (the
+true values are known in closed form; no trained model) and uses only `Math.random` (browser-side). Embedded before
+the "MC vs TD vs DP" comparison in `rl-td-learning`; note is plain-unicode.
+- **Verified**: `viz.js` + `reinforcement-learning.js` syntax OK; a node simulation confirms the math — RMS falls from
+  ~0.30 to **TD 0.044 / MC 0.086** after 100 episodes (TD lower-variance, the classic result); byte-stable JSON
+  round-trip guard before the embed (+35 bytes); `node gate.js` **ALL GREEN · 40 widgets** (embedded id resolves);
+  lab render-check → `errs=0 | canvas=1 | rawDollars=0`, and **"Run 100" drives TD RMS 0.236 → 0.079** in-browser
+  (the simulation works); lesson-embed → `host=1, canvas=1`; all-routes smoke (11) `errs=0`; desktop + **390px**
+  screenshots read crafted/legible (TD/MC/true lines converging). SW cache **v120 → v121**; README 39 → 40.
+
 ## iter 177 — MCQ arc → Reinforcement Learning · Dynamic Programming 12 → 16 (content — owner's #1 ask)
 The arc continues through RL's *Planning with Dynamic Programming* module. Both lessons go 12 → 16 (**+8, bank
 2,144 → 2,152**), stating the bedrock the existing 12 assumed:
