@@ -2,6 +2,21 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 116 — Knowledge-Map keyboard navigation (accessibility) — closes the last mouse-only surface
+The radial Knowledge Constellation (148 concept nodes) was the one major interactive surface still **mouse-only** —
+iter 110 made the clickable cards keyboard-operable but explicitly deferred the SVG map (148 raw tab stops would be
+hostile). Implemented the ARIA-recommended **roving-tabindex composite-widget** pattern instead: you **Tab into the map
+once** (only one node is in the tab order at a time), then **arrow keys** move between concepts, **Home/End** jump to
+first/last, and **Enter/Space** opens the focused one. Each node now carries `role="link"` + an `aria-label`
+("‹concept›, ‹subject›, ‹mastery›[, completed/ready]"), the `<svg>` is `role="application"` with usage instructions,
+and focusing a node mirrors the hover behaviour — it lights its prerequisite chain and shows the caption — with a
+distinct **gold focus ring** (`.kbfocus`) that stays bright while the rest dim. The focused node also `scrollIntoView`s
+so it's visible in the scrollable map. SW cache → `atlas-v60`; README a11y bullet updated. Verified: `node gate.js`
+ALL GREEN; an in-browser run is **errs=0** — 148 nodes, first node `tabindex=0` and the rest `-1`, ArrowRight moves
+focus and **transfers the roving `tabindex` (node1→0, node0→-1)**, focus adds `.kbfocus` + the dim/lit highlight, and
+**Enter opens** the focused node's lesson (navigated to "Dot Product, Norms, and Angles"); a screenshot confirms the
+gold focus ring + lit dependency chain over the dimmed map; stray Chrome cleaned up.
+
 ## iter 115 — Three more "Deeper dive" intuitions on hard concepts (understandability — owner directive 3)
 Continued directive 3 (an *extra*, different-angle explanation for genuinely hard ideas). Added **3 more deeper-dives
 (6 → 9 site-wide)**, each deliberately offering a lens its lesson does *not* already lead with:

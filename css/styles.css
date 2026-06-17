@@ -779,8 +779,12 @@ body::after {
 .map-edge { fill: none; stroke: var(--line); stroke-width: 1.5; transition: stroke .2s, opacity .2s; }
 .map-edge.lit { stroke: var(--gold); stroke-width: 2.5; }
 .map-node { cursor: pointer; }
+.map-node:focus { outline: none; }   /* custom keyboard-focus indicator below */
 .map-node circle { transition: r .15s, filter .15s; }
 .map-node:hover circle { filter: drop-shadow(0 0 6px var(--gold)); }
+.map-node.kbfocus circle { stroke: var(--gold); stroke-width: 3; filter: drop-shadow(0 0 7px var(--gold)); }
+.map-svg.dim .map-node.kbfocus { opacity: 1; }   /* keep the focused node bright while others dim */
+.map-kbd-hint { display: inline-block; margin-left: 4px; font-size: 13px; color: var(--ink-mute); }
 .map-label { font-family: var(--font-body); font-size: 13px; fill: var(--ink-soft); }
 .map-node:hover .map-label { fill: var(--ink); }
 .map-svg.dim .map-node { opacity: .28; }

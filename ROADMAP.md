@@ -68,6 +68,8 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    copy, fixed an Escape-listener leak on tour replay.
    ✅ iter 115: +3 deeper-dives (vanishing/exploding gradients = exponential product; BatchNorm = covariate-shift vs.
    smoother-landscape; KKT = complementary slackness) → 9 deeper-dives site-wide (directive 3).
+   ✅ iter 116: Knowledge-Map keyboard navigation (roving tabindex + arrows + Enter, ARIA labels, gold focus ring) —
+   closes the last mouse-only surface. The whole UI is now keyboard-operable.
    CHECKED & FOUND HEALTHY (113): mobile renders clean across dashboard/map/lab/stats/test at 390px; `index()` is
    already memoized; staggered page-entrance already exists (CSS :nth-child reveal delays). So perf/mobile/transitions
    have little headroom. NEGLECTED areas still worth a pass: onboarding refresh, SVG Knowledge-Map keyboard nav

@@ -1458,12 +1458,13 @@
     }));
     // nodes (dots only; hover shows the caption)
     let circles = "", readyCount = 0;
-    nodes.forEach(n => {
+    nodes.forEach((n, i) => {
       const eff = Store.effectiveMastery(n.id), lvl = Store.masteryLevel(eff), done = Store.isLessonDone(n.id);
       // "ready to learn" = not done, but every prerequisite (in-course + cross-topic) is complete
       const ready = !done && learningPath(n.id).every(p => p.lesson.id === n.id || Store.isLessonDone(p.lesson.id));
       if (ready) readyCount++;
-      circles += `<g class="map-node ${ready ? "ready" : ""}" data-id="${n.id}" data-go="#/lesson/${n.c.id}/${n.l.id}" transform="translate(${n.x.toFixed(1)} ${n.y.toFixed(1)})">
+      const aria = `${esc(n.l.title)}, ${esc(n.c.title)}, ${lvl.label}${done ? ", completed" : ready ? ", ready to learn" : ""}`;
+      circles += `<g class="map-node ${ready ? "ready" : ""}" data-id="${n.id}" data-go="#/lesson/${n.c.id}/${n.l.id}" role="link" tabindex="${i === 0 ? 0 : -1}" aria-label="${aria}" transform="translate(${n.x.toFixed(1)} ${n.y.toFixed(1)})">
         ${ready ? `<circle class="map-ready-ring" r="12" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-dasharray="3 3"></circle>` : ""}
         <circle r="7" fill="${lvl.color}" stroke="${done ? "var(--ink)" : "var(--bg)"}" stroke-width="${done ? 2 : 1.5}"></circle>
         <title>${esc(n.l.title)} — ${esc(n.c.title)}${ready ? " (ready to learn)" : ""}</title>
@@ -1487,24 +1488,46 @@
     <div class="view" style="max-width:none">
       <div class="crumbs"><a href="#/" data-route>Codex</a> &nbsp;›&nbsp; Knowledge Map</div>
       <div class="page-head reveal"><div class="eyebrow">${nodes.length} concepts · 6 paths radiating outward</div><h2>Knowledge <em>Constellation</em></h2>
-      <p>Each subject branches out from the core — foundations near the centre, mastery toward the rim. Hover a star to trace what it depends on; click to open it.</p></div>
-      <div class="map-legend reveal">${legend}<span class="map-caption" id="map-caption">Hover a concept…</span></div>
-      <div class="map-scroll reveal" id="map-scroll"><svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" class="map-svg">${sectors}${rings}${edges}${hub}${circles}${labels}</svg></div>
+      <p>Each subject branches out from the core — foundations near the centre, mastery toward the rim. Hover (or focus) a star to trace what it depends on; click or press Enter to open it. <span class="map-kbd-hint">Keyboard: Tab into the map, then arrow keys to move between concepts.</span></p></div>
+      <div class="map-legend reveal">${legend}<span class="map-caption" id="map-caption">Hover or focus a concept…</span></div>
+      <div class="map-scroll reveal" id="map-scroll"><svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" class="map-svg" role="application" aria-label="Knowledge constellation of ${nodes.length} concepts. Tab to enter, then use arrow keys to move between concepts and Enter to open one.">${sectors}${rings}${edges}${hub}${circles}${labels}</svg></div>
     </div>`;
     bindGo();
     const sc = document.getElementById("map-scroll");
     setTimeout(() => { sc.scrollLeft = (size - sc.clientWidth) / 2; sc.scrollTop = (size - sc.clientHeight) / 2; }, 0);
     const svg = app.querySelector(".map-svg"), cap = document.getElementById("map-caption");
-    svg.querySelectorAll(".map-node").forEach(g => {
-      g.addEventListener("mouseenter", () => {
-        const id = g.dataset.id, node = index()[id]; svg.classList.add("dim");
-        if (node) { const eff = Store.effectiveMastery(id), lv = Store.masteryLevel(eff); cap.innerHTML = `<b style="color:${node.course.color}">${esc(node.course.title)}</b> · ${esc(node.lesson.title)} · <span style="color:${lv.color}">${lv.label}</span>`; }
-        const lit = new Set([id]); let frontier = [id];
-        while (frontier.length) { const cur = frontier.pop(); directPrereqs(cur).forEach(p => { if (!lit.has(p)) { lit.add(p); frontier.push(p); } }); }
-        svg.querySelectorAll(".map-node").forEach(n => n.classList.toggle("lit", lit.has(n.dataset.id)));
-        svg.querySelectorAll(".map-edge").forEach(e => e.classList.toggle("lit", lit.has(e.dataset.to) && lit.has(e.dataset.from)));
+    const mapNodes = [...svg.querySelectorAll(".map-node")];
+    function highlight(g) {
+      const id = g.dataset.id, node = index()[id]; svg.classList.add("dim");
+      if (node) { const eff = Store.effectiveMastery(id), lv = Store.masteryLevel(eff); cap.innerHTML = `<b style="color:${node.course.color}">${esc(node.course.title)}</b> · ${esc(node.lesson.title)} · <span style="color:${lv.color}">${lv.label}</span>`; }
+      const lit = new Set([id]); let frontier = [id];
+      while (frontier.length) { const cur = frontier.pop(); directPrereqs(cur).forEach(p => { if (!lit.has(p)) { lit.add(p); frontier.push(p); } }); }
+      svg.querySelectorAll(".map-node").forEach(n => n.classList.toggle("lit", lit.has(n.dataset.id)));
+      svg.querySelectorAll(".map-edge").forEach(e => e.classList.toggle("lit", lit.has(e.dataset.to) && lit.has(e.dataset.from)));
+    }
+    function clearHL() { svg.classList.remove("dim"); cap.textContent = "Hover or focus a concept…"; svg.querySelectorAll(".lit").forEach(x => x.classList.remove("lit")); }
+    // roving tabindex: Tab enters the map once; arrow keys move; Enter/Space opens
+    let rov = 0;
+    function rove(to) {
+      to = Math.max(0, Math.min(mapNodes.length - 1, to));
+      if (mapNodes[rov]) mapNodes[rov].setAttribute("tabindex", "-1");
+      rov = to; const g = mapNodes[to];
+      g.setAttribute("tabindex", "0"); g.focus();
+      try { g.scrollIntoView({ block: "nearest", inline: "nearest" }); } catch (e) {}
+    }
+    mapNodes.forEach((g, i) => {
+      g.addEventListener("mouseenter", () => highlight(g));
+      g.addEventListener("mouseleave", clearHL);
+      g.addEventListener("focus", () => { rov = i; g.classList.add("kbfocus"); highlight(g); });
+      g.addEventListener("blur", () => { g.classList.remove("kbfocus"); clearHL(); });
+      g.addEventListener("keydown", e => {
+        const k = e.key;
+        if (k === "Enter" || k === " ") { e.preventDefault(); location.hash = g.dataset.go; }
+        else if (k === "ArrowRight" || k === "ArrowDown") { e.preventDefault(); rove(i + 1); }
+        else if (k === "ArrowLeft" || k === "ArrowUp") { e.preventDefault(); rove(i - 1); }
+        else if (k === "Home") { e.preventDefault(); rove(0); }
+        else if (k === "End") { e.preventDefault(); rove(mapNodes.length - 1); }
       });
-      g.addEventListener("mouseleave", () => { svg.classList.remove("dim"); cap.textContent = "Hover a concept…"; svg.querySelectorAll(".lit").forEach(x => x.classList.remove("lit")); });
     });
   }
 
