@@ -2918,4 +2918,60 @@
     loop(function () { if (playing && !(bDone && lDone)) { frame++; if (frame % 14 === 0) { step(); draw(); if (bDone && lDone) setPlay(false); } } });
   });
 
+  /* ========================================================
+     49. The discount factor γ: geometric decay & effective horizon (RL)
+     ===================================================== */
+  register({ id: 'rl-discounting', topic: 'reinforcement-learning', title: 'The Discount Factor γ: How Far an Agent Looks Ahead', blurb: 'Future reward is worth γ per step less than reward now, so its weight γᵗ decays geometrically. Drag γ and watch the agent’s horizon stretch or shrink — small γ is myopic (only the next reward matters), γ near 1 is far-sighted, and the effective horizon is 1/(1−γ).' },
+  function (root) {
+    const W = 560, H = 340, MONO = "JetBrains Mono, monospace", N = 24;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    let gamma = 0.9;
+    const padL = 40, padR = 16, padT = 26, padB = 38;
+    const plotW = W - padL - padR, plotH = H - padT - padB, bw = plotW / (N + 1);
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      // discounted weight of reward at step t is gamma^t (reward = 1 each step)
+      const w = []; for (let t = 0; t <= N; t++) w.push(Math.pow(gamma, t));
+      const G = gamma >= 1 ? N + 1 : (1 - Math.pow(gamma, N + 1)) / (1 - gamma);   // sum of gamma^t
+      const horizon = gamma >= 1 ? Infinity : 1 / (1 - gamma);
+      const X = t => padL + t * bw + bw * 0.12, BW = bw * 0.76;
+      const Y = v => (H - padB) - v * plotH;                  // weight in [0,1]
+      // baseline
+      ctx.strokeStyle = p.line; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(padL, H - padB); ctx.lineTo(W - padR, H - padB); ctx.stroke();
+      // effective-horizon marker
+      if (horizon <= N + 0.5) {
+        const hx = padL + horizon * bw + bw * 0.5;
+        ctx.save(); ctx.strokeStyle = p.rust; ctx.lineWidth = 1.4; ctx.setLineDash([4, 4]);
+        ctx.beginPath(); ctx.moveTo(hx, padT - 4); ctx.lineTo(hx, H - padB); ctx.stroke(); ctx.restore();
+        ctx.fillStyle = p.rust; ctx.font = '600 10px ' + MONO; ctx.textAlign = 'center';
+        ctx.fillText('horizon 1/(1−γ) ≈ ' + horizon.toFixed(1), hx, padT - 8);
+      } else {
+        ctx.fillStyle = p.rust; ctx.font = '600 10px ' + MONO; ctx.textAlign = 'right';
+        ctx.fillText('horizon 1/(1−γ) ≈ ' + (horizon === Infinity ? '∞' : horizon.toFixed(0)) + ' (off-chart)', W - padR, padT - 8);
+      }
+      // bars: discounted weight gamma^t
+      for (let t = 0; t <= N; t++) {
+        const x = X(t), y = Y(w[t]);
+        ctx.fillStyle = t === 0 ? p.gold : p.sage; ctx.globalAlpha = t === 0 ? 1 : Math.max(0.28, w[t]);
+        ctx.fillRect(x, y, BW, (H - padB) - y); ctx.globalAlpha = 1;
+      }
+      // x-axis ticks
+      ctx.fillStyle = p.mute; ctx.font = '10px ' + MONO; ctx.textAlign = 'center';
+      for (let t = 0; t <= N; t += 4) ctx.fillText(t, X(t) + BW / 2, H - padB + 14);
+      ctx.fillText('future step t →', padL + plotW / 2, H - 6);
+      ctx.save(); ctx.translate(12, padT + plotH / 2); ctx.rotate(-Math.PI / 2); ctx.textAlign = 'center'; ctx.fillText('weight γᵗ', 0, 0); ctx.restore();
+      // note
+      info.innerHTML = `At <b>γ = ${gamma.toFixed(2)}</b>, a reward <i>t</i> steps away is worth <b>γ<sup>t</sup></b> of one now, so its weight decays geometrically. The total discounted return for a steady reward of 1/step is G = Σ γ<sup>t</sup> ≈ <b>${G.toFixed(2)}</b>, and the <b>effective horizon</b> 1/(1−γ) ≈ <b>${horizon === Infinity ? '∞' : horizon.toFixed(1)}</b> steps — beyond it, rewards barely register. ` +
+        (gamma < 0.55 ? `This γ is <b>myopic</b>: the agent chases immediate reward and ignores the long run.` : gamma > 0.93 ? `This γ is <b>far-sighted</b>: distant rewards still matter — patient, but slower and less stable to learn.` : `A middle γ balances immediate and future reward.`);
+    }
+    slider(ctl, { label: 'discount γ', min: 0, max: 0.99, step: 0.01, value: gamma, fmt: v => 'γ=' + v.toFixed(2), onInput: v => { gamma = v; draw(); } });
+    button(ctl, 'myopic (0.5)', function () { gamma = 0.5; draw(); });
+    button(ctl, 'far-sighted (0.99)', function () { gamma = 0.99; draw(); });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Discount factor visualizer: bars show the weight gamma-to-the-t of a reward t steps in the future, decaying geometrically; a dashed marker shows the effective horizon 1/(1-gamma). A slider sets gamma; the note reports the discounted return and horizon.');
+    draw();                                                    // synchronous first paint
+  });
+
 })();

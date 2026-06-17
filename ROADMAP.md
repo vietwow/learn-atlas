@@ -177,6 +177,11 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 226: **New viz `rl-discounting`** (visualizations — RL was the most viz-thin topic). 49th widget, in rl-mdp-formalism
+   after the discount-factor section. Bars = weight γᵗ of a future reward (geometric decay); effective-horizon marker at
+   1/(1−γ); γ slider + myopic/far-sighted presets; note shows return G + horizon + verdict. Math node-validated (γ0.9→G9.28/h10;
+   γ0.99→h100). Verified: gate GREEN (49); init+far-sighted notes correct err=0; smoke errs=0/kErr=0 (10 routes); mobile 390px
+   scales. SW →v169. (RL viz now 5; topic balance improved.)
    ✅ iter 225: **14-day consistency strip on the dashboard** (gamification/habit · retention — fresh lane, diversifies from
    viz/deep-dives). Compact 14-cell strip under the today-strip (studied days filled, today ringed) + "studied K of last 14 ·
    today ✓ / keep your streak alive" nudge — reinforces the habit at the daily landing. Pure additive to viewDashboard from

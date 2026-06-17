@@ -2,6 +2,23 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 226 — Discount-factor γ explorer (visualizations)
+New widget **`rl-discounting`** (the **49th**), embedded in `rl-mdp-formalism` right after the "Discount Factor γ"
+section. RL was the most viz-thin topic (4 widgets), and γ — arguably RL's most consequential single hyperparameter —
+was un-visualized.
+- Bars show the weight **γᵗ** of a reward *t* steps in the future, decaying geometrically; the first (immediate) reward
+  is gold, the rest fade with their weight. A dashed **effective-horizon** marker sits at **1/(1−γ)** (or labels itself
+  "off-chart" when γ is large).
+- A **γ slider** plus **myopic (0.5)** / **far-sighted (0.99)** presets. The note reports the discounted return
+  G = Σγᵗ and the horizon, and switches its verdict (myopic / balanced / far-sighted) with γ.
+- Drag γ and the decay curve visibly stretches (γ→1, long horizon) or collapses to the first bar (γ→0, myopic) —
+  the felt meaning of "how far ahead the agent looks."
+Math validated in node: G and 1/(1−γ) match (γ=0.9 → G≈9.28, horizon 10; γ=0.99 → horizon 100). Note uses plain
+HTML (`γ<sup>t</sup>`, `<i>t</i>`), not `$…$`, per the viz-note landmine.
+Verified: `gate.js` ALL GREEN (**49 widgets**, embed resolves); Lab-route run — init (γ=0.9) and far-sighted (γ=0.99,
+"horizon 100 off-chart") notes correct, **err=0**; all-routes smoke (10 routes incl. `#/lab/rl-discounting` + the
+embedded lesson) **errs=0/kErr=0**; mobile 390px the bars + marker scale and stay legible. SW cache `atlas-v168` → `atlas-v169`.
+
 ## iter 225 — 14-day consistency strip on the dashboard (gamification / habit · retention)
 The dashboard (the daily landing) showed a streak *number* but not your recent consistency — and the Stats activity
 heatmap is a separate page you visit deliberately. Added a compact **14-day consistency strip** right under the
