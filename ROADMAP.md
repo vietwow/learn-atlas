@@ -72,6 +72,8 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    closes the last mouse-only surface. The whole UI is now keyboard-operable.
    ✅ iter 117: Q-Learning Gridworld (rl-q-learning, 31st viz) — an agent that learns a policy from experience
    (ε-greedy + off-policy TD), embedded in the SARSA/Q-Learning lesson.
+   ✅ iter 118: "Activity" panel on the Progress page — 12 lifetime-stat tiles (questions, perfect quizzes, mistakes
+   redeemed/outstanding, notes, bookmarks, achievements, streak…), 3 actionable; surfaces existing tracked state.
    CHECKED & FOUND HEALTHY (113): mobile renders clean across dashboard/map/lab/stats/test at 390px; `index()` is
    already memoized; staggered page-entrance already exists (CSS :nth-child reveal delays). So perf/mobile/transitions
    have little headroom. NEGLECTED areas still worth a pass: onboarding refresh, SVG Knowledge-Map keyboard nav

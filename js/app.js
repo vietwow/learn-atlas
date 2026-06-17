@@ -1572,6 +1572,24 @@
     C().forEach(c => c.modules.forEach(m => m.lessons.forEach(l => { dist[Store.masteryLevel(Store.effectiveMastery(l.id)).key]++; })));
     const distRow = [["mastered", "var(--sage)"], ["proficient", "var(--gold)"], ["learning", "var(--violet)"], ["seen", "var(--ink-mute)"], ["unseen", "var(--line)"]]
       .map(([k, col]) => `<div class="dist-cell"><div class="dist-num" style="color:${col}">${dist[k]}</div><div class="dist-lbl">${k}</div></div>`).join("");
+    // lifetime activity — surfaces the engagement state the loop tracks (mistakes deck, perfect quizzes, notes, etc.)
+    const R = Store.raw;
+    const achGot = Store.ACHIEVEMENTS.filter(a => R.achievements[a.id]).length, achTot = Store.ACHIEVEMENTS.length;
+    const tile = (label, val, color, go) => `<div class="act-tile${go ? " act-link" : ""}"${go ? ` data-go="${go}"` : ""}><div class="act-num" style="color:${color}">${val}</div><div class="act-lbl">${label}</div></div>`;
+    const actGrid = [
+      tile("Questions answered", R.mcq.total, "var(--gold)"),
+      tile("Correct answers", R.mcq.correct, "var(--sage)"),
+      tile("Perfect quizzes", R.perfectQuizzes || 0, "var(--gold)"),
+      tile("Mistakes redeemed", R.missedFixed || 0, "var(--sage)"),
+      tile("Still to redeem", Store.missedCount(), "var(--rust)", Store.missedCount() ? "#/mistakes" : ""),
+      tile("Flashcards reviewed", R.cardsReviewed, "var(--violet)"),
+      tile("Homework solved", Object.keys(R.hwRevealed || {}).length, "var(--gold)"),
+      tile("Tests taken", (R.tests || []).length, "var(--violet)"),
+      tile("Notes written", Object.keys(R.notes || {}).length, "var(--sage)", Object.keys(R.notes || {}).length ? "#/notes" : ""),
+      tile("Bookmarks", Store.bookmarkIds().length, "var(--gold)"),
+      tile("Achievements", achGot + "/" + achTot, "var(--gold)", "#/achievements"),
+      tile("Day streak", R.streak, "var(--rust)")
+    ].join("");
 
     app.innerHTML = `
     <div class="view">
@@ -1584,7 +1602,10 @@
         <div class="stat" style="--c:var(--violet)"><div class="v">${st.accuracy}%</div><div class="k">Quiz accuracy</div></div>
       </div>
 
-      <div class="page-head reveal" style="margin:8px 0 14px"><h2 style="font-size:24px">Concept mastery</h2></div>
+      <div class="page-head reveal" style="margin:24px 0 14px"><h2 style="font-size:24px">Activity</h2></div>
+      <div class="act-grid reveal">${actGrid}</div>
+
+      <div class="page-head reveal" style="margin:24px 0 14px"><h2 style="font-size:24px">Concept mastery</h2></div>
       <div class="dist-strip reveal">${distRow}</div>
 
       <div class="page-head reveal" style="margin:24px 0 14px"><h2 style="font-size:24px">Study activity</h2></div>

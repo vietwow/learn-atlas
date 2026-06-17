@@ -2,6 +2,21 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 118 — "Activity" panel on the Progress page — surface what you've actually done (UI / gamification)
+The Progress page showed mastery, accuracy, and a heatmap, but none of the rich engagement state the loop has added
+since — so a learner couldn't see, at a glance, how much they've *done*. Added an **Activity** section: a responsive
+grid of **12 lifetime-stat tiles** — Questions answered, Correct answers, Perfect quizzes (the Flawless-Five metric),
+**Mistakes redeemed** and **Still to redeem**, Flashcards reviewed, Homework solved, Tests taken, Notes written,
+Bookmarks, Achievements (got/total), and Day streak. It's pure self-view that turns scattered tracked numbers into a
+"look how far I've come" dashboard — a quiet motivation/return hook. Three tiles are **actionable** (Still to redeem →
+`#/mistakes`, Notes written → `#/notes`, Achievements → `#/achievements`) with a gold-arrow affordance, keyboard-operable
+via the iter-110 `bindGo` upgrade. All values read from existing state (`mcq`, `perfectQuizzes`, `missed`/`missedFixed`,
+`cardsReviewed`, `hwRevealed`, `tests`, `notes`, `bookmarks`, `achievements`, `streak`) — no new save fields. SW cache →
+`atlas-v62`. Verified: `node gate.js` ALL GREEN; an in-browser run with seeded progress is **errs=0**, all 12 tiles
+render with correct values (e.g. 420 answered · 340 correct · 7 perfect · 18 redeemed · 2 to-redeem), 3 link tiles
+present, and clicking "Still to redeem" routes to `#/mistakes`; desktop (4×3) and 390px (2-per-row) screenshots confirm
+clean layout with no overflow; stray Chrome cleaned up.
+
 ## iter 117 — Q-Learning Gridworld — a 31st visualization: an agent that LEARNS (visualizations)
 The RL topic had a gridworld viz, but it ran **value iteration** — model-based dynamic programming that computes the
 answer offline. There was nothing showing the heart of RL: an agent **learning from its own experience**. Added
