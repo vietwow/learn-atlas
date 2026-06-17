@@ -787,6 +787,13 @@ body::after {
   display: flex; align-items: center; gap: 18px; margin-bottom: 26px;
   background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 22px;
 }
+/* 14-day consistency strip on the dashboard */
+.consistency { margin: 0 0 26px; }
+.cs-row { display: flex; gap: 5px; margin-bottom: 8px; }
+.cs-cell { flex: 1; max-width: 26px; aspect-ratio: 1; border-radius: 5px; background: var(--line); border: 1px solid transparent; }
+.cs-cell.on { background: var(--sage); }
+.cs-cell.today { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold); }
+.cs-label { font-size: 13px; color: var(--ink-mute); }
 @property --p { syntax: "<number>"; inherits: false; initial-value: 0; }
 .goal-ring {
   width: 52px; height: 52px; border-radius: 50%; flex: none; display: grid; place-items: center; position: relative;

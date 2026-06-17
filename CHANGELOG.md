@@ -2,6 +2,20 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 225 — 14-day consistency strip on the dashboard (gamification / habit · retention)
+The dashboard (the daily landing) showed a streak *number* but not your recent consistency — and the Stats activity
+heatmap is a separate page you visit deliberately. Added a compact **14-day consistency strip** right under the
+today-strip: the last two weeks as cells (filled sage when you studied that day, **today ringed in gold**), with a label
+"🔥 N-day streak · studied K of the last 14 days · **today ✓** / study today to keep it alive". It reinforces the
+streak habit at the exact moment of return, and the nudge prompts you to keep the streak alive if you haven't studied
+today. Fresh gamification/habit lane (last gamification iter 220); diversifies from the recent viz/deep-dive/practice runs.
+Pure additive to `viewDashboard`, computed from the existing `activity` map (last-14-days keys in the same `YYYY-MM-DD`
+format), plus a small reusable CSS block (`.consistency`/`.cs-cell` — flex cells with `aspect-ratio:1` so they fit any
+width). **No new state, no data change.**
+Verified: `gate.js` ALL GREEN; with seeded activity the strip renders **14 cells, correct filled count, today ringed**,
+label shows "today ✓" when today is studied (err=0); all-routes smoke (10 routes, home route changed) **errs=0/kErr=0**;
+mobile 390px the cells flex to fit and stay legible. SW cache `atlas-v167` → `atlas-v168`.
+
 ## iter 224 — Deeper dives for Probability & Statistics — completing the depth pass (understandability)
 PS was the lone topic still at 2 "Deeper dives"; raised it to **4**, so **every subject now carries ≥3** (LA 3, Calc 3,
 Algo 3, DL 4, LLM 4, RL 4, PS 4) — the depth pass is complete. Two on ML-central ideas:

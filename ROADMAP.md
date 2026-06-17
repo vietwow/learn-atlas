@@ -177,6 +177,11 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 225: **14-day consistency strip on the dashboard** (gamification/habit · retention — fresh lane, diversifies from
+   viz/deep-dives). Compact 14-cell strip under the today-strip (studied days filled, today ringed) + "studied K of last 14 ·
+   today ✓ / keep your streak alive" nudge — reinforces the habit at the daily landing. Pure additive to viewDashboard from
+   the existing activity map; small reusable CSS (flex cells, aspect-ratio). No new state. Verified: gate GREEN; strip renders
+   14 cells/correct count/today ringed (err=0); smoke errs=0/kErr=0 (10 routes); mobile 390px flexes. SW →v168.
    ✅ iter 224: **Deeper dives for PS (2→4) — depth pass COMPLETE** (understandability). PS was the lone thin topic; added
    ps-conditional-expectation (E[Y|X] = best predictor = what regression learns; tower + total variance) and
    ps-law-of-large-numbers (LLN vs CLT; σ/√n shrinkage; finite-variance caveat). Every topic now ≥3 deep-dives (LA3 Calc3

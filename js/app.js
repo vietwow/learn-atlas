@@ -420,6 +420,22 @@
     const lv = Store.levelInfo();
     const goal = Store.raw.goalXp || 50, today = Store.todayXP(), goalPct = Math.min(100, Math.round(today / goal * 100));
     const weak = Store.weakSpots();
+    // 14-day consistency strip — reinforces the streak habit right at the daily landing
+    const consHtml = (() => {
+      const act = Store.raw.activity || {}, pad = n => String(n).padStart(2, "0");
+      const now = new Date(); now.setHours(0, 0, 0, 0);
+      const key = d => d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+      let studied = 0; const cells = [];
+      for (let i = 13; i >= 0; i--) {
+        const d = new Date(now); d.setDate(now.getDate() - i);
+        const xp = Number(act[key(d)]) || 0, on = xp > 0;
+        if (on) studied++;
+        cells.push(`<span class="cs-cell${on ? " on" : ""}${i === 0 ? " today" : ""}" title="${key(d)}${on ? " · " + xp + " XP" : ""}"></span>`);
+      }
+      const studiedToday = (Number(act[key(now)]) || 0) > 0;
+      return `<div class="consistency reveal"><div class="cs-row">${cells.join("")}</div>
+        <div class="cs-label">🔥 <b>${st.streak}-day streak</b> · studied <b>${studied}</b> of the last 14 days · ${studiedToday ? `<span style="color:var(--sage)">today ✓</span>` : `<span style="color:var(--gold)">study today to keep it alive</span>`}</div></div>`;
+    })();
     // "continue where you left off"
     let contHtml = "";
     const last = Store.raw.lastLesson;
@@ -526,6 +542,7 @@
         ${weak.length ? `<a class="btn" href="#/test" data-route style="margin-left:auto">Drill weak spots →</a>` : ""}
       </div>
 
+      ${consHtml}
       ${contHtml}
       ${cdHtml}
 
