@@ -3998,6 +3998,50 @@
               ],
               "answer": 1,
               "explain": "Assuming $\\mathbf{P} \\ne \\mathbf{NP}$, NP is not partitioned into just P and NP-complete; intermediate problems exist (Ladner's theorem) and GI is the classic candidate. Being in NP and lacking a known fast algorithm does not make a problem NP-complete — that requires a proof that every NP problem reduces to it."
+            },
+            {
+              "q": "What does it mean for a decision problem to be in the class <strong>NP</strong>?",
+              "choices": [
+                "It can be <em>solved</em> in polynomial time",
+                "A claimed 'yes' answer can be <em>verified</em> in polynomial time given a short certificate",
+                "No algorithm for it exists",
+                "It is undecidable"
+              ],
+              "answer": 1,
+              "explain": "NP = problems whose yes-instances have a certificate (witness) checkable in polynomial time — e.g. a satisfying assignment for SAT. Being <em>solvable</em> in polynomial time is the (possibly smaller) class P; whether P = NP is the open question."
+            },
+            {
+              "q": "A problem is <strong>NP-complete</strong> if it is…",
+              "choices": [
+                "merely in NP",
+                "solvable in polynomial time",
+                "harder than every NP problem but not itself in NP",
+                "in NP, and every problem in NP reduces to it in polynomial time (i.e. it's also NP-hard)"
+              ],
+              "answer": 3,
+              "explain": "NP-complete = the hardest problems <em>in</em> NP: in NP, and NP-hard (everything in NP polynomial-time-reduces to it). So a polynomial algorithm for any one NP-complete problem would solve all of NP, proving P = NP."
+            },
+            {
+              "q": "Your problem is proven NP-complete. What's the right practical takeaway for an engineer?",
+              "choices": [
+                "Don't expect an efficient exact algorithm for all inputs — use approximation, heuristics, or exploit special structure",
+                "The problem is literally unsolvable",
+                "It can only ever be solved by brute force",
+                "It can always be solved fast with enough memory"
+              ],
+              "answer": 0,
+              "explain": "NP-completeness means no known polynomial exact algorithm (and probably none exists). Instances are still solvable — via approximation algorithms with guarantees, heuristics, exact solvers on small/structured inputs, or parameterized methods. It is not a proof of unsolvability."
+            },
+            {
+              "q": "Why is Boolean satisfiability (SAT) historically pivotal in complexity theory?",
+              "choices": [
+                "It is solvable in polynomial time",
+                "It is the only NP-complete problem",
+                "The Cook–Levin theorem proved SAT is NP-complete — the first such problem, the root of later NP-hardness reductions",
+                "It is not in NP"
+              ],
+              "answer": 2,
+              "explain": "Cook (1971) and Levin showed every NP problem reduces to SAT, making it the first proven NP-complete problem. Thereafter you prove a new problem NP-hard by reducing a <em>known</em> NP-complete one (like SAT or 3-SAT) to it."
             }
           ],
           "flashcards": [
@@ -4193,6 +4237,50 @@
               ],
               "answer": 1,
               "explain": "A Las Vegas algorithm is always correct, with randomness affecting only resource usage (here, running time) — exactly this case, like randomized quicksort. The Monte Carlo distractors wrongly tie the label to running-time variability rather than to the possibility of an incorrect output."
+            },
+            {
+              "q": "Why use an approximation algorithm for an NP-hard optimization problem?",
+              "choices": [
+                "It is the only way to get the exact optimum",
+                "Approximation is always both faster and exactly optimal",
+                "Exact optimization is intractable, so you trade a <em>provable bound</em> on solution quality for polynomial running time",
+                "It requires randomness to work"
+              ],
+              "answer": 2,
+              "explain": "When the exact optimum is out of reach in polynomial time, an approximation algorithm returns a feasible solution with a guarantee — e.g. 'within a factor of 2 of optimal' — in polynomial time. The guarantee is what separates it from an ad-hoc heuristic."
+            },
+            {
+              "q": "Randomized quicksort has expected running time $O(n\\log n)$. What about its worst case?",
+              "choices": [
+                "$O(n^2)$ — but it occurs with vanishingly small probability, and no fixed input can force it",
+                "$O(n\\log n)$ on every input",
+                "$O(n)$",
+                "$O(n^2)$, triggered by already-sorted input"
+              ],
+              "answer": 0,
+              "explain": "Randomizing the pivot means the $O(n^2)$ case still <em>exists</em> but depends on unlucky coin flips, not on the input — so an adversary choosing the input can't force it (unlike deterministic quicksort, which is $O(n^2)$ on sorted input). The expectation is $O(n\\log n)$."
+            },
+            {
+              "q": "What does it mean that a randomized algorithm runs in <em>expected</em> $O(n\\log n)$ time?",
+              "choices": [
+                "It is guaranteed on every single run",
+                "Averaged over randomly chosen inputs",
+                "It is the best-case running time",
+                "Averaged over the algorithm's own random choices — and this holds for <em>every</em> input"
+              ],
+              "answer": 3,
+              "explain": "Expected-time bounds for a randomized algorithm average over its internal coin flips and hold for any fixed input — unlike average-case analysis, which averages over a distribution of inputs. Any individual run can still be slower."
+            },
+            {
+              "q": "How does a provable approximation algorithm differ from an ordinary heuristic?",
+              "choices": [
+                "It is always slower than a heuristic",
+                "It comes with a proven worst-case bound on how far its solution can be from optimal; a heuristic offers no such guarantee",
+                "It always returns the exact optimum",
+                "It only works on small inputs"
+              ],
+              "answer": 1,
+              "explain": "Both run fast and return feasible solutions, but an approximation algorithm carries a theorem (e.g. 'cost ≤ 2·OPT'). A heuristic may work well in practice yet has no guarantee — it can be arbitrarily bad on a worst-case input."
             }
           ],
           "flashcards": [
@@ -4388,6 +4476,50 @@
               ],
               "answer": 2,
               "explain": "A plain trie can only follow exact downward edges; failure links let the automaton, on a mismatch, jump to the node spelling the longest proper suffix of the text consumed so far that is still a trie prefix, so a single text pass matches every dictionary word at once. This is exactly KMP's prefix-function idea (longest border) lifted from one pattern to a whole set, not memory compression or word-end marking."
+            },
+            {
+              "q": "The naive (brute-force) string matcher tries the pattern at every text position. For text length $n$ and pattern length $m$, its worst-case time is…",
+              "choices": [
+                "$O(m\\log n)$",
+                "$O(n+m)$",
+                "$O(n)$",
+                "$O(nm)$"
+              ],
+              "answer": 3,
+              "explain": "At each of the $\\sim n$ alignments it may compare up to $m$ characters before a mismatch (e.g. text $\\texttt{AAAA...}$, pattern $\\texttt{AAAB}$), giving $O(nm)$. KMP removes the redundant re-comparisons to reach $O(n+m)$."
+            },
+            {
+              "q": "KMP matches a pattern (length $m$) in a text (length $n$) in total time…",
+              "choices": [
+                "$O(nm)$",
+                "$O(n+m)$",
+                "$O(n^2)$",
+                "$O(m^2)$"
+              ],
+              "answer": 1,
+              "explain": "Building the prefix-function table is $O(m)$, and the search scans the text without ever moving the text pointer backward, $O(n)$ — total $O(n+m)$, linear and worst-case-guaranteed."
+            },
+            {
+              "q": "A trie (prefix tree) stores a set of strings so that…",
+              "choices": [
+                "strings are kept sorted by frequency",
+                "all strings live in a single hash bucket",
+                "strings sharing a common prefix share one path from the root, and a lookup costs $O(\\text{length of the key})$",
+                "each string is an independent array with no sharing"
+              ],
+              "answer": 2,
+              "explain": "Each edge is a character; a word is a root-to-node path. Shared prefixes are stored once, lookups/insertions take time proportional to the key length (independent of how many words are stored), and it naturally supports prefix queries like autocomplete."
+            },
+            {
+              "q": "You must find a single pattern in a large text with a <em>guaranteed</em> linear-time worst case. Which algorithm fits best?",
+              "choices": [
+                "KMP — $O(n+m)$ worst-case, guaranteed",
+                "Naive matching",
+                "Rabin-Karp",
+                "A trie"
+              ],
+              "answer": 0,
+              "explain": "KMP guarantees $O(n+m)$ on every input. Naive is $O(nm)$ worst-case; Rabin-Karp is expected-linear but can degrade to $O(nm)$ under hash collisions (or an adversarial text); tries are for searching <em>many</em> words, not one pattern in a text."
             }
           ],
           "flashcards": [
@@ -4583,6 +4715,50 @@
               ],
               "answer": 0,
               "explain": "$\\log(\\max_i p_i)=\\max_i\\log p_i$, so taking the max commutes cleanly into log space, but $\\log(\\sum_i p_i)\\neq\\sum_i\\log p_i$, forcing forward to recover the sum via log-sum-exp ($\\log\\sum_i e^{a_i}$). The semiring labels in the last option are also swapped — Viterbi is $(\\max,\\times)$ and forward is $(+,\\times)$."
+            },
+            {
+              "q": "On a <em>convex</em> loss function, gradient descent with a suitable step size is guaranteed to…",
+              "choices": [
+                "converge to a global minimum",
+                "get stuck in a bad local minimum",
+                "diverge to infinity",
+                "find the global maximum"
+              ],
+              "answer": 0,
+              "explain": "Convexity means every local minimum is global, so 'keep stepping downhill' reaches the global optimum (given a small enough learning rate). Non-convex losses — like deep networks — lose this guarantee, which is why initialization and optimizers matter so much there."
+            },
+            {
+              "q": "Why do machine-learning implementations 'vectorize' computations (batched matrix/array operations) instead of writing explicit element-wise loops?",
+              "choices": [
+                "Vectorizing reduces memory usage to zero",
+                "Loops compute the wrong answer",
+                "Vectorized operations run on optimized SIMD/BLAS/GPU routines that are far faster and more cache-friendly than interpreted loops",
+                "It changes the underlying mathematics"
+              ],
+              "answer": 2,
+              "explain": "The math is identical, but a single matrix multiply dispatches to hand-tuned BLAS/SIMD/GPU kernels exploiting parallelism and memory locality — often orders of magnitude faster than a Python-level loop doing the same arithmetic."
+            },
+            {
+              "q": "Why does algorithmic time complexity matter so much in machine learning?",
+              "choices": [
+                "ML is unaffected by complexity",
+                "At ML scale the gap between $O(n)$, $O(n\\log n)$, and $O(n^2)$ decides what is even trainable on real datasets",
+                "Only memory matters, never time",
+                "Complexity changes a model's accuracy, not its speed"
+              ],
+              "answer": 1,
+              "explain": "Datasets and models are enormous, so an $O(n^2)$ step that's harmless on 1,000 examples is hopeless on a billion. Picking linear or near-linear algorithms (and approximations like ANN search) is often what makes a method feasible at all."
+            },
+            {
+              "q": "Stochastic gradient descent (SGD) estimates each gradient step using…",
+              "choices": [
+                "no data at all",
+                "the full dataset on every single step",
+                "the loss's second derivatives (the Hessian)",
+                "a small random mini-batch (or a single example) rather than the entire dataset"
+              ],
+              "answer": 3,
+              "explain": "SGD computes a noisy gradient estimate from a small random sample, making each update cheap and enabling many more steps per pass over the data. The noise even helps escape sharp/poor regions — full-batch GD is exact per step but far slower at scale."
             }
           ],
           "flashcards": [

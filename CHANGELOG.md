@@ -2,6 +2,22 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 129 — MCQ arc phase 6: Algorithms · Complexity, Strings & ML Connections 12 → 16 (content — owner's #1 ask)
+Continuing the 12→16 arc (interleaved — iter 128 was dev-flow). This module has **4** lessons → **+16 (bank 1,840 →
+1,856)**. **+4 new MCQs each** to NP-Completeness, Approximation & Randomized Algorithms, String Matching & Tries, and
+Algorithmic Foundations of ML — deliberately more <em>foundational/conceptual</em> than the existing dense, specific 12,
+to broaden coverage: what NP means (verifiable certificate) / NP-complete = in-NP-and-NP-hard / the NP-complete practical
+takeaway / SAT as the first NP-complete (Cook–Levin); why we approximate at all / randomized-quicksort's rare
+input-independent $O(n^2)$ worst case / what "expected time" really means / approximation-vs-heuristic; naive matching
+$O(nm)$ / KMP $O(n{+}m)$ / what a trie is / when to pick KMP; gradient descent on a convex loss → global min /
+why ML code vectorizes / why complexity matters at ML scale / SGD = mini-batch gradient. Pipeline: authored avoiding
+existing stems → **adversarial-verify agent → ALL 16 PASS** (it also ran a duplicate check vs the existing 12 and found
+no true duplicates, only acceptable thematic overlap; reported keys matched the injector's shuffle) → positions shuffled
+(1302 / 2031 / 3120 / 0213). The hardened gate (iter 128) now also showed the position-bias note drop 22 → 21 lessons —
+each batch of shuffled MCQs de-biases its lessons. SW cache → `atlas-v72`; README 1,840 → 1,856. Verified: `node gate.js`
+ALL GREEN; quiz renders **"of 16"**, `.katex-error`=0, errs=0. **Algorithms now has 6 of 7 modules at 16 MCQs; 1 to go
+(advanced-techniques) — then Algorithms is fully at 16 and the arc moves to the other six topics.**
+
 ## iter 128 — Hardened the content gate with MCQ-quality checks (workflow / dev-flow — "evolve the loop")
 Mid-MCQ-arc, the loop's QA tool `gate.js` only checked answer-index range + ≥2 choices. Hardened it to catch real
 authoring bugs across all **1,840** MCQs: new **failures** for <strong>duplicate choices within an MCQ</strong> (an
