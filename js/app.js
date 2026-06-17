@@ -152,18 +152,22 @@
     if (reducedMotion()) return;
     el.classList.remove("big-pop"); void el.offsetWidth; el.classList.add("big-pop");
   }
-  function countUp(el) {
+  function countUp(el, delay) {
     const m = String(el.textContent).trim().match(/^(\d[\d,]*)(.*)$/s);
     if (!m) return;
     const target = parseInt(m[1].replace(/,/g, ""), 10), rest = m[2];
     if (!(target > 0) || reducedMotion()) return;
-    const dur = 700, t0 = performance.now();
-    el.textContent = "0" + rest;
-    (function tick(t) {
-      const k = Math.max(0, Math.min(1, (t - t0) / dur)), e = 1 - Math.pow(1 - k, 3);  // clamp k≥0 (rAF/now clock skew can't drive it negative)
-      el.textContent = Math.round(target * e).toLocaleString() + rest;
-      if (k < 1) requestAnimationFrame(tick); else el.textContent = target.toLocaleString() + rest;
-    })(t0);
+    const dur = 700;
+    el.textContent = "0" + rest;                       // zero-state immediately (so a staggered start shows no value-flash)
+    const run = () => {
+      const t0 = performance.now();
+      (function tick(t) {
+        const k = Math.max(0, Math.min(1, (t - t0) / dur)), e = 1 - Math.pow(1 - k, 3);  // clamp k≥0 (rAF/now clock skew can't drive it negative)
+        el.textContent = Math.round(target * e).toLocaleString() + rest;
+        if (k < 1) requestAnimationFrame(tick); else el.textContent = target.toLocaleString() + rest;
+      })(performance.now());
+    };
+    delay > 0 ? setTimeout(run, delay) : run();        // optional delay → cascade across a group of numbers
   }
 
   // ---------- inline glossary tooltips (understandability) ----------
@@ -1860,6 +1864,8 @@
     bindGo();
     app.querySelectorAll(".rs-btn").forEach(b => b.addEventListener("click", () => { localStorage.setItem("atlas.textScale", b.dataset.rs); applyTextScale(); toast("🔠", "Text size set", "Reading text scaled to " + Math.round(b.dataset.rs * 100) + "%"); }));
     document.getElementById("heatmap").appendChild(buildHeatmap());
+    // "look how far I've come" — cascade-count the progress numbers on load (earned moment; no-op under reduced-motion)
+    app.querySelectorAll(".stat-strip .v, .act-num, .dist-num").forEach((el, i) => countUp(el, Math.min(i * 32, 430)));
     document.getElementById("goal-save").addEventListener("click", () => { Store.setGoal(parseInt(document.getElementById("goal-input").value, 10)); toast("🎯", "Goal updated", "Daily target set to " + Store.raw.goalXp + " XP"); });
     document.getElementById("export-btn").addEventListener("click", () => {
       const blob = new Blob([Store.exportData()], { type: "application/json" }); const a = document.createElement("a");

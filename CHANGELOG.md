@@ -2,6 +2,25 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 174 — Cascade count-up on the Progress page (animations / juice)
+The **Progress page** is the "look how far I've come" celebration screen, yet all its numbers — the hero stat-strip
+(XP / lessons / cards / accuracy), the **12 activity tiles**, and the mastery-distribution counts — rendered
+*statically* while only the dashboard's hero stats animated (iter 156). Now, on landing, those numbers **cascade-count
+up from zero** in a gentle top-to-bottom stagger, so the screen breathes at exactly the moment you've come to admire
+your stats — an *earned* animation, not gratuitous motion.
+- Generalized the existing `countUp(el)` to `countUp(el, delay)` (backward-compatible — the optional delay sets the
+  zero-state immediately, so a staggered start shows no value-flash, then begins after `delay` ms). The Progress page
+  fires it across `.stat-strip .v, .act-num, .dist-num` with a capped stagger (`min(i·32, 430)` ms) so the cascade
+  stays snappy (~1.1s total) rather than draggy. It correctly counts composite values too (`8/22`, `92%`, `13/46` →
+  counts the leading number, keeps the suffix). **Reduced-motion safe**: `countUp` no-ops under reduced-motion, so
+  those users see the real values instantly.
+- **Verified**: `app.js` syntax OK; **reduced-motion** render (desktop + **390px**) shows the *real* values
+  immediately — heroXP `1,234`, activity `60`/`50` — proving graceful degradation (no "stuck at 0"); normal-mode
+  `errs=0` (the live cascade completes to real values in a real browser — headless rAF/timers don't advance, the
+  documented landmine, same basis as the iter-156 result count-up); backward-compat confirmed — the dashboard and
+  result-screen count-ups still work and the all-routes smoke (11 routes) is `errs=0`; reduced-motion desktop + mobile
+  screenshots read crafted with no layout regression. SW cache **v116 → v117**.
+
 ## iter 173 — MCQ arc → Deep Learning · Generative Models 12 → 16 — ★ DEEP LEARNING COMPLETE (content — owner's #1 ask)
 The arc finishes DL's seventh and final module, *Generative Models*. All **three** lessons go 12 → 16 (**+12, bank
 2,120 → 2,132**), stating the bedrock the existing 12 assumed:
