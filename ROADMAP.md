@@ -177,6 +177,12 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 208: **Quiz results = momentum + remediation hub** (UI/UX · functionality). The per-lesson quiz finish screen
+   was a dead end (score + lone "Retry"). Now: **Redrill the N you missed** (mastery-mode re-queue of exactly the wrong
+   ones — the owner's "think again until you pass" loop, previously only on the *test* results screen) + **Next lesson →**
+   for forward momentum. `renderQuiz` now takes course+next; local `missedIdx` tracking; no new state. Verified: results
+   screen all 3 CTAs (err=0), redrill launches mastery drill on the 16 missed (err=0), smoke errs=0/kErr=0, 390px wraps.
+   SW →v151.
    ✅ iter 207: **New viz `dl-gan-training`** (visualizations — first non-content move after the arc completed). The
    43rd widget, embedded in the GANs lesson (which had NO viz). Generator (orange) vs optimal discriminator D=p_data/
    (p_data+p_g) (purple) vs real data (green); Play steps the alternating game → generator converges onto the data and

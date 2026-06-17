@@ -2,6 +2,26 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 208 — Quiz results screen: redrill-the-missed + next-lesson momentum (UI/UX · functionality)
+The per-lesson quiz results screen was a **dead end** — it showed a score and a lone "↻ Retry quiz" button. That moment
+fires after *every* one of the 148 lessons' quizzes, so it's one of the highest-frequency screens in the app, and it
+neither helped you fix what you got wrong nor moved you forward. Now it's a momentum + remediation hub:
+- **↻ Redrill the N you missed** — runs the existing `runMasteryDrill` over *exactly* the questions you got wrong,
+  re-queueing each until you get it right (the owner's "think again until you pass" loop). The *test* results screen
+  already had this; the per-lesson quiz — the place misses are freshest — did not. Now it does.
+- **Next: <lesson> →** — sends you straight to the next lesson in the course (or "Back to <course> →" on the last
+  lesson), so finishing a quiz flows onward instead of stalling. Primary-styled at ≥70%, ghost below (review first).
+- **↻ Retry quiz** retained. Missed-index tracking is local to the quiz run; Retry resets it cleanly.
+Implementation: `renderQuiz(body, lesson)` now receives `course` + `next` (from the lesson view's existing prev/next);
+a local `missedIdx` collects wrong-answer indices in `pick()`; the redrill builds mastery-drill items
+({q, lessonId, lessonTitle, courseId, qIdx}) and on completion calls `router()` to land back on the lesson. No new
+state, no schema change. Anti-monotony: first UI/UX move after content (206) + viz (207).
+Verified: syntax OK; `gate.js` ALL GREEN (2,368 MCQs · 43 widgets); drove a full lesson quiz to the results screen —
+all three CTAs render with the correct next-lesson title ("Diffusion Models"), **err=0**; clicked **Redrill** → the
+mastery drill launches on exactly the 16 missed questions (mastery-track present, "16 in queue"), **err=0**; all-routes
+smoke (14 routes) **errs=0/kErr=0** (no regression); results screen at **390px** wraps the three CTAs into a clean
+centered stack. SW cache `atlas-v150` → `atlas-v151`.
+
 ## iter 207 — GAN training visualizer: the adversarial game (visualizations)
 New widget **`dl-gan-training`** (the **43rd**), embedded in the GANs lesson (`dl-gans`), which previously had **no
 visualization** — a real gap, now filled with the field's most iconic figure (Goodfellow et al. Fig. 1) made live.

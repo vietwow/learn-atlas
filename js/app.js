@@ -694,7 +694,7 @@
       body.setAttribute("aria-labelledby", "tab-" + name);
       if (name === "lecture") renderLecture(body, course, lesson, prev, next);
       else if (name === "examples") renderExamples(body, lesson);
-      else if (name === "quiz") renderQuiz(body, lesson);
+      else if (name === "quiz") renderQuiz(body, lesson, course, next);
       else if (name === "cards") renderCards(body, lesson);
       else if (name === "homework") renderHomework(body, lesson);
       else if (name === "recall") renderRecall(body, course, lesson);
@@ -877,9 +877,10 @@
   }
 
   // ---------- quiz engine ----------
-  function renderQuiz(body, lesson) {
+  function renderQuiz(body, lesson, course, next) {
     const qs = lesson.mcq || [];
     let i = 0, correct = 0, locked = false;
+    const missedIdx = [];                                     // indices answered wrong this run — for the redrill CTA
     function draw() {
       if (i >= qs.length) { finish(); return; }
       const q = qs[i];
@@ -907,7 +908,7 @@
         else if (bi === ci) btn.classList.add("wrong");
       });
       if (ci === right) { correct++; Store.clearMiss(lesson.id, i); }
-      else Store.recordMiss(lesson.id, i);
+      else { Store.recordMiss(lesson.id, i); if (!missedIdx.includes(i)) missedIdx.push(i); }
       document.getElementById("explain-slot").innerHTML =
         `<div class="explain"><div class="et">${ci === right ? "Correct ✓" : "Not quite"}</div>${q.explain || ""}</div>`;
       const nextBtn = document.createElement("button");
@@ -920,15 +921,31 @@
     function finish() {
       const pct = Math.round((correct / qs.length) * 100);
       Store.recordQuiz(correct, qs.length, lesson.id);
+      const nMissed = missedIdx.length;
       const msg = pct === 100 ? "Flawless! 🎯" : pct >= 70 ? "Solid work." : "Review the lecture and try again.";
+      // forward momentum: send the learner to the next lesson (or back to the course when this is the last)
+      const nextCta = (course && next)
+        ? `<a class="btn ${pct >= 70 ? "primary" : "ghost"}" href="#/lesson/${course.id}/${next.id}" data-route>Next: ${esc(next.title)} →</a>`
+        : (course ? `<a class="btn ${pct >= 70 ? "primary" : "ghost"}" href="#/course/${course.id}" data-route>Back to ${esc(course.title)} →</a>` : "");
       body.innerHTML = `
       <div class="quiz quiz-result reveal">
         <div class="big">${pct}%</div>
         <p style="color:var(--ink-soft);font-size:18px">${correct} of ${qs.length} correct · ${msg}</p>
         <p style="color:var(--ink-mute);margin:6px 0 22px">+${correct * 10}${pct === 100 ? " +30 perfect bonus" : ""} XP</p>
-        <button class="btn primary" id="retry">↻ Retry quiz</button>
+        <div class="result-actions" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+          ${nMissed ? `<button class="btn primary" id="redrill">↻ Redrill the ${nMissed} you missed</button>` : ""}
+          <button class="btn ${nMissed ? "ghost" : "primary"}" id="retry">↻ Retry quiz</button>
+          ${nextCta}
+        </div>
       </div>`;
-      document.getElementById("retry").addEventListener("click", () => { i = 0; correct = 0; draw(); });
+      document.getElementById("retry").addEventListener("click", () => { i = 0; correct = 0; missedIdx.length = 0; draw(); });
+      const rd = document.getElementById("redrill");
+      if (rd) rd.addEventListener("click", () => {
+        // mastery-mode redrill of exactly the missed questions — re-queues each wrong one until it's right
+        const items = missedIdx.map(qi => ({ q: qs[qi], lessonId: lesson.id, lessonTitle: lesson.title, courseId: course ? course.id : "", qIdx: qi }));
+        runMasteryDrill(items, lesson.title + " — your missed questions", { continueLabel: "← Back to the lesson", onDone: router });
+      });
+      bindGo();
       if (pct === 100) confetti();
       animateBig();
       flushAchievements();
