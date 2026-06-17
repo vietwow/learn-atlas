@@ -2283,4 +2283,69 @@
     reset();
   });
 
+  register({ id: 'rl-bandit', topic: 'reinforcement-learning', title: 'Multi-Armed Bandit: Explore vs Exploit', blurb: "Five slot machines, each with a hidden win-rate. Pull arms under ε-greedy, UCB, or pure-greedy and watch the estimates home in on the true means — while the cumulative-regret curve reveals which strategy wastes the fewest pulls on inferior arms." },
+  function (root) {
+    const W = 580, H = 410, MONO = "JetBrains Mono, monospace";
+    const TRUE = [0.25, 0.50, 0.75, 0.40, 0.55];       // hidden win-rates; best = arm 2 (C) at 0.75
+    const LBL = ['A', 'B', 'C', 'D', 'E'], K = TRUE.length, BEST = Math.max.apply(null, TRUE);
+    let Q, N, t, regret, hist, strategy = 'epsilon', eps = 0.1, lastArm = -1;
+    const { c, ctx } = canvas(root, W, H);
+    function argmax(a) { let bi = 0; for (let i = 1; i < a.length; i++) if (a[i] > a[bi]) bi = i; return bi; }
+    function reset() { Q = TRUE.map(() => 0); N = TRUE.map(() => 0); t = 0; regret = 0; hist = [0]; lastArm = -1; draw(); }
+    function chooseArm() {
+      for (let k = 0; k < K; k++) if (N[k] === 0) return k;            // pull each arm once first
+      if (strategy === 'greedy') return argmax(Q);
+      if (strategy === 'epsilon') return Math.random() < eps ? Math.floor(Math.random() * K) : argmax(Q);
+      let bi = 0, bu = -Infinity;                                       // UCB1
+      for (let k = 0; k < K; k++) { const u = Q[k] + Math.sqrt(2 * Math.log(t + 1) / N[k]); if (u > bu) { bu = u; bi = k; } }
+      return bi;
+    }
+    function pull() { const k = chooseArm(); const r = Math.random() < TRUE[k] ? 1 : 0; N[k]++; Q[k] += (r - Q[k]) / N[k]; t++; regret += BEST - TRUE[k]; lastArm = k; if (t % 3 === 0) hist.push(regret); }
+    function runPulls(n) { for (let i = 0; i < n; i++) pull(); hist.push(regret); draw(); }
+    function draw() {
+      const pl = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = pl.bg; ctx.fillRect(0, 0, W, H);
+      // ---- arm bars (top) ----
+      const padL = 40, padR = 14, padT = 18, armsH = 188, base = padT + armsH, plotW = W - padL - padR;
+      const greedy = argmax(Q);
+      ctx.strokeStyle = pl.line; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(padL, base); ctx.lineTo(padL + plotW, base); ctx.stroke();
+      ctx.fillStyle = pl.mute; ctx.font = '10px ' + MONO; ctx.textAlign = 'right';
+      [0, 0.5, 1].forEach(v => ctx.fillText(v.toFixed(1), padL - 5, base - v * armsH + 3));
+      const slot = plotW / K, bw = slot * 0.5;
+      for (let k = 0; k < K; k++) {
+        const cx = padL + (k + 0.5) * slot, x0 = cx - bw / 2;
+        ctx.fillStyle = (k === greedy) ? pl.sage : pl.gold; ctx.globalAlpha = N[k] ? 0.85 : 0.25;
+        ctx.fillRect(x0, base - Q[k] * armsH, bw, Q[k] * armsH); ctx.globalAlpha = 1;
+        // true-mean tick
+        ctx.strokeStyle = pl.rust; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x0 - 3, base - TRUE[k] * armsH); ctx.lineTo(x0 + bw + 3, base - TRUE[k] * armsH); ctx.stroke();
+        ctx.fillStyle = pl.soft; ctx.font = '11px ' + MONO; ctx.textAlign = 'center';
+        ctx.fillText(LBL[k], cx, base + 15); ctx.fillStyle = pl.mute; ctx.font = '9px ' + MONO; ctx.fillText('n=' + N[k], cx, base + 27);
+      }
+      ctx.textAlign = 'left'; ctx.font = '10px ' + MONO;
+      ctx.fillStyle = pl.gold; ctx.fillText('▮ estimate', padL, padT - 4); ctx.fillStyle = pl.rust; ctx.fillText('— true rate', padL + 78, padT - 4);
+      ctx.fillStyle = pl.sage; ctx.textAlign = 'right'; ctx.fillText('greedy = ' + LBL[greedy], padL + plotW, padT - 4);
+      // ---- regret curve (bottom) ----
+      const ry0 = base + 40, rH = H - ry0 - 16;
+      ctx.strokeStyle = pl.line; ctx.beginPath(); ctx.moveTo(padL, ry0); ctx.lineTo(padL, ry0 + rH); ctx.lineTo(padL + plotW, ry0 + rH); ctx.stroke();
+      const rmax = Math.max(1, hist[hist.length - 1]);
+      ctx.strokeStyle = pl.violet; ctx.lineWidth = 2; ctx.beginPath();
+      hist.forEach((v, i) => { const x = padL + (hist.length < 2 ? 0 : i / (hist.length - 1) * plotW), y = ry0 + rH - (v / rmax) * rH; i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); });
+      ctx.stroke();
+      ctx.fillStyle = pl.mute; ctx.font = '10px ' + MONO; ctx.textAlign = 'left';
+      ctx.fillText('cumulative regret →  ' + regret.toFixed(1) + ' over ' + t + ' pulls', padL + 4, ry0 + 11);
+      const optPct = t ? Math.round(N[argmax(TRUE)] / t * 100) : 0;
+      info.innerHTML = `<b>${strategy === 'epsilon' ? 'ε-greedy (ε=' + eps.toFixed(2) + ')' : strategy === 'ucb' ? 'UCB1' : 'pure greedy'}.</b> Five arms with hidden win-rates; the best is <b>C (0.75)</b>. After <b>${t} pulls</b>: cumulative <b>regret = ${regret.toFixed(1)}</b> (reward lost vs. always pulling C), and <b>${optPct}%</b> of pulls landed on the best arm — lower, flatter regret is better. Watch the tradeoff: <b>pure greedy</b> commits after one look per arm (great when it guesses right, but it can lock onto a worse arm — <i>reset & re-run a few times to see its regret swing wildly</i>); <b>ε-greedy</b> pays a small, steady exploration tax forever; <b>UCB</b> is the most consistent (it explores arms it's still unsure about and tapers off), its edge over ε-greedy emerging over long horizons.`;
+    }
+    const ctl = controls(root);
+    select(ctl, { label: 'strategy', value: strategy, options: [{ value: 'epsilon', label: 'ε-greedy' }, { value: 'ucb', label: 'UCB1' }, { value: 'greedy', label: 'pure greedy' }], onChange: v => { strategy = v; reset(); } });
+    slider(ctl, { label: 'ε (for ε-greedy)', min: 0, max: 0.5, step: 0.02, value: eps, fmt: v => 'ε=' + v.toFixed(2), onInput: v => { eps = v; draw(); } });
+    const btns = controls(root);
+    button(btns, '▶ Pull ×50', () => runPulls(50), 'primary');
+    button(btns, '▶▶ Pull ×500', () => runPulls(500));
+    button(btns, '↻ Reset', () => reset());
+    const info = note(root);
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', "Multi-armed bandit. Five bars show each arm's estimated win-rate versus its true rate (red tick), with pull counts; a cumulative-regret curve below shows how much reward the chosen strategy (epsilon-greedy, UCB, or greedy) loses over time relative to always pulling the best arm.");
+    reset();
+  });
+
 })();

@@ -2,6 +2,27 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 186 — Multi-armed bandit visualization (`rl-bandit`, the 41st widget) (visualizations)
+The iter-185 *Exploration* lesson (ε-greedy, UCB, regret, multi-armed bandits) had **no viz** — yet the bandit is the
+canonical explore/exploit testbed. New `rl-bandit` widget: 5 arms with hidden Bernoulli win-rates (best = C at 0.75).
+A **strategy** select (ε-greedy / UCB1 / pure-greedy) + an **ε** slider + **Pull ×50 / ×500 / Reset** drive a live
+simulation. The top panel shows each arm's **estimated** win-rate (bar) vs its **true** rate (red tick) with pull
+counts, greedy arm highlighted; the bottom panel plots the **cumulative-regret** curve. Rigorous — pure sampling from
+fixed arms, exact regret; no trained model; uses only `Math.random` (browser). Embedded before the "Strategy 1 — UCB"
+heading in `rl-exploration`.
+- **Honest pedagogy**: a multi-seed node study showed that at a 500-pull horizon **no single strategy strictly wins**
+  — pure greedy has the *highest variance* (regret range ~1→250: sometimes near-perfect, sometimes locked onto a
+  worse arm), ε-greedy pays a steady tax, and UCB is the *most consistent* (its log-regret edge needs far longer
+  horizons). The note reflects this truthfully (it does NOT claim "UCB wins") and invites the learner to **reset &
+  re-run to witness greedy's swings**.
+- **Bug caught & fixed in-flight**: my internal arm-picker was named `select`, which **shadowed VIZUtil's `select()`
+  helper** → the strategy dropdown threw at mount ("Visualization failed to load"). Renamed to `chooseArm`; verified
+  by directly invoking `window.VIZ['rl-bandit']` (bypassing hydrateViz's try/catch) to surface the real error first.
+- **Verified**: `viz.js` + `reinforcement-learning.js` syntax OK; byte-stable JSON round-trip guard (+36 bytes);
+  `node gate.js` **ALL GREEN · 41 widgets**; lab render-check → `errs=0 | canvas=1 | rawDollars=0`, 500 pulls →
+  regret 17.3, strategy switch to UCB works; lesson-embed `host=1, canvas=1`; all-routes smoke (10) `errs=0`; desktop +
+  **390px** screenshots read crafted/legible (arm bars + regret curve). SW cache **v128 → v129**; README 40 → 41.
+
 ## iter 185 — MCQ arc → Reinforcement Learning · Practice & Frontiers 12 → 16 (content — owner's #1 ask)
 The arc continues through RL's *Exploration, Practice & Connections* module. All **three** lessons go 12 → 16 (**+12,
 bank 2,188 → 2,200**), stating the bedrock the existing 12 assumed:

@@ -177,6 +177,11 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 186: Multi-armed bandit viz (`rl-bandit`, **41st widget**, visualizations — non-content; pairs w/ iter-185
+   exploration lesson which had no viz). 5 arms, strategy select (ε-greedy/UCB/greedy) + ε slider + Pull/Reset; arm
+   est-vs-true bars + cumulative-regret curve. Honest note (no false "UCB wins"; multi-seed study showed greedy=high
+   variance, UCB=consistent). Caught+fixed a `select` shadowing VIZUtil.select bug. gate ALL GREEN · 41 widgets; lab
+   render errs=0; embed host+canvas; 390px good; SW →v129. (Note: viz now 5 of last ~13 non-content slots — diversify next.)
    ✅ iter 185: MCQ arc → Reinforcement Learning·Practice & Frontiers 12→16 (+12, bank →2,200 ★). All 3 lessons
    (exploration/practical-rl/connections-frontiers). RL 6/7 modules — only Advanced left. Adversarial agent ALL PASS;
    positions balanced 3/3/3/3 (distinct patterns); render "of 16" errs=0; SW →v128. RL REMAINING (arc): advanced(3).
@@ -360,11 +365,12 @@ shared "topics index" (id/title/blurb/color) loaded first + full lessons on dema
 - ~~"Explain it back" — free-text recall with self-grading (Feynman technique).~~ **DONE iter 53** (Recall tab; self-graded against the lesson's flashcards, feeds mastery + XP). Future: optional AI grading when the tutor lands.
 - Per-concept difficulty rating + adaptive question selection in tests.
 - ~~Interleaved review sessions (mix topics) beyond the SRS queue.~~ **partly DONE iter 68** — Daily Mix (`#/session`) chains due cards + a weak-spot quiz + a next lesson into one guided flow.
-- More viz ideas (40 widgets now; CLT iter 74, normal-explorer iter 76, covariance-scatter iter 79, CI-coverage
+- More viz ideas (41 widgets now; CLT iter 74, normal-explorer iter 76, covariance-scatter iter 79, CI-coverage
   iter 84, diffusion noising iter 89, convex-landscape/GD-trap iter 92, hypothesis-test/p-value iter 98, BPE-merge
   trainer iter 105, LR-schedule explorer iter 112, Q-learning gridworld iter 117, optimizer-race iter 136, Riemann-sum
-  iter 148, Taylor-polynomial iter 152, dropout iter 162, positional-encoding iter 166, KL-divergence iter 172): MDP
-  policy-iteration, a VAE latent-space explorer, a GAN training-dynamics demo. (✓ beam-search tree shipped iter ~138.)
+  iter 148, Taylor-polynomial iter 152, dropout iter 162, positional-encoding iter 166, KL-divergence iter 172,
+  TD-vs-MC iter 178, multi-armed-bandit iter 186): a VAE latent-space explorer, a GAN training-dynamics demo. (✓
+  beam-search tree iter ~138; ✓ value-iteration is the existing gridworld.)
   NOTE: viz blurbs AND notes are NOT KaTeX-typeset (the Lab shows them raw) — use plain unicode (xₜ, √, ε, ᾱ), not $...$.
 - Lesson-embedded code exercises (`data-code` with `data-expected`) tied to each algorithm/DL lesson.
 - Reduced-motion + high-contrast accessibility modes.
