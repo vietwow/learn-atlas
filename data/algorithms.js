@@ -3275,6 +3275,50 @@
               ],
               "answer": 1,
               "explain": "Each undirected edge $\\{i,j\\}$ sets both $A_{ij}=1$ and $A_{ji}=1$, so there are $2m$ ones; by the handshake lemma the degree sum is also $2m$. Storing only $m$ ones would describe a directed graph, breaking the symmetry $A=A^\\top$."
+            },
+            {
+              "q": "BFS explores a graph using which data structure to manage its frontier?",
+              "choices": [
+                "A priority queue",
+                "A stack (LIFO)",
+                "A queue (FIFO)",
+                "A hash set"
+              ],
+              "answer": 2,
+              "explain": "Breadth-first search dequeues the oldest-discovered vertex first, so it fans out level by level — a FIFO queue. (A stack would turn it into depth-first search; a priority queue gives Dijkstra.)"
+            },
+            {
+              "q": "How is depth-first search (DFS) naturally implemented?",
+              "choices": [
+                "With a queue (FIFO)",
+                "With a stack (LIFO) — or equivalently the recursion call stack",
+                "With a priority queue",
+                "With a min-heap"
+              ],
+              "answer": 1,
+              "explain": "DFS dives as deep as possible before backtracking, which is exactly LIFO behaviour: an explicit stack, or the implicit call stack of a recursive implementation."
+            },
+            {
+              "q": "An adjacency matrix for a graph with $V$ vertices uses how much space, regardless of how many edges the graph has?",
+              "choices": [
+                "$\\Theta(V)$",
+                "$\\Theta(V+E)$",
+                "$\\Theta(E)$",
+                "$\\Theta(V^2)$"
+              ],
+              "answer": 3,
+              "explain": "The matrix is $V\\times V$ entries — $\\Theta(V^2)$ — whether the graph is sparse or dense. That's why adjacency <em>lists</em> ($\\Theta(V+E)$) are preferred for sparse graphs, where most matrix entries would be 0."
+            },
+            {
+              "q": "A directed graph contains a cycle if and only if a depth-first search finds a…",
+              "choices": [
+                "back edge (an edge to an ancestor still on the recursion stack)",
+                "cross edge",
+                "forward edge",
+                "tree edge"
+              ],
+              "answer": 0,
+              "explain": "A back edge points from a vertex to one of its DFS ancestors (a GRAY/on-stack vertex), closing a loop — its presence is exactly equivalent to the directed graph having a cycle. This is the basis of DFS-based cycle detection."
             }
           ],
           "flashcards": [
@@ -3470,6 +3514,50 @@
               ],
               "answer": 0,
               "explain": "Relaxation sets $\\pi[v]=u$ precisely when $d[u]+w(u,v)$ beats $d[v]$, so $\\pi[v]$ always names the predecessor of the best-known path; following $\\pi$ backward retraces that path. Storing whole prefixes would waste space, and pointing $\\pi[u]=v$ reverses the direction needed for backward reconstruction."
+            },
+            {
+              "q": "Using a binary heap, Dijkstra's algorithm on a graph with $V$ vertices and $E$ edges runs in…",
+              "choices": [
+                "$O(VE)$",
+                "$O((V+E)\\log V)$",
+                "$O(V+E)$",
+                "$O(V^3)$"
+              ],
+              "answer": 1,
+              "explain": "Each vertex is extracted once ($O(\\log V)$ each) and each edge can trigger one heap push/decrease-key ($O(\\log V)$), giving $O((V+E)\\log V)$. A simple-array version is $O(V^2)$, which can be better on very dense graphs."
+            },
+            {
+              "q": "A topological ordering of a directed graph exists if and only if the graph is…",
+              "choices": [
+                "complete",
+                "connected",
+                "bipartite",
+                "acyclic (a DAG)"
+              ],
+              "answer": 3,
+              "explain": "A topological order lists vertices so every edge points forward. That's possible exactly when there are no directed cycles — a directed acyclic graph (DAG). A cycle would require a vertex to come both before and after another."
+            },
+            {
+              "q": "Why is 'shortest path' undefined on a graph that has a reachable negative-weight cycle?",
+              "choices": [
+                "You can loop the cycle again and again, driving the path cost toward $-\\infty$",
+                "The graph becomes disconnected",
+                "Dijkstra's priority queue overflows",
+                "There are too many paths to enumerate"
+              ],
+              "answer": 0,
+              "explain": "Each lap around a negative cycle lowers the total cost, so no finite minimum exists — the 'shortest' path is $-\\infty$. This is exactly the condition Bellman-Ford's extra relaxation pass detects."
+            },
+            {
+              "q": "You need single-source shortest paths on a directed graph with some negative edge weights, but no negative cycle. Which algorithm should you use?",
+              "choices": [
+                "Breadth-first search",
+                "Dijkstra",
+                "Bellman-Ford",
+                "Binary search"
+              ],
+              "answer": 2,
+              "explain": "Dijkstra's greedy 'finalize the nearest vertex' step is unsafe with negative edges. Bellman-Ford relaxes all edges $|V|-1$ times and handles negative weights correctly (and can flag a negative cycle if one exists). BFS only handles unweighted graphs."
             }
           ],
           "flashcards": [
@@ -3665,6 +3753,50 @@
               ],
               "answer": 0,
               "explain": "The graph has tied weight-3 edges (C-D, D-F, E-F), so more than one spanning tree achieves the minimum total weight 14; both outputs are valid MSTs. Uniqueness is guaranteed only when all edge weights are distinct, and both algorithms always return optima of equal weight."
+            },
+            {
+              "q": "Kruskal's algorithm builds a minimum spanning tree by…",
+              "choices": [
+                "running a depth-first search from each vertex",
+                "growing a single tree outward from a start vertex",
+                "repeatedly removing the heaviest edges from the graph",
+                "sorting the edges by weight and adding the next-cheapest edge that doesn't form a cycle"
+              ],
+              "answer": 3,
+              "explain": "Kruskal is edge-centric: consider edges from cheapest to most expensive, take an edge if its endpoints are in different components (no cycle), and stop once $V-1$ edges are chosen. The cut/cycle properties guarantee the result is an MST."
+            },
+            {
+              "q": "Prim's algorithm builds a minimum spanning tree by…",
+              "choices": [
+                "growing one tree, repeatedly adding the cheapest edge that connects the tree to a new vertex",
+                "sorting all edges first and adding them in order",
+                "deleting cycles from the graph one at a time",
+                "doing a breadth-first search from the lightest vertex"
+              ],
+              "answer": 0,
+              "explain": "Prim is vertex-centric: start from any vertex and repeatedly attach the cheapest edge crossing from the in-tree set to an outside vertex (a min-priority-queue does this efficiently). Kruskal sorts edges globally; Prim grows one connected tree."
+            },
+            {
+              "q": "In Kruskal's algorithm, what is the union-find (disjoint-set) data structure used for?",
+              "choices": [
+                "Storing each edge's weight",
+                "Sorting the edges by weight",
+                "Quickly testing whether two vertices are already in the same component — i.e. whether adding an edge would form a cycle",
+                "Computing shortest paths between vertices"
+              ],
+              "answer": 2,
+              "explain": "Each `find` tells you which component a vertex is in; if both endpoints of an edge share a component, adding it would close a cycle, so it's skipped. `union` merges components when an edge is accepted. With union-by-rank + path compression these run in near-constant amortized time."
+            },
+            {
+              "q": "By definition, a minimum spanning tree minimizes which quantity?",
+              "choices": [
+                "The number of edges in the tree",
+                "The total weight of the edges in a tree that connects (spans) all the vertices",
+                "The length of the longest shortest-path in the graph",
+                "The graph's diameter"
+              ],
+              "answer": 1,
+              "explain": "An MST is a spanning tree (connects all $V$ vertices, no cycles, exactly $V-1$ edges) whose <em>sum</em> of edge weights is as small as possible. The edge count is fixed at $V-1$ for any spanning tree, so it's the total weight that's being optimized."
             }
           ],
           "flashcards": [

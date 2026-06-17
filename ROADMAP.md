@@ -95,6 +95,8 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    REMAINING in Algorithms: graphs (3), advanced-ml-connections (4), advanced-techniques (3). Then 6 topics.
    ✅ iter 126: Daily Mix now includes a "Redeem" phase (drills the mistakes deck) — closes the daily loop
    (remember → test → fix → grow). runMasteryDrill gained opts.onDone for chaining.
+   ✅ iter 127: MCQ arc phase 5 — Algorithms·Graph Algorithms 12→16 (+12, bank →1,840). Algorithms 5/7 modules.
+   REMAINING in Algorithms: advanced-ml-connections (4), advanced-techniques (3). Then LA/Calc/DL/RL/LLM/PS.
    ARC PROGRESS: Algorithms modules at 16 = foundations, data-structures. REMAINING in Algorithms: sorting-searching,
    algorithm-design, graphs, advanced-ml-connections, advanced-techniques (5). Then LA/Calc/DL/RL/LLM/PS. Interleave!
    CHECKED & FOUND HEALTHY (113): mobile renders clean across dashboard/map/lab/stats/test at 390px; `index()` is

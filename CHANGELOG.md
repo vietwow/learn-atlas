@@ -2,6 +2,20 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 127 — MCQ arc phase 5: Algorithms · Graph Algorithms 12 → 16 (content — owner's #1 ask)
+Continuing the 12→16 arc (interleaved — iter 126 was workflow). **+4 new MCQs each** to Graph Representations & Traversal,
+Shortest Paths & Topological Sort, and MST & Union-Find (**+12, bank 1,828 → 1,840**). New questions cover the
+fundamentals the existing 12 hadn't stated directly: BFS uses a queue / DFS uses a stack-or-recursion / adjacency matrix
+is $\Theta(V^2)$ space / a directed cycle ⟺ a DFS back edge; binary-heap Dijkstra is $O((V+E)\log V)$ / a topological
+order exists iff the graph is a DAG / a reachable negative cycle makes shortest paths $-\infty$ / negative edges (no
+negative cycle) ⇒ use Bellman-Ford; Kruskal's strategy (sort + add cheapest non-cycle edge) / Prim's strategy (grow one
+tree) / union-find's role (cycle/same-component test) / an MST minimizes the total edge weight of a spanning tree. Same
+pipeline: authored avoiding existing stems → **adversarial-verify agent → ALL 12 PASS** (and this time its reported
+answer indices matched the injector's shuffle exactly, independently confirming the keys) → positions shuffled (2130 /
+1302 / 3021). SW cache → `atlas-v71`; README 1,828 → 1,840. Verified: `node gate.js` ALL GREEN; quiz renders **"of 16"**,
+`.katex-error`=0, errs=0. **Algorithms now has 5 of 7 modules at 16 MCQs; 2 to go (complexity/strings/ML, advanced
+techniques).**
+
 ## iter 126 — Daily Mix now redeems your mistakes too (workflow / new functionality)
 The Daily Mix guided session chained due flashcards → a weak-spot quiz → a "learn next" lesson, but ignored the
 **mistakes deck** (iter 104) — so the daily ritual never re-drilled the questions you'd actually gotten wrong. Added a
