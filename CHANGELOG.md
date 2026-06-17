@@ -2,6 +2,16 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 97 — Algorithms Advanced module — 12 MCQs per lesson (content; owner "more questions" ask)
+Completed the new Advanced Algorithms module: all three lessons (amortized analysis, network flow, union-find & range
+queries) brought from 0 → 12 MCQs each via the author→adversarial-verify pipeline — **+36 fact-checked questions**, all
+three ok=true. Every algorithms lesson (23) is back to exactly 12 MCQs (276 in the topic), and **every lesson site-wide
+once again has a full 12-question quiz**. Site bank **1,704 → 1,740**. Distractors target the recurring traps (amortized
+≠ average-case; amortized $O(1)$ bounds the total not any single op; a cut gives only an upper bound; path compression
+alone is $O(\log n)$ not $O(\alpha(n))$; Fenwick vs segment-tree trade-offs). SW cache → `atlas-v41`; README 1,704→1,740.
+Verified: `node gate.js` ALL GREEN (7 topics · 145 lessons · **1,740 MCQs**); all three quizzes render "of 12" with
+errs=0 and katex-error=0; stray Chrome cleaned up.
+
 ## iter 96 — Algorithms — NEW advanced module: Advanced Algorithms & Analysis (3 lessons) (content; "deepen the existing six")
 Continued the deepen-the-six rotation into **Algorithms**, which ended at NP-completeness/strings with no amortized
 analysis, network flow, or advanced data structures — three classic gaps. New 7th module:

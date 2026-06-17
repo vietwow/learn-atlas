@@ -36,8 +36,8 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    multipliers). ✅ iter 91: all 3 convex lessons to 12 MCQs (+36; calc topic now 300 / site 1,668) — Calculus fully
    complete again. ✅ iter 93: Linear Algebra → new "Matrix Calculus for ML" module. ✅ iter 94: all 3 matrix-calc
    lessons to 12 MCQs (+36; LA topic now 228 / site 1,704) — Linear Algebra fully complete again.
-   ✅ iter 96: Algorithms → new "Advanced Algorithms & Analysis" module (amortized analysis, network flow/max-flow-min-cut,
-   union-find & range queries) — content+cards+homework+examples, NO MCQs yet (add via pipeline next).
+   ✅ iter 96: Algorithms → new "Advanced Algorithms & Analysis" module. ✅ iter 97: all 3 advanced-algo lessons to 12 MCQs
+   (+36; algo topic now 276 / site 1,740) — Algorithms fully complete again.
    REMAINING advanced gaps, one topic per rotation:
    RL → model-based or offline RL (the LAST of the six; LLMs are already very deep). Then deepen-the-six is COMPLETE
    and the loop returns to the broad compass / more deeper-dives / new functionality.
