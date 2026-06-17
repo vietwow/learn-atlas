@@ -2,6 +2,28 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 192 — MCQ arc → LLM Training module 12→16 (content — owner's #1 ask)
+Resumed the 12→16 MCQ-growth arc: the LLM **Training** module, all 3 lessons **12 → 16 MCQs** (+12; bank
+**2,240 → 2,252**). New foundational questions, adversarially fact-checked (**ALL 12 PASS**), answer positions
+balanced 0/1/2/3 with distinct per-lesson patterns ([2,0,1,3] / [1,3,2,0] / [0,2,3,1]):
+- **Pretraining (objective/data/compute)**: cross-entropy ≡ minimizing $D_{\mathrm{KL}}$ to the data
+  ($H(q,p)=H(q)+D_{\mathrm{KL}}$, $H(q)$ θ-independent); teacher-forcing's **exposure bias**; why noisy data *raises
+  the loss floor* (high entropy = unpredictable, wastes capacity); the **data mixture** as a capability lever.
+- **Optimization (AdamW/schedules/stability)**: **bf16 vs fp16** (bf16 keeps fp32's exponent range → no loss
+  scaling); why an **fp32 master copy** of weights (tiny updates would round to zero in bf16); Adam's two moments
+  (momentum + variance → per-parameter adaptive LR); why weight decay skips biases/LayerNorm gains/embeddings.
+- **Scaling laws**: compute-optimal as constrained optimization (minimize $A/N^\alpha+B/D^\beta+E$ s.t. $C\approx6ND$;
+  $\alpha\approx\beta$ → $N,D\propto\sqrt C$); power-law **scale-invariance** (no characteristic scale → extrapolation
+  works); **emergence** as an average over micro-skills; why returns "diminish but never stop" (constant fractional,
+  shrinking absolute, drop per decade).
+
+LLM topic now **3/6 modules at 16** (Foundations ✓, Transformer ✓, Training ✓). Arc: Algorithms ✓ · LA ✓ · Calculus ✓
+· DL ✓ · RL ✓ · **LLM 3/6** · Probability & Statistics remaining.
+Verified: node syntax ALL JS OK; `gate.js` ALL GREEN (7 topics · 148 lessons · **2,252 MCQs** · 41 widgets); answer
+indices confirmed + 0/1/2/3-balanced per lesson; byte-stable injection (no-op round-trip guard); optimization &
+scaling-laws quizzes render "Question 1 of 16" rawDollars=0 kErr=0; all-routes smoke (14 routes) errs=0; scaling-laws
+quiz screenshot clean with math typeset. SW cache `atlas-v134` → `atlas-v135`.
+
 ## iter 191 — "Keep it fresh": surface fading-mastery concepts on the dashboard (new functionality — retention)
 Rebalanced off three content-heavy iterations to a non-content move. The lesson **mastery-decay model**
 (`effectiveMastery`, 45-day halflife) was *computed but never surfaced proactively*: `weakSpots()` is reactive

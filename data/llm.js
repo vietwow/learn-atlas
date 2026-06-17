@@ -1834,6 +1834,50 @@
               ],
               "answer": 2,
               "explain": "The backward pass ($4N$) exists only to compute gradients during training; pure generation runs just the forward pass, so it is about $2N$ FLOPs per token. The student double-counts the backward pass, which is never executed at inference."
+            },
+            {
+              "q": "The lesson notes that minimizing cross-entropy is equivalent to minimizing $D_{\\mathrm{KL}}(q_{\\text{data}} \\,\\|\\, p_\\theta)$. Why does minimizing cross-entropy achieve this?",
+              "choices": [
+                "Because cross-entropy and KL divergence are the same quantity, so the data entropy $H(q)$ is always zero.",
+                "Because KL divergence is minimized only when the model is uniform over the vocabulary, which cross-entropy also encourages.",
+                "Because $H(q,p) = H(q) + D_{\\mathrm{KL}}(q\\,\\|\\,p)$, and the data entropy $H(q)$ does not depend on $\\theta$ — so minimizing the cross-entropy $H(q,p)$ over $\\theta$ minimizes the KL term.",
+                "Because cross-entropy ignores the true distribution entirely, so only the KL term remains to optimize."
+              ],
+              "answer": 2,
+              "explain": "Cross-entropy decomposes as $H(q,p) = H(q) + D_{\\mathrm{KL}}(q\\,\\|\\,p)$. The data entropy $H(q)$ is constant with respect to the parameters, so driving down the cross-entropy is exactly driving down the KL divergence — pushing the model's distribution toward the empirical distribution of human text."
+            },
+            {
+              "q": "Teacher forcing feeds the ground-truth previous tokens during training. What is its known downside, \"exposure bias\"?",
+              "choices": [
+                "At training time the model only ever conditions on correct prefixes, but at generation time it must condition on its own (possibly flawed) outputs — a distribution it never saw — so an early mistake can cascade.",
+                "It exposes the model to the test set during training, inflating benchmark scores.",
+                "It forces the model to memorize entire training sequences verbatim, raising privacy risk.",
+                "It makes training inherently sequential, so the loss at each position cannot be computed in parallel."
+              ],
+              "answer": 0,
+              "explain": "Teacher forcing trains on always-correct prefixes, but autoregressive generation conditions on the model's own outputs — a prefix distribution it never practiced. This mismatch is exposure bias, the reason a single early generation error can sometimes snowball over a long output (it matters less than feared at scale, but it is the mechanism)."
+            },
+            {
+              "q": "The lesson says feeding a model random or corrupted text \"raises the loss floor.\" Why?",
+              "choices": [
+                "Noisy text contains more tokens, so the per-token loss is averaged over a larger denominator.",
+                "Random/corrupted text has near-maximal entropy — it is unpredictable by design — so the model burns capacity trying to fit noise it can never actually predict, while clean text has lower entropy and richer learnable structure.",
+                "Corrupted text is always longer than the context window, so it is truncated and the loss becomes undefined.",
+                "Quality filters add a regularization penalty to the loss, which mechanically raises its minimum value."
+              ],
+              "answer": 1,
+              "explain": "Cross-entropy can only reach the entropy of the data. Garbage text is high-entropy (genuinely unpredictable), so no model can drive its loss down — capacity is wasted fitting noise and the achievable floor rises. This is why \"more good data\" beat \"more data\": a smaller well-filtered corpus often wins at equal compute."
+            },
+            {
+              "q": "In the data pipeline's final \"mixing\" stage, why are the domain weights (web / code / books / math / …) considered a powerful design lever?",
+              "choices": [
+                "Because the mixture only affects training speed, never the model's capabilities.",
+                "Because the weights must always be equal across domains, or the loss diverges.",
+                "Because mixing is purely a deduplication step that removes repeated documents across domains.",
+                "Because the blend shapes which capabilities emerge — e.g. up-weighting code improves reasoning and structured output, books improve long-form coherence, and math improves quantitative tasks."
+              ],
+              "answer": 3,
+              "explain": "The data mixture is an intentional, weighted blend of domains, and those weights steer what the model becomes: more code → better reasoning/structured output, more books → better long-form coherence, more math → better quantitative skill. Because high-quality sources are scarce, some are repeated for a few epochs while web text is seen roughly once."
             }
           ],
           "flashcards": [
@@ -2029,6 +2073,50 @@
               ],
               "answer": 3,
               "explain": "When $\\hat{v}_t$ is near zero, dividing the gradient by $\\sqrt{\\hat{v}_t}$ produces an enormous step; $\\epsilon$ caps the denominator from below and warmup holds the overall LR down during the noisy early phase when these estimates are least trustworthy. The opposite claim (update shrinks to zero) inverts the math, and bias correction adjusts the magnitude of $\\hat{v}_t$ but does not stop it from being genuinely tiny."
+            },
+            {
+              "q": "Why is bf16 (bfloat16) the default 16-bit format for large-scale LLM training, rather than fp16?",
+              "choices": [
+                "bf16 has more mantissa (precision) bits than fp16, so it represents each value more accurately.",
+                "bf16 keeps the same 8-bit exponent (dynamic range) as fp32, so gradients almost never overflow or underflow — meaning no loss scaling is needed — whereas fp16's narrow range forces fiddly loss scaling.",
+                "bf16 uses 32 bits like fp32, so it is exact; fp16 uses only 16 and loses information.",
+                "bf16 stores integers while fp16 stores floats, avoiding rounding error entirely."
+              ],
+              "answer": 1,
+              "explain": "bf16 trades mantissa bits for fp32's full exponent range (~$10^{-38}$ to $10^{38}$), so gradients rarely under/overflow and loss scaling is unnecessary. fp16 has more precision but a narrow range (max ~65504), so small gradients underflow and you must scale the loss up before backprop and down after. bf16's robustness is why it is the default."
+            },
+            {
+              "q": "In mixed-precision training, why keep a master copy of the weights in fp32 even though the forward and backward passes run in bf16?",
+              "choices": [
+                "Because bf16 cannot represent negative numbers, so fp32 is needed for weights that go negative.",
+                "Because the optimizer requires the weights and gradients to be stored in different formats to compute momentum.",
+                "Because fp32 weights make the forward pass faster than bf16 on modern accelerators.",
+                "Because a single update $\\eta\\cdot\\text{step}$ can be far smaller than the spacing between representable bf16 values near the weight, so in pure bf16 it would round to nothing and learning would stall — fp32 accumulation preserves these tiny but cumulatively important changes."
+              ],
+              "answer": 3,
+              "explain": "Weight updates are often minute relative to the weight's magnitude. bf16's coarse spacing would round such an update to zero, stalling training. Keeping master weights (and Adam's $m, v$) in fp32 lets these small updates accumulate, while the heavy matmuls still run fast in bf16."
+            },
+            {
+              "q": "Adam maintains two running averages per parameter. What are they, and how do they produce an \"adaptive\" step?",
+              "choices": [
+                "The current weight and its previous weight; their difference is the step.",
+                "The learning rate and the weight decay; Adam averages them into a single effective rate.",
+                "The first moment (a running mean of the gradient, \"momentum\") and the second moment (a running mean of the squared gradient, \"variance\"); dividing the step by $\\sqrt{\\hat v_t}$ gives each parameter an automatic, per-parameter learning rate.",
+                "The forward loss and the backward loss; their ratio sets the step size."
+              ],
+              "answer": 2,
+              "explain": "Adam tracks $m_t$ (first moment ≈ momentum) and $v_t$ (second moment ≈ per-parameter variance). Normalizing the update by $\\sqrt{\\hat v_t}$ means parameters with consistently large gradients take smaller, cautious steps and rarely-updated ones take larger steps — an automatic per-parameter learning rate that plain SGD lacks."
+            },
+            {
+              "q": "By convention, AdamW's weight decay is applied to weight matrices but NOT to biases, LayerNorm gains, or embeddings. Why?",
+              "choices": [
+                "Shrinking those parameters toward zero tends to hurt training without improving generalization — decay's benefit (bounding weight/activation norms, regularizing) comes from the large weight matrices.",
+                "Biases, LayerNorm gains, and embeddings have no gradients, so weight decay would have no effect on them anyway.",
+                "Those parameters are stored in fp16, which is incompatible with the decay operation.",
+                "Weight decay is mathematically undefined for any parameter that is updated by Adam rather than SGD."
+              ],
+              "answer": 0,
+              "explain": "Decay's purpose is to regularize and bound the magnitudes of the large weight matrices. Applying it to biases, normalization gains, or embedding vectors shrinks parameters whose scale is functionally important, harming optimization without a generalization payoff — so they are excluded by convention."
             }
           ],
           "flashcards": [
@@ -2224,6 +2312,50 @@
               ],
               "answer": 3,
               "explain": "The lesson stresses both caveats: sharp jumps are often exaggerated by discontinuous metrics like exact-match (so smoother metrics reveal gradual improvement), but even granting that, crossing a scale threshold genuinely makes some new behaviors reliable. It is not purely an artifact, and loss stays smooth throughout."
+            },
+            {
+              "q": "In the Chinchilla framework, how is the compute-optimal split of a budget $C$ between parameters $N$ and tokens $D$ determined?",
+              "choices": [
+                "Minimize the joint loss $L(N,D) = A/N^{\\alpha} + B/D^{\\beta} + E$ subject to the constraint $C \\approx 6ND$ (a Lagrange-multiplier problem); since the fitted $\\alpha \\approx \\beta$, the optimal $N$ and $D$ each grow like $\\sqrt{C}$ — i.e. together.",
+                "Maximize $N$ for the given budget and let $D$ be whatever is left over, since bigger models always win.",
+                "Fix $D$ at a constant 300B tokens and scale only $N$ with the budget.",
+                "Set $N = D$ exactly, so the model has one parameter per training token."
+              ],
+              "answer": 0,
+              "explain": "Chinchilla fits $L(N,D)=A/N^\\alpha+B/D^\\beta+E$ and minimizes it under $C\\approx 6ND$. With $\\alpha\\approx\\beta\\approx 0.3$, the solution has $N\\propto C^{0.5}$ and $D\\propto C^{0.5}$ — parameters and data should grow together, roughly $\\sqrt{C}$ each (≈20 tokens/param). Choice B is the older Kaplan prescription the paper corrected."
+            },
+            {
+              "q": "The lesson says a power law \"has no characteristic scale.\" Why does that property make small-scale experiments useful for forecasting huge runs?",
+              "choices": [
+                "Because the loss becomes exactly zero past a known threshold size, so only small models need measuring.",
+                "Because power laws only hold below a fixed model size, so small experiments capture the entire usable range.",
+                "Because the curve is self-similar across many orders of magnitude — there is no special size where the behavior changes regime — so the slope measured at small scale keeps holding when extrapolated to large scale.",
+                "Because a power law is a straight line on linear axes, so two small points determine all larger values."
+              ],
+              "answer": 2,
+              "explain": "\"No characteristic scale\" means the log-log line has the same slope everywhere — the relationship is scale-invariant. Because nothing special happens at any particular size, the rule fit from a few small, cheap models extrapolates reliably to a model 100× larger. (A power law is a straight line on log-log axes, not linear ones.)"
+            },
+            {
+              "q": "Scaling laws describe a smooth loss curve, yet some capabilities seem to \"emerge\" abruptly. Beyond the metric-artifact caveat, what is the lesson's reconciling intuition?",
+              "choices": [
+                "The loss curve is actually discontinuous; its apparent smoothness is an illusion of log-log plotting.",
+                "Capabilities are unrelated to loss, so the smooth loss curve tells us nothing about them.",
+                "Each capability has its own separate loss function that drops discontinuously with scale.",
+                "Loss is an average over a huge mixture of micro-skills; a tiny additive drop in the average can correspond to the model crossing the competence threshold on a whole subset of those micro-skills at once, so the average moves smoothly while individual skills pop."
+              ],
+              "answer": 3,
+              "explain": "Average loss aggregates countless micro-skills. A small dip in the average can mark a subset of skills simultaneously crossing their competence threshold — the mean glides while individual capabilities jump. Combined with the metric-artifact effect (harsh exact-match metrics exaggerate sharpness), this reconciles smooth loss with apparently abrupt emergence."
+            },
+            {
+              "q": "With a power-law loss, why do returns to scale \"diminish but never stop\"?",
+              "choices": [
+                "Because once you pass the compute-optimal point, additional scale actively increases the loss.",
+                "Each constant-factor (e.g. 10×) increase in scale cuts the reducible loss by the same multiplicative fraction — but because the reducible loss is already smaller at large scale, that same fraction is a smaller and smaller absolute drop, so you must keep multiplying scale to keep gaining.",
+                "Because the irreducible floor $L_\\infty$ grows as the model gets larger, eventually canceling all gains.",
+                "Because the power-law exponent increases with scale, so each decade of scaling helps more than the last."
+              ],
+              "answer": 1,
+              "explain": "A 10× scale-up multiplies the reducible loss by a fixed factor $10^{-\\alpha}$ regardless of where you start — a constant additive drop in *log*-loss. But in raw loss terms, since the reducible part is already tiny at large scale, each decade subtracts less in absolute terms. Returns shrink in absolute size yet never vanish — hence \"diminish but never stop.\""
             }
           ],
           "flashcards": [
