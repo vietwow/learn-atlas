@@ -2,6 +2,19 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 98 — Hypothesis-testing / p-value visualization (visualizations; understandability)
+A new interactive widget (`ps-hypothesis-test`, the 28th) that makes the most-misunderstood idea in statistics
+*operational*, and fills the one PS module that had no viz (Hypothesis Testing). On a standard-normal null distribution
+it shades the <span>p-value</span> as the gold tail area beyond the observed statistic and the <span>rejection region</span>
+as the rust tails of total area α; you **drag the observed z**, switch **one-/two-sided**, and change **α** — and the
+readout flips between REJECT / fail-to-reject exactly when the gold tail crosses the rust threshold ($p\le\alpha$).
+p-values are computed via the standard-normal CDF (Abramowitz–Stegun erf); critical values are the standard
+$z^{*}$ table. Embedded in the *P-values & Statistical Significance* lesson right after the decision-rule section, and in
+the Lab. SW cache → `atlas-v42`; README viz counts 27→28. Verified: Lab renders (curve + gold/rust tails + observed/critical
+lines); math correct (two-sided z=1.95 → p=5.12% → fail; z=2.20 → p=2.78% → REJECT; z=1.0 → p=31.73% → fail); slider/selects
+drive it with errs=0; embedded canvas hydrates in-lesson (katex-error=0); legible at 390px; `node gate.js` ALL GREEN (28
+widgets); stray Chrome cleaned up.
+
 ## iter 97 — Algorithms Advanced module — 12 MCQs per lesson (content; owner "more questions" ask)
 Completed the new Advanced Algorithms module: all three lessons (amortized analysis, network flow, union-find & range
 queries) brought from 0 → 12 MCQs each via the author→adversarial-verify pipeline — **+36 fact-checked questions**, all

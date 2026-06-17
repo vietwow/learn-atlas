@@ -1388,4 +1388,64 @@
     reset();
   });
 
+  /* ========================================================
+     28. Hypothesis test & p-value (null distribution, rejection region, p as tail area)
+     ======================================================== */
+  register({ id: 'ps-hypothesis-test', topic: 'probability-statistics', title: 'Hypothesis Testing & p-values', blurb: 'Drag the observed test statistic and watch the p-value (tail area beyond it) and the rejection region (tails of area α) — see exactly when and why you reject the null.' },
+  function (root) {
+    const W = 560, H = 380, padL = 30, padR = 14, padT = 16, padB = 42, lo = -4, hi = 4;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    const MONO = "JetBrains Mono, monospace";
+    function erf(x) { const s = x < 0 ? -1 : 1; x = Math.abs(x); const t = 1 / (1 + 0.3275911 * x);
+      const y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-x * x); return s * y; }
+    const Phi = z => 0.5 * (1 + erf(z / Math.SQRT2));
+    const phi = z => Math.exp(-z * z / 2) / Math.sqrt(2 * Math.PI);
+    // critical values: [two-sided, one-sided] per alpha
+    const CRIT = { '0.10': { two: 1.645, one: 1.282 }, '0.05': { two: 1.960, one: 1.645 }, '0.01': { two: 2.576, one: 2.326 } };
+    let mode = 'two', alpha = '0.05', z = 2.2;
+    const X = v => padL + (v - lo) / (hi - lo) * (W - padL - padR);
+    const ymax = phi(0) * 1.08, Y = d => H - padB - (d / ymax) * (H - padT - padB);
+    function fillTail(from, to, color, alpha2) {       // shade area under curve in [from,to]
+      ctx.fillStyle = color; ctx.globalAlpha = alpha2; ctx.beginPath(); ctx.moveTo(X(from), H - padB);
+      const N = 120; for (let i = 0; i <= N; i++) { const v = from + (to - from) * i / N; ctx.lineTo(X(v), Y(phi(v))); }
+      ctx.lineTo(X(to), H - padB); ctx.closePath(); ctx.fill(); ctx.globalAlpha = 1;
+    }
+    function vline(v, color, dash) { ctx.save(); ctx.strokeStyle = color; ctx.lineWidth = 2; if (dash) ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.moveTo(X(v), Y(phi(v))); ctx.lineTo(X(v), H - padB); ctx.stroke(); ctx.restore(); }
+    function pValue() { if (mode === 'two') return 2 * (1 - Phi(Math.abs(z))); if (mode === 'right') return 1 - Phi(z); return Phi(z); }
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const crit = CRIT[alpha], zc = mode === 'two' ? crit.two : crit.one;
+      // rejection region (area alpha) — rust, faint
+      if (mode === 'two') { fillTail(lo, -zc, p.rust, 0.16); fillTail(zc, hi, p.rust, 0.16); }
+      else if (mode === 'right') fillTail(zc, hi, p.rust, 0.16);
+      else fillTail(lo, -zc, p.rust, 0.16);
+      // p-value region — gold, stronger
+      if (mode === 'two') { fillTail(lo, -Math.abs(z), p.gold, 0.34); fillTail(Math.abs(z), hi, p.gold, 0.34); }
+      else if (mode === 'right') fillTail(z, hi, p.gold, 0.34);
+      else fillTail(lo, z, p.gold, 0.34);
+      // bell curve
+      ctx.strokeStyle = p.ink; ctx.lineWidth = 2.4; ctx.beginPath();
+      for (let i = 0; i <= 240; i++) { const v = lo + (hi - lo) * i / 240; i ? ctx.lineTo(X(v), Y(phi(v))) : ctx.moveTo(X(v), Y(phi(v))); } ctx.stroke();
+      ctx.strokeStyle = p.line; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(padL, H - padB); ctx.lineTo(W - padR, H - padB); ctx.stroke();
+      // critical lines (rust dashed) + observed z (gold solid)
+      if (mode !== 'right') vline(-zc, p.rust, true); if (mode !== 'left') vline(zc, p.rust, true);
+      vline(z, p.gold, false);
+      ctx.fillStyle = p.mute; ctx.font = '10px ' + MONO; ctx.textAlign = 'center';
+      [-3, -2, -1, 0, 1, 2, 3].forEach(t => ctx.fillText(String(t), X(t), H - padB + 14));
+      ctx.fillStyle = p.gold; ctx.font = '600 11px ' + MONO; ctx.fillText('z = ' + z.toFixed(2), X(z), Y(phi(z)) - 6);
+      const pv = pValue(), reject = pv <= parseFloat(alpha);
+      info.innerHTML = `observed <b>z = ${z.toFixed(2)}</b> &nbsp;·&nbsp; <span style="color:${p.gold}">p-value = ${(pv * 100).toFixed(2)}%</span> &nbsp;·&nbsp; <span style="color:${p.rust}">α = ${alpha}</span> &nbsp;·&nbsp; <b>${reject ? 'REJECT H₀' : 'fail to reject H₀'}</b><br>` +
+        `The <span style="color:${p.gold}">gold</span> tail area is the p-value: the chance, <em>if H₀ were true</em>, of a statistic at least this extreme. The <span style="color:${p.rust}">rust</span> tails are the rejection region (total area α). ` +
+        (reject
+          ? `Here the observed z lands <em>inside</em> the rejection region (p ≤ α), so we reject H₀.`
+          : `Here z is <em>outside</em> the rejection region (p &gt; α), so we fail to reject — the data aren't surprising enough under H₀.`);
+    }
+    select(ctl, { label: 'test', value: mode, options: [{ value: 'two', label: 'two-sided' }, { value: 'right', label: 'one-sided (right)' }, { value: 'left', label: 'one-sided (left)' }], onChange: v => { mode = v; draw(); } });
+    select(ctl, { label: 'α', value: alpha, options: Object.keys(CRIT).map(k => ({ value: k, label: k })), onChange: v => { alpha = v; draw(); } });
+    slider(ctl, { label: 'observed z', min: -4, max: 4, step: 0.05, value: z, fmt: v => 'z=' + v.toFixed(2), onInput: v => { z = v; draw(); } });
+    draw();
+  });
+
 })();
