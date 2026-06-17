@@ -2,6 +2,20 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 126 — Daily Mix now redeems your mistakes too (workflow / new functionality)
+The Daily Mix guided session chained due flashcards → a weak-spot quiz → a "learn next" lesson, but ignored the
+**mistakes deck** (iter 104) — so the daily ritual never re-drilled the questions you'd actually gotten wrong. Added a
+**"🎯 Redeem" phase**: when ≥3 of your missed questions are still outstanding, the session inserts a short mastery-mode
+drill of up to 5 of them (re-queued until each is right, clearing them from the deck) between the quiz and the finish
+screen. It appears in the step indicator, is skipped when you have fewer than 3 mistakes, and the completion summary now
+tallies it ("you cleared N cards, took a quiz and redeemed M mistakes"). Implementation: reused `missedItems()` +
+`runMasteryDrill`, and gave `runMasteryDrill` a backward-compatible `opts.onDone`/`continueLabel` so it can chain into
+the session (mirrors how `runTest` already does) — when run normally it still shows its "New drill / Done" buttons. SW
+cache → `atlas-v70`; README Daily Mix bullet updated. Verified: `node gate.js` ALL GREEN; an in-browser walk through a
+seeded session is **errs=0**, the step bar shows **Review · Redeem · Done**, and the run chains from the flashcard phase
+into the live mistakes drill (`.mastery-track` reached, +XP); a screenshot confirms the new step in the indicator. This
+closes the daily-study loop: due cards (remember) → weak-spot quiz (test) → redeem mistakes (fix) → learn next (grow).
+
 ## iter 125 — MCQ arc phase 4: Algorithms · Algorithm Design 12 → 16 (content — owner's #1 ask)
 Continuing the 12→16 arc (interleaved — iter 124 was a viz). This module has **4** lessons, so **+16 (bank 1,812 →
 1,828)** completes it. **+4 new MCQs each** to Divide & Conquer, Greedy, Dynamic Programming, and Backtracking &

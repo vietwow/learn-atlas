@@ -934,15 +934,18 @@
       if (dp.length >= 4) { qpool = dp; qLabel = "recent material"; }
     }
     const quizMix = shuffle(qpool).slice(0, 6);
-    // phase 3: a concrete next lesson to learn
+    // phase 3: redeem a few of the questions you've gotten wrong (the mistakes deck)
+    const missMix = shuffle(missedItems()).slice(0, 5);
+    // phase 4: a concrete next lesson to learn
     const cd = dailyConcept(); const nextLesson = cd && cd.node ? cd.node : null;
 
     const seq = [];
     if (cardMix.length) seq.push("cards");
     if (quizMix.length >= 3) seq.push("quiz");
+    if (missMix.length >= 3) seq.push("mistakes");
     seq.push("finish");
     let step = 0;
-    const names = { cards: "🃏 Review", quiz: "✎ Quiz", finish: "🎉 Done" };
+    const names = { cards: "🃏 Review", quiz: "✎ Quiz", mistakes: "🎯 Redeem", finish: "🎉 Done" };
     const stepsBar = active => `<div class="sess-steps reveal">${seq.map(k => `<span class="sess-step ${k === active ? "active" : seq.indexOf(k) < seq.indexOf(active) ? "done" : ""}">${names[k]}</span>`).join("")}</div>`;
     const crumb = `<div class="crumbs"><a href="#/" data-route>Codex</a> &nbsp;›&nbsp; Daily Mix</div>`;
 
@@ -955,16 +958,21 @@
         runFlashcards(document.getElementById("sess-body"), cardMix, "Daily Mix · review", { onDone: adv, continueLabel: seq[step + 1] === "quiz" ? "Continue to quiz →" : "Finish →" });
       } else if (key === "quiz") {
         runTest(quizMix, "Daily Mix · " + qLabel, { onDone: adv });
+      } else if (key === "mistakes") {
+        runMasteryDrill(missMix, "Daily Mix · redeem your mistakes", { onDone: adv, continueLabel: "Finish →" });
       } else {
         const lc = nextLesson ? nextLesson.course.id : null, ll = nextLesson ? nextLesson.lesson.id : null;
-        const didWork = cardMix.length || quizMix.length >= 3;
+        const didMistakes = missMix.length >= 3;
+        const didWork = cardMix.length || quizMix.length >= 3 || didMistakes;
+        const didParts = [cardMix.length ? `cleared ${cardMix.length} due card${cardMix.length === 1 ? "" : "s"}` : "", quizMix.length >= 3 ? `took a ${quizMix.length}-question quiz` : "", didMistakes ? `redeemed ${missMix.length} mistake${missMix.length === 1 ? "" : "s"}` : ""].filter(Boolean);
+        const didStr = didParts.length > 1 ? didParts.slice(0, -1).join(", ") + " and " + didParts[didParts.length - 1] : didParts[0] || "";
         app.innerHTML = `<div class="view">${crumb}
           <div class="page-head reveal"><div class="eyebrow">Daily Mix complete</div><h2>${didWork ? "Nice work today 🎉" : "Ready to learn"}</h2></div>
           ${stepsBar("finish")}
           <div class="sess-done reveal">
             <div class="sess-done-ico">${didWork ? "🎯" : "📖"}</div>
             <p>${didWork
-              ? `You cleared ${cardMix.length} due card${cardMix.length === 1 ? "" : "s"}${quizMix.length >= 3 ? ` and a ${quizMix.length}-question quiz` : ""}. Keep the streak alive.`
+              ? `You ${didStr}. Keep the streak alive.`
               : "Nothing was due to review yet — the best move is to learn something new."}</p>
             <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:16px">
               ${nextLesson ? `<a class="btn primary" href="#/lesson/${lc}/${ll}" data-route>▶ Learn next: ${esc(nextLesson.lesson.title)}</a>` : ""}
@@ -1084,7 +1092,8 @@
   }
 
   // ---------- mastery drill: re-queue wrong answers until ALL are passed ----------
-  function runMasteryDrill(items, label) {
+  function runMasteryDrill(items, label, opts) {
+    opts = opts || {};
     const total = items.length;
     let queue = items.map((it, k) => ({ it, key: k })); // each unique question
     queue = shuffle(queue);
@@ -1129,10 +1138,13 @@
         <div class="big">✓ ${total}/${total}</div>
         <p style="color:var(--ink-soft);font-size:18px">All ${total} mastered · ${esc(label)}</p>
         <p style="color:var(--ink-mute);margin:6px 0 20px">${firstTryRight} right on the first try (${pct}%) · ${attempts} total attempts</p>
-        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap"><button class="btn primary" id="md-again">↻ New drill</button><a class="btn ghost" href="#/" data-route>Done</a></div>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">${opts.onDone
+          ? `<button class="btn primary" id="md-continue">${esc(opts.continueLabel || "Continue →")}</button>`
+          : `<button class="btn primary" id="md-again">↻ New drill</button><a class="btn ghost" href="#/" data-route>Done</a>`}</div>
       </div></div>`;
       bindGo();
-      document.getElementById("md-again").addEventListener("click", () => { location.hash = "#/test"; });
+      if (opts.onDone) document.getElementById("md-continue").addEventListener("click", opts.onDone);
+      else document.getElementById("md-again").addEventListener("click", () => { location.hash = "#/test"; });
       confetti(); flushAchievements(); renderChrome();
     }
     draw();
