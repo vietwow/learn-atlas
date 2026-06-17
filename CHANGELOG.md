@@ -2,6 +2,21 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 148 — Riemann Sum visualizer (visualization) — the first integration viz
+The **35th** widget (`calc-riemann`), embedded in *Riemann Sums & the Definite Integral* (which had no viz) — and the
+**first integration visualization** on the site (the 34 others covered LA/derivatives/optimization/probability/DL/LLM/RL,
+never the integral). Approximates the area under a curve with rectangles: pick the **function** (x², √x, 1+sin x — each
+with a known exact integral), the **rule** (left / right / midpoint), and the **number of rectangles** n (slider, or a
+**▶ Refine** animation that ramps n from 1→50). It draws the rectangles under the live curve and reports `approx area`,
+the `exact ∫`, and the signed `error` — so the learner watches left under-shoot, right over-shoot, midpoint nail it, and
+all three converge as n grows. Embedded right where the lesson takes the n→∞ limit.
+- **Numerically pre-verified**: confirmed in Node that all three functions' left/right/midpoint sums converge to their
+  exact integrals (e.g. x² midpoint: err 1.4e-1 → 5.5e-4 as n 4→64) before writing the canvas.
+- **Verified**: `node gate.js` ALL GREEN (now **35 widgets**, the `data-viz` id resolves); Lab route → `errs=0`, note
+  reads "20 rectangles · midpoint · approx 8.9944 · exact 9.0000 · error −0.0056" (matches the math) with **rawDollars=0**
+  (note is plain-unicode per the viz-note rule — no `$…$`); lesson embed + all-routes smoke `errs=0`; desktop + 390px
+  mobile screenshots read (gold rectangles under a sage curve, controls usable). SW cache **v90 → v91**; README 34 → 35.
+
 ## iter 147 — MCQ arc → Calculus · Foundations 12 → 16 (content — owner's #1 ask; 3rd topic opens)
 The arc opens its **third topic, Calculus**, starting with the *Foundations: Functions, Limits & Continuity* module.
 **+4 new MCQs each** to all four lessons (**+16, bank 1,944 → 1,960**), stating the bedrock facts the existing 12 assumed:

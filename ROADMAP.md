@@ -152,6 +152,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ALL PASS (hardened one ambiguous continuity distractor → f'(a)); positions shuffled; render "of 16" errs=0; SW cache →v90.
    CALC REMAINING (MCQ arc): derivatives(4), applications-derivatives(4), integration(4), applications-integration(3),
    multivariable-bridge(3), convex-optimization(3). Then DL/RL/LLM/PS.
+   ✅ iter 148: Riemann Sum visualizer (calc-riemann, 35th viz; the first INTEGRATION viz) in the definite-integral lesson.
+   Function/rule/n controls + Refine animation; numerics pre-verified; errs=0; SW cache →v91; README 34→35.
+   VIZ BACKLOG remaining: MDP policy-iteration (3rd gridworld — low priority), VAE latent-space, GAN training-dynamics,
+   Taylor-polynomial approximation (would pair with the linearization lesson).
    ARC PROGRESS: Algorithms modules at 16 = foundations, data-structures. REMAINING in Algorithms: sorting-searching,
    algorithm-design, graphs, advanced-ml-connections, advanced-techniques (5). Then LA/Calc/DL/RL/LLM/PS. Interleave!
    CHECKED & FOUND HEALTHY (113): mobile renders clean across dashboard/map/lab/stats/test at 390px; `index()` is

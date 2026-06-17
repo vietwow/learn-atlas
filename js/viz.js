@@ -1885,4 +1885,65 @@
     reset();
   });
 
+  /* ========================================================
+     35. Riemann sums: rectangles approximating the area under a curve
+     ======================================================== */
+  register({ id: 'calc-riemann', topic: 'calculus', title: 'Riemann Sums & the Definite Integral', blurb: 'Approximate the area under a curve with rectangles. Add more and watch the sum close in on the exact integral — and see how left, right, and midpoint rules over- or under-shoot.' },
+  function (root) {
+    const W = 560, H = 400, padL = 46, padR = 16, padT = 18, padB = 38;
+    const MONO = "JetBrains Mono, monospace";
+    const FNS = {
+      'x²': { f: x => x * x, a: 0, b: 3, exact: 9, tex: 'f(x)=x^2' },
+      '√x': { f: x => Math.sqrt(x), a: 0, b: 4, exact: 16 / 3, tex: 'f(x)=\\sqrt{x}' },
+      '1+sin x': { f: x => 1 + Math.sin(x), a: 0, b: Math.PI, exact: Math.PI + 2, tex: 'f(x)=1+\\sin x' }
+    };
+    const { c, ctx } = canvas(root, W, H);
+    let key = 'x²', n = 8, rule = 'left', runH = null;
+    function F() { return FNS[key]; }
+    function ymax() { const o = F(); let m = 0; for (let i = 0; i <= 240; i++) { const x = o.a + (o.b - o.a) * i / 240; m = Math.max(m, o.f(x)); } return m * 1.12 || 1; }
+    let YM = ymax();
+    const X = x => padL + (x - F().a) / (F().b - F().a) * (W - padL - padR);
+    const Y = y => H - padB - (y / YM) * (H - padT - padB);
+    function sample(i) { const o = F(), dx = (o.b - o.a) / n; return rule === 'left' ? o.a + i * dx : rule === 'right' ? o.a + (i + 1) * dx : o.a + (i + 0.5) * dx; }
+    function sum() { const o = F(), dx = (o.b - o.a) / n; let s = 0; for (let i = 0; i < n; i++) s += o.f(sample(i)) * dx; return s; }
+    function draw() {
+      const p = P(), o = F(), dx = (o.b - o.a) / n; ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      // rectangles
+      for (let i = 0; i < n; i++) {
+        const x0 = o.a + i * dx, h = o.f(sample(i));
+        const px = X(x0), pw = X(x0 + dx) - px, py = Y(h), ph = Y(0) - py;
+        ctx.fillStyle = p.gold; ctx.globalAlpha = 0.18; ctx.fillRect(px, py, pw, ph);
+        ctx.globalAlpha = 0.9; ctx.strokeStyle = p.gold; ctx.lineWidth = 1; ctx.strokeRect(px, py, pw, ph);
+      }
+      ctx.globalAlpha = 1;
+      // axes
+      ctx.strokeStyle = p.line; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(padL, Y(0)); ctx.lineTo(W - padR, Y(0)); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(padL, padT); ctx.lineTo(padL, Y(0)); ctx.stroke();
+      // curve
+      ctx.strokeStyle = p.sage; ctx.lineWidth = 2.4; ctx.beginPath();
+      for (let i = 0; i <= 240; i++) { const x = o.a + (o.b - o.a) * i / 240, q = { x: X(x), y: Y(o.f(x)) }; i ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y); } ctx.stroke();
+      // x labels
+      ctx.fillStyle = p.mute; ctx.font = '11px ' + MONO; ctx.textAlign = 'center';
+      ctx.fillText('a=' + (+o.a.toFixed(2)), X(o.a), Y(0) + 16); ctx.fillText('b=' + (+o.b.toFixed(2)), X(o.b), Y(0) + 16);
+      const s = sum(), err = s - o.exact, over = err > 0;
+      info.innerHTML = `f(x) = ${key} &nbsp;·&nbsp; <b>${n}</b> rectangle${n === 1 ? '' : 's'} · <b>${rule}</b> rule<br>` +
+        `approx area = <b style="color:${p.gold}">${s.toFixed(4)}</b> &nbsp;·&nbsp; exact area (∫) = <b style="color:${p.sage}">${o.exact.toFixed(4)}</b> &nbsp;·&nbsp; error = <b style="color:${Math.abs(err) < 0.02 ? p.sage : p.rust}">${(over ? '+' : '') + err.toFixed(4)}</b><br>` +
+        `<span style="color:${p.mute}">Each rectangle has width Δx = (b−a)/n and height f at its ${rule} edge. Add more rectangles (n → ∞) and the sum converges to the definite integral — the exact area. Here the ${rule} rule ${Math.abs(err) < 0.02 ? 'is essentially exact' : over ? 'over-estimates' : 'under-estimates'} at this n.</span>`;
+    }
+    const ctl = controls(root);
+    select(ctl, { label: 'function', value: key, options: Object.keys(FNS).map(k => ({ value: k, label: k })), onChange: v => { key = v; YM = ymax(); draw(); } });
+    select(ctl, { label: 'rule', value: rule, options: [{ value: 'left', label: 'left' }, { value: 'right', label: 'right' }, { value: 'midpoint', label: 'midpoint' }], onChange: v => { rule = v; draw(); } });
+    const nSlider = slider(ctl, { label: 'rectangles n', min: 1, max: 50, step: 1, value: n, fmt: v => 'n=' + v, onInput: v => { n = v; draw(); } });
+    const btns = controls(root);
+    const animBtn = button(btns, '▶ Refine', () => {
+      if (runH) { runH.stop(); runH = null; animBtn.innerHTML = '▶ Refine'; return; }
+      n = 1; nSlider.value = 1; animBtn.innerHTML = '⏸ Pause'; let fr = 0;
+      runH = loop(() => { fr++; if (fr % 5 === 0) { if (n < 50) { n++; nSlider.value = n; draw(); } else { runH.stop(); runH = null; animBtn.innerHTML = '▶ Refine'; } } });
+    }, 'primary');
+    const info = note(root);
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Rectangles approximating the area under a curve (a Riemann sum), with the exact curve drawn over them; sliders set the number of rectangles and the sampling rule.');
+    draw();
+  });
+
 })();
