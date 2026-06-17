@@ -2,6 +2,20 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 138 — Deeper dive: cross-entropy = entropy + KL divergence (understandability — directive 3)
+A new "Deeper dive" expandable on *Loss Functions: MSE, Cross-Entropy, and the Softmax Link*. The lesson already
+derives cross-entropy as a negative log-likelihood but **never mentions KL divergence** — so the information-theory
+reading was missing. The dive adds it: treating the target as a distribution $p$ and the model as $q$, it decomposes
+$H(p,q) = H(p) + D_{\mathrm{KL}}(p\,\|\,q)$, shows the entropy term is constant in $\theta$, and lands the punchline —
+**minimizing cross-entropy is exactly minimizing the KL divergence to the truth** (distribution-matching). It explains
+why one-hot labels collapse this to the familiar $-\ln(p_{\text{true}})$ (since $H(p)=0$), what the irreducible floor
+means for soft labels / distillation, and why the same KL move reappears in VAEs, PPO, and knowledge distillation —
+plus the asymmetry caveat. Directly serves directive 3 (hard-concept support) and the owner's "keep improving the depth".
+- **Verified**: the identity $H(p,q)=H(p)+D_{\mathrm{KL}}(p\|q)$ checked numerically (random $p,q$ + the one-hot case);
+  byte-stable JSON round-trip (+3,041 chars, localized); `node gate.js` ALL GREEN; render-check on the lesson with the
+  dive expanded → `errs=0`, **24 KaTeX nodes rendered inside it, kErr=0, 0 raw `$`**; confirmed overflow-neutral vs the
+  closed state (identical offender set — the new display math adds 0px overflow). SW cache **v80 → v81**.
+
 ## iter 137 — MCQ arc → Linear Algebra · Structure 12 → 16 (content — owner's #1 ask)
 The 12→16 arc continues through LA's **Rank, Subspaces, and Determinants** module. **+4 new MCQs each** to *Rank, Null
 Space & the Four Fundamental Subspaces* and *Determinants* (**+8, bank 1,896 → 1,904**), stating plainly the load-bearing
