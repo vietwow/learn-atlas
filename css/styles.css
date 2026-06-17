@@ -511,6 +511,31 @@ body::after {
 .viz-btn.primary { background: var(--gold); color: #2a1c08; border: none; font-weight: 600; }
 .viz-note { text-align: center; font-size: 13px; color: var(--ink-soft); margin-top: 8px; line-height: 1.5; }
 
+/* Byte-Pair Encoding widget (llm-bpe) — DOM, not canvas */
+.bpe-stage { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; }
+.bpe-corpus, .bpe-side { flex: 1 1 280px; min-width: 0; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+.bpe-clabel { font-size: 11px; letter-spacing: 1.4px; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 10px; }
+.bpe-word { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.bpe-freq { font-family: var(--font-mono); font-size: 12px; color: var(--ink-mute); width: 34px; flex: none; text-align: right; }
+.bpe-toks { display: flex; flex-wrap: wrap; gap: 5px; }
+.bpe-tok { font-family: var(--font-mono); font-size: 14px; line-height: 1; padding: 6px 8px; border-radius: 6px; background: var(--panel-2); border: 1px solid var(--line); color: var(--ink-soft); transition: background .2s, color .2s, border-color .2s; }
+.bpe-tok.merged { background: color-mix(in srgb, var(--sage) 20%, transparent); border-color: var(--sage); color: var(--ink); font-weight: 600; }
+.bpe-tok.pending { background: color-mix(in srgb, var(--gold) 26%, transparent); border-color: var(--gold); color: var(--ink); animation: bpePulse 1.1s ease-in-out infinite; }
+@keyframes bpePulse { 0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--gold) 40%, transparent); } 50% { box-shadow: 0 0 0 4px color-mix(in srgb, var(--gold) 18%, transparent); } }
+.bpe-stats { display: flex; gap: 14px; margin-bottom: 14px; }
+.bpe-stats > div { flex: 1; text-align: center; background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px; padding: 8px 4px; }
+.bpe-stats b { display: block; font-family: var(--font-disp); font-size: 22px; color: var(--gold); }
+.bpe-stats span { font-size: 10px; letter-spacing: .5px; text-transform: uppercase; color: var(--ink-mute); }
+.bpe-next { font-size: 13.5px; color: var(--ink-soft); margin-bottom: 14px; text-align: center; }
+.bpe-rule { font-family: var(--font-mono); }
+.bpe-c { font-family: var(--font-mono); font-size: 12px; color: var(--ink-mute); }
+.bpe-doneflag { color: var(--sage); font-weight: 600; }
+.bpe-hist .bpe-hrow { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 13px; color: var(--ink-soft); padding: 4px 0; border-top: 1px solid var(--line); }
+.bpe-hn { width: 20px; height: 20px; flex: none; display: grid; place-items: center; border-radius: 5px; background: var(--panel-2); font-size: 11px; color: var(--ink-mute); }
+.bpe-hrow span:nth-child(2) { flex: 1; }
+.bpe-rule .merged, .bpe-hrow .merged { color: var(--sage); }
+.bpe-empty { font-size: 13px; color: var(--ink-mute); font-style: italic; }
+
 /* ============================================================
    Lab gallery
    ============================================================ */

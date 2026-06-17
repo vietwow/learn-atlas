@@ -48,9 +48,12 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ✅ iter 101: bookmarks (★ save lessons; dashboard section). ✅ iter 102: glossary 48→75 (PS + advanced terms).
    ✅ iter 103: per-topic mastery-composition bars on the Progress page.
    ✅ iter 104: "Redeem your mistakes" deck — every wrong MCQ is logged + drillable in mastery mode (the owner's
-   "think again until you pass" loop); + a 35th achievement (♻️ Redeemer). Ideas still open for this arc:
-   full-text lesson search in ⌘K; onboarding refresh; flashcard/quiz juice & transition polish; more deeper-dives;
-   a bookmarks ("Curator") achievement; a "redeem-streak" or surfacing missed-deck stats on the Progress page.
+   "think again until you pass" loop); + a 35th achievement (♻️ Redeemer).
+   ✅ iter 105: `llm-bpe` BPE tokenizer trainer (29th viz) — embedded in the LLM tokenization lesson. Ideas still open
+   for this arc: full-text lesson search in ⌘K; onboarding refresh; flashcard/quiz juice & transition polish; more
+   deeper-dives; a bookmarks ("Curator") achievement; surfacing missed-deck stats on the Progress page. MORE VIZ IDEAS
+   still open (backlog below): MDP policy-iteration, a learning-rate-schedule plot, a VAE latent-space explorer,
+   a GAN training-dynamics demo, a Q-learning/SARSA path demo.
    (former note) RL → model-based or offline RL (the LAST of the six; LLMs are already very deep). Then deepen-the-six is COMPLETE
    and the loop returns to the broad compass / more deeper-dives / new functionality.
    Author with `String.raw` + single-backslash LaTeX; the
@@ -107,10 +110,10 @@ shared "topics index" (id/title/blurb/color) loaded first + full lessons on dema
 - ~~"Explain it back" — free-text recall with self-grading (Feynman technique).~~ **DONE iter 53** (Recall tab; self-graded against the lesson's flashcards, feeds mastery + XP). Future: optional AI grading when the tutor lands.
 - Per-concept difficulty rating + adaptive question selection in tests.
 - ~~Interleaved review sessions (mix topics) beyond the SRS queue.~~ **partly DONE iter 68** — Daily Mix (`#/session`) chains due cards + a weak-spot quiz + a next lesson into one guided flow.
-- More viz ideas (28 widgets now; CLT iter 74, normal-explorer iter 76, covariance-scatter iter 79, CI-coverage
-  iter 84, diffusion noising iter 89, convex-landscape/GD-trap iter 92, hypothesis-test/p-value iter 98): MDP
-  policy-iteration, a BPE-merge animation, a learning-rate-schedule plot, a VAE latent-space explorer, a GAN
-  training-dynamics demo, a Q-learning/SARSA path demo (would pair with the upcoming RL deepening).
+- More viz ideas (29 widgets now; CLT iter 74, normal-explorer iter 76, covariance-scatter iter 79, CI-coverage
+  iter 84, diffusion noising iter 89, convex-landscape/GD-trap iter 92, hypothesis-test/p-value iter 98, BPE-merge
+  trainer iter 105): MDP policy-iteration, a learning-rate-schedule plot, a VAE latent-space explorer, a GAN
+  training-dynamics demo, a Q-learning/SARSA path demo (would pair with the RL deepening).
   NOTE: viz blurbs AND notes are NOT KaTeX-typeset (the Lab shows them raw) — use plain unicode (xₜ, √, ε, ᾱ), not $...$.
 - Lesson-embedded code exercises (`data-code` with `data-expected`) tied to each algorithm/DL lesson.
 - Reduced-motion + high-contrast accessibility modes.

@@ -2,6 +2,27 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 105 — Byte-Pair Encoding (BPE) trainer — a 29th visualization for LLM tokenization (visualizations)
+The LLM topic had three viz (embeddings, attention, decoding) but **no tokenization viz** — yet "Tokenization and
+Subword Vocabularies (BPE)" is one of the most-asked-about, least-intuitive LLM topics, and its lesson had only a
+*static* worked example. Added **`llm-bpe`**, an interactive BPE trainer embedded right above that lesson's worked
+example: starting from the raw character alphabet, each press **merges the single most frequent adjacent pair** across
+the whole corpus into a new token. The learner watches, live: the **gold pending pair** about to merge, merged tokens
+turning **sage**, the **vocabulary growing by one each step**, the **corpus token count shrinking**, and the **learned
+merge-rule list** (which *is* the tokenizer). Controls: *Merge next pair · Run all merges · Reset*. Uses the
+HuggingFace-tutorial toy corpus (`hug`×10, `pug`×5, `pun`×12, `bun`×4, `hugs`×5) which has decisive winners — the merges
+come out **ug (20×) → un (16×) → hug (15×)** exactly, vocabulary 7→14, corpus 113→36 tokens at convergence. Pure-DOM
+widget (no canvas), so it's crisp and fully responsive (columns stack at 390px). No background timers — step/run are
+synchronous, so nothing leaks across navigations. SW cache → `atlas-v49`; README 28→29 widgets (+Lab blurb). Verified:
+`node gate.js` ALL GREEN (29 widgets); a standalone logic test reproduces the HF merge order, vocab growth, and corpus
+shrink; an 18-route smoke run is **errs=0** with probes confirming 16 token chips render in BOTH the lesson embed and
+the Lab item, and that two simulated merge-clicks produce 5 merged chips + 2 history rows + the correct next-pair
+("h + ug = hug 15×"); desktop + 390px screenshots confirm the design (stats 3/10/62 and 2/9/77 match the algorithm
+step-for-step); stray Chrome cleaned up.
+**Bug caught in verification:** the first pair-key used an empty-string separator, and `indexOf('')` is always 0 — the
+split point was lost. Fixed to a `` control-char delimiter (the live widget already had this; only the throwaway
+test had the typo, which is exactly how it surfaced).
+
 ## iter 104 — "Redeem your mistakes" deck: every wrong answer becomes drillable (new functionality + gamification)
 Directly serves the owner's most-repeated ask — *"more questions so that failing means re-thinking until you pass."*
 Now **every MCQ you answer incorrectly** — in a lesson quiz, a spawned test, or a mastery drill — is logged to a

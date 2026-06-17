@@ -1448,4 +1448,91 @@
     draw();
   });
 
+  /* ========================================================
+     29. Byte-Pair Encoding — watch a tokenizer learn its merges (LLM)
+     ======================================================== */
+  register({ id: 'llm-bpe', topic: 'llm', title: 'Byte-Pair Encoding (BPE) Merges', blurb: 'Train a tokenizer step by step: start from characters, then repeatedly merge the most frequent adjacent pair. The vocabulary grows; the corpus shrinks.' },
+  function (root) {
+    // HuggingFace-tutorial toy corpus: clean, decisive winners (ug → un → hug …)
+    const SEED = [{ w: 'hug', f: 10 }, { w: 'pug', f: 5 }, { w: 'pun', f: 12 }, { w: 'bun', f: 4 }, { w: 'hugs', f: 5 }];
+    const alpha = new Set(); SEED.forEach(s => s.w.split('').forEach(ch => alpha.add(ch)));
+    const BASE = alpha.size;        // size of the starting alphabet
+    let words, merges;
+    function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+    const stage = el('div', 'bpe-stage', root);
+    const corpusEl = el('div', 'bpe-corpus', stage);
+    const sideEl = el('div', 'bpe-side', stage);
+    const ctl = controls(root);
+    const info = note(root);
+    let stepBtn, runBtn;
+
+    function pairCounts() {
+      const m = new Map();
+      words.forEach(wd => { for (let i = 0; i < wd.toks.length - 1; i++) { const k = wd.toks[i] + '' + wd.toks[i + 1]; m.set(k, (m.get(k) || 0) + wd.f); } });
+      return m;
+    }
+    function bestPair() {
+      let best = null, bc = 0;
+      pairCounts().forEach((c, k) => { if (c > bc) { bc = c; best = k; } });   // strict > keeps the first of any tie
+      if (!best || bc < 2) return null;
+      const i = best.indexOf(''); return { a: best.slice(0, i), b: best.slice(i + 1), count: bc };
+    }
+    function corpusTokens() { return words.reduce((s, wd) => s + wd.toks.length * wd.f, 0); }
+    function applyMerge() {
+      const bp = bestPair(); if (!bp) return false;
+      const merged = bp.a + bp.b;
+      words.forEach(wd => {
+        const out = [];
+        for (let i = 0; i < wd.toks.length; i++) {
+          if (i < wd.toks.length - 1 && wd.toks[i] === bp.a && wd.toks[i + 1] === bp.b) { out.push(merged); i++; }
+          else out.push(wd.toks[i]);
+        }
+        wd.toks = out;
+      });
+      merges.push({ a: bp.a, b: bp.b, merged: merged, count: bp.count });
+      return true;
+    }
+    function render() {
+      const p = P(), bp = bestPair();
+      corpusEl.innerHTML = '';
+      el('div', 'bpe-clabel', corpusEl).textContent = 'Corpus — each word as a token sequence (× frequency)';
+      words.forEach(wd => {
+        const row = el('div', 'bpe-word', corpusEl);
+        el('span', 'bpe-freq', row).textContent = wd.f + '×';
+        const toks = el('span', 'bpe-toks', row);
+        const pend = new Set();
+        if (bp) for (let i = 0; i < wd.toks.length - 1; i++) { if (wd.toks[i] === bp.a && wd.toks[i + 1] === bp.b) { pend.add(i); pend.add(i + 1); i++; } }
+        wd.toks.forEach((t, i) => {
+          const chip = el('span', 'bpe-tok', toks); chip.textContent = t;
+          if (t.length > 1) chip.classList.add('merged');
+          if (pend.has(i)) chip.classList.add('pending');
+        });
+      });
+      sideEl.innerHTML = '';
+      const stats = el('div', 'bpe-stats', sideEl);
+      stats.innerHTML = `<div><b>${merges.length}</b><span>merges</span></div><div><b>${BASE + merges.length}</b><span>vocab size</span></div><div><b>${corpusTokens()}</b><span>corpus tokens</span></div>`;
+      const nx = el('div', 'bpe-next', sideEl);
+      nx.innerHTML = bp
+        ? `Most frequent pair → <span class="bpe-rule">${esc(bp.a)} + ${esc(bp.b)} = <b class="merged">${esc(bp.a + bp.b)}</b></span> <span class="bpe-c">${bp.count}×</span>`
+        : `<span class="bpe-doneflag">✓ Converged — no adjacent pair repeats anymore.</span>`;
+      const hist = el('div', 'bpe-hist', sideEl);
+      hist.innerHTML = '<div class="bpe-clabel">Learned merge rules (the growing vocabulary)</div>' +
+        (merges.length
+          ? merges.map((m, k) => `<div class="bpe-hrow"><span class="bpe-hn">${k + 1}</span><span>${esc(m.a)} + ${esc(m.b)} → <b class="merged">${esc(m.merged)}</b></span><span class="bpe-c">${m.count}×</span></div>`).join('')
+          : '<div class="bpe-empty">none yet — press “Merge next pair”.</div>');
+      if (stepBtn) stepBtn.disabled = !bp;
+      if (runBtn) runBtn.disabled = !bp;
+      info.innerHTML = `BPE begins with the raw alphabet (here <b>${BASE}</b> characters) and repeatedly merges the <b>most frequent adjacent pair</b> into a new token. Every merge adds one entry to the vocabulary and shortens the corpus — frequent chunks like “ug”, “un”, “hug” collapse into single tokens while rare words stay split. Real tokenizers (GPT, LLaMA) run tens of thousands of these merges over web-scale text; the learned merge list IS the tokenizer.`;
+    }
+    function step() { if (applyMerge()) render(); }
+    function runAll() { let g = 0; while (applyMerge() && g < 30) g++; render(); }
+    function reset() { words = SEED.map(s => ({ toks: s.w.split(''), f: s.f })); merges = []; render(); }
+
+    stepBtn = button(ctl, '▶ Merge next pair', step, 'primary');
+    runBtn = button(ctl, '⏩ Run all merges', runAll);
+    button(ctl, '↺ Reset', reset);
+    reset();
+  });
+
 })();
