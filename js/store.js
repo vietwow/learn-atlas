@@ -41,15 +41,24 @@
     { id: "coder",       icon: "💻", name: "Hello, World",     desc: "Run code in the playground." },
     { id: "mastered-one",icon: "🏔️", name: "Mastery",          desc: "Reach 80% mastery on a concept." },
     { id: "module-master",icon:"📗", name: "Module Master",    desc: "Complete every lesson in a module." },
-    { id: "all-topics",  icon: "🌍", name: "Renaissance",      desc: "Study a lesson in all six topics." },
+    { id: "all-topics",  icon: "🌍", name: "Renaissance",      desc: "Study a lesson in every subject." },
     { id: "century",     icon: "💯", name: "Centurion",        desc: "Review 100 flashcards." },
     { id: "streak30",    icon: "🗓️", name: "Devoted",          desc: "Reach a 30-day streak." },
     { id: "polymath",    icon: "👑", name: "Polymath",        desc: "Reach the final level." },
     { id: "recaller",    icon: "🧠", name: "Explain It Back",  desc: "Self-score your first free recall." },
     { id: "total-recall",icon: "🎓", name: "Total Recall",     desc: "Recall every key point of a lesson." },
     { id: "deep-diver",  icon: "🧗", name: "Deep Diver",       desc: "Reach 80% mastery on 10 concepts." },
-    { id: "well-rounded",icon: "⚖️", name: "Well-Rounded",     desc: "Reach Proficient mastery in all six subjects." },
-    { id: "half-century",icon: "🏅", name: "Half-Century",     desc: "Complete 50 lessons." }
+    { id: "well-rounded",icon: "⚖️", name: "Well-Rounded",     desc: "Reach Proficient mastery in every subject." },
+    { id: "half-century",icon: "🏅", name: "Half-Century",     desc: "Complete 50 lessons." },
+    { id: "streak100",   icon: "🛡️", name: "Iron Will",        desc: "Reach a 100-day streak." },
+    { id: "mcq-100",     icon: "🏹", name: "Sharpshooter",     desc: "Answer 100 quiz questions correctly." },
+    { id: "mcq-500",     icon: "🦅", name: "Deadeye",          desc: "Answer 500 quiz questions correctly." },
+    { id: "cards-500",   icon: "🏰", name: "Memory Palace",    desc: "Review 500 flashcards." },
+    { id: "homework-hero",icon:"✍️", name: "Homework Hero",    desc: "Work through 25 homework solutions." },
+    { id: "test-veteran",icon: "🗂️", name: "Test Veteran",     desc: "Complete 10 custom tests." },
+    { id: "loremaster",  icon: "🦉", name: "Loremaster",       desc: "Reach 80% mastery on 25 concepts." },
+    { id: "erudite",     icon: "✨", name: "Erudite",          desc: "Earn 5,000 total XP." },
+    { id: "atlas-complete",icon:"🌐",name: "Atlas Complete",   desc: "Complete every lesson in every subject." }
   ];
 
   function blank() {
@@ -130,6 +139,7 @@
     if (state.streak >= 3) unlock("streak3");
     if (state.streak >= 7) unlock("streak7");
     if (state.streak >= 30) unlock("streak30");
+    if (state.streak >= 100) unlock("streak100");
     save();
   }
   function freezeJustUsed() { const v = _freezeJustUsed; _freezeJustUsed = false; return v; }
@@ -150,6 +160,7 @@
     const lv = levelInfo();
     if (lv.level >= 4) unlock("scholar");
     if (lv.level >= LEVELS.length) unlock("polymath");
+    if (state.xp >= 5000) unlock("erudite");
     save();
     return state.xp;
   }
@@ -197,6 +208,7 @@
       if (window.COURSES) {
         for (const c of window.COURSES) for (const m of c.modules) if (m.lessons.length && m.lessons.every(l => state.lessons[l.id])) unlock("module-master");
         if (window.COURSES.every(c => c.modules.some(m => m.lessons.some(l => state.lessons[l.id])))) unlock("all-topics");
+        if (window.COURSES.every(c => c.modules.every(m => m.lessons.every(l => state.lessons[l.id])))) unlock("atlas-complete");
       }
     }
     save();
@@ -219,6 +231,8 @@
     state.mcq.total += total;
     addXP(correct * XP.mcqCorrect);
     if (total > 0 && correct === total) { addXP(XP.mcqPerfect); unlock("perfect"); }
+    if (state.mcq.correct >= 100) unlock("mcq-100");
+    if (state.mcq.correct >= 500) unlock("mcq-500");
     if (lessonId) { for (let k = 0; k < correct; k++) bumpMastery(lessonId, { correct: true }); for (let k = 0; k < total - correct; k++) bumpMastery(lessonId, { correct: false }); }
     save();
   }
@@ -230,8 +244,11 @@
     addXP(correct * 8);
     unlock("test-taker");
     if (total >= 10 && correct === total) { addXP(50); unlock("exam-ace"); }
+    if (state.mcq.correct >= 100) unlock("mcq-100");
+    if (state.mcq.correct >= 500) unlock("mcq-500");
     state.tests.unshift({ label: String(label || "Test"), correct, total });
     state.tests = state.tests.slice(0, 25);
+    if (state.tests.length >= 10) unlock("test-veteran");
     save();
   }
 
@@ -239,6 +256,7 @@
     if (state.hwRevealed[hwId]) return;
     state.hwRevealed[hwId] = true;
     addXP(XP.hwReveal);
+    if (Object.keys(state.hwRevealed).length >= 25) unlock("homework-hero");
     save();
   }
 
@@ -258,6 +276,7 @@
       let nMastered = 0;
       for (const c of window.COURSES) for (const mm of c.modules) for (const l of mm.lessons) if (effectiveMastery(l.id) >= 0.8) nMastered++;
       if (nMastered >= 10) unlock("deep-diver");
+      if (nMastered >= 25) unlock("loremaster");
       if (window.COURSES.length >= 6 && window.COURSES.every(c => topicMastery(c.id) >= 0.55)) unlock("well-rounded");
     }
     save();
@@ -323,6 +342,7 @@
     bumpMastery(String(cardId).split(":")[0], { grade: grade });
     if (state.cardsReviewed >= 25) unlock("cards25");
     if (state.cardsReviewed >= 100) unlock("century");
+    if (state.cardsReviewed >= 500) unlock("cards-500");
     save();
   }
   // projected next-review interval (days) for each grade, WITHOUT mutating — mirrors gradeCard()

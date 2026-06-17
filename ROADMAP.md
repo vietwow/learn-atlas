@@ -131,4 +131,10 @@ iter 52. If the pipeline is reused, make the author/verify prompts mandate `<str
   happen to carry DOUBLE backslashes in-memory and ALSO render fine — KaTeX is robust to both here — so don't be
   alarmed by the mismatch; single-backslash is the cleaner standard. Generator pattern saved at
   `/tmp/gen_ps_module3.js` (back up the data file first: `cp data/probability-statistics.js /tmp/ps_backup.js`).
+- **10-iter checkpoint (iter 80):** iters 71–79 were almost all *content* (PS topic + MCQ sweeps) and *viz*
+  (CLT, normal-explorer, covariance-scatter). NEGLECTED and due for rotation: **UI/UX polish, animations/juice,
+  accessibility, performance, onboarding.** Gamification was addressed iter 80 (9 new achievements, 25→34; owner's
+  "more achievements" ask now DELIVERED). Next non-content/non-viz pick should come from the neglected list above
+  before the loop returns to PS Module 4. Achievements are awarded from existing state only (no new save fields) —
+  if you add one needing new tracking, update blank() + load() merge with Number.isFinite.
 - (loop appends findings here)

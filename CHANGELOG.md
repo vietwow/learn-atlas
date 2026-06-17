@@ -2,6 +2,24 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 80 — Nine new achievements + stale-count fixes (gamification; owner "more achievements" ask) — 10-iter checkpoint
+**Checkpoint review (iters 71–79):** the last ten iterations were almost entirely *content* (the new Probability &
+Statistics topic + MCQ sweeps) and *visualizations* (CLT, normal explorer, covariance scatter). Gamification, UI/UX,
+animations, and accessibility had gone quiet — and the owner's explicit 2026-06-17 ask for "more achievements" was
+still undelivered. So this iteration is gamification.
+Added **9 achievements (25 → 34)**, all awardable from already-tracked state (no new save fields, so every prior
+save still loads): **Iron Will** (100-day streak), **Sharpshooter** (100 quiz answers correct), **Deadeye** (500
+correct), **Memory Palace** (review 500 flashcards), **Homework Hero** (work through 25 homework solutions),
+**Test Veteran** (complete 10 custom tests), **Loremaster** (80% mastery on 25 concepts), **Erudite** (5,000 total
+XP), and **Atlas Complete** (finish every lesson in every subject). These fill the long gap between the early
+milestones and the end-game (Polymath/Atlas Complete) and give the well-built site visible new goals. Also fixed two
+**stale descriptions** that still said "six topics/subjects" (there are now seven) — reworded to "every subject"
+(the award logic already iterated all courses, so only the text was wrong). SW cache → `atlas-v24`; README 25→34.
+Verified: `node gate.js` ALL GREEN; the Achievements page renders all **34** cards ("0 of 34 unlocked"), errs=0;
+a 13-route smoke is errs=0; and a Node functional test confirms each new unlock fires at its threshold
+(mcq-100/500, cards-500, homework-hero, test-veteran, loremaster, erudite at 5k XP, atlas-complete on full
+completion) and stays locked below it. Stray Chrome cleaned up.
+
 ## iter 79 — Covariance & Correlation scatter visualization (visualizations; owner depth direction)
 A new interactive widget (`ps-covariance-scatter`, the 24th) that makes correlation *visceral*. A base cloud of 200
 bivariate-normal points is generated once; dragging the **ρ slider** (−1…1) recomputes each point as
