@@ -177,6 +177,11 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 224: **Deeper dives for PS (2→4) — depth pass COMPLETE** (understandability). PS was the lone thin topic; added
+   ps-conditional-expectation (E[Y|X] = best predictor = what regression learns; tower + total variance) and
+   ps-law-of-large-numbers (LLN vs CLT; σ/√n shrinkage; finite-variance caveat). Every topic now ≥3 deep-dives (LA3 Calc3
+   Algo3 DL4 LLM4 RL4 PS4). Byte-stable inject. Verified: gate GREEN (lints), cond-exp dive katex=22/kErr=0 + fires
+   deep-thinker, smoke errs=0/kErr=0 (10 routes). SW →v167. (Deep-dive arc done — no need to return; future = viz/practice/delight.)
    ✅ iter 223: **Three more runnable code exercises (8→11 lessons)** (new functionality / active practice — diversifies from
    viz). Added JS exercises to a-trees-heaps (BST insert+inorder → "1 2 3 4 5 6 7 8 9"), a-mst-union-find (union-find
    components → "3"), a-string-algorithms (naive substring search → "0 7"). Byte-stable inject. Verified: all 6 embedded JS

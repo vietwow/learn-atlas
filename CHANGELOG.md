@@ -2,6 +2,20 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 224 — Deeper dives for Probability & Statistics — completing the depth pass (understandability)
+PS was the lone topic still at 2 "Deeper dives"; raised it to **4**, so **every subject now carries ≥3** (LA 3, Calc 3,
+Algo 3, DL 4, LLM 4, RL 4, PS 4) — the depth pass is complete. Two on ML-central ideas:
+- **`ps-conditional-expectation`** — *conditional expectation is the best predictor*: among all $g(X)$, $\mathbb{E}[Y\mid X]$
+  minimizes $\mathbb{E}[(Y-g(X))^2]$ — so regression (linear or neural) is just an attempt to learn the conditional mean;
+  plus the tower property and the total-variance (explained/unexplained) decomposition.
+- **`ps-law-of-large-numbers`** — *LLN vs CLT*: the LLN says $\bar X_n\to\mu$; the CLT says the error is
+  $\mathcal{N}(0,\sigma^2/n)$, shrinking like $\sigma/\sqrt n$ — why halving error needs 4× data (Monte Carlo, polling
+  margins, minibatch noise), and the finite-variance caveat (Cauchy breaks it).
+Byte-stable injection (no-op guard; `String.raw` LaTeX; even-`$` + no-markdown pre-checks; no raw `<` in math). Verified:
+`gate.js` ALL GREEN incl. render-hazard lints (2,368 MCQs · 48 widgets); the conditional-expectation dive (densest, 44
+`$`) renders **katex=22, kErr=0, errs=0** and fires **deep-thinker**; all-routes smoke (10 routes incl. both lessons)
+**errs=0/kErr=0**. SW cache `atlas-v166` → `atlas-v167`.
+
 ## iter 223 — Three more runnable code exercises for Algorithms (new functionality / active practice)
 Extended the hands-on coding practice from **8 → 11 lessons**, adding runnable JS exercises (each a complete, correct
 reference implementation the learner runs for an instant ✓, then edits) to three foundational data-structure/algorithm
