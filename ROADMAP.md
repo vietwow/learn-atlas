@@ -177,6 +177,12 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 189: **FIX (broken-wins)** — math containing a literal `<`+letter (e.g. `x_{<t}`) was truncated site-wide
+   (HTML tokenizer ate it as a tag start → raw `$` showed; 621 `<` across 332 strings, heaviest in LLM/DL).
+   `escapeMathLt` + boot-time `normalizeMath()` in app.js escape `<`→`&lt;` *inside math spans only* (in-memory; data
+   files unchanged). + MCQ arc → **LLM·Foundations 12→16** (all 3 lessons, +12, bank →2,224); 6th topic OPENED.
+   Adversarial ALL PASS; positions balanced; lecture rawDollars 13→0, quiz 3→0; multi-topic + all-routes errs=0; SW →v132.
+   ARC REMAINING: LLMs (5 modules left), Probability & Statistics.
    ✅ iter 188: 4 endgame achievements (gamification — owner-loved; non-content; 46→50): 📕 Centenarian (100 lessons),
    🏆 Marksman (2,000 correct), 🗿 Savant (50 concepts mastered), 🔬 Full Spectrum (open every viz — threshold reads
    live VIZ_CATALOG). No new state (reuse existing counters → prior saves load). Node test: count 50, unlocks fire,
@@ -423,6 +429,15 @@ workflow author agent on all 6 retries (~3h wasted) — author those DIRECTLY wi
 iter 52. If the pipeline is reused, make the author/verify prompts mandate `<strong>`/`<em>`, never markdown.
 
 ## Notes / discoveries
+- **★ LANDMINE — literal `<` inside math breaks rendering (found+fixed iter 189):** math content is injected via
+  `innerHTML` *before* `typeset()`; a `<` immediately followed by a letter (e.g. `x_{<t}`, or `\alpha<1` written
+  without a space) is parsed as an HTML tag-open, truncating the text node and breaking the `$…$` pair → raw `$`
+  shows and the rest of the expression vanishes. Was site-wide (621 instances, 332 strings). FIXED centrally by
+  `escapeMathLt`/`normalizeMath()` in app.js (escapes `<`→`&lt;` inside math at boot, in-memory). **You no longer
+  need to hand-escape `<` in data** — the normalizer covers content/mcq/examples/homework/flashcards/glossary. But
+  if you add a NEW innerHTML+math render path or a new data field, make sure it flows through `normalizeMath()` (or
+  the rendered string is `escapeMathLt`-clean). `>` is safe unescaped; only `<`+letter breaks. Verify new math views
+  with the rawDollars=0 / katex>0 / kErr=0 harness.
 - **Architecture review (iter 36):** layer discipline is clean — content in `data/*.js`, visualizations in
   `js/viz.js` (818 ln, cohesive registry of 18 widgets), playground in `js/playground.js`, state + SM-2 +
   mastery in `js/store.js` (374 ln), all app/router/views in `js/app.js` (1381 ln), styles in `css/styles.css`.

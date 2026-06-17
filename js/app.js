@@ -7,6 +7,51 @@
   const app = document.getElementById("app");
   const esc = s => String(s == null ? "" : s);
 
+  // ---------- math-safe content normalization ----------
+  // KaTeX delimiters ($...$ / $$...$$) are injected into the DOM via innerHTML BEFORE
+  // typeset() runs. A literal "<" followed by a letter inside math (e.g. x_{<t}, \alpha<1)
+  // is parsed by the HTML tokenizer as the start of a tag, which truncates the text node and
+  // breaks the surrounding $...$ pair (the math then shows as raw dollar signs). Fix: escape
+  // "<" to &lt; *inside math spans only*; the HTML parser turns &lt; back into a literal "<"
+  // in the text node, which KaTeX renders correctly. Idempotent (&lt; has no "<"); leaves
+  // HTML tags, matrix "&", and escaped \$ untouched. Runs once over all data at boot.
+  function escapeMathLt(s) {
+    if (!s || typeof s !== "string") return s;
+    if (s.indexOf("$") < 0 || s.indexOf("<") < 0) return s;
+    let out = "", i = 0; const n = s.length;
+    while (i < n) {
+      const ch = s[i];
+      if (ch === "\\") { out += ch + (s[i + 1] || ""); i += 2; continue; } // copy escaped pair (\$, \\, …)
+      if (ch === "$") {
+        const disp = s[i + 1] === "$";
+        const delim = disp ? "$$" : "$";
+        let j = i + delim.length, math = "", closed = -1;
+        while (j < n) {
+          if (s[j] === "\\") { math += s[j] + (s[j + 1] || ""); j += 2; continue; }
+          if (disp ? (s[j] === "$" && s[j + 1] === "$") : s[j] === "$") { closed = j; break; }
+          math += s[j]; j++;
+        }
+        if (closed < 0) { out += s.slice(i); break; } // unbalanced — leave the remainder as-is
+        out += delim + math.replace(/</g, "&lt;") + delim;
+        i = closed + delim.length;
+      } else { out += ch; i++; }
+    }
+    return out;
+  }
+  let _mathNormalized = false;
+  function normalizeMath() {
+    if (_mathNormalized) return; _mathNormalized = true;
+    const E = escapeMathLt;
+    (window.COURSES || []).forEach(c => (c.modules || []).forEach(m => (m.lessons || []).forEach(l => {
+      if (l.content) l.content = E(l.content);
+      (l.mcq || []).forEach(q => { q.q = E(q.q); q.explain = E(q.explain); if (Array.isArray(q.choices)) q.choices = q.choices.map(E); });
+      (l.examples || []).forEach(ex => { for (const k in ex) if (typeof ex[k] === "string") ex[k] = E(ex[k]); });
+      (l.homework || []).forEach(hw => { for (const k in hw) if (typeof hw[k] === "string") hw[k] = E(hw[k]); });
+      (l.flashcards || []).forEach(fc => { for (const k in fc) if (typeof fc[k] === "string") fc[k] = E(fc[k]); });
+    })));
+    (window.GLOSSARY || []).forEach(g => { for (const k in g) if (typeof g[k] === "string") g[k] = E(g[k]); });
+  }
+
   // ---------- math typeset ----------
   function typeset(retries) {
     if (window.renderMathInElement) {
@@ -2246,6 +2291,7 @@
 
   // ---------- boot ----------
   function boot() {
+    normalizeMath();               // escape "<" inside math so KaTeX delimiters survive innerHTML
     Store.touchStreak();           // count today toward streak on open
     applyTextScale();
     initTheme();

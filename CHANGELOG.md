@@ -2,6 +2,39 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 189 — FIX: math with "<" was silently truncated site-wide (bug) + LLM Foundations 12→16 MCQs (content)
+**Broken-always-wins.** While extending the LLM MCQ arc I discovered a real, *visible*, site-wide rendering bug.
+KaTeX delimiters (`$…$` / `$$…$$`) are injected into the DOM via `innerHTML` **before** `typeset()` runs. A literal
+`<` immediately followed by a letter inside math — e.g. the ubiquitous LLM notation `x_{<t}` ("tokens before t"), or
+`\alpha < 1` written as `<1` — is interpreted by the HTML tokenizer as the **start of a tag**, which truncates the
+text node and breaks the surrounding `$…$` pair. The math then rendered as **raw dollar signs**, and everything after
+the `<` in that expression vanished. Measured impact: **621 `<` characters across 332 content strings** (heaviest in
+LLM & deep-learning, where `x_{<t}` is everywhere; e.g. the *What a Language Model Is* lecture showed 13 raw-dollar
+breaks and its quiz Q1 had 3 of 4 choices broken).
+- **Fix** (`js/app.js`): added `escapeMathLt(s)` — a delimiter-aware scanner that escapes `<` → `&lt;` **only inside
+  math spans** (respects `\$` escapes, leaves HTML tags, matrix `&`, and `>` untouched; idempotent). The HTML parser
+  then turns `&lt;` back into a literal `<` in the *text node*, which KaTeX renders correctly. A one-time
+  `normalizeMath()` runs at the top of `boot()` over every lesson `content`, MCQ `q`/`choices`/`explain`, examples,
+  homework, flashcards, and glossary def. Source data files keep their readable LaTeX (no `<` rewriting on disk);
+  the escape happens in-memory at load. No `data/` files needed changing for the fix.
+- **Verified**: node harness proved the transform's *only* effect is `<`→`&lt;` (escaped 621, **zero** other byte
+  diffs across 17,484 scanned strings; `\$` currency and matrix `&` preserved). Browser: *What a Language Model Is*
+  lecture rawDollars **13→0** (katex 55→67), quiz Q1 rawDollars **3→0** (katex 2→5 — stem + all 4 choices now render);
+  DL/Algorithms(`\$` currency, 195 katex)/Probability/Linear-Algebra(matrix `&`, 114 katex) lectures all rawDollars=0,
+  kErr=0; all-routes smoke (15 routes) errs=0; quiz legible at 390px with all math rendered.
+
+Also in this iter (the content work that surfaced the bug): **LLM → Foundations module, all 3 lessons 12 → 16 MCQs**
+(+12; bank **2,212 → 2,224**). New foundational questions per lesson, adversarially fact-checked (ALL PASS), answer
+positions balanced 0/1/2/3 with distinct per-lesson patterns:
+- *What a Language Model Is*: self-supervision, the n-gram Markov assumption vs. full-prefix attention, perplexity
+  comparability across tokenizers, and which token dominates the NLL (the rarest-assigned one).
+- *Tokenization & BPE*: the word-vs-char tradeoff, vocab-size = base + #merges, why byte/char-level is costly
+  (O(n²) attention, weak units), and SentencePiece's raw-stream / `▁` reversibility.
+- *Embeddings & Prediction Head*: param count `V·d_model ≈ 205M`, temperature τ>1 flattening, logits-vs-probabilities,
+  and the end-to-end token→embed→blocks→logits→softmax→sample pipeline.
+This opens the 6th topic of the 12→16 MCQ arc (LA✓ Calc✓ Algos✓ DL✓ RL✓ — LLM started; Prob&Stats remains).
+SW cache `atlas-v131` → `atlas-v132`.
+
 ## iter 188 — 4 "endgame" achievements for the long-haul learner (gamification — owner-loved)
 Gamification was 20 iters stale (last at 168), and the achievement *progression* had clear ceilings now that the site
 is vast (148 lessons, 2,212-MCQ bank, 41 widgets, 5/7 topics complete): lessons capped at 50, correct-answers at 1,000,

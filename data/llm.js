@@ -149,6 +149,50 @@
               ],
               "answer": 2,
               "explain": "The normalization is over the entire set $\\mathcal{V}^*$ of all finite sequences, not within each length, so nothing forces longer-equals-smaller across lengths; a fluent long sentence can outscore a short gibberish one. The claim conflates the per-step multiplication of $\\le 1$ factors (true only when comparing prefixes of the same string) with a universal rule about length."
+            },
+            {
+              "q": "The lesson calls next-token prediction a *self-supervised* learning problem with an effectively unlimited supply of training data. What makes it self-supervised?",
+              "choices": [
+                "A team of human annotators must label the correct next token at every position before training can begin.",
+                "The model first generates its own text by sampling, then trains on those generated samples as if they were ground truth.",
+                "Every position in raw text is already a labeled example — the input is the preceding tokens and the label is the actual next token — so no human annotation is needed.",
+                "The objective uses no targets at all; the model minimizes a purely unsupervised reconstruction error with no notion of a \"correct\" token."
+              ],
+              "answer": 2,
+              "explain": "The chain-rule factorization turns each position into a free $(x_{<t},\\, x_t)$ training pair drawn straight from raw text. The supervision is baked into the data itself, which is exactly why language models could scale to internet-sized corpora without manual labeling."
+            },
+            {
+              "q": "Classical $n$-gram models approximate $P(x_t \\mid x_{<t}) \\approx P(x_t \\mid x_{t-n+1}, \\ldots, x_{t-1})$. What does this Markov assumption sacrifice, and how do Transformer-based language models differ?",
+              "choices": [
+                "It discards dependencies beyond the last $n-1$ tokens; Transformers instead let the entire prefix condition each prediction, so distant context can still matter.",
+                "It discards the chain-rule factorization itself; Transformers restore the chain rule that $n$-grams had abandoned.",
+                "It makes the model bidirectional; Transformers are strictly unidirectional and therefore weaker on long contexts.",
+                "It forces an unbounded context window; Transformers fix the cost by truncating context to exactly $n-1$ tokens."
+              ],
+              "answer": 0,
+              "explain": "The Markov shortcut keeps the conditioning context small but throws away long-range dependencies. The chain rule never required it — $n$-grams adopted it out of necessity. Neural LMs, especially Transformers via attention, condition on the full prefix through learned representations, so \"long ago in the document\" can still influence \"right now.\""
+            },
+            {
+              "q": "You compute a perplexity of 18 for a subword model and 2.9 for a character-level model on the same English text. Why is it invalid to conclude the character model is the better language model?",
+              "choices": [
+                "Perplexity is only defined for autoregressive models, and one of these two might be a masked model.",
+                "Lower perplexity is actually worse, so the subword model (18) is the stronger one.",
+                "A character-level model's perplexity can never drop below its vocabulary size, so 2.9 must be a computation error.",
+                "Perplexity is a per-token quantity, and the two models split the same text into different numbers of tokens — per-character and per-word entropy are different units, so the numbers aren't comparable."
+              ],
+              "answer": 3,
+              "explain": "Perplexity is only comparable across models that share a tokenization (same $T$, same vocabulary). A character-level model and a subword model report perplexities in incommensurable units; if you must compare across tokenizers, use a tokenizer-independent measure such as bits-per-byte."
+            },
+            {
+              "q": "In the worked example, the model assigned the true tokens probabilities $0.10, 0.20, 0.05, 0.50$, for a total NLL of about $7.60$ nats. Which single token contributed the *most* to this loss, and why?",
+              "choices": [
+                "\"down\" ($p = 0.50$), because the model was most confident about it and confident predictions are penalized hardest.",
+                "\"sat\" ($p = 0.05$), because $-\\log p$ grows without bound as $p \\to 0$, so the token assigned the smallest probability dominates the negative log-likelihood.",
+                "\"the\" ($p = 0.10$), because it is the first token and earlier positions are weighted more heavily in the sum.",
+                "All four contribute equally, because the loss is an average and every token counts the same."
+              ],
+              "answer": 1,
+              "explain": "The loss is $-\\log p$ summed per token. Here $-\\log 0.05 \\approx 3.00$ nats is the largest single term, because $-\\log p \\to \\infty$ as $p \\to 0$. Rare mistakes with tiny assigned probability are punished hard, while confident correct predictions (e.g. \"down\", $-\\log 0.5 \\approx 0.69$) cost little."
             }
           ],
           "flashcards": [
@@ -344,6 +388,50 @@
               ],
               "answer": 2,
               "explain": "Frequency-based merges split numbers inconsistently (e.g. <code>1234567</code> might become <code>123</code>+<code>4567</code>), hiding clean place-value structure; forcing single-digit tokens gives a uniform per-digit representation the model can align into columns to learn carrying. Per-digit splitting actually lengthens the sequence (so choice 1 is backwards), and byte-level BPE already prevents <UNK> for digits."
+            },
+            {
+              "q": "Why does subword tokenization (like BPE) sit between word-level and character-level schemes rather than adopting either extreme?",
+              "choices": [
+                "Word-level produces sequences that are too long, while character-level cannot represent rare words — subwords repair both problems.",
+                "Word-level has an unbounded, sparse vocabulary that forces $\\langle$UNK$\\rangle$ on unseen words, while character-level keeps a tiny vocabulary but makes sequences very long and each unit nearly meaningless — subwords keep a closed, modest vocabulary with short sequences and no true unknowns.",
+                "Word-level and character-level produce identical sequence lengths, so subwords are chosen purely on aesthetic grounds.",
+                "Character-level has the open-vocabulary problem and word-level has the long-sequence problem — subwords inherit neither."
+              ],
+              "answer": 1,
+              "explain": "Words are too coarse (open vocabulary forcing $\\langle$UNK$\\rangle$, huge sparse tables, no morphology sharing); characters/bytes are too fine (very long sequences, weak units of meaning). Subwords keep frequent words whole, break rare words into reusable pieces, and never emit an unknown. (Choices A and D swap the two failure modes — it is word-level that has the open vocabulary and character-level that has the long sequences.)"
+            },
+            {
+              "q": "In BPE, what is the main knob that controls the final vocabulary size?",
+              "choices": [
+                "The length of the longest word in the corpus, since each word becomes exactly one token.",
+                "The number of distinct languages in the corpus, since each language needs its own alphabet.",
+                "A temperature parameter used during encoding, which probabilistically expands the vocabulary at inference.",
+                "The number of merge operations performed during training — the final vocabulary size $\\approx$ (number of base symbols) $+$ (number of merges)."
+              ],
+              "answer": 3,
+              "explain": "BPE starts from the base symbols and adds exactly one new symbol per merge, so you set the vocabulary size by choosing how many merges to run (e.g. until you reach 30k / 50k / 100k+). Encoding has no temperature, and word length does not determine vocabulary size."
+            },
+            {
+              "q": "Character- or byte-level tokenization has zero unknown tokens, yet it is rarely used alone for large LLMs. What is the main cost the lesson highlights?",
+              "choices": [
+                "Sequences become much longer, and since self-attention costs $O(n^2)$ in sequence length, long sequences are expensive and consume the fixed context window — while each character carries little semantic signal.",
+                "Byte-level vocabularies require hundreds of thousands of base symbols, making the embedding table enormous.",
+                "Character models frequently emit $\\langle$UNK$\\rangle$ tokens for accented letters and emoji.",
+                "Each character maps to an unpredictable number of tokens, so sequence length cannot be batched."
+              ],
+              "answer": 0,
+              "explain": "A 1,000-word document is roughly 5,000–6,000 characters; with $O(n^2)$ attention, that length is costly and eats into the context window, and single characters are weak units of meaning. (Byte-level needs only 256 base symbols — not hundreds of thousands — and by construction never emits an unknown token.)"
+            },
+            {
+              "q": "What distinguishes SentencePiece from a tokenizer that requires whitespace pre-tokenization?",
+              "choices": [
+                "It can only run the Unigram algorithm, never BPE, so it never has to count adjacent pairs.",
+                "It permanently strips all spaces from the text, which is why its detokenization is lossy and approximate.",
+                "It treats the input as a raw character stream (no whitespace pre-tokenization) and encodes spaces explicitly as a visible meta-symbol (▁), so it handles non-space-delimited languages like Chinese and detokenizes exactly and reversibly.",
+                "It requires every language to be split on whitespace first, which is why it performs poorly on Chinese and Japanese."
+              ],
+              "answer": 2,
+              "explain": "SentencePiece is a framework (it can run BPE or Unigram). Its signature choices are: no whitespace pre-tokenization (great for languages like Chinese/Japanese/Thai that don't space-delimit words) and representing spaces with a visible \"▁\" meta-symbol so detokenization is exact and fully reversible."
             }
           ],
           "flashcards": [
@@ -539,6 +627,50 @@
               ],
               "answer": 0,
               "explain": "The whole point of learned dense embeddings (vs. one-hot) is that semantically/distributionally similar tokens end up with similar vectors, typically measured by high cosine similarity. They are not identical (distinct tokens with distinct usage) and not orthogonal, which is precisely the limitation of one-hot vectors that embeddings overcome."
+            },
+            {
+              "q": "A model has vocabulary $V = 50{,}000$ and $d_{\\text{model}} = 4096$. How many learnable parameters are in the input embedding matrix $E$, and what does the lesson observe about its size?",
+              "choices": [
+                "$V + d_{\\text{model}} = 54{,}096$; it is negligible next to the attention layers.",
+                "$V^2 = 2.5 \\times 10^9$; it dominates because embeddings scale with the square of the vocabulary.",
+                "$d_{\\text{model}}^2 \\approx 16.8$ million; it is independent of the vocabulary size.",
+                "$V \\cdot d_{\\text{model}} \\approx 205$ million; it is often the single largest weight matrix in a smaller model."
+              ],
+              "answer": 3,
+              "explain": "$E$ has shape $V \\times d_{\\text{model}}$, so it holds $V \\cdot d_{\\text{model}} = 50{,}000 \\times 4096 \\approx 2.05 \\times 10^8$ parameters. For smaller models this is frequently the biggest single weight, which is one reason weight tying (reusing it as the output head) is so attractive."
+            },
+            {
+              "q": "At inference you raise the softmax temperature to $\\tau > 1$ before sampling. What happens to the next-token distribution?",
+              "choices": [
+                "It concentrates on the single highest-logit token, making decoding deterministic (greedy).",
+                "It flattens toward uniform — probability mass spreads out, making sampling more random and \"creative\" (and riskier).",
+                "It is unchanged, because temperature only shifts the logits' mean, not their differences.",
+                "It inverts the ranking, so the least likely token becomes the most likely."
+              ],
+              "answer": 1,
+              "explain": "Dividing the logits by $\\tau$ shrinks their differences when $\\tau > 1$, so the softmax output moves toward uniform — more diverse, more random sampling. ($\\tau \\to 0$ does the opposite, concentrating on the argmax; softmax is monotone, so the ranking is always preserved.)"
+            },
+            {
+              "q": "Which statement correctly distinguishes the *logits* $z_t$ from the softmax output $p_t$?",
+              "choices": [
+                "Logits are already nonnegative and sum to 1; softmax merely rescales them into $[0,1]$ without changing their sum.",
+                "Logits and the softmax output are identical up to rounding; softmax is applied only for numerical stability.",
+                "Logits are raw, unnormalized real-valued scores (any sign, not summing to anything in particular); softmax maps them to nonnegative probabilities that sum to 1.",
+                "Logits are probabilities in log-space that already sum to 1; softmax simply exponentiates them."
+              ],
+              "answer": 2,
+              "explain": "The output head produces logits $z_{t,j} = h_t \\cdot U_{:,j}$ — arbitrary real numbers (positive or negative), one per vocabulary entry. Softmax then exponentiates and normalizes them into a valid probability distribution (every entry positive, all summing to 1)."
+            },
+            {
+              "q": "For one position in a tied-weight transformer LM, which sequence of operations correctly maps a token id to a sampled next token?",
+              "choices": [
+                "embedding lookup $E[i]$ → ($+$ positional, then attention/MLP blocks) → hidden state $h_t$ → logits $z_t = h_t E^\\top$ → softmax$(z_t/\\tau)$ → sample.",
+                "softmax$(i)$ → embedding lookup → logits → attention blocks → hidden state → sample.",
+                "logits $z_t = h_t E^\\top$ → embedding lookup → softmax → attention blocks → sample.",
+                "embedding lookup → softmax → attention/MLP blocks → logits → hidden state → sample."
+              ],
+              "answer": 0,
+              "explain": "The pipeline is: token id → embed (a row of $E$) → add positional info and run the attention/MLP blocks → final hidden state $h_t$ → project to logits (here via the tied head $E^\\top$) → softmax with temperature → sample (or argmax). The embedding is first; the softmax is last."
             }
           ],
           "flashcards": [
