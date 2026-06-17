@@ -1111,6 +1111,50 @@
               ],
               "answer": 3,
               "explain": "The derivative is a limit of $\\frac{f(t+h)-f(t)}{h}$, whose units are (units of $f$)/(units of $t$) = $^\\circ$C/min — a rate of change. Plain $^\\circ$C are the units of $f$ itself, not its rate."
+            },
+            {
+              "q": "Which of the following are all standard notations for the derivative of $y = f(x)$?",
+              "choices": [
+                "$\\int f\\,dx$, $\\;\\Delta y$, $\\;f(x)/x$",
+                "$f^2(x)$, $\\;\\bar f$, $\\;|f|$",
+                "$\\Delta f$, $\\;\\delta f$, $\\;\\partial^2 f$",
+                "$f'(x)$, $\\;\\dfrac{dy}{dx}$, $\\;\\dfrac{df}{dx}$"
+              ],
+              "answer": 3,
+              "explain": "$f'(x)$ (Lagrange/prime) and $\\dfrac{dy}{dx},\\ \\dfrac{df}{dx}$ (Leibniz) all denote the same object — the derivative. By contrast $\\int f\\,dx$ is an antiderivative, and $\\Delta y$ is a finite change, not the instantaneous rate."
+            },
+            {
+              "q": "Using the limit definition, what is the derivative of a linear function $f(x) = mx + b$?",
+              "choices": [
+                "$mx$",
+                "$b$",
+                "$m$",
+                "$mx + b$"
+              ],
+              "answer": 2,
+              "explain": "$\\dfrac{f(x+h)-f(x)}{h} = \\dfrac{[m(x+h)+b]-[mx+b]}{h} = \\dfrac{mh}{h} = m$ for every $h$, so $f'(x)=m$ — a line has a constant slope. This is why linear approximation works: near a point a curve looks like a line of slope $f'(a)$."
+            },
+            {
+              "q": "What does the second derivative $f''(x)$ measure?",
+              "choices": [
+                "the rate of change of the derivative — how the slope itself is changing (concavity; for position, acceleration)",
+                "the slope of $f$ at $x$",
+                "the area under $f$",
+                "the original function $f$"
+              ],
+              "answer": 0,
+              "explain": "$f''$ is the derivative of $f'$, so it measures how fast the slope is changing: $f''>0$ means the slope is increasing (concave up), $f''<0$ concave down. If $f$ is position, then $f'$ is velocity and $f''$ is acceleration."
+            },
+            {
+              "q": "The quotient $\\dfrac{f(b)-f(a)}{b-a}$ over an interval gives the ___ rate of change, while the derivative gives the ___ rate.",
+              "choices": [
+                "instantaneous; average",
+                "average; instantaneous",
+                "total; partial",
+                "maximum; minimum"
+              ],
+              "answer": 1,
+              "explain": "$\\dfrac{f(b)-f(a)}{b-a}$ is the *average* rate of change over $[a,b]$ (the slope of the secant line). Shrinking the interval to a point — the limit as $b\\to a$ — gives the *instantaneous* rate $f'(a)$, the slope of the tangent line."
             }
           ],
           "flashcards": [
@@ -1306,6 +1350,50 @@
               ],
               "answer": 2,
               "explain": "Treating $f/g$ as $f\\cdot g^{-1}$ and applying the product rule (with $\\frac{d}{dx}[g^{-1}] = -g^{-2}g'$) reproduces $\\frac{f'g - fg'}{g^2}$ exactly. So the quotient rule is not a new axiom — it is the product rule in disguise, valid for any differentiable $f,g$ with $g\\neq 0$."
+            },
+            {
+              "q": "The power rule states that $\\dfrac{d}{dx}\\big[x^n\\big]$ equals:",
+              "choices": [
+                "$x^{n-1}$",
+                "$n\\,x^{n-1}$",
+                "$n\\,x^n$",
+                "$(n-1)\\,x^n$"
+              ],
+              "answer": 1,
+              "explain": "Bring the exponent down as a coefficient and reduce it by one: $\\dfrac{d}{dx}x^n = n\\,x^{n-1}$. It holds for any real $n$ — e.g. $\\frac{d}{dx}x^3 = 3x^2$, $\\frac{d}{dx}x^{1/2} = \\tfrac12 x^{-1/2}$, $\\frac{d}{dx}x^{-1} = -x^{-2}$."
+            },
+            {
+              "q": "What is $\\dfrac{d}{dx}[x]$?",
+              "choices": [
+                "$0$",
+                "$x$",
+                "$x^2$",
+                "$1$"
+              ],
+              "answer": 3,
+              "explain": "$x = x^1$, so by the power rule $\\frac{d}{dx}x = 1\\cdot x^0 = 1$. Geometrically the line $y=x$ has constant slope $1$. (Contrast $\\frac{d}{dx}[c] = 0$ for a constant.)"
+            },
+            {
+              "q": "The product rule states that $(fg)'$ equals:",
+              "choices": [
+                "$f'g + fg'$",
+                "$f'g'$",
+                "$f'g - fg'$",
+                "$fg$"
+              ],
+              "answer": 0,
+              "explain": "$(fg)' = f'g + fg'$ — differentiate each factor in turn and add. It is *not* $f'g'$: e.g. $\\frac{d}{dx}[x\\cdot x] = 1\\cdot x + x\\cdot 1 = 2x$, matching $\\frac{d}{dx}x^2$, whereas $f'g'$ would give $1$."
+            },
+            {
+              "q": "Differentiate $f(x) = 3x^4 - 2x + 7$.",
+              "choices": [
+                "$12x^3 - 2x$",
+                "$12x^3 - 2 + 7$",
+                "$12x^3 - 2$",
+                "$3x^3 - 2$"
+              ],
+              "answer": 2,
+              "explain": "Apply the power, constant-multiple, sum, and constant rules term by term: $\\frac{d}{dx}3x^4 = 12x^3$, $\\frac{d}{dx}(-2x) = -2$, and $\\frac{d}{dx}7 = 0$. So $f'(x) = 12x^3 - 2$ — the constant $7$ vanishes."
             }
           ],
           "flashcards": [
@@ -1501,6 +1589,50 @@
               ],
               "answer": 2,
               "explain": "$y = x^2 + \\sin x$ is a sum of two basic functions of $x$, not one function nested inside another, so it needs only the sum rule. The other three each feed a non-trivial inner function into an outer function, which is exactly when the chain rule is required."
+            },
+            {
+              "q": "The chain rule states that $\\dfrac{d}{dx}\\big[f(g(x))\\big]$ equals:",
+              "choices": [
+                "$f'(x)\\cdot g'(x)$",
+                "$f'(g'(x))$",
+                "$f'(g(x))\\cdot g'(x)$",
+                "$f(g'(x))$"
+              ],
+              "answer": 2,
+              "explain": "Differentiate the outer function $f$ *evaluated at the inner* $g(x)$, then multiply by the derivative of the inner: $f'(g(x))\\cdot g'(x)$. The key subtlety is evaluating $f'$ at $g(x)$, not at $x$."
+            },
+            {
+              "q": "What is $\\dfrac{d}{dx}\\big[(2x+1)^5\\big]$?",
+              "choices": [
+                "$10(2x+1)^4$",
+                "$5(2x+1)^4$",
+                "$10(2x+1)^5$",
+                "$(2x+1)^4$"
+              ],
+              "answer": 0,
+              "explain": "Outer is $u^5$ (derivative $5u^4$), inner is $u = 2x+1$ (derivative $2$): $5(2x+1)^4\\cdot 2 = 10(2x+1)^4$. Forgetting the inner derivative $2$ — giving $5(2x+1)^4$ — is the most common chain-rule slip."
+            },
+            {
+              "q": "The chain rule captures the idea that rates multiply: if $y$ changes $k$ times as fast as $u$, and $u$ changes $m$ times as fast as $x$, then $y$ changes how fast relative to $x$?",
+              "choices": [
+                "$k + m$ times",
+                "$k / m$ times",
+                "$k$ times",
+                "$k \\cdot m$ times"
+              ],
+              "answer": 3,
+              "explain": "Rates compose by multiplying: $\\dfrac{dy}{dx} = \\dfrac{dy}{du}\\cdot\\dfrac{du}{dx} = k\\cdot m$. This Leibniz form makes the chain rule intuitive — like meshed gears, where each stage scales the rate of the next."
+            },
+            {
+              "q": "What is $\\dfrac{d}{dx}\\big[\\sin(5x)\\big]$?",
+              "choices": [
+                "$\\cos(5x)$",
+                "$5\\cos(5x)$",
+                "$5\\cos(x)$",
+                "$-5\\cos(5x)$"
+              ],
+              "answer": 1,
+              "explain": "Outer $\\sin u$ (derivative $\\cos u$), inner $u = 5x$ (derivative $5$): $\\cos(5x)\\cdot 5 = 5\\cos(5x)$. The inner derivative $5$ must be carried along — dropping it gives the common wrong answer $\\cos(5x)$."
             }
           ],
           "flashcards": [
@@ -1701,6 +1833,50 @@
               ],
               "answer": 2,
               "explain": "By the chain rule $\\frac{d}{dx}\\ln(3x) = \\frac{1}{3x}\\cdot 3 = \\frac{1}{x}$; equivalently $\\ln(3x)=\\ln 3 + \\ln x$ and the constant $\\ln 3$ differentiates to 0. The tempting wrong answer $\\frac{1}{3x}$ forgets to multiply by the inner derivative $3$; $\\frac{3}{x}$ keeps the factor but drops the $3$ in the denominator, and $\\frac{3}{x^2}$ mistakenly applies a power-rule-style $x^{-2}$."
+            },
+            {
+              "q": "What is $\\dfrac{d}{dx}\\big[e^x\\big]$?",
+              "choices": [
+                "$x\\,e^{x-1}$",
+                "$e^x$",
+                "$x\\,e^x$",
+                "$1$"
+              ],
+              "answer": 1,
+              "explain": "$e^x$ is its own derivative: $\\dfrac{d}{dx}e^x = e^x$. This fixed-point property is exactly what makes $e$ the *natural* base — the curve's height equals its slope at every point. (By the chain rule $\\frac{d}{dx}e^{g(x)} = g'(x)e^{g(x)}$, so $\\frac{d}{dx}e^{x^2} = 2x\\,e^{x^2}$, not $e^{x^2}$.)"
+            },
+            {
+              "q": "What are $\\dfrac{d}{dx}[\\sin x]$ and $\\dfrac{d}{dx}[\\cos x]$?",
+              "choices": [
+                "$-\\cos x$ and $\\sin x$",
+                "$\\cos x$ and $\\sin x$",
+                "both stay the same",
+                "$\\cos x$ and $-\\sin x$"
+              ],
+              "answer": 3,
+              "explain": "$\\dfrac{d}{dx}\\sin x = \\cos x$ and $\\dfrac{d}{dx}\\cos x = -\\sin x$ (note the minus sign on cosine). Differentiating four times cycles back to the start: $\\sin \\to \\cos \\to -\\sin \\to -\\cos \\to \\sin$."
+            },
+            {
+              "q": "What is $\\dfrac{d}{dx}[\\ln x]$ (the natural logarithm, $x>0$)?",
+              "choices": [
+                "$\\ln x$",
+                "$x$",
+                "$\\dfrac{1}{x}$",
+                "$\\dfrac{1}{x\\ln 10}$"
+              ],
+              "answer": 2,
+              "explain": "$\\dfrac{d}{dx}\\ln x = \\dfrac{1}{x}$. For a general base, $\\frac{d}{dx}\\log_b x = \\frac{1}{x\\ln b}$, which is why the natural log (base $e$, $\\ln b = 1$) gives the cleanest derivative. With the chain rule this extends to $\\frac{d}{dx}\\ln(g(x)) = g'(x)/g(x)$."
+            },
+            {
+              "q": "What is $\\dfrac{d}{dx}[\\tan x]$?",
+              "choices": [
+                "$\\sec^2 x$",
+                "$-\\csc^2 x$",
+                "$\\sec x\\tan x$",
+                "$\\dfrac{1}{\\cos x}$"
+              ],
+              "answer": 0,
+              "explain": "Writing $\\tan x = \\dfrac{\\sin x}{\\cos x}$ and applying the quotient rule gives $\\dfrac{\\cos^2 x + \\sin^2 x}{\\cos^2 x} = \\dfrac{1}{\\cos^2 x} = \\sec^2 x$. ($-\\csc^2 x$ is the derivative of $\\cot x$; $\\sec x\\tan x$ is the derivative of $\\sec x$.)"
             }
           ],
           "flashcards": [

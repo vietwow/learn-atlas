@@ -150,7 +150,9 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    Still-thin: UI/UX polish. Achievement ideas still open: Lab Explorer (open N distinct viz — needs distinct-viz tracking).
    ✅ iter 147: MCQ arc → Calculus·Foundations 12→16 (+16, bank →1,960). 3rd TOPIC OPENED. Calc 1/7 modules. Adversarial agent
    ALL PASS (hardened one ambiguous continuity distractor → f'(a)); positions shuffled; render "of 16" errs=0; SW cache →v90.
-   CALC REMAINING (MCQ arc): derivatives(4), applications-derivatives(4), integration(4), applications-integration(3),
+   ✅ iter 149: MCQ arc → Calculus·The Derivative 12→16 (+16, bank →1,976). Calc 2/7 modules. Adversarial agent ALL PASS;
+   positions shuffled; render "of 16" errs=0; SW cache →v92.
+   CALC REMAINING (MCQ arc): applications-derivatives(4), integration(4), applications-integration(3),
    multivariable-bridge(3), convex-optimization(3). Then DL/RL/LLM/PS.
    ✅ iter 148: Riemann Sum visualizer (calc-riemann, 35th viz; the first INTEGRATION viz) in the definite-integral lesson.
    Function/rule/n controls + Refine animation; numerics pre-verified; errs=0; SW cache →v91; README 34→35.

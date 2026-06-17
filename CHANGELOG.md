@@ -2,6 +2,22 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 149 — MCQ arc → Calculus · The Derivative 12 → 16 (content — owner's #1 ask)
+The Calculus arc's second module, *The Derivative: Definition & Rules*. **+4 new MCQs each** to all four lessons
+(**+16, bank 1,960 → 1,976**), stating the bedrock the existing 12 assumed: derivative notation ($f'$, $\frac{dy}{dx}$) /
+the derivative of a line is its slope $m$ / what $f''$ means (concavity, acceleration) / average-vs-instantaneous rate;
+the power rule $\frac{d}{dx}x^n=nx^{n-1}$ / $\frac{d}{dx}x=1$ / the product rule $(fg)'=f'g+fg'$ / a multi-rule polynomial
+compute; the chain rule $f'(g(x))g'(x)$ / $\frac{d}{dx}(2x+1)^5=10(2x+1)^4$ / rates-multiply intuition / $\frac{d}{dx}\sin 5x=5\cos 5x$;
+and $\frac{d}{dx}e^x=e^x$ / $\sin\!\to\!\cos,\ \cos\!\to\!-\sin$ / $\frac{d}{dx}\ln x=\frac1x$ / $\frac{d}{dx}\tan x=\sec^2 x$.
+Answer positions shuffled ([3,2,0,1]/[1,3,0,2]/[2,0,3,1]/[1,3,2,0]).
+- **Verified**: byte-stable JSON round-trip (diff +176 localized insertions); `node gate.js` ALL GREEN (1,976 MCQs);
+  direct key-dump confirms the shuffled indices; an independent adversarial fact-check agent returned **ALL PASS** (every
+  derivative recomputed; the $\tan x$ distractor "$1/\cos x$"=$\sec x\neq\sec^2 x$ and the dropped-inner-derivative
+  chain-rule distractors all confirmed wrong); render-check on the Chain-Rule quiz → `errs=0 | "Question 1 of 16" |
+  rawDollars=0 kErr=0`. SW cache **v91 → v92**; README 1,960 → 1,976.
+- **Arc progress**: Algorithms ✓, Linear Algebra ✓; **Calculus now 2/7** (foundations, derivatives). Remaining Calc:
+  applications-of-derivatives, integration, applications-of-integration, multivariable-bridge, convex-optimization. Then DL/RL/LLM/PS.
+
 ## iter 148 — Riemann Sum visualizer (visualization) — the first integration viz
 The **35th** widget (`calc-riemann`), embedded in *Riemann Sums & the Definite Integral* (which had no viz) — and the
 **first integration visualization** on the site (the 34 others covered LA/derivatives/optimization/probability/DL/LLM/RL,
