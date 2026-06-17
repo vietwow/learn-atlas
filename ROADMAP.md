@@ -15,8 +15,9 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ✅ iter 76: normal-distribution explorer viz (`ps-normal-explorer`: μ/σ + empirical-rule bands + interval CDF).
    ✅ iter 77: Module 3 "Joint Distributions & Dependence" (3 lessons). ✅ iter 78: all 3 Module-3 lessons to 12
    MCQs (+36; topic now 144 / site 1,500). All 12 PS lessons now at 12 MCQs.
-   NEXT for this topic: (b) more modules — Limit theorems (LLN/CLT formal), Estimation & confidence intervals,
-   Hypothesis testing, Bayesian inference; (c) a covariance/correlation scatter viz for Module 3.
+   ✅ iter 79: covariance/correlation scatter viz (`ps-covariance-scatter`, embedded in the covariance lesson).
+   NEXT for this topic: more modules — Limit theorems (LLN/CLT formal), Estimation & confidence intervals,
+   Hypothesis testing, Bayesian inference.
    ⚠ Lesson-authoring workflow bug (iter 71): the VERIFY agent overwrote `content` with its review notes for
    3/4 lessons. When authoring future lessons, make the verify schema/prompt EXPLICIT: "return the corrected
    LESSON HTML in `content`; put commentary ONLY in `notes`; never write a summary into `content`." (Recovered
@@ -70,9 +71,9 @@ shared "topics index" (id/title/blurb/color) loaded first + full lessons on dema
 - ~~"Explain it back" — free-text recall with self-grading (Feynman technique).~~ **DONE iter 53** (Recall tab; self-graded against the lesson's flashcards, feeds mastery + XP). Future: optional AI grading when the tutor lands.
 - Per-concept difficulty rating + adaptive question selection in tests.
 - ~~Interleaved review sessions (mix topics) beyond the SRS queue.~~ **partly DONE iter 68** — Daily Mix (`#/session`) chains due cards + a weak-spot quiz + a next lesson into one guided flow.
-- More viz ideas (23 widgets now; overfitting iter 54, backprop graph iter 59, decoding iter 67, CLT iter 74,
-  normal-explorer iter 76): MDP policy-iteration, a BPE-merge animation, a learning-rate-schedule plot,
-  a joint-distribution / covariance scatter (for the upcoming PS joint-distributions module).
+- More viz ideas (24 widgets now; overfitting iter 54, backprop graph iter 59, decoding iter 67, CLT iter 74,
+  normal-explorer iter 76, covariance-scatter iter 79): MDP policy-iteration, a BPE-merge animation, a
+  learning-rate-schedule plot, a confidence-interval coverage simulator (for the upcoming Estimation module).
 - Lesson-embedded code exercises (`data-code` with `data-expected`) tied to each algorithm/DL lesson.
 - Reduced-motion + high-contrast accessibility modes.
 - ~~Search ranking improvements (fuzzy, recency, mastery-weighted) in ⌘K.~~ **fuzzy DONE iter 70** (typo-tolerant subsequence tier). Recency/mastery-weighting still open.

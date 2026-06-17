@@ -2,6 +2,19 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 79 — Covariance & Correlation scatter visualization (visualizations; owner depth direction)
+A new interactive widget (`ps-covariance-scatter`, the 24th) that makes correlation *visceral*. A base cloud of 200
+bivariate-normal points is generated once; dragging the **ρ slider** (−1…1) recomputes each point as
+$Y=\rho z_1+\sqrt{1-\rho^2}\,z_2$, so the cloud smoothly **tilts** from a formless blob (ρ=0) toward a tight line
+(ρ=±1) instead of re-randomizing. Overlaid live: the <span>best-fit regression line</span> (slope ρ), the **2σ
+covariance ellipse** (eigen-decomposition of $[[1,\rho],[\rho,1]]$ — it collapses to the line at ρ=±1 and is a
+circle at ρ=0), and a readout of the **sample correlation** computed from the actual points (which tracks the set ρ
+with honest finite-sample noise) plus the sample covariance. A "↻ Resample" button draws a fresh cloud. Embedded in
+the *Covariance & Correlation* lesson (right where ρ is introduced) and in the Lab. Static initial draw (no animation
+loop). SW cache → `atlas-v23`; README viz counts 23→24. Verified: renders in Lab (ρ=0.6 cloud + line + ellipse);
+slider drives sample r (ρ=−0.9→r=−0.90, ρ=0.95→r=0.96) with errs=0; canvas hydrates inside the lesson
+(katex-error=0); legible at 390px (canvas `max-width:100%`); `node gate.js` ALL GREEN (24 widgets); Chrome cleaned.
+
 ## iter 78 — Probability & Statistics Module 3 — 12 MCQs per lesson (content; owner "more questions" ask)
 Completed the new Joint-Distributions module by bringing all three lessons (joint distributions/marginals/
 independence, covariance & correlation, conditional expectation) from 0 → 12 MCQs each via the proven

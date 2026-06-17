@@ -1141,4 +1141,58 @@
     toggleIv(); draw();
   });
 
+  /* ========================================================
+     24. Covariance & correlation scatter (tilt the cloud with ρ)
+     ======================================================== */
+  register({ id: 'ps-covariance-scatter', topic: 'probability-statistics', title: 'Covariance & Correlation', blurb: 'Drag the correlation ρ and watch a point cloud tilt from a formless blob to a tight line — with the best-fit line, the covariance ellipse, and the sample correlation updating live.' },
+  function (root) {
+    const W = 540, H = 400, padL = 34, padR = 14, padT = 14, padB = 38, D = 3.6, N = 200;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    const MONO = "JetBrains Mono, monospace";
+    let rho = 0.6;
+    function randn() { let u = 0, v = 0; while (u === 0) u = Math.random(); while (v === 0) v = Math.random(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
+    let base = [];
+    function reseed() { base = []; for (let i = 0; i < N; i++) base.push([randn(), randn()]); }
+    const X = dx => padL + (dx + D) / (2 * D) * (W - padL - padR);
+    const Y = dy => padT + (D - dy) / (2 * D) * (H - padT - padB);
+    function points() { const k = Math.sqrt(Math.max(0, 1 - rho * rho)); return base.map(([z1, z2]) => [z1, rho * z1 + k * z2]); }
+    function sampleStats(pts) {
+      let mx = 0, my = 0; pts.forEach(p => { mx += p[0]; my += p[1]; }); mx /= pts.length; my /= pts.length;
+      let sxx = 0, syy = 0, sxy = 0; pts.forEach(p => { const a = p[0] - mx, b = p[1] - my; sxx += a * a; syy += b * b; sxy += a * b; });
+      return { cov: sxy / pts.length, r: sxy / Math.sqrt(sxx * syy), mx, my };
+    }
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      // axes through origin
+      ctx.strokeStyle = p.line; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(X(-D), Y(0)); ctx.lineTo(X(D), Y(0)); ctx.moveTo(X(0), Y(-D)); ctx.lineTo(X(0), Y(D)); ctx.stroke();
+      const pts = points();
+      // 2σ covariance ellipse: eigenvectors (1,1)/√2 and (1,-1)/√2, eigenvalues 1+ρ, 1-ρ
+      const e1 = [Math.SQRT1_2, Math.SQRT1_2], e2 = [Math.SQRT1_2, -Math.SQRT1_2];
+      const a1 = 2 * Math.sqrt(1 + rho), a2 = 2 * Math.sqrt(Math.max(0, 1 - rho));
+      ctx.strokeStyle = p.violet; ctx.lineWidth = 1.6; ctx.globalAlpha = 0.85; ctx.beginPath();
+      for (let t = 0; t <= 80; t++) { const a = 2 * Math.PI * t / 80, dx = a1 * Math.cos(a) * e1[0] + a2 * Math.sin(a) * e2[0], dy = a1 * Math.cos(a) * e1[1] + a2 * Math.sin(a) * e2[1]; t ? ctx.lineTo(X(dx), Y(dy)) : ctx.moveTo(X(dx), Y(dy)); }
+      ctx.closePath(); ctx.stroke(); ctx.globalAlpha = 1;
+      // best-fit (regression) line: slope ρ through origin for standardized data
+      ctx.strokeStyle = p.rust; ctx.lineWidth = 2.2; ctx.beginPath(); ctx.moveTo(X(-D), Y(-D * rho)); ctx.lineTo(X(D), Y(D * rho)); ctx.stroke();
+      // points
+      ctx.fillStyle = p.gold; ctx.globalAlpha = 0.6;
+      pts.forEach(([dx, dy]) => { if (Math.abs(dx) <= D && Math.abs(dy) <= D) { ctx.beginPath(); ctx.arc(X(dx), Y(dy), 2.6, 0, 2 * Math.PI); ctx.fill(); } });
+      ctx.globalAlpha = 1;
+      // axis labels
+      ctx.fillStyle = p.mute; ctx.font = '11px ' + MONO; ctx.textAlign = 'right'; ctx.fillText('X', X(D) - 3, Y(0) - 5);
+      ctx.textAlign = 'left'; ctx.fillText('Y', X(0) + 5, Y(D) + 11);
+      const s = sampleStats(pts);
+      const strength = Math.abs(rho) >= 0.85 ? 'a tight line' : Math.abs(rho) >= 0.4 ? 'a clear tilt' : Math.abs(rho) > 0.1 ? 'a faint tilt' : 'a formless blob';
+      const dir = rho > 0.1 ? 'positive' : rho < -0.1 ? 'negative' : 'no';
+      info.innerHTML = `set <b>ρ = ${rho.toFixed(2)}</b> &nbsp;·&nbsp; sample <b>r = ${s.r.toFixed(2)}</b> &nbsp;·&nbsp; sample <b>Cov ≈ ${s.cov.toFixed(2)}</b> &nbsp;(X,Y standardized, so Cov ≈ r)<br>` +
+        `The cloud shows <b>${dir}</b> linear association — <b>${strength}</b>. The <span style="color:${p.rust}">red line</span> is the best fit (slope ρ); the <span style="color:${p.violet}">ellipse</span> is the 2σ contour. At ρ=±1 it collapses to the line (perfect dependence); at ρ=0 it is a circle.`;
+    }
+    slider(ctl, { label: 'correlation ρ', min: -1, max: 1, step: 0.05, value: rho, fmt: v => 'ρ=' + v.toFixed(2), onInput: v => { rho = v; draw(); } });
+    button(ctl, '↻ Resample', () => { reseed(); draw(); });
+    reseed(); draw();
+  });
+
 })();
