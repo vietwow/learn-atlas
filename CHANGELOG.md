@@ -2,6 +2,21 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 155 — MCQ arc → Calculus · Applications of Integration 12 → 16 (content — owner's #1 ask)
+The Calculus arc's fifth module, *Applications of Integration & Differential Equations*. **+4 new MCQs each** to all
+three lessons (**+12, bank 2,008 → 2,020**): area between curves $=\int(\text{top}-\text{bottom})$ / disk volume
+$\pi\int f^2$ / shell volume $2\pi\int x f$ / the area between $y=x$ and $y=x^2$ on $[0,1]$ is $\tfrac16$; what makes an
+integral improper / improper $=\lim_{b\to\infty}\int_1^b$ / $\int_0^\infty e^{-x}=1$ / the direct comparison test; the
+order of a DE (= highest derivative) / the general solution $\frac{dy}{dt}=ky\Rightarrow y=Ce^{kt}$ / verify a solution
+by substitution / how to start a separable equation. Answer positions shuffled ([1,3,0,2]/[2,0,3,1]/[3,1,2,0]).
+- **Verified**: byte-stable JSON round-trip (diff +132 localized insertions); `node gate.js` ALL GREEN (2,020 MCQs);
+  direct key-dump confirms the shuffled indices; an independent adversarial fact-check agent returned **ALL PASS** (the
+  disk "π∫f vs π∫f²", comparison "converges-not-equals", DE-order-vs-degree, and $e^{kt}+C$-fails-substitution traps all
+  checked; the $1/6$ area recomputed); render-check on the Area & Volume quiz → `errs=0 | "Question 1 of 16" |
+  rawDollars=0 kErr=0`. SW cache **v97 → v98**; README 2,008 → 2,020.
+- **Arc progress**: Algorithms ✓, Linear Algebra ✓; **Calculus now 5/7**. Remaining Calc: multivariable-bridge,
+  convex-optimization. Then DL/RL/LLM/PS.
+
 ## iter 154 — Hall of Achievements grouped into themed categories (gamification / UI/UX)
 With the roster at **43**, the achievements page was one long flat grid. It now renders in **7 themed categories** —
 Lessons & Courses, Quizzes & Tests, Consistency & Streaks, Flashcards & Recall, Mastery, Levels & XP, and Exploration &

@@ -4002,6 +4002,50 @@
               ],
               "answer": 3,
               "explain": "A shell at position $x$ has radius $x$ (distance to the $y$-axis), height $\\sqrt{x}$, and thickness $dx$, giving $\\int_0^4 2\\pi\\, x\\sqrt{x}\\,dx=\\tfrac{128\\pi}{5}$. Choice (c) wrongly uses $\\sqrt{x}$ as the radius (that is the height, not the distance to the axis), and choice (a) is a disk integrand about the wrong axis."
+            },
+            {
+              "q": "The area between an upper curve $y=f(x)$ and a lower curve $y=g(x)$ on $[a,b]$ (with $f \\ge g$ throughout) is:",
+              "choices": [
+                "$\\int_a^b [f(x)+g(x)]\\,dx$",
+                "$\\int_a^b [f(x)-g(x)]\\,dx$",
+                "$\\int_a^b f(x)g(x)\\,dx$",
+                "$\\int_a^b |f(x)|\\,dx$"
+              ],
+              "answer": 1,
+              "explain": "Sum the vertical gaps (top minus bottom) across the interval: $\\int_a^b [f(x)-g(x)]\\,dx$. If the curves cross, split at the crossing points and integrate (upper − lower) on each piece so every contribution stays positive."
+            },
+            {
+              "q": "Revolving the region under $y=f(x)$ on $[a,b]$ about the $x$-axis sweeps out a solid of volume (disk method):",
+              "choices": [
+                "$\\int_a^b f(x)\\,dx$",
+                "$2\\pi\\int_a^b f(x)\\,dx$",
+                "$\\pi\\int_a^b f(x)\\,dx$",
+                "$\\pi\\int_a^b [f(x)]^2\\,dx$"
+              ],
+              "answer": 3,
+              "explain": "Each thin slice perpendicular to the axis is a disk of radius $f(x)$ and area $\\pi[f(x)]^2$; integrating that area gives $V=\\pi\\int_a^b [f(x)]^2\\,dx$. The square is essential — it's the disk's area, not its radius."
+            },
+            {
+              "q": "Revolving the region under $y=f(x)$ (for $0 \\le a \\le x \\le b$) about the $y$-axis, the cylindrical-shell method gives volume:",
+              "choices": [
+                "$2\\pi\\int_a^b x\\,f(x)\\,dx$",
+                "$\\pi\\int_a^b [f(x)]^2\\,dx$",
+                "$\\int_a^b f(x)\\,dx$",
+                "$2\\pi\\int_a^b f(x)\\,dx$"
+              ],
+              "answer": 0,
+              "explain": "Each shell at position $x$ has radius $x$, height $f(x)$, and thickness $dx$; unrolled it's a thin sheet of area $2\\pi x\\cdot f(x)$, so $V=2\\pi\\int_a^b x\\,f(x)\\,dx$. Shells avoid solving $y=f(x)$ for $x$, which is why they're handy for revolution about the $y$-axis."
+            },
+            {
+              "q": "Find the area of the region between $y=x$ and $y=x^2$ on $[0,1]$.",
+              "choices": [
+                "$1$",
+                "$\\dfrac{1}{3}$",
+                "$\\dfrac{1}{6}$",
+                "$\\dfrac{1}{2}$"
+              ],
+              "answer": 2,
+              "explain": "On $[0,1]$, $x \\ge x^2$, so the area is $\\int_0^1 (x - x^2)\\,dx = \\left[\\tfrac{x^2}{2}-\\tfrac{x^3}{3}\\right]_0^1 = \\tfrac12 - \\tfrac13 = \\tfrac16$."
             }
           ],
           "flashcards": [
@@ -4197,6 +4241,50 @@
               ],
               "answer": 2,
               "explain": "To prove convergence you bound the integrand ABOVE by a convergent benchmark: since $x^2+x>x^2$, we get $\\frac{1}{x^2+x}<\\frac{1}{x^2}$, whose integral converges. Bounding below proves nothing about convergence, and the $1/x$ comparison fails because $\\int_1^\\infty \\tfrac1x$ diverges."
+            },
+            {
+              "q": "An integral is called *improper* when:",
+              "choices": [
+                "the integrand is negative somewhere",
+                "the answer is irrational",
+                "a limit of integration is infinite, or the integrand becomes unbounded on the interval",
+                "it cannot be computed at all"
+              ],
+              "answer": 2,
+              "explain": "Two situations make an integral improper: an infinite limit (like $\\int_1^\\infty$) or an integrand with a vertical asymptote on the interval (like $\\int_0^1 \\frac1{\\sqrt x}$). Either way it is defined through a limit of ordinary integrals."
+            },
+            {
+              "q": "The improper integral $\\int_1^\\infty f(x)\\,dx$ is defined as:",
+              "choices": [
+                "$\\displaystyle\\lim_{b\\to\\infty}\\int_1^{b} f(x)\\,dx$",
+                "$f(\\infty) - f(1)$",
+                "the sum $\\sum_{n=1}^{\\infty} f(n)$",
+                "simply $\\int_1^\\infty f$, evaluated directly"
+              ],
+              "answer": 0,
+              "explain": "Integrate up to a finite cutoff $b$ and let $b\\to\\infty$: $\\int_1^\\infty f = \\lim_{b\\to\\infty}\\int_1^b f$. If that limit is finite the integral *converges*; otherwise it *diverges*. (It is an integral, not a discrete sum.)"
+            },
+            {
+              "q": "Evaluate $\\int_0^\\infty e^{-x}\\,dx$.",
+              "choices": [
+                "$0$",
+                "$\\infty$",
+                "$e$",
+                "$1$"
+              ],
+              "answer": 3,
+              "explain": "$\\int_0^b e^{-x}\\,dx = [-e^{-x}]_0^b = 1 - e^{-b}$; as $b\\to\\infty$, $e^{-b}\\to 0$, so the integral converges to $1$. (This is why $\\lambda e^{-\\lambda x}$ is a valid probability density.)"
+            },
+            {
+              "q": "Direct comparison test: if $0 \\le f(x) \\le g(x)$ for all $x$ and $\\int g$ converges, then $\\int f$:",
+              "choices": [
+                "diverges",
+                "also converges",
+                "equals $\\int g$",
+                "is undefined"
+              ],
+              "answer": 1,
+              "explain": "If the larger area $\\int g$ is finite, the smaller area $\\int f$ (squeezed between $0$ and $g$) must be finite too, so $\\int f$ converges. Conversely, if the *smaller* $\\int f$ diverges, the larger $\\int g$ must diverge. This settles convergence without evaluating the integral."
             }
           ],
           "flashcards": [
@@ -4392,6 +4480,50 @@
               ],
               "answer": 2,
               "explain": "The DE fully determines the rule of change and hence the shape of the family $t^2 + C$; the free constant merely reflects a vertical shift, and supplying one initial condition selects exactly one curve. The misconception is treating the constant of integration as a failure rather than the expected freedom that an initial condition resolves."
+            },
+            {
+              "q": "The *order* of a differential equation is:",
+              "choices": [
+                "the highest power of $y$ that appears",
+                "the number of terms in the equation",
+                "the number of solutions it has",
+                "the order of the highest derivative that appears"
+              ],
+              "answer": 3,
+              "explain": "Order = the highest derivative present. $\\frac{dy}{dt}=ky$ is first-order (only $y'$); an equation involving $y''$ is second-order. It has nothing to do with powers of $y$ — $(y')^2 = y$ is still first-order."
+            },
+            {
+              "q": "The general solution of $\\dfrac{dy}{dt} = k y$ is:",
+              "choices": [
+                "$y = kt + C$",
+                "$y = C e^{k t}$",
+                "$y = C\\,k^{t}$",
+                "$y = e^{k t} + C$"
+              ],
+              "answer": 1,
+              "explain": "A quantity whose rate of change is proportional to itself grows or decays exponentially: $y = Ce^{kt}$ (check: $y' = kCe^{kt} = ky$). $k>0$ gives growth, $k<0$ decay; $C=y(0)$ is fixed by an initial condition. This one model underlies compound interest, radioactive decay, and unchecked population growth."
+            },
+            {
+              "q": "To check whether a given function is a solution of a differential equation, you:",
+              "choices": [
+                "solve the equation for $x$",
+                "integrate the function once",
+                "substitute the function and its derivative into the equation and see if both sides agree",
+                "check that it passes through the origin"
+              ],
+              "answer": 2,
+              "explain": "Plug the candidate in. For $y=3e^{2t}$ and $\\frac{dy}{dt}=2y$: the left side is $y'=6e^{2t}$ and the right side is $2y=6e^{2t}$ — they match, so it is a solution. You don't need to *solve* the DE to *verify* a proposed solution."
+            },
+            {
+              "q": "To solve a separable equation $\\dfrac{dy}{dx} = g(x)\\,h(y)$, the first step is to:",
+              "choices": [
+                "separate the variables — collect all $y$-terms (with $dy$) on one side and all $x$-terms (with $dx$) on the other, then integrate both sides",
+                "differentiate both sides again",
+                "set $y = 0$",
+                "take the determinant of the coefficient matrix"
+              ],
+              "answer": 0,
+              "explain": "Rewrite as $\\frac{dy}{h(y)} = g(x)\\,dx$, then integrate each side separately. 'Separable' means the right-hand side factors into an $x$-only part times a $y$-only part — exactly what lets you split the variables this way."
             }
           ],
           "flashcards": [
