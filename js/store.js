@@ -64,7 +64,10 @@
     { id: "annotator",   icon: "🖊️", name: "Annotator",        desc: "Write your own notes on 5 lessons." },
     { id: "flawless-five",icon:"💎", name: "Flawless Five",     desc: "Ace 5 quizzes with a perfect score." },
     { id: "crack-shot",  icon: "🎖️", name: "Crack Shot",        desc: "Answer 1,000 quiz questions correctly." },
-    { id: "deep-thinker",icon: "🧩", name: "Deep Thinker",      desc: "Expand a “Deeper dive” intuition." }
+    { id: "deep-thinker",icon: "🧩", name: "Deep Thinker",      desc: "Expand a “Deeper dive” intuition." },
+    { id: "daily-ritual",icon: "🌅", name: "Daily Ritual",      desc: "Finish a Daily Mix session." },
+    { id: "habit",       icon: "📆", name: "Creature of Habit", desc: "Study on 14 different days." },
+    { id: "sage",        icon: "🧙", name: "Sage",              desc: "Earn 25,000 total XP." }
   ];
 
   function blank() {
@@ -193,6 +196,8 @@
     if (lv.level >= 4) unlock("scholar");
     if (lv.level >= LEVELS.length) unlock("polymath");
     if (state.xp >= 5000) unlock("erudite");
+    if (state.xp >= 25000) unlock("sage");
+    if (Object.keys(state.activity || {}).length >= 14) unlock("habit");
     save();
     return state.xp;
   }

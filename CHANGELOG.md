@@ -2,6 +2,22 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 146 — Mobile audit (clean) + 3 new achievements (gamification — owner-loved)
+Two parts. **(1) Mobile audit** (flagged thin area, last done iter 113): screenshotted **7 high-risk views at true 390px**
+— Progress/stats, Knowledge Map, Test, Lab, Achievements, Glossary, and a lesson (with the new TOC) — and read each.
+**All render cleanly**; no breakage found (the lone "404" was a harness typo'd lesson id, not a site bug). Mobile is healthy.
+**(2) New achievements** (the owner explicitly loves "more achievements"; last expanded iter 109): **+3 → 43 total**,
+filling real gaps rather than padding —
+- **🌅 Daily Ritual** — finish a Daily Mix session (the core "open the app, study 15 min" loop was previously uncelebrated).
+- **📆 Creature of Habit** — study on 14 different days (rewards long-run consistency, distinct from the consecutive-day streak).
+- **🧙 Sage** — earn 25,000 total XP (extends the XP arc well past Erudite's 5k for a dedicated learner).
+- Triggers wired with existing infra (no new `state` fields): `addXP` unlocks `sage`/`habit`; the Daily-Mix finish screen
+  unlocks `daily-ritual` when real work was done. `achProgressMap` gained `habit`/`sage` so their bars + the dashboard
+  "closest achievement" nudge work.
+- **Verified**: `node gate.js` ALL GREEN; Node trigger sim — `sage` fires at ≥25k XP, `habit` at ≥14 activity days,
+  `daily-ritual` via `unlock()`, `ACHIEVEMENTS.length === 43`; in-browser Achievements page → `errs=0`, **43 cards**,
+  eyebrow "4 of 43 unlocked", all three new render as unlocked; all-routes smoke `errs=0`. SW cache **v88 → v89**; README 40 → 43.
+
 ## iter 145 — MCQ arc → Linear Algebra · Matrix Calculus 12 → 16 · ★ LINEAR ALGEBRA COMPLETE (content — owner's #1 ask)
 The final LA module. **+4 new MCQs each** to *Gradients, Jacobians & Layout*, *Differentiating Vector & Matrix
 Expressions*, and *Matrix Calculus Behind Backprop* (**+12, bank 1,932 → 1,944**) — and with this **all 19 Linear

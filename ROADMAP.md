@@ -145,6 +145,9 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    lessons at 16 (2nd topic done, after Algorithms). Adversarial agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v88.
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Calculus, Deep Learning, RL, LLMs, Prob & Stats.
    (Position-bias note now 17 lessons, ticking down as each shuffled batch de-skews.)
+   ✅ iter 146: mobile audit (7 high-risk views at 390px — all clean, no breakage) + 3 new achievements → 43 (Daily Ritual =
+   finish a Daily Mix, Creature of Habit = 14 distinct study days, Sage = 25k XP). errs=0; SW cache →v89; README 40→43.
+   Still-thin: UI/UX polish. Achievement ideas still open: Lab Explorer (open N distinct viz — needs distinct-viz tracking).
    ARC PROGRESS: Algorithms modules at 16 = foundations, data-structures. REMAINING in Algorithms: sorting-searching,
    algorithm-design, graphs, advanced-ml-connections, advanced-techniques (5). Then LA/Calc/DL/RL/LLM/PS. Interleave!
    CHECKED & FOUND HEALTHY (113): mobile renders clean across dashboard/map/lab/stats/test at 390px; `index()` is

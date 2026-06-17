@@ -1016,6 +1016,7 @@
             </div>
           </div></div>`;
         bindGo();
+        if (didWork) { Store.unlock("daily-ritual"); flushAchievements(); }   // celebrate finishing the daily ritual
       }
     }
     go();
@@ -1600,7 +1601,8 @@
       "erudite": [R.xp, 5000], "homework-hero": [hw, 25], "test-veteran": [(R.tests || []).length, 10],
       "curator": [Object.keys(R.bookmarks || {}).length, 5], "annotator": [Object.keys(R.notes || {}).length, 5],
       "flawless-five": [R.perfectQuizzes || 0, 5], "redeemer": [R.missedFixed || 0, 25],
-      "deep-diver": [mastered, 10], "loremaster": [mastered, 25]
+      "deep-diver": [mastered, 10], "loremaster": [mastered, 25],
+      "habit": [Object.keys(R.activity || {}).length, 14], "sage": [R.xp, 25000]
     };
   }
   // the locked, in-progress achievement closest to unlocking (for the dashboard nudge)
