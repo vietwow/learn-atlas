@@ -74,7 +74,13 @@
     { id: "lessons-100", icon: "📕", name: "Centenarian",       desc: "Complete 100 lessons." },
     { id: "marksman",    icon: "🏆", name: "Marksman",          desc: "Answer 2,000 quiz questions correctly." },
     { id: "savant",      icon: "🗿", name: "Savant",            desc: "Reach 80% mastery on 50 concepts." },
-    { id: "viz-complete",icon: "🔬", name: "Full Spectrum",     desc: "Open every visualization in the Lab." }
+    { id: "viz-complete",icon: "🔬", name: "Full Spectrum",     desc: "Open every visualization in the Lab." },
+    // ── endgame capstones (matched to the complete site: 148 lessons, 2,368 MCQs, all topics) ──
+    { id: "summit",      icon: "🗻", name: "Summit",            desc: "Reach 80% mastery on 100 concepts." },
+    { id: "streak-365",  icon: "🎇", name: "Year of Fire",      desc: "Reach a 365-day streak." },
+    { id: "mcq-5000",    icon: "🌠", name: "Living Legend",     desc: "Answer 5,000 quiz questions correctly." },
+    { id: "luminary",    icon: "💫", name: "Luminary",          desc: "Earn 100,000 total XP." },
+    { id: "exam-master", icon: "🏵️", name: "Grand Examiner",    desc: "Score 100% on a 40-question test." }
   ];
 
   function blank() {
@@ -168,6 +174,7 @@
     if (state.streak >= 7) unlock("streak7");
     if (state.streak >= 30) unlock("streak30");
     if (state.streak >= 100) unlock("streak100");
+    if (state.streak >= 365) unlock("streak-365");
     save();
   }
   function freezeJustUsed() { const v = _freezeJustUsed; _freezeJustUsed = false; return v; }
@@ -224,6 +231,7 @@
     if (lv.level >= LEVELS.length) unlock("polymath");
     if (state.xp >= 5000) unlock("erudite");
     if (state.xp >= 25000) unlock("sage");
+    if (state.xp >= 100000) unlock("luminary");
     if (Object.keys(state.activity || {}).length >= 14) unlock("habit");
     save();
     return state.xp;
@@ -300,6 +308,7 @@
     if (state.mcq.correct >= 500) unlock("mcq-500");
     if (state.mcq.correct >= 1000) unlock("crack-shot");
     if (state.mcq.correct >= 2000) unlock("marksman");
+    if (state.mcq.correct >= 5000) unlock("mcq-5000");
     if (lessonId) { for (let k = 0; k < correct; k++) bumpMastery(lessonId, { correct: true }); for (let k = 0; k < total - correct; k++) bumpMastery(lessonId, { correct: false }); }
     save();
   }
@@ -311,10 +320,12 @@
     addXP(correct * 8);
     unlock("test-taker");
     if (total >= 10 && correct === total) { addXP(50); unlock("exam-ace"); }
+    if (total >= 40 && correct === total) { addXP(100); unlock("exam-master"); }
     if (state.mcq.correct >= 100) unlock("mcq-100");
     if (state.mcq.correct >= 500) unlock("mcq-500");
     if (state.mcq.correct >= 1000) unlock("crack-shot");
     if (state.mcq.correct >= 2000) unlock("marksman");
+    if (state.mcq.correct >= 5000) unlock("mcq-5000");
     state.tests.unshift({ label: String(label || "Test"), correct, total });
     state.tests = state.tests.slice(0, 25);
     if (state.tests.length >= 10) unlock("test-veteran");
@@ -347,6 +358,7 @@
       if (nMastered >= 10) unlock("deep-diver");
       if (nMastered >= 25) unlock("loremaster");
       if (nMastered >= 50) unlock("savant");
+      if (nMastered >= 100) unlock("summit");
       if (window.COURSES.length >= 6 && window.COURSES.every(c => topicMastery(c.id) >= 0.55)) unlock("well-rounded");
     }
     save();

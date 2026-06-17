@@ -2,6 +2,27 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 209 — Five endgame achievements matched to the complete site (gamification)
+The achievement ladders had stopped well short of the now-complete codex (148 lessons · 2,368 MCQs · 43 viz · all 7
+topics): mastery capped at 50 concepts, streaks at 100 days, correct-answers at 2,000, XP at 25k. So a devoted learner
+ran out of things to chase. Added **5 long-haul capstones** (50 → **55 achievements**) — the owner's most-repeated
+gamification ask, untouched since iter 120 — each extending an existing ladder to a true endgame:
+- 🗻 **Summit** — reach 80% mastery on **100 concepts** (ladder was 10/25/50).
+- 🎇 **Year of Fire** — a **365-day streak** (ladder was 3/7/30/100).
+- 🌠 **Living Legend** — **5,000** quiz questions answered correctly (ladder was 100/500/1k/2k).
+- 💫 **Luminary** — earn **100,000 total XP** (ladder was 5k/25k).
+- 🏵️ **Grand Examiner** — score **100% on a 40-question test** (binary; +100 XP bonus, like Exam Ace's +50).
+Fully wired, not just defined: unlock conditions sit beside the existing identical threshold checks in `store.js`
+(`touchStreak`, `addXP`, `recordQuiz`/`recordTest`, `bumpMastery`); the four metric-based ones are in `app.js`
+`achProgressMap()` so they get live progress bars + can surface in the dashboard "closest achievement" nudge; all five
+are slotted into `ACH_CATEGORIES` (Mastery / Consistency / Quizzes / Levels). **No new state** — every metric
+(mcq.correct, streak, xp, mastered-count, test correct/total) already existed; old saves load unchanged.
+Verified: a consistency check confirms **55 achievements, all categorized, zero orphans/duplicates, zero duplicate
+icons**; achievements page renders all five (seeded progress shows **Summit 0/100, Year of Fire 120/365, Living Legend
+2,500/5,000, Luminary 30,000/100,000**; Grand Examiner card shows icon 🏵️ + "Score 100% on a 40-question test"),
+header reads "0 OF 55 UNLOCKED", **err=0**; `gate.js` ALL GREEN; all-routes smoke (14 routes) **errs=0/kErr=0** (no
+regression from the store/app edits); achievements page legible at **390px**. SW cache `atlas-v151` → `atlas-v152`.
+
 ## iter 208 — Quiz results screen: redrill-the-missed + next-lesson momentum (UI/UX · functionality)
 The per-lesson quiz results screen was a **dead end** — it showed a score and a lone "↻ Retry quiz" button. That moment
 fires after *every* one of the 148 lessons' quizzes, so it's one of the highest-frequency screens in the app, and it

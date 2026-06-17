@@ -1936,8 +1936,9 @@
     return {
       "streak3": [R.streak, 3], "streak7": [R.streak, 7], "streak30": [R.streak, 30], "streak100": [R.streak, 100],
       "cards25": [R.cardsReviewed, 25], "century": [R.cardsReviewed, 100], "cards-500": [R.cardsReviewed, 500],
-      "mcq-100": [R.mcq.correct, 100], "mcq-500": [R.mcq.correct, 500], "crack-shot": [R.mcq.correct, 1000], "marksman": [R.mcq.correct, 2000],
+      "mcq-100": [R.mcq.correct, 100], "mcq-500": [R.mcq.correct, 500], "crack-shot": [R.mcq.correct, 1000], "marksman": [R.mcq.correct, 2000], "mcq-5000": [R.mcq.correct, 5000],
       "ten-lessons": [lessonsDone, 10], "half-century": [lessonsDone, 50], "lessons-100": [lessonsDone, 100],
+      "streak-365": [R.streak, 365], "summit": [mastered, 100], "luminary": [R.xp, 100000],
       "erudite": [R.xp, 5000], "homework-hero": [hw, 25], "test-veteran": [(R.tests || []).length, 10],
       "curator": [Object.keys(R.bookmarks || {}).length, 5], "annotator": [Object.keys(R.notes || {}).length, 5],
       "flawless-five": [R.perfectQuizzes || 0, 5], "redeemer": [R.missedFixed || 0, 25],
@@ -1962,11 +1963,11 @@
   // achievements grouped into themed categories (keeps the 40+ Hall scannable)
   const ACH_CATEGORIES = [
     { label: "Lessons & Courses", ids: ["first-step", "ten-lessons", "half-century", "lessons-100", "topic-clear", "module-master", "all-topics", "atlas-complete"] },
-    { label: "Quizzes & Tests", ids: ["perfect", "flawless-five", "mcq-100", "mcq-500", "crack-shot", "marksman", "exam-ace", "test-taker", "test-veteran", "redeemer", "self-examiner", "quick-ace"] },
-    { label: "Consistency & Streaks", ids: ["streak3", "streak7", "streak30", "streak100", "daily-ritual", "habit"] },
+    { label: "Quizzes & Tests", ids: ["perfect", "flawless-five", "mcq-100", "mcq-500", "crack-shot", "marksman", "mcq-5000", "exam-ace", "exam-master", "test-taker", "test-veteran", "redeemer", "self-examiner", "quick-ace"] },
+    { label: "Consistency & Streaks", ids: ["streak3", "streak7", "streak30", "streak100", "streak-365", "daily-ritual", "habit"] },
     { label: "Flashcards & Recall", ids: ["cards25", "century", "cards-500", "recaller", "total-recall"] },
-    { label: "Mastery", ids: ["mastered-one", "deep-diver", "loremaster", "savant", "well-rounded"] },
-    { label: "Levels & XP", ids: ["scholar", "polymath", "erudite", "sage"] },
+    { label: "Mastery", ids: ["mastered-one", "deep-diver", "loremaster", "savant", "summit", "well-rounded"] },
+    { label: "Levels & XP", ids: ["scholar", "polymath", "erudite", "sage", "luminary"] },
     { label: "Exploration & Practice", ids: ["curious", "visualizer", "viz-voyager", "viz-complete", "pathfinder", "coder", "curator", "annotator", "deep-thinker", "homework-hero"] }
   ];
   function viewAchievements() {
