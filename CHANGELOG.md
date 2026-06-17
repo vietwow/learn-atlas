@@ -2,6 +2,19 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 83 — Probability & Statistics Module 4 — 12 MCQs per lesson (content; owner "more questions" ask)
+Completed the new Statistical Inference module by bringing all four lessons (LLN, sampling distributions,
+point estimation, confidence intervals) from 0 → 12 MCQs each via the author→adversarial-verify pipeline:
+**+48 fact-checked questions**. Every one of the **16** Probability & Statistics lessons now sits at exactly 12 MCQs
+(192 in the topic); the site bank reaches **1,500 → 1,548**. The adversarial verifier independently re-derived every
+answer and validated subtle traps — e.g. the Cauchy distribution (no finite mean → the classical LLN simply does not
+apply, and $\bar X_n$ stays Cauchy), the deliberately *vacuous* Chebyshev bound of 1 at small $n$, $\operatorname{MSE}=\operatorname{Var}+\operatorname{Bias}^2$
+(not Var+Bias), and the correct procedural reading of a confidence level. All four lessons returned ok=true,
+unchanged. Distractors target the canonical misconceptions (gambler's fallacy, confusing $\sigma$ with $\sigma/\sqrt n$,
+"95% probability $\mu$ is in this interval"). Now every PS lesson has a Quiz tab. SW cache → `atlas-v27`; README 1,500→1,548.
+Verified: `node gate.js` ALL GREEN (7 topics · 129 lessons · **1,548 MCQs**); all four Module-4 quizzes render
+"of 12" with errs=0 and katex-error=0; stray Chrome cleaned up.
+
 ## iter 82 — Probability & Statistics — Module 4: Statistical Inference (4 lessons) (content; owner depth direction)
 Added the fourth Probability & Statistics module — the payoff that turns probability into *statistics*: reasoning
 from a sample back to the unknown population. Four lessons that build on each other:

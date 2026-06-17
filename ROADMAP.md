@@ -16,11 +16,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ✅ iter 77: Module 3 "Joint Distributions & Dependence" (3 lessons). ✅ iter 78: all 3 Module-3 lessons to 12
    MCQs (+36; topic now 144 / site 1,500). All 12 PS lessons now at 12 MCQs.
    ✅ iter 79: covariance/correlation scatter viz (`ps-covariance-scatter`, embedded in the covariance lesson).
-   ✅ iter 82: Module 4 "Statistical Inference: Estimation & Confidence" (4 lessons: LLN, sampling distributions/SE,
-   point estimation/bias-variance, confidence intervals) — content+cards+homework+examples, NO MCQs yet.
-   NEXT for this topic: (a) add 12 MCQs to each of the 4 Module-4 lessons via the pipeline; (b) Module 5 —
-   Hypothesis testing (null/alt, p-values, errors, t-tests) and/or Bayesian inference (priors/posteriors/conjugacy);
-   (c) a confidence-interval coverage simulator viz (queued).
+   ✅ iter 82: Module 4 "Statistical Inference: Estimation & Confidence" (4 lessons). ✅ iter 83: all 4 Module-4
+   lessons to 12 MCQs (+48; topic now 192 / site 1,548). All 16 PS lessons now at 12 MCQs.
+   NEXT for this topic: (a) Module 5 — Hypothesis testing (null/alt, p-values, type I/II errors, t-tests) and/or
+   Bayesian inference (priors/posteriors/conjugacy); (b) a confidence-interval coverage simulator viz (queued).
    ⚠ Lesson-authoring workflow bug (iter 71): the VERIFY agent overwrote `content` with its review notes for
    3/4 lessons. When authoring future lessons, make the verify schema/prompt EXPLICIT: "return the corrected
    LESSON HTML in `content`; put commentary ONLY in `notes`; never write a summary into `content`." (Recovered
