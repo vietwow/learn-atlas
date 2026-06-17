@@ -2318,6 +2318,50 @@
               ],
               "answer": 0,
               "explain": "$n^{\\log_2 8}=n^3$ dominates the $\\Theta(n^2)$ combine, so $T_1=\\Theta(n^3)$; reducing to 7 subproblems gives $n^{\\log_2 7}\\approx n^{2.81}$, still dominating the combine, so $T_2=\\Theta(n^{2.81})$. This shows that shaving the branching factor $a$ — not the combine — is what breaks the cubic barrier, the heart of Strassen's algorithm."
+            },
+            {
+              "q": "What are the three phases of a divide-and-conquer algorithm?",
+              "choices": [
+                "Sort, Search, Merge",
+                "Divide, Conquer (recurse on subproblems), Combine",
+                "Split, Test, Repeat",
+                "Recurse, Memoize, Return"
+              ],
+              "answer": 1,
+              "explain": "Divide the problem into smaller subproblems, conquer them by recursing (until a base case), then combine their solutions into the answer for the original. Merge sort is the canonical example: split in half, sort each half, merge."
+            },
+            {
+              "q": "Binary search is a divide-and-conquer algorithm in which the 'combine' step is…",
+              "choices": [
+                "summing the subresults",
+                "merging two sorted halves",
+                "comparing every pair of elements",
+                "trivial — it recurses into only one half and returns that result directly"
+              ],
+              "answer": 3,
+              "explain": "Binary search divides the range in two but recurses into just the <em>one</em> half that can contain the target, and returns its result unchanged — there's nothing to combine. That one-sided recursion is why it's $O(\\log n)$, not $O(n)$."
+            },
+            {
+              "q": "Merge sort does its hard work in the <em>combine</em> (merge) step. Where does quicksort do its hard work?",
+              "choices": [
+                "In the divide step — partitioning the array around the pivot",
+                "In the combine step — it merges sorted halves",
+                "In the base case",
+                "It does no real work; recursion handles everything"
+              ],
+              "answer": 0,
+              "explain": "The two are mirror images: merge sort splits trivially (just take halves) and works hard to merge; quicksort works hard to partition around the pivot, after which the sorted pieces simply sit next to each other — its combine step is trivial."
+            },
+            {
+              "q": "Why are divide-and-conquer algorithms often easy to parallelize?",
+              "choices": [
+                "Recursion is automatically parallel",
+                "They use less memory than iterative algorithms",
+                "The subproblems are independent, so they can be solved simultaneously on separate processors",
+                "They skip the combine step"
+              ],
+              "answer": 2,
+              "explain": "Divide-and-conquer breaks a problem into independent subproblems that don't depend on each other's results, so they can run concurrently on different cores/machines — only the final combine step needs their outputs."
             }
           ],
           "flashcards": [
@@ -2513,6 +2557,50 @@
               ],
               "answer": 1,
               "explain": "Empirical success is not a proof; greedy correctness must be argued via the greedy-choice property plus optimal substructure (or an exchange argument). Counterexamples can hide at any input size and need not be small, so neither a size bound (D) nor 'almost certainly' (A) is justified."
+            },
+            {
+              "q": "Which two properties must a problem have for a greedy algorithm to be guaranteed optimal?",
+              "choices": [
+                "Sorted input and recursion",
+                "Optimal substructure and overlapping subproblems",
+                "The greedy-choice property and optimal substructure",
+                "A convex objective function"
+              ],
+              "answer": 2,
+              "explain": "Greedy needs the <strong>greedy-choice property</strong> (a locally optimal choice is part of some global optimum) plus <strong>optimal substructure</strong> (an optimal solution contains optimal solutions to subproblems). Optimal substructure + <em>overlapping</em> subproblems is the signature of dynamic programming instead."
+            },
+            {
+              "q": "Dijkstra's shortest-path algorithm is greedy because at each step it…",
+              "choices": [
+                "permanently settles the unvisited vertex with the smallest tentative distance, and never revisits it",
+                "tries every possible path and keeps the best",
+                "fills a dynamic-programming table over all edge subsets",
+                "backtracks whenever it hits a longer edge"
+              ],
+              "answer": 0,
+              "explain": "Dijkstra greedily 'finalizes' the closest unsettled vertex each round, trusting that its shortest distance is now known. That greedy choice is safe only with non-negative edge weights — negative edges break it (use Bellman–Ford instead)."
+            },
+            {
+              "q": "Compared with dynamic programming for the same problem, a correct greedy algorithm is typically…",
+              "choices": [
+                "more memory-hungry",
+                "always slower but always correct",
+                "always correct on any problem",
+                "faster and simpler — but only correct when the greedy-choice property holds"
+              ],
+              "answer": 3,
+              "explain": "When greedy applies, it makes one pass of locally optimal choices — usually $O(n\\log n)$ or $O(n)$ with little memory, beating DP's table-filling. The catch is proving the greedy-choice property holds; without it, greedy can be confidently wrong and you need DP."
+            },
+            {
+              "q": "A defining feature of a greedy algorithm is that once it commits to a choice, it…",
+              "choices": [
+                "tries all the alternatives to that choice later",
+                "never reconsiders or undoes that choice",
+                "stores it in a memoization table for reuse",
+                "re-sorts the remaining input each time"
+              ],
+              "answer": 1,
+              "explain": "Greedy makes an irrevocable locally optimal choice at each step and moves on — no reconsidering (that's backtracking) and no caching of overlapping subproblems (that's dynamic programming). Its speed comes precisely from never looking back."
             }
           ],
           "flashcards": [
@@ -2708,6 +2796,50 @@
               ],
               "answer": 2,
               "explain": "Bottom-up filling is valid precisely when each entry is computed after everything it depends on, i.e. in a topological order of the dependency DAG. Plain increasing-index order only works when dependencies happen to point to smaller indices, and 'any order' fails because cells reference each other."
+            },
+            {
+              "q": "Which two properties make a problem a good fit for dynamic programming?",
+              "choices": [
+                "Convexity and continuity",
+                "The greedy-choice property and optimal substructure",
+                "Divide and combine steps",
+                "Optimal substructure and overlapping subproblems"
+              ],
+              "answer": 3,
+              "explain": "DP pays off when a problem has <strong>optimal substructure</strong> (optimal solutions built from optimal sub-solutions) AND <strong>overlapping subproblems</strong> (the same sub-solutions are needed repeatedly) — so caching each once avoids exponential recomputation. With <em>non</em>-overlapping subproblems you'd just use divide-and-conquer."
+            },
+            {
+              "q": "What is the difference between memoization and tabulation in dynamic programming?",
+              "choices": [
+                "They are exactly the same technique",
+                "Memoization is top-down (recursion + a cache); tabulation is bottom-up (fill a table iteratively)",
+                "Memoization is asymptotically faster",
+                "Tabulation uses recursion; memoization does not"
+              ],
+              "answer": 1,
+              "explain": "Both store each subproblem's answer once. Memoization keeps the natural recursion and caches results as they're computed (top-down, lazy); tabulation iterates subproblems from smallest to largest, filling a table (bottom-up, eager). Same asymptotics — different control flow."
+            },
+            {
+              "q": "In the longest-common-subsequence DP, when the current characters of the two strings <em>match</em>, the recurrence is $dp[i][j] = $",
+              "choices": [
+                "$dp[i-1][j-1]$",
+                "$\\max(dp[i-1][j],\\, dp[i][j-1])$",
+                "$dp[i-1][j-1] + 1$",
+                "$0$"
+              ],
+              "answer": 2,
+              "explain": "A match extends the best LCS of the two shorter prefixes by one character, so $dp[i][j]=dp[i-1][j-1]+1$. When the characters <em>differ</em>, you instead take $\\max(dp[i-1][j], dp[i][j-1])$ — drop one character from one string or the other."
+            },
+            {
+              "q": "What distinguishes dynamic programming from plain divide-and-conquer?",
+              "choices": [
+                "In DP the subproblems overlap (the same ones recur), so it caches them; in divide-and-conquer they're independent",
+                "DP never uses recursion",
+                "Divide-and-conquer is always asymptotically faster",
+                "They are the same technique under different names"
+              ],
+              "answer": 0,
+              "explain": "Both break a problem into subproblems, but divide-and-conquer's subproblems are <em>disjoint</em> (e.g. merge sort's two halves), so there's nothing to reuse. DP's subproblems <em>overlap</em>, so solving each once and caching it turns exponential work into polynomial."
             }
           ],
           "flashcards": [
@@ -2903,6 +3035,50 @@
               ],
               "answer": 2,
               "explain": "Best-first often minimizes node expansions but keeps a priority queue of live nodes whose size can blow up in memory; depth-first uses stack-depth memory and quickly obtains an incumbent that tightens pruning. Both are correct (return the optimum) and both use bounds, so the trade-off is node count versus memory, not correctness."
+            },
+            {
+              "q": "When a backtracking search reaches a partial solution that cannot be extended into any valid complete solution, it…",
+              "choices": [
+                "undoes the most recent choice and tries the next alternative (it 'backtracks')",
+                "restarts the whole search from scratch",
+                "accepts the partial solution anyway",
+                "switches to brute-force enumeration"
+              ],
+              "answer": 0,
+              "explain": "That retreat is the heart of backtracking: abandon the current dead-end, step back to the last decision point, and try a different option there — exploring the state-space tree depth-first while pruning whole branches that can't work."
+            },
+            {
+              "q": "What does <em>branch and bound</em> add to plain backtracking?",
+              "choices": [
+                "A greedy choice at every node",
+                "A hash table of visited states",
+                "A bounding function that prunes any subtree whose best possible solution can't beat the best found so far",
+                "Random restarts to escape dead ends"
+              ],
+              "answer": 2,
+              "explain": "Branch and bound is backtracking for <em>optimization</em>: at each node it computes an optimistic bound on the best solution achievable below, and prunes the whole subtree if that bound is no better than the incumbent. Tighter bounds prune more."
+            },
+            {
+              "q": "Backtracking is best suited to which kind of problem?",
+              "choices": [
+                "Sorting a list of numbers",
+                "Constraint-satisfaction and combinatorial-search problems where partial solutions can be checked and extended (puzzles, permutations, N-queens)",
+                "Multiplying two matrices",
+                "Evaluating a single arithmetic formula"
+              ],
+              "answer": 1,
+              "explain": "Backtracking shines when a solution is built incrementally and partial candidates can be tested for validity early — Sudoku, N-queens, graph colouring, subset/permutation generation. Problems with closed-form or simple iterative solutions don't need it."
+            },
+            {
+              "q": "Adding a good pruning or bounding rule to an exponential backtracking search…",
+              "choices": [
+                "guarantees the optimal answer in linear time",
+                "lowers the worst-case time to polynomial",
+                "has no effect on running time",
+                "often makes it fast enough in practice, even though the worst case stays exponential"
+              ],
+              "answer": 3,
+              "explain": "Pruning can cut away enormous portions of the search tree, turning 'never finishes' into 'finishes quickly' on typical inputs. But an adversarial input can still force exploring exponentially many nodes — pruning improves the practical case, not the worst-case bound."
             }
           ],
           "flashcards": [

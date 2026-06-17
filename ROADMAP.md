@@ -91,6 +91,8 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    keys to confirm before commit (the substance verdicts have been reliable).
    ✅ iter 124: Beam Search decoding tree (llm-beam-search, 32nd viz) — embedded in the LLM decoding lesson.
    Viz backlog remaining: MDP policy-iteration (risk: 3rd gridworld), VAE latent-space, GAN training-dynamics.
+   ✅ iter 125: MCQ arc phase 4 — Algorithms·Algorithm Design (4 lessons) 12→16 (+16, bank →1,828). Algorithms 4/7.
+   REMAINING in Algorithms: graphs (3), advanced-ml-connections (4), advanced-techniques (3). Then 6 topics.
    ARC PROGRESS: Algorithms modules at 16 = foundations, data-structures. REMAINING in Algorithms: sorting-searching,
    algorithm-design, graphs, advanced-ml-connections, advanced-techniques (5). Then LA/Calc/DL/RL/LLM/PS. Interleave!
    CHECKED & FOUND HEALTHY (113): mobile renders clean across dashboard/map/lab/stats/test at 390px; `index()` is

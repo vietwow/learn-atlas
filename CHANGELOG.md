@@ -2,6 +2,20 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 125 — MCQ arc phase 4: Algorithms · Algorithm Design 12 → 16 (content — owner's #1 ask)
+Continuing the 12→16 arc (interleaved — iter 124 was a viz). This module has **4** lessons, so **+16 (bank 1,812 →
+1,828)** completes it. **+4 new MCQs each** to Divide & Conquer, Greedy, Dynamic Programming, and Backtracking &
+Branch-and-Bound — covering the paradigm fundamentals the existing 12 hadn't pinned down: D&C's three phases / binary
+search as one-sided D&C / merge-vs-quicksort work split / parallelism via independent subproblems; greedy's two required
+properties / Dijkstra as greedy / greedy-vs-DP trade-off / greedy never reconsiders; DP's two hallmarks / memoization
+(top-down) vs tabulation (bottom-up) / the LCS match recurrence $dp[i{-}1][j{-}1]{+}1$ / DP-vs-D&C (overlapping vs
+independent subproblems); backtracking's dead-end undo / what branch-and-bound adds (a bounding function) / its CSP fit /
+and that pruning helps in practice but the worst case stays exponential. Same pipeline: authored avoiding existing stems
+→ **adversarial-verify agent → ALL 16 PASS** → direct key-dump confirmation (the agent again mis-numbered one index;
+the dump verified all 16 keys) → positions shuffled (1302 / 2031 / 3120 / 0213). SW cache → `atlas-v69`; README 1,812 →
+1,828. Verified: `node gate.js` ALL GREEN; quiz renders **"of 16"**, `.katex-error`=0, errs=0. **Algorithms now has 4 of
+7 modules at 16 MCQs; 3 to go (graphs, complexity/strings/ML, advanced techniques).**
+
 ## iter 124 — Beam Search decoding tree — a 32nd visualization (visualizations)
 The decoding lesson had a temperature/top-p <em>sampling</em> viz but nothing for <strong>beam search</strong> — a core
 decoding method it explicitly teaches. Added **`llm-beam-search`**, embedded in "Decoding Strategies and Sampling" at the
