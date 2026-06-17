@@ -2,6 +2,20 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 134 — Dashboard "closest achievement" nudge (gamification)
+A gentle motivation hook on the dashboard: a gold-accented card that surfaces the **single locked achievement you're
+nearest to unlocking** — its icon, name, `cur / target`, a one-line description, and a thin progress bar — linking
+straight to `#/achievements`. Picks the highest-fraction *started-but-incomplete* achievement (e.g. flashcards 22/25 →
+"Card Sharp" at 88%), so it only appears once you've made real progress toward something and never nags a brand-new user
+or shows an already-met badge. Turns the 40-achievement collection from a page you visit into a goal that pulls you back.
+- **app.js**: extracted `achProgressMap()` (the per-achievement `[current, target]` table, previously inline in
+  `viewAchievements`) and added `nearestAchievement()`; `viewDashboard` renders `nearHtml` before the bookmarks block.
+- **styles.css**: `.ach-nudge` + parts — clickable card, gold border that brightens + lifts on hover, mono `cur / target`,
+  ellipsised description, gold progress fill; 480px breakpoint wraps the description and shrinks the icon.
+- **Verified**: `node gate.js` ALL GREEN; seeded near-complete-but-locked state → DOM dump confirms
+  `errs=0 | NUDGE name="Almost there — Card Sharp" num="22 / 25" href=#/achievements fill=88%`; all-routes smoke `errs=0`;
+  desktop + 390px mobile screenshots read (nudge legible and on-aesthetic at both). SW cache bumped **atlas-v76 → v77**.
+
 ## iter 133 — MCQ arc → topic 2: Linear Algebra · Foundations 12 → 16 (content — owner's #1 ask)
 The 12→16 arc moves to its second topic. **+4 new MCQs each** to Vectors & Operations, Dot Product & Norms, Span &
 Independence, and Basis & Dimension (**+16, bank 1,868 → 1,884**) — foundational angles the existing 12 (mostly compute-

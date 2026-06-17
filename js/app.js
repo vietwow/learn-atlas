@@ -358,6 +358,17 @@
       <div class="conn-chips reveal" style="margin-bottom:34px">
         ${bm.map(n => `<a class="conn-chip" href="#/lesson/${n.course.id}/${n.lesson.id}" data-route style="--c:${n.course.color}"><span class="cc-dot" style="background:${n.course.color}"></span>${esc(n.lesson.title)}</a>`).join("")}
       </div>` : "";
+    // "closest achievement" nudge — gentle motivation toward the next unlock
+    const near = nearestAchievement();
+    const nearHtml = near ? `
+      <a class="ach-nudge reveal" href="#/achievements" data-route>
+        <span class="ach-nudge-ico">${near.a.icon}</span>
+        <span class="ach-nudge-body">
+          <span class="ach-nudge-top"><b>Almost there — ${esc(near.a.name)}</b><span class="ach-nudge-num">${near.cur} / ${near.target}</span></span>
+          <span class="ach-nudge-desc">${esc(near.a.desc)}</span>
+          <span class="ach-nudge-bar"><span class="ach-nudge-fill" style="width:${Math.round(near.frac * 100)}%"></span></span>
+        </span>
+      </a>` : "";
 
     app.innerHTML = `
     <div class="view">
@@ -398,6 +409,7 @@
         <a class="btn ghost" href="#/library" data-route>📚 References</a>
       </div>
 
+      ${nearHtml}
       ${bmHtml}
       <div class="page-head reveal" style="margin-bottom:18px"><h2 style="font-size:26px">Topics</h2></div>
       <div class="grid">${cards}</div>
@@ -1550,12 +1562,13 @@
   }
 
   // ---------- achievements ----------
-  function viewAchievements() {
-    const have = Store.raw.achievements, R = Store.raw;
-    // live progress toward the threshold-based achievements (current, target) — shown on locked cards
+  // live (current, target) progress toward each threshold-based achievement — shared by the
+  // achievements page and the dashboard "closest achievement" nudge.
+  function achProgressMap() {
+    const R = Store.raw;
     let mastered = 0; C().forEach(c => c.modules.forEach(m => m.lessons.forEach(l => { if (Store.effectiveMastery(l.id) >= 0.8) mastered++; })));
     const lessonsDone = Object.keys(R.lessons || {}).length, hw = Object.keys(R.hwRevealed || {}).length;
-    const PROG = {
+    return {
       "streak3": [R.streak, 3], "streak7": [R.streak, 7], "streak30": [R.streak, 30], "streak100": [R.streak, 100],
       "cards25": [R.cardsReviewed, 25], "century": [R.cardsReviewed, 100], "cards-500": [R.cardsReviewed, 500],
       "mcq-100": [R.mcq.correct, 100], "mcq-500": [R.mcq.correct, 500], "crack-shot": [R.mcq.correct, 1000],
@@ -1565,6 +1578,22 @@
       "flawless-five": [R.perfectQuizzes || 0, 5], "redeemer": [R.missedFixed || 0, 25],
       "deep-diver": [mastered, 10], "loremaster": [mastered, 25]
     };
+  }
+  // the locked, in-progress achievement closest to unlocking (for the dashboard nudge)
+  function nearestAchievement() {
+    const have = Store.raw.achievements, PROG = achProgressMap();
+    let best = null;
+    Store.ACHIEVEMENTS.forEach(a => {
+      if (have[a.id]) return; const p = PROG[a.id]; if (!p || p[1] <= 0) return;
+      const cur = Math.max(0, Math.min(p[0], p[1])), frac = cur / p[1];
+      if (cur <= 0 || frac >= 1) return;       // not started yet, or already met (about to unlock)
+      if (!best || frac > best.frac) best = { a: a, cur: cur, target: p[1], frac: frac };
+    });
+    return best;
+  }
+  function viewAchievements() {
+    const have = Store.raw.achievements;
+    const PROG = achProgressMap();
     const grid = Store.ACHIEVEMENTS.map(a => {
       const unlocked = !!have[a.id], p = unlocked ? null : PROG[a.id];
       let bar = "", near = "";

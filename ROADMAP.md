@@ -112,6 +112,9 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    foundational MCQs/lesson avoiding existing stems, adversarial-verify agent + key-dump, shuffle positions, gate.)
    ✅ iter 132: keyboard-shortcuts help overlay (press ? / sidebar ⌨ Shortcuts) — understandability/a11y discoverability.
    ✅ iter 133: MCQ arc topic 2 — Linear Algebra·Foundations 12→16 (+16, bank →1,884). LA 1/7 modules.
+   ✅ iter 134: dashboard "closest achievement" nudge (gamification) — gold card surfacing the nearest locked
+   achievement (icon/name/cur·target/desc/bar), links to #/achievements; only shows once you've started toward one.
+   Refactored `achProgressMap()` out of `viewAchievements` + added `nearestAchievement()`. SW cache →v77.
    LA REMAINING: matrices(3), structure(2), eigen(3), orthogonality(2), svd-applications(2), matrix-calculus(3).
    ARC PROGRESS: Algorithms modules at 16 = foundations, data-structures. REMAINING in Algorithms: sorting-searching,
    algorithm-design, graphs, advanced-ml-connections, advanced-techniques (5). Then LA/Calc/DL/RL/LLM/PS. Interleave!
