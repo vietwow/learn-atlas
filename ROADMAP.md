@@ -34,8 +34,8 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    generative lessons to 12 MCQs (+36; DL topic now 264 / site 1,632) — DL fully complete again.
    ✅ iter 90: Calculus → new "Convex & Constrained Optimization" module (convexity, GD convergence, Lagrange
    multipliers). ✅ iter 91: all 3 convex lessons to 12 MCQs (+36; calc topic now 300 / site 1,668) — Calculus fully
-   complete again. ✅ iter 93: Linear Algebra → new "Matrix Calculus for ML" module (gradients/Jacobians/layout,
-   derivative identities, backprop as matrix calculus) — content+cards+homework+examples, NO MCQs yet (add via pipeline next).
+   complete again. ✅ iter 93: Linear Algebra → new "Matrix Calculus for ML" module. ✅ iter 94: all 3 matrix-calc
+   lessons to 12 MCQs (+36; LA topic now 228 / site 1,704) — Linear Algebra fully complete again.
    REMAINING advanced gaps to mine, one topic per rotation:
    Algorithms → amortized analysis or max-flow/min-cut; RL → model-based or offline RL; LLMs are already very deep.
    Author with `String.raw` + single-backslash LaTeX; the

@@ -3112,7 +3112,140 @@
           "title": "Gradients, Jacobians & the Layout Convention",
           "minutes": 17,
           "content": "<h3>1. The hook: where calculus meets linear algebra</h3>\n<p>Machine learning runs on derivatives of functions with <em>many</em> inputs and <em>many</em> outputs — a loss depending on millions of parameters, a layer mapping a vector to a vector. Single-variable calculus is not enough; we need to organize all those partial derivatives into vectors and matrices. <strong>Matrix calculus</strong> is that bookkeeping, and getting its shapes right is the difference between a backprop derivation that works and one that silently transposes itself into nonsense.</p>\n\n<h3>2. The gradient of a scalar function</h3>\n<p>For a scalar-valued function of a vector, $f:\\mathbb{R}^n\\to\\mathbb{R}$, the <strong>gradient</strong> collects all first partial derivatives into a single vector:\n$$\\nabla f(\\mathbf{x}) = \\left(\\frac{\\partial f}{\\partial x_1}, \\frac{\\partial f}{\\partial x_2}, \\dots, \\frac{\\partial f}{\\partial x_n}\\right)^\\top.$$\nIt is the multivariable generalization of the derivative, and it points in the direction of <em>steepest increase</em> of $f$ (its negative is the direction gradient descent steps in). Crucially, $\\nabla f$ lives in the same space as $\\mathbf{x}$: it is an $n$-vector.</p>\n\n<h3>3. The Jacobian of a vector-valued function</h3>\n<p>When the output is also a vector, $\\mathbf{f}:\\mathbb{R}^n\\to\\mathbb{R}^m$, every output component has a gradient, and stacking them gives the <strong>Jacobian</strong> — an $m\\times n$ matrix of all partial derivatives:\n$$J = \\frac{\\partial \\mathbf{f}}{\\partial \\mathbf{x}}, \\qquad J_{ij} = \\frac{\\partial f_i}{\\partial x_j}.$$\nRow $i$ is the gradient of output $f_i$; column $j$ holds the sensitivities to input $x_j$. The Jacobian is the best <em>linear approximation</em> of $\\mathbf{f}$ near a point: $\\mathbf{f}(\\mathbf{x}+\\Delta)\\approx \\mathbf{f}(\\mathbf{x}) + J\\,\\Delta$. A scalar function's gradient is just the (transpose of the) $1\\times n$ Jacobian.</p>\n\n<h3>4. Layout conventions — the thing that trips everyone</h3>\n<p>There is a notational fork that causes endless confusion: should $\\partial f/\\partial \\mathbf{x}$ be a row or a column? The two <strong>layout conventions</strong> are mirror images (one is the transpose of the other):</p>\n<ul>\n<li><strong>Denominator layout</strong> (the ML default): the derivative has the shape of the <em>denominator</em> $\\mathbf{x}$. So $\\nabla f$ is a <em>column</em> vector matching $\\mathbf{x}$ — which is why a parameter's gradient has the same shape as the parameter, and you can write $\\mathbf{x} \\leftarrow \\mathbf{x} - \\eta\\,\\nabla f$.</li>\n<li><strong>Numerator layout</strong>: the derivative has the shape of the numerator (gradients come out as rows).</li>\n</ul>\n<p>Pick one and stay consistent. This course uses <strong>denominator layout</strong>, so gradients are column vectors shaped like the variable — the convention every deep-learning framework follows.</p>\n<div class=\"callout\">\n<div class=\"c-tag\">Why it matters</div>\n<p>\"Gradient has the same shape as the parameter\" is not a coincidence — it is the denominator-layout convention, and it is what makes the update rule $\\theta \\leftarrow \\theta - \\eta\\,\\nabla_\\theta L$ type-check for a vector, a matrix, or a whole network of tensors.</p>\n</div>\n\n<h3>5. The Hessian: second derivatives</h3>\n<p>Differentiating the gradient again gives the <strong>Hessian</strong>, the $n\\times n$ matrix of second partials:\n$$H_{ij} = \\frac{\\partial^2 f}{\\partial x_i\\,\\partial x_j}.$$\nFor nice (twice-continuously-differentiable) functions the Hessian is <em>symmetric</em> (mixed partials commute). It is the Jacobian of the gradient map, it describes the local curvature of $f$, and — as you saw with convexity — $f$ is convex exactly when its Hessian is positive semidefinite everywhere. Newton's method uses $H^{-1}$ to take curvature-aware steps.</p>\n\n<h3>6. Shape bookkeeping is the whole game</h3>\n<p>The single most reliable way to get matrix-calculus right is to <strong>track shapes</strong>. Before trusting any derivative formula, check that the dimensions are consistent: a gradient must match its variable's shape, a Jacobian of $\\mathbb{R}^n\\to\\mathbb{R}^m$ must be $m\\times n$, and in any product the inner dimensions must agree. Most matrix-calculus \"bugs\" are a missing transpose — and a shape check catches them instantly, before any numbers are computed.</p>\n\n<h3>7. Why this matters</h3>\n<p>Every gradient-based learner — linear regression, logistic regression, a hundred-layer transformer — is computing gradients of a scalar loss with respect to vector and matrix parameters. The gradient/Jacobian/Hessian vocabulary and the denominator-layout convention are the language in which those computations are written, and the shape discipline is what keeps a derivation honest. The next two lessons turn this vocabulary into the handful of identities you will actually use.</p>",
-          "mcq": [],
+          "mcq": [
+            {
+              "q": "For $\\mathbf{f}:\\mathbb{R}^n\\to\\mathbb{R}^m$, what is the shape of the Jacobian $J$, and what does its $i$-th row represent?",
+              "choices": [
+                "$n\\times m$; row $i$ is the sensitivity to input $x_i$",
+                "$m\\times n$; row $i$ is the gradient (transposed) of output component $f_i$",
+                "$m\\times n$; row $i$ collects the partials with respect to a single input $x_i$",
+                "$n\\times n$; row $i$ is the $i$-th second derivative of $f$"
+              ],
+              "answer": 1,
+              "explain": "The Jacobian is $m\\times n$ with $J_{ij}=\\partial f_i/\\partial x_j$, so each row $i$ runs over all inputs and is exactly the gradient of one output $f_i$. Columns (not rows) hold the sensitivities to a single input."
+            },
+            {
+              "q": "Let $f(\\mathbf{x})=x_1^2 x_2 + x_3$. In the denominator-layout convention used here, what is $\\nabla f$ at $\\mathbf{x}=(2,3,5)$?",
+              "choices": [
+                "$(12,\\ 4,\\ 1)^\\top$, a column 3-vector",
+                "$(12,\\ 4,\\ 1)$, a row 3-vector",
+                "$(4,\\ 12,\\ 1)^\\top$, a column 3-vector",
+                "$(12,\\ 4,\\ 5)^\\top$, a column 3-vector"
+              ],
+              "answer": 0,
+              "explain": "Partials are $\\partial f/\\partial x_1=2x_1x_2=12$, $\\partial f/\\partial x_2=x_1^2=4$, $\\partial f/\\partial x_3=1$; in denominator layout the gradient is a column vector shaped like $\\mathbf{x}$. The row-vector option is numerator layout, and $5$ would wrongly plug $x_3$ into a partial that equals $1$."
+            },
+            {
+              "q": "A teammate says: \"The gradient $\\nabla f$ and the Jacobian of a scalar $f:\\mathbb{R}^n\\to\\mathbb{R}$ are the same object.\" What is the precise correction?",
+              "choices": [
+                "They are unrelated; the Jacobian only exists for vector-valued functions",
+                "The Jacobian is the $n\\times1$ column and the gradient is its $1\\times n$ transpose",
+                "The Jacobian is the $1\\times n$ row of partials; the gradient is its transpose, the $n\\times1$ column (denominator layout)",
+                "They are identical in both shape and orientation"
+              ],
+              "answer": 2,
+              "explain": "For a scalar function the Jacobian is a $1\\times n$ row, while the denominator-layout gradient is the $n\\times1$ column $\\nabla f=(\\partial f/\\partial\\mathbf{x})^\\top$. They carry the same numbers but differ by a transpose, which is exactly the layout subtlety."
+            },
+            {
+              "q": "Under the denominator-layout convention, why does the gradient of a scalar loss with respect to a weight matrix $W\\in\\mathbb{R}^{4\\times5}$ come out as a $4\\times5$ matrix?",
+              "choices": [
+                "Because the derivative takes the shape of the denominator $W$, so $\\partial L/\\partial W$ matches $W$",
+                "Because the loss is a scalar, so all its derivatives are $4\\times5$ by definition",
+                "Because numerator layout always produces matrices the size of the variable",
+                "Because the Jacobian of any matrix-input function is square"
+              ],
+              "answer": 0,
+              "explain": "Denominator layout means the derivative is shaped like the denominator (the variable $W$), so $\\partial L/\\partial W$ is $4\\times5$ and the update $W\\leftarrow W-\\eta\\,\\partial L/\\partial W$ is an elementwise subtraction of same-shaped matrices. That matching shape is the defining feature of denominator (not numerator) layout."
+            },
+            {
+              "q": "Which statement about the direction of the gradient $\\nabla f$ of a scalar function is correct?",
+              "choices": [
+                "It points along the level set (contour) where $f$ stays constant",
+                "It points in the direction of steepest increase of $f$, and $-\\nabla f$ is the descent direction",
+                "It always points toward the global minimum of $f$",
+                "It points in the direction of steepest decrease of $f$"
+              ],
+              "answer": 1,
+              "explain": "The gradient points in the direction of steepest increase, so gradient descent moves along $-\\nabla f$. It is orthogonal to level sets (not along them), and it indicates a local steepest direction, not a global beeline to the minimum."
+            },
+            {
+              "q": "For a twice-continuously-differentiable $f:\\mathbb{R}^n\\to\\mathbb{R}$, the Hessian $H$ is best described as which of the following?",
+              "choices": [
+                "The $m\\times n$ Jacobian of $f$ itself",
+                "A generally non-symmetric $n\\times n$ matrix of mixed partials",
+                "The transpose of the gradient, an $n\\times1$ column",
+                "The $n\\times n$ Jacobian of the gradient map $\\nabla f$, symmetric because mixed partials commute"
+              ],
+              "answer": 3,
+              "explain": "$H_{ij}=\\partial^2 f/\\partial x_i\\partial x_j$ is the Jacobian of the gradient $\\nabla f:\\mathbb{R}^n\\to\\mathbb{R}^n$, and for $C^2$ functions Clairaut's theorem makes mixed partials equal, so $H$ is symmetric. It is $n\\times n$ (not $m\\times n$) and is a matrix, not a transposed gradient."
+            },
+            {
+              "q": "Using the local linear approximation $\\mathbf{f}(\\mathbf{x}+\\Delta)\\approx\\mathbf{f}(\\mathbf{x})+J\\Delta$ with $\\mathbf{f}:\\mathbb{R}^3\\to\\mathbb{R}^2$ and $J=\\begin{pmatrix}1&0&2\\\\0&3&1\\end{pmatrix}$, what is the approximate change in output for a small step $\\Delta=(0.1,\\ 0.2,\\ 0)^\\top$?",
+              "choices": [
+                "$(0.5,\\ 0.7)^\\top$",
+                "$(0.1,\\ 0.6)^\\top$",
+                "$(0.3,\\ 0.3)^\\top$",
+                "$(0.1,\\ 0.2,\\ 0)^\\top$"
+              ],
+              "answer": 1,
+              "explain": "$J\\Delta=(1\\cdot0.1+0\\cdot0.2+2\\cdot0,\\ 0\\cdot0.1+3\\cdot0.2+1\\cdot0)^\\top=(0.1,\\ 0.6)^\\top$. The change is a $2$-vector (matching the $m=2$ outputs), not a $3$-vector, ruling out the last option."
+            },
+            {
+              "q": "A scalar loss is differentiated to give a $1\\times n$ row vector, but the optimizer expects an $n\\times1$ column matching the parameter $\\mathbf{x}\\in\\mathbb{R}^n$. What is actually wrong, and what is the fix?",
+              "choices": [
+                "Nothing computational is wrong; both are valid derivatives differing by a layout convention, so transpose to denominator layout",
+                "The derivative is numerically wrong and must be recomputed from scratch",
+                "The parameter must be reshaped to a row to match the derivative",
+                "A row and a column of the same length cannot be related, so the formula is invalid"
+              ],
+              "answer": 0,
+              "explain": "The $1\\times n$ row is the numerator-layout derivative (the scalar's Jacobian) and the $n\\times1$ column is the denominator-layout gradient; they hold the same numbers and differ only by a transpose. The fix is a single transpose, which is why this silent layout mismatch is the most common matrix-calculus bug."
+            },
+            {
+              "q": "Why is tracking shapes considered the most reliable way to catch matrix-calculus mistakes?",
+              "choices": [
+                "Because correct shapes guarantee the numerical values of the derivative are also correct",
+                "Because most errors are a missing or misplaced transpose, which a shape check exposes before any numbers are computed",
+                "Because shape checking replaces the need to know any calculus identities",
+                "Because all matrix-calculus expressions must reduce to square matrices"
+              ],
+              "answer": 1,
+              "explain": "The overwhelming majority of matrix-calculus bugs are a missing transpose, and a dimension mismatch flags that instantly without evaluating anything. Shape-checking catches structural errors but does not certify the numbers, so the first option overstates its power."
+            },
+            {
+              "q": "A teammate claims the gradient of $\\lVert A\\mathbf{x}-\\mathbf{b}\\rVert^2$ is $2A(A\\mathbf{x}-\\mathbf{b})$ with $A\\in\\mathbb{R}^{5\\times3}$. Using only shape reasoning, what is the verdict?",
+              "choices": [
+                "Correct: $A$ times the residual gives the gradient",
+                "Wrong: $A$ ($5\\times3$) times a $5\\times1$ residual is undefined; it must be $2A^\\top(A\\mathbf{x}-\\mathbf{b})$, a $3\\times1$ vector",
+                "Wrong: the gradient should be a $5\\times1$ vector, so use $A$ but transpose the residual",
+                "Correct in shape but the constant should be $1$, not $2$"
+              ],
+              "answer": 1,
+              "explain": "The residual $A\\mathbf{x}-\\mathbf{b}$ is $5\\times1$, and $A$ ($5\\times3$) cannot left-multiply a $5\\times1$ vector (inner dims $3\\neq5$). The gradient must be $n\\times1=3\\times1$ like $\\mathbf{x}$, which only $A^\\top$ ($3\\times5$) times the residual produces, forcing the transpose."
+            },
+            {
+              "q": "For a scalar $C^2$ function, $f$ is convex if and only if which condition on the Hessian holds everywhere?",
+              "choices": [
+                "$H$ is positive semidefinite everywhere",
+                "$\\det H>0$ everywhere",
+                "$H$ is invertible everywhere",
+                "$H$ has all positive diagonal entries everywhere"
+              ],
+              "answer": 0,
+              "explain": "Convexity of a $C^2$ function is equivalent to its Hessian being positive semidefinite at every point. A positive determinant or positive diagonal does not guarantee PSD-ness (e.g. a $2\\times2$ matrix can have positive diagonal yet a negative eigenvalue), and invertibility is unrelated to the sign of the eigenvalues."
+            },
+            {
+              "q": "Which characterization correctly distinguishes the gradient, the Jacobian, and the Hessian for the same scalar $f:\\mathbb{R}^n\\to\\mathbb{R}$?",
+              "choices": [
+                "Gradient: $n\\times1$ first partials; Jacobian (of $f$): $1\\times n$ row of first partials; Hessian: $n\\times n$ second partials",
+                "Gradient: $1\\times n$ row; Jacobian: $n\\times n$; Hessian: $n\\times1$",
+                "Gradient: $n\\times n$; Jacobian: $n\\times1$; Hessian: $1\\times n$",
+                "All three are $n\\times1$ column vectors of partials"
+              ],
+              "answer": 0,
+              "explain": "For a scalar $f$ the denominator-layout gradient is the $n\\times1$ column of first partials, the Jacobian of $f$ is its $1\\times n$ transpose, and the Hessian is the $n\\times n$ matrix of second partials (the Jacobian of $\\nabla f$). The other options scramble these distinct shapes."
+            }
+          ],
           "flashcards": [
             {
               "front": "What is the gradient of a scalar function $f:\\mathbb{R}^n\\to\\mathbb{R}$, and what does it represent?",
@@ -3174,7 +3307,140 @@
           "title": "Differentiating Vector & Matrix Expressions",
           "minutes": 17,
           "content": "<h3>1. The hook: a small toolkit you reuse forever</h3>\n<p>You rarely differentiate vector expressions from scratch — instead you lean on a handful of <strong>matrix-calculus identities</strong>, the vector analogues of \"the derivative of $ax$ is $a$\" and \"the derivative of $x^2$ is $2x$.\" Memorize these few, learn to chain them, and you can differentiate almost any loss in machine learning. All gradients below are in denominator layout (column vectors shaped like the variable).</p>\n\n<h3>2. The linear form</h3>\n<p>The simplest case is a linear (inner-product) function $f(\\mathbf{x}) = \\mathbf{a}^\\top \\mathbf{x} = \\sum_i a_i x_i$. Its gradient is just the coefficient vector:\n$$\\nabla_\\mathbf{x}(\\mathbf{a}^\\top \\mathbf{x}) = \\mathbf{a}.$$\nThis is the vector version of $\\frac{d}{dx}(ax)=a$ — each $x_i$ contributes its coefficient $a_i$, and stacking gives $\\mathbf{a}$.</p>\n\n<h3>3. The quadratic form</h3>\n<p>The workhorse identity is the gradient of a <strong>quadratic form</strong> $f(\\mathbf{x}) = \\mathbf{x}^\\top A\\,\\mathbf{x}$:\n$$\\nabla_\\mathbf{x}(\\mathbf{x}^\\top A\\,\\mathbf{x}) = (A + A^\\top)\\,\\mathbf{x}.$$\nWhen $A$ is <strong>symmetric</strong> (the usual case — covariance matrices, Hessians, $A^\\top A$) this simplifies to the clean\n$$\\nabla_\\mathbf{x}(\\mathbf{x}^\\top A\\,\\mathbf{x}) = 2A\\,\\mathbf{x},$$\nthe direct analogue of $\\frac{d}{dx}(ax^2)=2ax$.</p>\n\n<h3>4. The squared norm</h3>\n<p>A special case you use constantly: the squared Euclidean norm $\\lVert \\mathbf{x}\\rVert^2 = \\mathbf{x}^\\top \\mathbf{x}$ is a quadratic form with $A=I$, so\n$$\\nabla_\\mathbf{x}\\lVert \\mathbf{x}\\rVert^2 = 2\\mathbf{x}.$$\nThis is why an $L_2$ (ridge) penalty $\\lambda\\lVert \\mathbf{x}\\rVert^2$ contributes a gradient $2\\lambda\\mathbf{x}$ — the \"weight decay\" term that shrinks parameters toward zero on every step.</p>\n\n<h3>5. The least-squares gradient and the normal equations</h3>\n<p>Now assemble the pieces on the central problem of linear regression: minimize $f(\\mathbf{x}) = \\lVert A\\mathbf{x} - \\mathbf{b}\\rVert^2$. Expanding and differentiating (using the chain rule with the squared-norm and linear identities) gives\n$$\\nabla_\\mathbf{x}\\lVert A\\mathbf{x}-\\mathbf{b}\\rVert^2 = 2A^\\top(A\\mathbf{x}-\\mathbf{b}).$$\nSetting the gradient to zero yields the <strong>normal equations</strong>\n$$A^\\top A\\,\\mathbf{x} = A^\\top \\mathbf{b},$$\nwhose solution $\\mathbf{x}=(A^\\top A)^{-1}A^\\top\\mathbf{b}$ is the closed-form least-squares estimate — the entire derivation of linear regression in three lines of matrix calculus.</p>\n<div class=\"callout sage\">\n<div class=\"c-tag\">The transpose tells you the shape</div>\n<p>Why $A^\\top$ and not $A$? Shape-check it: $A$ is $m\\times n$, $A\\mathbf{x}-\\mathbf{b}$ is $m\\times1$, and the gradient must be $n\\times1$ (shaped like $\\mathbf{x}$). Only $A^\\top$ ($n\\times m$) times the $m\\times1$ residual produces an $n\\times1$ vector. The transpose is forced by the dimensions.</p>\n</div>\n\n<h3>6. The vector chain rule</h3>\n<p>Composite functions chain through <strong>Jacobian multiplication</strong>. If $\\mathbf{h}(\\mathbf{x}) = \\mathbf{g}(\\mathbf{f}(\\mathbf{x}))$, then\n$$J_\\mathbf{h} = J_\\mathbf{g}\\,J_\\mathbf{f},$$\nthe product of the outer Jacobian (evaluated at $\\mathbf{f}(\\mathbf{x})$) with the inner one. For a scalar loss $L=g(\\mathbf{f}(\\mathbf{x}))$, taking the transpose to get a denominator-layout gradient gives $\\nabla_\\mathbf{x}L = J_\\mathbf{f}^\\top\\,\\nabla_\\mathbf{f}L$ — the upstream gradient pulled back through the transpose of the Jacobian. That single formula <em>is</em> backpropagation, as the next lesson shows.</p>\n\n<h3>7. Worked identity in action</h3>\n<p>Gradient of $f(\\mathbf{x}) = \\mathbf{x}^\\top A\\mathbf{x} - \\mathbf{b}^\\top\\mathbf{x}$ with symmetric $A$: apply the quadratic-form and linear identities term by term, $\\nabla f = 2A\\mathbf{x} - \\mathbf{b}$. Setting it to zero gives the minimizer $\\mathbf{x}^\\star = \\tfrac12 A^{-1}\\mathbf{b}$ (when $A$ is positive definite). No index-level calculus needed — just the identities.</p>\n\n<h3>8. Why this matters</h3>\n<p>These five identities — linear form, quadratic form, squared norm, least-squares, and the vector chain rule — cover the overwhelming majority of gradients you meet in classical ML, and they are the atoms from which deep-learning gradients are built. Knowing them turns \"derive the gradient of this loss\" from a fearful index-juggling exercise into pattern-matching, and the shape-checking habit guarantees you place every transpose correctly.</p>",
-          "mcq": [],
+          "mcq": [
+            {
+              "q": "For a general (not necessarily symmetric) matrix $A$, what is $\\nabla_\\mathbf{x}(\\mathbf{x}^\\top A\\,\\mathbf{x})$?",
+              "choices": [
+                "$2A\\,\\mathbf{x}$",
+                "$(A+A^\\top)\\,\\mathbf{x}$",
+                "$A\\,\\mathbf{x}$",
+                "$A^\\top A\\,\\mathbf{x}$"
+              ],
+              "answer": 1,
+              "explain": "The general quadratic-form identity is $(A+A^\\top)\\mathbf{x}$. The tempting $2A\\mathbf{x}$ is only valid when $A$ is symmetric (so that $A^\\top=A$); applying it to a non-symmetric $A$ is the most common error here."
+            },
+            {
+              "q": "You minimize $f(\\mathbf{x})=\\lVert A\\mathbf{x}-\\mathbf{b}\\rVert^2$ with $A$ of shape $4\\times2$. Which expression for the gradient is dimensionally valid and correct?",
+              "choices": [
+                "$2A(A\\mathbf{x}-\\mathbf{b})$",
+                "$2(A\\mathbf{x}-\\mathbf{b})^\\top A$",
+                "$2A^\\top(A\\mathbf{x}-\\mathbf{b})$",
+                "$2A^\\top A\\,\\mathbf{x}$"
+              ],
+              "answer": 2,
+              "explain": "$A^\\top$ ($2\\times4$) times the $4\\times1$ residual gives a $2\\times1$ gradient matching $\\mathbf{x}$. The choice $2A(A\\mathbf{x}-\\mathbf{b})$ multiplies a $4\\times2$ by a $4\\times1$ — undefined; and $2A^\\top A\\mathbf{x}$ drops the $-A^\\top\\mathbf{b}$ term."
+            },
+            {
+              "q": "With $A$ symmetric, the gradient of $f(\\mathbf{x})=\\tfrac12\\mathbf{x}^\\top A\\,\\mathbf{x}-\\mathbf{b}^\\top\\mathbf{x}$ is set to zero. What is the stationary point $\\mathbf{x}^\\star$?",
+              "choices": [
+                "$\\mathbf{x}^\\star=A^{-1}\\mathbf{b}$",
+                "$\\mathbf{x}^\\star=2A^{-1}\\mathbf{b}$",
+                "$\\mathbf{x}^\\star=\\tfrac12 A^{-1}\\mathbf{b}$",
+                "$\\mathbf{x}^\\star=(A+A^\\top)^{-1}\\mathbf{b}$"
+              ],
+              "answer": 0,
+              "explain": "$\\nabla f=\\tfrac12\\cdot2A\\mathbf{x}-\\mathbf{b}=A\\mathbf{x}-\\mathbf{b}$; setting to zero gives $\\mathbf{x}^\\star=A^{-1}\\mathbf{b}$. The $\\tfrac12$ exactly cancels the factor of 2 from the quadratic-form derivative, so no stray $2$ or $\\tfrac12$ survives."
+            },
+            {
+              "q": "An $L_2$ (ridge) penalty $\\lambda\\lVert\\mathbf{x}\\rVert^2$ is added to a loss. What does it contribute to the gradient $\\nabla_\\mathbf{x}$, and what is its training effect?",
+              "choices": [
+                "$\\lambda\\mathbf{x}$, pushing parameters toward zero",
+                "$2\\lambda\\mathbf{x}$, pushing parameters toward zero",
+                "$2\\lambda\\mathbf{x}$, pushing parameters away from zero",
+                "$\\lambda^2\\mathbf{x}$, leaving parameter magnitude unchanged"
+              ],
+              "answer": 1,
+              "explain": "$\\nabla\\lVert\\mathbf{x}\\rVert^2=2\\mathbf{x}$, so the penalty adds $2\\lambda\\mathbf{x}$; a gradient-descent step subtracts a positive multiple of $\\mathbf{x}$, shrinking it toward zero (weight decay). Forgetting the factor of 2 gives the wrong $\\lambda\\mathbf{x}$."
+            },
+            {
+              "q": "For a scalar loss $L=g(\\mathbf{f}(\\mathbf{x}))$ with $J_\\mathbf{f}$ the Jacobian of $\\mathbf{f}$, the denominator-layout gradient is $\\nabla_\\mathbf{x}L=J_\\mathbf{f}^\\top\\,\\nabla_\\mathbf{f}L$. Why does the transpose appear?",
+              "choices": [
+                "Because matrix multiplication is commutative for Jacobians",
+                "Because pulling a gradient back through a map multiplies by that map's Jacobian-transpose",
+                "Because the loss is a vector that must be reshaped",
+                "Because $J_\\mathbf{f}$ is always orthogonal, so $J_\\mathbf{f}^\\top=J_\\mathbf{f}^{-1}$"
+              ],
+              "answer": 1,
+              "explain": "In denominator layout, gradients flow backward through a map by multiplying by the transpose of its Jacobian, which also makes the shapes line up. Jacobians are not generally commutative or orthogonal, so those options are false."
+            },
+            {
+              "q": "The normal equations for $\\min_\\mathbf{x}\\lVert A\\mathbf{x}-\\mathbf{b}\\rVert^2$ are obtained by setting the gradient to zero. Which statement is correct?",
+              "choices": [
+                "$A\\mathbf{x}=\\mathbf{b}$, solvable whenever $A$ is tall",
+                "$A^\\top A\\,\\mathbf{x}=A^\\top\\mathbf{b}$, with solution $\\mathbf{x}=(A^\\top A)^{-1}A^\\top\\mathbf{b}$ when $A^\\top A$ is invertible",
+                "$A A^\\top\\mathbf{x}=A\\mathbf{b}$, with solution $\\mathbf{x}=(AA^\\top)^{-1}A\\mathbf{b}$",
+                "$A^\\top A\\,\\mathbf{x}=\\mathbf{b}$, with solution $\\mathbf{x}=(A^\\top A)^{-1}\\mathbf{b}$"
+              ],
+              "answer": 1,
+              "explain": "Setting $2A^\\top(A\\mathbf{x}-\\mathbf{b})=\\mathbf{0}$ gives $A^\\top A\\mathbf{x}=A^\\top\\mathbf{b}$. The right-hand side must be $A^\\top\\mathbf{b}$ (an $n\\times1$ vector), not $\\mathbf{b}$; $A\\mathbf{x}=\\mathbf{b}$ generally has no exact solution for overdetermined systems."
+            },
+            {
+              "q": "Let $f(\\mathbf{x})=\\mathbf{a}^\\top\\mathbf{x}+\\mathbf{x}^\\top B\\,\\mathbf{x}$ where $B$ is symmetric. What is $\\nabla_\\mathbf{x}f$?",
+              "choices": [
+                "$\\mathbf{a}+B\\,\\mathbf{x}$",
+                "$\\mathbf{a}+2B\\,\\mathbf{x}$",
+                "$\\mathbf{a}^\\top+2B\\,\\mathbf{x}$",
+                "$\\mathbf{a}^\\top+B\\,\\mathbf{x}$"
+              ],
+              "answer": 1,
+              "explain": "Term by term: $\\nabla(\\mathbf{a}^\\top\\mathbf{x})=\\mathbf{a}$ and $\\nabla(\\mathbf{x}^\\top B\\mathbf{x})=2B\\mathbf{x}$ since $B$ is symmetric, giving $\\mathbf{a}+2B\\mathbf{x}$. Forgetting the factor of 2 (option 1) or writing the linear term as the row $\\mathbf{a}^\\top$ instead of the column gradient $\\mathbf{a}$ (options 3 and 4) are the common slips."
+            },
+            {
+              "q": "A linear layer maps $\\mathbf{x}\\in\\mathbb{R}^n$ to $\\mathbf{z}=W\\mathbf{x}\\in\\mathbb{R}^m$ (so $W$ is $m\\times n$). Forward you multiply by $W$. What do you multiply the upstream gradient by on the backward pass to get $\\partial L/\\partial\\mathbf{x}$?",
+              "choices": [
+                "$W$, the same matrix as forward",
+                "$W^\\top$, the transpose",
+                "$W^{-1}$, the inverse",
+                "$(W^\\top W)^{-1}W^\\top$, the pseudoinverse"
+              ],
+              "answer": 1,
+              "explain": "The Jacobian of $\\mathbf{x}\\mapsto W\\mathbf{x}$ is $W$, and the chain rule pulls gradients back through its transpose: $\\partial L/\\partial\\mathbf{x}=W^\\top\\boldsymbol{\\delta}$. This also fixes shapes ($n\\times m$ times $m\\times1$ gives $n\\times1$); the inverse/pseudoinverse are irrelevant and need not even exist."
+            },
+            {
+              "q": "What is the gradient of $f(\\mathbf{x})=\\lVert\\mathbf{x}-\\mathbf{c}\\rVert^2$ (squared distance to a fixed point $\\mathbf{c}$)?",
+              "choices": [
+                "$2(\\mathbf{x}-\\mathbf{c})$",
+                "$2\\mathbf{x}$",
+                "$\\mathbf{x}-\\mathbf{c}$",
+                "$2(\\mathbf{c}-\\mathbf{x})$"
+              ],
+              "answer": 0,
+              "explain": "Writing $\\mathbf{r}=\\mathbf{x}-\\mathbf{c}$, the squared-norm identity gives $\\nabla_\\mathbf{r}\\lVert\\mathbf{r}\\rVert^2=2\\mathbf{r}$, and the Jacobian of $\\mathbf{x}\\mapsto\\mathbf{x}-\\mathbf{c}$ is the identity, so $\\nabla_\\mathbf{x}f=2(\\mathbf{x}-\\mathbf{c})$. Dropping the constant $\\mathbf{c}$ ($2\\mathbf{x}$) or flipping the sign are common slips."
+            },
+            {
+              "q": "A teammate computes the gradient of $\\mathbf{a}^\\top\\mathbf{x}$ (with $\\mathbf{a},\\mathbf{x}\\in\\mathbb{R}^n$) and writes the answer as $\\mathbf{a}^\\top$. What is wrong, and what is the correct denominator-layout gradient?",
+              "choices": [
+                "Nothing is wrong; $\\mathbf{a}^\\top$ is the gradient",
+                "The gradient should be the scalar $\\sum_i a_i$, not a vector",
+                "The gradient is a column vector $\\mathbf{a}$ ($n\\times1$); $\\mathbf{a}^\\top$ is a row and has the wrong shape",
+                "The gradient is $2\\mathbf{a}$, because the linear form behaves like a square"
+              ],
+              "answer": 2,
+              "explain": "In denominator layout the gradient is shaped like $\\mathbf{x}$, i.e. a column vector $\\mathbf{a}$. Writing $\\mathbf{a}^\\top$ confuses the (row) Jacobian/derivative with the (column) gradient; a linear form has no factor of 2."
+            },
+            {
+              "q": "For the ridge objective $f(\\mathbf{x})=\\lVert A\\mathbf{x}-\\mathbf{b}\\rVert^2+\\lambda\\lVert\\mathbf{x}\\rVert^2$ with $\\lambda>0$, what is the closed-form minimizer?",
+              "choices": [
+                "$\\mathbf{x}=(A^\\top A)^{-1}A^\\top\\mathbf{b}$",
+                "$\\mathbf{x}=(A^\\top A+\\lambda I)^{-1}A^\\top\\mathbf{b}$",
+                "$\\mathbf{x}=(A^\\top A+\\lambda I)^{-1}\\mathbf{b}$",
+                "$\\mathbf{x}=(A^\\top A)^{-1}(A^\\top\\mathbf{b}+\\lambda\\mathbf{x})$"
+              ],
+              "answer": 1,
+              "explain": "$\\nabla f=2A^\\top(A\\mathbf{x}-\\mathbf{b})+2\\lambda\\mathbf{x}=\\mathbf{0}$ gives $(A^\\top A+\\lambda I)\\mathbf{x}=A^\\top\\mathbf{b}$, so $\\mathbf{x}=(A^\\top A+\\lambda I)^{-1}A^\\top\\mathbf{b}$. The $\\lambda I$ term must be inside the inverse, and the right side stays $A^\\top\\mathbf{b}$ (option 3 wrongly drops the $A^\\top$)."
+            },
+            {
+              "q": "Composite map $\\mathbf{h}(\\mathbf{x})=\\mathbf{g}(\\mathbf{f}(\\mathbf{x}))$ with $\\mathbf{f}:\\mathbb{R}^4\\to\\mathbb{R}^3$ and $\\mathbf{g}:\\mathbb{R}^3\\to\\mathbb{R}^2$. What is the shape of the full Jacobian $J_\\mathbf{h}=J_\\mathbf{g}J_\\mathbf{f}$?",
+              "choices": [
+                "$3\\times4$",
+                "$2\\times4$",
+                "$4\\times2$",
+                "$2\\times3$"
+              ],
+              "answer": 1,
+              "explain": "$J_\\mathbf{g}$ is $2\\times3$ and $J_\\mathbf{f}$ is $3\\times4$, so the product $J_\\mathbf{g}J_\\mathbf{f}$ is $2\\times4$ — rows = output dimension of $\\mathbf{h}$ (2), columns = input dimension (4). The inner dimension 3 must match, which fixes the order of multiplication."
+            }
+          ],
           "flashcards": [
             {
               "front": "Gradient of the linear form $\\mathbf{a}^\\top\\mathbf{x}$?",
@@ -3236,7 +3502,140 @@
           "title": "Matrix Calculus Behind Backpropagation",
           "minutes": 18,
           "content": "<h3>1. The hook: backpropagation IS matrix calculus</h3>\n<p>Backpropagation can feel like a mysterious algorithm, but it is nothing more than the <strong>vector chain rule applied layer by layer</strong>, with careful shape bookkeeping. Every automatic-differentiation engine — PyTorch, JAX, TensorFlow — is, under the hood, multiplying Jacobian-transposes exactly as this lesson describes. Once you see backprop as matrix calculus, it stops being magic.</p>\n\n<h3>2. A layer as a function</h3>\n<p>A typical neural-network layer is a composition of an affine map and a nonlinearity:\n$$\\mathbf{z} = W\\mathbf{x} + \\mathbf{b}, \\qquad \\mathbf{a} = \\sigma(\\mathbf{z}),$$\nwhere $W$ is the weight matrix, $\\mathbf{b}$ the bias, and $\\sigma$ an elementwise activation. A network stacks many such layers, and the loss $L$ is a scalar at the end. Training needs $\\partial L/\\partial W$ and $\\partial L/\\partial \\mathbf{b}$ for every layer.</p>\n\n<h3>3. The chain rule as a product of Jacobians</h3>\n<p>The loss is a deep composition $L = \\ell(\\mathbf{f}_n(\\cdots \\mathbf{f}_1(\\mathbf{x})))$. The Jacobian of the whole thing is the product of per-layer Jacobians (chain rule). Computing it left-to-right (forward) would multiply big matrices; computing it <strong>right-to-left</strong> — starting from the scalar loss and pulling gradients backward — keeps everything as cheap vector-shaped quantities. That backward pass is exactly backpropagation, and it is why we propagate <em>backwards</em>: the loss is a scalar, so starting there is far cheaper.</p>\n\n<h3>4. The upstream gradient and the transpose</h3>\n<p>Let $\\boldsymbol{\\delta} = \\partial L/\\partial \\mathbf{z}$ be the <strong>upstream gradient</strong> arriving at a layer's pre-activation (a column vector shaped like $\\mathbf{z}$). The vector chain rule, in denominator layout, pulls gradients back through the layer:\n$$\\frac{\\partial L}{\\partial \\mathbf{x}} = W^\\top \\boldsymbol{\\delta}.$$\nThe <strong>transpose of the weight matrix</strong> appears because pulling a gradient backward through the linear map $\\mathbf{x}\\mapsto W\\mathbf{x}$ multiplies by that map's Jacobian-transpose $W^\\top$. Forward you multiply by $W$; backward you multiply by $W^\\top$. (For the elementwise activation, the local Jacobian is diagonal, so its backward step is just an elementwise multiply by $\\sigma'(\\mathbf{z})$.)</p>\n\n<h3>5. Gradients of the parameters</h3>\n<p>The parameter gradients fall out of the same chain rule:\n$$\\frac{\\partial L}{\\partial W} = \\boldsymbol{\\delta}\\,\\mathbf{x}^\\top, \\qquad \\frac{\\partial L}{\\partial \\mathbf{b}} = \\boldsymbol{\\delta}.$$\nThe weight gradient is an <strong>outer product</strong> of the upstream gradient $\\boldsymbol{\\delta}$ (shaped like the output) with the layer's input $\\mathbf{x}$ (shaped like the input) — which is exactly the right shape for $W$. The bias gradient is just $\\boldsymbol{\\delta}$ itself.</p>\n<div class=\"callout\">\n<div class=\"c-tag\">Shape check (do this every time)</div>\n<p>If $W$ is $m\\times n$, then $\\mathbf{x}$ is $n\\times1$, $\\mathbf{z}$ and $\\boldsymbol{\\delta}$ are $m\\times1$. Then $\\partial L/\\partial W=\\boldsymbol{\\delta}\\mathbf{x}^\\top$ is $(m\\times1)(1\\times n)=m\\times n$ ✓ (matches $W$), and $\\partial L/\\partial\\mathbf{x}=W^\\top\\boldsymbol{\\delta}$ is $(n\\times m)(m\\times1)=n\\times1$ ✓ (matches $\\mathbf{x}$). The shapes force the outer product and the transpose.</p>\n</div>\n\n<h3>6. The backward pass, assembled</h3>\n<p>One step of backprop through a layer takes the upstream gradient $\\boldsymbol{\\delta}=\\partial L/\\partial\\mathbf{z}$ and produces three things: the <em>parameter</em> gradients $\\partial L/\\partial W=\\boldsymbol{\\delta}\\mathbf{x}^\\top$ and $\\partial L/\\partial\\mathbf{b}=\\boldsymbol{\\delta}$ (used to update this layer), and the <em>input</em> gradient $\\partial L/\\partial\\mathbf{x}=W^\\top\\boldsymbol{\\delta}$ (passed to the previous layer as <em>its</em> upstream gradient, after the activation's elementwise factor). Repeating this from the last layer to the first computes every gradient in one backward sweep — linear in the number of layers.</p>\n\n<h3>7. Why this matters</h3>\n<p>This is not an analogy: the formulas $\\partial L/\\partial W=\\boldsymbol{\\delta}\\mathbf{x}^\\top$ and $\\partial L/\\partial\\mathbf{x}=W^\\top\\boldsymbol{\\delta}$ are literally what a deep-learning framework's autograd executes for a linear layer. Understanding them demystifies training, lets you implement a layer's backward pass by hand, debug exploding/vanishing gradients (which are products of these Jacobian factors), and reason about memory (the forward activations $\\mathbf{x}$ must be stored for the backward outer product). Matrix calculus is the machinery of deep learning, and backprop is its headline application.</p>",
-          "mcq": [],
+          "mcq": [
+            {
+              "q": "For a linear layer $\\mathbf{z}=W\\mathbf{x}+\\mathbf{b}$, the forward pass multiplies the input by $W$. What operation does the backward pass apply to the upstream gradient $\\boldsymbol{\\delta}=\\partial L/\\partial\\mathbf{z}$ to get $\\partial L/\\partial\\mathbf{x}$?",
+              "choices": [
+                "Multiply by $W^{-1}$",
+                "Multiply by $W^\\top$",
+                "Multiply by $W$ again",
+                "Multiply by $WW^\\top$"
+              ],
+              "answer": 1,
+              "explain": "Pulling a gradient backward through the linear map $\\mathbf{x}\\mapsto W\\mathbf{x}$ multiplies by the map's Jacobian-transpose, giving $\\partial L/\\partial\\mathbf{x}=W^\\top\\boldsymbol{\\delta}$. $W^{-1}$ is wrong (and often doesn't exist for non-square $W$); the transpose, not the inverse, is what the chain rule produces."
+            },
+            {
+              "q": "A layer has $W\\in\\mathbb{R}^{5\\times3}$ and upstream gradient $\\boldsymbol{\\delta}\\in\\mathbb{R}^{5}$. What is the shape of $\\partial L/\\partial W=\\boldsymbol{\\delta}\\mathbf{x}^\\top$?",
+              "choices": [
+                "$3\\times5$",
+                "$5\\times5$",
+                "$5\\times3$",
+                "$3\\times3$"
+              ],
+              "answer": 2,
+              "explain": "Here $\\mathbf{x}\\in\\mathbb{R}^3$, so $\\boldsymbol{\\delta}\\mathbf{x}^\\top$ is $(5\\times1)(1\\times3)=5\\times3$, exactly matching $W$. The $3\\times5$ option is the transposed (wrong) shape — the gradient of $W$ must have the same shape as $W$."
+            },
+            {
+              "q": "Why does backpropagation traverse the network right-to-left (from loss to input) rather than left-to-right?",
+              "choices": [
+                "Because the loss is a scalar, so starting there keeps every intermediate a cheap vector instead of a large matrix",
+                "Because matrix multiplication is only associative in the backward direction",
+                "Because the inputs are unknown until the forward pass completes",
+                "Because $W^\\top$ can only be formed after the final layer"
+              ],
+              "answer": 0,
+              "explain": "The full Jacobian is a product of per-layer Jacobians; starting from the scalar loss end means each step is matrix-times-vector (cheap), whereas left-to-right would multiply big matrices together. Associativity holds in both orders — the choice of order is about cost, not legality."
+            },
+            {
+              "q": "For an elementwise activation $\\mathbf{a}=\\sigma(\\mathbf{z})$, the local Jacobian $\\partial\\mathbf{a}/\\partial\\mathbf{z}$ is diagonal. What does its backward step do to an upstream gradient $\\mathbf{g}=\\partial L/\\partial\\mathbf{a}$?",
+              "choices": [
+                "A full matrix-vector multiply $J\\mathbf{g}$ with dense $J$",
+                "An elementwise (Hadamard) multiply by $\\sigma'(\\mathbf{z})$",
+                "Multiplication by $\\sigma'(\\mathbf{z})^\\top$ as a row vector",
+                "Summation of $\\mathbf{g}$ scaled by $\\sigma'(\\mathbf{z})$"
+              ],
+              "answer": 1,
+              "explain": "A diagonal Jacobian means each output depends only on the matching input, so $\\partial L/\\partial\\mathbf{z}=\\sigma'(\\mathbf{z})\\odot\\mathbf{g}$ — a cheap elementwise multiply. Treating it as a dense matrix multiply wastes computation and obscures that the off-diagonal terms are zero."
+            },
+            {
+              "q": "The lesson notes that the forward activations $\\mathbf{x}$ must be stored during the forward pass. Which backward formula forces this storage requirement?",
+              "choices": [
+                "$\\partial L/\\partial\\mathbf{b}=\\boldsymbol{\\delta}$",
+                "$\\partial L/\\partial\\mathbf{x}=W^\\top\\boldsymbol{\\delta}$",
+                "$\\partial L/\\partial W=\\boldsymbol{\\delta}\\mathbf{x}^\\top$",
+                "$\\boldsymbol{\\delta}=\\partial L/\\partial\\mathbf{z}$"
+              ],
+              "answer": 2,
+              "explain": "The weight gradient is the outer product $\\boldsymbol{\\delta}\\mathbf{x}^\\top$, which needs the layer's input $\\mathbf{x}$ at backward time — so $\\mathbf{x}$ must be cached from the forward pass. The bias gradient and input gradient don't require $\\mathbf{x}$, so they aren't what drives the memory cost."
+            },
+            {
+              "q": "In a two-layer net $\\mathbf{z}_1=W_1\\mathbf{x}$, $\\mathbf{a}_1=\\sigma(\\mathbf{z}_1)$, $\\mathbf{z}_2=W_2\\mathbf{a}_1$, with $\\boldsymbol{\\delta}_2=\\partial L/\\partial\\mathbf{z}_2$ known, what is the upstream gradient $\\boldsymbol{\\delta}_1=\\partial L/\\partial\\mathbf{z}_1$?",
+              "choices": [
+                "$\\sigma'(\\mathbf{z}_1)\\odot(W_2^\\top\\boldsymbol{\\delta}_2)$",
+                "$W_2^\\top\\boldsymbol{\\delta}_2$",
+                "$W_2\\,(\\sigma'(\\mathbf{z}_1)\\odot\\boldsymbol{\\delta}_2)$",
+                "$\\sigma'(\\mathbf{z}_1)\\odot(W_2\\boldsymbol{\\delta}_2)$"
+              ],
+              "answer": 0,
+              "explain": "First pull back through the linear map: $\\partial L/\\partial\\mathbf{a}_1=W_2^\\top\\boldsymbol{\\delta}_2$; then through the elementwise activation: multiply by $\\sigma'(\\mathbf{z}_1)$. The version with $W_2$ (not transposed) confuses the forward and backward directions."
+            },
+            {
+              "q": "A student writes the weight gradient as $\\partial L/\\partial W=\\mathbf{x}\\,\\boldsymbol{\\delta}^\\top$ instead of $\\boldsymbol{\\delta}\\,\\mathbf{x}^\\top$ (with $W$ being $m\\times n$). What goes wrong?",
+              "choices": [
+                "Nothing — outer products are symmetric, so both give the same matrix",
+                "It produces an $n\\times m$ matrix, the transpose of the correct gradient",
+                "It produces a scalar instead of a matrix",
+                "It is correct only if $\\sigma$ is the identity"
+              ],
+              "answer": 1,
+              "explain": "$\\mathbf{x}\\,\\boldsymbol{\\delta}^\\top$ is $(n\\times1)(1\\times m)=n\\times m$, the transpose of the correct $m\\times n$ gradient — a classic shape bug. Outer products are not symmetric: $\\boldsymbol{\\delta}\\mathbf{x}^\\top\\neq\\mathbf{x}\\boldsymbol{\\delta}^\\top$ unless the matrix is symmetric."
+            },
+            {
+              "q": "Why are exploding or vanishing gradients fundamentally a consequence of matrix calculus in deep networks?",
+              "choices": [
+                "Because the activation $\\sigma$ adds noise that compounds across layers",
+                "Because $\\partial L/\\partial\\mathbf{x}$ chained across layers is a product of many $W^\\top$ (and $\\sigma'$) factors, whose magnitudes multiply",
+                "Because the bias gradients accumulate additively through the network",
+                "Because the loss is a scalar and scalars overflow easily"
+              ],
+              "answer": 1,
+              "explain": "The input gradient at an early layer is a long product of Jacobian factors $W^\\top$ and diagonal $\\sigma'$ terms; if these factors have norms consistently above or below 1, the product grows or shrinks exponentially with depth. It is the multiplicative chaining of Jacobians, not noise or additive bias terms, that causes the problem."
+            },
+            {
+              "q": "For the bias in $\\mathbf{z}=W\\mathbf{x}+\\mathbf{b}$, why is $\\partial L/\\partial\\mathbf{b}=\\boldsymbol{\\delta}$ exactly (no transpose or multiply)?",
+              "choices": [
+                "Because the bias only affects the scalar loss through a single path",
+                "Because the local Jacobian $\\partial\\mathbf{z}/\\partial\\mathbf{b}$ is the identity matrix",
+                "Because the bias is not multiplied by any weight",
+                "Because $\\mathbf{b}$ has the same shape as $\\mathbf{x}$"
+              ],
+              "answer": 1,
+              "explain": "Since $\\mathbf{z}=W\\mathbf{x}+\\mathbf{b}$, we have $\\partial\\mathbf{z}/\\partial\\mathbf{b}=I$, so the chain rule gives $\\partial L/\\partial\\mathbf{b}=I^\\top\\boldsymbol{\\delta}=\\boldsymbol{\\delta}$. The shape of $\\mathbf{b}$ matching $\\mathbf{x}$ is false ($\\mathbf{b}$ matches $\\mathbf{z}$), and 'single path' is vague — the identity Jacobian is the precise reason."
+            },
+            {
+              "q": "Computing the full input-to-loss Jacobian by multiplying per-layer Jacobians left-to-right (forward-mode style) is wasteful for training a network with scalar loss. Why?",
+              "choices": [
+                "Forward-mode gives the wrong gradient values for non-square layers",
+                "It would multiply large matrix-by-matrix products, when the scalar output means a vector-by-matrix sweep from the loss end suffices",
+                "Left-to-right multiplication is not associative for rectangular matrices",
+                "It cannot handle the elementwise activation Jacobians"
+              ],
+              "answer": 1,
+              "explain": "With a single scalar output, reverse-mode (right-to-left) keeps every intermediate a vector, so each step is matrix-times-vector; forward-mode would build and multiply full Jacobian matrices, which is far costlier. Both modes give identical correct results by associativity — the difference is purely computational cost."
+            },
+            {
+              "q": "In denominator (gradient) layout used here, the upstream gradient $\\boldsymbol{\\delta}=\\partial L/\\partial\\mathbf{z}$ is shaped like which quantity?",
+              "choices": [
+                "Like $\\mathbf{z}$ (a column vector, $m\\times1$)",
+                "Like $W$ (an $m\\times n$ matrix)",
+                "Like $\\mathbf{x}$ (a column vector, $n\\times1$)",
+                "Like the scalar $L$ (just a number)"
+              ],
+              "answer": 0,
+              "explain": "In denominator layout the gradient of a scalar with respect to a vector has the same shape as that vector, so $\\partial L/\\partial\\mathbf{z}$ is $m\\times1$ like $\\mathbf{z}$. This is why $W^\\top\\boldsymbol{\\delta}$ ($n\\times m$ times $m\\times1$) correctly produces an $n\\times1$ gradient for $\\mathbf{x}$."
+            },
+            {
+              "q": "A linear layer with $W\\in\\mathbb{R}^{2\\times2}$ has input $\\mathbf{x}=\\begin{bmatrix}1\\\\2\\end{bmatrix}$ and upstream gradient $\\boldsymbol{\\delta}=\\begin{bmatrix}3\\\\0\\end{bmatrix}$. What is $\\partial L/\\partial W=\\boldsymbol{\\delta}\\mathbf{x}^\\top$?",
+              "choices": [
+                "$\\begin{bmatrix}3&6\\\\0&0\\end{bmatrix}$",
+                "$\\begin{bmatrix}3&0\\\\6&0\\end{bmatrix}$",
+                "$\\begin{bmatrix}3&0\\\\0&0\\end{bmatrix}$",
+                "$\\begin{bmatrix}3&6\\\\3&6\\end{bmatrix}$"
+              ],
+              "answer": 0,
+              "explain": "The outer product $\\boldsymbol{\\delta}\\mathbf{x}^\\top=\\begin{bmatrix}3\\\\0\\end{bmatrix}\\begin{bmatrix}1&2\\end{bmatrix}=\\begin{bmatrix}3&6\\\\0&0\\end{bmatrix}$. The second option is its transpose ($\\mathbf{x}\\boldsymbol{\\delta}^\\top$), a common mistake; the third drops the cross term $\\delta_1 x_2=6$."
+            }
+          ],
           "flashcards": [
             {
               "front": "Why does backpropagation compute gradients backward (right-to-left)?",

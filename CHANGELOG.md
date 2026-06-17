@@ -2,6 +2,17 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 94 — Linear Algebra Matrix-Calculus module — 12 MCQs per lesson (content; owner "more questions" ask)
+Completed the new Matrix Calculus module: all three lessons (gradients/Jacobians, derivative identities, backprop)
+brought from 0 → 12 MCQs each via the author→adversarial-verify pipeline — **+36 fact-checked questions**. Every
+Linear Algebra lesson (19) is back to exactly 12 MCQs (228 in the topic), and **every lesson site-wide once again has a
+full 12-question quiz**. Site bank **1,668 → 1,704**. The adversarial pass again proved its worth: in the
+derivative-identities lesson it caught a distractor that was *mathematically identical* to the correct answer (for
+symmetric $B$, $B+B^\top=2B$) and rewrote it to a genuinely-wrong "forgot the factor of 2" option; the other two lessons
+verified clean. Distractors target the recurring matrix-calculus traps (missing transpose, row-vs-column layout, the
+factor of 2, undefined-shape products). SW cache → `atlas-v38`; README 1,668→1,704. Verified: `node gate.js` ALL GREEN
+(7 topics · 142 lessons · **1,704 MCQs**); all three quizzes render "of 12" with errs=0 and katex-error=0; stray Chrome cleaned up.
+
 ## iter 93 — Linear Algebra — NEW advanced module: Matrix Calculus for ML (3 lessons) (content; "deepen the existing six")
 Continued the deepen-the-six rotation into **Linear Algebra**, which ended at SVD/PCA with no matrix calculus — the
 language every gradient-based learner is written in. New 7th module:
