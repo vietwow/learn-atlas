@@ -4008,6 +4008,50 @@
               ],
               "answer": 0,
               "explain": "For a scalar $f$ the denominator-layout gradient is the $n\\times1$ column of first partials, the Jacobian of $f$ is its $1\\times n$ transpose, and the Hessian is the $n\\times n$ matrix of second partials (the Jacobian of $\\nabla f$). The other options scramble these distinct shapes."
+            },
+            {
+              "q": "In gradient descent, you update the parameters in the direction of:",
+              "choices": [
+                "the gradient $+\\nabla f$",
+                "the Hessian $H$",
+                "the Jacobian $J$",
+                "the negative gradient $-\\nabla f$"
+              ],
+              "answer": 3,
+              "explain": "The gradient $\\nabla f$ points in the direction of steepest *increase*, so to *minimize* a loss you step the opposite way: $\\theta \\leftarrow \\theta - \\eta\\,\\nabla f$. Stepping along $+\\nabla f$ would climb the loss; the Hessian (curvature) and Jacobian (vector-output derivative) are different objects entirely."
+            },
+            {
+              "q": "At a local minimum of a smooth scalar function $f$, the gradient $\\nabla f$ equals:",
+              "choices": [
+                "the largest eigenvalue of the Hessian",
+                "the zero vector $\\mathbf{0}$",
+                "a unit vector pointing uphill",
+                "undefined"
+              ],
+              "answer": 1,
+              "explain": "A necessary first-order condition for an interior local minimum (indeed any critical point) is $\\nabla f = \\mathbf{0}$ — there is no downhill direction left to move. Whether such a point is a minimum, maximum, or saddle is then decided by the Hessian's eigenvalues."
+            },
+            {
+              "q": "What is the Jacobian of the linear map $\\mathbf{f}(\\mathbf{x}) = A\\mathbf{x}$?",
+              "choices": [
+                "$A$ itself (a constant matrix)",
+                "$A^\\top$",
+                "$\\mathbf{x}$",
+                "the identity matrix $I$"
+              ],
+              "answer": 0,
+              "explain": "Each output is $f_i(\\mathbf{x}) = \\sum_j A_{ij} x_j$, so $\\partial f_i/\\partial x_j = A_{ij}$ — the Jacobian is exactly $A$, and it is constant (independent of $\\mathbf{x}$) because the map is linear. This is the workhorse fact behind differentiating linear layers."
+            },
+            {
+              "q": "For a unit vector $\\mathbf{u}$, the dot product $\\nabla f \\cdot \\mathbf{u}$ gives:",
+              "choices": [
+                "the Hessian of $f$ in direction $\\mathbf{u}$",
+                "the maximum value of $f$",
+                "the directional derivative — the instantaneous rate of change of $f$ along $\\mathbf{u}$",
+                "the length of the gradient"
+              ],
+              "answer": 2,
+              "explain": "The directional derivative is $D_\\mathbf{u} f = \\nabla f \\cdot \\mathbf{u}$. It is largest when $\\mathbf{u}$ aligns with $\\nabla f$ (giving $\\|\\nabla f\\|$), which is precisely why the gradient is the direction of steepest ascent."
             }
           ],
           "flashcards": [
@@ -4203,6 +4247,50 @@
               ],
               "answer": 1,
               "explain": "$J_\\mathbf{g}$ is $2\\times3$ and $J_\\mathbf{f}$ is $3\\times4$, so the product $J_\\mathbf{g}J_\\mathbf{f}$ is $2\\times4$ — rows = output dimension of $\\mathbf{h}$ (2), columns = input dimension (4). The inner dimension 3 must match, which fixes the order of multiplication."
+            },
+            {
+              "q": "The gradient is a linear operator. For scalars $\\alpha,\\beta$, $\\nabla(\\alpha f + \\beta g)$ equals:",
+              "choices": [
+                "$\\alpha\\beta\\,\\nabla f\\,\\nabla g$",
+                "$\\nabla f \\cdot \\nabla g$",
+                "$\\alpha\\,\\nabla f + \\beta\\,\\nabla g$",
+                "$\\alpha\\,\\nabla f$ only"
+              ],
+              "answer": 2,
+              "explain": "Differentiation is linear, so $\\nabla(\\alpha f + \\beta g) = \\alpha\\nabla f + \\beta\\nabla g$. This is exactly what lets you differentiate a regularized loss term by term: $\\nabla(\\text{data loss} + \\lambda\\,\\text{penalty}) = \\nabla(\\text{data loss}) + \\lambda\\,\\nabla(\\text{penalty})$."
+            },
+            {
+              "q": "For $\\mathbf{x}\\neq\\mathbf{0}$, the gradient of the Euclidean norm $f(\\mathbf{x}) = \\|\\mathbf{x}\\|_2$ (not squared) is:",
+              "choices": [
+                "$\\dfrac{\\mathbf{x}}{\\|\\mathbf{x}\\|}$",
+                "$2\\mathbf{x}$",
+                "$\\mathbf{x}$",
+                "$\\|\\mathbf{x}\\|$"
+              ],
+              "answer": 0,
+              "explain": "Since $\\|\\mathbf{x}\\| = \\sqrt{\\mathbf{x}^\\top\\mathbf{x}}$, the chain rule gives $\\nabla\\|\\mathbf{x}\\| = \\dfrac{\\mathbf{x}}{\\|\\mathbf{x}\\|}$ — a *unit* vector pointing radially outward (undefined at the origin). Contrast this with the *squared* norm, whose gradient is the cleaner $2\\mathbf{x}$; confusing the two is a classic mistake."
+            },
+            {
+              "q": "The gradient of the squared norm $f(\\mathbf{x}) = \\mathbf{x}^\\top\\mathbf{x} = \\|\\mathbf{x}\\|^2$ is:",
+              "choices": [
+                "$\\mathbf{x}$",
+                "$\\mathbf{x}^\\top\\mathbf{x}$",
+                "$\\tfrac12\\mathbf{x}$",
+                "$2\\mathbf{x}$"
+              ],
+              "answer": 3,
+              "explain": "$\\|\\mathbf{x}\\|^2 = \\sum_i x_i^2$, so $\\partial/\\partial x_i = 2x_i$, giving $\\nabla = 2\\mathbf{x}$ — the matrix-calculus analogue of $\\tfrac{d}{dx}x^2 = 2x$. (The shifted version $\\|\\mathbf{x}-\\mathbf{c}\\|^2$ has gradient $2(\\mathbf{x}-\\mathbf{c})$.) It is far simpler than the gradient of the *non-squared* norm — a reason squared losses are so common."
+            },
+            {
+              "q": "The gradient of a quadratic function of $\\mathbf{x}$ (e.g. $\\tfrac12\\mathbf{x}^\\top A\\mathbf{x} - \\mathbf{b}^\\top\\mathbf{x}$) is:",
+              "choices": [
+                "quadratic in $\\mathbf{x}$",
+                "affine (linear) in $\\mathbf{x}$ — which is why setting it to zero gives a linear system",
+                "a constant independent of $\\mathbf{x}$",
+                "always the zero vector"
+              ],
+              "answer": 1,
+              "explain": "Differentiating a quadratic drops the degree by one, so its gradient is affine in $\\mathbf{x}$ (here $A\\mathbf{x} - \\mathbf{b}$ for symmetric $A$). Setting that to $\\mathbf{0}$ is therefore a *linear* system — exactly why least squares reduces to the normal equations $A^\\top A\\mathbf{x} = A^\\top\\mathbf{b}$, solvable with linear algebra."
             }
           ],
           "flashcards": [
@@ -4398,6 +4486,50 @@
               ],
               "answer": 0,
               "explain": "The outer product $\\boldsymbol{\\delta}\\mathbf{x}^\\top=\\begin{bmatrix}3\\\\0\\end{bmatrix}\\begin{bmatrix}1&2\\end{bmatrix}=\\begin{bmatrix}3&6\\\\0&0\\end{bmatrix}$. The second option is its transpose ($\\mathbf{x}\\boldsymbol{\\delta}^\\top$), a common mistake; the third drops the cross term $\\delta_1 x_2=6$."
+            },
+            {
+              "q": "Backpropagation is fundamentally an efficient, organized application of which rule of calculus?",
+              "choices": [
+                "the product rule",
+                "the chain rule",
+                "integration by parts",
+                "L'Hôpital's rule"
+              ],
+              "answer": 1,
+              "explain": "Backprop computes $\\partial L/\\partial(\\text{parameters})$ by repeatedly applying the chain rule layer by layer, reusing each layer's local Jacobian. The 'backward' direction is simply the most efficient order in which to multiply that chain of derivatives when the output is a single scalar loss."
+            },
+            {
+              "q": "In training a neural network, what do the forward and backward passes each compute?",
+              "choices": [
+                "Forward computes the gradients; backward computes the loss",
+                "Both compute the loss",
+                "Both compute the gradients",
+                "Forward computes the output and loss; backward computes the gradients of the loss w.r.t. the parameters"
+              ],
+              "answer": 3,
+              "explain": "The forward pass runs the inputs through the layers to produce the prediction and the scalar loss (caching activations along the way). The backward pass then propagates $\\partial L/\\partial(\\cdot)$ back through those layers to obtain every parameter's gradient, which the optimizer uses to update the weights."
+            },
+            {
+              "q": "Once backprop has produced the weight gradient $\\partial L/\\partial W$, a vanilla gradient-descent step updates the weights by:",
+              "choices": [
+                "$W \\leftarrow W + \\eta\\,\\partial L/\\partial W$",
+                "$W \\leftarrow W \\,\\cdot\\, \\partial L/\\partial W$",
+                "$W \\leftarrow W - \\eta\\,\\partial L/\\partial W$",
+                "$W \\leftarrow \\partial L/\\partial W$"
+              ],
+              "answer": 2,
+              "explain": "Gradient descent steps *against* the gradient to reduce the loss: $W \\leftarrow W - \\eta\\,\\partial L/\\partial W$, where $\\eta$ is the learning rate. Adding the gradient would increase the loss; the other forms are not descent steps at all. This is the bridge from backprop's output to actual learning."
+            },
+            {
+              "q": "Backpropagation begins the backward pass from:",
+              "choices": [
+                "the scalar loss $L$, seeded with $\\partial L/\\partial L = 1$",
+                "the input vector $\\mathbf{x}$",
+                "the first layer's weights",
+                "the single largest activation in the network"
+              ],
+              "answer": 0,
+              "explain": "Reverse-mode differentiation needs a *scalar* output to differentiate; training uses the loss $L$, and the recursion is seeded with the trivial $\\partial L/\\partial L = 1$, after which the chain rule pushes gradients backward toward the inputs. This is why the loss must collapse to a single number before you can backpropagate."
             }
           ],
           "flashcards": [

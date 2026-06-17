@@ -2,6 +2,23 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 145 — MCQ arc → Linear Algebra · Matrix Calculus 12 → 16 · ★ LINEAR ALGEBRA COMPLETE (content — owner's #1 ask)
+The final LA module. **+4 new MCQs each** to *Gradients, Jacobians & Layout*, *Differentiating Vector & Matrix
+Expressions*, and *Matrix Calculus Behind Backprop* (**+12, bank 1,932 → 1,944**) — and with this **all 19 Linear
+Algebra lessons are now at 16 MCQs**, making LA the **second topic fully migrated** to 16 (after Algorithms).
+New foundational angles: descent steps along $-\nabla f$ / $\nabla f=\mathbf 0$ at a minimum / the Jacobian of $A\mathbf x$
+is $A$ / $\nabla f\cdot\mathbf u$ is the directional derivative; gradient linearity / $\nabla\|\mathbf x\|=\mathbf x/\|\mathbf x\|$
+vs $\nabla\|\mathbf x\|^2=2\mathbf x$ / a quadratic's gradient is affine ⟹ linear normal equations; backprop = the chain
+rule / forward-computes-loss-vs-backward-computes-gradients / the $W\leftarrow W-\eta\,\partial L/\partial W$ update /
+backprop is seeded from the scalar loss ($\partial L/\partial L=1$). Answer positions shuffled ([3,1,0,2]/[2,0,3,1]/[1,3,2,0]).
+- **Verified**: byte-stable JSON round-trip (diff +132 localized insertions); `node gate.js` ALL GREEN (1,944 MCQs) and a
+  programmatic check confirms **every LA lesson = 16** (the gate's position-bias note ticked 19 → 17 as the shuffled
+  batches keep de-skewing); direct key-dump confirms the shuffled indices; an independent adversarial fact-check agent
+  returned **ALL PASS** (the squared-vs-non-squared norm pair confirmed genuinely distinct; Jacobian-of-$Ax$-is-$A$-not-$A^\top$;
+  quadratic-gradient-is-affine; the "length of gradient" distractor correctly not a second answer); render-check on the
+  Backprop quiz → `errs=0 | "Question 1 of 16" | rawDollars=0 kErr=0`. SW cache **v87 → v88**; README 1,932 → 1,944.
+- **Arc progress**: Algorithms ✓ (7/7), **Linear Algebra ✓ (7/7)**. NEXT topics: Calculus, Deep Learning, RL, LLMs, Prob & Stats.
+
 ## iter 144 — Auto "On this page" table of contents for every lesson (new functionality / UX)
 Lessons are dense — **every one of the 148 has 4–11 `<h3>` sections** (avg 7.5) — but there was no way to see a lesson's
 structure or jump within it. Now the Lecture view auto-builds a collapsible **"On this page"** TOC from the section

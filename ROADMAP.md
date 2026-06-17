@@ -141,7 +141,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    positions shuffled; render-check "of 16" errs=0; SW cache →v86.
    ✅ iter 144: auto "On this page" TOC for every lesson (new functionality/UX; neglected since 113). buildLessonTOC: collapsible
    numbered section list (2-col→1-col mobile), smooth-scroll, reduced-motion safe; errs=0; SW cache →v87. Still-thin: mobile audit, UI/UX.
-   LA REMAINING (MCQ arc): matrix-calculus(3) — the LAST LA module. Then Calc/DL/RL/LLM/PS.
+   ✅ iter 145: MCQ arc → Linear Algebra·Matrix Calculus 12→16 (+12, bank →1,944). ★ LINEAR ALGEBRA COMPLETE — all 19 LA
+   lessons at 16 (2nd topic done, after Algorithms). Adversarial agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v88.
+   ARC NEXT TOPICS (one module per content iteration, interleave with compass): Calculus, Deep Learning, RL, LLMs, Prob & Stats.
+   (Position-bias note now 17 lessons, ticking down as each shuffled batch de-skews.)
    ARC PROGRESS: Algorithms modules at 16 = foundations, data-structures. REMAINING in Algorithms: sorting-searching,
    algorithm-design, graphs, advanced-ml-connections, advanced-techniques (5). Then LA/Calc/DL/RL/LLM/PS. Interleave!
    CHECKED & FOUND HEALTHY (113): mobile renders clean across dashboard/map/lab/stats/test at 390px; `index()` is
