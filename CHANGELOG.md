@@ -2,6 +2,25 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 85 — Probability & Statistics — Module 5: Hypothesis Testing (4 lessons) (content; owner depth direction)
+Added the fifth Probability & Statistics module, completing the inference arc (estimate → test). Four lessons that
+build on each other:
+**(1) The Logic of Hypothesis Testing** — null/alternative hypotheses, the test statistic and its null distribution,
+proof-by-contradiction ("innocent until proven guilty"), the significance level $\alpha$ and rejection region,
+one- vs two-sided tests, and the CI–test duality.
+**(2) P-values & Statistical Significance** — the precise definition $P(\text{data at least as extreme}\mid H_0)$, the
+$p\le\alpha$ rule, the four canonical misinterpretations (it is *not* $P(H_0\text{ true})$), statistical vs practical
+significance, and p-hacking / multiple comparisons.
+**(3) Type I & II Errors and Statistical Power** — the 2×2 decision table, $\alpha$/$\beta$, power $=1-\beta$, the four
+power levers, the $\alpha$–$\beta$ tradeoff, and power analysis for sample-size planning.
+**(4) t-Tests in Practice** — one-sample and two-sample (and paired) $t$-tests, why $t$ not $z$ when $\sigma$ is unknown,
+assumptions/robustness, CI–test duality, and the paired-test-across-CV-folds connection for comparing ML models.
+Each is a full KaTeX lecture + 6 flashcards + 3 homework (hint+solution) + 2 worked examples; MCQs deferred to the
+pipeline next iteration. Probability & Statistics is now a **five-module, 20-lesson** course. Site: **133 lessons ·
+799 flashcards · 397 homework · 258 examples**. SW cache → `atlas-v29`; README counts refreshed (lessons/concepts 129→133).
+Verified: `node gate.js` ALL GREEN (7 topics · 133 lessons); all four lessons render math with **katex-error=0**
+(t-statistic formula confirmed visually); course/cheatsheet/map + lessons smoke errs=0; legible at 390px; Chrome cleaned.
+
 ## iter 84 — Confidence-Interval coverage simulator (visualizations; owner depth direction)
 A new interactive widget (`ps-ci-coverage`, the 25th) that makes the single most-misunderstood idea in statistics
 *visible*: what "95% confidence" actually means. Each press of **Run** / **+1** draws a fresh sample, builds its

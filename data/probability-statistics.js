@@ -3155,6 +3155,260 @@
           ]
         }
       ]
+    },
+    {
+      "id": "ps-testing",
+      "title": "Hypothesis Testing",
+      "lessons": [
+        {
+          "id": "ps-hypothesis-testing-logic",
+          "title": "The Logic of Hypothesis Testing",
+          "minutes": 16,
+          "content": "<h3>1. The hook: deciding whether an effect is real</h3>\n<p>A new drug lowers blood pressure by 4 points in a trial. A website redesign lifts clicks by 2%. Is the effect <em>real</em>, or could random sampling alone have produced a wobble that big? <strong>Hypothesis testing</strong> is the formal procedure for answering that question — a disciplined way to decide whether data are surprising enough, under a \"nothing is happening\" baseline, to warrant claiming an effect. It is the inferential counterpart to confidence intervals: instead of estimating a parameter, it adjudicates a claim about one.</p>\n\n<h3>2. The null and alternative hypotheses</h3>\n<p>Every test pits two complementary claims against each other:</p>\n<ul>\n<li>The <strong>null hypothesis</strong> $H_0$ — the skeptical default of \"no effect / no difference,\" e.g. $H_0:\\mu = \\mu_0$. It is the claim we provisionally assume true and try to overturn.</li>\n<li>The <strong>alternative hypothesis</strong> $H_1$ (or $H_a$) — the effect we suspect, e.g. $H_1:\\mu \\ne \\mu_0$ (two-sided) or $H_1:\\mu > \\mu_0$ (one-sided).</li>\n</ul>\n<p>The asymmetry is deliberate: the burden of proof is on the alternative. We never \"accept\" $H_0$; we only <em>reject</em> it or <em>fail to reject</em> it, exactly as a court returns \"guilty\" or \"not guilty,\" never \"innocent.\"</p>\n\n<h3>3. The test statistic and its null distribution</h3>\n<p>We compress the data into a single <strong>test statistic</strong> that measures how far the sample sits from what $H_0$ predicts, in units of standard error. For a mean with known $\\sigma$,\n$$z = \\frac{\\bar{X} - \\mu_0}{\\sigma/\\sqrt{n}}.$$\nThe crucial move: <em>assuming $H_0$ is true</em>, this statistic has a known <strong>null distribution</strong> (here, standard normal by the CLT). That known distribution is the ruler against which we judge how extreme our observed value is.</p>\n\n<h3>4. The logic: proof by contradiction</h3>\n<p>The reasoning is a probabilistic <em>reductio ad absurdum</em>. Assume $H_0$. Compute how unusual the observed data would be under that assumption. If the data fall in a region that $H_0$ makes very unlikely, we conclude $H_0$ is implausible and reject it. If the data are unremarkable under $H_0$, we have no grounds to reject — but this is <em>not</em> proof that $H_0$ is true, only absence of evidence against it.</p>\n<div class=\"callout\">\n<div class=\"c-tag\">Intuition</div>\n<p>\"Innocent until proven guilty.\" $H_0$ (innocence) stands unless the evidence is too improbable to square with it. Failing to convict does not establish innocence — it means the evidence wasn't strong enough.</p>\n</div>\n\n<h3>5. The significance level and the rejection region</h3>\n<p>Before seeing data we fix a <strong>significance level</strong> $\\alpha$ — the threshold of \"too unlikely,\" and the probability we are willing to accept of <em>wrongly</em> rejecting a true $H_0$. Conventionally $\\alpha = 0.05$. This carves the null distribution into a <strong>rejection region</strong> (the extreme tails, total area $\\alpha$) and the rest. For a two-sided test at $\\alpha=0.05$, we reject when $|z| > 1.96$ — the same $1.96$ that built the $95\\%$ confidence interval, which is no coincidence.</p>\n\n<h3>6. One-sided vs. two-sided tests</h3>\n<p>A <strong>two-sided</strong> test ($H_1:\\mu\\ne\\mu_0$) splits $\\alpha$ between both tails and detects a deviation in either direction. A <strong>one-sided</strong> test ($H_1:\\mu>\\mu_0$) puts all of $\\alpha$ in one tail, giving more power to detect an effect in that direction — but only if you committed to the direction <em>before</em> seeing the data. Choosing the side after peeking is a form of cheating that secretly doubles your error rate.</p>\n\n<h3>7. Worked example: a one-sample test</h3>\n<p>A machine should fill bottles to $\\mu_0=500$ mL with known $\\sigma=5$ mL. A sample of $n=25$ averages $\\bar{X}=502.4$ mL. Test $H_0:\\mu=500$ vs $H_1:\\mu\\ne500$ at $\\alpha=0.05$. The standard error is $5/\\sqrt{25}=1$, so $z=\\frac{502.4-500}{1}=2.4$. Since $|2.4|>1.96$, the result falls in the rejection region — we reject $H_0$ and conclude the machine is over-filling. Had $\\bar{X}$ been $501.5$ ($z=1.5$), we would fail to reject: a 1.5-SE wobble is unremarkable under $H_0$.</p>\n\n<h3>8. Why this matters</h3>\n<p>Hypothesis testing is the grammar of empirical claims across every science, and in machine learning it underlies <strong>A/B testing</strong> (is the new model/feature genuinely better?), feature selection, and any \"is this difference significant?\" question. Knowing the logic — assume the null, measure surprise, reject only when the data are too extreme to ignore — inoculates you against the most common statistical errors, which the next lessons make explicit.</p>",
+          "mcq": [],
+          "flashcards": [
+            {
+              "front": "What are the null and alternative hypotheses, and why is the setup asymmetric?",
+              "back": "$H_0$ = the skeptical \"no effect\" default we assume and try to disprove (e.g. $\\mu=\\mu_0$); $H_1$ = the suspected effect. The burden of proof is on $H_1$: we only reject or fail to reject $H_0$, never \"accept\" it — like guilty / not-guilty."
+            },
+            {
+              "front": "What is a test statistic and its null distribution?",
+              "back": "A single number measuring how far the data sit from $H_0$ in standard-error units (e.g. $z=\\frac{\\bar X-\\mu_0}{\\sigma/\\sqrt n}$). Its <em>null distribution</em> is the distribution it follows <em>assuming $H_0$ is true</em> (here standard normal) — the ruler for judging extremeness."
+            },
+            {
+              "front": "Explain the proof-by-contradiction logic of a hypothesis test.",
+              "back": "Assume $H_0$; compute how unlikely the observed data are under it. If they're too improbable (fall in the rejection region), reject $H_0$. If not, fail to reject — which is absence of evidence against $H_0$, NOT proof it's true."
+            },
+            {
+              "front": "What is the significance level $\\alpha$?",
+              "back": "A pre-chosen threshold (commonly 0.05) for \"too unlikely,\" equal to the probability of wrongly rejecting a true $H_0$ (the Type I error rate). It defines the rejection region as the extreme tails of total area $\\alpha$."
+            },
+            {
+              "front": "One-sided vs. two-sided test — what's the difference and the pitfall?",
+              "back": "Two-sided ($H_1:\\mu\\ne\\mu_0$) splits $\\alpha$ across both tails (deviation either way); one-sided ($H_1:\\mu>\\mu_0$) puts all $\\alpha$ in one tail (more power, one direction). Pitfall: choosing the side <em>after</em> seeing data secretly doubles the error rate."
+            },
+            {
+              "front": "Why do we say \"fail to reject $H_0$\" instead of \"accept $H_0$\"?",
+              "back": "A non-significant result means the data weren't extreme enough to rule out $H_0$, not that $H_0$ is true — absence of evidence isn't evidence of absence. Like \"not guilty\" rather than \"innocent.\""
+            }
+          ],
+          "homework": [
+            {
+              "prompt": "A coin is tested for fairness: $H_0:p=0.5$ vs $H_1:p\\ne 0.5$. In 100 flips you observe 62 heads; the standard error of the proportion under $H_0$ is $\\sqrt{0.5\\cdot0.5/100}=0.05$. Compute the test statistic and decide at $\\alpha=0.05$ (reject if $|z|>1.96$).",
+              "hint": "$z=(\\hat p - p_0)/\\operatorname{SE}$ with $\\hat p=0.62$, $p_0=0.5$.",
+              "solution": "$z=\\frac{0.62-0.5}{0.05}=\\frac{0.12}{0.05}=2.4$. Since $|2.4|>1.96$, reject $H_0$: the coin shows significant evidence of bias toward heads at the 5% level. (62 heads is 2.4 standard errors from the 50 expected under fairness — too far to attribute to chance.)"
+            },
+            {
+              "prompt": "Explain why \"we failed to reject $H_0$, so the drug has no effect\" is a logical error. What would be a correct statement?",
+              "hint": "Think about absence of evidence vs. evidence of absence, and the role of sample size/power.",
+              "solution": "Failing to reject only means the data weren't strong enough to overturn $H_0$ — perhaps the effect is real but small, or the sample too tiny to detect it. The test never proves $H_0$. A correct statement: \"we did not find statistically significant evidence of an effect at this sample size,\" leaving open that an effect may exist (a question of power, covered later)."
+            },
+            {
+              "prompt": "A researcher runs a two-sided test and gets $z=1.8$, which is not significant at $\\alpha=0.05$ ($|z|<1.96$). They then switch to a one-sided test in the observed direction to get significance. Why is this invalid, and what is the actual error rate of this practice?",
+              "hint": "The direction must be chosen before seeing the data. Consider how peeking affects the true Type I error rate.",
+              "solution": "Choosing the test direction after seeing which way the data point is \"double-dipping\": the data both pick the hypothesis and test it. A one-sided test at $\\alpha=0.05$ has a $1.645$ cutoff, but because the direction was chosen post hoc to match the data, the <em>true</em> Type I error rate is effectively $0.10$ (both tails are implicitly in play), not $0.05$. The result is not legitimately significant."
+            }
+          ],
+          "examples": [
+            {
+              "title": "A one-sample z-test, step by step",
+              "body": "A factory claims its batteries last $\\mu_0=40$ hours on average, with known $\\sigma=4$ hours. A consumer group tests $n=64$ batteries and finds $\\bar{X}=39.0$ hours. At $\\alpha=0.05$, is there significant evidence the true mean is below 40? Use a one-sided test $H_1:\\mu<40$.",
+              "solution": "Set up: $H_0:\\mu=40$, $H_1:\\mu<40$, $\\alpha=0.05$ (one-sided, so reject if $z<-1.645$).\n\nStandard error: $\\operatorname{SE}=\\sigma/\\sqrt n=4/\\sqrt{64}=4/8=0.5$.\n\nTest statistic: $z=\\dfrac{\\bar X-\\mu_0}{\\operatorname{SE}}=\\dfrac{39.0-40}{0.5}=\\dfrac{-1.0}{0.5}=-2.0$.\n\nDecision: $-2.0<-1.645$, so we reject $H_0$. There is significant evidence at the 5% level that the batteries last less than the claimed 40 hours. (Note: a one-tailed $z$ of $-2.0$ has a p-value $\\approx 0.023<0.05$, consistent with rejection.)"
+            },
+            {
+              "title": "Why the rejection cutoff equals the CI multiplier",
+              "body": "A two-sided test of $H_0:\\mu=\\mu_0$ at $\\alpha=0.05$ rejects when $|z|>1.96$. Show this is exactly equivalent to checking whether $\\mu_0$ falls outside the 95% confidence interval $\\bar X\\pm 1.96\\,\\sigma/\\sqrt n$.",
+              "solution": "Rejecting means $\\left|\\dfrac{\\bar X-\\mu_0}{\\sigma/\\sqrt n}\\right|>1.96$, i.e. $|\\bar X-\\mu_0|>1.96\\,\\dfrac{\\sigma}{\\sqrt n}$. That inequality says $\\mu_0$ is more than one margin-of-error away from $\\bar X$ — precisely the condition that $\\mu_0$ lies <em>outside</em> $\\bar X\\pm 1.96\\,\\sigma/\\sqrt n$, the 95% CI. So a two-sided level-$\\alpha$ test and the $(1-\\alpha)$ confidence interval are two views of the same computation: reject $H_0:\\mu=\\mu_0$ exactly when the CI excludes $\\mu_0$. This duality is why both use the same critical value $1.96$."
+            }
+          ]
+        },
+        {
+          "id": "ps-p-values",
+          "title": "P-values & Statistical Significance",
+          "minutes": 15,
+          "content": "<h3>1. The hook: one number for \"how surprising?\"</h3>\n<p>Rather than only reporting reject / fail-to-reject, we can quantify <em>how</em> surprising the data are under the null with a single number: the <strong>p-value</strong>. It is the most reported — and most misunderstood — quantity in all of empirical science. Getting its definition exactly right is the difference between sound inference and the errors that fuel the replication crisis.</p>\n\n<h3>2. What a p-value is</h3>\n<p>The <strong>p-value</strong> is the probability, <em>assuming the null hypothesis is true</em>, of obtaining a test statistic at least as extreme as the one actually observed:\n$$p = P\\big(\\text{statistic at least as extreme as observed} \\,\\big|\\, H_0\\big).$$\nA small p-value means the data would be very unusual if $H_0$ held, which counts as evidence against $H_0$. For a two-sided test it sums both tails beyond $\\pm|z|$; for a one-sided test, the single tail.</p>\n\n<h3>3. The decision rule</h3>\n<p>The p-value connects directly to the significance level: <strong>reject $H_0$ when $p \\le \\alpha$.</strong> This is identical to the rejection-region rule — the observed statistic lands in the tail of area $\\alpha$ exactly when its tail-probability $p$ is at most $\\alpha$. Reporting $p$ instead of a bare reject/fail decision is more informative: it lets each reader apply their own threshold and see how borderline (or overwhelming) the evidence is.</p>\n\n<h3>4. What a p-value is NOT (read twice)</h3>\n<p>Nearly every famous misuse is a confusion of conditional direction or of evidence with truth:</p>\n<ul>\n<li>It is <strong>not</strong> the probability that $H_0$ is true. The p-value is computed <em>assuming</em> $H_0$; it cannot also be a probability <em>about</em> $H_0$. ($P(\\text{data}\\mid H_0)\\ne P(H_0\\mid \\text{data})$.)</li>\n<li>It is <strong>not</strong> the probability the result was \"due to chance,\" nor $1-p$ the probability the alternative is true.</li>\n<li>A <strong>large</strong> p-value does <strong>not</strong> prove $H_0$ — it just fails to provide evidence against it.</li>\n<li>$p=0.04$ vs $p=0.06$ is not a categorical difference in reality; the $0.05$ line is a convention, not a law of nature.</li>\n</ul>\n<div class=\"callout sage\">\n<div class=\"c-tag\">The one-sentence definition to memorize</div>\n<p>A p-value answers \"<em>if there were truly no effect, how often would I see data this extreme or more?</em>\" — nothing about how probable the effect itself is.</p>\n</div>\n\n<h3>5. Statistical vs. practical significance</h3>\n<p>\"Statistically significant\" means \"unlikely under $H_0$,\" <em>not</em> \"large\" or \"important.\" With a huge sample, a trivially small effect — a 0.1% difference no one would care about — can be highly significant ($p<0.001$), because the standard error is tiny. Conversely a big, important effect can be non-significant in a small, noisy study. Always read the <strong>effect size</strong> and confidence interval alongside the p-value: significance tells you an effect is probably real; only the effect size tells you if it matters.</p>\n\n<h3>6. Multiple comparisons and p-hacking</h3>\n<p>If you run 20 independent tests of true nulls at $\\alpha=0.05$, you expect about one \"significant\" result <em>by chance alone</em>. Testing many hypotheses, or tweaking the analysis until $p$ dips below $0.05$ (<strong>p-hacking</strong>), inflates the real false-positive rate far above the nominal $\\alpha$. Remedies include pre-registering the analysis and corrections (e.g. Bonferroni, which divides $\\alpha$ by the number of tests). This is a leading cause of irreproducible findings.</p>\n\n<h3>7. Worked example</h3>\n<p>A two-sided test yields $z=2.0$. The p-value is the two-tailed area beyond $\\pm2.0$: each tail is about $0.0228$, so $p\\approx 2(0.0228)=0.046$. Since $0.046 \\le 0.05$, reject $H_0$ at the 5% level — but only just. A reader with a stricter $\\alpha=0.01$ would <em>not</em> reject, which is exactly why reporting $p=0.046$ is more useful than reporting \"significant.\"</p>\n\n<h3>8. Why this matters for machine learning</h3>\n<p>P-values gate A/B-test decisions (\"ship the new model?\"), guard against reading noise as signal when comparing systems, and appear in feature-importance screens. The multiple-comparisons trap is acute in ML, where practitioners try dozens of models, features, and seeds — without correction, some will look \"significant\" purely by chance. Understanding what $p$ does and does not say is essential to not fooling yourself.</p>",
+          "mcq": [],
+          "flashcards": [
+            {
+              "front": "Define the p-value precisely.",
+              "back": "The probability, <em>assuming $H_0$ is true</em>, of obtaining a test statistic at least as extreme as the one observed: $p=P(\\text{stat at least as extreme}\\mid H_0)$. Small $p$ = data are surprising under $H_0$ = evidence against it."
+            },
+            {
+              "front": "State the p-value decision rule and why reporting $p$ beats reporting reject/fail.",
+              "back": "Reject $H_0$ iff $p\\le\\alpha$ (equivalent to the rejection-region rule). Reporting the actual $p$ lets readers apply their own threshold and see whether evidence is borderline or overwhelming."
+            },
+            {
+              "front": "Why is the p-value NOT the probability that $H_0$ is true?",
+              "back": "It's computed <em>assuming</em> $H_0$, so it's $P(\\text{data}\\mid H_0)$, not $P(H_0\\mid\\text{data})$ — confusing the two reverses the conditional. Likewise $1-p$ is not the probability the alternative is true."
+            },
+            {
+              "front": "Does a large p-value prove the null hypothesis?",
+              "back": "No. A large $p$ only means the data don't provide evidence against $H_0$ (fail to reject); it never proves $H_0$ is true — could be a real but small effect or an underpowered study."
+            },
+            {
+              "front": "Statistical vs. practical significance — how can they diverge?",
+              "back": "Statistical significance = unlikely under $H_0$; with huge $n$ a trivial effect can be highly significant (tiny SE), and with small $n$ a big effect can be non-significant. Always read effect size + CI: significance ≠ importance."
+            },
+            {
+              "front": "What is p-hacking / the multiple-comparisons problem?",
+              "back": "Running many tests or tweaking analysis until $p<0.05$ inflates the true false-positive rate (20 true-null tests at $\\alpha=0.05$ yield ~1 false \"hit\"). Fixes: pre-registration, corrections like Bonferroni ($\\alpha/m$)."
+            }
+          ],
+          "homework": [
+            {
+              "prompt": "A study reports $p=0.03$ for $H_0:$ \"no effect.\" For each statement, say whether it is a correct interpretation: (a) \"There is a 3% probability the null is true.\" (b) \"If the null were true, data this extreme would occur about 3% of the time.\" (c) \"There is a 97% chance the effect is real.\"",
+              "hint": "Recall the p-value is $P(\\text{data}\\mid H_0)$, not a probability about the hypotheses.",
+              "solution": "(a) <strong>Incorrect</strong> — the p-value is not $P(H_0\\text{ true})$; it assumes $H_0$ and cannot be a probability about it. (b) <strong>Correct</strong> — this is the definition: the chance, under $H_0$, of data at least this extreme. (c) <strong>Incorrect</strong> — $1-p$ is not the probability the alternative is true; that would require a Bayesian posterior with a prior, not a p-value."
+            },
+            {
+              "prompt": "A two-sided test gives $z=2.6$. Estimate the p-value (use that the one-tailed area beyond $2.576$ is about $0.005$), and state the decision at $\\alpha=0.05$ and at $\\alpha=0.01$.",
+              "hint": "Two-sided p = twice the one-tail area beyond $|z|$.",
+              "solution": "Beyond $z=2.6$ the one-tail area is about $0.0047$, so two-sided $p\\approx 2(0.0047)\\approx 0.009$. Since $0.009\\le 0.05$, reject at $\\alpha=0.05$; and since $0.009\\le 0.01$, also reject at $\\alpha=0.01$. The evidence is strong enough to clear even the stricter threshold."
+            },
+            {
+              "prompt": "A team tests 40 candidate features for association with an outcome, all at $\\alpha=0.05$, and finds 3 \"significant.\" Suppose in truth none are associated. How many false positives would you expect by chance, and what does this imply about the 3 findings?",
+              "hint": "Expected false positives = number of tests × $\\alpha$ when all nulls are true.",
+              "solution": "Expected false positives $=40\\times 0.05=2$. So finding 3 \"significant\" results when all nulls are true is entirely consistent with pure chance — about 2 are expected, and 3 is unremarkable. Without a multiple-comparisons correction (e.g. Bonferroni: use $\\alpha/40=0.00125$ per test) or independent replication, these 3 cannot be trusted as real associations."
+            }
+          ],
+          "examples": [
+            {
+              "title": "Computing and interpreting a p-value",
+              "body": "A teaching method is tested: $H_0:\\mu=70$ (the historic mean) vs $H_1:\\mu\\ne 70$. A class of $n=36$ scores $\\bar X=73.5$ with known $\\sigma=12$. (i) Compute the test statistic and the p-value. (ii) Decide at $\\alpha=0.05$. (iii) Interpret the p-value in one careful sentence.",
+              "solution": "(i) $\\operatorname{SE}=12/\\sqrt{36}=2$, so $z=\\frac{73.5-70}{2}=\\frac{3.5}{2}=1.75$. Two-sided p-value: the one-tail area beyond $1.75$ is about $0.040$, so $p\\approx 2(0.040)=0.080$.\n\n(ii) Since $p=0.080>0.05$, we <strong>fail to reject</strong> $H_0$ at the 5% level — not enough evidence to conclude the method changes scores.\n\n(iii) Careful interpretation: \"If the true mean were still 70, we would see a sample mean at least 3.5 points away (in either direction) about 8% of the time\" — a statement about data under $H_0$, not about the probability that $H_0$ is true."
+            },
+            {
+              "title": "Statistical significance without practical importance",
+              "body": "An online retailer A/B-tests a new checkout button on $n=1{,}000{,}000$ users per arm. The conversion rate rises from $4.000\\%$ to $4.05\\%$, giving $p=0.001$. Is this statistically significant? Is it necessarily worth shipping? Explain the distinction.",
+              "solution": "Statistically significant: yes — with a million users per arm the standard error is tiny, so even a $0.05$ percentage-point lift is many standard errors away from zero, producing $p=0.001$. Practically important: not necessarily. The effect size is a $0.05$-point absolute lift (a ~1.25% relative increase); whether that justifies the engineering cost and risk is a business judgment, not a statistical one. This is the classic large-$n$ trap: significance confirms the effect is probably real, but only the effect size and a cost–benefit analysis say whether it matters. Always report both."
+            }
+          ]
+        },
+        {
+          "id": "ps-errors-and-power",
+          "title": "Type I & II Errors and Statistical Power",
+          "minutes": 15,
+          "content": "<h3>1. The hook: two ways to be wrong</h3>\n<p>A test returns a verdict — reject or fail to reject $H_0$ — and reality is either \"effect\" or \"no effect.\" Cross them and there are two distinct ways to err, with very different consequences. Designing a good study means deliberately budgeting how often each kind of mistake is allowed to happen.</p>\n\n<h3>2. The 2×2 decision table</h3>\n<p>Tabulating decision against truth gives four outcomes:</p>\n<ul>\n<li>$H_0$ true, fail to reject — <strong>correct</strong>.</li>\n<li>$H_0$ true, reject — <strong>Type I error</strong> (false positive): claiming an effect that isn't there.</li>\n<li>$H_0$ false, fail to reject — <strong>Type II error</strong> (false negative): missing a real effect.</li>\n<li>$H_0$ false, reject — <strong>correct</strong> (a true detection).</li>\n</ul>\n\n<h3>3. Type I error and $\\alpha$</h3>\n<p>The <strong>Type I error rate</strong> is exactly the significance level you chose: $P(\\text{reject }H_0 \\mid H_0\\text{ true}) = \\alpha$. Setting $\\alpha=0.05$ is a deliberate decision to wrongly cry \"effect!\" 5% of the time when nothing is happening. Lowering $\\alpha$ (say to $0.01$) makes false positives rarer — at a cost we are about to meet.</p>\n\n<h3>4. Type II error and $\\beta$</h3>\n<p>The <strong>Type II error rate</strong> $\\beta = P(\\text{fail to reject }H_0 \\mid H_0\\text{ false})$ is the chance of missing a real effect. Unlike $\\alpha$, $\\beta$ is not a single chosen number — it depends on <em>how big</em> the true effect is, the sample size, and the noise. A real but tiny effect is easy to miss (large $\\beta$); a large effect is hard to miss (small $\\beta$).</p>\n\n<h3>5. Power = $1-\\beta$</h3>\n<p>The <strong>power</strong> of a test is its ability to detect a real effect: $\\text{power} = 1-\\beta = P(\\text{reject }H_0\\mid H_0\\text{ false})$. A study with $80\\%$ power has a $20\\%$ chance of missing a true effect of the assumed size. <strong>Underpowered</strong> studies are a quiet epidemic: they not only miss real effects, they also make any \"significant\" result they <em>do</em> find more likely to be a fluke that won't replicate.</p>\n<div class=\"callout\">\n<div class=\"c-tag\">Intuition</div>\n<p>$\\alpha$ is how often you sound a false alarm; power is how often you catch a real fire. A smoke detector set to never false-alarm ($\\alpha\\to 0$) will also miss real fires (low power). Good design balances the two.</p>\n</div>\n\n<h3>6. What drives power</h3>\n<p>Power rises with four levers:</p>\n<ul>\n<li><strong>Effect size</strong> $\\uparrow$ — bigger true effects are easier to detect.</li>\n<li><strong>Sample size $n$</strong> $\\uparrow$ — shrinks the standard error $\\sigma/\\sqrt{n}$, separating the null and alternative distributions.</li>\n<li><strong>Significance level $\\alpha$</strong> $\\uparrow$ — a laxer threshold rejects more often (but raises Type I error).</li>\n<li><strong>Noise $\\sigma$</strong> $\\downarrow$ — less variability sharpens the signal.</li>\n</ul>\n<p>The usual knob the experimenter controls is $n$: <strong>power analysis</strong> computes the sample size needed to achieve, say, $80\\%$ power to detect a specified effect at a given $\\alpha$ — done <em>before</em> collecting data.</p>\n\n<h3>7. The $\\alpha$–$\\beta$ tradeoff</h3>\n<p>At a fixed sample size, $\\alpha$ and $\\beta$ trade off: tightening $\\alpha$ (fewer false positives) shrinks the rejection region, which raises $\\beta$ (more missed effects), lowering power. You cannot drive both errors to zero at once with fixed data — the only way to reduce both simultaneously is to collect more information (larger $n$, less noise). Choosing $\\alpha$ is therefore a value judgment about which error is costlier in context.</p>\n\n<h3>8. Why this matters</h3>\n<p>Every A/B test and clinical trial is a budget over these two errors: a false positive ships a useless feature or approves an ineffective drug; a false negative kills a good idea or a working treatment. Power analysis to choose $n$ in advance is standard practice in serious experimentation — and in machine learning, an underpowered comparison between two models will routinely declare them \"tied\" or crown the wrong winner by noise.</p>",
+          "mcq": [],
+          "flashcards": [
+            {
+              "front": "Define Type I and Type II errors.",
+              "back": "Type I (false positive): reject $H_0$ when it's true — rate $\\alpha$. Type II (false negative): fail to reject $H_0$ when it's false — rate $\\beta$. One cries effect where there is none; the other misses a real effect."
+            },
+            {
+              "front": "What is statistical power, in words and symbols?",
+              "back": "Power $=1-\\beta=P(\\text{reject }H_0\\mid H_0\\text{ false})$ — the probability of detecting a real effect of a given size. 80% power ⇒ 20% chance of missing that effect."
+            },
+            {
+              "front": "What four factors increase a test's power?",
+              "back": "Larger effect size; larger sample size $n$ (smaller SE); larger $\\alpha$ (laxer threshold, but more Type I error); smaller noise $\\sigma$. The experimenter's usual lever is $n$."
+            },
+            {
+              "front": "Why can't you make both $\\alpha$ and $\\beta$ arbitrarily small at fixed $n$?",
+              "back": "They trade off: shrinking the rejection region to lower $\\alpha$ raises $\\beta$ (lowers power), and vice versa. Reducing both at once requires more information — larger $n$ or less noise."
+            },
+            {
+              "front": "What is a power analysis and when is it done?",
+              "back": "A pre-data calculation of the sample size needed to achieve a target power (e.g. 80%) for detecting a specified effect size at a chosen $\\alpha$. Done <em>before</em> collecting data, to avoid an underpowered study."
+            },
+            {
+              "front": "Why are underpowered studies doubly dangerous?",
+              "back": "They often miss real effects (high $\\beta$), AND any \"significant\" result they do find is more likely a fluke that won't replicate — low power inflates the false-discovery rate among significant findings."
+            }
+          ],
+          "homework": [
+            {
+              "prompt": "Classify each as a Type I or Type II error: (a) A spam filter flags a legitimate email as spam. (b) A medical test tells a sick patient they are healthy. (c) A jury convicts an innocent defendant (with $H_0$ = innocent).",
+              "hint": "Type I = reject a true $H_0$ (false positive); Type II = fail to reject a false $H_0$ (false negative). Identify $H_0$ first.",
+              "solution": "(a) $H_0$ = \"email is legitimate.\" Flagging it as spam rejects a true $H_0$ → <strong>Type I</strong> (false positive). (b) $H_0$ = \"patient is healthy.\" Telling a sick patient they're healthy fails to reject a false $H_0$ → <strong>Type II</strong> (false negative). (c) $H_0$ = \"innocent.\" Convicting an innocent person rejects a true $H_0$ → <strong>Type I</strong>."
+            },
+            {
+              "prompt": "A clinical trial is designed with $\\alpha=0.05$ and power $=0.80$ to detect a clinically meaningful effect. (a) What is the probability of a Type II error? (b) If the researchers want to reduce both $\\alpha$ and $\\beta$, what is the most direct option, and why?",
+              "hint": "$\\beta=1-\\text{power}$. Both errors shrink together only one way at fixed effect/noise.",
+              "solution": "(a) $\\beta=1-\\text{power}=1-0.80=0.20$ — a 20% chance of missing the effect. (b) Increase the sample size $n$. Larger $n$ shrinks the standard error $\\sigma/\\sqrt n$, separating the null and alternative sampling distributions, which lets you lower $\\alpha$ and $\\beta$ simultaneously. At fixed $n$ they only trade off; more data is what relaxes the tradeoff."
+            },
+            {
+              "prompt": "Two A/B tests look for the same true 1% lift. Test A uses 1,000 users per arm; test B uses 50,000 per arm. Which has higher power, and what are the consequences of running the underpowered one?",
+              "hint": "Power rises with $n$. Consider both missed effects and the reliability of any \"significant\" result.",
+              "solution": "Test B (50,000/arm) has far higher power, because its standard error is about $\\sqrt{50}\\approx 7$ times smaller, sharply separating the null and alternative distributions. The underpowered test A will frequently fail to detect the real 1% lift (high Type II error), and on the occasions it <em>does</em> report significance, that result is more likely an exaggerated fluke that won't replicate. Underpowered experiments waste data and mislead."
+            }
+          ],
+          "examples": [
+            {
+              "title": "Filling in the 2×2 error table for a medical screen",
+              "body": "A screening test has $H_0$ = \"no disease.\" Suppose its Type I error rate is $\\alpha=0.05$ and its power to detect the disease is $0.90$. For each of the four decision/truth combinations, name the outcome and give its probability (conditional on the truth).",
+              "solution": "· <strong>No disease, test negative</strong> (correct, specificity): $P=1-\\alpha=0.95$.\n· <strong>No disease, test positive</strong> (Type I / false positive): $P=\\alpha=0.05$.\n· <strong>Disease, test negative</strong> (Type II / false negative): $P=\\beta=1-\\text{power}=0.10$.\n· <strong>Disease, test positive</strong> (correct detection, sensitivity = power): $P=0.90$.\n\nNote these are conditional on the true state; the chance a positive test is correct (its predictive value) also depends on the disease's base rate via Bayes' theorem — high specificity still yields many false positives when the disease is rare."
+            },
+            {
+              "title": "The $\\alpha$–power tradeoff made concrete",
+              "body": "A test of $H_0:\\mu=0$ vs $H_1:\\mu>0$ has standard error $1$, and the true mean is $\\mu=2$. (i) With $\\alpha=0.05$ (reject if $z>1.645$), find the power. (ii) Tighten to $\\alpha=0.01$ (reject if $z>2.326$) and find the new power. Comment.",
+              "solution": "Under $H_1$, $\\bar X\\approx N(2,1)$, so $z=\\bar X$ has mean $2$.\n\n(i) Power $=P(\\bar X>1.645\\mid \\mu=2)=P(Z>1.645-2)=P(Z>-0.355)\\approx 0.639$, about 64%.\n\n(ii) Power $=P(\\bar X>2.326\\mid \\mu=2)=P(Z>2.326-2)=P(Z>0.326)\\approx 0.372$, about 37%.\n\nTightening $\\alpha$ from 0.05 to 0.01 cut the power from ~64% to ~37% — fewer false positives bought at the price of missing the real effect far more often. With the data fixed, lowering $\\alpha$ necessarily lowers power; only more data escapes the tradeoff."
+            }
+          ]
+        },
+        {
+          "id": "ps-t-tests",
+          "title": "t-Tests: Comparing Means in Practice",
+          "minutes": 16,
+          "content": "<h3>1. The hook: testing means when $\\sigma$ is unknown</h3>\n<p>The clean $z$-tests of the previous lessons assumed you knew the population standard deviation $\\sigma$. In real data you almost never do — you estimate it from the sample. That single change, plugging in $s$ for $\\sigma$, is what turns a $z$-test into the workhorse of applied statistics: the <strong>$t$-test</strong>, used everywhere from clinical trials to A/B tests to comparing two machine-learning models.</p>\n\n<h3>2. The one-sample t-test</h3>\n<p>To test $H_0:\\mu=\\mu_0$ when $\\sigma$ is unknown, use the sample standard deviation $s$ and form the <strong>t-statistic</strong>\n$$t = \\frac{\\bar{X}-\\mu_0}{s/\\sqrt{n}},$$\nidentical in shape to the $z$-statistic but with $s$ in place of $\\sigma$. Under $H_0$ it follows a <strong>Student's $t$-distribution with $n-1$ degrees of freedom</strong>, and you compare it to $t$-critical values (or get its p-value) just as before.</p>\n\n<h3>3. Why $t$ and not $z$</h3>\n<p>Estimating $\\sigma$ with $s$ injects extra uncertainty, because $s$ itself varies from sample to sample. The $t$-distribution accounts for this with <strong>heavier tails</strong> than the normal — so its critical values are larger, producing appropriately more cautious tests and wider intervals (the same reason the $t$ appeared for confidence intervals). The fewer the degrees of freedom (smaller $n$), the heavier the tails; as $n\\to\\infty$, $s\\to\\sigma$ and $t$ converges to the standard normal, so for large samples the distinction vanishes.</p>\n\n<h3>4. The two-sample t-test</h3>\n<p>More often you compare <em>two</em> groups — treatment vs. control, model A vs. model B — testing $H_0:\\mu_1=\\mu_2$. The two-sample $t$-statistic measures the difference in sample means relative to its standard error:\n$$t = \\frac{\\bar{X}_1-\\bar{X}_2}{\\operatorname{SE}(\\bar{X}_1-\\bar{X}_2)}, \\qquad \\operatorname{SE} = \\sqrt{\\frac{s_1^2}{n_1}+\\frac{s_2^2}{n_2}}.$$\nThe standard error of a difference combines the two groups' variances (variances add for independent samples). A common variant is the <strong>paired</strong> $t$-test, for naturally matched observations (before/after on the same subjects), which tests whether the mean <em>difference</em> is zero and is far more powerful when pairing removes between-subject noise.</p>\n\n<h3>5. Assumptions</h3>\n<p>The $t$-test assumes the data (or the group means) are approximately normal and the observations independent. Thanks to the CLT it is <strong>robust</strong>: for moderate-to-large $n$ the sampling distribution of the mean is near-normal even if the raw data are not, so the test works well. Watch out for strong skew with tiny samples, heavy outliers, and dependence between observations — those genuinely break it.</p>\n\n<h3>6. Tests and confidence intervals are two views</h3>\n<p>The duality from the CI lesson holds here: a two-sided $t$-test of $H_0:\\mu=\\mu_0$ at level $\\alpha$ rejects exactly when $\\mu_0$ falls <em>outside</em> the $(1-\\alpha)$ confidence interval $\\bar X\\pm t^{*}_{n-1}\\,s/\\sqrt{n}$. Likewise, a two-sample test for \"no difference\" rejects iff the CI for $\\mu_1-\\mu_2$ excludes $0$. Reporting the interval is often more informative than the test alone, because it shows the plausible <em>size</em> of the effect, not just whether it is nonzero.</p>\n\n<h3>7. Worked example</h3>\n<p>A sample of $n=16$ has $\\bar X=52$ and $s=8$; test $H_0:\\mu=50$ vs $H_1:\\mu\\ne 50$ at $\\alpha=0.05$. The standard error is $s/\\sqrt n=8/4=2$, so $t=\\frac{52-50}{2}=1.0$ with $n-1=15$ degrees of freedom. The two-sided critical value is $t^{*}_{15}\\approx 2.131$. Since $|1.0|<2.131$, we fail to reject $H_0$ — the 2-point difference is well within sampling noise for this small sample. (Equivalently, the 95% CI $52\\pm 2.131\\cdot 2=[47.7,56.3]$ contains $50$.)</p>\n\n<h3>8. Why this matters for machine learning</h3>\n<p>When you compare two models' cross-validation scores, a paired $t$-test (paired across folds) is a principled way to ask whether the difference is real or just fold-to-fold noise — far better than eyeballing two averages. The same machinery powers A/B-test readouts and any experiment comparing group means. And the recurring lesson — estimate the uncertainty, then judge the difference against it — is the heart of trustworthy empirical comparison.</p>",
+          "mcq": [],
+          "flashcards": [
+            {
+              "front": "Give the one-sample t-statistic and its null distribution.",
+              "back": "$t=\\dfrac{\\bar X-\\mu_0}{s/\\sqrt n}$ (sample SD $s$ in place of $\\sigma$). Under $H_0$ it follows Student's $t$ with $n-1$ degrees of freedom."
+            },
+            {
+              "front": "Why use the $t$-distribution instead of the normal?",
+              "back": "Estimating $\\sigma$ by $s$ adds uncertainty ($s$ varies sample to sample), so $t$ has heavier tails → larger critical values, more cautious tests/wider intervals. As $n\\to\\infty$, $s\\to\\sigma$ and $t\\to$ normal."
+            },
+            {
+              "front": "Give the two-sample t-statistic and the standard error of the difference.",
+              "back": "$t=\\dfrac{\\bar X_1-\\bar X_2}{\\operatorname{SE}}$ with $\\operatorname{SE}=\\sqrt{\\dfrac{s_1^2}{n_1}+\\dfrac{s_2^2}{n_2}}$ — variances add for independent samples. Tests $H_0:\\mu_1=\\mu_2$."
+            },
+            {
+              "front": "What is a paired t-test and when is it more powerful?",
+              "back": "For naturally matched observations (e.g. before/after on the same subjects, or models across the same CV folds); it tests whether the mean <em>difference</em> is 0. More powerful when pairing removes between-subject/between-fold noise."
+            },
+            {
+              "front": "What are the t-test's assumptions, and why is it called robust?",
+              "back": "Approximately normal data (or means) and independent observations. Robust because the CLT makes the sampling distribution of the mean near-normal for moderate $n$ even if raw data aren't. Fragile under strong skew with tiny $n$, heavy outliers, or dependence."
+            },
+            {
+              "front": "How do a two-sided t-test and a confidence interval relate?",
+              "back": "A level-$\\alpha$ two-sided test rejects $H_0:\\mu=\\mu_0$ iff $\\mu_0$ lies outside the $(1-\\alpha)$ CI $\\bar X\\pm t^{*}_{n-1}s/\\sqrt n$. For two samples, reject \"no difference\" iff the CI for $\\mu_1-\\mu_2$ excludes 0."
+            }
+          ],
+          "homework": [
+            {
+              "prompt": "A sample of $n=25$ has $\\bar X=104$ and $s=10$. Test $H_0:\\mu=100$ vs $H_1:\\mu\\ne100$ at $\\alpha=0.05$ (use $t^{*}_{24}\\approx 2.064$). Compute the t-statistic and state the decision.",
+              "hint": "$t=(\\bar X-\\mu_0)/(s/\\sqrt n)$ with $n-1=24$ d.f.",
+              "solution": "$\\operatorname{SE}=s/\\sqrt n=10/\\sqrt{25}=10/5=2$. $t=\\frac{104-100}{2}=2.0$. With $24$ d.f., $|t|=2.0<2.064=t^{*}_{24}$, so we <strong>fail to reject</strong> $H_0$ at the 5% level — just barely (it would reject at a slightly looser threshold). The 95% CI $104\\pm 2.064\\cdot 2=[99.87,108.13]$ contains 100, consistent with failing to reject."
+            },
+            {
+              "prompt": "Two independent groups: group 1 has $\\bar X_1=20$, $s_1=4$, $n_1=50$; group 2 has $\\bar X_2=18$, $s_2=3$, $n_2=50$. Compute the two-sample t-statistic for $H_0:\\mu_1=\\mu_2$.",
+              "hint": "$\\operatorname{SE}=\\sqrt{s_1^2/n_1+s_2^2/n_2}$, then $t=(\\bar X_1-\\bar X_2)/\\operatorname{SE}$.",
+              "solution": "$\\operatorname{SE}=\\sqrt{\\frac{4^2}{50}+\\frac{3^2}{50}}=\\sqrt{\\frac{16}{50}+\\frac{9}{50}}=\\sqrt{\\frac{25}{50}}=\\sqrt{0.5}\\approx 0.707$. $t=\\frac{20-18}{0.707}=\\frac{2}{0.707}\\approx 2.83$. With large samples this exceeds the ~1.98 two-sided cutoff, so we would reject $H_0$ — the groups differ significantly."
+            },
+            {
+              "prompt": "You compare two models across the same 10 cross-validation folds. Why is a paired t-test on the per-fold score differences more appropriate (and usually more powerful) than a two-sample t-test treating the 10 scores of each model as independent groups?",
+              "hint": "The two models see the same folds; what source of variation does pairing remove?",
+              "solution": "The two models are evaluated on the <em>same</em> folds, so their scores are not independent — an \"easy\" fold inflates both models' scores together. A paired test looks at the per-fold difference $d_i=\\text{score}_A^{(i)}-\\text{score}_B^{(i)}$, which cancels the shared fold-difficulty variation, leaving only the model-vs-model signal. This removes a large nuisance source of variance, shrinking the standard error and raising power. Treating the scores as two independent groups ignores the pairing, wastes that structure, and can badly understate the evidence."
+            }
+          ],
+          "examples": [
+            {
+              "title": "A complete one-sample t-test",
+              "body": "A coffee shop claims its lattes contain $\\mu_0=240$ mL. A skeptical customer measures $n=9$ lattes and finds $\\bar X=232$ mL with sample SD $s=12$ mL. Test $H_0:\\mu=240$ vs $H_1:\\mu\\ne 240$ at $\\alpha=0.05$ (use $t^{*}_{8}\\approx 2.306$). Conclude, and give the 95% CI.",
+              "solution": "Standard error: $\\operatorname{SE}=s/\\sqrt n=12/\\sqrt 9=12/3=4$.\n\nt-statistic: $t=\\dfrac{232-240}{4}=\\dfrac{-8}{4}=-2.0$, with $n-1=8$ degrees of freedom.\n\nDecision: $|{-2.0}|=2.0<2.306=t^{*}_8$, so we <strong>fail to reject</strong> $H_0$ at the 5% level — the 8 mL shortfall is not statistically significant with only 9 measurements.\n\n95% CI: $232\\pm 2.306\\cdot 4 = 232\\pm 9.22=[222.8,\\ 241.2]$ mL. The interval contains the claimed 240 mL, consistent with failing to reject. (With a larger sample the same 8 mL gap could well become significant — a power issue.)"
+            },
+            {
+              "title": "Two-sample test for an A/B experiment",
+              "body": "An A/B test of average session length (minutes): control has $\\bar X_1=8.0$, $s_1=3.0$, $n_1=200$; variant has $\\bar X_2=8.6$, $s_2=3.2$, $n_2=200$. Test $H_0:\\mu_1=\\mu_2$ vs $H_1:\\mu_1\\ne\\mu_2$ (large-sample, so compare to $\\approx 1.96$). Is the variant significantly better?",
+              "solution": "Standard error of the difference: $\\operatorname{SE}=\\sqrt{\\dfrac{3.0^2}{200}+\\dfrac{3.2^2}{200}}=\\sqrt{\\dfrac{9}{200}+\\dfrac{10.24}{200}}=\\sqrt{\\dfrac{19.24}{200}}=\\sqrt{0.0962}\\approx 0.310$.\n\nt-statistic: $t=\\dfrac{8.6-8.0}{0.310}=\\dfrac{0.6}{0.310}\\approx 1.94$.\n\nDecision: $|t|\\approx 1.94<1.96$, so we <strong>fail to reject</strong> $H_0$ at the 5% level — just short of significance (two-sided $p\\approx 0.053$). The variant looks promising but the evidence is borderline; the principled move is to collect more data (raising power) rather than to declare victory or defeat. The corresponding 95% CI for the difference, $0.6\\pm 1.96\\cdot 0.310=[-0.01,\\ 1.21]$, barely includes 0 — the same borderline conclusion."
+            }
+          ]
+        }
+      ]
     }
   ]
 }
