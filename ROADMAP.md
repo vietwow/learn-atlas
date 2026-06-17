@@ -177,6 +177,11 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 218: **New viz `algo-hashing`** (visualizations — owner-loved; 3 iters since last viz). The 47th widget, in
+   `a-hash-tables` (no viz). Insert keys → chained buckets colored by collision severity; +1/+8/Find/Reset + table-size
+   slider; live load factor α=n/m, longest chain, expected lookup ≈1+α/2. Teaches "why O(1) needs low α." Verified: gate
+   GREEN (47); seed+insert+find shows n=25/m=11/α=2.27/found-in-1-comp err=0; smoke errs=0/kErr=0 (10 routes); mobile 390px
+   scales. SW →v161.
    ✅ iter 217: **Deeper dives for RL (1→4)** (understandability — owner's depth love; diversifies from recent viz/new-func).
    why-VI-converges (Bellman γ-contraction + Banach, in rl-value-iteration), bootstrapping & TD-vs-MC bias/variance
    (rl-td-learning), on-policy-vs-off-policy + cliff-walking (rl-sarsa-qlearning). Byte-stable inject. Verified: gate GREEN

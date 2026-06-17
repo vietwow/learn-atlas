@@ -2,6 +2,21 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 218 — Hash-table visualizer: collisions & load factor (visualizations)
+New widget **`algo-hashing`** (the **47th**), embedded in `a-hash-tables` after the "Load Factor, Resizing, and
+Amortized Cost" section — a core data structure that had no viz, where the "why O(1) on average" story is genuinely
+visual and surprising.
+- m bucket rows; inserted keys land by **h(k)=k mod m** and **chain** within their bucket, each cell colored by chain
+  length (sage 1 / gold 2 / rust 3+) so collisions are obvious at a glance.
+- **+1 / +8 keys**, **Find a key** (highlights the hit + reports comparison count), **Reset**, and a **table-size m**
+  slider. The note shows live **load factor α=n/m**, longest chain, and **expected lookup ≈ 1+α/2**.
+- The teaching beat: pile on keys (or shrink m) and watch α climb past 1, chains grow, and the expected-lookup cost
+  rise — the visceral case for keeping α low and resizing (O(1+α)).
+Verified: `gate.js` ALL GREEN (**47 widgets**, embed resolves); Lab-route run (seed 9 keys, +16, Find) shows
+**n=25, m=11, α=2.27, longest chain 6, expected lookup 2.14, "Found key 26 in bucket 4 after 1 comparison"** — err=0;
+all-routes smoke (10 routes incl. `#/lab/algo-hashing` + the embedded lesson) **errs=0/kErr=0**; mobile 390px the bucket
+rows scale and stay legible. SW cache `atlas-v160` → `atlas-v161`.
+
 ## iter 217 — Deeper dives for the Reinforcement-Learning track (understandability — owner's "depth" love)
 RL holds the most abstract "but *why*?" ideas in the curriculum yet had only **1** "Deeper dive" (in the
 policy-gradient lesson). Added **3** (1 → 4), each a `<details class="deep-dive">` on a concept learners routinely

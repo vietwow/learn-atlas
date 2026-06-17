@@ -2769,4 +2769,65 @@
     draw();                                                    // synchronous first paint
   });
 
+  /* ========================================================
+     47. Hash tables: buckets, collisions & load factor (Algorithms)
+     ===================================================== */
+  register({ id: 'algo-hashing', topic: 'algorithms', title: 'Hash Tables: Collisions & Load Factor', blurb: 'Insert keys and watch them scatter into buckets by h(k)=k mod m. As the load factor α=n/m climbs, collisions pile up and chains grow — see why a good hash plus a low α keeps lookups O(1) on average, and why real tables resize.' },
+  function (root) {
+    const W = 560, H = 420, MONO = "JetBrains Mono, monospace";
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    let m = 11, buckets = [], n = 0, last = null, found = null;
+    function reset() { buckets = []; for (let i = 0; i < m; i++) buckets.push([]); n = 0; last = null; found = null; }
+    function insert(key) { const h = ((key % m) + m) % m; buckets[h].push(key); n++; last = { h: h, i: buckets[h].length - 1 }; found = null; }
+    function insertRandom(k) { for (let j = 0; j < (k || 1); j++) insert(1 + Math.floor(Math.random() * 98)); }
+    function findRandom() {
+      if (!n) return;
+      const all = []; buckets.forEach((b, h) => b.forEach((k, i) => all.push({ k: k, h: h, i: i })));
+      const pick = all[Math.floor(Math.random() * all.length)];
+      found = { h: pick.h, i: pick.i, key: pick.k, comps: pick.i + 1 }; last = null;
+    }
+    const padL = 46, padT = 24, padB = 14, cellW = 30, cellH = 20, gap = 5;
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const rowH = (H - padT - padB) / m;
+      ctx.font = '600 11px ' + MONO; ctx.textAlign = 'left';
+      ctx.fillStyle = p.mute; ctx.fillText('bucket  h(k)=k mod ' + m + '   →   chain of keys', padL - 38, padT - 9);
+      for (let i = 0; i < m; i++) {
+        const y = padT + i * rowH + rowH / 2;
+        // index label + slot box
+        ctx.fillStyle = p.soft; ctx.font = '600 11px ' + MONO; ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+        ctx.fillText('[' + i + ']', padL - 8, y);
+        ctx.strokeStyle = p.line; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(W - 12, y); ctx.globalAlpha = 0.35; ctx.stroke(); ctx.globalAlpha = 1;
+        const chain = buckets[i], len = chain.length;
+        const sev = len >= 3 ? p.rust : len === 2 ? p.gold : p.sage;
+        const maxCells = Math.floor((W - padL - 14) / (cellW + gap));
+        for (let j = 0; j < len && j < maxCells; j++) {
+          const x = padL + 4 + j * (cellW + gap);
+          const isLast = last && last.h === i && last.i === j, isFound = found && found.h === i && found.i === j;
+          ctx.fillStyle = sev; ctx.globalAlpha = 0.85; ctx.beginPath(); ctx.rect(x, y - cellH / 2, cellW, cellH); ctx.fill(); ctx.globalAlpha = 1;
+          if (isLast || isFound) { ctx.strokeStyle = isFound ? p.violet : p.ink; ctx.lineWidth = 2.4; ctx.strokeRect(x - 1, y - cellH / 2 - 1, cellW + 2, cellH + 2); }
+          ctx.fillStyle = '#1a1a1a'; ctx.font = '600 11px ' + MONO; ctx.textAlign = 'center';
+          ctx.fillText(chain[j], x + cellW / 2, y + 1);
+        }
+        if (len > maxCells) { ctx.fillStyle = p.mute; ctx.textAlign = 'left'; ctx.fillText('+' + (len - maxCells), padL + 4 + maxCells * (cellW + gap), y); }
+      }
+      ctx.textBaseline = 'alphabetic';
+      const alpha = n / m, maxChain = buckets.reduce((a, b) => Math.max(a, b.length), 0), expComp = 1 + alpha / 2;
+      let msg = `<b>n=${n}</b> keys in <b>m=${m}</b> buckets · <b>load factor α = n/m = ${alpha.toFixed(2)}</b>. Average chain length is α; the longest chain here is <b>${maxChain}</b>. Expected comparisons for a successful lookup ≈ 1 + α/2 = <b>${expComp.toFixed(2)}</b>. With a good hash and α kept low (real tables resize when α exceeds ~0.75), lookups stay <b>O(1)</b> on average; let α grow and the chains — and lookup time — grow with it (O(1+α)).`;
+      if (found) msg += ` <span style="color:${P().violet}">Found key ${found.key} in bucket ${found.h} after ${found.comps} comparison${found.comps === 1 ? "" : "s"}.</span>`;
+      info.innerHTML = msg;
+    }
+    button(ctl, '+1 key', function () { insertRandom(1); draw(); });
+    button(ctl, '+8 keys', function () { insertRandom(8); draw(); });
+    button(ctl, 'Find a key', function () { findRandom(); draw(); });
+    button(ctl, 'Reset', function () { reset(); draw(); });
+    slider(ctl, { label: 'table size m', min: 5, max: 15, step: 2, value: m, fmt: v => 'm=' + v, onInput: v => { m = v; reset(); draw(); } });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Hash table visualizer: m buckets shown as rows; inserted keys are placed by h(k) = k mod m and chained within their bucket, colored by chain length. Buttons insert keys and run a lookup; a slider sets the table size. The note reports the load factor and expected lookup cost.');
+    reset(); insertRandom(9);                                  // seed a few keys so the first paint is populated
+    draw();                                                    // synchronous first paint
+  });
+
 })();
