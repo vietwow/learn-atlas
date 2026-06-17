@@ -177,6 +177,11 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 191: **"Keep it fresh" fading-mastery surface** (new functionality / retention — non-content rebalance).
+   `Store.fadingConcepts()` surfaces concepts once learned well (stored `s≥0.7`) now decayed into [0.55,0.8) — the
+   spacing-effect "refresh before you forget" gap that `weakSpots()` (eff<0.55, reactive) missed. Sage dashboard card,
+   no new state (reads `state.mastery`). Verified: shows fading (62/70/71%), excludes mastered(95%)+weak-spot(49%);
+   empty for new users; all-routes errs=0; 390px legible; SW →v134.
    ✅ iter 190: MCQ arc → **LLM·Transformer 12→16** (all 4 lessons — self-attention, multihead+masking, the block,
    positional-encoding; +16, bank →2,240). The heart of the course. Adversarial ALL 16 PASS; positions balanced
    0/1/2/3 (distinct per-lesson patterns); byte-stable inject; self-attn + pos-enc quizzes render "of 16" rawDollars=0

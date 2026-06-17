@@ -2,6 +2,29 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 191 — "Keep it fresh": surface fading-mastery concepts on the dashboard (new functionality — retention)
+Rebalanced off three content-heavy iterations to a non-content move. The lesson **mastery-decay model**
+(`effectiveMastery`, 45-day halflife) was *computed but never surfaced proactively*: `weakSpots()` is reactive
+(eff < 0.55 = struggling, "⚠ concepts need review" + Drill weak spots), but nothing tells a returning learner
+*"you mastered this well and it's now slipping — refresh it before you forget."* That gap is exactly the **spacing
+effect**, the core lever for *remembering longer* and a genuine reason to *come back*.
+- **`Store.fadingConcepts()`** (`js/store.js`): returns concepts that reached real strength (stored `s ≥ 0.7`) but
+  whose effective mastery has decayed into the **[0.55, 0.8) "slipping" band** — cleanly disjoint from `weakSpots()`
+  (eff < 0.55). Sorted most-faded first. Reads existing `state.mastery` only — **no new state field**, so prior
+  saves load unchanged.
+- **Dashboard widget** (`js/app.js` `viewDashboard`): a sage-tinted "♻️ Keep it fresh — N concepts fading" card
+  (positive nudge, distinct from the rust weak-spots and gold achievement nudges) listing up to 6 fading concepts as
+  chips — mastery-colored dot · title · current mastery % — each linking to its lesson for a quick revisit. Shown only
+  when non-empty.
+- **CSS** (`css/styles.css`): `.fade-strip`/`.fade-chip` etc., sage palette, flex-wrap chips, 480px media query.
+
+Verified: `fadingConcepts` band logic — seeded a save with decayed mastery and confirmed the widget shows exactly the
+two/three fading concepts (62% / 70% / 71%, sorted most-faded first) while **excluding** a still-mastered concept (95%,
+eff ≥ 0.8) and a weak-spot (49%, eff < 0.55 → caught by the existing weak-spots surface, not here); fresh-user case
+shows **no** strip, errs=0. All-routes smoke (13 routes, seeded mastery) errs=0; dashboard screenshot reads clean
+(sage card below the action buttons); **390px** the card is legible — chips wrap, long titles ellipsize, % visible.
+`gate.js` ALL GREEN (data untouched). SW cache `atlas-v133` → `atlas-v134`.
+
 ## iter 190 — MCQ arc → LLM Transformer module 12→16 (content — owner's #1 ask)
 Continued the 12→16 MCQ-growth arc into the **heart of the LLM course**: the **Transformer** module, all 4 lessons
 **12 → 16 MCQs** (+16; bank **2,224 → 2,240**). The `<`-in-math fix from iter 189 means these can use the dense

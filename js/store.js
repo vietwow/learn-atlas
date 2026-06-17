@@ -373,6 +373,19 @@
     })));
     return out.sort((a, b) => a.eff - b.eff);
   }
+  // Concepts you once knew well that are now decaying — the spacing-effect "refresh before
+  // you forget" surface. DISTINCT from weakSpots() (eff < 0.55 = struggling/reactive):
+  // fading = reached real strength (stored s >= 0.7) but effective mastery has slipped into
+  // the [0.55, 0.8) band as time passed. A quick revisit re-locks it. Most-faded first.
+  function fadingConcepts() {
+    const out = [];
+    if (window.COURSES) window.COURSES.forEach(c => c.modules.forEach(mm => mm.lessons.forEach(l => {
+      const m = state.mastery[l.id]; if (!m || num(m.s) < 0.7) return;   // must have reached real strength
+      const eff = effectiveMastery(l.id);
+      if (eff >= 0.55 && eff < 0.8) out.push({ lessonId: l.id, courseId: c.id, title: l.title, eff, peak: num(m.s) });
+    })));
+    return out.sort((a, b) => a.eff - b.eff);
+  }
   function topicMastery(courseId) {
     const c = window.COURSES && window.COURSES.find(x => x.id === courseId); if (!c) return 0;
     let sum = 0, n = 0;
@@ -482,7 +495,7 @@
     save, addXP, levelInfo,
     completeLesson, isLessonDone, recordQuiz, recordTest, revealHomework,
     gradeCard, cardDue, cardState, projectInterval,
-    bumpMastery, effectiveMastery, masteryLevel, weakSpots, topicMastery, markKnown,
+    bumpMastery, effectiveMastery, masteryLevel, weakSpots, fadingConcepts, topicMastery, markKnown,
     getNote, setNote, setGoal, todayXP, exportData, importData, freezeJustUsed, setLastLesson,
     toggleBookmark, isBookmarked, bookmarkIds,
     recordMiss, clearMiss, missedKeys, missedCount,

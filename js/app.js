@@ -457,6 +457,22 @@
         ${bm.map(n => `<a class="conn-chip" href="#/lesson/${n.course.id}/${n.lesson.id}" data-route style="--c:${n.course.color}"><span class="cc-dot" style="background:${n.course.color}"></span>${esc(n.lesson.title)}</a>`).join("")}
       </div>` : "";
     // "closest achievement" nudge — gentle motivation toward the next unlock
+    // "Keep it fresh" — concepts once learned well that are now decaying (spacing-effect nudge).
+    const fading = Store.fadingConcepts();
+    const fadeHtml = fading.length ? `
+      <div class="fade-strip reveal">
+        <div class="fade-head">
+          <span class="fade-ico">♻️</span>
+          <div class="fade-headtext">
+            <b>Keep it fresh — ${fading.length} concept${fading.length === 1 ? "" : "s"} fading</b>
+            <span class="fade-sub">You learned ${fading.length === 1 ? "this" : "these"} well; memory decays with time. A quick revisit re-locks it — that's the spacing effect.</span>
+          </div>
+        </div>
+        <div class="fade-chips">
+          ${fading.slice(0, 6).map(f => `<a class="fade-chip" href="#/lesson/${f.courseId}/${f.lessonId}" data-route><span class="fade-dot" style="background:${Store.masteryLevel(f.eff).color}"></span><span class="fade-title">${esc(f.title)}</span><span class="fade-pct">${Math.round(f.eff * 100)}%</span></a>`).join("")}
+        </div>
+      </div>` : "";
+
     const near = nearestAchievement();
     const nearHtml = near ? `
       <a class="ach-nudge reveal" href="#/achievements" data-route>
@@ -507,6 +523,7 @@
         <a class="btn ghost" href="#/library" data-route>📚 References</a>
       </div>
 
+      ${fadeHtml}
       ${nearHtml}
       ${bmHtml}
       <div class="page-head reveal" style="margin-bottom:18px"><h2 style="font-size:26px">Topics</h2></div>
