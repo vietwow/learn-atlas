@@ -177,6 +177,11 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 217: **Deeper dives for RL (1→4)** (understandability — owner's depth love; diversifies from recent viz/new-func).
+   why-VI-converges (Bellman γ-contraction + Banach, in rl-value-iteration), bootstrapping & TD-vs-MC bias/variance
+   (rl-td-learning), on-policy-vs-off-policy + cliff-walking (rl-sarsa-qlearning). Byte-stable inject. Verified: gate GREEN
+   (lints), VI dive katex=25/kErr=0 + fires deep-thinker, smoke errs=0/kErr=0 (10 routes). SW →v160. (Deep-dive coverage
+   now: Algo 3, DL 4, LLM 4, RL 4, PS 2, LA 1, Calc 1 — LA & Calc are the thin ones left.)
    ✅ iter 216: **Recent-test performance trend on the Progress page** (new functionality/UI · retention — deliberate non-viz
    diversification per the iter-215 owner note). The `tests` array stored scores but only the count was shown; added a
    "Recent tests" section (avg + best + last 10 as color-coded score bars). Pure additive (existing data + `.mastery-bar`

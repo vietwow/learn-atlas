@@ -2,6 +2,26 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 217 — Deeper dives for the Reinforcement-Learning track (understandability — owner's "depth" love)
+RL holds the most abstract "but *why*?" ideas in the curriculum yet had only **1** "Deeper dive" (in the
+policy-gradient lesson). Added **3** (1 → 4), each a `<details class="deep-dive">` on a concept learners routinely
+struggle with — diversifying away from the recent viz/new-functionality stretch (understandability wasn't the last two
+iters):
+- **`rl-value-iteration`** — *why value iteration always converges*: the Bellman optimality operator $T$ is a
+  $\gamma$-contraction in max-norm ($\lVert TU-TV\rVert_\infty \le \gamma\lVert U-V\rVert_\infty$), so by Banach's
+  fixed-point theorem iterating it from anywhere lands on the unique $V^\star$ with error $\le \gamma^k$. Explains why
+  large $\gamma$ converges slowly, and why policy evaluation ($T^\pi$) works for the same reason.
+- **`rl-td-learning`** — *bootstrapping*: MC's return $G_t$ is unbiased but high-variance; TD's target
+  $r+\gamma V(s')$ is biased (leans on its own estimate) but low-variance and learnable online (essential for continuing
+  tasks) — the bias-variance trade, and the seed of the deadly triad.
+- **`rl-sarsa-qlearning`** — *on-policy vs off-policy*: SARSA uses the action actually taken (evaluates the policy it
+  follows, exploration included); Q-learning uses $\max_{a'}Q$ (learns the greedy policy while exploring) — the
+  cliff-walking split, and why off-policy is what lets DQN learn from a replay buffer.
+Injected byte-stably (no-op guard; `String.raw` LaTeX; even-`$` + no-markdown pre-checks). Verified: `gate.js` ALL GREEN
+incl. render-hazard lints (2,368 MCQs · 46 widgets); the value-iteration dive (densest, 52 `$`) renders **katex=25,
+kErr=0, errs=0** and fires the **deep-thinker** achievement; all-routes smoke (10 routes incl. all 3 lessons)
+**errs=0/kErr=0**. (No money/`<`-in-math, so neither render landmine applies.) SW cache `atlas-v159` → `atlas-v160`.
+
 ## iter 216 — Recent-test performance trend on the Progress page (new functionality / UI · retention)
 The app **stored every custom test's score** (last 25) but only ever showed the *count* ("Tests taken: N") — the
 learner could never see their exam **performance or trajectory**, one of the strongest "see your progress → come back"
