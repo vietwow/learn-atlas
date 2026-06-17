@@ -451,6 +451,10 @@ body::after {
 .ach-progress { height: 10px; border-radius: 20px; background: var(--panel-2); border: 1px solid var(--line); overflow: hidden; max-width: 520px; margin: 0 0 22px; }
 .ach-progress-fill { height: 100%; border-radius: 20px; background: linear-gradient(90deg, var(--gold-deep), var(--gold)); box-shadow: 0 0 14px -4px var(--gold); transition: width .8s cubic-bezier(.2,.8,.2,1); }
 .ach-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 16px; }
+.ach-cat { margin: 0 0 26px; }
+.ach-cat-head { display: flex; align-items: baseline; gap: 10px; margin: 0 0 12px; border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+.ach-cat-head h3 { font-family: var(--font-disp); font-size: 17px; font-weight: 600; color: var(--gold); margin: 0; }
+.ach-cat-count { font-family: var(--font-mono); font-size: 12px; color: var(--ink-mute); margin-left: auto; }
 .ach {
   border: 1px solid var(--line); border-radius: 13px; padding: 20px; background: var(--panel);
   display: flex; gap: 14px; align-items: center; transition: .2s; opacity: .5; filter: grayscale(.7);

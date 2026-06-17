@@ -2,6 +2,20 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 154 — Hall of Achievements grouped into themed categories (gamification / UI/UX)
+With the roster at **43**, the achievements page was one long flat grid. It now renders in **7 themed categories** —
+Lessons & Courses, Quizzes & Tests, Consistency & Streaks, Flashcards & Recall, Mastery, Levels & XP, and Exploration &
+Practice — each with a gold section header and its own "unlocked / total" count, so a learner can see at a glance which
+*dimensions* of progress exist and where they're furthest along.
+- **app.js**: `viewAchievements` now maps each id to a category (`ACH_CATEGORIES`) and renders a `section()` per group;
+  a safety "More" bucket would catch any future uncategorized achievement (currently empty — all 43 are placed). The
+  per-card markup, progress bars, and "near" highlight are unchanged.
+- **styles.css**: `.ach-cat` / `.ach-cat-head` (gold heading + right-aligned mono count); the existing responsive
+  `.ach-grid` still collapses to one column on mobile.
+- **Verified**: `node gate.js` ALL GREEN; in-browser → `errs=0`, **43 cards across 7 categories**, `hasMore=false`
+  (every achievement categorized), counts `1/7,1/9,1/6,1/5,0/4,1/4,0/8` (sum 43, unlocked total matches the seed);
+  all-routes smoke `errs=0`; desktop + 390px mobile screenshots read. SW cache **v96 → v97**.
+
 ## iter 153 — MCQ arc → Calculus · Integration 12 → 16 · ★ BANK CROSSES 2,000 MCQs (content — owner's #1 ask)
 The Calculus arc's fourth module, *Integration*. **+4 new MCQs each** to all four lessons (**+16, bank 1,992 → 2,008** —
 **past 2,000** for the first time): the antiderivative power rule / what an antiderivative is ($F'=f$) / $\int\cos x\,dx$ /

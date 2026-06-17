@@ -1631,10 +1631,21 @@
     });
     return best;
   }
+  // achievements grouped into themed categories (keeps the 40+ Hall scannable)
+  const ACH_CATEGORIES = [
+    { label: "Lessons & Courses", ids: ["first-step", "ten-lessons", "half-century", "topic-clear", "module-master", "all-topics", "atlas-complete"] },
+    { label: "Quizzes & Tests", ids: ["perfect", "flawless-five", "mcq-100", "mcq-500", "crack-shot", "exam-ace", "test-taker", "test-veteran", "redeemer"] },
+    { label: "Consistency & Streaks", ids: ["streak3", "streak7", "streak30", "streak100", "daily-ritual", "habit"] },
+    { label: "Flashcards & Recall", ids: ["cards25", "century", "cards-500", "recaller", "total-recall"] },
+    { label: "Mastery", ids: ["mastered-one", "deep-diver", "loremaster", "well-rounded"] },
+    { label: "Levels & XP", ids: ["scholar", "polymath", "erudite", "sage"] },
+    { label: "Exploration & Practice", ids: ["curious", "visualizer", "pathfinder", "coder", "curator", "annotator", "deep-thinker", "homework-hero"] }
+  ];
   function viewAchievements() {
     const have = Store.raw.achievements;
     const PROG = achProgressMap();
-    const grid = Store.ACHIEVEMENTS.map(a => {
+    const byId = {}; Store.ACHIEVEMENTS.forEach(a => byId[a.id] = a);
+    function card(a) {
       const unlocked = !!have[a.id], p = unlocked ? null : PROG[a.id];
       let bar = "", near = "";
       if (p && p[1] > 0) {
@@ -1646,7 +1657,17 @@
         <div class="a-ico">${a.icon}</div>
         <div class="a-body"><div class="a-t">${a.name}</div><div class="a-d">${a.desc}</div>${bar}</div>
       </div>`;
-    }).join("");
+    }
+    const placed = new Set();
+    function section(label, items) {
+      if (!items.length) return "";
+      items.forEach(a => placed.add(a.id));
+      const gc = items.filter(a => have[a.id]).length;
+      return `<div class="ach-cat reveal"><div class="ach-cat-head"><h3>${label}</h3><span class="ach-cat-count">${gc} / ${items.length}</span></div><div class="ach-grid">${items.map(card).join("")}</div></div>`;
+    }
+    let sections = ACH_CATEGORIES.map(c => section(c.label, c.ids.map(id => byId[id]).filter(Boolean))).join("");
+    const orphans = Store.ACHIEVEMENTS.filter(a => !placed.has(a.id));   // any uncategorized achievement still shows
+    if (orphans.length) sections += section("More", orphans);
     const total = Store.ACHIEVEMENTS.length;
     const got = Store.ACHIEVEMENTS.filter(a => have[a.id]).length;
     const pct = Math.round(got / total * 100);
@@ -1655,7 +1676,7 @@
       <div class="crumbs"><a href="#/" data-route>Codex</a> &nbsp;›&nbsp; Achievements</div>
       <div class="page-head reveal"><div class="eyebrow">${got} of ${total} unlocked · ${pct}%</div><h2>Hall of <em>Achievements</em></h2></div>
       <div class="ach-progress reveal"><div class="ach-progress-fill" style="width:${pct}%"></div></div>
-      <div class="ach-grid reveal">${grid}</div>
+      ${sections}
     </div>`;
     bindGo();
   }
