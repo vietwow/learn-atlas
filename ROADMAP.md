@@ -179,6 +179,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
    DL REMAINING (MCQ arc): training-mechanics(4), generalization(3), convolutional(3), sequences-attention(3), transformers(3),
    generative(3). Then RL/LLM/PS.
+   ✅ iter 162: Dropout viz (`dl-dropout`, **37th widget**, visualizations — interleaved with the arc). 4-layer MLP drops
+   hidden units with prob p (slider 0–0.8); Resample/Animate sample thinned sub-networks; Test phase keeps all (q-scaling
+   note). Embedded before the BN h3 in `dl-dropout-and-normalization`. gate ALL GREEN · 37 widgets; lab+lesson render
+   errs=0, rawDollars=0; desktop+390px screenshots good; SW cache →v105; README 36→37. NEXT (arc): DL·Training Mechanics 12→16.
    ✅ iter 160 (★160): per-route document titles (a11y/UX) — router sets meaningful document.title (lesson/course/viz names
    resolved; pages labeled). errs=0 across ~20 routes; SW cache →v103. ★160 reflection in CHANGELOG (loop healthy, 3/7 topics
    migrated, compass well-rotated). Still-thin: examples, performance (both never a dedicated iter — candidates).
@@ -260,10 +264,11 @@ shared "topics index" (id/title/blurb/color) loaded first + full lessons on dema
 - ~~"Explain it back" — free-text recall with self-grading (Feynman technique).~~ **DONE iter 53** (Recall tab; self-graded against the lesson's flashcards, feeds mastery + XP). Future: optional AI grading when the tutor lands.
 - Per-concept difficulty rating + adaptive question selection in tests.
 - ~~Interleaved review sessions (mix topics) beyond the SRS queue.~~ **partly DONE iter 68** — Daily Mix (`#/session`) chains due cards + a weak-spot quiz + a next lesson into one guided flow.
-- More viz ideas (29 widgets now; CLT iter 74, normal-explorer iter 76, covariance-scatter iter 79, CI-coverage
+- More viz ideas (37 widgets now; CLT iter 74, normal-explorer iter 76, covariance-scatter iter 79, CI-coverage
   iter 84, diffusion noising iter 89, convex-landscape/GD-trap iter 92, hypothesis-test/p-value iter 98, BPE-merge
-  trainer iter 105, LR-schedule explorer iter 112, Q-learning gridworld iter 117): MDP policy-iteration, a VAE
-  latent-space explorer, a GAN training-dynamics demo, a beam-search/decoding tree.
+  trainer iter 105, LR-schedule explorer iter 112, Q-learning gridworld iter 117, optimizer-race iter 136, Riemann-sum
+  iter 148, Taylor-polynomial iter 152, dropout iter 162): MDP policy-iteration, a VAE
+  latent-space explorer, a GAN training-dynamics demo. (✓ beam-search tree shipped iter ~138.)
   NOTE: viz blurbs AND notes are NOT KaTeX-typeset (the Lab shows them raw) — use plain unicode (xₜ, √, ε, ᾱ), not $...$.
 - Lesson-embedded code exercises (`data-code` with `data-expected`) tied to each algorithm/DL lesson.
 - Reduced-motion + high-contrast accessibility modes.

@@ -2,6 +2,26 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 162 — Dropout visualization (`dl-dropout`, the 37th widget) (visualizations)
+A non-content move interleaved into the MCQ arc. The *Dropout & Normalization* lesson taught implicit ensembling —
+"$n$ droppable units define $2^n$ weight-sharing sub-networks" — but had **no viz**; this makes the idea
+*watchable*. A new `dl-dropout` widget draws a 4-layer MLP (`sizes [3,6,6,2]`); in **Training** mode each forward
+pass independently keeps each hidden unit with prob $q=1-p$ (a **drop-rate slider**, 0–0.8), drawing dropped units
+as crossed-out gray rings with their edges gone and surviving units as filled gold/sage nodes — **🎲 Resample** draws
+a fresh mask, **▶ Animate** resamples ~1.7×/s so you watch a different thinned sub-network each pass. A **phase**
+select flips to **Test** mode (all units kept, edges dimmed, note explains the $q$-scaling / inverted-dropout
+convention). The live note is plain-unicode (uses "2ⁿ", no `$…$` — KaTeX doesn't re-run on dynamic note updates) and
+reports the exact `dropped/total` hidden count. Embedded inline just before the "Batch Normalization" h3 in
+`dl-dropout-and-normalization`. Canvas gets `role="img"` + an aria description; the initial `resample()` paints
+synchronously so first paint isn't blank.
+- **Verified**: `node -e Function(...)` syntax OK on `viz.js` + `deep-learning.js`; byte-stable JSON round-trip guard
+  passed before the embed (+37 bytes, the one escaped `<div>`); `node gate.js` **ALL GREEN · 37 widgets** (the
+  embedded id resolves); lab render-check `#/lab/dl-dropout` → `errs=0 | canvas=1 | ctls=10 | rawDollars=0` with the
+  note reading "dropped 3/12 hidden units"; lesson-embed check → `host=1 | canvasInHost=1 | sliders=1 | errs=0`;
+  all-routes smoke (14 routes) → `errs=0`; desktop + **390px** screenshots read and look crafted/legible. SW cache
+  **v104 → v105**; README 36 → 37 (two counts + appended to the widget list); the home "Learn" card count is
+  computed from the registry and now auto-reads 37.
+
 ## iter 161 — MCQ arc → Deep Learning · Foundations 12 → 16 (content — owner's #1 ask; 4th topic opens)
 The arc opens its **fourth topic, Deep Learning**, with the *Foundations* module. **+4 new MCQs each** to all three
 lessons (**+12, bank 2,044 → 2,056**), stating the bedrock the existing 12 assumed: supervised-vs-unsupervised /

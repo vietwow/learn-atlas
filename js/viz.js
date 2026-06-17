@@ -2011,4 +2011,65 @@
     draw();
   });
 
+  /* ========================================================
+     37. Dropout: each forward pass trains a different thinned sub-network
+     ======================================================== */
+  register({ id: 'dl-dropout', topic: 'deep-learning', title: 'Dropout: Training a Thinned Ensemble', blurb: 'Watch dropout zero out a random fraction of hidden units on every forward pass — each pass trains a different thinned sub-network that all share one set of weights. At test time every unit is kept (and scaled), averaging the ensemble.' },
+  function (root) {
+    const W = 560, H = 380, padX = 70, padY = 44, MONO = "JetBrains Mono, monospace";
+    const sizes = [3, 6, 6, 2], isHidden = [false, true, true, false], LABELS = ['input', 'hidden', 'hidden', 'output'];
+    const { c, ctx } = canvas(root, W, H);
+    let p = 0.4, mode = 'train', kept = [], runH = null;
+    function resample() {
+      kept = sizes.map((n, li) => { const a = []; for (let j = 0; j < n; j++) a.push(mode === 'test' || !isHidden[li] ? true : (Math.random() >= p)); return a; });
+      draw();
+    }
+    function pos(li, j) {
+      const n = sizes[li], x = padX + li * (W - 2 * padX) / (sizes.length - 1);
+      const gap = Math.min(44, (H - 2 * padY) / (Math.max.apply(null, sizes) - 1));
+      return { x, y: H / 2 + (j - (n - 1) / 2) * gap };
+    }
+    function draw() {
+      const pl = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = pl.bg; ctx.fillRect(0, 0, W, H);
+      // edges (drawn only when both endpoints survive)
+      for (let li = 0; li < sizes.length - 1; li++) for (let a = 0; a < sizes[li]; a++) for (let b = 0; b < sizes[li + 1]; b++) {
+        const on = kept[li][a] && kept[li + 1][b], A = pos(li, a), B = pos(li + 1, b);
+        ctx.strokeStyle = pl.gold; ctx.globalAlpha = on ? (mode === 'test' ? 0.10 : 0.16) : 0.025; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.lineTo(B.x, B.y); ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+      // nodes
+      let dropped = 0, hid = 0;
+      for (let li = 0; li < sizes.length; li++) for (let j = 0; j < sizes[li]; j++) {
+        const q = pos(li, j), k = kept[li][j];
+        if (isHidden[li]) { hid++; if (!k) dropped++; }
+        if (k) { ctx.fillStyle = isHidden[li] ? pl.gold : pl.sage; ctx.beginPath(); ctx.arc(q.x, q.y, 9, 0, 7); ctx.fill(); }
+        else {
+          ctx.fillStyle = pl.panel; ctx.strokeStyle = pl.line; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(q.x, q.y, 9, 0, 7); ctx.fill(); ctx.stroke();
+          ctx.strokeStyle = pl.mute; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(q.x - 4, q.y - 4); ctx.lineTo(q.x + 4, q.y + 4); ctx.moveTo(q.x + 4, q.y - 4); ctx.lineTo(q.x - 4, q.y + 4); ctx.stroke();
+        }
+      }
+      ctx.fillStyle = pl.mute; ctx.font = '10px ' + MONO; ctx.textAlign = 'center';
+      LABELS.forEach((lab, li) => ctx.fillText(lab, pos(li, 0).x, padY - 16));
+      const qv = (1 - p).toFixed(2);
+      info.innerHTML = mode === 'test'
+        ? `<b>Test time</b> · drop rate p=${p.toFixed(2)} — <b>all units kept</b>, with outputs scaled by q=${qv} (frameworks fold this scaling into training instead, via 'inverted dropout'). One deterministic network that approximates averaging the whole ensemble of training-time sub-networks.`
+        : `<b>Training</b> · drop rate p=${p.toFixed(2)} — this pass dropped <b>${dropped}/${hid}</b> hidden units (crossed out, their edges gone). Each forward pass samples a different thinned sub-network; with n droppable units there are up to 2ⁿ of them, all sharing one set of weights. No unit can lean on a single teammate → robust, distributed features. Press Resample for a new mask.`;
+    }
+    const ctl = controls(root);
+    slider(ctl, { label: 'drop rate p', min: 0, max: 0.8, step: 0.05, value: p, fmt: v => 'p=' + v.toFixed(2), onInput: v => { p = v; resample(); } });
+    select(ctl, { label: 'phase', value: mode, options: [{ value: 'train', label: 'Training (dropout on)' }, { value: 'test', label: 'Test (all units kept)' }], onChange: v => { mode = v; if (runH) { runH.stop(); runH = null; animBtn.innerHTML = '▶ Animate'; } resample(); } });
+    const btns = controls(root);
+    button(btns, '🎲 Resample', () => { if (mode === 'train') resample(); }, 'primary');
+    const animBtn = button(btns, '▶ Animate', () => {
+      if (runH) { runH.stop(); runH = null; animBtn.innerHTML = '▶ Animate'; return; }
+      if (mode !== 'train') return;
+      animBtn.innerHTML = '⏸ Pause'; let fr = 0; runH = loop(() => { if (fr++ % 36 === 0) resample(); });
+    });
+    const info = note(root);
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'A small multilayer network; on each training pass a random fraction of the hidden units (and their connections) are dropped, leaving a different thinned sub-network. At test time all units are kept.');
+    resample();
+  });
+
 })();
