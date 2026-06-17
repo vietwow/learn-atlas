@@ -1906,7 +1906,7 @@
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     const tag = (e.target && e.target.tagName) || "";
     if (/INPUT|TEXTAREA|SELECT/.test(tag)) return;
-    if (document.querySelector(".palette-scrim, .levelup-ov, .intro-ov")) return; // a modal owns the keys
+    if (document.querySelector(".palette-scrim, .levelup-ov, .intro-ov, .sc-ov")) return; // a modal owns the keys
     // flashcards: Space/Enter flips; once flipped, 1-4 grades
     const card = document.getElementById("card3d");
     if (card) {
@@ -1921,6 +1921,30 @@
     if (e.key === "Enter") { const nb = document.getElementById("t-next") || document.querySelector("#md-next .btn, #next-slot .btn"); if (nb) { e.preventDefault(); nb.click(); } }
   }
 
+  // ---------- keyboard-shortcuts help (press ?) ----------
+  let shortcutsEl = null;
+  function closeShortcuts() { if (shortcutsEl) { document.removeEventListener("keydown", shortcutsEl._onKey); shortcutsEl.remove(); shortcutsEl = null; } }
+  function showShortcuts() {
+    if (shortcutsEl) return;
+    const groups = [
+      ["Global", [["⌘K / Ctrl K", "Search anything — concepts, pages, and inside lessons"], ["?", "Show this shortcuts list"], ["Esc", "Close a dialog or overlay"]]],
+      ["Quizzes & tests", [["1–4 / A–D", "Pick an answer"], ["Enter", "Next question · submit · continue"]]],
+      ["Flashcards", [["Space / Enter", "Flip the card"], ["1–4", "Grade: Again · Hard · Good · Easy"]]],
+      ["Knowledge Map", [["Tab", "Enter the constellation"], ["← ↑ → ↓", "Move between concepts"], ["Enter", "Open the focused concept"]]]
+    ];
+    shortcutsEl = document.createElement("div"); shortcutsEl.className = "sc-ov";
+    shortcutsEl.innerHTML = `<div class="sc-card" role="dialog" aria-label="Keyboard shortcuts">
+      <div class="intro-eyebrow">Quick reference</div><h2 class="sc-title">⌨ Keyboard shortcuts</h2>
+      ${groups.map(([t, rows]) => `<div class="sc-group"><h3>${esc(t)}</h3>${rows.map(([k, d]) => `<div class="sc-row"><span class="sc-keys">${k.split(" / ").map(x => `<kbd>${esc(x)}</kbd>`).join(" ")}</span><span class="sc-desc">${esc(d)}</span></div>`).join("")}</div>`).join("")}
+      <button class="btn primary" id="sc-close" style="margin-top:6px">Got it</button></div>`;
+    document.body.appendChild(shortcutsEl);
+    const onKey = (e) => { if (e.key === "Escape") closeShortcuts(); };
+    shortcutsEl._onKey = onKey;
+    document.addEventListener("keydown", onKey);
+    shortcutsEl.addEventListener("click", e => { if (e.target === shortcutsEl) closeShortcuts(); });
+    shortcutsEl.querySelector("#sc-close").addEventListener("click", closeShortcuts);
+  }
+
   function applyTextScale() { try { document.documentElement.style.setProperty("--read-scale", localStorage.getItem("atlas.textScale") || "1"); } catch (e) {} }
 
   // ---------- boot ----------
@@ -1931,8 +1955,15 @@
     initMobile();
     window.addEventListener("hashchange", router);
     window.addEventListener("keydown", e => { if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); openPalette(); } });
+    window.addEventListener("keydown", e => {   // "?" opens the shortcuts help (unless typing or a modal is open)
+      if (e.key !== "?" || e.metaKey || e.ctrlKey || e.altKey) return;
+      const tag = (e.target && e.target.tagName) || ""; if (/INPUT|TEXTAREA|SELECT/.test(tag)) return;
+      if (document.querySelector(".palette-scrim, .levelup-ov, .intro-ov, .sc-ov")) return;
+      e.preventDefault(); showShortcuts();
+    });
     window.addEventListener("keydown", studyKeys);
     const sb = document.getElementById("search-btn"); if (sb) sb.addEventListener("click", openPalette);
+    const scb = document.getElementById("shortcuts-btn"); if (scb) scb.addEventListener("click", showShortcuts);
     const skip = document.getElementById("skip-link"); if (skip) skip.addEventListener("click", () => { app.focus(); app.scrollIntoView(); });
     const guide = document.getElementById("guide-btn"); if (guide) guide.addEventListener("click", () => showIntro(true));
     router();

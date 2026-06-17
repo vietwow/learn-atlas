@@ -110,6 +110,7 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    (all 23 lessons, 7/7 modules) — first topic complete. NEXT TOPICS for the arc (interleave one module per content
    iteration): Linear Algebra, Calculus, Deep Learning, RL, LLMs, Prob & Stats. (Authoring tip that worked: 4 NEW
    foundational MCQs/lesson avoiding existing stems, adversarial-verify agent + key-dump, shuffle positions, gate.)
+   ✅ iter 132: keyboard-shortcuts help overlay (press ? / sidebar ⌨ Shortcuts) — understandability/a11y discoverability.
    ARC PROGRESS: Algorithms modules at 16 = foundations, data-structures. REMAINING in Algorithms: sorting-searching,
    algorithm-design, graphs, advanced-ml-connections, advanced-techniques (5). Then LA/Calc/DL/RL/LLM/PS. Interleave!
    CHECKED & FOUND HEALTHY (113): mobile renders clean across dashboard/map/lab/stats/test at 390px; `index()` is

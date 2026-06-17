@@ -2,6 +2,18 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 132 — Keyboard-shortcuts help overlay (press ?) (understandability / accessibility)
+The app has lots of keyboard shortcuts (1–4 to answer, Space to flip cards, ⌘K to search, arrow keys to roam the map)
+but no in-app reference — so they were undiscoverable. Added a **shortcuts overlay**: press **`?`** anywhere (or click the
+new sidebar **⌨ Shortcuts** button) for a grouped, styled cheat-sheet — Global · Quizzes & Tests · Flashcards · Knowledge
+Map. It's a proper modal: opens once (guarded against duplicates), closes on Esc / backdrop / "Got it", and — applying
+the iter-114 lesson — **removes its Esc `keydown` listener on close** (no leak). The `?` trigger ignores typing in
+inputs and stands down when another modal owns the keys, and `.sc-ov` was added to the study-keys guard so quiz/flashcard
+shortcuts don't fire behind it. SW cache → `atlas-v75`; README keyboard bullet updated. Verified: `node gate.js` ALL
+GREEN; an in-browser run is **errs=0** — `?` opens it (4 groups · 10 rows · 13 `kbd` chips), Esc and the button both
+close it, the sidebar button opens it, and a second `?` doesn't duplicate (one overlay); desktop + 390px screenshots
+confirm the grouped cheat-sheet reads cleanly (chips wrap, card scrolls) with no overflow.
+
 ## iter 131 — MCQ arc phase 7: Algorithms · Advanced Techniques 12 → 16 — ★ ALGORITHMS NOW FULLY AT 16 (content — owner's #1 ask)
 The final Algorithms module. **+4 new MCQs each** to Amortized Analysis, Network Flow, and Union-Find & Range Queries
 (**+12, bank 1,856 → 1,868**) — and with it **every one of the 23 Algorithms lessons is now at 16 MCQs**, the first of the
