@@ -177,6 +177,13 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 232: **Code exercises open in Probability & Statistics** (examples / new functionality — rotating off viz/UI). First 3
+   runnable, self-checking JS exercises in a topic that had ZERO: expectation/variance (E[X]=1.90, Var=0.89, SD=0.9434),
+   Bayes false-alarm trap (P(D|+)=0.1667 for a 99%-accurate test on a 1% disease), and the binomial PMF (sums to 1).
+   Coverage 14→17 lessons. Deterministic (no Math.random) → exact headless check; data-expected captured by replaying the
+   runJS console.log path. Verified: gate GREEN; all 3 return pg-check **ok** (multi-line data-expected round-trips),
+   errs=0; real Playground renders (i<k decoded, unicode superscripts intact); 390px mobile legible + new TOC section;
+   smoke errs=0/kErr=0/rawDollar=0 (13 routes). SW →v175. NEXT: extend code exercises to RL & LLMs (still zero).
    ✅ iter 231: **New viz `llm-causal-mask` — 51st widget** (visualizations — rotating off UI/UX). In l-multihead-and-causal-masking
    (had prose + KV-cache, no picture). 7×7 attention matrix over "The cat sat on the mat ." with a **mask toggle**
    (full bidirectional/BERT ↔ lower-triangular causal with ✕ on future cells) + **step** (reveal query rows L→R for

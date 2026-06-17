@@ -2,6 +2,23 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 232 — Runnable code exercises open in Probability & Statistics (examples / new functionality)
+Active-learning lane (rotating off two viz/UI iters). Code exercises — the most under-covered active surface (14/148
+lessons, and **zero** in Prob & Stats, RL, or LLMs) — got a new home: the **first three runnable, self-checking JS
+exercises in Probability & Statistics**, turning core formulas into code you Run for an instant ✓/✗:
+- **Expectation, Variance & the Shape of a Distribution** → compute E[X], Var[X]=E[X²]−E[X]², and SD for a discrete RV
+  from its PMF (output `E[X]=1.90 / Var[X]=0.89 / SD[X]=0.9434`).
+- **Conditional Probability, Independence & Bayes' Theorem** → the famous false-alarm result in eight lines: a
+  99%-accurate test for a 1%-prevalence disease gives a positive that's right only ~17% of the time
+  (`P(+)=0.0594 / P(D|+)=0.1667`).
+- **Bernoulli & Binomial Distributions** → build the binomial PMF from `C(n,k)·pᵏ·(1−p)ⁿ⁻ᵏ` and confirm it sums to 1.
+Coverage 14 → **17 lessons**. Each is a complete, deterministic program (no `Math.random`) so the headless check is
+exact; the `data-expected` strings were captured by replaying the runJS console.log path, not guessed.
+Verified: gate ALL GREEN; **all three exercises return `pg-check ok`** (multi-line `data-expected` round-trips through
+the HTML attribute) with `errs=0` and exact output; the real Playground component renders (code with `i < k` correctly
+decoded from entities, unicode superscripts pᵏ/ⁿ⁻ᵏ intact); 390px mobile legible with the new "Code it…" TOC section;
+all-routes smoke **errs=0/kErr=0/rawDollar=0 (13 routes)**. SW cache `atlas-v174` → `atlas-v175`.
+
 ## iter 231 — Causal-masking visualizer: the attention triangle (visualizations)
 Visualizations lane (rotating off UI/UX). The single deepest "why decoders work the way they do" idea — **causal
 masking** — had prose + a KV-cache discussion in `l-multihead-and-causal-masking` but no picture. Added the **51st Lab
