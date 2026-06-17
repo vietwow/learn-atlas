@@ -2,6 +2,20 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 228 — Mastery/progress bars sweep up from empty on load (animation/juice)
+Freshest-lane pick (animation was last at iter 212). The course and Progress pages already cascade-count their stats and
+sweep the daily-goal ring, but the **mastery/progress bars snapped to their value statically**. Now they **animate from
+0% to their value** on load — extending the "look how far you've come" flourish to the bars: opening a course shows its
+per-module and per-lesson bars fill in, and the Progress page's recent-test bars do the same.
+Implementation: a tiny `sweepBars(root)` helper resets each `.mastery-fill` to `0%` then restores its inline target on a
+double-rAF, letting the existing `transition: width .5s` do the work — **reduced-motion safe** (early-returns), **no new
+CSS** (the transition already existed). Gave the course module bars the `.mastery-fill` class so they sweep too. Called
+in `viewCourse` and `viewStats`. No render-site rewrites, no new state.
+Verified: `gate.js` ALL GREEN; with seeded completion a module bar reads **0% mid-sweep (~120ms) → its target when
+settled** (err=0) — the animation provably runs from empty; all-routes smoke (10 routes, course/stats changed)
+**errs=0/kErr=0**. Bars are unchanged `.mastery-fill` (already mobile-verified); the change is animation-only.
+SW cache `atlas-v170` → `atlas-v171`.
+
 ## iter 227 — Code exercises across LA / Calculus / Deep Learning (new functionality / active practice)
 Extended hands-on coding from **11 → 14 lessons**, and — unlike the algorithm-heavy earlier batches — spread them across
 the **core ML math** so the playground proves it works everywhere:

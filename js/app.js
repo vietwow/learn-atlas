@@ -193,6 +193,15 @@
     setTimeout(() => f.remove(), 1300);
     ring.classList.remove("xp-pop"); void ring.offsetWidth; ring.classList.add("xp-pop");
   }
+  // animate progress/mastery bars filling from 0 → their value on view load (the "watch your progress fill in" flourish)
+  function sweepBars(root) {
+    if (reducedMotion()) return;
+    (root || app).querySelectorAll(".mastery-fill").forEach(el => {
+      const target = el.style.width; if (!target || target === "0%") return;
+      el.style.width = "0%";
+      requestAnimationFrame(() => requestAnimationFrame(() => { el.style.width = target; }));
+    });
+  }
   function sweepGoalRing(pct) {
     const gr = document.querySelector(".goal-ring"); if (!gr) return;
     const target = Math.max(0, Math.min(100, pct || 0));
@@ -620,7 +629,7 @@
           <h3>${esc(m.title)}</h3>
           <span class="mcount">${mDoneAll ? `<span style="color:var(--sage)">✓ complete</span>` : mDone + "/" + mTot + " done"}</span>
         </div>
-        <div style="height:4px;background:var(--line);border-radius:3px;margin:0 0 10px;overflow:hidden"><div style="height:100%;width:${mPct}%;background:${mDoneAll ? "var(--sage)" : "var(--gold)"};transition:width .4s"></div></div>
+        <div style="height:4px;background:var(--line);border-radius:3px;margin:0 0 10px;overflow:hidden"><div class="mastery-fill" style="width:${mPct}%;background:${mDoneAll ? "var(--sage)" : "var(--gold)"}"></div></div>
         ${rows}
       </div>`;
     }).join("");
@@ -649,6 +658,7 @@
       ${refsBlock(c.id, "References for " + c.title)}
     </div>`;
     bindGo();
+    sweepBars(app);                                            // animate the module + lesson mastery bars filling in
     typeset();
   }
 
@@ -2157,6 +2167,7 @@
     document.getElementById("heatmap").appendChild(buildHeatmap());
     // "look how far I've come" — cascade-count the progress numbers on load (earned moment; no-op under reduced-motion)
     app.querySelectorAll(".stat-strip .v, .act-num, .dist-num").forEach((el, i) => countUp(el, Math.min(i * 32, 430)));
+    sweepBars(app);                                            // animate the recent-test score bars filling in
     document.getElementById("goal-save").addEventListener("click", () => { Store.setGoal(parseInt(document.getElementById("goal-input").value, 10)); toast("🎯", "Goal updated", "Daily target set to " + Store.raw.goalXp + " XP"); });
     document.getElementById("export-btn").addEventListener("click", () => {
       const blob = new Blob([Store.exportData()], { type: "application/json" }); const a = document.createElement("a");
