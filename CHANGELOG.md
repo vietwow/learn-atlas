@@ -2,6 +2,23 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 147 — MCQ arc → Calculus · Foundations 12 → 16 (content — owner's #1 ask; 3rd topic opens)
+The arc opens its **third topic, Calculus**, starting with the *Foundations: Functions, Limits & Continuity* module.
+**+4 new MCQs each** to all four lessons (**+16, bank 1,944 → 1,960**), stating the bedrock facts the existing 12 assumed:
+what makes a relation a function / domain-vs-range / composition order / the $mx+b$ slope-intercept reading; the
+two-sided-limit ⟺ equal one-sided-limits criterion / the base limits $\lim c=c,\ \lim x=a$ / polynomial limits by
+substitution / the sum law; substitute-first strategy / $\lim_{x\to\infty}1/x=0$ / degree comparison for rational limits
+at infinity / a $+\infty$ limit "does not exist" (finitely); the draw-without-lifting intuition / polynomials are
+continuous everywhere / jump vs removable vs infinite discontinuities / continuity ⟹ $\lim_{x\to a}f=f(a)$. Positions
+shuffled ([1,3,0,2]/[2,0,3,1]/[3,1,0,2]/[1,2,3,0]).
+- **Verified**: byte-stable JSON round-trip (diff +176 localized insertions); `node gate.js` ALL GREEN (1,960 MCQs);
+  direct key-dump confirms the shuffled indices; an independent adversarial fact-check agent returned **ALL PASS** — and
+  on its one subtle flag (continuity Q4's "average of one-sided limits" distractor numerically *equals* $f(a)$ when
+  continuous) I **hardened** that distractor to the unambiguously-wrong "the derivative $f'(a)$" and re-gated GREEN;
+  render-check on the Continuity quiz → `errs=0 | "Question 1 of 16" | rawDollars=0 kErr=0`. SW cache **v89 → v90**; README 1,944 → 1,960.
+- **Arc progress**: Algorithms ✓, Linear Algebra ✓; **Calculus now 1/7** (foundations). Remaining Calc: derivatives,
+  applications-of-derivatives, integration, applications-of-integration, multivariable-bridge, convex-optimization. Then DL/RL/LLM/PS.
+
 ## iter 146 — Mobile audit (clean) + 3 new achievements (gamification — owner-loved)
 Two parts. **(1) Mobile audit** (flagged thin area, last done iter 113): screenshotted **7 high-risk views at true 390px**
 — Progress/stats, Knowledge Map, Test, Lab, Achievements, Glossary, and a lesson (with the new TOC) — and read each.

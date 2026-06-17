@@ -149,6 +149,50 @@
               ],
               "answer": 1,
               "explain": "The codomain is the declared target set $\\{a,b,c,d\\}$, while the range is the set of outputs actually achieved, $\\{a, c\\}$ (note $a$ is reached twice but listed once). The range is a strict subset of the codomain here, and the domain $\\{1,2,3\\}$ is neither."
+            },
+            {
+              "q": "What property must a relation have to be a function?",
+              "choices": [
+                "Every output comes from exactly one input",
+                "Every input is assigned exactly one output",
+                "It must have the same number of inputs and outputs",
+                "It must be invertible"
+              ],
+              "answer": 1,
+              "explain": "A function assigns to each input (domain element) exactly one output — no input maps to two different values. (Requiring every *output* to have exactly one input is *injectivity*, a separate, stronger property; invertibility needs it.) This 'one output per input' rule is what the vertical line test checks graphically."
+            },
+            {
+              "q": "The set of all possible output values a function actually takes is called its:",
+              "choices": [
+                "domain",
+                "codomain",
+                "inverse",
+                "range"
+              ],
+              "answer": 3,
+              "explain": "The *range* (or image) is the set of values $f$ actually produces; the *domain* is the set of allowed inputs. The *codomain* is the declared target set, which can be larger than the range — e.g. $f(x)=x^2$ has codomain $\\mathbb{R}$ but range $[0,\\infty)$."
+            },
+            {
+              "q": "In the composition $(f \\circ g)(x) = f(g(x))$, which function is applied first?",
+              "choices": [
+                "$g$, the inner function — then $f$ acts on the result",
+                "$f$, the outer function — then $g$",
+                "both at the same time",
+                "it depends on the value of $x$"
+              ],
+              "answer": 0,
+              "explain": "Read inside-out: $(f\\circ g)(x) = f(g(x))$ means apply $g$ to $x$ first, then feed that output into $f$. Order matters — $f\\circ g$ and $g\\circ f$ are generally different functions."
+            },
+            {
+              "q": "A linear function is written $f(x) = mx + b$. What do $m$ and $b$ represent?",
+              "choices": [
+                "$m$ is the $y$-intercept and $b$ is the slope",
+                "both are slopes, in different units",
+                "$m$ is the slope (constant rate of change) and $b$ is the $y$-intercept (the value at $x=0$)",
+                "$m$ is the input and $b$ is the output"
+              ],
+              "answer": 2,
+              "explain": "$m$ is the slope — the constant rate of change $\\Delta f/\\Delta x$ — and $b = f(0)$ is the $y$-intercept. A constant slope is exactly what makes the graph a straight line, and it foreshadows the derivative: a linear function's derivative is the constant $m$."
             }
           ],
           "flashcards": [
@@ -344,6 +388,50 @@
               ],
               "answer": 0,
               "explain": "The limit tracks the destination the trend points toward, i.e. where $f(x)$ heads as $x\\to a$. The sign's name ($f(a)$) and the pothole (whether $f(a)$ exists) do not affect the limit's value."
+            },
+            {
+              "q": "The two-sided limit $\\lim_{x\\to a} f(x)$ exists if and only if:",
+              "choices": [
+                "$f(a)$ is defined",
+                "$f$ is continuous at $a$",
+                "the left-hand and right-hand limits both exist and are equal",
+                "$f$ is a polynomial"
+              ],
+              "answer": 2,
+              "explain": "A two-sided limit exists exactly when the function approaches the *same* value from both sides: $\\lim_{x\\to a^-}f = \\lim_{x\\to a^+}f$. It does not require $f(a)$ to be defined or $f$ to be continuous — those are separate, stronger conditions."
+            },
+            {
+              "q": "What are $\\lim_{x\\to a} c$ (with $c$ a constant) and $\\lim_{x\\to a} x$?",
+              "choices": [
+                "$c$ and $a$",
+                "$0$ and $0$",
+                "$a$ and $c$",
+                "both are undefined"
+              ],
+              "answer": 0,
+              "explain": "A constant function stays at $c$, so its limit is $c$; the identity function approaches $a$ as $x\\to a$, so its limit is $a$. These two base limits, together with the limit laws, let you evaluate the limit of any polynomial by substitution."
+            },
+            {
+              "q": "For a polynomial $p(x)$, $\\lim_{x\\to a} p(x)$ equals:",
+              "choices": [
+                "$0$",
+                "$\\infty$",
+                "undefined unless $a=0$",
+                "$p(a)$ — just substitute"
+              ],
+              "answer": 3,
+              "explain": "Polynomials are continuous everywhere, so their limits are found by direct substitution: $\\lim_{x\\to a} p(x) = p(a)$. This is *why* substitution is always the first thing to try; only when it yields an indeterminate form do you need more work."
+            },
+            {
+              "q": "If $\\lim_{x\\to a} f(x) = L$ and $\\lim_{x\\to a} g(x) = M$, then $\\lim_{x\\to a}\\big(f(x)+g(x)\\big)$ equals:",
+              "choices": [
+                "$L \\cdot M$",
+                "$L + M$",
+                "$L / M$",
+                "$\\max(L, M)$"
+              ],
+              "answer": 1,
+              "explain": "By the sum law for limits, the limit of a sum is the sum of the limits: $L + M$ (when both exist). Analogous laws hold for differences, products ($LM$), and quotients ($L/M$, if $M\\neq 0$) — these are what make limit computation systematic."
             }
           ],
           "flashcards": [
@@ -539,6 +627,50 @@
               ],
               "answer": 0,
               "explain": "Both factor as $(x-1)(x+1)$ and $(x-1)(x-2)$; canceling the common $(x-1)$ leaves $\\frac{x+1}{x-2}$, which at $x=1$ gives $\\frac{2}{-1}=-2$. The distractor $2$ comes from forgetting the sign of $(x-2)=-1$ at $x=1$."
+            },
+            {
+              "q": "When computing a limit $\\lim_{x\\to a} f(x)$, what should you always try first?",
+              "choices": [
+                "L'Hôpital's rule",
+                "the Squeeze Theorem",
+                "factoring the denominator",
+                "direct substitution — plug in $x=a$"
+              ],
+              "answer": 3,
+              "explain": "Always substitute $x=a$ first. If it gives a definite value (and $f$ is continuous there), that *is* the limit. Only when substitution produces an *indeterminate* form like $\\tfrac00$ do you reach for algebra (factoring, rationalizing), the Squeeze Theorem, or L'Hôpital."
+            },
+            {
+              "q": "What is $\\lim_{x\\to\\infty}\\dfrac{1}{x}$?",
+              "choices": [
+                "$1$",
+                "$0$",
+                "$\\infty$",
+                "undefined"
+              ],
+              "answer": 1,
+              "explain": "As $x$ grows without bound, $1/x$ shrinks toward $0$ (never negative, never quite reaching $0$). This basic fact drives limits at infinity of rational functions: divide through by the highest power of $x$ and every $1/x^k$ term vanishes."
+            },
+            {
+              "q": "To find $\\lim_{x\\to\\infty}$ of a rational function (a polynomial over a polynomial), you compare:",
+              "choices": [
+                "the degrees of the numerator and denominator (the leading terms dominate)",
+                "the constant terms",
+                "the number of terms in each",
+                "the values at $x=0$"
+              ],
+              "answer": 0,
+              "explain": "At infinity the highest-degree terms dominate. Equal degrees ⟹ the limit is the ratio of leading coefficients; numerator degree smaller ⟹ the limit is $0$; numerator degree larger ⟹ it diverges to $\\pm\\infty$. The lower-order terms become negligible."
+            },
+            {
+              "q": "If $\\lim_{x\\to a} f(x) = +\\infty$, the correct statement is that the limit:",
+              "choices": [
+                "equals a very large finite number",
+                "is an indeterminate form",
+                "does not exist as a finite value — $f$ diverges to $+\\infty$",
+                "equals $0$"
+              ],
+              "answer": 2,
+              "explain": "$+\\infty$ is not a real number, so strictly the limit *does not exist* (it isn't finite); writing $=+\\infty$ is shorthand for *how* it fails — $f$ grows without bound near $a$. This differs from an indeterminate form, which is an *expression* whose value isn't fixed by its form."
             }
           ],
           "flashcards": [
@@ -734,6 +866,50 @@
               ],
               "answer": 1,
               "explain": "The IVT only promises that every value strictly between $f(0)$ and $f(4)$ is attained; when those endpoints are equal the 'between' set collapses, so the theorem imposes no constraint on interior values. A continuous $f$ with $f(0)=f(4)=5$ (e.g. a bump) can clearly be non-constant, refuting the student's claim."
+            },
+            {
+              "q": "Informally, a function is continuous on an interval when:",
+              "choices": [
+                "it is always increasing",
+                "you can draw its graph over that interval without lifting your pen",
+                "it has an inverse",
+                "it is a straight line"
+              ],
+              "answer": 1,
+              "explain": "The intuitive picture of continuity is an unbroken curve — no jumps, holes, or vertical asymptotes — so you can trace it without lifting your pen. The formal $\\varepsilon$–$\\delta$ definition makes this precise: inputs that are close enough give outputs that are arbitrarily close."
+            },
+            {
+              "q": "Where is a polynomial function continuous?",
+              "choices": [
+                "only where it is positive",
+                "only on bounded intervals",
+                "everywhere — at every real number",
+                "nowhere; polynomials have corners"
+              ],
+              "answer": 2,
+              "explain": "Polynomials are continuous on all of $\\mathbb{R}$: they are built from $x$ and constants via addition and multiplication, and continuity is preserved under those operations. This is why $\\lim_{x\\to a} p(x) = p(a)$ for any polynomial — substitution simply works."
+            },
+            {
+              "q": "If $\\lim_{x\\to a^-} f(x)$ and $\\lim_{x\\to a^+} f(x)$ both exist but are *different* finite values, the discontinuity at $a$ is a:",
+              "choices": [
+                "removable discontinuity",
+                "infinite discontinuity",
+                "there is no discontinuity",
+                "jump discontinuity"
+              ],
+              "answer": 3,
+              "explain": "Two different finite one-sided limits make the graph 'jump' at $a$ — a *jump* discontinuity. Contrast a *removable* discontinuity (the one-sided limits agree but $f(a)$ is missing or wrong — a single fixable hole) and an *infinite* discontinuity (a one-sided limit is $\\pm\\infty$, a vertical asymptote)."
+            },
+            {
+              "q": "If $f$ is continuous at $a$, then $\\lim_{x\\to a} f(x)$ equals:",
+              "choices": [
+                "$f(a)$",
+                "$0$",
+                "$+\\infty$",
+                "the derivative $f'(a)$"
+              ],
+              "answer": 0,
+              "explain": "Continuity at $a$ *means* the limit equals the function value: $\\lim_{x\\to a} f(x) = f(a)$ (with $f(a)$ defined and the two-sided limit existing). That is precisely why limits of continuous functions can be evaluated by direct substitution."
             }
           ],
           "flashcards": [

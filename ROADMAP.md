@@ -148,6 +148,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ✅ iter 146: mobile audit (7 high-risk views at 390px — all clean, no breakage) + 3 new achievements → 43 (Daily Ritual =
    finish a Daily Mix, Creature of Habit = 14 distinct study days, Sage = 25k XP). errs=0; SW cache →v89; README 40→43.
    Still-thin: UI/UX polish. Achievement ideas still open: Lab Explorer (open N distinct viz — needs distinct-viz tracking).
+   ✅ iter 147: MCQ arc → Calculus·Foundations 12→16 (+16, bank →1,960). 3rd TOPIC OPENED. Calc 1/7 modules. Adversarial agent
+   ALL PASS (hardened one ambiguous continuity distractor → f'(a)); positions shuffled; render "of 16" errs=0; SW cache →v90.
+   CALC REMAINING (MCQ arc): derivatives(4), applications-derivatives(4), integration(4), applications-integration(3),
+   multivariable-bridge(3), convex-optimization(3). Then DL/RL/LLM/PS.
    ARC PROGRESS: Algorithms modules at 16 = foundations, data-structures. REMAINING in Algorithms: sorting-searching,
    algorithm-design, graphs, advanced-ml-connections, advanced-techniques (5). Then LA/Calc/DL/RL/LLM/PS. Interleave!
    CHECKED & FOUND HEALTHY (113): mobile renders clean across dashboard/map/lab/stats/test at 390px; `index()` is
