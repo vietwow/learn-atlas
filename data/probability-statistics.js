@@ -17,7 +17,140 @@
           "title": "Sample Spaces, Events & the Axioms of Probability",
           "minutes": 14,
           "content": "<h3>1. The hook: taming chance with sets</h3>\\n<p>Flip a coin. You cannot predict the single outcome, yet over thousands of flips a stubborn regularity emerges: about half land heads. Probability is the mathematics of that regularity. The genius move, due to <strong>Andrey Kolmogorov</strong> in 1933, was to stop arguing about what randomness <em>is</em> and instead measure it with the same machinery we use for areas and weights: we list every possible outcome as a <em>set</em>, treat events as <em>subsets</em>, and assign each subset a number between 0 and 1. Everything that follows is bookkeeping on sets.</p>\\n\\n<h3>2. Random experiments, outcomes, and the sample space</h3>\\n<p>A <strong>random experiment</strong> is any procedure whose outcome is uncertain in advance but whose set of possible outcomes is known. Each indivisible result is an <strong>outcome</strong> (or sample point). The <strong>sample space</strong> $\\\\Omega$ is the set of <em>all</em> outcomes — they must be mutually exclusive and exhaustive, so exactly one occurs each trial.</p>\\n<ul>\\n<li>One coin flip: $\\\\Omega = \\\\{H, T\\\\}$.</li>\\n<li>One fair die: $\\\\Omega = \\\\{1, 2, 3, 4, 5, 6\\\\}$.</li>\\n<li>Two dice (ordered): $\\\\Omega = \\\\{(i,j) : 1 \\\\le i, j \\\\le 6\\\\}$, so $|\\\\Omega| = 36$.</li>\\n<li>Drawing one card: $|\\\\Omega| = 52$.</li>\\n</ul>\\n\\n<h3>3. Events as subsets of $\\\\Omega$</h3>\\n<p>An <strong>event</strong> is any subset $A \\\\subseteq \\\\Omega$; we say \\\"$A$ <em>occurs</em>\\\" when the realized outcome lies in $A$. For one die, \\\"even\\\" is the event $A = \\\\{2, 4, 6\\\\}$. The whole space $\\\\Omega$ is the <em>certain</em> event; the empty set $\\\\varnothing$ is the <em>impossible</em> event. Because events are sets, the language of set theory becomes the language of chance:</p>\\n<ul>\\n<li><strong>Union</strong> $A \\\\cup B$ — \\\"$A$ <em>or</em> $B$\\\" (at least one occurs).</li>\\n<li><strong>Intersection</strong> $A \\\\cap B$ — \\\"$A$ <em>and</em> $B$\\\" (both occur).</li>\\n<li><strong>Complement</strong> $A^c = \\\\Omega \\\\setminus A$ — \\\"<em>not</em> $A$\\\".</li>\\n<li><strong>Mutually exclusive / disjoint</strong>: $A \\\\cap B = \\\\varnothing$, meaning $A$ and $B$ cannot occur together.</li>\\n</ul>\\n<p><strong>Example.</strong> Roll one die. Let $A = \\\\{2,4,6\\\\}$ (even) and $B = \\\\{4,5,6\\\\}$ (greater than 3). Then $A \\\\cup B = \\\\{2,4,5,6\\\\}$, $A \\\\cap B = \\\\{4,6\\\\}$, and $A^c = \\\\{1,3,5\\\\}$. The events $A$ and $\\\\{1,3,5\\\\}$ are disjoint and together fill $\\\\Omega$.</p>\\n\\n<h3>4. The Kolmogorov axioms</h3>\\n<p>A <strong>probability measure</strong> $P$ assigns to each event a real number obeying three rules. Everything in probability is a logical consequence of them.</p>\\n<ul>\\n<li><strong>Axiom 1 (Nonnegativity).</strong> $P(A) \\\\ge 0$ for every event $A$.</li>\\n<li><strong>Axiom 2 (Normalization).</strong> $P(\\\\Omega) = 1$ — something certainly happens.</li>\\n<li><strong>Axiom 3 (Countable additivity).</strong> If $A_1, A_2, \\\\dots$ are pairwise disjoint, then $$P\\\\!\\\\left(\\\\bigcup_{i=1}^{\\\\infty} A_i\\\\right) = \\\\sum_{i=1}^{\\\\infty} P(A_i).$$</li>\\n</ul>\\n<p>The third axiom is the workhorse: probabilities of <em>non-overlapping</em> events simply add. From it everything else is derived — there are no extra assumptions hidden anywhere.</p>\\n\\n<h3>5. Equally likely outcomes and counting</h3>\\n<p>When $\\\\Omega$ is finite and every outcome is <em>equally likely</em> (a fair die, a well-shuffled deck), each of the $|\\\\Omega|$ outcomes carries probability $1/|\\\\Omega|$, and additivity gives the classical formula $$P(A) = \\\\frac{|A|}{|\\\\Omega|} = \\\\frac{\\\\text{favorable outcomes}}{\\\\text{total outcomes}}.$$</p>\\n<p><strong>Example.</strong> Roll two fair dice. What is $P(\\\\text{sum} = 7)$? The favorable outcomes are $(1,6),(2,5),(3,4),(4,3),(5,2),(6,1)$ — six of them — out of $36$, so $P = 6/36 = 1/6 \\\\approx 0.167$. The \\\"equally likely\\\" assumption must hold over the right $\\\\Omega$: here the $36$ <em>ordered</em> pairs are equally likely, while the $11$ possible sums are <em>not</em>.</p>\\n\\n<h3>6. The complement rule</h3>\\n<p>Since $A$ and $A^c$ are disjoint and $A \\\\cup A^c = \\\\Omega$, Axioms 2 and 3 give $P(A) + P(A^c) = 1$, hence $$P(A^c) = 1 - P(A).$$ This is the lazy mathematician's best friend: \\\"at least one\\\" problems are usually easier through their complement \\\"none\\\". Two consequences fall out immediately: $P(\\\\varnothing) = 1 - P(\\\\Omega) = 0$, and $0 \\\\le P(A) \\\\le 1$ for every event.</p>\\n<p><strong>Example.</strong> Roll a die twice; find $P(\\\\text{at least one } 6)$. The complement \\\"no 6 either roll\\\" has probability $(5/6)^2 = 25/36$, so the answer is $1 - 25/36 = 11/36 \\\\approx 0.306$.</p>\\n\\n<h3>7. Inclusion–exclusion for two events</h3>\\n<p>When $A$ and $B$ <em>overlap</em>, you cannot just add $P(A) + P(B)$ — outcomes in $A \\\\cap B$ get counted twice. Subtract the overlap once: $$P(A \\\\cup B) = P(A) + P(B) - P(A \\\\cap B).$$ If $A$ and $B$ are mutually exclusive then $P(A\\\\cap B)=0$ and this collapses to plain additivity.</p>\\n<p><strong>Example.</strong> Draw one card from $52$. Let $A = \\\\text{heart}$ and $B = \\\\text{face card}$ (J, Q, K). Then $P(A) = 13/52$, $P(B) = 12/52$, and the overlap (heart face cards: J, Q, K of hearts) is $P(A\\\\cap B) = 3/52$. So $$P(A \\\\cup B) = \\\\frac{13}{52} + \\\\frac{12}{52} - \\\\frac{3}{52} = \\\\frac{22}{52} = \\\\frac{11}{26} \\\\approx 0.423.$$</p>\\n\\n<h3>8. The big picture</h3>\\n<p>You now have the entire grammar of probability: a sample space $\\\\Omega$, events as subsets, three axioms, and two indispensable corollaries — the complement rule and inclusion–exclusion. Conditional probability, independence, and random variables are all built on exactly this foundation. Master the move of <em>translating a word problem into sets and then counting</em>, and the rest of the course is elaboration.</p>",
-          "mcq": [],
+          "mcq": [
+            {
+              "q": "In Kolmogorov's framework, why is it useful to model events as *subsets* of the sample space $\\Omega$ rather than as informal verbal descriptions?",
+              "choices": [
+                "It guarantees every event has probability exactly $\\tfrac{1}{|\\Omega|}$",
+                "It lets us combine and manipulate events using set operations (union, intersection, complement) with established rules",
+                "It removes the need to specify $\\Omega$ in the first place",
+                "It forces all outcomes to be equally likely"
+              ],
+              "answer": 1,
+              "explain": "Modeling events as subsets means logical combinations of events become set operations, so all the algebra of sets applies directly. Equal probabilities are a special-case assumption, not a consequence of the set model."
+            },
+            {
+              "q": "For the two-ordered-dice experiment with $|\\Omega| = 36$, let $A$ be the event \"the sum is 7.\" How many outcomes are in $A$?",
+              "choices": [
+                "5",
+                "6",
+                "7",
+                "11"
+              ],
+              "answer": 1,
+              "explain": "The ordered pairs summing to 7 are $(1,6),(2,5),(3,4),(4,3),(5,2),(6,1)$ — exactly 6 outcomes. The value 11 confuses the number of possible sums with the count of favorable outcomes."
+            },
+            {
+              "q": "A student says, \"For two dice, the sample space is the set of possible sums $\\{2,3,\\dots,12\\}$, so there are 11 equally likely outcomes.\" What is the flaw?",
+              "choices": [
+                "The flaw is real: there really are 11 equally likely sums",
+                "Sums are not equally likely; the natural equiprobable space is the 36 ordered pairs",
+                "The sample space should have 12 elements, not 11",
+                "Sums cannot form a valid sample space at all"
+              ],
+              "answer": 1,
+              "explain": "The 11 sums are mutually exclusive and exhaustive, so they form a valid sample space, but they are NOT equally likely (a sum of 7 has 6 ways, a sum of 2 has 1). Equiprobability holds for the 36 ordered pairs, not the sums."
+            },
+            {
+              "q": "Which property must the outcomes of a sample space $\\Omega$ satisfy?",
+              "choices": [
+                "They must be equally likely",
+                "They must be mutually exclusive and exhaustive, so exactly one occurs per trial",
+                "They must be finite in number",
+                "They must each be a subset of some larger set"
+              ],
+              "answer": 1,
+              "explain": "By definition the outcomes partition every trial: mutually exclusive (no two happen together) and exhaustive (at least one happens), so exactly one occurs. Outcomes need not be equally likely nor finite."
+            },
+            {
+              "q": "Two events $A$ and $B$ are called *mutually exclusive* (disjoint) when:",
+              "choices": [
+                "$A \\cup B = \\Omega$",
+                "$A \\cap B = \\varnothing$",
+                "$A = B^c$",
+                "$A \\subseteq B$"
+              ],
+              "answer": 1,
+              "explain": "Mutually exclusive means the events cannot both occur, i.e. they share no outcomes: $A \\cap B = \\varnothing$. The condition $A \\cup B = \\Omega$ describes exhaustive (collectively covering) events, and $A = B^c$ is the stronger 'complementary' relationship."
+            },
+            {
+              "q": "For a single fair die, let $A = \\{2,4,6\\}$ (even) and $B = \\{4,5,6\\}$ (greater than 3). What is the event \"$A$ occurs but $B$ does not,\" i.e. $A \\cap B^c$?",
+              "choices": [
+                "$\\{2\\}$",
+                "$\\{2,4,6\\}$",
+                "$\\{4,6\\}$",
+                "$\\{1,3\\}$"
+              ],
+              "answer": 0,
+              "explain": "$B^c = \\{1,2,3\\}$, and $A \\cap B^c = \\{2,4,6\\} \\cap \\{1,2,3\\} = \\{2\\}$. The choice $\\{4,6\\}$ is the opposite event $A\\cap B$."
+            },
+            {
+              "q": "How many distinct events (subsets, including $\\varnothing$ and $\\Omega$) can be formed from a sample space with $|\\Omega| = 4$?",
+              "choices": [
+                "4",
+                "8",
+                "16",
+                "24"
+              ],
+              "answer": 2,
+              "explain": "The number of subsets of a set with $n$ elements is $2^n$, so $2^4 = 16$. The value 24 is $4!$ (orderings, not subsets), and 8 would be $2^3$."
+            },
+            {
+              "q": "Which of the following is the correct statement of the three Kolmogorov axioms?",
+              "choices": [
+                "$P(A) \\ge 0$; $P(\\Omega) = 1$; for disjoint $A,B$, $P(A \\cup B) = P(A) + P(B)$",
+                "$P(A) > 0$; $P(\\Omega) = 1$; $P(A \\cup B) = P(A) + P(B)$ for all $A,B$",
+                "$0 \\le P(A) \\le 1$; $P(\\varnothing) = 1$; $P(A \\cap B) = P(A)P(B)$",
+                "$P(A) \\ge 0$; $P(\\Omega) = \\infty$; $P(A \\cup B) = P(A)\\,P(B)$"
+              ],
+              "answer": 0,
+              "explain": "The axioms are non-negativity ($P(A)\\ge 0$), normalization ($P(\\Omega)=1$), and additivity for disjoint events ($P(A\\cup B)=P(A)+P(B)$). Additivity requires disjointness, $P(A)$ can be 0, and $P(A)P(B)$ describes independence — a separate notion, not an axiom."
+            },
+            {
+              "q": "A student claims $P(A \\cup B) = P(A) + P(B)$ for the events $A=\\{2,4,6\\}$ and $B=\\{4,5,6\\}$ on a fair die, computing $\\tfrac{3}{6}+\\tfrac{3}{6}=1$. Why is this wrong, and what is the correct value?",
+              "choices": [
+                "It is correct; $P(A\\cup B)=1$",
+                "Additivity needs disjoint events; here $A\\cap B=\\{4,6\\}$, so $P(A\\cup B)=\\tfrac{4}{6}$",
+                "The correct value is $\\tfrac{6}{6}=1$ because the die has 6 faces",
+                "Additivity always holds, so $P(A\\cup B)=\\tfrac{3}{6}$"
+              ],
+              "answer": 1,
+              "explain": "The additivity axiom only applies to disjoint events. Since $A$ and $B$ overlap in $\\{4,6\\}$, we must use inclusion-exclusion: $A\\cup B = \\{2,4,5,6\\}$, giving $P(A\\cup B)=\\tfrac{4}{6}=\\tfrac{2}{3}$, not 1."
+            },
+            {
+              "q": "Using only the axioms, which statement about the complement $A^c$ must hold?",
+              "choices": [
+                "$P(A^c) = 1 - P(A)$",
+                "$P(A^c) = P(A)$",
+                "$P(A^c) = 1 + P(A)$",
+                "$P(A^c) = \\tfrac{1}{P(A)}$"
+              ],
+              "answer": 0,
+              "explain": "Since $A$ and $A^c$ are disjoint with $A \\cup A^c = \\Omega$, additivity and normalization give $P(A)+P(A^c)=P(\\Omega)=1$, hence $P(A^c)=1-P(A)$. This is a derived theorem, not a separate axiom."
+            },
+            {
+              "q": "One card is drawn from a standard deck ($|\\Omega|=52$). What is the probability the card is a face card (J, Q, or K) OR a heart?",
+              "choices": [
+                "$\\frac{12}{52}$",
+                "$\\frac{25}{52}$",
+                "$\\frac{22}{52}$",
+                "$\\frac{16}{52}$"
+              ],
+              "answer": 2,
+              "explain": "There are 12 face cards and 13 hearts, overlapping in 3 (J, Q, K of hearts). By inclusion-exclusion: $\\tfrac{12}{52}+\\tfrac{13}{52}-\\tfrac{3}{52}=\\tfrac{22}{52}$. The answer $\\tfrac{25}{52}$ is the common error of forgetting to subtract the overlap."
+            },
+            {
+              "q": "If $A \\subseteq B$ as events, which inequality between their probabilities is guaranteed by the axioms (monotonicity)?",
+              "choices": [
+                "$P(A) \\ge P(B)$",
+                "$P(A) \\le P(B)$",
+                "$P(A) = P(B)$",
+                "$P(A) + P(B) = 1$"
+              ],
+              "answer": 1,
+              "explain": "Write $B = A \\cup (B \\setminus A)$ as a disjoint union; additivity gives $P(B)=P(A)+P(B\\setminus A)$, and since $P(B\\setminus A)\\ge 0$ we get $P(A)\\le P(B)$. A smaller event can never be more probable than the larger one containing it."
+            }
+          ],
           "flashcards": [
             {
               "front": "What is the sample space $\\Omega$ of a random experiment?",
@@ -79,7 +212,140 @@
           "title": "Conditional Probability, Independence & Bayes' Theorem",
           "minutes": 16,
           "content": "<h3>1. The intuition: information changes the odds</h3>\n<p>Probability is not a fixed property of an event — it is a measure of belief <em>relative to what you know</em>. Draw a card from a shuffled deck and the chance it is the ace of spades is $1/52$. But if a friend peeks and tells you the card is black, that single fact slashes the field from 52 cards to 26, and the probability jumps to $1/26$. Nothing about the card changed; <strong>your information did</strong>. Conditional probability is the machinery for revising beliefs in light of evidence, and it culminates in <strong>Bayes' theorem</strong>, the engine behind spam filters, medical diagnosis, and every learning system that updates as data arrives.</p>\n<div data-viz=\"calc-bayes\"></div>\n\n<div class=\"callout\">\n<div class=\"c-tag\">Intuition</div>\n<p>Conditioning on $B$ means <em>throwing away the part of the universe where $B$ is false and renormalizing</em>. You zoom into $B$ and treat it as your new sample space. Everything else follows from that one move.</p>\n</div>\n\n<h3>2. Conditional probability, formally</h3>\n<p>Given events $A$ and $B$ with $P(B) > 0$, the <strong>conditional probability of $A$ given $B$</strong> is</p>\n$$P(A \\mid B) = \\frac{P(A \\cap B)}{P(B)}.$$\n<p>The denominator $P(B)$ is the renormalization: we restrict attention to outcomes in $B$ and ask what fraction of <em>those</em> also lie in $A$. <strong>Concrete example.</strong> Roll a fair die. Let $A = \\{\\text{outcome is } 2\\}$ and $B = \\{\\text{outcome is even}\\}$. Then $P(A \\cap B) = P(\\{2\\}) = 1/6$ and $P(B) = 3/6$, so</p>\n$$P(A \\mid B) = \\frac{1/6}{3/6} = \\frac{1}{3}.$$\n<p>Knowing the roll is even raised the chance it is a 2 from $1/6$ to $1/3$ — exactly because we discarded the three odd outcomes.</p>\n\n<h3>3. The multiplication rule</h3>\n<p>Rearranging the definition gives the <strong>multiplication rule</strong>, a way to compute the probability of a joint event step by step:</p>\n$$P(A \\cap B) = P(A \\mid B)\\,P(B) = P(B \\mid A)\\,P(A).$$\n<p>This chains: $P(A \\cap B \\cap C) = P(A)\\,P(B \\mid A)\\,P(C \\mid A \\cap B)$. <strong>Example.</strong> Draw two cards without replacement. The probability both are aces is $P(\\text{ace}_1)\\,P(\\text{ace}_2 \\mid \\text{ace}_1) = \\frac{4}{52}\\cdot\\frac{3}{51} = \\frac{12}{2652} = \\frac{1}{221}$.</p>\n\n<h3>4. Independence (and why it is not mutual exclusivity)</h3>\n<p>Events $A$ and $B$ are <strong>independent</strong> if knowing one tells you nothing about the other: $P(A \\mid B) = P(A)$. Multiplying through by $P(B)$ gives the symmetric, clean definition</p>\n$$P(A \\cap B) = P(A)\\,P(B).$$\n<p>A frequent confusion is conflating <strong>independent</strong> with <strong>mutually exclusive</strong> (disjoint). They are nearly opposite. If $A$ and $B$ are mutually exclusive with positive probabilities, then $A \\cap B = \\varnothing$, so $P(A \\cap B) = 0 \\ne P(A)P(B)$ — and learning $B$ happened tells you $A$ <em>cannot</em> have. <strong>Disjoint events with positive probability are maximally dependent, never independent.</strong> In the die example, $\\{2\\}$ and \"even\" are dependent; $\\{2\\}$ and \"odd\" are mutually exclusive.</p>\n<div class=\"callout sage\">\n<div class=\"c-tag\">Why this matters for ML</div>\n<p>The \"naive\" in <em>naive Bayes</em> is the assumption that features are conditionally independent given the label. Likelihoods of i.i.d. data factor into a product, $\\prod_i P(x_i \\mid \\theta)$, precisely because of independence — and taking logs turns that product into the sums you minimize during training.</p>\n</div>\n\n<h3>5. The law of total probability</h3>\n<p>Suppose events $B_1, \\dots, B_n$ form a <strong>partition</strong> of the sample space: they are mutually exclusive and together exhaustive ($\\bigcup_i B_i = \\Omega$). Then any event $A$ can be reassembled from its slices inside each $B_i$:</p>\n$$P(A) = \\sum_{i=1}^{n} P(A \\mid B_i)\\,P(B_i).$$\n<p>This is a weighted average of conditional probabilities, weighted by how likely each scenario $B_i$ is. <strong>Example.</strong> Two factories make light bulbs: Factory 1 supplies $60\\%$ with a $2\\%$ defect rate, Factory 2 supplies $40\\%$ with a $5\\%$ rate. The chance a random bulb is defective is $P(D) = (0.02)(0.6) + (0.05)(0.4) = 0.012 + 0.020 = 0.032$, or $3.2\\%$.</p>\n\n<h3>6. Bayes' theorem: reversing the conditional</h3>\n<p>We often know $P(\\text{evidence} \\mid \\text{cause})$ but want $P(\\text{cause} \\mid \\text{evidence})$. Combining the multiplication rule with the law of total probability yields <strong>Bayes' theorem</strong>:</p>\n$$P(B_i \\mid A) = \\frac{P(A \\mid B_i)\\,P(B_i)}{\\sum_{j} P(A \\mid B_j)\\,P(B_j)}.$$\n<p>Read it as <em>posterior</em> $\\propto$ <em>likelihood</em> $\\times$ <em>prior</em>. The prior $P(B_i)$ is your belief before evidence; the likelihood $P(A \\mid B_i)$ says how well cause $B_i$ explains the evidence; the denominator just normalizes so the posteriors sum to 1. Continuing the bulb example: given a bulb is defective, the probability it came from Factory 2 is $\\frac{(0.05)(0.4)}{0.032} = \\frac{0.020}{0.032} = 0.625$ — even though Factory 2 supplies the minority of bulbs, it dominates the defectives.</p>\n\n<h3>7. The base-rate trap: why most positives can be false</h3>\n<p>Here is the example that breaks everyone's intuition. A disease afflicts $1$ in $1000$ people. A test is $99\\%$ accurate: it catches $99\\%$ of sick people (sensitivity) and gives a false positive for only $1\\%$ of healthy people. You test positive. What is the chance you are sick? Let $D$ = disease, $+$ = positive test. The prior is $P(D) = 0.001$. By the law of total probability,</p>\n$$P(+) = \\underbrace{(0.99)(0.001)}_{\\text{true positives}} + \\underbrace{(0.01)(0.999)}_{\\text{false positives}} = 0.00099 + 0.00999 = 0.01098.$$\n$$P(D \\mid +) = \\frac{0.00099}{0.01098} \\approx 0.090.$$\n<p>Only about <strong>9%</strong>. Despite the impressive-sounding \"99% accurate,\" a positive result is wrong over $90\\%$ of the time — because the healthy population is so vast that its $1\\%$ error rate produces ten times more false positives than there are true cases. This is <strong>base-rate neglect</strong>: ignore the prior and you will badly overestimate the posterior.</p>\n\n<h3>8. Tree diagrams and the visualization</h3>\n<p>A <strong>tree diagram</strong> makes these computations visceral. Branch first on the hidden cause (sick vs. healthy), labeling each branch with its prior; then branch on the evidence (test result), labeling with the likelihoods. Each leaf's probability is the product along its path (the multiplication rule), the law of total probability is the <em>sum</em> of leaves matching the evidence, and Bayes' theorem is the <em>ratio</em> of one favorable leaf to that sum. Try the interactive <strong>Bayes visualization</strong> in this course: drag the base rate and watch the posterior collapse — it shows, in real time, why a great test can still mislead when the disease is rare.</p>",
-          "mcq": [],
+          "mcq": [
+            {
+              "q": "A fair die is rolled. Let $A = \\{\\text{outcome is } 2\\}$ and $B = \\{\\text{outcome is even}\\}$. What is $P(A \\mid B)$?",
+              "choices": [
+                "$\\frac{1}{6}$",
+                "$\\frac{1}{3}$",
+                "$\\frac{1}{2}$",
+                "$\\frac{2}{3}$"
+              ],
+              "answer": 1,
+              "explain": "$P(A \\cap B) = P(\\{2\\}) = 1/6$ and $P(B) = 3/6 = 1/2$, so $P(A\\mid B) = (1/6)/(1/2) = 1/3$. Conditioning on 'even' restricts the sample space to $\\{2,4,6\\}$, of which one is a 2."
+            },
+            {
+              "q": "In the deck example, a card is drawn and a friend says 'it is black.' Why does the probability it is the ace of spades become $1/26$ rather than staying $1/52$?",
+              "choices": [
+                "The information changed which physical card is on top",
+                "Conditioning discards the 26 red outcomes and renormalizes over the 26 black ones",
+                "Black cards are intrinsically more likely to be aces",
+                "The deck was reshuffled after the friend peeked"
+              ],
+              "answer": 1,
+              "explain": "Conditioning on $B$ throws away the part of the sample space where $B$ is false (the 26 red cards) and renormalizes over the 26 black cards. The card itself did not change; only the information did."
+            },
+            {
+              "q": "Which expression correctly rearranges the definition of conditional probability into the multiplication (chain) rule for $P(A \\cap B)$?",
+              "choices": [
+                "$P(A \\cap B) = P(A \\mid B)\\,P(B)$",
+                "$P(A \\cap B) = P(A \\mid B) + P(B)$",
+                "$P(A \\cap B) = \\frac{P(A \\mid B)}{P(B)}$",
+                "$P(A \\cap B) = P(A \\mid B) \\, P(A)$"
+              ],
+              "answer": 0,
+              "explain": "Multiplying both sides of $P(A\\mid B) = P(A\\cap B)/P(B)$ by $P(B)$ gives $P(A\\cap B) = P(A\\mid B)\\,P(B)$. The version with $P(A)$ would only hold under independence, not in general."
+            },
+            {
+              "q": "Two events $A$ and $B$ are independent. Which equality must hold?",
+              "choices": [
+                "$P(A \\cap B) = P(A) + P(B)$",
+                "$P(A \\mid B) = P(B \\mid A)$",
+                "$P(A \\cap B) = P(A)\\,P(B)$",
+                "$P(A \\cup B) = P(A)\\,P(B)$"
+              ],
+              "answer": 2,
+              "explain": "Independence is defined by $P(A\\cap B) = P(A)P(B)$, equivalently $P(A\\mid B)=P(A)$ when $P(B)>0$. The first option describes (almost) disjoint behavior, and $P(A\\mid B)=P(B\\mid A)$ holds only when $P(A)=P(B)$."
+            },
+            {
+              "q": "A student says: 'If $A$ and $B$ are mutually exclusive (disjoint) and both have positive probability, then they are independent.' Why is this wrong?",
+              "choices": [
+                "Disjoint events satisfy $P(A \\cap B) = P(A)P(B)$ automatically",
+                "Disjoint events have $P(A \\cap B) = 0$, but $P(A)P(B) > 0$, so they cannot be independent",
+                "Mutual exclusivity is the same as independence by definition",
+                "Independence requires $P(A \\cup B) = 1$"
+              ],
+              "answer": 1,
+              "explain": "For disjoint events $P(A\\cap B)=0$, yet if both have positive probability then $P(A)P(B)>0$, so $P(A\\cap B)\\ne P(A)P(B)$. In fact disjoint positive-probability events are strongly dependent: knowing $B$ happened guarantees $A$ did not."
+            },
+            {
+              "q": "Bayes' theorem expresses $P(A \\mid B)$ in terms of $P(B \\mid A)$. Which form is correct?",
+              "choices": [
+                "$P(A \\mid B) = \\frac{P(B \\mid A)\\,P(A)}{P(B)}$",
+                "$P(A \\mid B) = \\frac{P(B \\mid A)\\,P(B)}{P(A)}$",
+                "$P(A \\mid B) = \\frac{P(B \\mid A)}{P(A)\\,P(B)}$",
+                "$P(A \\mid B) = P(B \\mid A)\\,\\frac{P(B)}{P(A)}$"
+              ],
+              "answer": 0,
+              "explain": "Bayes' theorem follows from $P(A\\cap B)=P(B\\mid A)P(A)=P(A\\mid B)P(B)$, giving $P(A\\mid B)=P(B\\mid A)P(A)/P(B)$. The prior $P(A)$ is multiplied in the numerator, not divided."
+            },
+            {
+              "q": "A disease affects $1\\%$ of a population. A test is $99\\%$ sensitive ($P(+\\mid D)=0.99$) and $99\\%$ specific ($P(-\\mid D^c)=0.99$). A person tests positive. What is the probability they actually have the disease?",
+              "choices": [
+                "$0.99$",
+                "About $0.50$",
+                "About $0.91$",
+                "$0.01$"
+              ],
+              "answer": 1,
+              "explain": "$P(D\\mid +) = \\frac{0.99 \\cdot 0.01}{0.99\\cdot 0.01 + 0.01\\cdot 0.99} = \\frac{0.0099}{0.0198} = 0.5$. The intuitive answer $0.99$ ignores the base rate: with only $1\\%$ prevalence, false positives from the $99\\%$ healthy people roughly equal the true positives."
+            },
+            {
+              "q": "The 'base-rate fallacy' in the disease-testing example refers to which mistake?",
+              "choices": [
+                "Confusing the test's sensitivity with its specificity",
+                "Treating $P(D \\mid +)$ as equal to $P(+ \\mid D)$ while ignoring the prior $P(D)$",
+                "Assuming the test is never wrong",
+                "Multiplying instead of adding probabilities"
+              ],
+              "answer": 1,
+              "explain": "The fallacy is conflating $P(D\\mid +)$ with $P(+\\mid D)$ and neglecting the low prior $P(D)$. Bayes' theorem shows the prior heavily discounts the posterior when the disease is rare."
+            },
+            {
+              "q": "Using the law of total probability, if $\\{B_1, B_2\\}$ partition the sample space, then $P(A)$ equals:",
+              "choices": [
+                "$P(A \\mid B_1) + P(A \\mid B_2)$",
+                "$P(A \\mid B_1)\\,P(B_1) + P(A \\mid B_2)\\,P(B_2)$",
+                "$P(A \\mid B_1)\\,P(A \\mid B_2)$",
+                "$\\frac{P(A \\mid B_1)}{P(B_1)} + \\frac{P(A \\mid B_2)}{P(B_2)}$"
+              ],
+              "answer": 1,
+              "explain": "The law of total probability weights each conditional by the probability of its conditioning event: $P(A)=\\sum_i P(A\\mid B_i)P(B_i)$. Simply adding the conditionals (option 1) forgets the weights and can even exceed 1."
+            },
+            {
+              "q": "It is true that $P(A \\mid B) = 0.9$. A student concludes $P(B \\mid A) = 0.9$ as well. What is the correct relationship?",
+              "choices": [
+                "$P(B \\mid A) = P(A \\mid B)$ always",
+                "$P(B \\mid A) = P(A \\mid B)\\,\\frac{P(B)}{P(A)}$",
+                "$P(B \\mid A) = 1 - P(A \\mid B)$",
+                "$P(B \\mid A) = P(A \\mid B)\\,\\frac{P(A)}{P(B)}$"
+              ],
+              "answer": 1,
+              "explain": "By Bayes, $P(B\\mid A) = P(A\\mid B)P(B)/P(A)$, so the two conditionals are equal only when $P(A)=P(B)$. Assuming $P(A\\mid B)=P(B\\mid A)$ is the 'confusion of the inverse,' the same error behind the base-rate fallacy."
+            },
+            {
+              "q": "Suppose $P(A) = 0.5$, $P(B) = 0.4$, and $P(A \\cap B) = 0.2$. Are $A$ and $B$ independent?",
+              "choices": [
+                "No, because $P(A \\cap B) \\ne P(A) + P(B)$",
+                "Yes, because $P(A)P(B) = 0.2 = P(A \\cap B)$",
+                "No, because $P(A) \\ne P(B)$",
+                "Cannot be determined without $P(A \\cup B)$"
+              ],
+              "answer": 1,
+              "explain": "Independence holds iff $P(A\\cap B)=P(A)P(B)$; here $0.5\\times 0.4 = 0.2$, which matches, so they are independent. Independence does not require equal marginal probabilities."
+            },
+            {
+              "q": "You roll a fair die. Let $C = \\{\\text{outcome} \\le 3\\}$ and $D = \\{\\text{outcome is odd}\\}$. What is $P(D \\mid C)$?",
+              "choices": [
+                "$\\frac{1}{2}$",
+                "$\\frac{1}{3}$",
+                "$\\frac{2}{3}$",
+                "$\\frac{1}{6}$"
+              ],
+              "answer": 2,
+              "explain": "Conditioning on $C$ restricts the sample space to $\\{1,2,3\\}$, of which the odd outcomes are $\\{1,3\\}$, giving $2/3$. Equivalently $P(C\\cap D)=P(\\{1,3\\})=2/6$ and $P(C)=3/6$, so $(2/6)/(3/6)=2/3$."
+            }
+          ],
           "flashcards": [
             {
               "front": "Define conditional probability $P(A \\mid B)$.",
@@ -141,7 +407,140 @@
           "title": "Random Variables & Their Distributions",
           "minutes": 15,
           "content": "<h3>1. The idea: turning chance into numbers</h3>\n<p>Suppose you flip a coin twice. The raw outcomes live in a sample space $\\Omega = \\{HH, HT, TH, TT\\}$ — these are <em>events</em>, not numbers, and you cannot average a \"TH\". A <strong>random variable</strong> fixes this. It is simply a <strong>function that assigns a number to every outcome</strong>. If $X$ counts the number of heads, then $X(HH)=2$, $X(HT)=X(TH)=1$, $X(TT)=0$. The randomness lives in <em>which</em> outcome occurs; once it does, $X$ reads off a number deterministically.</p>\n<div class=\"callout\">\n<div class=\"c-tag\">Intuition</div>\n<p>A random variable is a measuring instrument pointed at the universe. The universe rolls the dice; the instrument turns the result into something you can add, average, and graph. The word \"variable\" is a little misleading — it is really a <strong>function</strong>, written $X : \\Omega \\to \\mathbb{R}$.</p>\n</div>\n<p>Formally, $X$ maps the sample space to the real line. We then talk about probabilities of <em>numeric</em> events like $\\{X = 1\\}$, which secretly means \"the set of outcomes $\\omega$ with $X(\\omega)=1$.\" Here $P(X=1) = P(\\{HT, TH\\}) = \\tfrac{2}{4} = \\tfrac12$.</p>\n\n<h3>2. Discrete vs. continuous</h3>\n<p>Random variables come in two flavors, distinguished by the set of values they can take.</p>\n<ul>\n<li>A <strong>discrete</strong> random variable takes values in a countable set — typically integers. Counts (heads, defects, customers) are discrete.</li>\n<li>A <strong>continuous</strong> random variable takes values in an interval of $\\mathbb{R}$, an uncountable continuum. Measurements (height, waiting time, voltage) are continuous.</li>\n</ul>\n<p>The split matters because <em>how we assign probability differs</em>: discrete variables put lumps of probability on individual points; continuous variables spread probability smoothly so that any single point has probability <strong>zero</strong>.</p>\n\n<h3>3. The probability mass function (PMF)</h3>\n<p>For a discrete $X$, the <strong>probability mass function</strong> is $p_X(x) = P(X = x)$ — the probability piled on each value. It must satisfy two properties:</p>\n<ul>\n<li><strong>Nonnegativity:</strong> $p_X(x) \\ge 0$ for all $x$.</li>\n<li><strong>Normalization:</strong> $\\sum_x p_X(x) = 1$ — all the mass sums to one.</li>\n</ul>\n<p><strong>Fair die.</strong> Let $X$ be the face shown. Then $p_X(x) = \\tfrac16$ for $x \\in \\{1,2,3,4,5,6\\}$ and $0$ otherwise. Check: $6 \\times \\tfrac16 = 1$. The probability of rolling at most $2$ is $p_X(1)+p_X(2) = \\tfrac16+\\tfrac16 = \\tfrac13$.</p>\n<p><strong>Bernoulli.</strong> A single yes/no trial with success probability $p$ gives $X \\in \\{0,1\\}$ with $p_X(1)=p$ and $p_X(0)=1-p$. Its mean is $\\mathbb{E}[X] = 0\\cdot(1-p) + 1\\cdot p = p$ and its variance is $\\text{Var}(X) = p(1-p)$.</p>\n\n<h3>4. The probability density function (PDF): probability is area</h3>\n<p>For continuous $X$ we cannot list $P(X=x)$ — every such probability is $0$. Instead we use a <strong>probability density function</strong> $f_X(x)$, where probability is the <em>area under the curve</em>:</p>\n$$P(a \\le X \\le b) = \\int_a^b f_X(x)\\,dx.$$\n<p>The density itself is not a probability (it can exceed $1$); only areas are. It must satisfy:</p>\n<ul>\n<li><strong>Nonnegativity:</strong> $f_X(x) \\ge 0$.</li>\n<li><strong>Total area one:</strong> $\\displaystyle\\int_{-\\infty}^{\\infty} f_X(x)\\,dx = 1$.</li>\n</ul>\n<p>Because a single point has zero width, $P(X=a)=0$, and consequently the endpoints do not matter: $P(a \\le X \\le b) = P(a < X < b)$.</p>\n<p><strong>Uniform on $[0,1]$.</strong> Here $f_X(x) = 1$ for $0 \\le x \\le 1$ and $0$ elsewhere. The area is $1 \\times 1 = 1$, good. Then $P(0.2 \\le X \\le 0.5) = \\int_{0.2}^{0.5} 1\\,dx = 0.3$. On a general interval $[\\alpha,\\beta]$ the uniform density is the constant $\\tfrac{1}{\\beta-\\alpha}$.</p>\n\n<h3>5. The cumulative distribution function (CDF)</h3>\n<p>One object describes <em>both</em> types: the <strong>cumulative distribution function</strong></p>\n$$F_X(x) = P(X \\le x).$$\n<p>It accumulates probability from the left. Its universal properties are:</p>\n<ul>\n<li><strong>Monotone nondecreasing</strong>: if $a \\le b$ then $F_X(a) \\le F_X(b)$.</li>\n<li><strong>Limits</strong>: $F_X(-\\infty)=0$ and $F_X(+\\infty)=1$.</li>\n<li><strong>Right-continuous</strong> everywhere.</li>\n</ul>\n<p>For discrete $X$ the CDF is a <strong>staircase</strong> that jumps by $p_X(x)$ at each value. For the fair die, $F_X(3) = P(X\\le 3) = \\tfrac36 = \\tfrac12$. For continuous $X$ the CDF is smooth and $F_X'(x) = f_X(x)$ — the density is the slope of the CDF. For the uniform on $[0,1]$, $F_X(x)=x$ on $[0,1]$, a straight ramp from $0$ to $1$.</p>\n\n<h3>6. Reading probabilities off a distribution</h3>\n<p>The CDF turns probability questions into subtraction. For <em>any</em> random variable,</p>\n$$P(a < X \\le b) = F_X(b) - F_X(a).$$\n<p>For the uniform on $[0,1]$, $P(0.2 < X \\le 0.5) = F_X(0.5) - F_X(0.2) = 0.5 - 0.2 = 0.3$, matching the area we integrated. To get a tail, complement: $P(X > a) = 1 - F_X(a)$. These three moves — accumulate, subtract, complement — answer almost every elementary distribution question.</p>\n<div class=\"callout sage\">\n<div class=\"c-tag\">Big picture</div>\n<p>The PMF/PDF and the CDF are two views of the same information: one is the \"local\" weight at or near a point, the other is the \"running total.\" Differentiate the CDF to recover the density; integrate (or sum) the density to recover the CDF. Mastering this translation is the foundation for every named distribution you will meet next.</p>\n</div>",
-          "mcq": [],
+          "mcq": [
+            {
+              "q": "A random variable $X$ is best described as which of the following?",
+              "choices": [
+                "A function $X:\\Omega\\to\\mathbb{R}$ that assigns a real number to each outcome",
+                "A numerical value chosen at random from $\\mathbb{R}$ each time you look at it",
+                "A probability between 0 and 1 attached to an event",
+                "A subset of the sample space $\\Omega$"
+              ],
+              "answer": 0,
+              "explain": "Despite its name, a random variable is a deterministic function from the sample space to the reals; the randomness is in which outcome occurs. It is not itself a probability (choice 2) nor an event/subset (choice 3)."
+            },
+            {
+              "q": "For the two-coin-flip example with $X$ counting heads, the notation $\\{X=1\\}$ formally denotes which object?",
+              "choices": [
+                "The number 1",
+                "The probability $\\tfrac12$",
+                "The set of outcomes $\\{\\omega : X(\\omega)=1\\} = \\{HT, TH\\}$",
+                "The function value $X(HT)$"
+              ],
+              "answer": 2,
+              "explain": "A numeric event like $\\{X=1\\}$ is shorthand for the set of sample-space outcomes that $X$ maps to 1, here $\\{HT,TH\\}$. Its probability is $\\tfrac12$, but the event itself is the set, not the number or the probability."
+            },
+            {
+              "q": "Which of these random variables is continuous rather than discrete?",
+              "choices": [
+                "The number of defective items in a shipment of 100",
+                "The exact time in seconds until the next customer arrives",
+                "The face shown on a rolled die",
+                "The number of heads in ten coin flips"
+              ],
+              "answer": 1,
+              "explain": "A waiting time can take any value in an interval of $\\mathbb{R}$, an uncountable continuum, so it is continuous. The other three are counts taking values in a countable (integer) set, hence discrete."
+            },
+            {
+              "q": "A friend claims a function $f$ with $f(x)=2$ on $[0,0.5]$ and $f(x)=0$ elsewhere cannot be a valid PDF because $f(x)=2>1$. What is the correct response?",
+              "choices": [
+                "They are right; a PDF can never exceed 1 anywhere",
+                "They are wrong; a density is not a probability, and here the area is $2\\times 0.5 = 1$, so it is valid",
+                "They are right; densities must lie in $[0,1]$ just like probabilities",
+                "They are wrong, but only because $f$ should equal exactly 1 on its support"
+              ],
+              "answer": 1,
+              "explain": "A density value is not a probability; only areas under it are. Since $\\int f = 2\\times 0.5 = 1$ and $f\\ge 0$, this is a legitimate PDF even though the height exceeds 1. The common misconception is treating density like a bounded probability."
+            },
+            {
+              "q": "A discrete random variable has PMF $p_X(x)=c(4-x)$ for $x\\in\\{0,1,2,3\\}$ and 0 otherwise. What is $c$?",
+              "choices": [
+                "$\\tfrac{1}{4}$",
+                "$\\tfrac{1}{6}$",
+                "$\\tfrac{1}{10}$",
+                "$\\tfrac{1}{12}$"
+              ],
+              "answer": 2,
+              "explain": "Normalization requires $\\sum_x p_X(x)=c(4+3+2+1)=10c=1$, so $c=\\tfrac{1}{10}$. The values $4-x$ for $x=0,1,2,3$ are $4,3,2,1$, summing to 10."
+            },
+            {
+              "q": "For a continuous random variable $X$, what is $P(X=a)$ for any single fixed value $a$?",
+              "choices": [
+                "$f_X(a)$, the density at $a$",
+                "Always exactly 0",
+                "$F_X(a)$, the CDF at $a$",
+                "It depends on how peaked the density is at $a$"
+              ],
+              "answer": 1,
+              "explain": "A single point has zero width, so $\\int_a^a f_X(x)\\,dx = 0$; hence $P(X=a)=0$ for every $a$, regardless of the density's value or shape there. The density $f_X(a)$ is not a probability."
+            },
+            {
+              "q": "$X$ is uniform on $[0,10]$. What is $P(3 \\le X \\le 7)$?",
+              "choices": [
+                "$0.7$",
+                "$0.3$",
+                "$0.4$",
+                "$0.5$"
+              ],
+              "answer": 2,
+              "explain": "The uniform density on $[0,10]$ is $\\tfrac{1}{10}$, so $P(3\\le X\\le 7)=\\int_3^7 \\tfrac{1}{10}\\,dx = \\tfrac{7-3}{10}=0.4$. Equivalently $F_X(7)-F_X(3)=0.7-0.3$."
+            },
+            {
+              "q": "Which property is NOT guaranteed for the CDF $F_X(x)=P(X\\le x)$ of a general random variable?",
+              "choices": [
+                "$F_X$ is nondecreasing",
+                "$F_X(-\\infty)=0$ and $F_X(+\\infty)=1$",
+                "$F_X$ is continuous (no jumps) everywhere",
+                "$F_X$ is right-continuous everywhere"
+              ],
+              "answer": 2,
+              "explain": "Every CDF is nondecreasing, has the correct limits, and is right-continuous, but it need not be continuous: a discrete random variable's CDF is a staircase with jumps. Right-continuity (choice 4) always holds, but full continuity (choice 3) does not."
+            },
+            {
+              "q": "A continuous random variable has CDF $F_X(x)=x^2$ for $0\\le x\\le 1$ (and 0 below, 1 above). What is its density $f_X(x)$ on $(0,1)$?",
+              "choices": [
+                "$2x$",
+                "$x^2$",
+                "$\\tfrac{x^3}{3}$",
+                "$x$"
+              ],
+              "answer": 0,
+              "explain": "For a continuous variable the density is the derivative of the CDF: $f_X(x)=F_X'(x)=\\tfrac{d}{dx}x^2=2x$. Differentiating, not integrating, recovers the density from the CDF."
+            },
+            {
+              "q": "For the fair-die variable $X$ with $F_X$ the staircase CDF, which expression correctly gives $P(2 \\le X \\le 4)$ using the CDF?",
+              "choices": [
+                "$F_X(4)-F_X(2)$",
+                "$F_X(4)-F_X(1)$",
+                "$F_X(4)-F_X(3)$",
+                "$F_X(2)-F_X(4)$"
+              ],
+              "answer": 1,
+              "explain": "To include the value 2, you must subtract $F_X$ evaluated just below 2, which for an integer-valued variable is $F_X(1)$: $P(2\\le X\\le 4)=F_X(4)-F_X(1)=\\tfrac46-\\tfrac16=\\tfrac36$. Using $F_X(4)-F_X(2)$ wrongly drops the mass at $x=2$."
+            },
+            {
+              "q": "A Bernoulli($p$) variable has $P(X=1)=p$ and $P(X=0)=1-p$. Using $X^2=X$, what is $\\mathbb{E}[X^2]$?",
+              "choices": [
+                "$p^2$",
+                "$p(1-p)$",
+                "$p$",
+                "$1-p$"
+              ],
+              "answer": 2,
+              "explain": "Since $0^2=0$ and $1^2=1$, we have $X^2=X$, so $\\mathbb{E}[X^2]=\\mathbb{E}[X]=p$. (This is why $\\text{Var}(X)=p-p^2=p(1-p)$; the tempting $p^2$ confuses $\\mathbb{E}[X^2]$ with $(\\mathbb{E}[X])^2$.)"
+            },
+            {
+              "q": "The general continuous-vs-discrete distinction matters most because it changes which of the following?",
+              "choices": [
+                "Whether the random variable can be negative",
+                "How probability is assigned: lumps on points (summed) versus area under a curve (integrated)",
+                "Whether expectation is defined for the variable",
+                "Whether the CDF exists for the variable"
+              ],
+              "answer": 1,
+              "explain": "The split governs the probability mechanism: discrete variables place mass on points described by a PMF and summed, while continuous variables spread density described by a PDF and integrated. Both can be negative, both have a CDF, and both can have an expectation, so those do not distinguish the two types."
+            }
+          ],
           "flashcards": [
             {
               "front": "What is a random variable, formally?",
@@ -203,7 +602,140 @@
           "title": "Expectation, Variance & the Shape of a Distribution",
           "minutes": 15,
           "content": "<h3>1. The center of mass of randomness</h3>\n<p>Imagine spinning a roulette of outcomes thousands of times and writing down the value each time. If you average those numbers, the average <em>settles down</em> to a single, predictable figure. That figure is the <strong>expected value</strong> $\\mathbb{E}[X]$ — not a value you necessarily ever observe, but the <strong>long-run average</strong> and the <strong>balance point</strong> of the distribution. Place the probability mass of $X$ on a weightless ruler; $\\mathbb{E}[X]$ is where it balances.</p>\n<p>For a <strong>discrete</strong> random variable taking values $x_i$ with probabilities $p_i = \\mathbb{P}(X = x_i)$,</p>\n$$\\mathbb{E}[X] = \\sum_i x_i \\, p_i.$$\n<p>For a <strong>continuous</strong> variable with probability density $f(x)$, sums become integrals:</p>\n$$\\mathbb{E}[X] = \\int_{-\\infty}^{\\infty} x \\, f(x)\\,dx.$$\n<p><strong>Numeric example.</strong> Roll one fair die, $X \\in \\{1,\\dots,6\\}$ each with probability $\\tfrac16$. Then $\\mathbb{E}[X] = \\tfrac16(1+2+3+4+5+6) = \\tfrac{21}{6} = 3.5$. The mean is $3.5$ even though no face shows $3.5$ — the balance point need not be attainable.</p>\n<div class=\"callout\">\n<div class=\"c-tag\">Intuition</div>\n<p>$\\mathbb{E}[X]$ is a <em>weighted</em> average: each possible value pulls on the balance point with force equal to its probability. Rare values contribute little; likely values dominate. This is the physicist's center of mass with mass replaced by probability.</p>\n</div>\n\n<h3>2. Linearity of expectation</h3>\n<p>The single most useful property in all of probability: expectation is <strong>linear</strong>. For any random variables $X, Y$ and constants $a, b$,</p>\n$$\\mathbb{E}[aX + bY] = a\\,\\mathbb{E}[X] + b\\,\\mathbb{E}[Y].$$\n<p>The remarkable part is the fine print: <strong>this holds even when $X$ and $Y$ are dependent</strong>. No independence assumption is needed. You can split the expectation of a sum into a sum of expectations no matter how tangled the variables are.</p>\n<p><strong>Example.</strong> Sum of two dice, $S = X_1 + X_2$. Even though we could enumerate all 36 outcomes, linearity gives the answer instantly: $\\mathbb{E}[S] = \\mathbb{E}[X_1] + \\mathbb{E}[X_2] = 3.5 + 3.5 = 7$. The same trick scales effortlessly: the expected sum of $100$ dice is $350$, computed without touching a single joint distribution.</p>\n<div class=\"callout sage\">\n<div class=\"c-tag\">Why this matters for ML</div>\n<p>Mini-batch training relies on linearity: the expected gradient over a batch equals the average of per-example expected gradients, so a small random batch is an unbiased estimate of the full-data gradient. Linearity is what makes stochastic gradient descent <em>correct in expectation</em>.</p>\n</div>\n\n<h3>3. The Law of the Unconscious Statistician</h3>\n<p>Often we want the expectation not of $X$ but of some transformation $g(X)$ — say $X^2$ or $e^X$. You might think you must first find the distribution of $g(X)$. You do not. The <strong>Law of the Unconscious Statistician (LOTUS)</strong> says you can reuse the distribution of $X$ directly:</p>\n$$\\mathbb{E}[g(X)] = \\sum_i g(x_i)\\,p_i \\quad\\text{(discrete)}, \\qquad \\mathbb{E}[g(X)] = \\int_{-\\infty}^{\\infty} g(x)\\,f(x)\\,dx \\quad\\text{(continuous)}.$$\n<p>Just push every value through $g$ and weight by the <em>original</em> probabilities. For our die, $\\mathbb{E}[X^2] = \\tfrac16(1+4+9+16+25+36) = \\tfrac{91}{6} \\approx 15.17$. Note this is <em>not</em> $(\\mathbb{E}[X])^2 = 12.25$; in general $\\mathbb{E}[g(X)] \\ne g(\\mathbb{E}[X])$ unless $g$ is linear.</p>\n\n<h3>4. Variance: how far things spread</h3>\n<p>The mean tells you <em>where</em> a distribution sits, not <em>how spread out</em> it is. A bet paying $\\$0$ or $\\$100$ on a coin flip and a guaranteed $\\$50$ both have mean $50$, but they feel utterly different. <strong>Variance</strong> measures spread as the expected squared distance from the mean $\\mu = \\mathbb{E}[X]$:</p>\n$$\\text{Var}(X) = \\mathbb{E}\\big[(X-\\mu)^2\\big].$$\n<p>Squaring keeps deviations positive and punishes large excursions heavily. Expanding the square and using linearity gives the indispensable <strong>computational formula</strong>:</p>\n$$\\text{Var}(X) = \\mathbb{E}[X^2] - (\\mathbb{E}[X])^2.$$\n<p>For our die: $\\text{Var}(X) = \\tfrac{91}{6} - 3.5^2 = 15.1\\overline{6} - 12.25 = 2.91\\overline{6} = \\tfrac{35}{12}$. Because variance is in squared units (dollars-squared, say), we usually report the <strong>standard deviation</strong> $\\sigma = \\sqrt{\\text{Var}(X)}$, here $\\sigma = \\sqrt{35/12} \\approx 1.71$ — a spread in the same units as $X$ itself. Variance is always $\\ge 0$, and equals $0$ exactly when $X$ is a constant.</p>\n\n<h3>5. How variance reacts to shifts and scales</h3>\n<p>Suppose you transform $X$ linearly into $aX + b$. Shifting by $b$ slides the whole distribution sideways — it moves the center but changes <em>nothing</em> about spread. Scaling by $a$ stretches deviations by $a$, so squared deviations stretch by $a^2$:</p>\n$$\\text{Var}(aX + b) = a^2\\,\\text{Var}(X), \\qquad \\sigma(aX+b) = |a|\\,\\sigma(X).$$\n<p>The additive constant $b$ vanishes; only the multiplier survives, and it comes out <em>squared</em>. Converting Celsius to Fahrenheit, $F = 1.8C + 32$, multiplies the standard deviation of temperatures by $1.8$ and the variance by $1.8^2 = 3.24$, while the $+32$ does nothing to the spread.</p>\n<div class=\"callout violet\">\n<div class=\"c-tag\">Big picture</div>\n<p>Mean is a <em>linear</em> functional (constants pass through additively); variance is <em>quadratic</em> (constants pass through squared, shifts disappear). This split — first moment linear, second central moment quadratic — echoes throughout statistics, from error bars to the bias-variance decomposition.</p>\n</div>\n\n<h3>6. A word on skew</h3>\n<p>Mean and variance fix the center and width but not the <strong>shape</strong>. A distribution is <strong>symmetric</strong> if it mirrors around its mean, where mean and median coincide. When a long tail stretches to the right (a few very large values), we call it <strong>right-skewed</strong> (positive skew) — incomes are the classic case, with the mean dragged above the median by the wealthy few. A long left tail is <strong>left-skewed</strong>. Skew, formally a normalized third central moment $\\mathbb{E}[(X-\\mu)^3]/\\sigma^3$, is the next layer of detail after center and spread: it tells you <em>which way the surprises lean</em>.</p>\n<p>Together, $\\mathbb{E}[X]$ (where), $\\sigma$ (how wide), and skew (which way) give a compact, powerful sketch of any distribution before you ever draw it.</p>",
-          "mcq": [],
+          "mcq": [
+            {
+              "q": "A fair six-sided die has $\\mathbb{E}[X] = 3.5$. A player wins \\$2 for each pip showing. By linearity of expectation, what is the expected winnings $\\mathbb{E}[2X]$?",
+              "choices": [
+                "\\$3.5",
+                "\\$7",
+                "\\$12",
+                "\\$21"
+              ],
+              "answer": 1,
+              "explain": "$\\mathbb{E}[2X] = 2\\,\\mathbb{E}[X] = 2(3.5) = 7$. Expectation scales linearly with constant multipliers, so the dollar value is twice the expected pip count."
+            },
+            {
+              "q": "A discrete random variable $X$ takes value $0$ with probability $0.9$ and value $100$ with probability $0.1$. What is $\\mathbb{E}[X]$?",
+              "choices": [
+                "$50$, the midpoint of the two values",
+                "$0$, the most likely value",
+                "$10$",
+                "$100$, the largest possible value"
+              ],
+              "answer": 2,
+              "explain": "$\\mathbb{E}[X] = 0(0.9) + 100(0.1) = 10$. The mean is a probability-weighted average, not the midpoint of the range nor the mode; the rare large value pulls the balance point only slightly toward $100$."
+            },
+            {
+              "q": "Why can the expected value $\\mathbb{E}[X]$ of a discrete random variable be a number that $X$ never actually takes?",
+              "choices": [
+                "Because $\\mathbb{E}[X]$ is the balance point of the probability mass, which need not coincide with any single outcome",
+                "Because the formula for $\\mathbb{E}[X]$ contains a rounding error",
+                "Because $\\mathbb{E}[X]$ is really the median, not the mean",
+                "Because probabilities do not have to sum to $1$"
+              ],
+              "answer": 0,
+              "explain": "$\\mathbb{E}[X]$ is the center of mass of the distribution; like balancing a ruler, the balance point can fall between the weighted points and need not be an attainable outcome (e.g. $3.5$ for a die)."
+            },
+            {
+              "q": "A continuous random variable has density $f(x) = 2x$ for $x \\in [0,1]$ and $0$ elsewhere. What is $\\mathbb{E}[X] = \\int_0^1 x \\cdot 2x\\,dx$?",
+              "choices": [
+                "$\\tfrac12$",
+                "$1$",
+                "$\\tfrac23$",
+                "$\\tfrac13$"
+              ],
+              "answer": 2,
+              "explain": "$\\int_0^1 2x^2\\,dx = \\tfrac{2}{3}x^3\\big|_0^1 = \\tfrac23$. The density grows toward $x=1$, so the balance point sits past the midpoint $\\tfrac12$, ruling out that tempting symmetric-looking answer."
+            },
+            {
+              "q": "Interpreting $\\mathbb{E}[X] = \\sum_i x_i p_i$ as a weighted average, which statement is correct?",
+              "choices": [
+                "Each outcome contributes equally regardless of its probability",
+                "Likely values pull the balance point more strongly than rare values",
+                "Only the largest value $x_i$ determines $\\mathbb{E}[X]$",
+                "Rare values dominate because they are more surprising"
+              ],
+              "answer": 1,
+              "explain": "Each value pulls on the balance point with force equal to its probability $p_i$, so high-probability values dominate and rare values contribute little. Surprise does not enter the expectation formula."
+            },
+            {
+              "q": "Two distributions have the same mean $\\mu = 0$. Distribution A is concentrated near $0$; distribution B has mass spread far out toward $\\pm 100$. What does this tell you about their variances?",
+              "choices": [
+                "They must have equal variance since the means are equal",
+                "A has the larger variance",
+                "B has the larger variance",
+                "Variance cannot be compared without knowing the medians"
+              ],
+              "answer": 2,
+              "explain": "Variance measures average squared spread about the mean; B's mass sits far from $0$, producing large squared deviations and thus larger variance. Equal means say nothing about spread."
+            },
+            {
+              "q": "For a fair die with $\\mathbb{E}[X]=3.5$, a common error is to compute variance as $\\mathbb{E}[X]^2 = 3.5^2 = 12.25$. Why is this wrong as a formula for $\\mathrm{Var}(X)$?",
+              "choices": [
+                "Variance is $\\mathbb{E}[X^2] - (\\mathbb{E}[X])^2$, not $(\\mathbb{E}[X])^2$",
+                "Variance equals $\\mathbb{E}[X]$ for any distribution",
+                "$3.5^2$ should be computed as $7$",
+                "Variance is always negative for a die"
+              ],
+              "answer": 0,
+              "explain": "Variance is $\\mathrm{Var}(X) = \\mathbb{E}[X^2] - (\\mathbb{E}[X])^2$; squaring the mean alone ignores $\\mathbb{E}[X^2]$. The two quantities differ because $\\mathbb{E}[X^2] \\ge (\\mathbb{E}[X])^2$ by Jensen's inequality."
+            },
+            {
+              "q": "A constant $c$ is added to every outcome of $X$. How do the mean and variance change?",
+              "choices": [
+                "Mean increases by $c$; variance increases by $c$",
+                "Mean increases by $c$; variance is unchanged",
+                "Mean is unchanged; variance increases by $c^2$",
+                "Both mean and variance are unchanged"
+              ],
+              "answer": 1,
+              "explain": "Shifting all values by $c$ slides the balance point: $\\mathbb{E}[X+c]=\\mathbb{E}[X]+c$. But spread about the (also shifted) mean is identical, so $\\mathrm{Var}(X+c)=\\mathrm{Var}(X)$."
+            },
+            {
+              "q": "A random variable $X$ is scaled to $Y = 3X$. If $\\mathrm{Var}(X) = 4$, what is $\\mathrm{Var}(Y)$?",
+              "choices": [
+                "$12$",
+                "$7$",
+                "$36$",
+                "$4$"
+              ],
+              "answer": 2,
+              "explain": "Variance scales by the square of the multiplier: $\\mathrm{Var}(3X) = 3^2\\,\\mathrm{Var}(X) = 9 \\cdot 4 = 36$. The tempting $12 = 3\\cdot 4$ forgets that deviations are squared inside the variance."
+            },
+            {
+              "q": "Standard deviation is defined as $\\sigma = \\sqrt{\\mathrm{Var}(X)}$. Why is $\\sigma$ often preferred over variance when reporting spread?",
+              "choices": [
+                "Because $\\sigma$ is always smaller than the variance",
+                "Because $\\sigma$ has the same units as $X$, making it directly interpretable",
+                "Because $\\sigma$ ignores the mean entirely",
+                "Because variance can be negative but $\\sigma$ cannot"
+              ],
+              "answer": 1,
+              "explain": "Squaring deviations gives variance units of $X$ squared; taking the square root restores the original units, so $\\sigma$ is comparable to the values of $X$ itself. Variance is never negative, so that is not the reason."
+            },
+            {
+              "q": "A right-skewed distribution (a long tail to the right, e.g. household incomes) typically has which ordering of its mean and median?",
+              "choices": [
+                "Mean $>$ median, because the long right tail pulls the balance point up",
+                "Mean $<$ median, because the tail lowers the average",
+                "Mean $=$ median, because skew does not affect either",
+                "Mean $=$ mode, regardless of skew"
+              ],
+              "answer": 0,
+              "explain": "The mean is the balance point and is dragged toward the long tail, so for right skew the mean exceeds the median. The median, a positional middle, resists the tail's pull."
+            },
+            {
+              "q": "Suppose $\\mathbb{E}[X] = 5$ for some random variable. Which conclusion is justified?",
+              "choices": [
+                "At least half of all observations of $X$ equal $5$",
+                "Over many independent trials, the sample average of $X$ tends toward $5$",
+                "The single most likely value of $X$ is $5$",
+                "Every observed value of $X$ lies within a small range around $5$"
+              ],
+              "answer": 1,
+              "explain": "$\\mathbb{E}[X]$ is the long-run average: across many trials the running mean settles toward $5$. It is neither the median, the mode, nor a guarantee about any individual observation's proximity to the mean."
+            }
+          ],
           "flashcards": [
             {
               "front": "Define the expected value $\\mathbb{E}[X]$ for discrete and continuous random variables.",
