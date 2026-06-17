@@ -2,6 +2,24 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 231 — Causal-masking visualizer: the attention triangle (visualizations)
+Visualizations lane (rotating off UI/UX). The single deepest "why decoders work the way they do" idea — **causal
+masking** — had prose + a KV-cache discussion in `l-multihead-and-causal-masking` but no picture. Added the **51st Lab
+widget `llm-causal-mask`**: a 7×7 attention matrix over the tokens *"The cat sat on the mat ."* with
+- a **mask toggle** that flips between full **bidirectional** attention (BERT-style — every cell live, every token sees
+  every token) and **causal** lower-triangular attention (decoder-LM — token *i* attends only to positions ≤ *i*, with
+  **✕ on the blocked future cells**), recency-biased softmax weights shaded per allowed row;
+- a **step** control that reveals query rows one at a time (autoregressive generation, left→right) plus an **all** reset,
+  making visible *why* the whole matrix is computed at once under teacher-forced training while inference fills one row
+  at a time — the structural reason the KV cache exists.
+Embedded after the "Causal Masking: Don't Peek at the Future" section. Note text is **plain HTML** (`<i>i</i>`, ✕), not
+KaTeX (viz notes aren't typeset — the viz-note landmine).
+Verified: `gate.js` ALL GREEN (**51 widgets**, embed resolves); all-routes smoke (12 routes incl. `#/lab/llm-causal-mask`
++ the lesson) **errs=0/kErr=0 rawDollar=0**; desktop screenshot shows the masked lower-triangular grid (✕ future cells,
+token row/col labels, current-row gold highlight) and the toggled full-bidirectional grid; **390px mobile** (iframe) the
+canvas scales to width and both mask-state notes read correctly. app.js viz-complete fallback bumped `|| 50` → `|| 51`.
+SW cache `atlas-v173` → `atlas-v174`.
+
 ## iter 230 — Back-to-top button on long pages (UI/UX)
 Freshest lane (UI/UX, last ~iter 208). The site has many long pages — lessons, the 50-widget Lab, the 55-achievement
 Hall — but no quick way back to the top once you've scrolled down. Added a floating **back-to-top button** (bottom-right,

@@ -3028,4 +3028,66 @@
     draw();                                                    // synchronous first paint
   });
 
+  /* ========================================================
+     51. Causal masking: the attention triangle (LLM)
+     ===================================================== */
+  register({ id: 'llm-causal-mask', topic: 'llm', title: 'Causal Masking: the Attention Triangle', blurb: 'In a decoder LM, token i may attend only to tokens ≤ i — never the future. That mask makes the attention matrix lower-triangular, which is what lets every position train in parallel (teacher forcing) yet generate one token at a time. Toggle the mask and step through generation to see it.' },
+  function (root) {
+    const W = 520, H = 380, MONO = "JetBrains Mono, monospace";
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    const toks = ["The", "cat", "sat", "on", "the", "mat", "."];
+    const N = toks.length;
+    let masked = true, step = N;                               // step = how many query rows are "generated" so far
+    // recency-biased raw scores; weights are softmax over the ALLOWED keys of each row
+    function rowWeights(i) {
+      const allowed = [], sc = [];
+      for (let j = 0; j < N; j++) { if (!masked || j <= i) { allowed.push(j); sc.push(-0.6 * Math.abs(i - j) + (j === i ? 0.4 : 0)); } }
+      const m = Math.max.apply(null, sc), e = sc.map(s => Math.exp(s - m)), z = e.reduce((a, b) => a + b, 0);
+      const w = {}; allowed.forEach((j, k) => w[j] = e[k] / z);
+      return w;
+    }
+    const gx = 120, gy = 56, cell = 40;                        // grid origin + cell size
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      ctx.font = '600 11px ' + MONO; ctx.fillStyle = p.mute;
+      ctx.textAlign = 'center'; ctx.fillText('keys (attended-to tokens) →', gx + N * cell / 2, gy - 26);
+      // column (key) labels
+      ctx.fillStyle = p.soft; ctx.font = '10px ' + MONO;
+      for (let j = 0; j < N; j++) { ctx.save(); ctx.translate(gx + j * cell + cell / 2, gy - 6); ctx.rotate(-0.5); ctx.textAlign = 'left'; ctx.fillText(toks[j], 0, 0); ctx.restore(); }
+      for (let i = 0; i < N; i++) {
+        // row (query) label
+        ctx.fillStyle = i < step ? p.soft : p.mute; ctx.font = (i === step - 1 ? '700 ' : '') + '10px ' + MONO; ctx.textAlign = 'right';
+        ctx.fillText(toks[i], gx - 8, gy + i * cell + cell / 2 + 4);
+        const w = rowWeights(i);
+        for (let j = 0; j < N; j++) {
+          const x = gx + j * cell, y = gy + i * cell;
+          const isMaskedCell = masked && j > i;
+          const revealed = i < step;                            // rows beyond the generation step are dim
+          if (isMaskedCell) {
+            ctx.fillStyle = p.panel2; ctx.globalAlpha = 0.4; ctx.fillRect(x + 1, y + 1, cell - 2, cell - 2); ctx.globalAlpha = 1;
+            ctx.strokeStyle = p.line; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x + 7, y + 7); ctx.lineTo(x + cell - 7, y + cell - 7); ctx.moveTo(x + cell - 7, y + 7); ctx.lineTo(x + 7, y + cell - 7); ctx.stroke();
+          } else {
+            const a = (w[j] || 0);
+            ctx.fillStyle = p.sage; ctx.globalAlpha = revealed ? Math.max(0.12, a) : 0.08; ctx.fillRect(x + 1, y + 1, cell - 2, cell - 2); ctx.globalAlpha = 1;
+          }
+          ctx.strokeStyle = (i === step - 1 && !isMaskedCell) ? p.gold : p.line; ctx.lineWidth = (i === step - 1 && !isMaskedCell) ? 2 : 1; ctx.strokeRect(x + 1, y + 1, cell - 2, cell - 2);
+        }
+      }
+      ctx.fillStyle = p.mute; ctx.font = '600 10px ' + MONO; ctx.save(); ctx.translate(gx - 78, gy + N * cell / 2); ctx.rotate(-Math.PI / 2); ctx.textAlign = 'center'; ctx.fillText('queries (current token) →', 0, 0); ctx.restore();
+      const cur = Math.max(0, Math.min(N - 1, step - 1));
+      info.innerHTML = masked
+        ? `<b>Causal mask ON.</b> The attention matrix is <b>lower-triangular</b>: row <i>i</i> (token "${toks[cur]}") attends only to tokens at positions ≤ <i>i</i> — the ✕ cells (the future) are blocked. Because each row depends only on the past, <b>all rows can be computed at once during training</b> (teacher forcing), while generation fills one row at a time, left to right.`
+        : `<b>Causal mask OFF.</b> Every token attends to <b>all</b> tokens, future included (bidirectional, like BERT's encoder). Great for understanding a fixed sentence, but you <b>cannot generate</b> left-to-right with it — predicting the next token would let it peek at the answer.`;
+    }
+    button(ctl, 'mask: causal', function () { masked = !masked; this.innerHTML = masked ? 'mask: causal' : 'mask: none (BERT)'; draw(); });
+    button(ctl, '◀ step', function () { step = Math.max(1, step - 1); draw(); });
+    button(ctl, 'step ▶', function () { step = Math.min(N, step + 1); draw(); });
+    button(ctl, 'all', function () { step = N; draw(); });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Causal masking visualizer: a 7×7 attention matrix over tokens; with the causal mask on, cells above the diagonal (future positions) are blocked with an ✕, leaving a lower-triangular pattern of attention weights. A toggle removes the mask (bidirectional), and step buttons reveal query rows one at a time to mimic left-to-right generation.');
+    draw();                                                    // synchronous first paint
+  });
+
 })();
