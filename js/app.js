@@ -137,6 +137,13 @@
     setTimeout(() => f.remove(), 1300);
     ring.classList.remove("xp-pop"); void ring.offsetWidth; ring.classList.add("xp-pop");
   }
+  function sweepGoalRing(pct) {
+    const gr = document.querySelector(".goal-ring"); if (!gr) return;
+    const target = Math.max(0, Math.min(100, pct || 0));
+    if (reducedMotion()) { gr.style.setProperty("--p", target); return; }
+    // start at 0 (inline), then flip to target on the next frames so the --p transition fires
+    requestAnimationFrame(() => requestAnimationFrame(() => gr.style.setProperty("--p", target)));
+  }
   function countUp(el) {
     const m = String(el.textContent).trim().match(/^(\d[\d,]*)(.*)$/s);
     if (!m) return;
@@ -386,7 +393,7 @@
       </div>
 
       <div class="today-strip reveal">
-        <div class="goal-ring" style="--p:${goalPct}"><span>${goalPct}%</span></div>
+        <div class="goal-ring" style="--p:0"><span>${goalPct}%</span></div>
         <div class="today-text">
           <div class="t-main">Today's goal: <b>${today} / ${goal} XP</b> ${goalPct >= 100 ? "<span style='color:var(--sage)'>· hit! 🎉</span>" : ""}</div>
           <div class="t-sub">${weak.length ? `<span style="color:var(--rust)">⚠ ${weak.length} concept${weak.length === 1 ? "" : "s"} need review</span>` : "🔥 streak " + st.streak + " days · no weak spots right now"}${Store.raw.freezes ? ` · ❄️ ${Store.raw.freezes} freeze${Store.raw.freezes === 1 ? "" : "s"}` : ""}</div>
@@ -416,6 +423,7 @@
     </div>`;
     bindGo();
     document.querySelectorAll(".stat-strip .v").forEach(countUp);   // count-up the hero stats on landing
+    sweepGoalRing(goalPct);                                          // animate the daily-goal ring fill 0 → goalPct
     typeset();
   }
 

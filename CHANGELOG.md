@@ -2,6 +2,22 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 140 — Animated daily-goal ring sweep on the dashboard (animations) — ★140 checkpoint
+The dashboard's stat numbers already count up on landing, but the daily-goal ring next to them rendered statically (a
+plain `--p` in its conic-gradient, with no `@property` registration so it couldn't interpolate). Now it **sweeps from
+0 to today's goal %** in sage green, in step with the count-up, so the whole "today" strip comes alive together.
+- **styles.css**: registered `@property --p` (`<number>`, initial 0) and added a `transition: --p .9s` to `.goal-ring`,
+  so the conic angle is now animatable (mirrors the existing `@property --ring` level-ring pattern).
+- **app.js**: render the ring at `--p:0`, then `sweepGoalRing(goalPct)` flips it to the target across two `rAF`s so the
+  transition fires. Reduced-motion sets the value instantly (and the global `prefers-reduced-motion` rule zeroes the
+  transition anyway).
+- **Verified**: `node gate.js` ALL GREEN; render-check seeded a 70% goal → `errs=0`, ring caught mid-sweep at `--p≈18`
+  (interpolating, not snapping), and with `--force-prefers-reduced-motion` it lands exactly on `--p=70` (target correct);
+  all-routes smoke `errs=0`; desktop + 390px mobile screenshots read (clean sage sweep, on-aesthetic). SW cache **v82 → v83**.
+- **★140 reflection**: last 10 iters = MCQ arc ×5 interleaved with viz ×2, a11y, gamification, understandability; the LA
+  12→16 arc is healthy (4/7 modules). Animations had been neglected since iter 122 — this revisits it. Still-thin areas
+  to rotate through next: workflow (since 126), new functionality (since 113), UI/UX, mobile audit.
+
 ## iter 139 — MCQ arc → Linear Algebra · Eigen 12 → 16 (content — owner's #1 ask)
 The 12→16 arc continues through LA's **Eigenvalues, Eigenvectors, and Diagonalization** module. **+4 new MCQs each** to
 *Eigenvalues & Eigenvectors*, *Diagonalization & Matrix Powers*, and *Symmetric Matrices & the Spectral Theorem*
