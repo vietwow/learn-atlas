@@ -2,6 +2,24 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 172 — KL-divergence visualization (`dl-kl-divergence`, the 39th widget) (visualizations)
+KL divergence is everywhere in this curriculum — the VAE's latent regularizer, PPO's trust region, the cross-entropy/
+LM objective — yet it's abstract and famously *asymmetric*, and had no viz. New `dl-kl-divergence` widget makes it
+tangible: a fixed standard-normal **prior** $p=\mathcal N(0,1)$ (sage) and an adjustable Gaussian **posterior**
+$q=\mathcal N(\mu,\sigma^2)$ (gold, μ/σ sliders). It shows **KL(q‖p)** — exactly the VAE's regularizer — live, and a
+**🎯 Match the prior** button that snaps q to $\mathcal N(0,1)$ so you *watch KL hit 0.000*. It also displays
+**KL(p‖q)** alongside, making the asymmetry concrete (forward KL is mode-covering, reverse KL — which the VAE
+minimises — is mode-seeking). Rigorous with **no trained model**: KL between two Gaussians is the closed form
+$\log(\sigma_2/\sigma_1)+\frac{\sigma_1^2+(\mu_1-\mu_2)^2}{2\sigma_2^2}-\tfrac12$. Static draw (screenshot-faithful);
+note is plain-unicode (uses ‖, μ, σ — no `$…$`). Embedded before "7. Generating and interpolating" in the
+`dl-autoencoders-vae` lesson (the generative module), right where the ELBO's KL term lives.
+- **Verified**: `viz.js` + `deep-learning.js` syntax OK; byte-stable JSON round-trip guard before the embed (+43 bytes);
+  `node gate.js` **ALL GREEN · 39 widgets** (embedded id resolves); lab render-check → `errs=0 | canvas=1 | sliders=2 |
+  rawDollars=0`, and **"Match the prior" drives KL(q‖p) to 0.000** (confirms the closed-form computation + the
+  event-dispatch button wiring); lesson-embed check → `host=1, canvas=1`; all-routes smoke (11) `errs=0`; desktop +
+  **390px** screenshots read crafted/legible (both KL readouts + the two Gaussian curves). SW cache **v114 → v115**;
+  README 38 → 39.
+
 ## iter 171 — MCQ arc → Deep Learning · Transformers 12 → 16 (content — owner's #1 ask)
 The arc continues through DL's sixth module, *Transformers and the Modern Deep Learning Stack*. All **three** lessons
 go 12 → 16 (**+12, bank 2,108 → 2,120**), stating the bedrock the existing 12 assumed:

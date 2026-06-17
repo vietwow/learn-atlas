@@ -2166,4 +2166,57 @@
     draw();
   });
 
+  register({ id: 'dl-kl-divergence', topic: 'deep-learning', title: 'KL Divergence: Matching a Distribution to a Prior', blurb: "The VAE's latent regularizer is a KL divergence pulling the encoder's posterior toward a standard-normal prior. Drag the posterior and watch KL(q‖p) shrink to zero as it matches the prior — and see that KL is asymmetric: KL(p‖q) ≠ KL(q‖p)." },
+  function (root) {
+    const W = 560, H = 372, MONO = "JetBrains Mono, monospace";
+    const XMIN = -5, XMAX = 5;
+    let mu = 1.4, sig = 0.6;                 // posterior q = N(mu, sig^2); prior p = N(0,1) fixed
+    const { c, ctx } = canvas(root, W, H);
+    const gauss = (x, m, s) => Math.exp(-((x - m) * (x - m)) / (2 * s * s)) / (s * Math.sqrt(2 * Math.PI));
+    const klG = (m1, s1, m2, s2) => Math.log(s2 / s1) + (s1 * s1 + (m1 - m2) * (m1 - m2)) / (2 * s2 * s2) - 0.5;  // KL(N1‖N2)
+    function draw() {
+      const pl = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = pl.bg; ctx.fillRect(0, 0, W, H);
+      const padL = 40, padR = 14, padT = 18, padB = 38, plotW = W - padL - padR, plotH = H - padT - padB;
+      const xOf = x => padL + (x - XMIN) / (XMAX - XMIN) * plotW;
+      const ymax = Math.max(0.45, gauss(mu, mu, sig), gauss(0, 0, 1)) * 1.14;
+      const yOf = dns => padT + plotH - (dns / ymax) * plotH;
+      ctx.strokeStyle = pl.line; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(padL, padT); ctx.lineTo(padL, padT + plotH); ctx.lineTo(padL + plotW, padT + plotH); ctx.stroke();
+      ctx.fillStyle = pl.mute; ctx.font = '10px ' + MONO; ctx.textAlign = 'center';
+      for (let t = XMIN; t <= XMAX; t++) ctx.fillText(t, xOf(t), padT + plotH + 14);
+      function curve(m, s, color, a) {
+        ctx.beginPath();
+        for (let px = 0; px <= plotW; px++) { const x = XMIN + (px / plotW) * (XMAX - XMIN), y = yOf(gauss(x, m, s)); px === 0 ? ctx.moveTo(padL + px, y) : ctx.lineTo(padL + px, y); }
+        ctx.lineTo(padL + plotW, padT + plotH); ctx.lineTo(padL, padT + plotH); ctx.closePath();
+        ctx.globalAlpha = a; ctx.fillStyle = color; ctx.fill(); ctx.globalAlpha = 1;
+        ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.beginPath();
+        for (let px = 0; px <= plotW; px++) { const x = XMIN + (px / plotW) * (XMAX - XMIN), y = yOf(gauss(x, m, s)); px === 0 ? ctx.moveTo(padL + px, y) : ctx.lineTo(padL + px, y); }
+        ctx.stroke();
+      }
+      curve(0, 1, pl.sage, 0.13);            // prior
+      curve(mu, sig, pl.gold, 0.16);         // posterior
+      const klqp = klG(mu, sig, 0, 1), klpq = klG(0, 1, mu, sig);
+      ctx.textAlign = 'left'; ctx.font = '11px ' + MONO;
+      ctx.fillStyle = pl.sage; ctx.fillText('prior  p = N(0, 1)', padL + 8, padT + 13);
+      ctx.fillStyle = pl.gold; ctx.fillText('posterior  q = N(' + mu.toFixed(1) + ', ' + (sig * sig).toFixed(2) + ')', padL + 8, padT + 29);
+      ctx.textAlign = 'right'; ctx.fillStyle = pl.ink;
+      ctx.fillText('KL(q‖p) = ' + klqp.toFixed(3), padL + plotW - 4, padT + 13);
+      ctx.fillStyle = pl.mute; ctx.fillText('KL(p‖q) = ' + klpq.toFixed(3), padL + plotW - 4, padT + 29);
+      const matched = Math.abs(mu) < 0.05 && Math.abs(sig - 1) < 0.05;
+      info.innerHTML = `The VAE adds <b>KL(q‖p)</b> to its loss — a penalty for how far the encoder's posterior <span style="color:var(--gold)">q</span> drifts from the standard-normal prior <span style="color:var(--sage)">p</span>. Right now <b>KL(q‖p) = ${klqp.toFixed(3)} nats</b>${matched ? ' — <b>zero!</b> q matches the prior exactly.' : '; it reaches 0 only when q is exactly N(0,1) (μ=0, σ=1 — press “match the prior”).'} KL is <b>not symmetric</b>: KL(p‖q) = ${klpq.toFixed(3)} ≠ KL(q‖p). The forward KL(p‖q) is mode-<i>covering</i>; the reverse KL(q‖p) the VAE minimises is mode-<i>seeking</i> (it would rather be narrow and confident than cover mass where p has little).`;
+    }
+    const ctl = controls(root);
+    const muS = slider(ctl, { label: 'posterior mean μ', min: -3, max: 3, step: 0.1, value: mu, fmt: v => 'μ=' + v.toFixed(1), onInput: v => { mu = v; draw(); } });
+    const sigS = slider(ctl, { label: 'posterior std σ', min: 0.3, max: 2.5, step: 0.1, value: sig, fmt: v => 'σ=' + v.toFixed(1), onInput: v => { sig = v; draw(); } });
+    const btns = controls(root);
+    button(btns, '🎯 Match the prior', () => {       // dispatch real input events → updates thumb, label, and redraws
+      muS.value = 0; muS.dispatchEvent(new Event('input'));
+      sigS.value = 1; sigS.dispatchEvent(new Event('input'));
+    }, 'primary');
+    const info = note(root);
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'KL divergence between an adjustable Gaussian posterior q and a fixed standard-normal prior p. KL(q‖p) shrinks to zero as q matches the prior, and the asymmetry KL(p‖q) ≠ KL(q‖p) is shown numerically.');
+    draw();
+  });
+
 })();
