@@ -127,7 +127,9 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    MLE but no KL). → 10 deeper-dives site-wide. Identity checked numerically; render errs=0/24 katex/kErr 0; SW cache →v81.
    DEEPER-DIVE BACKLOG remaining: the kernel trick (needs a home lesson), dropout-as-ensemble (ALREADY covered in-line),
    double-descent (already a paragraph in dl-overfitting — could expand), log-sum-exp stability, the curse of dimensionality.
-   LA REMAINING (MCQ arc): eigen(3), orthogonality(2), svd-applications(2), matrix-calculus(3). Then Calc/DL/RL/LLM/PS.
+   ✅ iter 139: MCQ arc → Linear Algebra·Eigen 12→16 (+12, bank →1,916). LA 4/7 modules (foundations, matrices, structure, eigen).
+   Adversarial agent ALL PASS; positions shuffled; render-check "of 16" errs=0; SW cache →v82.
+   LA REMAINING (MCQ arc): orthogonality(2), svd-applications(2), matrix-calculus(3). Then Calc/DL/RL/LLM/PS.
    ARC PROGRESS: Algorithms modules at 16 = foundations, data-structures. REMAINING in Algorithms: sorting-searching,
    algorithm-design, graphs, advanced-ml-connections, advanced-techniques (5). Then LA/Calc/DL/RL/LLM/PS. Interleave!
    CHECKED & FOUND HEALTHY (113): mobile renders clean across dashboard/map/lab/stats/test at 390px; `index()` is

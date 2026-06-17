@@ -2,6 +2,23 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 139 — MCQ arc → Linear Algebra · Eigen 12 → 16 (content — owner's #1 ask)
+The 12→16 arc continues through LA's **Eigenvalues, Eigenvectors, and Diagonalization** module. **+4 new MCQs each** to
+*Eigenvalues & Eigenvectors*, *Diagonalization & Matrix Powers*, and *Symmetric Matrices & the Spectral Theorem*
+(**+12, bank 1,904 → 1,916**), stating plainly the spectral facts the existing 12 (compute/proof questions) leaned on:
+det = product / trace = sum of eigenvalues, triangular ⟹ eigenvalues are the diagonal, the $A^{-1}\!\to 1/\lambda$ and
+$A^2 v = \lambda^2 v$ rules; diagonalizable ⟺ $n$ independent eigenvectors, what $P$/$D$ hold, similar matrices share
+eigenvalues, eigenvectors of a diagonal matrix are $e_i$; symmetric ⟹ orthogonal eigenvectors, positive-definite ⟺ all
+$\lambda>0$, the Rayleigh max $\max_{\|x\|=1} x^\top A x = \lambda_{\max}$, and the spectral shift $A+cI \to \lambda+c$.
+Answer positions shuffled ([2,0,3,1]/[1,3,0,2]/[3,1,0,2]).
+- **Verified**: byte-stable JSON round-trip (diff +132 localized insertions); `node gate.js` ALL GREEN (1,916 MCQs);
+  direct key-dump confirms the shuffled indices; an independent adversarial fact-check agent returned **ALL PASS**
+  (each answer recomputed from scratch; the iff/necessary-vs-sufficient distractors and the shared-value-with-false-rider
+  distractor all correctly wrong; single-correct, KaTeX-safe); render-check on the Diagonalization quiz
+  → `errs=0 | "Question 1 of 16" | rawDollars=0 kErr=0`. SW cache **v81 → v82**; README bank count 1,904 → 1,916.
+- **Arc progress**: Algorithms ✓ (7/7). Linear Algebra now **4/7** (foundations, matrices, structure, eigen). Remaining
+  LA: orthogonality(2), svd-applications(2), matrix-calculus(3); then Calc/DL/RL/LLM/PS.
+
 ## iter 138 — Deeper dive: cross-entropy = entropy + KL divergence (understandability — directive 3)
 A new "Deeper dive" expandable on *Loss Functions: MSE, Cross-Entropy, and the Softmax Link*. The lesson already
 derives cross-entropy as a negative log-likelihood but **never mentions KL divergence** — so the information-theory

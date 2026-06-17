@@ -2312,6 +2312,50 @@
               ],
               "answer": 2,
               "explain": "Apply $A$ twice along the eigendirection: $A(Av) = A(5v) = 5(Av) = 5 \\cdot 5 v = 25 v$, so $v$ is an eigenvector of $A^2$ with eigenvalue $\\lambda^2 = 25$. The tempting $10v$ wrongly adds eigenvalues instead of multiplying them."
+            },
+            {
+              "q": "A $2\\times 2$ matrix has eigenvalues $3$ and $5$. What are its determinant and trace?",
+              "choices": [
+                "$\\det = 8,\\ \\operatorname{tr} = 15$",
+                "$\\det = 15,\\ \\operatorname{tr} = 15$",
+                "$\\det = 15,\\ \\operatorname{tr} = 8$",
+                "$\\det = 8,\\ \\operatorname{tr} = 8$"
+              ],
+              "answer": 2,
+              "explain": "The determinant is the *product* of the eigenvalues ($3 \\times 5 = 15$) and the trace is their *sum* ($3 + 5 = 8$) — both hold for every square matrix. They give a quick check: for a $2\\times 2$ you can read off $\\operatorname{tr}$ and $\\det$ and solve $\\lambda^2 - \\operatorname{tr}\\,\\lambda + \\det = 0$."
+            },
+            {
+              "q": "What are the eigenvalues of a triangular matrix (upper or lower)?",
+              "choices": [
+                "Its diagonal entries",
+                "You must solve the full characteristic polynomial; they are not obvious",
+                "The sum of each row",
+                "Always all zero"
+              ],
+              "answer": 0,
+              "explain": "For a triangular matrix, $\\det(A - \\lambda I)$ is the product of the diagonal entries of $A - \\lambda I$, i.e. $\\prod_i (a_{ii} - \\lambda)$, whose roots are exactly the diagonal entries $a_{ii}$. (A diagonal matrix is the special case.) This is why reducing a matrix to triangular form makes its spectrum free to read off."
+            },
+            {
+              "q": "If $A$ is invertible with $Av = \\lambda v$ ($v \\neq 0$), what is the corresponding eigenvalue of $A^{-1}$?",
+              "choices": [
+                "$\\lambda$",
+                "$-\\lambda$",
+                "$\\lambda^2$",
+                "$1/\\lambda$"
+              ],
+              "answer": 3,
+              "explain": "From $Av = \\lambda v$, apply $A^{-1}$ to both sides: $v = \\lambda\\, A^{-1} v$, so $A^{-1} v = \\tfrac{1}{\\lambda} v$ — the same eigenvector $v$ with the reciprocal eigenvalue. Note $\\lambda \\neq 0$ because $A$ is invertible (a zero eigenvalue would make $A$ singular)."
+            },
+            {
+              "q": "If $Av = \\lambda v$, what is $A^2 v$ (that is, $A(Av)$)?",
+              "choices": [
+                "$2\\lambda v$",
+                "$\\lambda^2 v$",
+                "$\\lambda v$",
+                "$Av$"
+              ],
+              "answer": 1,
+              "explain": "Apply $A$ twice: $A^2 v = A(Av) = A(\\lambda v) = \\lambda (Av) = \\lambda(\\lambda v) = \\lambda^2 v$. In general $A^k v = \\lambda^k v$ — same eigenvector, the eigenvalue raised to the $k$-th power. This is the engine behind computing matrix powers through eigenvalues."
             }
           ],
           "flashcards": [
@@ -2512,6 +2556,50 @@
               ],
               "answer": 1,
               "explain": "In the eigenbasis, $x_k = \\sum c_j \\lambda_j^k v_j$; dividing by $\\lambda_1^k$, every term except the $v_1$ term shrinks since $|\\lambda_j/\\lambda_1| < 1$, so the direction aligns with $v_1$. The magnitude may grow, decay, or stay fixed depending on $|\\lambda_1|$, but the direction is governed by the dominant eigenvector, not the smallest one."
+            },
+            {
+              "q": "An $n \\times n$ matrix is diagonalizable if and only if:",
+              "choices": [
+                "it has $n$ distinct eigenvalues",
+                "it has $n$ linearly independent eigenvectors",
+                "it is invertible",
+                "it is symmetric"
+              ],
+              "answer": 1,
+              "explain": "Diagonalizability means you can fill the columns of $P$ with a full set of $n$ linearly independent eigenvectors. Having $n$ *distinct* eigenvalues is *sufficient* but not *necessary* (the identity has one repeated eigenvalue yet is already diagonal); invertibility is unrelated (a matrix can be invertible yet defective); symmetry is sufficient but far from necessary."
+            },
+            {
+              "q": "In the factorization $A = PDP^{-1}$, what do the columns of $P$ and the diagonal of $D$ contain?",
+              "choices": [
+                "The columns of $P$ are eigenvalues; $D$ holds the eigenvectors",
+                "Both $P$ and $D$ hold the eigenvectors",
+                "The columns of $P$ are the rows of $A$; $D$ holds the pivots",
+                "The columns of $P$ are eigenvectors; the diagonal of $D$ holds the matching eigenvalues"
+              ],
+              "answer": 3,
+              "explain": "Each column $p_i$ of $P$ is an eigenvector and the matching diagonal entry $d_{ii}$ is its eigenvalue, so $A p_i = d_{ii}\\, p_i$. The order must line up: column $i$ of $P$ pairs with entry $i$ of $D$. Reorder the columns of $P$ and you must reorder $D$ identically."
+            },
+            {
+              "q": "$A = PDP^{-1}$ means $A$ is *similar* to the diagonal matrix $D$. What must $A$ and $D$ share?",
+              "choices": [
+                "The same eigenvalues (and hence the same trace and determinant)",
+                "The same eigenvectors",
+                "The same individual entries",
+                "Nothing in general"
+              ],
+              "answer": 0,
+              "explain": "Similar matrices represent the same linear map in different bases, so they share eigenvalues, characteristic polynomial, trace, determinant, and rank. They do *not* share eigenvectors — the change of basis $P$ moves them: $D$'s eigenvectors are the standard basis vectors, while $A$'s are the columns of $P$."
+            },
+            {
+              "q": "What are the eigenvectors of a diagonal matrix $D = \\operatorname{diag}(d_1, \\dots, d_n)$?",
+              "choices": [
+                "The all-ones vector and its multiples",
+                "The columns of $P$",
+                "The standard basis vectors $e_1, \\dots, e_n$",
+                "Every nonzero vector is an eigenvector"
+              ],
+              "answer": 2,
+              "explain": "$D e_i = d_i e_i$: multiplying $e_i$ by $D$ simply scales it by the $i$-th diagonal entry, so each standard basis vector is an eigenvector with eigenvalue $d_i$. This is exactly why $P$ (whose columns are $A$'s eigenvectors) is the change of basis that turns $A$ into the trivial-to-apply $D$. (Every nonzero vector is an eigenvector only when $D = cI$.)"
             }
           ],
           "flashcards": [
@@ -2707,6 +2795,50 @@
               ],
               "answer": 1,
               "explain": "For any $v$, $v^T G v = v^T X^T X v = \\|Xv\\|^2 \\geq 0$, so $G$ is positive semidefinite and all eigenvalues are nonnegative. They need not be strictly positive: if $X$ has a nontrivial null space (e.g. more columns than rows), $G$ is singular with a zero eigenvalue, which is why option (a) is wrong."
+            },
+            {
+              "q": "For a real symmetric matrix, eigenvectors belonging to two *distinct* eigenvalues are always:",
+              "choices": [
+                "parallel",
+                "linearly dependent",
+                "equal",
+                "orthogonal"
+              ],
+              "answer": 3,
+              "explain": "If $Av_1 = \\lambda_1 v_1$ and $Av_2 = \\lambda_2 v_2$ with $\\lambda_1 \\neq \\lambda_2$, then $\\lambda_1 (v_1\\cdot v_2) = (Av_1)\\cdot v_2 = v_1 \\cdot (Av_2) = \\lambda_2 (v_1 \\cdot v_2)$ (using $A = A^\\top$). Since $\\lambda_1 \\neq \\lambda_2$, this forces $v_1 \\cdot v_2 = 0$. Orthogonal eigenvectors are what make the orthogonal diagonalization $A = Q\\Lambda Q^\\top$ possible."
+            },
+            {
+              "q": "A symmetric matrix is *positive definite* if and only if:",
+              "choices": [
+                "its determinant is positive",
+                "all of its eigenvalues are positive",
+                "all of its entries are positive",
+                "it is invertible"
+              ],
+              "answer": 1,
+              "explain": "Positive definiteness ($x^\\top A x > 0$ for every $x \\neq 0$) is equivalent to *every* eigenvalue being positive. A positive determinant only makes the *product* of eigenvalues positive (two negative eigenvalues give a positive determinant but an indefinite matrix); positive entries is neither necessary nor sufficient; and invertibility only rules out a zero eigenvalue, not negative ones."
+            },
+            {
+              "q": "For a symmetric matrix $A$, the maximum of the quadratic form $x^\\top A x$ over all *unit* vectors ($\\|x\\| = 1$) equals:",
+              "choices": [
+                "the largest eigenvalue of $A$",
+                "the trace of $A$",
+                "the determinant of $A$",
+                "the largest entry of $A$"
+              ],
+              "answer": 0,
+              "explain": "Writing $x$ in the orthonormal eigenbasis gives $x^\\top A x = \\sum_i \\lambda_i c_i^2$ with $\\sum_i c_i^2 = 1$ — a weighted average of the eigenvalues. It is largest ($=\\lambda_{\\max}$) when all the weight sits on the top eigenvector, and smallest ($=\\lambda_{\\min}$) on the bottom one. This Rayleigh-quotient fact is the basis of PCA: the top eigenvector maximizes variance."
+            },
+            {
+              "q": "If $Av = \\lambda v$, what is the eigenvalue of $A + cI$ for the same eigenvector $v$ (with $c$ a scalar and $I$ the identity)?",
+              "choices": [
+                "$\\lambda$",
+                "$c\\lambda$",
+                "$\\lambda + c$",
+                "$\\lambda + c$, but with a different eigenvector"
+              ],
+              "answer": 2,
+              "explain": "$(A + cI)v = Av + cv = \\lambda v + cv = (\\lambda + c)v$ — the eigenvector $v$ is unchanged and the eigenvalue shifts by $c$. This 'spectral shift' is why adding $\\lambda I$ (ridge / Tikhonov regularization) to a symmetric matrix lifts every eigenvalue, turning a singular or indefinite matrix into a positive-definite one."
             }
           ],
           "flashcards": [
