@@ -2,6 +2,32 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 206 — MCQ arc → PS Hypothesis-Testing module 12→16 ★★★ COMPLETES THE WHOLE ARC (content — owner's #1 ask)
+**Probability & Statistics → Hypothesis Testing**, all 4 lessons **12 → 16 MCQs** (+16; bank **2,352 → 2,368**). New
+foundational questions, adversarially fact-checked with arithmetic re-verified (**ALL 16 PASS**); each new batch
+answer-balanced 0/1/2/3 with distinct patterns ([2,1,3,0], [0,3,1,2], [3,0,2,1], [1,2,0,3]):
+- **The logic of testing**: one-sided vs two-sided power/pre-commitment tradeoff; testing as probabilistic
+  proof-by-contradiction; a worked one-sided $z$-test ($\sigma/\sqrt{n}$ SE → $z=-2.0<-1.645$ → reject); burden-of-proof
+  setup (null = "no effect", never *accept* $H_0$).
+- **p-values**: statistical vs practical significance (huge-$n$ trap, read the effect size); the $p \ne P(H_0\text{ true})$
+  fallacy; multiple comparisons ($20\times0.05=1$ expected false positive, Bonferroni $\alpha/m$); one-sided p-value from
+  $P(Z>1.75)\approx0.04$.
+- **Errors & power**: Type I = false positive / Type II = false negative (screening framing); underpowered fields
+  publish disproportionately many flukes that fail to replicate; power analysis = pre-data sample-size planning;
+  raising $n$ (shrinking $\sigma/\sqrt{n}$) raises power, lowering $\alpha$ *reduces* it.
+- **t-tests**: two-sample SE $=\sqrt{s_1^2/n_1+s_2^2/n_2}$ (variances add); paired t-test for before/after (removes
+  between-subject variance → more power); assumptions + robustness (CLT, breaks with skew+tiny-$n$/outliers/dependence);
+  test–CI duality (a 95% CI containing 0 ⇒ fail to reject at $\alpha=0.05$).
+
+**★★★ PS COMPLETE — all 5 modules / 23 lessons at 16**, and this **COMPLETES THE ENTIRE 12→16 MCQ-GROWTH ARC: all 148
+lessons across all 7 topics now hold 16 MCQs** (bank **2,368**). The owner's #1 most-repeated ask ("add more and more
+questions") is fully delivered end-to-end. The loop now steps back to bolder, broader-compass moves.
+Verified: adversarial ALL 16 PASS (arithmetic re-checked); `gate.js` ALL GREEN incl. render-hazard lints (7 topics ·
+148 lessons · **2,368 MCQs** · 42 widgets); indices 0/1/2/3-balanced; byte-stable injection (no-op guard PASS); the
+**p-values quiz** (the money/percentage landmine lesson) advanced through its new questions renders **MAX kErr=0 /
+raw$=0** (screenshotted — `$p=0.03$`, `$\alpha=0.05$`, `$2{,}000{,}000$` all typeset, `*incorrect*` italicized); all
+16 routes smoke errs=0/kErr=0; mobile 390px legible (Quiz badge "16"). SW cache `atlas-v148` → `atlas-v149`.
+
 ## iter 205 — MCQ arc → PS Inference/Estimation module 12→16 (content — owner's #1 ask)
 **Probability & Statistics → Statistical Inference: Estimation & Confidence**, all 4 lessons **12 → 16 MCQs** (+16;
 bank **2,336 → 2,352**). New foundational questions, adversarially fact-checked with arithmetic re-verified (**ALL 16

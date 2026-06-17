@@ -177,6 +177,14 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 206: MCQ arc → **PS·Hypothesis-Testing 12→16** (all 4 lessons — testing logic, p-values, errors & power,
+   t-tests; +16, bank →2,368). Adversarial ALL 16 PASS (arithmetic re-checked: one-sided z=−2.0<−1.645; 20×0.05=1
+   expected false positives; one-sided p=P(Z>1.75)≈0.04; two-sample SE=√(s₁²/n₁+s₂²/n₂)); each new batch balanced
+   0/1/2/3 with distinct patterns ([2,1,3,0],[0,3,1,2],[3,0,2,1],[1,2,0,3]); byte-stable inject (no-op guard PASS);
+   gate GREEN (render-hazard lints clear); p-values quiz (the money/percentage landmine lesson) advanced through new
+   Qs render MAX kErr=0 / raw$=0 (screenshotted); all-routes errs=0/kErr=0 (16 routes); mobile 390px legible (Quiz
+   badge "16"); SW →v149. **★★★ PS COMPLETE — all 5 modules / 23 lessons at 16. THIS COMPLETES THE ENTIRE 12→16 ARC:
+   all 148 lessons across all 7 topics now at 16 MCQs (bank 2,368).** Loop now returns to bolder broad-compass moves.
    ✅ iter 205: MCQ arc → **PS·Inference/Estimation 12→16** (all 4 lessons — LLN, sampling distributions/standard error,
    point estimation/bias-variance, confidence intervals; +16, bank →2,352). Adversarial ALL 16 PASS (arithmetic
    re-checked); positions balanced 0/1/2/3; gate GREEN (lints clear); Sampling+CI quizzes render "of 16" kErr=0

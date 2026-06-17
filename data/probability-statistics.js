@@ -4001,6 +4001,50 @@
               ],
               "answer": 1,
               "explain": "$\\alpha$ is the probability of rejecting $H_0$ when it is actually true (the false-alarm rate you accept in advance). It is not a probability about $H_0$ given the data (choice A reverses the conditional) nor a guarantee about the effect being real."
+            },
+            {
+              "q": "A researcher tests whether a new drug *lowers* blood pressure. She is confident it cannot raise it, so she considers a one-sided test ($H_1: \\mu < \\mu_0$) instead of a two-sided test. At the same significance level $\\alpha$, what is the chief tradeoff she accepts?",
+              "choices": [
+                "The one-sided test has no rejection region, so it can never reject $H_0$",
+                "The one-sided test requires a larger sample to reach the same power",
+                "The one-sided test puts all of $\\alpha$ in one tail, giving more power to detect a decrease — but she must commit to the direction *before* seeing the data, and is blind to an increase",
+                "The one-sided test always produces a smaller p-value regardless of the data"
+              ],
+              "answer": 2,
+              "explain": "Concentrating the whole rejection probability $\\alpha$ in a single tail makes a true decrease easier to detect (more power). The price: the direction must be fixed in advance, and the test cannot register an effect in the opposite direction."
+            },
+            {
+              "q": "Hypothesis testing is often described as a \"proof by contradiction\" adapted for noisy data. Which description best captures this logic?",
+              "choices": [
+                "We assume $H_1$ is true, then check whether the data are consistent with it",
+                "We tentatively assume $H_0$ is true, compute how improbable the observed data (or something more extreme) would be under that assumption, and reject $H_0$ only if that improbability is severe enough",
+                "We prove $H_0$ false with logical certainty, exactly as in mathematical proof by contradiction",
+                "We accept whichever hypothesis has the higher prior probability"
+              ],
+              "answer": 1,
+              "explain": "We provisionally grant $H_0$, then ask how surprising the data are under it. Unlike a mathematical contradiction (which is certain), the conclusion is probabilistic — strong surprise warrants rejecting $H_0$, but never proves it false with certainty."
+            },
+            {
+              "q": "A machine should fill bottles to $\\mu_0 = 200$ ml with known $\\sigma = 20$ ml. An inspector worried about *under*filling tests $H_0: \\mu = 200$ vs $H_1: \\mu < 200$ at $\\alpha = 0.05$ (critical value $-1.645$). A sample of $n = 100$ bottles has mean $\\bar{x} = 196$ ml. What is the conclusion?",
+              "choices": [
+                "$z = -0.2$; fail to reject $H_0$ — the evidence of underfilling is weak",
+                "$z = -2.0$, but since $|{-2.0}| < 1.96$ for a two-sided test, fail to reject $H_0$",
+                "$z = -4.0$; reject $H_0$",
+                "$z = -2.0$, which is below the critical value $-1.645$, so reject $H_0$ — significant evidence of underfilling"
+              ],
+              "answer": 3,
+              "explain": "The standard error is $\\sigma/\\sqrt{n} = 20/\\sqrt{100} = 2$, so $z = (196-200)/2 = -2.0$. For the one-sided test the cutoff is $-1.645$, and $-2.0 < -1.645$, so reject $H_0$. (Choice 2 forgets the $\\sqrt{n}$; choice 1 wrongly applies a two-sided cutoff.)"
+            },
+            {
+              "q": "An education startup claims its app improves test scores. To test this claim fairly, how should the hypotheses be set up, and what can a test conclude?",
+              "choices": [
+                "$H_0$: the app gives *no* improvement; $H_1$: the app improves scores. The burden of proof is on the app — we either reject $H_0$ (evidence of improvement) or fail to reject it, but we never *accept* $H_0$ as proven true",
+                "$H_0$: the app improves scores; $H_1$: no improvement — the startup's claim should be the null since it is what they assert",
+                "$H_0$ and $H_1$ can be assigned either way; the choice has no effect on the conclusion",
+                "If we fail to reject $H_0$, we have proven the app definitely does nothing"
+              ],
+              "answer": 0,
+              "explain": "The null is the skeptical \"no effect\" default; the claim being argued for is $H_1$, so the burden of proof falls on the data to overturn $H_0$. A non-significant result is \"not enough evidence,\" never proof that $H_0$ is true."
             }
           ],
           "flashcards": [
@@ -4196,6 +4240,50 @@
               ],
               "answer": 2,
               "explain": "The significance level $\\alpha$ is the decision threshold and is not an input to the p-value's computation, so changing it leaves $p$ unchanged (only the reject/fail outcome may change). The other options alter either the tail counted or the observed statistic, both of which directly change $p$."
+            },
+            {
+              "q": "An A/B test on $n = 2{,}000{,}000$ users finds a new button color raises click-through rate by $0.02$ percentage points, with $p < 0.001$. What is the right interpretation?",
+              "choices": [
+                "The effect is *statistically* significant but likely not *practically* significant — with a huge sample even a tiny, unimportant effect yields a tiny p-value, so you must look at the effect size, not just $p$",
+                "Because $p < 0.001$, the effect is large and important",
+                "The result is invalid because the sample is too large",
+                "A small p-value guarantees the effect will be identical for every future user"
+              ],
+              "answer": 0,
+              "explain": "A p-value measures evidence against $H_0$, not the magnitude of the effect. Enormous samples shrink the standard error so much that trivial differences become \"significant\" — always report and judge the effect size alongside $p$."
+            },
+            {
+              "q": "A study reports $p = 0.03$. Which of the following is the *incorrect* interpretation of this p-value?",
+              "choices": [
+                "If $H_0$ were true, there would be a 3% chance of observing data at least as extreme as what was seen",
+                "The result is \"significant\" at $\\alpha = 0.05$ but not at $\\alpha = 0.01$",
+                "The p-value is a statement about the data assuming $H_0$ — not about the probability of any hypothesis",
+                "There is a 3% probability that $H_0$ is true"
+              ],
+              "answer": 3,
+              "explain": "The classic fallacy: $p$ is $P(\\text{data this extreme} \\mid H_0)$, not $P(H_0 \\mid \\text{data})$. The p-value says nothing directly about the probability that $H_0$ is true. The other three statements are all correct."
+            },
+            {
+              "q": "A data scientist runs 20 independent tests, each at $\\alpha = 0.05$, on data where *every* null hypothesis is actually true. About how many \"significant\" results should she expect, and what is the standard fix?",
+              "choices": [
+                "0 false positives, because all nulls are true; no correction is needed",
+                "About $20 \\times 0.05 = 1$ false positive on average; correct for multiple comparisons, e.g. use the Bonferroni level $\\alpha/m$",
+                "About 5 false positives; halve the sample size to compensate",
+                "Exactly 20, since each test is guaranteed to reject"
+              ],
+              "answer": 1,
+              "explain": "Each true null still has a 5% chance of a false alarm, so over 20 tests you expect $20 \\times 0.05 = 1$ spurious \"discovery.\" Multiple-comparison corrections (Bonferroni $\\alpha/m$, or FDR control) rein this in."
+            },
+            {
+              "q": "In a one-sided test with $H_1: \\mu > \\mu_0$, the test statistic is $z = 1.75$. Using $P(Z > 1.75) \\approx 0.04$, what is the p-value and the decision at $\\alpha = 0.05$?",
+              "choices": [
+                "$p \\approx 0.08$ (both tails); fail to reject $H_0$",
+                "$p \\approx 0.96$; fail to reject $H_0$",
+                "$p \\approx 0.04$ (single upper tail); since $0.04 \\le 0.05$, reject $H_0$",
+                "$p \\approx 0.50$; the result is inconclusive"
+              ],
+              "answer": 2,
+              "explain": "For a one-sided (\"greater than\") alternative the p-value is the single upper-tail area $P(Z > 1.75) \\approx 0.04$. Since $0.04 \\le 0.05$, reject $H_0$. (Doubling to $0.08$ would be the two-sided p-value.)"
             }
           ],
           "flashcards": [
@@ -4391,6 +4479,50 @@
               ],
               "answer": 0,
               "explain": "The larger sample shrinks the standard error and better separates the null and alternative distributions, raising power and lowering $\\beta$. Type I error stays fixed at $\\alpha$ regardless of $n$, so Test B is not more prone to false positives."
+            },
+            {
+              "q": "A disease screening test is framed as $H_0$: the patient is healthy, $H_1$: the patient has the disease. Which choice correctly identifies the Type I and Type II errors?",
+              "choices": [
+                "Type I = missing a real disease (telling a sick patient they're healthy); Type II = a false alarm",
+                "Both errors are the same thing under this framing",
+                "Type I error has probability $1 - \\alpha$; Type II error has probability $\\beta = $ power",
+                "Type I = a false positive (telling a healthy patient they're sick — rejecting a true $H_0$); Type II = a false negative (telling a sick patient they're healthy — failing to reject a false $H_0$)"
+              ],
+              "answer": 3,
+              "explain": "Type I rejects a true $H_0$ — here a healthy patient flagged as sick (false positive, probability $\\alpha$). Type II fails to reject a false $H_0$ — a sick patient cleared (false negative, probability $\\beta$; power $= 1-\\beta$). Choice 0 swaps them."
+            },
+            {
+              "q": "A research field publishes many *underpowered* studies (low power, small samples). Among the statistically significant findings they report, what tends to be true?",
+              "choices": [
+                "A disproportionate share of the significant findings are flukes (false positives or inflated effects), and they often fail to replicate",
+                "Low power makes the significant findings *more* reliable, since only the strongest effects survive",
+                "Power has no relationship to replicability",
+                "Underpowered studies cannot produce significant findings at all"
+              ],
+              "answer": 0,
+              "explain": "When power is low, true effects are usually missed, so a larger fraction of the \"significant\" results that do get published are false positives or upward-biased (the winner's curse) — which is exactly why they replicate poorly."
+            },
+            {
+              "q": "What is a *power analysis* most commonly used for, and when is it done?",
+              "choices": [
+                "After collecting data, to compute the p-value",
+                "After a non-significant result, to prove $H_0$ is true",
+                "Before collecting data, to determine the sample size $n$ needed to achieve a target power (e.g. 80%) for detecting an effect of a given size",
+                "To convert a Type I error into a Type II error"
+              ],
+              "answer": 2,
+              "explain": "A power analysis is a *planning* tool: fix the effect size you care about, the desired power (often 0.80), and $\\alpha$, then solve for the sample size $n$ required — done before any data are collected."
+            },
+            {
+              "q": "Holding the true effect size fixed, which change *increases* the power of a test?",
+              "choices": [
+                "Lowering $\\alpha$ from 0.05 to 0.01",
+                "Increasing the sample size $n$, which shrinks the standard error $\\sigma/\\sqrt{n}$",
+                "Increasing the population variance $\\sigma^2$",
+                "Reducing the sample size to focus on the cleanest observations"
+              ],
+              "answer": 1,
+              "explain": "Power rises when the sampling distributions separate more cleanly. Larger $n$ shrinks the standard error $\\sigma/\\sqrt{n}$, sharpening that separation. Lowering $\\alpha$ shrinks the rejection region and *reduces* power; larger variance also hurts."
             }
           ],
           "flashcards": [
@@ -4586,6 +4718,50 @@
               ],
               "answer": 0,
               "explain": "$t=\\frac{103-100}{10/\\sqrt{25}}=\\frac{3}{10/5}=\\frac{3}{2}=1.5$, and with $n=25$ the reference is the $t$-distribution with $n-1=24$ df. The distractor $0.3$ divides by $s$ alone instead of the standard error $s/\\sqrt{n}$."
+            },
+            {
+              "q": "Comparing the means of two *independent* groups (sizes $n_1, n_2$; sample SDs $s_1, s_2$), what is the standard error of the difference $\\bar{x}_1 - \\bar{x}_2$?",
+              "choices": [
+                "$\\dfrac{s_1 + s_2}{\\sqrt{n_1 + n_2}}$",
+                "$\\sqrt{\\dfrac{s_1^2}{n_1} + \\dfrac{s_2^2}{n_2}}$ — because the groups are independent, their *variances* add",
+                "$\\dfrac{s_1^2}{n_1} - \\dfrac{s_2^2}{n_2}$",
+                "$\\sqrt{s_1^2 + s_2^2}$, independent of the sample sizes"
+              ],
+              "answer": 1,
+              "explain": "Variances of independent quantities add, even for a *difference*: $\\operatorname{Var}(\\bar{x}_1 - \\bar{x}_2) = \\sigma_1^2/n_1 + \\sigma_2^2/n_2$. Taking the square root gives the standard error. (Choice 2's subtraction is the classic trap.)"
+            },
+            {
+              "q": "A study measures each subject's cholesterol *before* and *after* a 12-week diet. Which test fits, and why is it usually more powerful here than a two-sample test?",
+              "choices": [
+                "A two-sample (independent) t-test, because there are two columns of numbers",
+                "A one-sample $z$-test on the \"after\" values alone",
+                "A *paired* t-test on the within-subject differences — pairing removes between-subject variability, so it detects the diet's effect with more power",
+                "A chi-squared test, since the data come in pairs"
+              ],
+              "answer": 2,
+              "explain": "The two measurements come from the *same* people, so they are correlated, not independent. Working with each subject's before–after difference cancels stable between-person variation, leaving a cleaner signal — hence more power."
+            },
+            {
+              "q": "What are the key assumptions behind the two-sample t-test, and how robust is it?",
+              "choices": [
+                "The data should be approximately normal (or $n$ large enough for the CLT) and the observations independent; the test is fairly *robust* to mild non-normality but breaks down with strong skew plus tiny samples, heavy outliers, or dependent observations",
+                "The data must be exactly normal with no exceptions, or the test is completely invalid",
+                "No assumptions are needed; the t-test works for any data",
+                "The two groups must have identical sample sizes and identical means"
+              ],
+              "answer": 0,
+              "explain": "Approximate normality (helped by the CLT at larger $n$) and independence are the load-bearing assumptions. The t-test tolerates mild departures, but a combination of strong skew with tiny samples, severe outliers, or correlated data can invalidate it."
+            },
+            {
+              "q": "A two-sample comparison of conversion rates yields a 95% confidence interval for the difference of $[-0.3\\%, +1.5\\%]$. Without computing a p-value, what does this say about the two-sided test at $\\alpha = 0.05$?",
+              "choices": [
+                "Reject $H_0$, because the interval is mostly positive",
+                "The CI tells you nothing about the hypothesis test; they are unrelated",
+                "Reject $H_0$, because the interval is narrow",
+                "Fail to reject $H_0$: the interval contains 0, so a zero difference is plausible — and a 95% CI excludes the null value exactly when the two-sided $\\alpha = 0.05$ test rejects"
+              ],
+              "answer": 3,
+              "explain": "Test–CI duality: a $100(1-\\alpha)\\%$ CI contains exactly the null values a two-sided level-$\\alpha$ test would fail to reject. Since $[-0.3\\%, +1.5\\%]$ contains $0$, we fail to reject $H_0$ at $\\alpha = 0.05$."
             }
           ],
           "flashcards": [
