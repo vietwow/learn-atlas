@@ -2,6 +2,18 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 363 — Three more code exercises across RL/PS/DL (new functionality / active learning)
+Added **3 gate-verified JavaScript exercises** across RL/PS/DL (lessons-with-code 66 → **69**; the gate now runs **64**):
+- **rl-actor-critic** — **the advantage (TD error)** `A = r + γ·V(s′) − V(s)`: `1 + 0.9·5 − 4` → `1.50` (better than expected →
+  reinforce the action).
+- **ps-t-tests** — **the one-sample t-statistic** `(x̄−μ₀)/(s/√n)` (sample std `s`): `(52−50)/(8/4)` → `1.00`.
+- **dl-rnn-lstm-gru** — **one RNN time-step** `h = tanh(w_h·h_prev + w_x·x + b)`: from h=0, x=1 → `tanh(1) = 0.76` (hidden state
+  carries memory).
+Every output node-verified; injected byte-stably with round-trip + no-existing-`data-code` + `**`-free guards.
+Verified: gate ALL GREEN (**64 code-exercises verified**); **via `--dump-dom`** the RNN-step widget runs → `0.76`
+("✓ Output matches expected"; `Math.tanh` works in-browser); all-routes smoke **errs=0/kErr=0 (12 routes)**. No save-shape change.
+SW cache `atlas-v302` → `atlas-v303`.
+
 ## iter 362 — Three more worked examples on flagship hard lessons (examples)
 A **3rd worked example** on three flagship lessons across algo/calc/PS (examples 343 → **346**, all ⌘K-searchable):
 - **a-recurrences-master-theorem** — **Case 2 (mergesort)**: `T(n)=2T(n/2)+O(n)`, `a=b^d` (2=2¹) → work spreads evenly across
