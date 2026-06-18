@@ -2,6 +2,18 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 414 — Three more second deep-dives on the hardest lessons (content / depth — owner's #1)
+A **distinct second "Deeper dive"** on three more flagship lessons (deep-dives 160 → **163**; 15 lessons now carry two):
+- **rl-sarsa-qlearning** (had: "on-policy vs off-policy") → **bootstrapping**: TD updates toward `r+γQ(s′,·)`, learning a guess from a
+  guess — biased but low-variance and online, the bias–variance trade vs Monte Carlo's full return.
+- **l-prompting-and-in-context-learning** (had: "ICL isn't learning") → **why chain-of-thought helps**: a transformer does fixed
+  compute per token, so CoT spreads a hard problem across tokens — serial computation + a scratchpad, not a phrasing trick.
+- **la-projection-least-squares** (had: "least squares is orthogonal projection") → **the normal equations & pseudoinverse**:
+  `AᵀAx̂=Aᵀb` makes the residual ⊥ the columns; `A⁺=(AᵀA)⁻¹Aᵀ` is the inverse generalized to non-square/rank-deficient matrices.
+Authored with `String.raw` LaTeX; injected via the append-second-dd path with the full guard set + duplicate-summary guard.
+Verified: gate ALL GREEN; **via `--dump-dom`** each lesson opens **both** dd's (nDD=2) with **kErr=0, rawDollar=0**; smoke (2 dd's × 3
++ 8 pages) **errs=0/kErr=0, bad=none**. No save-shape change. SW cache `atlas-v353` → `atlas-v354`.
+
 ## iter 413 — Three more worked examples across algo/calc/LA (examples)
 A **3rd worked example** on three flagship lessons across algo/calc/LA (examples 403 → **406**, all ⌘K-searchable):
 - **a-mst-union-find** — **the cut property**: the cheapest edge crossing any cut is in some MST (exchange argument) — the single

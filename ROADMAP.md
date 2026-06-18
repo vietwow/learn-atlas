@@ -177,6 +177,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 414: **3 more second deep-dives on the hardest lessons** (content/depth — owner's #1). +3 dd (160→163; 15 lessons have 2):
+   rl-sarsa-qlearning (bootstrapping/TD vs MC), l-prompting-and-in-context-learning (why CoT helps = serial compute),
+   la-projection-least-squares (normal equations & pseudoinverse). Append-second-dd inject w/ full guards. Verified: gate GREEN;
+   dump-dom each nDD=2, kErr=0, rawDollar=0; smoke errs=0/kErr=0/bad=none. SW →v354.
    ✅ iter 413: **3 more worked examples across algo/calc/LA** (examples). +3 (403→406): a-mst-union-find (cut property), c-improper-integrals
    (vertical-asymptote ∫₀¹x^-½=2), la-diagonalization (defective matrix [[2,1],[0,2]]). Node-verified; byte-stable inject w/ guards.
    Verified: gate GREEN (406 examples); dump-dom katex 145/64/58, kErr=0, rawDollar=0; smoke errs=0/kErr=0/bad=none. SW →v353.
