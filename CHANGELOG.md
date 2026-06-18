@@ -2,6 +2,20 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 357 — Three more worked examples on flagship hard lessons (examples)
+A **3rd worked example** on three flagship lessons across PS/calc/DL (examples 340 → **343**, all ⌘K-searchable):
+- **ps-uniform-exponential** — **the exponential is memoryless**: `P(X>5|X>3) = e⁻¹ ≈ 0.368`, identical to a fresh `P(X>2)`;
+  constant hazard rate, the only continuous distribution with this property.
+- **c-antiderivatives** — **the power rule's n=−1 exception**: `x^(n+1)/(n+1)` hits `÷0` at `n=−1`, filled by `∫(1/x)dx = ln|x|+C`
+  — why `ln` appears throughout calculus.
+- **dl-activation-functions** — **why sigmoid saturates**: `σ'(0)=0.25` vs `σ'(5)≈0.0066` (38× smaller); multiplied through depth
+  → the vanishing gradient, which ReLU (gradient 1) dodges.
+Every value node-verified (e⁻¹; ÷0 → ln; 0.25 vs 0.0066); injected byte-stably with round-trip + even-`$` + tag-balance +
+unsupported-env pre-guards (`\lt`/`\gt`).
+Verified: gate ALL GREEN (**343 examples**); **via `--dump-dom`** each Examples tab shows 3, reveals with KaTeX
+(32 / 68 / 92 spans) and **kErr=0, rawDollar=0**; all-routes smoke **errs=0/kErr=0 (12 routes)**. No save-shape change.
+SW cache `atlas-v296` → `atlas-v297`.
+
 ## iter 356 — Four more deeper-dives on foundational lessons (content / understandability)
 4 "Deeper dive" expandables across algo/calc/RL/LA (deep-dives 113 → **117**):
 - **a-arrays-lists-stacks-queues** — **array vs linked list = a memory-layout tradeoff**: contiguous gives `O(1)` access +
