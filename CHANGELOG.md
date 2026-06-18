@@ -2,6 +2,27 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 380 — Step-back: full kErr/route + coverage audit (clean) + four deeper-dives toward full coverage (content)
+**Round-number step-back (iter 380).** Two health audits, both clean:
+- **Runtime kErr+route sweep**: all **148 lessons** (revealing every example, opening every deep-dive) → errs=0, kErr=0, 0 bad;
+  all **101 non-lesson routes** (courses, Lab + 83 widgets, every utility page) → errs=0, kErr=0. **249 routes green.**
+- **Structural coverage audit**: every one of 148 lessons has ≥2 examples (**358**), ≥8 MCQs (2368), ≥1 flashcard (889),
+  ≥1 homework (442) — **0 structurally-thin lessons**. Now 81 code lessons and (after this ship) **141 deep-dive lessons**.
+**Reflection (371–379):** steady code/viz/content/examples rotation — all verified and pushed, no bugs; the gate hardening (330)
+and kErr-audit discipline have held across 80 iterations since the 300 step-back. Deep-dive coverage is approaching completeness.
+**The ship (content — toward "every lesson has a deeper-dive").** 4 more deep-dives (137 → **141**; only **7 of 148** left)
+across RL/calc/LA/algo:
+- **rl-practical-rl** — **why RL is notoriously hard**: a target that moves as the policy generates its own data; sparse/delayed
+  rewards; the deadly triad — so practical RL is mostly stabilization machinery.
+- **c-limits-intuition** — **a limit is about approach, not arrival**: it says nothing about `f(a)`; `sin x / x → 1` at 0 though
+  `0/0` is undefined.
+- **la-vectors-operations** — **a vector is both an arrow and a list**: geometry for intuition, components to compute — the duality
+  that scales linear algebra to 768-dim data.
+- **a-algorithms-for-ml** — **ML is optimization wrapped in linear algebra**: gradient descent + matmuls + the standard
+  search/aggregation toolkit; no new kind of computation.
+Verified: gate ALL GREEN; per-lesson **via `--dump-dom`** each renders (KaTeX 0 / 20 / 1 / 1 spans) with **kErr=0, rawDollar=0**;
+both step-back sweeps clean; embed-route smoke **errs=0/kErr=0 (12 routes)**. No save-shape change. SW cache `atlas-v319` → `atlas-v320`.
+
 ## iter 379 — Three more code exercises across LA/DL/calc (new functionality / active learning)
 Added **3 gate-verified JavaScript exercises** across LA/DL/calc (lessons-with-code 78 → **81**; the gate now runs **76**):
 - **la-matrix-calculus-backprop** — **the weight gradient is an outer product** `dL/dW = (dL/dy)·xᵀ`: upstream `[1,2]`, input `[3,4]`
