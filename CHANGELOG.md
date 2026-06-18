@@ -2,6 +2,19 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 374 — Three more worked examples on flagship hard lessons (examples)
+A **3rd worked example** on three flagship lessons across PS/algo/LA (examples 352 → **355**, all ⌘K-searchable):
+- **ps-law-of-large-numbers** — **LLN says it converges; CLT says how fast**: for n=100 the proportion `→0.5` (LLN) with SE
+  `√(0.25/100)=0.05` (CLT); LLN gives the limit, CLT the `1/√n` Gaussian wobble — both needed for error bars.
+- **a-string-algorithms** — **why KMP beats naive**: "aaaa" in "aaaaaaaaaa" costs naive `(n−m+1)·m = 28` (re-checking) vs KMP
+  `O(n+m)=14` — the prefix function avoids re-reading text characters.
+- **la-span-independence** — **do these span ℝ³?**: `v₃=v₁+v₂` ⇒ dependent (`det=0`), so they span only the `xy`-plane, not `ℝ³`;
+  you need `n` independent vectors to span `ℝⁿ`.
+Every value node-verified (SE 0.05; 28 vs 14; det 0); injected byte-stably with round-trip + even-`$` + tag-balance +
+unsupported-env pre-guards.
+Verified: gate ALL GREEN (**355 examples**); **via `--dump-dom`** each Examples tab shows 3, reveals with KaTeX (41 / 116 / 66
+spans) and **kErr=0, rawDollar=0**; all-routes smoke **errs=0/kErr=0 (12 routes)**. No save-shape change. SW cache `atlas-v313` → `atlas-v314`.
+
 ## iter 373 — Four more deeper-dives on foundational lessons (content / understandability)
 4 "Deeper dive" expandables across LLM/calc/algo/PS (deep-dives 129 → **133**; only 15 of 148 lessons now lack one):
 - **l-embeddings-and-prediction-head** — **the prediction head is a similarity search** (dot the hidden state against every
