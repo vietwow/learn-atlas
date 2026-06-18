@@ -197,7 +197,7 @@
   // animate progress/mastery bars filling from 0 → their value on view load (the "watch your progress fill in" flourish)
   function sweepBars(root) {
     if (reducedMotion()) return;
-    (root || app).querySelectorAll(".mastery-fill").forEach(el => {
+    (root || app).querySelectorAll(".mastery-fill, .a-prog-fill, .ach-progress-fill").forEach(el => {
       const target = el.style.width; if (!target || target === "0%") return;
       el.style.width = "0%";
       requestAnimationFrame(() => requestAnimationFrame(() => { el.style.width = target; }));
@@ -2183,6 +2183,7 @@
       ${sections}
     </div>`;
     bindGo();
+    sweepBars(app);   // sweep the collection bar + each achievement's progress bar from empty on landing
   }
 
   // ---------- stats ----------

@@ -2,6 +2,24 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 280 — Step-back: full-site health sweep (clean) + Hall progress-bar sweep (animation)
+**Step-back (every ~10 iters).** Health check of 270–279: workflow · examples · UI/UX · content · viz · a11y · gamification
+· content · viz · new-functionality — a healthy, fully-diverse rotation; no bugs shipped (caught the focus-timer debris and
+the viz-note `$` landmine before commit). **Comprehensive route sweep** (first full one since 250): drove **all 226 routes**
+— 148 lessons, 60 Lab widgets, 7 course pages, 11 top-level pages — in one session trapping JS + KaTeX errors. Result:
+**errs=0, kErr=0 across every route** — 30 iterations of byte-stable injections (deep-dives, examples, viz, code) broke
+nothing. State of the codex: 148 lessons · 2,368 MCQs · 889 cards · 442 homework · 301 examples · 60 viz · 53 deep-dives ·
+25 code exercises · 133 glossary · 57 achievements. The site is mature and healthy; performance is settled (iter 265).
+**The ship (animation, stalest area).** The achievement-Hall progress bars were the one place the "bars sweep up from
+empty on landing" flourish was missing — `.a-prog-fill` had no transition and `viewAchievements` never called `sweepBars`,
+so the Hall's per-achievement progress + collection bar snapped in while course/Progress pages animated. Fixed: added the
+`width` transition to `.a-prog-fill`, extended `sweepBars` to also target `.a-prog-fill` / `.ach-progress-fill`, and called
+`sweepBars(app)` in `viewAchievements` — so the Hall now fills its bars on landing, consistent with everywhere else
+(reduced-motion safe via the existing `sweepBars` guard).
+Verified: gate ALL GREEN; **via `--dump-dom`** the Hall's `.a-prog-fill` bars carry their target widths + a `0.7s` width
+transition (20/33 in-progress on the seed) and `errs=0`; the 226-route sweep is clean; all-routes smoke
+**errs=0/kErr=0 (12 routes)**. No save-shape change. SW cache `atlas-v220` → `atlas-v221`.
+
 ## iter 279 — Focus timer: optional time-boxed study sessions (new functionality)
 The site's whole premise is "studying alongside a full-time job," where time is scarce and a focused block beats a vague
 intention — but there was no study-session tool (new-functionality was the stalest area, last 264). Added a **focus

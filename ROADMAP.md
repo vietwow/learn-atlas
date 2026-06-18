@@ -177,6 +177,12 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 280: **Step-back: full-site sweep (clean) + Hall progress-bar sweep** (animation). Step-back: 270–279 rotation
+   healthy+diverse, no bugs. Full 226-route sweep (148 lessons + 60 lab + 7 courses + 11 pages), first since 250 →
+   errs=0/kErr=0 everywhere; 30 iters of injections broke nothing. Ship: achievement-Hall bars now sweep-fill on landing
+   (added transition to .a-prog-fill, extended sweepBars to target .a-prog-fill/.ach-progress-fill, call it in
+   viewAchievements) — consistent with course/Progress pages. Verified: gate GREEN; dump-dom Hall bars carry target+0.7s
+   transition (20/33 in-progress), errs=0; smoke errs=0/kErr=0 (12). SW →v221.
    ✅ iter 279: **Focus timer — time-boxed study sessions** (new functionality). For "studying alongside a full-time job": launch a
    25/50-min session from ⌘K → persistent corner countdown pill (pause/stop), rides along across navigation; on completion
    a gentle Web-Audio chime + tab-title flash + toast. No XP (ungameable). Transient state (no save-shape change); print-hidden.
