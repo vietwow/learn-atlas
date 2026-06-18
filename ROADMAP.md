@@ -177,6 +177,12 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 236: **Dot-product & angle visualizer — 52nd widget** (visualizations — rotating off content). LA was the thinnest topic
+   (5 widgets) and lacked the dot product. New `la-dot-product` in la-dot-product-norms (had no viz): two draggable
+   vectors, angle arc + a·b recolour by sign (sage acute / gold right-angle ⊥ / rust obtuse), b's scalar projection as a
+   shaded bar that flips backwards past 90°, live a·b = aₓbₓ+a_yb_y = |a||b|cosθ + θ°. Presets Acute/Right/Obtuse/Aligned.
+   Verified: gate GREEN (52 widgets); 3 sign cases exact (5.5/50° sage, 0/90° gold⊥, −4/117° rust); smoke errs=0/kErr=0
+   (12 routes); 390px scales. app.js fallback →52. SW →v179.
    ✅ iter 235: **Runnable code in every topic — RL & LLM exercises** (examples / new functionality). Completes the active-coding
    milestone (RL & LLMs were the last two at zero): RL discounted return (forward Σγᵗrₜ vs backward Gₜ=rₜ+γGₜ₊₁, agree) +
    one Q-learning update (TD target/error/Q = 1.72/1.72/0.86); LLM softmax output head (sums to 1) + temperature & greedy

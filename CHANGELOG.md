@@ -2,6 +2,24 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 236 — Dot-product & angle visualizer — the 52nd widget (visualizations)
+Rotating off content. Linear algebra was the **thinnest topic** (5 widgets) and was missing the single most
+foundational visual: the **dot product**. The lesson `la-dot-product-norms` ("Dot Product, Norms, and Angles")
+derived `u·v = |u||v|cosθ` in prose but had no picture. Added the **52nd Lab widget `la-dot-product`**:
+- two **draggable** vectors **a** (gold) and **b** (sage) from the origin (snap to ½-grid), with preset buttons
+  *Acute · ⊥ Right angle · Obtuse · Aligned*;
+- the **angle arc** + running `a·b` recolour by sign — **sage acute (a·b>0) · gold right-angle (a·b=0, ⊥ marker) ·
+  rust obtuse (a·b<0)** — making the sign↔geometry link visceral;
+- **b's scalar projection onto a** drawn as a shaded bar (with the dashed perpendicular), which correctly flips to
+  point *backwards* along a once the angle exceeds 90° (negative projection);
+- a live readout: `a·b = aₓbₓ + a_yb_y = … = |a||b|cosθ`, plus θ in degrees and the acute/right/obtuse classification.
+Embedded after §3 ("From algebra to geometry: deriving u·v = |u||v|cosθ"). Note text is plain HTML (the viz-note
+landmine). app.js viz-complete fallback `|| 51` → `|| 52`.
+Verified: gate ALL GREEN (**52 widgets**, embed resolves); the three sign cases render correctly with exact math —
+acute a=(3,1) b=(1,2.5) → a·b=5.5, θ=50° (sage); right a=(3,1) b=(−1,3) → a·b=0, θ=90° (gold ⊥); obtuse a=(3,1)
+b=(−2,2) → a·b=−4, θ=117° (rust, projection bar reversed); all-routes smoke **errs=0/kErr=0 (12 routes)**; 390px mobile
+the canvas scales to width. SW cache `atlas-v178` → `atlas-v179`.
+
 ## iter 235 — Runnable code in every topic: RL & LLM exercises (examples / new functionality)
 Completes the active-coding milestone — **all seven subjects now have at least one runnable, self-checking exercise**
 (RL and LLMs were the last two at zero). Added 4 deterministic JS exercises:

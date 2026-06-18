@@ -3090,4 +3090,69 @@
     draw();                                                    // synchronous first paint
   });
 
+  /* ========================================================
+     52. The dot product & angle — a·b = |a||b|cosθ, sign = geometry
+     ======================================================== */
+  register({ id: 'la-dot-product', topic: 'linear-algebra', title: 'The Dot Product & Angle', blurb: 'Drag two vectors and watch a·b = |a||b|cosθ: positive when the angle is acute, exactly zero at a right angle, negative when obtuse. The shaded bar is b’s scalar projection onto a.' },
+  function (root) {
+    const W = 540, H = 380, S = 40, cx = W / 2, cy = H / 2;
+    const { c, ctx } = canvas(root, W, H);
+    const info = note(root);
+    let a = { x: 3, y: 1 }, b = { x: 1, y: 2.5 }, drag = null;
+    const toPx = p => ({ x: cx + p.x * S, y: cy - p.y * S });
+    const toMath = p => ({ x: (p.x - cx) / S, y: (cy - p.y) / S });
+    const near = (mp, vec) => { const q = toPx(vec); return Math.hypot(q.x - mp.x, q.y - mp.y) < 16; };
+    function down(ev) { const m = pointer(c, W, H, ev); if (near(m, a)) drag = 'a'; else if (near(m, b)) drag = 'b'; if (drag) ev.preventDefault(); }
+    function move(ev) { if (!drag) return; const m = toMath(pointer(c, W, H, ev)); const g = x => Math.round(x * 2) / 2; const t = drag === 'a' ? a : b; t.x = g(m.x); t.y = g(m.y); draw(); ev.preventDefault(); }
+    function up() { drag = null; }
+    c.addEventListener('mousedown', down); window.addEventListener('mousemove', move); window.addEventListener('mouseup', up);
+    c.addEventListener('touchstart', down, { passive: false }); c.addEventListener('touchmove', move, { passive: false }); c.addEventListener('touchend', up);
+    const pre = controls(root);
+    button(pre, 'Acute', () => { a = { x: 3, y: 1 }; b = { x: 2, y: 2 }; draw(); });
+    button(pre, '⊥ Right angle', () => { a = { x: 3, y: 1 }; b = { x: -1, y: 3 }; draw(); });
+    button(pre, 'Obtuse', () => { a = { x: 3, y: 1 }; b = { x: -2, y: 2 }; draw(); });
+    button(pre, 'Aligned', () => { a = { x: 3, y: 1 }; b = { x: 1.5, y: 0.5 }; draw(); });
+    function fmt(n) { return (Math.round(n * 100) / 100).toString(); }
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      ctx.strokeStyle = p.line; ctx.lineWidth = 1;
+      for (let x = cx % S; x < W; x += S) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+      for (let y = cy % S; y < H; y += S) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+      ctx.strokeStyle = p.mute; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(W, cy); ctx.moveTo(cx, 0); ctx.lineTo(cx, H); ctx.stroke();
+      const dot = a.x * b.x + a.y * b.y;
+      const la = Math.hypot(a.x, a.y), lb = Math.hypot(b.x, b.y);
+      const cos = (la > 1e-9 && lb > 1e-9) ? Math.max(-1, Math.min(1, dot / (la * lb))) : 0;
+      const deg = Math.round(Math.acos(cos) * 180 / Math.PI);
+      const O = toPx({ x: 0, y: 0 }), A = toPx(a), B = toPx(b);
+      const sign = Math.abs(dot) < 1e-9 ? 0 : (dot > 0 ? 1 : -1);
+      const signCol = sign === 0 ? p.gold : (sign > 0 ? p.sage : p.rust);
+      // scalar projection of b onto a: foot = (a·b / |a|²) · a
+      if (la > 1e-9) {
+        const k = dot / (la * la), foot = toPx({ x: a.x * k, y: a.y * k });
+        ctx.setLineDash([4, 4]); ctx.strokeStyle = p.mute; ctx.lineWidth = 1.4;
+        ctx.beginPath(); ctx.moveTo(B.x, B.y); ctx.lineTo(foot.x, foot.y); ctx.stroke(); ctx.setLineDash([]);
+        ctx.strokeStyle = signCol; ctx.lineWidth = 6; ctx.globalAlpha = 0.45;
+        ctx.beginPath(); ctx.moveTo(O.x, O.y); ctx.lineTo(foot.x, foot.y); ctx.stroke(); ctx.globalAlpha = 1;
+      }
+      // angle arc between a and b, sampled (math-angle space) so it spans the true angle
+      if (la > 1e-9 && lb > 1e-9) {
+        const aa = Math.atan2(a.y, a.x), ang = Math.atan2(a.x * b.y - a.y * b.x, dot), r = 30;
+        ctx.strokeStyle = signCol; ctx.lineWidth = 2; ctx.beginPath();
+        for (let s = 0; s <= 1.0001; s += 0.05) { const d = aa + ang * s, x = O.x + r * Math.cos(d), y = O.y - r * Math.sin(d); s === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); }
+        ctx.stroke();
+        if (sign === 0) { ctx.fillStyle = p.gold; ctx.font = '13px ' + (cssVar('--font-mono', 'monospace')); ctx.fillText('⊥', O.x + 36 * Math.cos(aa + ang / 2), O.y - 36 * Math.sin(aa + ang / 2)); }
+      }
+      arrow(ctx, O.x, O.y, A.x, A.y, p.gold, 3);
+      arrow(ctx, O.x, O.y, B.x, B.y, p.sage, 3);
+      const kind = sign === 0 ? `<span style="color:${p.gold}">right angle — orthogonal, a·b = 0</span>`
+        : sign > 0 ? `<span style="color:${p.sage}">acute — they point the same general way, a·b &gt; 0</span>`
+        : `<span style="color:${p.rust}">obtuse — they point apart, a·b &lt; 0</span>`;
+      info.innerHTML = `<b style="color:${p.gold}">a</b> = (${a.x}, ${a.y}) &nbsp; <b style="color:${p.sage}">b</b> = (${b.x}, ${b.y})<br>` +
+        `a·b = (${a.x})(${b.x}) + (${a.y})(${b.y}) = <b>${fmt(dot)}</b> &nbsp;=&nbsp; |a||b|cosθ = ${fmt(la)}·${fmt(lb)}·${fmt(cos)} &nbsp;·&nbsp; θ = <b>${deg}°</b><br>${kind}`;
+    }
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Dot product visualizer: two draggable vectors a and b from the origin, the angle between them, and the scalar projection of b onto a shown as a shaded bar. The dot product is positive for an acute angle, zero at a right angle, and negative for an obtuse angle.');
+    draw();                                                    // synchronous first paint
+  });
+
 })();
