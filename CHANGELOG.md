@@ -2,6 +2,17 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 379 — Three more code exercises across LA/DL/calc (new functionality / active learning)
+Added **3 gate-verified JavaScript exercises** across LA/DL/calc (lessons-with-code 78 → **81**; the gate now runs **76**):
+- **la-matrix-calculus-backprop** — **the weight gradient is an outer product** `dL/dW = (dL/dy)·xᵀ`: upstream `[1,2]`, input `[3,4]`
+  → `3 4 6 8` (each `dL/dW_ij = dL/dy_i · x_j`).
+- **dl-autoencoders-vae** — **the reparameterization trick** `z = μ + σ·ε`: `μ=2, σ=0.5, ε=1` → `2.50`; the noise sits outside the
+  differentiable path so gradients flow.
+- **c-implicit-related-rates** — **implicit differentiation** of `x²+y²=25` (`y'=−x/y`): at `(3,4)` → `-0.75`, the circle's slope.
+Every output node-verified; injected byte-stably with round-trip + no-existing-`data-code` + `**`-free guards.
+Verified: gate ALL GREEN (**76 code-exercises verified**); **via `--dump-dom`** the weight-gradient widget runs → `3 4 6 8`,
+"✓ Output matches expected"; all-routes smoke **errs=0/kErr=0 (12 routes)**. No save-shape change. SW cache `atlas-v318` → `atlas-v319`.
+
 ## iter 378 — Three more worked examples on flagship hard lessons (examples)
 A **3rd worked example** on three flagship lessons across LA/calc/RL (examples 355 → **358**, all ⌘K-searchable):
 - **la-matrices-as-transformations** — **composition = matrix product**: scale-then-rotate is `RS=[[0,−2],[2,0]]`, sending `(1,0)→(0,2)`;
