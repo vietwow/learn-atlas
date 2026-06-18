@@ -2,6 +2,18 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 371 — Three more code exercises across LLM/algo/calc (new functionality / active learning)
+Added **3 gate-verified JavaScript exercises** across LLM/algo/calc (lessons-with-code 72 → **75**; the gate now runs **70**):
+- **l-rlhf-and-preference-optimization** — **Bradley-Terry preference** `σ(r_A−r_B)`: scores 2 vs 1 → `0.73` (a 1-point reward edge
+  ≈ 73% preference) — the reward model's training target.
+- **a-np-completeness** — **brute-force Subset-Sum**: enumerate all `2ⁿ` subsets, count those hitting the target — `[3,5,2]→7`
+  gives `1` (only `{5,2}`); the exponential scan that makes it hard.
+- **c-extrema-curve-sketching** — **finding critical points** (`f'=0`): for `x³−3x`, solve `3x²−3=0` → `-1 1` (a max and a min).
+Every output node-verified; injected byte-stably with round-trip + no-existing-`data-code` + `**`-free guards.
+Verified: gate ALL GREEN (**70 code-exercises verified**); **via `--dump-dom`** the subset-sum widget runs → `1`
+("✓ Output matches expected"; nested bitmask `<` loops work); all-routes smoke **errs=0/kErr=0 (12 routes)**. No save-shape change.
+SW cache `atlas-v310` → `atlas-v311`.
+
 ## iter 370 — Step-back: full kErr/route + coverage audit (clean) + three worked examples (examples)
 **Round-number step-back (iter 370).** Two health audits, both clean:
 - **Runtime kErr+route sweep**: all **148 lessons** (revealing every example, opening every deep-dive) → errs=0, kErr=0, 0 bad;
