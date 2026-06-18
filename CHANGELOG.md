@@ -2,6 +2,18 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 409 — Three more worked examples — the 400th (examples)
+A **3rd worked example** on three flagship lessons across calc/RL/LA, crossing **400 worked examples** (397 → **400**, all ⌘K-searchable):
+- **c-gradient-directional** — **directional derivative ⊥ gradient = 0**: at `(1,1)`, `∇f=(2,2)`, moving along `(1,−1)/√2` gives `D_u f=0`
+  — you're on the level curve; the gradient is always perpendicular to level sets.
+- **rl-model-based** — **Dyna planning multiplier**: `100×(1+5)=600` value updates from 100 real steps; a learned model replays
+  synthetic experience (data → compute efficiency), bounded by model bias.
+- **la-matrix-calculus-backprop** — **two-layer backprop**: `∂L/∂x = W₁ᵀW₂ᵀ(∂L/∂z) = (2,3)` — multiply by transposes in reverse
+  order; reverse-mode autodiff keeps every intermediate a vector, so backprop ≈ one forward pass.
+Every value node-verified (D_u=0; 600; (2,3)); injected byte-stably with the full guard set.
+Verified: gate ALL GREEN (**400 examples**); **via `--dump-dom`** all 3 reveal with KaTeX (55 / 5 / 41 spans) and **kErr=0,
+rawDollar=0**; smoke + 8 pages **errs=0/kErr=0, bad=none**. No save-shape change. SW cache `atlas-v348` → `atlas-v349`.
+
 ## iter 408 — Three more second deep-dives on the hardest lessons (content / depth — owner's #1)
 Continuing the depth runway: a **distinct second "Deeper dive"** on three more flagship lessons (deep-dives 151 → **154**; 6 lessons
 now carry two), each a different sub-concept from the existing one:
