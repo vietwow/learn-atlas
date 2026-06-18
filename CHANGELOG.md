@@ -2,6 +2,26 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 290 — Step-back: full-site sweep (clean) + two LLM code exercises (new functionality / active learning)
+**Step-back (every ~10 iters).** Health check of 281–289: code · viz · content · examples · viz · UI/UX · gamification ·
+a11y · content — a genuinely diverse rotation (four distinct non-content areas in the last four iters: UI/UX, gamification,
+a11y, content), no bugs shipped. **Comprehensive route sweep** (first full one since iter 280): drove **all 228 routes**
+(148 lessons + 62 Lab widgets + 7 courses + 11 pages) in one session trapping JS + KaTeX errors → **errs=0, kErrTotal=0,
+bad=none** across every route; the 281–289 injections (code, viz, deep-dives, examples) broke nothing. State of the codex:
+148 lessons · 2,368 MCQs · 889 cards · 442 homework · 304 examples · 62 viz · 61 deep-dives · 30 code-exercise lessons ·
+133 glossary · 57 achievements. Mature and healthy; performance settled (iter 265).
+**The ship (active learning).** LLM was the **thinnest code-exercise topic** (2) despite being full of computable ideas.
+Added **2 gate-verified JavaScript exercises** (lessons-with-code 28 → **30**; gate now runs **25**):
+- **l-self-attention** — scaled dot-product attention: query scores each key (`q·k/√d`), softmax → weights, weighted blend
+  of values; the query matches key 1, so weights `0.731,0.269` and output `7.31,2.69`.
+- **l-pretraining-objective-data** — **perplexity** = `exp(cross-entropy)`: `[0.5×4]` → `2.00` (branching factor 2), a
+  confident `[0.9,0.8,0.7,0.95]` → `1.20`.
+Every output node-verified; injected byte-stably with a round-trip guard + the injector refusing any lesson with existing
+`data-code`.
+Verified: gate ALL GREEN (**25 code-exercises verified** — both new outputs match `data-expected`); **via `--dump-dom`** the
+l-self-attention widget hydrates, runs → `0.731,0.269 | 7.31,2.69`, "✓ Output matches expected"; the 228-route sweep is
+clean; all-routes smoke **errs=0/kErr=0 (12 routes)**. No save-shape change. SW cache `atlas-v230` → `atlas-v231`.
+
 ## iter 289 — Four more deeper-dives on flagship hard lessons (content / understandability)
 Back to the owner's depth directive with **4 "Deeper dive" expandables** on flagship hard lessons that lacked one,
 spread across four topics (deep-dives 57 → **61**; RL gets one for the first time since iter 277):
