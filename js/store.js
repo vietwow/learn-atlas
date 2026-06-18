@@ -274,9 +274,11 @@
   // ---- XP / level ------------------------------------------------------
   const levelUps = [];
   let _goalJustReached = false;   // transient: set when today's XP first crosses the daily goal (drained by the UI)
+  let _bestDaySet = 0;            // transient: today's total the moment it first beats your all-time best day (drained by the UI)
   function levelNumFor(xp) { let lvl = 1; for (let i = 0; i < LEVELS.length; i++) if (xp >= LEVELS[i].t) lvl = i + 1; return lvl; }
   function drainLevelUps() { return levelUps.splice(0, levelUps.length); }
   function goalJustReached() { const v = _goalJustReached; _goalJustReached = false; return v; }
+  function bestDayJustSet() { const v = _bestDaySet; _bestDaySet = 0; return v; }   // new single-day XP record (0 = none)
   function addXP(amount) {
     amount = num(amount);
     const before = levelNumFor(state.xp);
@@ -289,6 +291,9 @@
       if (prev < state.goalXp && state.activity[t] >= state.goalXp && state.goalCelebrated !== t) {
         _goalJustReached = true; state.goalCelebrated = t;
       }
+      // new best day: did THIS gain push today past your previous best-ever day? (fires once, on the crossing)
+      let prevBest = 0; for (const d in state.activity) { if (d !== t) { const v = num(state.activity[d]); if (v > prevBest) prevBest = v; } }
+      if (prevBest > 0 && prev <= prevBest && state.activity[t] > prevBest) _bestDaySet = state.activity[t];
     }
     if (after > before) for (let lv = before + 1; lv <= after; lv++) levelUps.push({ level: lv, name: (LEVELS[lv - 1] || {}).name || "" });
     const lv = levelInfo();
@@ -596,7 +601,7 @@
     completeLesson, isLessonDone, recordQuiz, recordTest, revealHomework,
     gradeCard, cardDue, cardState, projectInterval, reviewForecast,
     bumpMastery, effectiveMastery, masteryLevel, weakSpots, fadingConcepts, topicMastery, markKnown,
-    getNote, setNote, setGoal, setNewPerSession, todayXP, goalJustReached, exportData, importData, freezeJustUsed, streakJustUp, streakRecord, freezeEarned, personalBests, setLastLesson,
+    getNote, setNote, setGoal, setNewPerSession, todayXP, goalJustReached, bestDayJustSet, exportData, importData, freezeJustUsed, streakJustUp, streakRecord, freezeEarned, personalBests, setLastLesson,
     toggleBookmark, isBookmarked, bookmarkIds,
     recordMiss, clearMiss, missedKeys, missedCount,
     recordQuickCheck, recordVizOpen, recordCodeSolved,

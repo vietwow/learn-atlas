@@ -177,6 +177,11 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 276: **"Best study day yet!" toast** (gamification). Completed the personal-bests celebration trio (record-streak ✓,
+   best-test ✓, now best-day ✓). Fires once the instant today's XP crosses your prior best-ever day — detected as the
+   crossing inside addXP (fires once/day, never on day 1, no new persisted state; transient _bestDaySet drained in
+   flushAchievements beside the goal toast). Verified: gate GREEN; node test (200→quiet at 150, fires 230 on crossing,
+   quiet after, day-1 silent); browser lesson-complete (0→50 vs best 30) raises the toast; smoke errs=0/kErr=0 (12). SW →v217.
    ✅ iter 275: **SR fixes: live quiz feedback + labeled test selects** (accessibility). Two real gaps: (1) quiz "Correct/Not quite"
    + explanation was injected into non-live slots → screen readers heard nothing; added aria-live="polite" to #explain-slot
    (quiz), .qc-explain-slot (quick check), #md-explain (mastery/daily-mix). (2) test-config Scope/Length labels lacked for=

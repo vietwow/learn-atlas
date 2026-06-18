@@ -178,6 +178,7 @@
       confetti();
       toast("🎯", "Daily goal reached!", "You hit your " + (Store.raw.goalXp || 50) + " XP target for today — keep the streak alive.");
     }
+    if (Store.bestDayJustSet) { const bd = Store.bestDayJustSet(); if (bd) toast("⚡", "Best study day yet!", bd + " XP today — a new single-day record. You're on a tear."); }
   }
 
   // ---------- juice: XP-gain float + ring pulse + stat count-up ----------

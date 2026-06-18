@@ -2,6 +2,20 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 276 — "Best study day yet!" — completing the personal-bests celebration trio (gamification)
+The Personal Bests panel tracks three lifetime records — longest streak, best test score, and **biggest single-day XP**.
+Two of the three already celebrate *in the moment* (🏆 record streak, 🎯 best test), but beating your best-ever day was
+shown only statically. Added the missing **"⚡ Best study day yet!"** toast: the instant today's running XP total crosses
+your previous best-ever day, it fires once. Detected cleanly inside `addXP` by catching the *crossing* (today's total was
+≤ the prior best before this gain, and exceeds it after) — so it fires **exactly once per day, never on your very first
+active day** (no prior record to beat), and needs **no new persisted state** (a transient `_bestDaySet` signal, drained by
+the UI in `flushAchievements()` right beside the existing goal/streak toasts).
+Verified: gate ALL GREEN; **node test** — a save with a prior best of 200 stays quiet at today=150, fires `230` when a
+gain crosses to 230, then stays quiet on further same-day gains, and a first-ever active day never fires; **in-browser**
+completing a lesson (today 0→50, prior best 30) raises "⚡ Best study day yet! 50 XP today — a new single-day record"
+alongside the normal completion toasts; all-routes smoke **errs=0/kErr=0 (12 routes)**. No save-shape change. SW cache
+`atlas-v216` → `atlas-v217`.
+
 ## iter 275 — Screen-reader fixes: live quiz feedback + labeled test selects (accessibility)
 An a11y pass (the stalest area, last 263) caught two real gaps. **(1) Quiz feedback was silent to screen readers.** When
 you answer a question, "Correct ✓ / Not quite" plus the explanation is injected into a slot — but those slots weren't
