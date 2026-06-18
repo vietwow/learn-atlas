@@ -177,6 +177,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 339: **4 more deeper-dives — past 100** (content). +4 dd (97→101) across DL/RL/algo/PS: dl-activation-functions
+   (no nonlinearity → linear collapse), rl-value-approximation (the deadly triad), a-binary-search (invariant + overflow/loop bugs),
+   ps-normal-distribution (why normal is everywhere: CLT/max-entropy/convenience). String.raw LaTeX; byte-stable inject w/ guards.
+   Verified: gate GREEN; dump-dom each renders (katex 6/0/9/10, kErr=0, rawDollar=0); smoke errs=0/kErr=0 (12). SW →v279.
    ✅ iter 338: **3 more code exercises across computational lessons** (active learning). +3 JS (lessons-with-code 48→51, gate runs 46)
    across LA/PS/RL: la-orthonormal-gram-schmidt (Gram-Schmidt → 0.5 -0.5, orthogonal), ps-hypothesis-testing-logic (z-statistic
    → 2.00), rl-policy-iteration (greedy argmax Q → 1). Node-verified; byte-stable inject w/ guards. Verified: gate GREEN (46
