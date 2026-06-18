@@ -177,6 +177,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 353: **3 more worked examples on flagship hard lessons** (examples). +3 (337→340) across calc/LLM/PS:
+   c-derivatives-special-functions (log diff of xˣ → 6.77), l-pretraining-objective-data (perplexity e²≈7.39),
+   ps-errors-and-power (power=1−β=0.80 + four levers). Node-verified; byte-stable inject w/ guards. Verified: gate GREEN (340
+   examples); dump-dom each shows 3, reveals (katex 65/67/37, kErr=0, rawDollar=0); smoke errs=0/kErr=0 (12). SW →v293.
    ✅ iter 352: **4 more deeper-dives on flagship hard lessons** (content). +4 dd (109→113) across algo/DL/PS/calc:
    a-graph-representations-traversal (BFS/DFS = queue vs stack), dl-learning-rate-schedules-and-tuning (why warmup→decay),
    ps-bernoulli-binomial (where C(n,k)p^k(1-p)^(n-k) comes from), c-linearization-lhopital (why L'Hôpital = ratio of tangent

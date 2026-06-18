@@ -2,6 +2,20 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 353 — Three more worked examples on flagship hard lessons (examples)
+A **3rd worked example** on three flagship lessons across calc/LLM/PS (examples 337 → **340**, all ⌘K-searchable):
+- **c-derivatives-special-functions** — **logarithmic differentiation of `xˣ`**: `ln y = x ln x` → `y'/y = ln x + 1` →
+  `y' = xˣ(ln x + 1)`, `≈ 6.77` at `x=2` — the move for variable base-and-exponent.
+- **l-pretraining-objective-data** — **perplexity** `= e^H`: a cross-entropy of `2.0` nats → `≈ 7.39`, the *effective branching
+  factor* (choosing among ~7.4 equally likely tokens); why exponentiate log-space loss to a linear "number of choices."
+- **ps-errors-and-power** — **power = 1−β and its four levers**: `β=0.20` → power `0.80`; raise it via larger `n`, bigger effect,
+  higher `α`, or less noise — with the `α`/`β` tension that only more data resolves.
+Every value node-verified (6.77; e²≈7.39; 0.80); injected byte-stably with round-trip + even-`$` + tag-balance +
+unsupported-env pre-guards.
+Verified: gate ALL GREEN (**340 examples**); **via `--dump-dom`** each Examples tab shows 3, reveals with KaTeX
+(65 / 67 / 37 spans) and **kErr=0, rawDollar=0**; all-routes smoke **errs=0/kErr=0 (12 routes)**. No save-shape change.
+SW cache `atlas-v292` → `atlas-v293`.
+
 ## iter 352 — Four more deeper-dives on flagship hard lessons (content / understandability)
 4 "Deeper dive" expandables across algo/DL/PS/calc (deep-dives 109 → **113**):
 - **a-graph-representations-traversal** — **BFS vs DFS = queue vs stack**: a FIFO queue fans out level-by-level (shortest
