@@ -91,6 +91,7 @@
       cardsReviewed: 0,
       cards: {},            // cardId -> { ease, interval, due, reps }
       streak: 0,
+      maxStreak: 0,         // longest streak ever reached (a personal best)
       lastActive: null,     // YYYY-MM-DD
       achievements: {},     // id -> true
       hwRevealed: {},       // hwId -> true (so XP awarded once)
@@ -135,6 +136,7 @@
       base.cardsReviewed = num(s.cardsReviewed);
       base.cards = s.cards || {};
       base.streak = num(s.streak);
+      base.maxStreak = Math.max(num(s.maxStreak), num(s.streak));   // never below the current streak (back-fills old saves)
       base.lastActive = s.lastActive || null;
       base.achievements = s.achievements || {};
       base.hwRevealed = s.hwRevealed || {};
@@ -159,7 +161,7 @@
   function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
 
   // ---- streak ----------------------------------------------------------
-  let _freezeJustUsed = false, _streakJustUp = false;
+  let _freezeJustUsed = false, _streakJustUp = false, _streakRecord = false;
   function touchStreak() {
     const t = todayStr();
     if (state.lastActive === t) return;
@@ -169,6 +171,7 @@
     else if (diff === 2 && state.freezes > 0) { state.freezes -= 1; state.streak += 1; _freezeJustUsed = true; _streakJustUp = true; } // missed 1 day, freeze saves it
     else state.streak = 1;          // missed >1 day (or no freeze) -> reset
     if (state.streak < 1) state.streak = 1;
+    if (state.streak > num(state.maxStreak)) { state.maxStreak = state.streak; if (state.streak >= 3) _streakRecord = true; }   // new personal-best streak (past the trivial 1-2)
     state.lastActive = t;
     // earn a freeze at each 7-day milestone (cap 3)
     if (diff === 1 && state.streak % 7 === 0) state.freezes = Math.min(3, num(state.freezes) + 1);
@@ -181,6 +184,21 @@
   }
   function freezeJustUsed() { const v = _freezeJustUsed; _freezeJustUsed = false; return v; }
   function streakJustUp() { const v = _streakJustUp; _streakJustUp = false; return v; }
+  function streakRecord() { const v = _streakRecord; _streakRecord = false; return v; }   // current streak just set a new all-time high
+  // lifetime personal bests, computed from existing history (+ the tracked maxStreak)
+  function personalBests() {
+    const act = state.activity || {};
+    const dayXps = Object.values(act).map(num);
+    const tests = (state.tests || []).filter(t => num(t.total) > 0);
+    const testPct = tests.map(t => Math.round(num(t.correct) / num(t.total) * 100));
+    return {
+      longestStreak: Math.max(num(state.maxStreak), num(state.streak)),
+      bestDayXp: dayXps.length ? Math.max.apply(null, dayXps) : 0,
+      daysStudied: Object.keys(act).length,
+      bestTestPct: testPct.length ? Math.max.apply(null, testPct) : 0,
+      testsRecorded: tests.length
+    };
+  }
   function markKnown(lessonId) { if (!lessonId) return; state.mastery[lessonId] = { s: 0.65, ts: Date.now(), n: 1 }; save(); }
   function setLastLesson(key) { if (state.lastLesson !== key) { state.lastLesson = key; save(); } }
   // ---- bookmarks (saved lessons) --------------------------------------
@@ -542,7 +560,7 @@
     completeLesson, isLessonDone, recordQuiz, recordTest, revealHomework,
     gradeCard, cardDue, cardState, projectInterval, reviewForecast,
     bumpMastery, effectiveMastery, masteryLevel, weakSpots, fadingConcepts, topicMastery, markKnown,
-    getNote, setNote, setGoal, todayXP, goalJustReached, exportData, importData, freezeJustUsed, streakJustUp, setLastLesson,
+    getNote, setNote, setGoal, todayXP, goalJustReached, exportData, importData, freezeJustUsed, streakJustUp, streakRecord, personalBests, setLastLesson,
     toggleBookmark, isBookmarked, bookmarkIds,
     recordMiss, clearMiss, missedKeys, missedCount,
     recordQuickCheck, recordVizOpen,

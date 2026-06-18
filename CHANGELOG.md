@@ -2,6 +2,23 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 243 — Personal bests: a high score to chase (gamification)
+Gamification was the most-overdue learner-facing lane (last at iter 233). Rather than pad the already-comprehensive 55
+achievements, added a **"Personal bests" panel** on the Progress page — the beat-your-own-record loop that keeps a
+returning learner coming back:
+- **🔥 Longest streak** (with an "· at your peak!" tag when today's streak *is* the all-time high), **⚡ Best day (XP)**,
+  **🎯 Best test score**, **📅 Days studied** — gold-framed record tiles set apart from the plain activity stats.
+- Three of the four are computed from existing history (`activity` map, `tests` array) — only **longest streak** needed a
+  new tracked field `maxStreak`, added to `blank()` + the `load()` typeof-merge (back-filled to `max(maxStreak, streak)`
+  so old saves never under-report) — a prior-shape save still loads.
+- Beating your longest-ever streak fires a **"🏆 New record streak!"** toast at boot (a new `Store.streakRecord()` signal
+  from `touchStreak`, guarded to ≥3 days so it doesn't spam on day 1–2), alongside the existing flame flare.
+Verified: gate ALL GREEN; **node unit test** — `touchStreak` takes streak 6→7 with `maxStreak→7` and `streakRecord=true`,
+`personalBests()` returns the right records (longest 7, best day 120, days 3, best test 90%), and a save lacking
+`maxStreak` back-fills to the current streak; the panel renders 4 correct gold tiles (23 / 140 / 92% / 7);
+all-routes smoke **errs=0/kErr=0 (12 routes)** with 4 best tiles on the stats page; 390px mobile reflows cleanly.
+SW cache `atlas-v184` → `atlas-v185`.
+
 ## iter 242 — Dynamic-programming visualizer: the edit-distance table (visualizations)
 Rotating off content. Algorithms was the **thinnest viz topic (6)** and was missing the entire **dynamic-programming
 pillar** — a notoriously hard idea that a table-fill animation makes click. Added the **53rd Lab widget

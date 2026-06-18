@@ -2179,6 +2179,16 @@
         <div class="stat" style="--c:var(--violet)"><div class="v">${st.accuracy}%</div><div class="k">Quiz accuracy</div></div>
       </div>
 
+      <div class="page-head reveal" style="margin:24px 0 14px"><h2 style="font-size:24px">Personal bests</h2></div>
+      <div class="bests reveal">${(() => { const pb = Store.personalBests(); const atPeak = pb.longestStreak > 0 && pb.longestStreak === st.streak;
+        return [
+          ["🔥", pb.longestStreak, "Longest streak" + (atPeak ? " · at your peak!" : "")],
+          ["⚡", pb.bestDayXp, "Best day (XP)"],
+          ["🎯", pb.testsRecorded ? pb.bestTestPct + "%" : "—", "Best test score"],
+          ["📅", pb.daysStudied, "Days studied"]
+        ].map(([ico, num, lbl]) => `<div class="best"><span class="best-ico">${ico}</span><div class="best-num">${num}</div><div class="best-lbl">${lbl}</div></div>`).join("");
+      })()}</div>
+
       <div class="page-head reveal" style="margin:24px 0 14px"><h2 style="font-size:24px">Activity</h2></div>
       <div class="act-grid reveal">${actGrid}</div>
       ${testHist}
@@ -2619,6 +2629,7 @@
     flushAchievements();
     if (Store.freezeJustUsed()) toast("❄️", "Streak saved!", "A freeze covered the day you missed.");
     if (Store.streakJustUp()) flareStreak();   // welcome-back flare when today extended the streak
+    if (Store.streakRecord()) toast("🏆", "New record streak!", "Your longest ever — " + Store.raw.streak + " days. Keep it going.");
     showIntro(false);
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);

@@ -177,6 +177,12 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 243: **Personal bests panel** (gamification — most overdue, last 233). Beat-your-record loop on the Progress page: 🔥 longest
+   streak (+"at your peak!" tag), ⚡ best day XP, 🎯 best test %, 📅 days studied — gold-framed tiles. 3/4 computed from
+   existing history; only longest streak needed new `maxStreak` (blank+load back-fill to max(maxStreak,streak); old saves
+   load). Beating the streak record fires a "🏆 New record streak!" toast (new Store.streakRecord(), guarded ≥3d).
+   Verified: gate GREEN; node test (6→7, maxStreak 7, streakRecord true, personalBests correct, back-fill); panel renders
+   4 correct tiles (23/140/92%/7); smoke errs=0/kErr=0 (12 routes) 4 tiles; 390px reflows. SW →v185.
    ✅ iter 242: **Dynamic-programming visualizer — 53rd widget** (visualizations — rotating off content). Algorithms was the thinnest
    viz topic (6) and missing the DP pillar. New `algo-dp-editdistance` in a-dynamic-programming (§8 Edit Distance): the
    Levenshtein table (kitten→sitting) fills cell-by-cell (step/play/skip/reset), current cell gold + chosen source sage
