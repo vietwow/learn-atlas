@@ -2,6 +2,19 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 421 — Three more worked examples across LLM/DL (examples)
+A **3rd worked example** on three flagship lessons (examples 415 → **418**, all ⌘K-searchable):
+- **l-rag-and-tools** — **the retrieval context budget**: a `4000`-token window minus `500` overhead fits `⌊3500/500⌋=7` chunks;
+  chunk size is a precision↔coverage dial coupled to `k` and the window.
+- **dl-transformer-architecture** — **why attention divides by √dₖ**: `q·k` of unit-variance vectors has variance `dₖ` (std `√64=8`),
+  saturating softmax into a hard argmax with vanishing gradients; `/√dₖ` restores std≈1, keeping logits in the sensitive range.
+- **dl-autoencoders-vae** — **the reparameterization trick**: `z=μ+σε`, `ε∼N(0,1)` moves randomness to a parameter-free input so
+  `∂z/∂μ=1`, `∂z/∂σ=ε` and gradients flow — the score-function obstacle solved oppositely (differentiate the sample, not the probability).
+Every value node-verified (7 chunks; Var(q·k)≈64→std 8→1; reparam identities); injected byte-stably with the full guard set.
+(PS is now exhausted at the 2-example level; LA/calc nearly so — LLM/DL carry the remaining runway.)
+Verified: gate ALL GREEN (**418 examples**); **via `--dump-dom`** all 3 reveal with KaTeX (70 / 85 / 26 spans) and **kErr=0,
+rawDollar=0**; smoke + 8 pages **errs=0/kErr=0, bad=none**. No save-shape change. SW cache `atlas-v360` → `atlas-v361`.
+
 ## iter 420 — Step-back: full audit (clean) + three second deep-dives (content / depth)
 **Round-number step-back (iter 420).** Two health audits, both clean:
 - **Runtime kErr+route sweep**: all **148 lessons** (revealing every example, opening every deep-dive — incl. the 21→24 with two)
