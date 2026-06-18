@@ -2,6 +2,20 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 341 — Three more worked examples on flagship hard lessons (examples)
+A **3rd worked example** on three flagship lessons across algo/calc/LA (examples 328 → **331**, all ⌘K-searchable):
+- **a-trees-heaps** — **a heap needs no pointers**: 0-indexed array, node `i` → parent `⌊(i−1)/2⌋`, children `2i+1`, `2i+2`;
+  for `i=3` that's parent `1`, children `7, 8` — a complete tree maps to memory as pure arithmetic.
+- **c-computing-limits** — **limits at infinity**: divide by the highest power → `(3x²+2x)/(x²−5) → 3` (ratio of leading
+  coefficients for equal degrees); lower-degree top → `0`, higher → `±∞`.
+- **la-symmetric-spectral** — **spectral decomposition as a sum of rank-1 projections**: `A = Σλᵢqᵢqᵢᵀ`; for `[[2,1],[1,2]]`,
+  `3·½[[1,1],[1,1]] + 1·½[[1,−1],[−1,1]]` reconstructs `A` — the engine behind PCA and matrix functions.
+Every value node-verified (parent 1/children 7,8; limit 3; matrix reconstructs); injected byte-stably with round-trip +
+even-`$` + tag-balance + unsupported-env pre-guards (the matrix displays use `bmatrix`, which KaTeX supports).
+Verified: gate ALL GREEN (**331 examples**); **via `--dump-dom`** each Examples tab shows 3, reveals with KaTeX
+(109 / 44 / 43 spans) and **kErr=0, rawDollar=0** (the matrix-heavy spectral example renders clean); all-routes smoke
+**errs=0/kErr=0 (12 routes)**. No save-shape change. SW cache `atlas-v280` → `atlas-v281`.
+
 ## iter 340 — Step-back: full kErr+route sweep (clean) + greedy activity-selection viz — 73rd widget (visualizations)
 **Round-number step-back (iter 340).** Health sweep (the kErr audit the 329/330 landmine made routine):
 - **All 148 lessons** — revealing every example, opening every deep-dive → **errs=0, kErr=0, 0 bad**.

@@ -177,6 +177,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 341: **3 more worked examples on flagship hard lessons** (examples). +3 (328→331) across algo/calc/LA: a-trees-heaps
+   (heap array indexing: i=3 → parent 1, children 7,8), c-computing-limits (limit at infinity → 3), la-symmetric-spectral
+   (spectral decomposition as sum of rank-1 projections, reconstructs [[2,1],[1,2]]). Node-verified; byte-stable inject w/ guards.
+   Verified: gate GREEN (331 examples); dump-dom each shows 3, reveals (katex 109/44/43, kErr=0, rawDollar=0); smoke errs=0/kErr=0 (12). SW →v281.
    ✅ iter 340: **Step-back: full kErr+route sweep (clean) + greedy activity-selection viz (73rd widget)** (visualizations). Sweep: 148
    lessons (reveal examples + open deep-dives) errs=0/kErr=0/0 bad; 90 routes errs=0/kErr=0. 238 green. Reflection: dd crossed 100,
    healthy rotation, gate-hardening held. Ship: a-greedy had no viz → `algo-greedy` (5 activities on a timeline, Step in finish-order,
