@@ -1527,6 +1527,35 @@
   });
 
   /* ========================================================
+     70. The geometric distribution — waiting for the first success (Prob & Stats)
+     ======================================================== */
+  register({ id: 'ps-geometric', topic: 'probability-statistics', title: 'The geometric distribution: waiting for the first success', blurb: 'How many independent trials until the first success? The geometric PMF P(X=k)=(1−p)^(k−1)·p decays geometrically — slide the success probability p and watch the wait stretch out, with mean 1/p. Like its continuous twin the exponential, it is memoryless: past failures never shorten the expected remaining wait.' },
+  function (root) {
+    const W = 540, H = 340, padL = 30, padR = 14, padT = 18, padB = 32, K = 16;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    let p = 0.3;
+    slider(ctl, { label: 'success probability p', min: 0.1, max: 0.9, step: 0.05, value: p, fmt: v => v.toFixed(2), onInput: v => { p = v; draw(); } });
+    function draw() {
+      const pr = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = pr.bg; ctx.fillRect(0, 0, W, H);
+      const pmf = k => Math.pow(1 - p, k - 1) * p, ymax = Math.max(p, 0.05), bw = (W - padL - padR) / K;
+      const X = k => padL + (k - 1) * bw, Y = v => (H - padB) - v / ymax * (H - padT - padB);
+      ctx.strokeStyle = pr.mute; ctx.beginPath(); ctx.moveTo(padL, H - padB); ctx.lineTo(W - padR, H - padB); ctx.stroke();
+      for (let k = 1; k <= K; k++) { const v = pmf(k); ctx.fillStyle = pr.violet; ctx.globalAlpha = 0.9; ctx.fillRect(X(k) + 2, Y(v), bw - 4, (H - padB) - Y(v)); ctx.globalAlpha = 1; }
+      const mean = 1 / p;
+      if (mean <= K) { const mxp = X(mean) + bw / 2; ctx.strokeStyle = pr.gold; ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.moveTo(mxp, padT); ctx.lineTo(mxp, H - padB); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle = pr.gold; ctx.font = '11px ' + cssVar('--font-mono', 'monospace'); ctx.textAlign = 'left'; ctx.fillText('mean = ' + mean.toFixed(1), mxp + 4, padT + 8); }
+      ctx.fillStyle = pr.mute; ctx.font = '9px ' + cssVar('--font-mono', 'monospace'); ctx.textAlign = 'center';
+      for (let k = 1; k <= K; k += 2) ctx.fillText(k, X(k) + bw / 2, H - padB + 12);
+      ctx.fillText('trials until first success (k)', W / 2, H - 4);
+      info.innerHTML = 'P(X=k) = (1−p)^(k−1)·p with p = <b>' + p.toFixed(2) + '</b>. The first bar is P(X=1) = p = ' + p.toFixed(2) + '; each next is (1−p)× the previous — a geometric decay. Mean E[X] = 1/p = <b style="color:' + pr.gold + '">' + mean.toFixed(2) + '</b> trials. It is <b>memoryless</b>: if the first m trials all failed, the distribution of the <em>remaining</em> wait is the same geometric — past failures don’t bring success closer (the discrete twin of the exponential).';
+    }
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Geometric distribution visualizer: a bar chart of P(X=k)=(1-p)^(k-1)p, the probability the first success lands on trial k, decaying geometrically, with a dashed line at the mean 1/p. Lowering p stretches the wait and flattens the decay.');
+    draw();
+  });
+
+  /* ========================================================
      23. Normal-distribution explorer (μ/σ + empirical rule / interval probability)
      ======================================================== */
   register({ id: 'ps-normal-explorer', topic: 'probability-statistics', title: 'Normal Distribution Explorer', blurb: 'Slide μ and σ to move and stretch the bell, then read off probabilities — the 68–95–99.7 rule, or any interval P(a ≤ X ≤ b).' },

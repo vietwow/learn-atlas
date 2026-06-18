@@ -2,6 +2,16 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 324 — Geometric-distribution visualizer — 70th widget (visualizations)
+`ps-geometric-waiting` had no widget. Added the **70th Lab widget `ps-geometric`**, embedded there: a bar chart of the
+geometric PMF `P(X=k) = (1−p)^(k−1)·p` — the probability the first success lands on trial `k`. Slide the **success
+probability p** (0.1–0.9): the bars decay geometrically (each is `(1−p)×` the previous), and a dashed line marks the
+**mean 1/p**. The note explains it's **memoryless** — past failures don't bring success closer, the discrete twin of the
+exponential. Plain-unicode note (no `$`). app.js `viz-complete` fallback 69 → 70.
+Verified: gate ALL GREEN (**70 widgets**, embed resolves); **node** prototype confirmed the PMF sums to 1 and mean = 1/p;
+**via `--dump-dom`** the p slider drives the mean `3.33 (p=.3) → 1.25 (p=.8) → 10.00 (p=.1)`, `rawDollar=0`, `errs=0`, the
+lesson embed hydrates; all-routes smoke **errs=0/kErr=0 (12 routes)**. No save-shape change. SW cache `atlas-v264` → `atlas-v265`.
+
 ## iter 323 — Three more code exercises across computational lessons (new functionality / active learning)
 Added **3 gate-verified JavaScript exercises** on flagship computational lessons that still lacked one, across LA/algo/PS
 (lessons-with-code 39 → **42**; the gate now runs **37**):

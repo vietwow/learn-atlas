@@ -177,6 +177,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 324: **Geometric-distribution visualizer — 70th widget** (visualizations). ps-geometric-waiting had no viz. New
+   `ps-geometric`: PMF bars P(X=k)=(1−p)^(k−1)p, p slider, dashed mean line at 1/p, memorylessness note. app.js fallback 69→70.
+   Verified: gate GREEN (70 widgets); node PMF sums to 1 + mean=1/p; dump-dom slider drives mean 3.33→1.25→10.00, rawDollar=0,
+   embed hydrates; smoke errs=0/kErr=0 (12). SW →v265.
    ✅ iter 323: **3 more code exercises across computational lessons** (active learning). +3 JS (lessons-with-code 39→42, gate runs 37)
    across LA/algo/PS: la-gradients-jacobians (gradient → 8 7), a-linear-sorts-selection (counting sort → 0,0,2,2,3,3,3,5),
    ps-normal-distribution (z-score → 2.00). Node-verified; byte-stable inject w/ guards. Verified: gate GREEN (37 verified);
