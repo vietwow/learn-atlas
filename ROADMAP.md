@@ -177,6 +177,11 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 296: **Student's-t vs. normal visualizer — 64th widget** (visualizations). ps-t-tests had no viz. New `ps-t-dist`: t-curve
+   (violet) over standard normal (dashed), shaded |t|>2 tails + live P(t>2); slide df 1–40 → P(t>2) falls 14%→5.2%→~2.5%,
+   converging to normal's 2.3% by df≈30. PDF numerically normalized (no gamma). app.js fallback 63→64. Plain-unicode note.
+   Verified: gate GREEN (64 widgets); node peak 0.346→0.399 + tail 0.118→0.023; dump-dom slider drives P(t>2) 14%→5.2%→2.x%,
+   rawDollar=0, embed hydrates; smoke errs=0/kErr=0 (12). SW →v237.
    ✅ iter 295: **"Deep Work" achievement ties the focus timer into progression** (gamification). Focus timer (279) had no reward
    tie-in. New 🧘 Deep Work achievement (complete 5 sessions): Store.addFocusSession() increments persisted focusSessions +
    unlocks at 5, wired into stopFocusTimer(done); added to Exploration Hall category + progress map [focusSessions,5]. New

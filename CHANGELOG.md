@@ -2,6 +2,19 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 296 — Student's-t vs. normal visualizer — 64th widget (visualizations)
+`ps-t-tests` had no widget, and the t-distribution's fatter tails are exactly *why* small-sample tests differ from
+z-tests. Added the **64th Lab widget `ps-t-dist`**, embedded in that lesson: it overlays the **t-distribution** (violet) on
+the **standard normal** (dashed), shades the `|t| > 2` tails, and shows the live tail probability **`P(t > 2)`**. Slide the
+**degrees of freedom** (1–40) and the t-curve rises while its fat tails pull in — `P(t>2)` falls **14% (df 1) → 5.2%
+(df 5) → ~2.5% (df 40)**, converging to the normal's 2.3% by about df = 30. The PDF is **numerically normalized** (no gamma
+function needed — integrate the `(1+t²/ν)^(−(ν+1)/2)` shape over a wide range). Plain-unicode note (no `$`, viz-note
+landmine). app.js `viz-complete` fallback 63 → 64.
+Verified: gate ALL GREEN (**64 widgets**, embed resolves); **node** prototype confirmed the peak rises `0.346 → 0.396 →
+0.399` and tail mass shrinks `0.118 → 0.028 → 0.023` toward the normal as df grows; **via `--dump-dom`** the df slider drives
+`P(t>2)` `14% → 5.2% → 2.x%`, `rawDollar=0`, `errs=0`, the lesson embed hydrates; all-routes smoke **errs=0/kErr=0
+(12 routes)**. No save-shape change. SW cache `atlas-v236` → `atlas-v237`.
+
 ## iter 295 — "Deep Work" achievement ties the focus timer into progression (gamification)
 The focus timer (iter 279) was the one feature with **no reward tie-in** — completing sessions counted toward nothing.
 Added a **"🧘 Deep Work" achievement** (complete 5 focus-timer sessions), so the timer now feeds the progression loop and

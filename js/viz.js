@@ -1278,6 +1278,44 @@
   });
 
   /* ========================================================
+     64. Student's t vs. the normal — fatter tails that converge as df grows (Prob & Stats)
+     ======================================================== */
+  register({ id: 'ps-t-dist', topic: 'probability-statistics', title: "Student's t vs. the normal", blurb: 'The t-distribution has fatter tails than the normal — more room for extreme values — which is why a small-sample t-test uses a larger critical value. Slide the degrees of freedom and watch the t-curve rise and its tails pull in, converging to the standard normal by about df = 30.' },
+  function (root) {
+    const W = 540, H = 340, padL = 28, padR = 14, padT = 16, padB = 32, XLO = -5, XHI = 5;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    let nu = 5;
+    const tShape = (t, v) => Math.pow(1 + t * t / v, -(v + 1) / 2);
+    const tNorm = v => { let Z = 0; for (let t = -40; t <= 40; t += 0.05) Z += tShape(t, v) * 0.05; return Z; };
+    const normal = t => Math.exp(-t * t / 2) / Math.sqrt(2 * Math.PI);
+    slider(ctl, { label: 'degrees of freedom', min: 1, max: 40, step: 1, value: nu, fmt: v => '' + v, onInput: v => { nu = v; draw(); } });
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const Z = tNorm(nu), tpdf = t => tShape(t, nu) / Z, ymax = 0.43;
+      const X = t => padL + (t - XLO) / (XHI - XLO) * (W - padL - padR);
+      const Y = y => (H - padB) - y / ymax * (H - padT - padB);
+      ctx.strokeStyle = p.line; ctx.globalAlpha = 0.3; for (let t = XLO; t <= XHI; t++) { ctx.beginPath(); ctx.moveTo(X(t), padT); ctx.lineTo(X(t), H - padB); ctx.stroke(); } ctx.globalAlpha = 1;
+      ctx.strokeStyle = p.mute; ctx.beginPath(); ctx.moveTo(padL, H - padB); ctx.lineTo(W - padR, H - padB); ctx.stroke();
+      ctx.fillStyle = p.mute; ctx.font = '10px ' + cssVar('--font-mono', 'monospace'); ctx.textAlign = 'center'; for (let t = XLO; t <= XHI; t++) ctx.fillText(t, X(t), H - padB + 13);
+      ctx.fillStyle = p.rust; ctx.globalAlpha = 0.18;
+      [[2, XHI], [XLO, -2]].forEach(([a, b]) => { ctx.beginPath(); ctx.moveTo(X(a), H - padB); for (let t = a; t <= b; t += 0.05) ctx.lineTo(X(t), Y(tpdf(t))); ctx.lineTo(X(b), H - padB); ctx.closePath(); ctx.fill(); });
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = p.mute; ctx.setLineDash([5, 4]); ctx.lineWidth = 1.5; ctx.beginPath(); for (let t = XLO; t <= XHI; t += 0.04) { const xx = X(t), yy = Y(normal(t)); t === XLO ? ctx.moveTo(xx, yy) : ctx.lineTo(xx, yy); } ctx.stroke(); ctx.setLineDash([]);
+      ctx.strokeStyle = p.violet; ctx.lineWidth = 2.4; ctx.beginPath(); for (let t = XLO; t <= XHI; t += 0.04) { const xx = X(t), yy = Y(tpdf(t)); t === XLO ? ctx.moveTo(xx, yy) : ctx.lineTo(xx, yy); } ctx.stroke();
+      ctx.textAlign = 'left'; ctx.font = '11px ' + cssVar('--font-mono', 'monospace');
+      ctx.fillStyle = p.violet; ctx.fillText('— t (' + nu + ' df)', padL + 6, padT + 6);
+      ctx.fillStyle = p.mute; ctx.fillText('-- normal', padL + 6, padT + 20);
+      let tail = 0; for (let t = 2; t <= 40; t += 0.02) tail += tShape(t, nu) / Z * 0.02;
+      info.innerHTML = 'Student’s t with <b>' + nu + '</b> degrees of freedom. P(t &gt; 2) = <b style="color:' + p.rust + '">' + (tail * 100).toFixed(1) + '%</b> vs the normal’s 2.3% — ' + (nu < 15 ? 'noticeably fatter tails, so a small-sample t-test needs a larger critical value to hold the same 5% error rate.' : 'nearly identical to the normal now; by df ≈ 30 the difference all but vanishes.');
+    }
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', "Student's t-distribution versus the standard normal: a bell curve with fatter tails (shaded beyond plus or minus 2) for low degrees of freedom, rising and pulling its tails in toward the normal as the degrees of freedom increase.");
+    draw();
+  });
+
+  /* ========================================================
      23. Normal-distribution explorer (μ/σ + empirical rule / interval probability)
      ======================================================== */
   register({ id: 'ps-normal-explorer', topic: 'probability-statistics', title: 'Normal Distribution Explorer', blurb: 'Slide μ and σ to move and stretch the bell, then read off probabilities — the 68–95–99.7 rule, or any interval P(a ≤ X ≤ b).' },
