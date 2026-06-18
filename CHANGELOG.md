@@ -2,6 +2,20 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 361 — Four more deeper-dives on foundational lessons (content / understandability)
+4 "Deeper dive" expandables across DL/RL/LA/calc (deep-dives 117 → **121**):
+- **dl-pretraining-and-finetuning-paradigm** — **pretrain once, adapt cheaply**: generic features are amortized across tasks, so
+  fine-tuning needs far less data/compute — representations transfer (the foundation-model recipe).
+- **rl-mdp-formalism** — **the Markov property makes RL tractable**: the present state being a sufficient statistic is what lets
+  `V(s)` depend on `s` alone and the Bellman equations exist; bad RL is often a non-Markov state.
+- **la-diagonalization** — **`A^k = PD^kP⁻¹` makes powers trivial**: in the eigenvector basis a matrix is a diagonal scaling, so
+  `A^k v = Σλᵢᵏcᵢvᵢ` — largest `|λ|` dominates (PageRank, steady states, stability).
+- **c-fundamental-theorem** — **the two halves of calculus are inverses**: `d/dx ∫ₐˣf = f` and `∫ₐᵇf = F(b)−F(a)` — accumulating
+  a rate recovers the total, turning an infinite-sum into an algebra problem.
+Authored with `String.raw` LaTeX; injected byte-stably with round-trip + even-`$`/no-`**`/tag-balance + unsupported-env guards.
+Verified: gate ALL GREEN; per-lesson **via `--dump-dom`** each renders (KaTeX 0 / 3 / 17 / 4 spans — pretraining is intentionally
+prose) with **kErr=0, rawDollar=0**; all-routes smoke **errs=0/kErr=0 (12 routes)**. No save-shape change. SW cache `atlas-v300` → `atlas-v301`.
+
 ## iter 360 — Step-back: full kErr/route + coverage audit (clean) + precision-recall threshold viz — 79th widget (visualizations)
 **Round-number step-back (iter 360).** Two health audits, both clean:
 - **Runtime kErr+route sweep**: all **148 lessons** (revealing every example, opening every deep-dive) → errs=0, kErr=0, 0 bad;

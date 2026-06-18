@@ -177,6 +177,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 361: **4 more deeper-dives on foundational lessons** (content). +4 dd (117→121) across DL/RL/LA/calc:
+   dl-pretraining-and-finetuning-paradigm (transfer learning), rl-mdp-formalism (Markov property), la-diagonalization (A^k=PD^kP⁻¹),
+   c-fundamental-theorem (the two halves are inverses). String.raw LaTeX; byte-stable inject w/ guards. Verified: gate GREEN;
+   dump-dom each renders (katex 0/3/17/4, kErr=0, rawDollar=0); smoke errs=0/kErr=0 (12). SW →v301.
    ✅ iter 360: **Step-back: full kErr/route + coverage audit (clean) + precision-recall threshold viz (79th widget)** (visualizations).
    Sweeps: 148 lessons (reveal examples + open deep-dives) errs=0/kErr=0/0 bad; 96 routes errs=0/kErr=0 (244 green). Coverage:
    0 structurally-thin lessons (343 examples, 117 dd-lessons, 66 code-lessons). Ship: dl-practical-training-and-debugging had no
