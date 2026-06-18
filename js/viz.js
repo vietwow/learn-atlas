@@ -1556,6 +1556,47 @@
   });
 
   /* ========================================================
+     71. Newton's method — root-finding by tangent lines (Calculus)
+     ======================================================== */
+  register({ id: 'calc-newton', topic: 'calculus', title: "Newton's method: root-finding by tangent lines", blurb: "Newton's method finds where f(x)=0 by repeatedly following the tangent line down to the x-axis: x ← x − f(x)/f′(x). Step through it on f(x)=x²−2 and watch the guesses rocket toward √2 — convergence is quadratic, roughly doubling the correct digits each step." },
+  function (root) {
+    const W = 540, H = 350, padL = 28, padR = 14, padT = 16, padB = 26, XLO = -0.3, XHI = 2.6;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    const f = x => x * x - 2, fp = x => 2 * x, ROOT = Math.SQRT2;
+    let xs = [2];
+    function reset() { xs = [2]; draw(); }
+    function step() { const x = xs[xs.length - 1]; if (Math.abs(f(x)) < 1e-9) return; xs.push(x - f(x) / fp(x)); draw(); }
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const yLo = -2.5, yHi = 4.5;
+      const X = x => padL + (x - XLO) / (XHI - XLO) * (W - padL - padR);
+      const Y = y => (H - padB) - (y - yLo) / (yHi - yLo) * (H - padT - padB);
+      ctx.strokeStyle = p.mute; ctx.beginPath(); ctx.moveTo(padL, Y(0)); ctx.lineTo(W - padR, Y(0)); ctx.stroke();
+      ctx.strokeStyle = p.ink; ctx.lineWidth = 2.2; ctx.beginPath(); let st = false; for (let x = XLO; x <= XHI; x += 0.02) { const xx = X(x), yy = Y(f(x)); st ? ctx.lineTo(xx, yy) : ctx.moveTo(xx, yy); st = true; } ctx.stroke();
+      ctx.fillStyle = p.gold; ctx.beginPath(); ctx.arc(X(ROOT), Y(0), 4, 0, 7); ctx.fill(); ctx.font = '10px ' + cssVar('--font-mono', 'monospace'); ctx.textAlign = 'center'; ctx.fillText('√2', X(ROOT), Y(0) + 15);
+      for (let i = 0; i < xs.length - 1; i++) {
+        const x0 = xs[i], x1 = xs[i + 1], latest = (i === xs.length - 2);
+        ctx.strokeStyle = latest ? p.gold : p.line; ctx.globalAlpha = latest ? 1 : 0.5; ctx.lineWidth = latest ? 2 : 1;
+        ctx.beginPath(); ctx.moveTo(X(x0), Y(f(x0))); ctx.lineTo(X(x1), Y(0)); ctx.stroke();
+        ctx.setLineDash([2, 3]); ctx.beginPath(); ctx.moveTo(X(x0), Y(f(x0))); ctx.lineTo(X(x0), Y(0)); ctx.stroke(); ctx.setLineDash([]);
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = p.violet; ctx.beginPath(); ctx.arc(X(x0), Y(f(x0)), 3, 0, 7); ctx.fill();
+        ctx.fillStyle = latest ? p.gold : p.mute; ctx.beginPath(); ctx.arc(X(x1), Y(0), 3, 0, 7); ctx.fill();
+      }
+      const cx = xs[xs.length - 1];
+      info.innerHTML = 'Newton: x ← x − f(x)/f′(x), here x ← x − (x²−2)/(2x). After <b>' + (xs.length - 1) + '</b> step' + (xs.length - 1 === 1 ? '' : 's') + ', x = <b style="color:' + p.gold + '">' + cx.toFixed(6) + '</b> (√2 ≈ ' + ROOT.toFixed(6) + '). Each step follows the tangent to where it crosses zero; convergence is <b>quadratic</b> — the number of correct digits roughly doubles per step.';
+    }
+    button(ctl, 'Step', step);
+    button(ctl, 'Run', () => { for (let i = 0; i < 6 && Math.abs(f(xs[xs.length - 1])) > 1e-9; i++) step(); });
+    button(ctl, 'Reset', reset);
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', "Newton's method visualizer: the parabola f(x)=x^2-2 with the x-axis; each step draws the tangent at the current guess down to where it crosses zero, giving the next guess, and the guesses converge quadratically to the root sqrt(2).");
+    reset();
+  });
+
+  /* ========================================================
      23. Normal-distribution explorer (μ/σ + empirical rule / interval probability)
      ======================================================== */
   register({ id: 'ps-normal-explorer', topic: 'probability-statistics', title: 'Normal Distribution Explorer', blurb: 'Slide μ and σ to move and stretch the bell, then read off probabilities — the 68–95–99.7 rule, or any interval P(a ≤ X ≤ b).' },

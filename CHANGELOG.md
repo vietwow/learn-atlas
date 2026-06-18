@@ -2,6 +2,17 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 328 — Newton's-method visualizer — 71st widget (visualizations)
+No widget showed Newton's method, a flagship numerical root-finder — and it's *iterated linearization*, so it fits the
+linear-approximation lesson perfectly. Added the **71st Lab widget `calc-newton`** (a 2nd viz on `c-linearization-lhopital`):
+on `f(x)=x²−2`, **Step** draws the tangent at the current guess down to where it crosses the x-axis — that crossing is the
+next guess `x ← x − f(x)/f′(x)` — and **Run** iterates to the root. The guesses `2 → 1.5 → 1.4167 → 1.41421` rocket toward
+**√2** (gold marker), with the note explaining the **quadratic** convergence (correct digits roughly double per step).
+Plain-unicode note (no `$`). app.js `viz-complete` fallback 70 → 71.
+Verified: gate ALL GREEN (**71 widgets**, embed resolves); **node** prototype confirmed the iterates converge to √2; **via
+`--dump-dom`** Step gives `x = 1.500000` and Run reaches `1.414214` (within 1e-4 of √2), `rawDollar=0`, `errs=0`, the lesson
+embed hydrates; all-routes smoke **errs=0/kErr=0 (12 routes)**. No save-shape change. SW cache `atlas-v268` → `atlas-v269`.
+
 ## iter 327 — Three more code exercises across computational lessons (new functionality / active learning)
 Added **3 gate-verified JavaScript exercises** on flagship computational lessons across calc/DL/algo (lessons-with-code
 42 → **45**; the gate now runs **40**):

@@ -177,6 +177,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 328: **Newton's-method visualizer — 71st widget** (visualizations). No Newton viz; it's iterated linearization → 2nd viz on
+   c-linearization-lhopital. New `calc-newton`: on f(x)=x²−2, Step draws the tangent to its x-intercept (next guess), Run iterates
+   to √2 (2→1.5→1.4167→1.41421), quadratic convergence note. app.js fallback 70→71. Verified: gate GREEN (71 widgets); node
+   converges to √2; dump-dom Step→1.5, Run→1.414214, rawDollar=0, embed hydrates; smoke errs=0/kErr=0 (12). SW →v269.
    ✅ iter 327: **3 more code exercises across computational lessons** (active learning). +3 JS (lessons-with-code 42→45, gate runs 40)
    across calc/DL/algo: c-fundamental-theorem (FTC ∫₀²3x²=8), dl-dropout-and-normalization (batch norm → 0.00 1.00), a-hash-tables
    (h(k)=k mod 7 → 3,1,3,4,1). Node-verified; byte-stable inject w/ guards. Verified: gate GREEN (40 verified); dump-dom batch-norm
