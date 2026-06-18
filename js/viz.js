@@ -1857,6 +1857,40 @@
   });
 
   /* ========================================================
+     79. Precision, recall & the classification threshold (Deep Learning)
+     ======================================================== */
+  register({ id: 'ml-threshold', topic: 'deep-learning', title: 'Precision, recall, and the classification threshold', blurb: 'A classifier scores each example; a threshold turns scores into yes/no. Slide it over two overlapping score distributions (negatives and positives) and watch precision rise as recall falls — the fundamental tradeoff, balanced by F1.' },
+  function (root) {
+    const W = 540, H = 320, padL = 22, padR = 14, padT = 16, padB = 28, XLO = -4, XHI = 4;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    function erf(x) { const s = x < 0 ? -1 : 1; x = Math.abs(x); const t = 1 / (1 + 0.3275911 * x); const y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-x * x); return s * y; }
+    const Phi = z => 0.5 * (1 + erf(z / Math.SQRT2));
+    const pdf = (x, mu) => Math.exp(-(x - mu) * (x - mu) / 2) / Math.sqrt(2 * Math.PI);
+    let thr = 0;
+    slider(ctl, { label: 'threshold', min: -3, max: 3, step: 0.05, value: thr, fmt: v => v.toFixed(2), onInput: v => { thr = v; draw(); } });
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const X = x => padL + (x - XLO) / (XHI - XLO) * (W - padL - padR);
+      const ymax = pdf(0, 0), Y = v => (H - padB) - v / ymax * (H - padT - padB);
+      ctx.strokeStyle = p.mute; ctx.beginPath(); ctx.moveTo(padL, Y(0)); ctx.lineTo(W - padR, Y(0)); ctx.stroke();
+      function fillRight(mu, col, alpha) { ctx.fillStyle = col; ctx.globalAlpha = alpha; ctx.beginPath(); ctx.moveTo(X(thr), Y(0)); for (let x = thr; x <= XHI; x += 0.03) ctx.lineTo(X(x), Y(pdf(x, mu))); ctx.lineTo(X(XHI), Y(0)); ctx.closePath(); ctx.fill(); ctx.globalAlpha = 1; }
+      fillRight(1, p.sage, 0.35); fillRight(-1, p.rust, 0.3);
+      function curve(mu, col) { ctx.strokeStyle = col; ctx.lineWidth = 2; ctx.beginPath(); let st = false; for (let x = XLO; x <= XHI; x += 0.03) { const xx = X(x), yy = Y(pdf(x, mu)); st ? ctx.lineTo(xx, yy) : ctx.moveTo(xx, yy); st = true; } ctx.stroke(); }
+      curve(-1, p.rust); curve(1, p.sage);
+      ctx.strokeStyle = p.gold; ctx.setLineDash([4, 3]); ctx.beginPath(); ctx.moveTo(X(thr), padT); ctx.lineTo(X(thr), H - padB); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = p.gold; ctx.font = '10px ' + cssVar('--font-mono', 'monospace'); ctx.textAlign = 'center'; ctx.fillText('t=' + thr.toFixed(2), X(thr), padT + 8);
+      ctx.fillStyle = p.rust; ctx.fillText('negatives', X(-1), H - padB + 12); ctx.fillStyle = p.sage; ctx.fillText('positives', X(1), H - padB + 12);
+      const recall = Phi(1 - thr), fpr = Phi(-1 - thr), precision = recall / (recall + fpr), f1 = 2 * precision * recall / (precision + recall);
+      info.innerHTML = 'Two equal classes: negatives ~ N(−1,1) (rust), positives ~ N(+1,1) (sage). Predict "positive" when score ≥ t. At t = <b>' + thr.toFixed(2) + '</b>: recall = TP/(TP+FN) = <b style="color:' + p.sage + '">' + recall.toFixed(2) + '</b>, precision = TP/(TP+FP) = <b style="color:' + p.gold + '">' + precision.toFixed(2) + '</b>, F1 = <b>' + f1.toFixed(2) + '</b>. Raise the threshold → fewer false positives (precision up) but more missed positives (recall down); lower it for the reverse. F1 balances the two and peaks where the classes are best separated.';
+    }
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Precision-recall threshold visualizer: two overlapping score distributions (negatives and positives) with a movable decision threshold; raising the threshold increases precision and lowers recall, and the note reports precision, recall, and F1.');
+    draw();
+  });
+
+  /* ========================================================
      23. Normal-distribution explorer (μ/σ + empirical rule / interval probability)
      ======================================================== */
   register({ id: 'ps-normal-explorer', topic: 'probability-statistics', title: 'Normal Distribution Explorer', blurb: 'Slide μ and σ to move and stretch the bell, then read off probabilities — the 68–95–99.7 rule, or any interval P(a ≤ X ≤ b).' },

@@ -2,6 +2,23 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 360 — Step-back: full kErr/route + coverage audit (clean) + precision-recall threshold viz — 79th widget (visualizations)
+**Round-number step-back (iter 360).** Two health audits, both clean:
+- **Runtime kErr+route sweep**: all **148 lessons** (revealing every example, opening every deep-dive) → errs=0, kErr=0, 0 bad;
+  all **96 non-lesson routes** (courses, Lab + 79 widgets, every utility page) → errs=0, kErr=0. **244 routes green.**
+- **Structural coverage audit**: every one of 148 lessons has ≥2 examples (**343**), ≥8 MCQs (2368 total), ≥1 flashcard (889),
+  ≥1 homework (442) — **0 structurally-thin lessons**. (117 deep-dive lessons, 66 code-exercise lessons.)
+**Reflection (351–359):** steady code/content/examples/viz rotation — all verified and pushed, no bugs; the gate hardening (330)
+and kErr-audit discipline have held across 60 iterations since the 300 step-back.
+**The ship.** `dl-practical-training-and-debugging` (covers evaluation) had no widget — added the **79th Lab widget
+`ml-threshold`**: two overlapping score distributions (negatives `N(−1,1)`, positives `N(+1,1)`) with a movable decision
+threshold. Slide it and watch **precision climb as recall drops** — `t=−1`: R `0.98` / P `0.66`; `t=0`: `0.84/0.84`; `t=1`:
+`0.50/0.96` — with F1 peaking at the balance point. The fundamental classification tradeoff, made tangible. erf-based normal CDF;
+plain-unicode note (no `$`). app.js `viz-complete` fallback 78 → 79. SW cache hits **`atlas-v300`**.
+Verified: gate ALL GREEN (**79 widgets**, embed resolves); **node** prototype confirmed the metrics; **via `--dump-dom`** the
+slider drives recall `0.98→0.84→0.50` and precision `0.66→0.84→0.96`, `rawDollar=0`, `errs=0`, the lesson embed hydrates; both
+step-back sweeps clean; embed-route smoke **errs=0/kErr=0 (12 routes)**. No save-shape change. SW cache `atlas-v299` → `atlas-v300`.
+
 ## iter 359 — Three more code exercises across algo/DL/RL (new functionality / active learning)
 Added **3 gate-verified JavaScript exercises** across algo/DL/RL (lessons-with-code 63 → **66**; the gate now runs **61**):
 - **a-recurrences-master-theorem** — **the critical exponent** `log_b(a)`: `a=8, b=2` → `3.00`; compare to `d` to pick the case.

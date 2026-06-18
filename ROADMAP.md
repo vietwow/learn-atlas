@@ -177,6 +177,12 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 360: **Step-back: full kErr/route + coverage audit (clean) + precision-recall threshold viz (79th widget)** (visualizations).
+   Sweeps: 148 lessons (reveal examples + open deep-dives) errs=0/kErr=0/0 bad; 96 routes errs=0/kErr=0 (244 green). Coverage:
+   0 structurally-thin lessons (343 examples, 117 dd-lessons, 66 code-lessons). Ship: dl-practical-training-and-debugging had no
+   viz → `ml-threshold` (two score distributions + movable threshold; precision↑/recall↓: t=−1 .98/.66, t=1 .50/.96). app.js
+   fallback 78→79. Verified: gate GREEN (79 widgets); node metrics; dump-dom recall 0.98→0.50, precision 0.66→0.96, embed
+   hydrates; smoke errs=0/kErr=0 (12). SW →v300.
    ✅ iter 359: **3 more code exercises across algo/DL/RL** (active learning). +3 JS (63→66, gate runs 61): a-recurrences-master-theorem
    (critical exponent log_b(a) → 3.00), dl-embeddings-and-tokenization (cosine similarity → 0.96), rl-value-approximation (linear
    V=w·φ → 1.40). Node-verified; byte-stable inject w/ guards. Verified: gate GREEN (61 verified); dump-dom value-approx runs →
