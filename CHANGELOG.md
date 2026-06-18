@@ -2,6 +2,18 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 404 — Three more worked examples across calc/RL/algo (examples)
+A **3rd worked example** on three flagship lessons across calc/RL/algo (examples 388 → **391**, all ⌘K-searchable):
+- **c-limits-intuition** — **the squeeze theorem**: `x²sin(1/x) → 0`, trapped between `±x²` (both → 0); bound a wild function instead
+  of evaluating it — the same trick behind `sin x / x → 1`.
+- **rl-imitation** — **behavioral cloning compounds errors**: a 1% per-step error gives only `0.99¹⁰⁰ ≈ 0.366` on-track episodes;
+  regret grows `O(T²ε)` because mistakes push the agent off the expert's distribution — DAgger relinearizes it.
+- **a-correctness-invariants** — **a binary-search loop invariant**: "if present, the target is in `[lo, hi]`" — initialization /
+  maintenance / termination proves correctness (a loop invariant is induction in disguise).
+Every value node-verified (squeeze 0; 0.99¹⁰⁰=0.366; trace found at index 3); injected byte-stably with the full guard set.
+Verified: gate ALL GREEN (**391 examples**); **via `--dump-dom`** all 3 reveal with KaTeX (63 / 5 / 131 spans) and **kErr=0,
+rawDollar=0**; smoke + 8 pages (incl Library/Playground) **errs=0/kErr=0, bad=none**. No save-shape change. SW cache `atlas-v343` → `atlas-v344`.
+
 ## iter 403 — Library: the missing Probability & Statistics references (content / reference)
 The Library covered 6 topics + General but had **no Probability & Statistics section** — the owner's 7th topic was absent from the
 curated-resources page. Added a **`probability-statistics` references block (5 entries)**, so the Library now spans all 7 topics:

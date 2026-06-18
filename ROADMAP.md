@@ -177,6 +177,9 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 404: **3 more worked examples across calc/RL/algo** (examples). +3 (388→391): c-limits-intuition (squeeze theorem → 0),
+   rl-imitation (BC compounding 0.99¹⁰⁰=0.366), a-correctness-invariants (binary-search loop invariant). Node-verified; byte-stable
+   inject w/ guards. Verified: gate GREEN (391 examples); dump-dom katex 63/5/131, kErr=0, rawDollar=0; smoke errs=0/kErr=0/bad=none. SW →v344.
    ✅ iter 403: **Library: the missing Probability & Statistics references** (content/reference). The Library had 6 topics + General
    but no PS section (owner's 7th topic). Added 5 curated PS refs (Seeing Theory, Stat 110, Think Stats, StatQuest, ISL) → Library
    now spans all 7 topics. Byte-stable insert before "general". Verified: gate GREEN; dump-dom Library 8 sections, PS heading + 5/5
