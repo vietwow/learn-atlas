@@ -2,6 +2,21 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 383 — Four more deeper-dives — deep-dive coverage now 145/148 (content / understandability)
+4 "Deeper dive" expandables across LLM/calc/LA/RL (deep-dives 141 → **145**; only **3 of 148** lessons left without one):
+- **l-pretraining-objective-data** — **scaling laws**: test loss falls as a power law in params `N`, data `D`, compute `C`;
+  Chinchilla's ~20-tokens-per-parameter compute-optimal split — capability is bought predictably, if you split compute right.
+- **c-derivatives-special-functions** — **eˣ is its own derivative**: the defining property of `e`; why `dy/dx=ky → Ce^{kx}` models
+  all proportional growth, `ln` linearizes products, and the trig derivatives close a 4-cycle.
+- **la-basis-dimension** — **a basis is a coordinate system you choose**: spanning + independent ⇒ unique coordinates; dimension is
+  the invariant; most of applied LA is switching to the basis where the problem is easy (eigen/PCA/SVD).
+- **rl-connections-frontiers** — **RL is the training signal behind aligned LLMs**: RLHF treats the LLM as a policy + a learned
+  reward model (PPO); RL on verifiable rewards is how models are trained to reason — capability from pretraining, behaviour from RL.
+Authored with `String.raw` LaTeX; injected byte-stably with round-trip + even-`$`/no-`**`/tag-balance + unsupported-env guards.
+Verified: gate ALL GREEN; per-lesson **via `--dump-dom`** each renders (KaTeX 5 / 13 / 1 / 0 spans — RL is intentionally prose)
+with **kErr=0, rawDollar=0**; smoke opening all 4 deep-dives + 8 pages **errs=0/kErr=0, bad=none**. No save-shape change.
+SW cache `atlas-v322` → `atlas-v323`.
+
 ## iter 382 — Intermediate Value Theorem visualizer — 84th widget (visualizations)
 `c-continuity` had no widget. Added the **84th Lab widget `calc-ivt`**, embedded there: a continuous curve on `[a, b]` with a
 **draggable target level k** (slider). The IVT guarantees that for any k between f(a) and f(b) there's a point c with f(c)=k — the

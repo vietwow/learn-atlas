@@ -177,6 +177,11 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 383: **4 more deeper-dives — coverage now 145/148** (content). +4 dd (141→145; **3 left**) across LLM/calc/LA/RL:
+   l-pretraining-objective-data (scaling laws), c-derivatives-special-functions (eˣ is its own derivative), la-basis-dimension
+   (basis = chosen coordinate system), rl-connections-frontiers (RL behind aligned LLMs). String.raw LaTeX; byte-stable inject
+   w/ guards. Verified: gate GREEN; dump-dom each renders (katex 5/13/1/0, kErr=0, rawDollar=0); smoke errs=0/kErr=0/bad=none.
+   SW →v323. NEXT dd iter finishes coverage: c-functions-and-graphs, la-span-independence, la-matrix-derivative-identities.
    ✅ iter 382: **Intermediate Value Theorem visualizer — 84th widget** (visualizations). c-continuity had no viz. New `calc-ivt`:
    continuous curve on [a,b], draggable target level k, marks crossings (f(c)=k); "Add a jump" toggle breaks the guarantee (k in
    the gap → 0 crossings). app.js fallback 83→84. Verified: gate GREEN (84 widgets); node crossing logic; dump-dom slider/toggle
