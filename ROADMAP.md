@@ -177,6 +177,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 289: **4 more deeper-dives on flagship hard lessons** (content). +4 (57→61) across DL/calc/algo/RL (RL's first since 277):
+   dl-rnn-lstm-gru (additive cell-state vs vanishing multiplicative recurrence), c-intro-differential-equations (ODE as slope
+   field), a-backtracking-branch-bound (pruned DFS + bound), rl-exploration (ε-greedy vs UCB optimism bonus). String.raw LaTeX;
+   byte-stable inject w/ guards. Verified: gate GREEN; dump-dom each renders (katex 4/4/0/5, kErr=0, rawDollar=0); smoke errs=0/kErr=0 (12). SW →v230.
    ✅ iter 288: **Screen-reader polish for the app chrome** (accessibility). Audit confirmed route-focus + reducedMotion guards
    solid; fixed 3 gaps: logo div→`<a>` (keyboard/SR home link, glyph aria-hidden, focus ring), 7/10 nav icons missing
    aria-hidden → all 10 hidden (SR reads just the labels), streak flame aria-hidden (count kept). Verified: gate GREEN;

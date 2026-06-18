@@ -2,6 +2,23 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 289 — Four more deeper-dives on flagship hard lessons (content / understandability)
+Back to the owner's depth directive with **4 "Deeper dive" expandables** on flagship hard lessons that lacked one,
+spread across four topics (deep-dives 57 → **61**; RL gets one for the first time since iter 277):
+- **dl-rnn-lstm-gru** — why LSTMs remember and vanilla RNNs forget: the gradient picks up a factor of $W^{\top}$ at every
+  step (so it scales like $\|W\|^{T}$ and vanishes/explodes), while the LSTM's *additive* cell-state highway has gradient 1
+  — the same trick residual connections later reused.
+- **c-intro-differential-equations** — an ODE as a *slope field*: $y'=f(x,y)$ prescribes the slope at every point, a solution
+  threads tangent to it, and the initial condition just says where to drop your pencil (why a family of solutions, why IC picks one).
+- **a-backtracking-branch-bound** — backtracking as DFS over *partial* solutions that prunes the instant a partial can't
+  work; branch-and-bound adds a numeric bound to prune branches that can't beat the best-so-far.
+- **rl-exploration** — exploration as the price of information: $\varepsilon$-greedy explores bluntly, UCB adds an optimism
+  bonus $\sqrt{2\ln t / N(a)}$ so uncertainty itself draws exploration and fades as estimates firm up.
+Authored with `String.raw` LaTeX; injected byte-stably with round-trip + even-`$`/no-`**`/tag-balance pre-guards.
+Verified: gate ALL GREEN; per-lesson **via `--dump-dom`** each dive renders with its summary, KaTeX typesets
+(4 / 4 / 0 / 5 spans — backtracking is intentionally prose) and **kErr=0, rawDollar=0** on all four; all-routes smoke
+**errs=0/kErr=0 (12 routes)**. No save-shape change. SW cache `atlas-v229` → `atlas-v230`.
+
 ## iter 288 — Screen-reader polish for the app chrome (accessibility)
 An audit of the persistent chrome (confirmed route-change focus management + `reducedMotion()` guards on every
 animation/confetti are already solid) surfaced three real gaps, now fixed:
