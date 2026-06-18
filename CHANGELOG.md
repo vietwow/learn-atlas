@@ -2,6 +2,21 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 309 — Three more code exercises across the thinnest topics (new functionality / active learning)
+DL and PS were the thinnest code-exercise topics (3 each); added **3 gate-verified JavaScript exercises** (lessons-with-code
+33 → **36**; the gate now runs **31**), each a flagship operation:
+- **dl-convolution-operation** — a **1-D convolution** with an edge-detector kernel `[-1,1]` on a step `[0,0,5,5,5]` → `0,5,0,0`
+  (a spike exactly at the edge).
+- **dl-pooling-and-cnn-architectures** — **max-pooling** (window 2, stride 2) on `[1,3,2,5,4,1]` → `3,5,4` (each pair's peak survives).
+- **ps-covariance-correlation** — **Pearson correlation** (covariance ÷ both spreads) on two series → `0.60` (moderate positive).
+Every output node-verified; injected byte-stably with round-trip + no-existing-`data-code` guards.
+**Landmine recorded:** code exercises must avoid the JS exponentiation operator `**` — the gate's raw-markdown lint flags `**`
+as bold and fails. First draft of the correlation exercise used `dx ** 2`; the gate caught it, and I reverted + re-injected
+with `Math.pow`-style `dx * dx`. (Use multiplication or `Math.pow`, never `**`, in exercise code.)
+Verified: gate ALL GREEN (**31 code-exercises verified** — all outputs match `data-expected`); **via `--dump-dom`** the
+dl-convolution widget runs → `0,5,0,0`, "✓ Output matches expected"; all-routes smoke **errs=0/kErr=0 (12 routes)**. No
+save-shape change. SW cache `atlas-v249` → `atlas-v250`.
+
 ## iter 308 — ⌘K glossary terms deep-link to their definition (UI/UX / workflow)
 The ⌘K palette already indexes everything (lessons, the 66 viz, pages, all 138 glossary terms, references, commands), but
 **every glossary hit just opened `#/glossary`** — dropping you in a 138-item list to hunt for the term you literally just

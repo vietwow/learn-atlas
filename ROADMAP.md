@@ -177,6 +177,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 309: **3 more code exercises across thinnest topics** (active learning). DL/PS thinnest (3 each); +3 JS (lessons-with-code
+   33→36, gate runs 31): dl-convolution-operation (1-D conv edge detector → 0,5,0,0), dl-pooling-and-cnn-architectures
+   (max-pool → 3,5,4), ps-covariance-correlation (Pearson r → 0.60). Hit + recorded the `**`-fails-rawMarkdown landmine (use
+   Math.pow). Verified: gate GREEN (31 verified); dump-dom dl-convolution runs → "0,5,0,0" "✓ matches"; smoke errs=0/kErr=0 (12). SW →v250.
    ✅ iter 308: **⌘K glossary terms deep-link to their definition** (UI/UX). Glossary hits in ⌘K all opened #/glossary (138-list);
    now deep-link to #/glossary/<term> → router passes term to viewGlossary → pre-fills the search → focused, definition-visible
    view. Bare #/glossary unchanged. Verified: gate GREEN; dump-dom #/glossary/Posterior pre-fills + narrows to 3, #/glossary
@@ -1097,6 +1101,9 @@ workflow author agent on all 6 retries (~3h wasted) — author those DIRECTLY wi
 iter 52. If the pipeline is reused, make the author/verify prompts mandate `<strong>`/`<em>`, never markdown.
 
 ## Notes / discoveries
+- **★ LANDMINE — `**` in code-exercise source fails the gate (iter 309):** the gate's `rawMarkdown` lint flags `**` as
+  markdown bold, so JS exponentiation (`x ** 2`) in a `data-code` exercise trips it. Use multiplication (`x * x`) or
+  `Math.pow` in exercise code, never `**`. (Caught a ps-covariance exercise; reverted + re-injected.)
 - **★ LANDMINE — literal `<` inside math breaks rendering (found+fixed iter 189):** math content is injected via
   `innerHTML` *before* `typeset()`; a `<` immediately followed by a letter (e.g. `x_{<t}`, or `\alpha<1` written
   without a space) is parsed as an HTML tag-open, truncating the text node and breaking the `$…$` pair → raw `$`
