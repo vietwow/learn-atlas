@@ -2,6 +2,22 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 268 — Lagrange-multipliers visualizer — 58th widget (visualizations)
+`c-lagrange-multipliers` ("Constrained Optimization & Lagrange Multipliers") is a flagship hard lesson that had a
+deeper-dive but **no widget** — and constrained optimization is intensely visual. Added the **58th Lab widget
+`calc-lagrange`**, embedded in that lesson: maximize `f(x,y)=x+y` on the unit circle `g: x²+y²=1`. A point slides around
+the constraint (angle slider, keyboard-accessible) while the **level line of f** through it sweeps along, with **∇f**
+(constant, diagonal, gold) and **∇g** (radial, violet) drawn from the point. When the line is **tangent** to the circle
+the two gradients line up — the level line and point turn sage and the note reads "Tangent! … ∇f = λ∇g" — making the
+Lagrange condition (parallel gradients at the constrained optimum) visible rather than abstract. Animated **▲ Maximize**
+(→ θ=45°, f=√2) and **▼ Minimize** (→ θ=225°, f=−√2) buttons use `VIZUtil.loop` (smoothstep). app.js `viz-complete`
+fallback 57 → 58.
+Verified: gate ALL GREEN (**58 widgets**, embed resolves); **via `--dump-dom`** the slider-driven compute is correct —
+θ=45° → (0.71, 0.71)=**1.414 "Tangent!" (maximum)**, θ=225° → −1.414 "Tangent!" (minimum), θ=100° → 0.811 "the line cuts
+the circle" (not optimal); the lesson embed hydrates (canvas present); all-routes smoke **errs=0/kErr=0 (12 routes)**. (The
+animated buttons use the standard rAF loop, which doesn't advance under headless virtual-time but works in-browser — the
+slider exercises the same draw path.) No save-shape change. SW cache `atlas-v208` → `atlas-v209`.
+
 ## iter 267 — Weekly momentum on the dashboard — the missing medium-term horizon (gamification)
 The motivation loop had a **daily** horizon (goal, streak) and a **lifetime** one (XP, levels, achievements) but nothing
 in between — no answer to *"was this a good week?"* Added a **weekly-momentum line** to the existing consistency-strip card

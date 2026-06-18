@@ -177,6 +177,12 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 268: **Lagrange-multipliers visualizer — 58th widget** (visualizations). c-lagrange-multipliers had a deep-dive but no viz.
+   New `calc-lagrange`: maximize f=x+y on the unit circle; slider moves a point round the constraint, level line sweeps,
+   ∇f (gold, constant) & ∇g (violet, radial) drawn; tangency (gradients parallel) turns sage = "∇f=λ∇g". Animated
+   Maximize(45°,√2)/Minimize(225°,−√2) via loop. app.js fallback 57→58. Verified: gate GREEN (58 widgets); dump-dom slider
+   compute (45°→1.414 Tangent/max, 225°→−1.414 min, 100°→cuts); lesson embed hydrates; smoke errs=0/kErr=0 (12). SW →v209.
+   (rAF buttons don't advance in headless; slider verifies same draw path.)
    ✅ iter 267: **Weekly momentum on the dashboard** (gamification). Filled the missing medium-term horizon (daily streak + lifetime
    XP existed, nothing weekly). Added a "📈 N XP this week · ▲/▼ X% vs last week" line to the consistency-strip card —
    last-7-days XP vs the 7 before, computed in the strip's existing 14-day loop (no new state). Trend ▲/▼/even/building;

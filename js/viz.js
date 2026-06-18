@@ -2031,6 +2031,72 @@
   });
 
   /* ========================================================
+     58. Lagrange multipliers — the constrained optimum is where a level set kisses the constraint
+     ======================================================== */
+  register({ id: 'calc-lagrange', topic: 'calculus', title: 'Lagrange Multipliers: Tangency at the Optimum', blurb: 'Maximize f(x,y)=x+y on the unit circle. Slide the point around the constraint and watch the level line of f sweep with it — the constrained optimum is exactly where that line is TANGENT to the circle, i.e. where ∇f and ∇g point the same way (∇f = λ∇g).' },
+  function (root) {
+    const W = 540, H = 420, S = 86, cx = W / 2, cy = H / 2;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    let theta = 20 * Math.PI / 180, anim = null;
+    const toPx = (x, y) => ({ x: cx + x * S, y: cy - y * S });
+    const sl = slider(ctl, { label: 'point angle θ', min: 0, max: 360, step: 1, value: 20, fmt: v => v + '°', onInput: v => { theta = v * Math.PI / 180; if (anim) { anim.stop(); anim = null; } draw(); } });
+    function setSlider(deg) { const d = ((Math.round(deg) % 360) + 360) % 360; sl.value = d; const sv = sl.parentNode.querySelector('.viz-sval'); if (sv) sv.textContent = d + '°'; }
+    function animateTo(targetDeg) {
+      if (anim) anim.stop();
+      const start = ((sl.value % 360) + 360) % 360;
+      let delta = targetDeg - start; if (delta > 180) delta -= 360; if (delta < -180) delta += 360;   // shortest way round
+      let t = 0;
+      anim = loop(() => {
+        t = Math.min(1, t + 0.04);
+        const cur = start + delta * (t * t * (3 - 2 * t));   // smoothstep ease
+        theta = cur * Math.PI / 180; setSlider(cur); draw();
+        if (t >= 1 && anim) { anim.stop(); anim = null; }
+      });
+    }
+    button(ctl, '▲ Maximize', () => animateTo(45));
+    button(ctl, '▼ Minimize', () => animateTo(225));
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      ctx.strokeStyle = p.line; ctx.lineWidth = 1;
+      for (let gx = cx % S; gx < W; gx += S) { ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, H); ctx.stroke(); }
+      for (let gy = cy % S; gy < H; gy += S) { ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(W, gy); ctx.stroke(); }
+      ctx.strokeStyle = p.mute; ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(W, cy); ctx.moveTo(cx, 0); ctx.lineTo(cx, H); ctx.stroke();
+      // faint family of level lines x + y = k (all slope -1) — f increases toward the top-right
+      ctx.strokeStyle = p.line; ctx.lineWidth = 1; ctx.globalAlpha = 0.6;
+      for (let k = -3; k <= 3; k += 0.5) { const a = toPx(-3, k + 3), b = toPx(3, k - 3); ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+      ctx.globalAlpha = 1;
+      // constraint circle x^2 + y^2 = 1
+      const O = toPx(0, 0);
+      ctx.strokeStyle = p.soft; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(O.x, O.y, S, 0, 7); ctx.stroke();
+      ctx.fillStyle = p.mute; ctx.font = '600 11px ' + cssVar('--font-mono', 'monospace'); ctx.textAlign = 'left';
+      ctx.fillText('g: x² + y² = 1', toPx(0.05, -1)[0] + 4, toPx(0, -1).y + 16);
+      const px = Math.cos(theta), py = Math.sin(theta), Pp = toPx(px, py);
+      const fval = px + py, tangent = Math.abs(py - px) < 0.04;   // ∇f ∥ ∇g  ⇔  sinθ = cosθ
+      // the level line of f through the point (highlighted: sage at the tangency, gold otherwise)
+      const k = fval, e1 = toPx(-2.6, k + 2.6), e2 = toPx(2.6, k - 2.6);
+      ctx.strokeStyle = tangent ? p.sage : p.gold; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(e1.x, e1.y); ctx.lineTo(e2.x, e2.y); ctx.stroke();
+      // gradient arrows from the point: ∇f = (1,1) constant, ∇g ∝ (x,y) radial
+      const norm = (vx, vy, len) => { const m = Math.hypot(vx, vy) || 1; return [vx / m * len, vy / m * len]; };
+      const [gfx, gfy] = norm(1, 1, 0.85), [ggx, ggy] = norm(px, py, 0.85);
+      const Pf = toPx(px + gfx, py + gfy), Pg = toPx(px + ggx, py + ggy);
+      arrow(ctx, Pp.x, Pp.y, Pg.x, Pg.y, p.violet, 3);
+      arrow(ctx, Pp.x, Pp.y, Pf.x, Pf.y, p.gold, 3);
+      ctx.fillStyle = p.violet; ctx.font = '600 12px ' + cssVar('--font-mono', 'monospace'); ctx.fillText('∇g', Pg.x + 5, Pg.y - 2);
+      ctx.fillStyle = p.gold; ctx.fillText('∇f', Pf.x + 5, Pf.y - 2);
+      ctx.fillStyle = tangent ? p.sage : p.gold; ctx.beginPath(); ctx.arc(Pp.x, Pp.y, 6, 0, 7); ctx.fill();
+      info.innerHTML = `f(x,y) = x + y at (${px.toFixed(2)}, ${py.toFixed(2)}) equals <b style="color:${tangent ? p.sage : p.gold}">${fval.toFixed(3)}</b>. `
+        + (tangent
+          ? `<b style="color:${p.sage}">Tangent!</b> The level line just kisses the circle and <b>∇f ∥ ∇g</b> — a constrained ${fval > 0 ? 'maximum' : 'minimum'}. That parallel-gradients condition is exactly ∇f = λ∇g.`
+          : `The gold level line <b>cuts</b> the circle, so sliding along the constraint reaches a higher line — not optimal yet. Move until ∇f and ∇g line up.`);
+    }
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Lagrange multipliers visualizer: maximizing f(x,y) = x + y on the unit circle constraint. A point moves around the circle; the level line of f through it, the constant diagonal gradient of f, and the radial gradient of g are drawn. At the constrained optimum the level line is tangent to the circle and the two gradients are parallel (∇f = λ∇g). Use the angle slider, or the Maximize / Minimize buttons.');
+    draw();
+  });
+
+  /* ========================================================
      37. Dropout: each forward pass trains a different thinned sub-network
      ======================================================== */
   register({ id: 'dl-dropout', topic: 'deep-learning', title: 'Dropout: Training a Thinned Ensemble', blurb: 'Watch dropout zero out a random fraction of hidden units on every forward pass — each pass trains a different thinned sub-network that all share one set of weights. At test time every unit is kept (and scaled), averaging the ensemble.' },
