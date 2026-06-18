@@ -2,6 +2,16 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 301 — Topic filter for the Glossary + a stale-copy fix (UI/UX)
+With the glossary now **138 terms** across 7 subjects + general, it had search but **no way to browse by topic**. Added
+**per-topic filter chips** (All topics + one per subject present), mirroring the Lab's filter (iter 286): each chip filters
+the list and **composes with the search box** (no re-render of the page). Also fixed a **stale copy bug** — the page still
+said definitions span "all **six** subjects" (Prob & Stats is the 7th, long since added) → now "all **seven** subjects."
+Chips reuse the existing `.lab-topics`/`.lab-tbtn` pill styling, are `aria-pressed`, and wrap on mobile.
+Verified: gate ALL GREEN; **via `--dump-dom`** — **9 chips** render; clicking **Calculus** shows exactly its **17** terms
+(every visible item's topic tag reads "Calculus"); **All topics** restores all **138**; `errs=0`; all-routes smoke
+**errs=0/kErr=0 (12 routes)**. No save-shape change. SW cache `atlas-v241` → `atlas-v242`.
+
 ## iter 300 — Step-back: full-site sweep (clean) + 5 glossary terms (understandability)
 **Milestone step-back (iter 300).** Health check of 291–299: viz · mobile-fix · mobile-fix · examples · gamification · viz ·
 content · a11y · code — a genuinely diverse rotation spanning all four content modalities, two **real mobile bugs caught and

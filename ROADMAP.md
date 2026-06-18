@@ -177,6 +177,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 301: **Topic filter for the Glossary + stale-copy fix** (UI/UX). 138 terms / 7 subjects had search but no topic filter.
+   Added per-topic chips (All + topics present), composing with search (no re-render), mirroring the Lab (286). Also fixed stale
+   copy "all six subjects" → "seven". Reuses .lab-tbtn pills, aria-pressed, mobile-wrap. Verified: gate GREEN; dump-dom — 9 chips,
+   Calculus → its 17 terms (all tagged Calculus), All topics → 138 restored, errs=0; smoke errs=0/kErr=0 (12). SW →v242.
    ✅ iter 300: **Step-back: full-site sweep (clean) + 5 glossary terms** (understandability). Milestone step-back: 291–299 rotation
    diverse (viz/mobile/mobile/examples/gamification/viz/content/a11y/code), 2 real mobile bugs fixed, no bugs shipped. Full
    230-route sweep (148 lessons + 64 lab + 7 courses + 11 pages), first since 290 → errs=0/kErrTotal=0/bad=none. Ship: glossary

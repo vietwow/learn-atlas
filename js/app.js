@@ -1852,9 +1852,12 @@
     const g = window.GLOSSARY || [];
     const topicName = id => id === "general" ? "General" : (findCourse(id) || {}).title || id;
     const topicColor = id => id === "general" ? "var(--gold)" : (findCourse(id) || {}).color || "var(--gold)";
+    const present = new Set(g.map(e => e.topic));
+    const chipTopics = C().map(c => c.id).filter(id => present.has(id)).concat(present.has("general") ? ["general"] : []);
+    let topicF = "all";
     function render(q) {
       q = (q || "").trim().toLowerCase();
-      const items = g.filter(e => !q || e.term.toLowerCase().includes(q) || e.def.toLowerCase().includes(q) || topicName(e.topic).toLowerCase().includes(q))
+      const items = g.filter(e => (topicF === "all" || e.topic === topicF) && (!q || e.term.toLowerCase().includes(q) || e.def.toLowerCase().includes(q) || topicName(e.topic).toLowerCase().includes(q)))
         .slice().sort((a, b) => a.term.localeCompare(b.term));
       document.getElementById("gloss-list").innerHTML = items.length ? items.map(e => `
         <div class="gloss-item">
@@ -1867,12 +1870,22 @@
     <div class="view">
       <div class="crumbs"><a href="#/" data-route>Codex</a> &nbsp;›&nbsp; Glossary</div>
       <div class="page-head reveal"><div class="eyebrow">${g.length} key terms</div><h2>The <em>Glossary</em></h2>
-      <p>Fast, plain-language definitions of the core concepts across all six subjects. Search, or skim to refresh.</p></div>
+      <p>Fast, plain-language definitions of the core concepts across all seven subjects. Search, filter by topic, or skim to refresh.</p></div>
       <input class="gloss-search" id="gloss-search" placeholder="Search terms…" aria-label="Search glossary">
+      <div class="lab-topics" role="group" aria-label="Filter glossary by topic">
+        <button class="lab-tbtn active" data-t="all" aria-pressed="true">All topics</button>
+        ${chipTopics.map(id => `<button class="lab-tbtn" data-t="${id}" aria-pressed="false">${esc(topicName(id))}</button>`).join("")}
+      </div>
       <div id="gloss-list" class="gloss-grid reveal"></div>
     </div>`;
     bindGo();
-    document.getElementById("gloss-search").addEventListener("input", e => render(e.target.value));
+    const gs = document.getElementById("gloss-search");
+    gs.addEventListener("input", e => render(e.target.value));
+    Array.prototype.slice.call(document.querySelectorAll(".lab-tbtn")).forEach(b => b.addEventListener("click", () => {
+      topicF = b.dataset.t;
+      document.querySelectorAll(".lab-tbtn").forEach(x => { const on = x === b; x.classList.toggle("active", on); x.setAttribute("aria-pressed", on ? "true" : "false"); });
+      render(gs.value);
+    }));
     render("");
   }
 
