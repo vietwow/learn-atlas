@@ -177,6 +177,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 293: **Fix: Progress page overflowed horizontally on mobile** (mobile/bug). 390px audit of 14 views found #/stats
+   overflowing (sw 539>390): the .dist-strip repeat(5,1fr) can't shrink 5 cols below ~88px each. Fix: auto-fit minmax(88px,1fr)
+   → wraps to 2 rows on phone, single row of 5 on desktop. Verified (iframe@390): #/stats overflow=false, 5 cells 2 rows; 760px
+   1 row; full audit over=NONE; gate GREEN; smoke errs=0/kErr=0. SW →v234.
    ✅ iter 292: **Fix: visualizations were squished on mobile** (mobile/bug). .viz-canvas had max-width:100% (width shrank) but
    canvas() set a fixed inline height (didn't shrink) → all 63 widgets squished horizontally on phones (ratio 0.90 vs 1.54).
    Fix: drop inline height + add height:auto so canvas scales proportionally from its intrinsic w:h. Pointer helper uses

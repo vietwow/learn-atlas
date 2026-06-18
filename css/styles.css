@@ -1043,7 +1043,7 @@ body::after {
 .recall-done p { margin: 6px auto 14px; max-width: 460px; }
 .recall-xp { color: var(--ink-mute) !important; }
 
-.dist-strip { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; max-width: 700px; }
+.dist-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(88px, 1fr)); gap: 12px; max-width: 700px; }
 .dist-cell { background: var(--panel); border: 1px solid var(--line); border-radius: 11px; padding: 16px; text-align: center; }
 .dist-num { font-family: var(--font-disp); font-size: 30px; font-weight: 600; line-height: 1; }
 .dist-lbl { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-mute); margin-top: 7px; }

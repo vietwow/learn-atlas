@@ -2,6 +2,16 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 293 — Fix: Progress page overflowed horizontally on mobile (mobile / bug)
+Continuing the mobile re-audit started in 292: a 390px overflow sweep across 14 key views found **one offender** — the
+**Progress page (`#/stats`) scrolled horizontally** (scrollWidth 539 > 390). Traced to the **mastery-distribution strip**
+(`.dist-strip`), a `grid-template-columns: repeat(5, 1fr)` — five fixed columns whose content (a 30px number + 16px padding)
+can't shrink below ~88px each, so five never fit in 390px. Fix: `repeat(auto-fit, minmax(88px, 1fr))` — the row wraps to
+2 rows on a phone and stays a single row of 5 on desktop (within its 700px max-width). CSS-only.
+Verified (iframe @ 390px + `postMessage`): `#/stats` now `sw=390, overflow=false`, the 5 cells in **2 rows**; at 760px
+they're a **single row of 5** (desktop unchanged); the full 14-view 390px audit returns **over=NONE** (was `#/stats(539)`);
+gate ALL GREEN; desktop smoke **errs=0/kErr=0**. No save-shape change. SW cache `atlas-v233` → `atlas-v234`.
+
 ## iter 292 — Fix: visualizations were squished on mobile (mobile / bug)
 A real, longstanding mobile bug found by re-measuring the recent widgets at 390px: `.viz-canvas` had `max-width: 100%`
 (so the **width** shrank to fit a narrow screen) but `canvas()` also set a **fixed inline `height`** (e.g. 350px), so the
