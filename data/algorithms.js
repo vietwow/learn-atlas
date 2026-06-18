@@ -2895,6 +2895,11 @@
               "title": "Coin change (fewest coins)",
               "body": "With coins $\\{1,3,4\\}$, what is the minimum number of coins to make 6?",
               "solution": "Let $dp[a]=1+\\min_{c}dp[a-c]$. Then $dp[0..6]=0,1,2,1,1,2,2$. For $a=6$: $1+\\min(dp[5],dp[3],dp[2])=1+\\min(2,1,2)=2$ — e.g. $3+3$. Answer: 2 coins. (Greedy '4 then 1+1' would give 3, which is why DP is needed.)"
+            },
+            {
+              "title": "0/1 Knapsack: the flagship 2-D table",
+              "body": "A knapsack holds at most $W = 7$ kg. Four items are available, each takeable at most once, with weight–value pairs $(w, v)$: item 1 $(1, 1)$, item 2 $(3, 4)$, item 3 $(4, 5)$, item 4 $(5, 7)$. What is the maximum total value that fits?",
+              "solution": "<strong>Why not greedy?</strong> Sorting by value-per-weight tries item 1 first (ratio $1.0$) — but that wastes capacity. 0/1 knapsack (each item all-or-nothing) needs dynamic programming over a 2-D table.\n<strong>The recurrence.</strong> Let $K[i][c]$ be the best value using the first $i$ items with capacity $c$. Each item is either skipped or taken (if it fits):\n$$K[i][c] = \\max\\big(\\,\\underbrace{K[i-1][c]}_{\\text{skip}}\\,,\\ \\underbrace{K[i-1][c - w_i] + v_i}_{\\text{take}}\\,\\big).$$\n<strong>Fill up to $c = 7$.</strong> With items 1–2 the best at $c = 7$ is taking both (weight $4$, value $5$). Add item 3 $(4, 5)$: at $c = 7$, compare skip $= 5$ against take $= K[2][3] + 5 = 4 + 5 = 9$ — so $9$. Add item 4 $(5, 7)$: at $c = 7$, skip $= 9$ vs take $= K[3][2] + 7 = 1 + 7 = 8$; $9$ still wins.\n<strong>Answer.</strong> The maximum value is $\\mathbf{9}$, achieved by items 2 and 3 (weight $3 + 4 = 7$, value $4 + 5 = 9$). Notice the greedy first pick (item 1) is <em>not</em> in the optimal set — the table is what guarantees the true optimum, in $O(nW)$ time."
             }
           ]
         },

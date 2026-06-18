@@ -2,6 +2,23 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 271 — Three more worked examples on flagship hard lessons (examples)
+Content is uniform (every lesson: 16 MCQs, ≥2 worked examples), so there were no thin spots to fill — but worked examples
+are top-tier active learning and a fresher content type than my last two deep-dive iterations. Added a **3rd worked
+example** to three flagship lessons that were at two, each covering a *new* technique the existing pair didn't (worked
+examples 298 → **301**):
+- **la-determinants** — a **3×3 determinant by cofactor expansion** (the existing two are 2×2 + singularity): expand along
+  the first row, three signed $2\times2$ minors, $\det = 8 + 33 + 8 = 49 \ne 0 \Rightarrow$ invertible.
+- **a-dynamic-programming** — **0/1 knapsack**, the flagship 2-D DP table (existing examples are 1-D Fibonacci + coin
+  change): the skip-or-take recurrence, why greedy fails, max value $= 9$ (items 2+3) in $O(nW)$.
+- **ps-normal-distribution** — a **z-score beyond the empirical rule** (existing examples cover σ-aligned cases): $P(X\le
+  120)$ for $N(100,15)$, $z = 20/15 \approx 1.33$, $\Phi(1.33) \approx 0.9082 \approx 91\%$ — the general CDF/table case.
+Every computed value was **node-verified** before authoring; injected byte-stably with a round-trip guard and pre-guards
+for even-`$` parity and `<strong>` balance (the latter now also enforced by iter-270's gate lint).
+Verified: gate ALL GREEN (**301 examples**); **via `--dump-dom`** each lesson's Examples tab now shows 3 items, the new
+solution reveals with KaTeX (14 / 43 / 53 spans) and **kErr=0, rawDollar=0**, and the correct answer (49 / 9 / 0.9082)
+appears; all-routes smoke **errs=0/kErr=0 (12 routes)**. No save-shape change. SW cache `atlas-v211` → `atlas-v212`.
+
 ## iter 270 — Gate strengthening: unbalanced-HTML-tag lint + step-back review (workflow)
 **Step-back (every ~10 iters).** Health check of 260–269: content · UI/UX · viz · a11y · new-func · content · mobile-bugfix
 · gamification · viz · animation — a healthy, fully-diverse rotation; a real mobile bug caught+fixed (266) and the

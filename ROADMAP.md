@@ -177,6 +177,12 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 271: **3 more worked examples on flagship hard lessons** (examples). Content uniform (no thin spots); added a 3rd worked
+   example to 3 lessons at 2, each a NEW technique (298→301): la-determinants (3×3 det by cofactor = 49), a-dynamic-programming
+   (0/1 knapsack 2-D table, max=9, why greedy fails), ps-normal-distribution (z-score beyond empirical rule, z≈1.33,
+   Φ=0.9082≈91%). All values node-verified; byte-stable inject w/ even-$ + <strong>-balance pre-guards. Verified: gate GREEN
+   (301 examples); dump-dom each Examples tab shows 3, reveal renders (katex 14/43/53, kErr=0, rawDollar=0, answers present);
+   smoke errs=0/kErr=0 (12). SW →v212.
    ✅ iter 270: **Gate: unbalanced-HTML-tag lint + step-back** (workflow). Step-back: 260–269 rotation healthy+diverse, mobile bug
    caught (266), perf settled (265); workflow (gate) most-neglected → hardened it. Added tag-balance lint to gate.js:
    counts open/close for non-auto-closing paired tags (details,b,strong,em,span,sup,sub,ul,ol,table,div,blockquote,code,pre)

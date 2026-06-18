@@ -2166,6 +2166,11 @@
               "title": "When is it singular?",
               "body": "For which $k$ is $\\begin{bmatrix}k&2\\\\2&k\\end{bmatrix}$ singular (non-invertible)?",
               "solution": "Set the determinant to zero: $k^2-4=0\\Rightarrow k=\\pm2$. At those values the columns are linearly dependent."
+            },
+            {
+              "title": "A 3×3 determinant by cofactor expansion",
+              "body": "Compute the determinant of $A = \\begin{bmatrix} 2 & -3 & 1 \\\\ 2 & 0 & -1 \\\\ 1 & 4 & 5 \\end{bmatrix}$ by expanding along the first row.",
+              "solution": "<strong>Expand along the first row.</strong> Multiply each first-row entry by its $2\\times 2$ minor (cross out that entry's row and column) and a checkerboard sign $+\\,-\\,+$:\n$$\\det A = 2\\begin{vmatrix} 0 & -1 \\\\ 4 & 5 \\end{vmatrix} - (-3)\\begin{vmatrix} 2 & -1 \\\\ 1 & 5 \\end{vmatrix} + 1\\begin{vmatrix} 2 & 0 \\\\ 1 & 4 \\end{vmatrix}.$$\n<strong>Evaluate the three minors</strong> (each is $ad - bc$):\n$$\\begin{vmatrix} 0 & -1 \\\\ 4 & 5 \\end{vmatrix} = 0\\cdot 5 - (-1)\\cdot 4 = 4, \\qquad \\begin{vmatrix} 2 & -1 \\\\ 1 & 5 \\end{vmatrix} = 10 - (-1) = 11, \\qquad \\begin{vmatrix} 2 & 0 \\\\ 1 & 4 \\end{vmatrix} = 8 - 0 = 8.$$\n<strong>Combine with the signs.</strong>\n$$\\det A = 2(4) + 3(11) + 1(8) = 8 + 33 + 8 = 49.$$\nBecause $\\det A = 49 \\ne 0$, the matrix is invertible — its columns span all of $\\mathbb{R}^3$. Expanding along <em>any</em> row or column yields the same value, so pick the one with the most zeros to save arithmetic."
             }
           ]
         }
