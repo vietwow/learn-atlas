@@ -248,6 +248,11 @@
               "title": "At least one head in three coin flips",
               "body": "A fair coin is flipped three times. Find the probability of getting <em>at least one</em> head. Then find the probability of getting <em>exactly two</em> heads.",
               "solution": "Each flip is independent with two equally-likely results, so $\\Omega$ has $2^3 = 8$ equally-likely sequences (e.g. $HHT$, $TTH$, $\\dots$).\n\n<strong>At least one head.</strong> The complement is \"no heads at all,\" i.e. the single outcome $TTT$, with $P(TTT) = 1/8$. By the complement rule, $$P(\\text{at least one head}) = 1 - \\frac{1}{8} = \\frac{7}{8} = 0.875.$$ This is far cleaner than summing the cases of one, two, and three heads separately.\n\n<strong>Exactly two heads.</strong> The favorable sequences are $HHT, HTH, THH$ — three of them — so $$P(\\text{exactly two heads}) = \\frac{3}{8} = 0.375.$$ (These are the $\\binom{3}{2} = 3$ ways to choose which two of the three flips are heads.)"
+            },
+            {
+              "title": "Inclusion-exclusion: don't double-count the overlap",
+              "body": "Draw one card from a standard 52-card deck. What is the probability it is a <em>heart or a face card</em> (J, Q, K)?",
+              "solution": "<strong>Naively adding overcounts.</strong> There are 13 hearts and 12 face cards, but $13 + 12 = 25$ is wrong — the three cards that are <em>both</em> (J, Q, K of hearts) got counted twice.\n<strong>Inclusion-exclusion.</strong> $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$ — add the two events, then subtract their overlap once to fix the double-count:\n$$P(\\text{heart} \\cup \\text{face}) = \\frac{13}{52} + \\frac{12}{52} - \\frac{3}{52} = \\frac{22}{52} = \\frac{11}{26} \\approx 0.423.$$\n<strong>Why the subtraction.</strong> Each card in the overlap is included in both $P(A)$ and $P(B)$, so summing counts it twice; subtracting $P(A \\cap B)$ once restores a single count. For disjoint events ($A \\cap B = \\varnothing$) the correction is zero and probabilities simply add.\n<strong>The aha.</strong> \"Or\" is addition <em>minus</em> the overlap. The principle scales: for three sets you add singles, subtract pairs, add the triple — the alternating inclusion-exclusion that fixes every layer of double-counting."
             }
           ]
         },

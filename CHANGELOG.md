@@ -2,6 +2,24 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 370 — Step-back: full kErr/route + coverage audit (clean) + three worked examples (examples)
+**Round-number step-back (iter 370).** Two health audits, both clean:
+- **Runtime kErr+route sweep**: all **148 lessons** (revealing every example, opening every deep-dive) → errs=0, kErr=0, 0 bad;
+  all **99 non-lesson routes** (courses, Lab + 81 widgets, every utility page) → errs=0, kErr=0. **247 routes green.**
+- **Structural coverage audit**: every one of 148 lessons has ≥2 examples (**352**), ≥8 MCQs (2368), ≥1 flashcard (889),
+  ≥1 homework (442) — **0 structurally-thin lessons**. Now **129 deep-dive lessons** (87% of the codex) and 72 code lessons.
+**Reflection (361–369):** steady content/examples/code/viz rotation — all verified and pushed, no bugs; the gate hardening (330)
+and kErr-audit discipline have held across 70 iterations since the 300 step-back. Deep-dive coverage is nearly complete.
+**The ship (paired examples).** A **3rd worked example** on three flagship lessons across PS/LA/algo (examples 349 → **352**):
+- **ps-sample-spaces-events** — **inclusion-exclusion**: `P(♥∪face)=13/52+12/52−3/52=11/26≈0.423` — "or" is addition minus the overlap.
+- **la-vectors-operations** — **distance = magnitude of the difference**: `‖Q−P‖=‖(3,4)‖=5` — the norm is Pythagoras in any dimension.
+- **a-approximation-randomized** — **randomized MAX-CUT**: each edge cut w.p. ½ → `E[cut]=m/2=5 ≥ OPT/2`, a 2-approx from one
+  coin flip per vertex (linearity of expectation, no independence needed).
+Every value node-verified; injected byte-stably with round-trip + even-`$` + tag-balance + unsupported-env pre-guards.
+Verified: gate ALL GREEN (**352 examples**); **via `--dump-dom`** each Examples tab shows 3, reveals with KaTeX (33 / 57 / 101
+spans) and **kErr=0, rawDollar=0**; both step-back sweeps clean; embed-route smoke **errs=0/kErr=0 (12 routes)**. No save-shape
+change. SW cache `atlas-v309` → `atlas-v310`.
+
 ## iter 369 — Four more deeper-dives on foundational lessons (content / understandability)
 4 "Deeper dive" expandables on foundational lessons across algo/LA/calc/DL (deep-dives 125 → **129**):
 - **a-trees-heaps** — **heap property vs BST property**: `left<node<right` buys searchability (`O(log n)` *if balanced*); a heap's
