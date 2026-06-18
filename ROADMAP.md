@@ -177,6 +177,11 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 273: **4 more deeper-dives on flagship hard lessons** (content). +4 (45→49) across topics 265 missed: dl-gans (two-player
+   minimax game / Nash equilibrium), ps-poisson (law of rare events / binomial limit), a-mst-union-find (Kruskal + cut
+   property + Union-Find), l-peft-lora (low-rank patch ΔW=BA, <1% of weights). String.raw LaTeX; byte-stable inject w/
+   even-$, no-**, tag-balance pre-guards. Verified: gate GREEN; dump-dom each renders (katex 9/11/0/22, kErr=0, rawDollar=0);
+   smoke errs=0/kErr=0 (12). SW →v214.
    ✅ iter 272: **One-tap search on mobile** (UI/UX). Search/command-palette was buried in the sidebar footer on mobile (tap-☰ →
    scroll → tap; "⌘K" hint meaningless on touch). Added a topbar 🔎 (#topbar-search → openPalette), shown only ≤900px
    (mirrors .menu-btn), hidden on desktop + print. Verified: 390px dump-dom display:grid + click opens palette (errs=0);

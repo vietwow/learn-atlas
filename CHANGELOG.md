@@ -2,6 +2,23 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 273 — Four more deeper-dives on flagship hard lessons (content / understandability)
+Continuing the owner's depth directive, added **4 "Deeper dive" expandables** on flagship hard lessons that lacked one,
+spread across four topics 265 didn't deepen (deep-dives 45 → **49**):
+- **dl-gans** — a GAN is a two-player <em>minimax game</em>, not an optimization; the target is a Nash equilibrium, which
+  is why training oscillates and mode-collapses.
+- **ps-poisson** — the Poisson distribution as the <em>law of rare events</em>: the binomial limit as $n\to\infty$,
+  $p\to 0$, $np=\lambda$ fixed; one parameter is both mean and variance.
+- **a-mst-union-find** — Kruskal's MST as greed made safe by the <em>cut property</em>, with Union-Find as the
+  near-constant-time cycle test (pure prose, no math).
+- **l-peft-lora** — LoRA as a low-rank patch $\Delta W = BA$ ($r \ll d$): why fine-tuning needs well under 1% of the
+  weights, and why $W$ stays exact.
+Authored with `String.raw` LaTeX; injected byte-stably with a round-trip guard + even-`$`, no-`**`, and `<details>`/
+`<b>`/`<em>` tag-balance pre-guards (now also caught by the gate).
+Verified: gate ALL GREEN; per-lesson **via `--dump-dom`** each dive renders with its summary, KaTeX typesets
+(9 / 11 / 0 / 22 spans — MST is intentionally prose) and **kErr=0, rawDollar=0** on all four; all-routes smoke
+**errs=0/kErr=0 (12 routes)**. No save-shape change. SW cache `atlas-v213` → `atlas-v214`.
+
 ## iter 272 — One-tap search on mobile (UI/UX)
 Global search / the command palette is a flagship feature, but on mobile it was effectively hidden: the only tap target
 (`🔎 Search`) lives in the **sidebar footer** — behind the hamburger, requiring tap-☰ → scroll → tap — and its on-screen
