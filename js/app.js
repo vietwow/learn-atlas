@@ -1755,7 +1755,7 @@
       return `<div class="module reveal lab-group"><div class="module-head"><span class="mnum" style="color:${c.color}">${esc(c.icon)}</span><h3>${esc(c.title)}</h3></div>
         <div class="lab-grid">${items.map(v => { const vl = vizLesson(v.id); const xp = !!seen[v.id];
           const s = (v.title + " " + v.blurb + " " + (vl ? vl.lesson.title : "") + " " + c.title).toLowerCase().replace(/["<>]/g, "");
-          return `<a class="lab-card${xp ? " explored" : ""}" href="#/lab/${v.id}" data-route data-s="${s}" data-x="${xp ? 1 : 0}" style="--c:${c.color}"><h4>${esc(v.title)}</h4><p>${esc(v.blurb)}</p>${vl ? `<span class="lab-in">↳ ${esc(vl.lesson.title)}</span>` : ""}<div class="lab-foot"><span class="lab-go">Open ↗</span>${xp ? `<span class="lab-seen">✓ explored</span>` : ""}</div></a>`; }).join("")}</div></div>`;
+          return `<a class="lab-card${xp ? " explored" : ""}" href="#/lab/${v.id}" data-route data-s="${s}" data-x="${xp ? 1 : 0}" data-topic="${c.id}" style="--c:${c.color}"><h4>${esc(v.title)}</h4><p>${esc(v.blurb)}</p>${vl ? `<span class="lab-in">↳ ${esc(vl.lesson.title)}</span>` : ""}<div class="lab-foot"><span class="lab-go">Open ↗</span>${xp ? `<span class="lab-seen">✓ explored</span>` : ""}</div></a>`; }).join("")}</div></div>`;
     }).join("");
     const unseen = total - seenCount;
     app.innerHTML = `
@@ -1775,6 +1775,10 @@
             <button class="lab-fbtn" data-f="unseen" aria-pressed="false">Unexplored${unseen ? " (" + unseen + ")" : ""}</button>
           </div>
         </div>
+        <div class="lab-topics" role="group" aria-label="Filter by topic">
+          <button class="lab-tbtn active" data-t="all" aria-pressed="true">All topics</button>
+          ${C().map(c => `<button class="lab-tbtn" data-t="${c.id}" aria-pressed="false">${esc(c.icon)} ${esc(c.title)}</button>`).join("")}
+        </div>
       </div>
       <div id="lab-noresults" class="lab-noresults" hidden>No visualizations match — try another search.</div>
       ${groups || emptyState("🎛️", "No visualizations loaded.")}
@@ -1783,17 +1787,19 @@
     // client-side filter: free-text search + All / Unexplored toggle (no re-render)
     const search = document.getElementById("lab-search");
     const fbtns = Array.prototype.slice.call(document.querySelectorAll(".lab-fbtn"));
+    const tbtns = Array.prototype.slice.call(document.querySelectorAll(".lab-tbtn"));
     const cards = Array.prototype.slice.call(document.querySelectorAll(".lab-card"));
     const groupEls = Array.prototype.slice.call(document.querySelectorAll(".lab-group"));
     const noRes = document.getElementById("lab-noresults");
-    let mode = "all";
+    let mode = "all", topicF = "all";
     function apply() {
       const q = (search && search.value || "").trim().toLowerCase();
       let shown = 0;
       cards.forEach(card => {
         const okText = !q || card.dataset.s.indexOf(q) >= 0;
         const okMode = mode === "all" || card.dataset.x === "0";
-        const show = okText && okMode;
+        const okTopic = topicF === "all" || card.dataset.topic === topicF;
+        const show = okText && okMode && okTopic;
         card.classList.toggle("lab-hidden", !show);
         if (show) shown++;
       });
@@ -1804,6 +1810,11 @@
     fbtns.forEach(b => b.addEventListener("click", () => {
       mode = b.dataset.f;
       fbtns.forEach(x => { const on = x === b; x.classList.toggle("active", on); x.setAttribute("aria-pressed", on ? "true" : "false"); });
+      apply();
+    }));
+    tbtns.forEach(b => b.addEventListener("click", () => {
+      topicF = b.dataset.t;
+      tbtns.forEach(x => { const on = x === b; x.classList.toggle("active", on); x.setAttribute("aria-pressed", on ? "true" : "false"); });
       apply();
     }));
   }

@@ -2,6 +2,16 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 286 — Topic filter for the Visualization Lab (UI/UX)
+With **62 widgets** across 7 subjects, the Lab gallery had search + an All/Unexplored toggle but **no way to filter by
+topic** — to browse just the linear-algebra or RL widgets you had to scroll past everything. Added **per-topic filter
+chips** (All topics + one per subject) below the existing tools. Each lab card now carries a `data-topic`, and the
+client-side `apply()` filter composes topic with the existing text search and explored/unexplored mode (no re-render).
+The chips are pill-styled, `aria-pressed`, keyboard-focusable, and wrap on mobile.
+Verified: gate ALL GREEN; **via `--dump-dom`** — 8 chips render; clicking **Calculus** shows exactly its 9 widgets
+(every visible card's `data-topic` is `calculus`); **All topics** restores all 62; `errs=0`; all-routes smoke
+**errs=0/kErr=0 (12 routes)**. No save-shape change. SW cache `atlas-v226` → `atlas-v227`.
+
 ## iter 285 — Master Theorem visualizer — 62nd widget (visualizations)
 `a-recurrences-master-theorem` ("Recurrences and the Master Theorem") had **no widget** — and the master theorem is one of
 the most abstract results in the algorithms course. Added the **62nd Lab widget `algo-master-theorem`**, embedded in that

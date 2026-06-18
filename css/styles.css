@@ -843,6 +843,11 @@ body::after {
 .lab-fbtn:focus-visible { outline: 2px solid var(--gold); outline-offset: -2px; }
 .lab-noresults { color: var(--ink-mute); padding: 30px 6px; text-align: center; }
 @media (max-width: 480px) { .lab-tools { flex-direction: column; align-items: stretch; } .lab-fbtn { flex: 1; } }
+.lab-topics { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; }
+.lab-tbtn { padding: 6px 12px; background: var(--panel); color: var(--ink-soft); border: 1px solid var(--line); border-radius: 20px; font-family: var(--font-disp); font-size: 12.5px; cursor: pointer; transition: background .2s, color .2s, border-color .2s; }
+.lab-tbtn:hover { border-color: var(--gold-deep); color: var(--ink); }
+.lab-tbtn.active { background: var(--gold-deep); color: var(--bg); border-color: var(--gold-deep); }
+.lab-tbtn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
 /* ============================================================
    References / Library

@@ -177,6 +177,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 286: **Topic filter for the Visualization Lab** (UI/UX). 62 widgets / 7 subjects had search + All/Unexplored but no topic
+   filter. Added per-topic chips (All topics + 7); each card got data-topic; apply() composes topic × search × explored-mode
+   (no re-render); pill chips, aria-pressed, mobile-wrap. Verified: gate GREEN; dump-dom — 8 chips, Calculus → exactly its 9
+   widgets (all data-topic=calculus), All topics → 62 restored, errs=0; smoke errs=0/kErr=0 (12). SW →v227.
    ✅ iter 285: **Master Theorem visualizer — 62nd widget** (visualizations). a-recurrences-master-theorem had no viz. New
    `algo-master-theorem`: per-level work bars for T(n)=a·T(n/b)+nᵈ; ratio r=a/bᵈ tips root-heavy(Θ(nᵈ))/flat(Θ(nᵈ log n))/
    leaf-heavy(Θ(n^log_b a)), dominant level highlighted, Θ named live; sliders a/b/d + presets (mergesort/strassen/binsearch).
