@@ -4374,6 +4374,11 @@
               "title": "Statistical significance without practical importance",
               "body": "An online retailer A/B-tests a new checkout button on $n=1{,}000{,}000$ users per arm. The conversion rate rises from $4.000\\%$ to $4.05\\%$, giving $p=0.001$. Is this statistically significant? Is it necessarily worth shipping? Explain the distinction.",
               "solution": "Statistically significant: yes — with a million users per arm the standard error is tiny, so even a $0.05$ percentage-point lift is many standard errors away from zero, producing $p=0.001$. Practically important: not necessarily. The effect size is a $0.05$-point absolute lift (a ~1.25% relative increase); whether that justifies the engineering cost and risk is a business judgment, not a statistical one. This is the classic large-$n$ trap: significance confirms the effect is probably real, but only the effect size and a cost–benefit analysis say whether it matters. Always report both."
+            },
+            {
+              "title": "Multiple comparisons: how testing a lot manufactures significance",
+              "body": "A researcher runs $20$ independent hypothesis tests at $\\alpha = 0.05$, and <em>every</em> null is actually true (no real effects). What is the chance at least one test comes out \"significant\"?",
+              "solution": "<strong>Each test has a 5% false-positive rate.</strong> Under a true null, $P(\\text{significant}) = \\alpha = 0.05$, so $P(\\text{not significant}) = 0.95$.\n<strong>Combine across 20 independent tests.</strong> The chance <em>all</em> 20 correctly come out non-significant is $0.95^{20} \\approx 0.358$, so the chance of <b>at least one</b> false positive is\n$$1 - 0.95^{20} \\approx 1 - 0.358 = 0.642.$$\nA <b>64%</b> chance of a \"discovery\" that is pure noise.\n<strong>The aha.</strong> A p-value below 0.05 controls the error rate of <em>one</em> test, not a batch. Run enough tests and false positives become near-certain — the <b>multiple-comparisons problem</b> (and the engine of p-hacking). Corrections like Bonferroni (test at $\\alpha/m$) or controlling the false-discovery rate restore honesty by tightening the threshold as the number of tests grows."
             }
           ]
         },

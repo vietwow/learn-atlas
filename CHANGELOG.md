@@ -2,6 +2,20 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 362 — Three more worked examples on flagship hard lessons (examples)
+A **3rd worked example** on three flagship lessons across algo/calc/PS (examples 343 → **346**, all ⌘K-searchable):
+- **a-recurrences-master-theorem** — **Case 2 (mergesort)**: `T(n)=2T(n/2)+O(n)`, `a=b^d` (2=2¹) → work spreads evenly across
+  `log n` levels → `Θ(n log n)` — the balanced regime behind every optimal comparison sort.
+- **c-continuity** — **a jump discontinuity can't be patched**: a piecewise `f` with left-limit `1 ≠` right-limit `3` — the
+  two-sided limit doesn't exist, so no `f(1)` value fixes it (vs a removable hole, which one redefinition mends).
+- **ps-p-values** — **multiple comparisons**: 20 tests at `α=0.05`, all nulls true → `1−0.95²⁰ ≈ 0.642`, a 64% chance of a
+  false "discovery"; the engine of p-hacking, why Bonferroni (`α/m`) exists.
+Every value node-verified (Case 2 a=b^d; `1≠3` jump; `0.642`); injected byte-stably with round-trip + even-`$` + tag-balance +
+unsupported-env pre-guards (the `cases` env is KaTeX-supported; `\lt`/`\ge` inside it).
+Verified: gate ALL GREEN (**346 examples**); **via `--dump-dom`** each Examples tab shows 3, reveals with KaTeX (87 / 78 / 30
+spans) and **kErr=0, rawDollar=0** (the `cases` env renders clean); all-routes smoke **errs=0/kErr=0 (12 routes)**. No save-shape
+change. SW cache `atlas-v301` → `atlas-v302`.
+
 ## iter 361 — Four more deeper-dives on foundational lessons (content / understandability)
 4 "Deeper dive" expandables across DL/RL/LA/calc (deep-dives 117 → **121**):
 - **dl-pretraining-and-finetuning-paradigm** — **pretrain once, adapt cheaply**: generic features are amortized across tasks, so
