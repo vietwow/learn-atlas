@@ -784,7 +784,7 @@
   }
 
   // ---------- lesson (tabbed) ----------
-  function viewLesson(cid, lid) {
+  function viewLesson(cid, lid, initialTab) {
     const found = findLesson(cid, lid);
     if (!found) return view404();
     const { course, lesson } = found;
@@ -860,7 +860,7 @@
         e.preventDefault(); setTab(tabEls[j].dataset.tab, true);
       });
     });
-    setTab("lecture");
+    setTab(tabs.some(t => t.id === initialTab) ? initialTab : "lecture");   // deep-link a tab via #/lesson/c/l/<tab> (e.g. search → Examples)
   }
 
   // "Builds on" (direct prereqs) + "Leads to" (lessons depending on this one)
@@ -2489,7 +2489,10 @@
     const out = [];
     C().forEach(c => {
       out.push({ t: c.title, sub: "Topic", hash: "#/course/" + c.id, icon: c.icon });
-      c.modules.forEach(m => m.lessons.forEach(l => out.push({ t: l.title, sub: c.title, hash: "#/lesson/" + c.id + "/" + l.id, icon: "📖" })));
+      c.modules.forEach(m => m.lessons.forEach(l => {
+        out.push({ t: l.title, sub: c.title, hash: "#/lesson/" + c.id + "/" + l.id, icon: "📖" });
+        (l.examples || []).forEach(e => out.push({ t: e.title, sub: "Example · " + l.title, hash: "#/lesson/" + c.id + "/" + l.id + "/examples", icon: "📐" }));
+      }));
     });
     (window.VIZ_CATALOG || []).forEach(v => out.push({ t: v.title, sub: "Visualization", hash: "#/lab/" + v.id, icon: "🎛️" }));
     [["Dashboard", "#/", "⌂"], ["Daily Mix", "#/session", "🎯"], ["Daily Review", "#/review", "⚡"], ["Spawn a Test", "#/test", "📝"], ["Knowledge Map", "#/map", "🗺️"], ["Code Playground", "#/playground", "💻"], ["Glossary", "#/glossary", "📔"], ["Library", "#/library", "📚"], ["My Notes", "#/notes", "📓"], ["Progress", "#/stats", "📊"], ["Achievements", "#/achievements", "🏆"]].forEach(([t, h, i]) => out.push({ t, sub: "Page", hash: h, icon: i }));
@@ -2633,7 +2636,7 @@
     window.scrollTo(0, 0);
     if (parts.length === 0) viewDashboard();
     else if (parts[0] === "course") viewCourse(parts[1]);
-    else if (parts[0] === "lesson") viewLesson(parts[1], parts[2]);
+    else if (parts[0] === "lesson") viewLesson(parts[1], parts[2], parts[3]);
     else if (parts[0] === "review") viewReview();
     else if (parts[0] === "session") viewSession();
     else if (parts[0] === "test") viewTest();

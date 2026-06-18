@@ -177,6 +177,11 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 336: **Worked examples are now searchable + tab deep-linking** (workflow/discoverability). Examples live in l.examples (not
+   l.content), so all 325 were invisible to ⌘K. Added (1) lesson-tab deep-links via a 4th hash segment #/lesson/c/l/<tab>
+   (router passes parts[3]; viewLesson opens that tab, falls back to lecture); (2) all 325 examples indexed in ⌘K (📐 Example),
+   linking to …/examples. Verified: gate GREEN; dump-dom c-optimization/examples opens activeTab=examples (3 items); palette
+   "Maximizing area" returns an Example result; smoke incl /examples+/quiz errs=0/kErr=0 (12). SW →v276.
    ✅ iter 335: **4 more deeper-dives on flagship hard lessons** (content). +4 dd (93→97) across DL/DL/LLM/algo:
    dl-convolution-operation (weight-sharing+locality), dl-practical-training-and-debugging (debug order), l-decoding-strategies
    (T/top-k/top-p trade-off), a-shortest-paths-topo (why Dijkstra needs non-neg edges). String.raw LaTeX (\lt/\gt); byte-stable

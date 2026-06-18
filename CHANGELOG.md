@@ -2,6 +2,19 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 336 — Worked examples are now searchable + tab deep-linking (workflow / discoverability)
+The ⌘K palette indexed lessons, viz, glossary, and full-text lesson *bodies* — but worked examples live in `l.examples`
+(rendered in the Examples tab), not `l.content`, so **all 325 examples were invisible to search**. Fixed two ways:
+- **Lesson tabs are now deep-linkable** via a 4th hash segment — `#/lesson/<course>/<lesson>/<tab>` (e.g. `…/examples`,
+  `…/quiz`). The router passes it through and the lesson view opens that tab instead of always defaulting to the lecture
+  (falls back to lecture for an unknown/absent segment).
+- **All 325 worked examples are indexed** in ⌘K (`📐 Example · <lesson>`), each linking to `…/examples` so picking one
+  lands directly on the lesson's Examples tab — surfacing a large asset that was previously only reachable by opening a
+  lesson and clicking the tab.
+Verified: gate ALL GREEN; **via `--dump-dom`** `#/lesson/calculus/c-optimization/examples` opens with `activeTab=examples`
+and 3 example items; the ⌘K palette typing "Maximizing area" returns an `Example`-labelled result; all-routes smoke incl.
+`/examples` + `/quiz` deep-links **errs=0/kErr=0 (12 routes)**. No save-shape change. SW cache `atlas-v275` → `atlas-v276`.
+
 ## iter 335 — Four more deeper-dives on flagship hard lessons (content / understandability)
 4 "Deeper dive" expandables across DL/DL/LLM/algo (deep-dives 93 → **97**):
 - **dl-convolution-operation** — **weight-sharing + locality**: a conv layer is a restricted matmul (`3×3` = 9 weights, not
