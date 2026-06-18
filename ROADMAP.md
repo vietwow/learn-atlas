@@ -177,6 +177,12 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 320: **Step-back: full-site sweep (clean) + "In this lesson" extras strip** (UI/UX). Step-back: 311–319 verified, no bugs
+   (2 landmines caught pre-commit); codex exhaustively complete → surface depth over adding more. Full 235-route sweep, first
+   since 310 → errs=0/kErrTotal=0/bad=none. Ship: clickable "In this lesson" badge strip (🎛️ interactive / 🧩 deeper dive / 💻
+   code exercise) atop each lecture, computed from content, scrolls to + opens the extra — advertises the 69 viz + 81 dd + 39
+   code exercises previously below the fold. Verified: gate GREEN; dump-dom right badges per lesson, deeper-dive badge opens it
+   (open false→true), errs=0; 235-sweep clean; smoke errs=0/kErr=0 (12). SW →v261.
    ✅ iter 319: **Joint-distribution visualizer — 69th widget** (visualizations). ps-joint-distributions had no viz. New `ps-joint`:
    5×5 P(X,Y) heatmap + marginal P(X)/P(Y) bars; presets Independent (joint=outer product, indep error 0) vs Correlated (diagonal
    mass, error 0.083). app.js fallback 68→69. Plain-unicode note. Verified: gate GREEN (69 widgets); node both sum to 1 + error

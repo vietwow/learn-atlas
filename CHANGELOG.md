@@ -2,6 +2,24 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 320 — Step-back: full-site sweep (clean) + "In this lesson" extras strip (UI/UX)
+**Round-number step-back (iter 320).** Health check of 311–319: examples · viz · content · a11y · code · viz · content ·
+examples · viz — all verified, no bugs shipped (two tooling landmines — `**`-in-code, `node -e` apostrophes — were caught
+pre-commit and recorded). The stretch leaned content/viz; the reflection: the codex is **exhaustively complete** (148
+lessons · 69 viz · 81 deep-dives · 316 examples · 39 code-exercise lessons · 138 glossary · 58 achievements), so the
+higher-leverage move is to **surface the depth already built** rather than add the 70th of something.
+**Comprehensive route sweep** (first full one since iter 310): drove **all 235 routes** → **errs=0, kErrTotal=0, bad=none**.
+**The ship (UI/UX — amplify the library).** Many lessons now carry an inline visualization, deeper-dive, or code exercise
+that a learner only discovers by scrolling. Added an **"In this lesson" badge strip** at the top of every lecture that has
+any of them — `🎛️ interactive`, `🧩 deeper dive`, `💻 code exercise` — and each badge is **clickable**: it scrolls to that
+element (and opens the deep-dive, which also fires the Deep Thinker achievement). Computed from the lesson's own content, so
+it appears only when those extras exist; reduced-motion-safe scroll. One small strip that advertises 69 viz + 81 deep-dives
++ 39 code exercises that were previously below the fold.
+Verified: gate ALL GREEN; **via `--dump-dom`** ps-conditional-expectation shows `[🎛️ interactive, 🧩 deeper dive]`, dl-pooling
+shows `[🧩 deeper dive, 💻 code exercise]`, la-vectors shows `[🎛️ interactive]`; clicking the deeper-dive badge **opens** it
+(`open false→true`); `errs=0`; the 235-route sweep is clean; lesson-heavy smoke **errs=0/kErr=0 (12 routes)**. No save-shape
+change. SW cache `atlas-v260` → `atlas-v261`.
+
 ## iter 319 — Joint-distribution visualizer — 69th widget (visualizations)
 `ps-joint-distributions` had no widget, and the joint → marginals → independence chain is core probability. Added the
 **69th Lab widget `ps-joint`**, embedded there: a 5×5 **P(X,Y) heatmap** (cell shade ∝ probability, value shown) with

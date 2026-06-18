@@ -901,9 +901,19 @@
       setActive();
     }
   }
+  // "In this lesson" strip — advertises (and jumps to) the inline extras a learner would otherwise only find by scrolling.
+  function lessonExtras(lesson) {
+    const ct = lesson.content || "", items = [];
+    if (/data-viz/.test(ct)) items.push(["🎛️", "interactive", "[data-viz]"]);
+    if (/class="deep-dive"/.test(ct)) items.push(["🧩", "deeper dive", "details.deep-dive"]);
+    if (/data-code/.test(ct)) items.push(["💻", "code exercise", "[data-code]"]);
+    if (!items.length) return "";
+    return `<div class="lesson-extras reveal"><span class="lx-label">In this lesson</span>${items.map(([ic, t, sel]) => `<button class="lx-badge" data-sel='${sel}'><span aria-hidden="true">${ic}</span> ${t}</button>`).join("")}</div>`;
+  }
   function renderLecture(body, course, lesson, prev, next) {
     const done = Store.isLessonDone(lesson.id);
     body.innerHTML = `
+      ${lessonExtras(lesson)}
       <div class="prose reveal">${lesson.content || "<p>Content coming soon.</p>"}</div>
       <section id="quick-check" class="reveal" aria-label="Quick check"></section>
       <div class="notes-box reveal">
@@ -919,6 +929,11 @@
       </div>
       ${lessonConnections(lesson.id)}`;
     const pl = document.getElementById("print-lesson"); if (pl) pl.addEventListener("click", () => window.print());
+    body.querySelectorAll(".lx-badge").forEach(b => b.addEventListener("click", () => {
+      const el = body.querySelector(b.dataset.sel); if (!el) return;
+      if (el.tagName === "DETAILS") el.open = true;   // open the deep-dive (also fires its toggle → Deep Thinker)
+      el.scrollIntoView({ behavior: reducedMotion() ? "auto" : "smooth", block: "center" });
+    }));
     const bm = document.getElementById("bookmark-btn");
     if (bm) bm.addEventListener("click", () => {
       const on = Store.toggleBookmark(lesson.id);
