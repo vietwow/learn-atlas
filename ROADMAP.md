@@ -177,6 +177,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 359: **3 more code exercises across algo/DL/RL** (active learning). +3 JS (63→66, gate runs 61): a-recurrences-master-theorem
+   (critical exponent log_b(a) → 3.00), dl-embeddings-and-tokenization (cosine similarity → 0.96), rl-value-approximation (linear
+   V=w·φ → 1.40). Node-verified; byte-stable inject w/ guards. Verified: gate GREEN (61 verified); dump-dom value-approx runs →
+   "1.40" "✓ matches"; smoke errs=0/kErr=0 (12). SW →v299.
    ✅ iter 358: **Chain-rule visualizer — 78th widget** (visualizations). c-chain-rule had no viz (backprop's foundation). New
    `calc-chain`: y=sin²x with a movable tangent whose slope = inner rate cos x × outer rate 2·sin x (the rates multiply). app.js
    fallback 77→78. Verified: gate GREEN (78 widgets); node dy/dx=(2 sin x)(cos x); dump-dom slope 1.000 = product 1.000,

@@ -2,6 +2,15 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 359 — Three more code exercises across algo/DL/RL (new functionality / active learning)
+Added **3 gate-verified JavaScript exercises** across algo/DL/RL (lessons-with-code 63 → **66**; the gate now runs **61**):
+- **a-recurrences-master-theorem** — **the critical exponent** `log_b(a)`: `a=8, b=2` → `3.00`; compare to `d` to pick the case.
+- **dl-embeddings-and-tokenization** — **cosine similarity** `a·b/(|a||b|)`: `[3,4]·[4,3]` → `0.96` (nearly the same direction).
+- **rl-value-approximation** — **linear value approximation** `V(s)=w·φ(s)`: weights `[0.5,−0.2,1.0]` · features `[2,3,1]` → `1.40`.
+Every output node-verified; injected byte-stably with round-trip + no-existing-`data-code` + `**`-free guards.
+Verified: gate ALL GREEN (**61 code-exercises verified**); **via `--dump-dom`** the value-approx widget runs → `1.40`,
+"✓ Output matches expected"; all-routes smoke **errs=0/kErr=0 (12 routes)**. No save-shape change. SW cache `atlas-v298` → `atlas-v299`.
+
 ## iter 358 — Chain-rule visualizer — 78th widget (visualizations)
 `c-chain-rule` had no widget — and it's the foundation of backprop. Added the **78th Lab widget `calc-chain`**, embedded
 there: the curve `y = sin²x = f(g(x))` with `g(x)=sin x`, `f(u)=u²`. Slide **x** and the gold tangent's slope `dy/dx` is shown
