@@ -705,12 +705,17 @@
         const done = Store.isLessonDone(l.id);
         const eff = Store.effectiveMastery(l.id), lvl = Store.masteryLevel(eff), ready = isReady(l.id);
         const nMcq = (l.mcq || []).length, nCards = (l.flashcards || []).length, nHw = (l.homework || []).length;
+        const ct = l.content || "", ex = [];
+        if (ct.indexOf("data-viz") >= 0) ex.push(["🎛️", "interactive visualization"]);
+        if (ct.indexOf('class="deep-dive"') >= 0) ex.push(["🧩", "deeper dive"]);
+        if (ct.indexOf("data-code") >= 0) ex.push(["💻", "code exercise"]);
+        const exHtml = ex.length ? ` · <span class="l-extras" aria-label="Includes ${ex.map(e => e[1]).join(", ")}" title="Includes: ${ex.map(e => e[1]).join(", ")}">${ex.map(e => `<span aria-hidden="true">${e[0]}</span>`).join(" ")}</span>` : "";
         return `
         <div class="lesson-row ${done ? "done" : ""} ${ready ? "ready" : ""}" data-go="#/lesson/${c.id}/${l.id}">
           <div class="lesson-check">✓</div>
           <div style="flex:1">
             <div class="l-title">${esc(l.title)}${ready ? ` <span class="pill ready-pill">▶ start here</span>` : ""}</div>
-            <div class="l-meta">${l.minutes || 10} min read · <span style="color:${lvl.color}">${lvl.label}</span></div>
+            <div class="l-meta">${l.minutes || 10} min read · <span style="color:${lvl.color}">${lvl.label}</span>${exHtml}</div>
             <div class="mastery-bar"><div class="mastery-fill" style="width:${Math.round(eff * 100)}%;background:${lvl.color}"></div></div>
           </div>
           <div class="l-right">

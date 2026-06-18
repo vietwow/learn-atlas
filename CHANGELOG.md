@@ -2,6 +2,17 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 322 — Inline-extras icons in the course lesson list (UI/UX)
+Extending the "amplify what exists" theme from iter 320: the course page's lesson rows already show MCQ/cards/HW pill
+counts, but nothing flagged which lessons carry an inline **visualization, deeper-dive, or code exercise** — you only found
+out by opening the lesson. Added compact icons to each row's meta line — `🎛️` (interactive visualization), `🧩` (deeper dive),
+`💻` (code exercise) — computed from the lesson's own content, with an `aria-label`/`title` ("Includes …") for screen readers
+and hover. Now a learner scanning a course can spot the hands-on lessons at a glance. Pairs with the in-lesson "In this
+lesson" strip (320) so the depth is advertised both before and inside a lesson.
+Verified: gate ALL GREEN; **via `--dump-dom`** the Prob & Stats course shows extras icons on **19 of 20** lesson rows (the
+extras-rich topic), with a sample `aria-label` "Includes deeper dive"; `errs=0`; all-courses smoke across all 7 courses
+**errs=0/kErr=0 (12 routes)**. No save-shape change. SW cache `atlas-v262` → `atlas-v263`.
+
 ## iter 321 — Four more deeper-dives on flagship hard lessons (content / understandability)
 Back to the owner's depth directive — 4 "Deeper dive" expandables across LLM/algo/PS/calc (deep-dives 81 → **85**):
 - **l-finetuning-and-instruction-tuning** — SFT shapes **behaviour, not knowledge**: the objective stays next-token
