@@ -914,6 +914,7 @@
     body.querySelectorAll("details.deep-dive").forEach(d => d.addEventListener("toggle", () => { if (d.open) { Store.unlock("deep-thinker"); flushAchievements(); } }));
     linkGlossary(body.querySelector(".prose"));   // inline term tooltips (before typeset, so tooltip math renders)
     typeset();
+    offerResume(lesson.id);                        // if you left this lesson part-read, offer a one-tap jump back
   }
 
   // ---------- inline "Quick Check": low-stakes retrieval at the end of the lecture ----------
@@ -2468,6 +2469,7 @@
     const h = (location.hash || "#/").slice(1);
     const parts = h.split("/").filter(Boolean); // e.g. ["course","linear-algebra"]
     try { document.title = docTitleFor(parts); } catch (e) { document.title = "Atlas · Personal Learning Codex"; }
+    clearResumePill();                                     // drop any lingering resume pill from the previous lesson
     window.scrollTo(0, 0);
     if (parts.length === 0) viewDashboard();
     else if (parts[0] === "course") viewCourse(parts[1]);
@@ -2620,6 +2622,38 @@
 
   function applyTextScale() { try { document.documentElement.style.setProperty("--read-scale", localStorage.getItem("atlas.textScale") || "1"); } catch (e) {} }
 
+  // ---------- resume reading position (per lesson) ----------
+  // Long lessons are easy to leave half-read; remember how far you scrolled and offer a one-tap jump back.
+  // Stored in its own localStorage key (UI state, like textScale) — no main-save shape change. We DON'T
+  // auto-scroll (jarring, and KaTeX/viz layout settles late); instead show a dismissible pill the user opts into.
+  const READPOS_KEY = "atlas.readPos";
+  function readPosMap() { try { return JSON.parse(localStorage.getItem(READPOS_KEY) || "{}") || {}; } catch (e) { return {}; } }
+  function currentLessonId() { const h = location.hash || ""; if (h.indexOf("#/lesson/") !== 0) return null; return h.slice(2).split("/")[2] || null; }
+  function saveReadPos(lid, y) {
+    const m = readPosMap(); m[lid] = Math.round(y);
+    const keys = Object.keys(m); if (keys.length > 40) delete m[keys[0]];   // bound growth (drop oldest-inserted)
+    try { localStorage.setItem(READPOS_KEY, JSON.stringify(m)); } catch (e) {}
+  }
+  let _resumePill = null;
+  function clearResumePill() { if (_resumePill) { _resumePill.remove(); _resumePill = null; } }
+  function offerResume(lid) {
+    clearResumePill();
+    const y = readPosMap()[lid];
+    if (!y || y < 400) return;                                  // nothing meaningful to resume to
+    setTimeout(() => {                                          // let KaTeX/viz settle so the page is tall + target is valid
+      if (currentLessonId() !== lid) return;                   // navigated away during the wait
+      const el = document.scrollingElement || document.documentElement;
+      if (el.scrollHeight - el.clientHeight < y + 120) return;  // page shorter than the saved spot (layout differs) — skip
+      if (el.scrollTop > 300) return;                           // user already scrolled in themselves
+      const pill = document.createElement("button");
+      pill.className = "resume-pill"; pill.type = "button"; pill.innerHTML = "⤓ Resume where you left off";
+      pill.addEventListener("click", () => { el.scrollTo({ top: y, behavior: reducedMotion() ? "auto" : "smooth" }); clearResumePill(); });
+      document.body.appendChild(pill);   // CSS @keyframes handles the entrance (no JS class toggle to depend on)
+      _resumePill = pill;
+      setTimeout(() => { if (_resumePill === pill) clearResumePill(); }, 9000);   // auto-dismiss if ignored
+    }, 550);
+  }
+
   // ---------- reading-progress bar (long-form lessons & pages) ----------
   let _rpRaf = 0, _toTop = null;
   function updateToTop() {                     // show the back-to-top button once you've scrolled down a screen
@@ -2640,7 +2674,11 @@
   }
   function scheduleReadProgress() {           // rAF-throttle the high-frequency scroll/resize events
     if (_rpRaf) return;
-    _rpRaf = requestAnimationFrame(() => { _rpRaf = 0; updateReadProgress(); updateToTop(); });
+    _rpRaf = requestAnimationFrame(() => {
+      _rpRaf = 0; updateReadProgress(); updateToTop();
+      const lid = currentLessonId();                          // remember scroll depth while reading a lesson
+      if (lid) { const el = document.scrollingElement || document.documentElement; if (el.scrollTop > 200) saveReadPos(lid, el.scrollTop); }
+    });
   }
   function initReadProgress() {
     window.addEventListener("scroll", scheduleReadProgress, { passive: true });

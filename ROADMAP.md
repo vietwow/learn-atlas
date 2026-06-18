@@ -177,6 +177,13 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 261: **Resume-reading position for long lessons** (UI/UX — step-back flagged this overdue). Saves per-lesson scroll depth
+   (own `atlas.readPos` key, no save-shape change; capped 40) on the existing reading-progress rAF; reopening a part-read
+   lesson shows a dismissible "⤓ Resume where you left off" pill that smooth-scrolls back. Not auto-scroll (jarring while
+   KaTeX/viz settle); guarded (save >200px, offer >400px, skip if already scrolled, page-tall-enough check, 9s auto-dismiss,
+   cleared on nav). SELF-CORRECTION: wired `offerResume(lid)` in renderLecture (param is `lesson.id`, not `lid`) → threw
+   post-paint; caught via dump-dom step-through. Verified: gate GREEN; dump-dom + scrollTo spy — seeded 1200 → pill scrolls
+   to 1200 then dismisses; empty/150px → no pill; CSS @keyframes entrance (base opacity:1); smoke errs=0/kErr=0 (12). SW →v202.
    ✅ iter 260: **5 deeper-dives on flagship hard concepts + step-back** (content). Step-back: 250–259 rotation healthy + varied,
    owner streak bug fixed (256); neglected = performance (no clean win) & UI/UX (last 244) — queued, neither broken.
    Ship: +5 "aha" deep-dives (35→40) on lessons that lacked one — dl-transformer (mix/think over residual stream),

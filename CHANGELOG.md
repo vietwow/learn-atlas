@@ -2,6 +2,27 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 261 — Resume-reading position for long lessons (UI/UX)
+The step-back (260) flagged UI/UX as overdue. Long lessons are easy to leave half-read, but reopening one always dropped
+you back at the top. Now Atlas **remembers how far you scrolled in each lesson** and offers a one-tap jump back. Saved on
+scroll (throttled, piggybacking the existing reading-progress rAF) into its own `atlas.readPos` localStorage map — UI
+state like `textScale`, so **no main-save shape change**; bounded to the 40 most-recent lessons. On reopening a lesson
+with a saved spot, a dismissible **"⤓ Resume where you left off"** pill fades in bottom-center; clicking smooth-scrolls
+there. Deliberately **not** an auto-scroll — that's jarring and unreliable while KaTeX/viz layout settles late; the pill
+lets the reader choose, and only appears once the page is actually tall enough for the target (so a layout mismatch never
+strands the pill). Guards: only saves depth > 200px; only offers a resume > 400px; skips if you've already scrolled in;
+auto-dismisses after 9s; cleared on navigation.
+SELF-CORRECTION: first wired the call as `offerResume(lid)` inside `renderLecture(body, course, lesson, …)` — which has
+no `lid` (its id is `lesson.id`), so the call threw "lid is not defined" *after* the lecture's innerHTML had already
+painted (so content looked fine but the tail silently died). Caught only because the pill never appeared and step-through
+instrumentation (`--dump-dom` + `window.__vlErr`) localized it. Lesson: when adding a call at the end of a render fn,
+confirm which function you're in and its actual param names — a thrown tail step won't surface as a blank screen.
+Verified: gate ALL GREEN; **via `--dump-dom`** (+ a `scrollTo` spy, since headless can't really scroll) — with a seeded
+`readPos` of 1200 the pill renders ("⤓ Resume where you left off") and clicking scrolls to exactly 1200 then dismisses;
+**negative cases** confirmed silent (empty map → no pill; saved 150px < threshold → no pill); entrance is pure-CSS
+`@keyframes` with base `opacity:1` (robust even if reduced-motion disables the animation); all-routes smoke
+**errs=0/kErr=0 (12 routes)**. SW cache `atlas-v201` → `atlas-v202`.
+
 ## iter 260 — Five deeper-dives on flagship hard concepts + step-back review (content / understandability)
 **Step-back (every ~10 iters).** Health check of 250–259: workflow → viz → content → animation → new-function → viz →
 bugfix → understandability → gamification → accessibility — a healthy, varied rotation, plus an owner-reported streak bug
