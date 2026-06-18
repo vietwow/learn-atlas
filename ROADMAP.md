@@ -177,6 +177,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 424: **3 more second deep-dives on the hardest lessons** (content/depth — owner's #1). +3 dd (175→178; 30 lessons have 2):
+   dl-attention-mechanism (Q/K/V self vs cross attention), ps-confidence-intervals (what sets width / √n law), la-symmetric-spectral
+   (why ML is full of symmetric matrices). Append-second-dd inject w/ full guards. Verified: gate GREEN; dump-dom each nDD=2, kErr=0,
+   rawDollar=0; smoke errs=0/kErr=0/bad=none. SW →v364. (121 lessons still at 1 dd — runway ample.)
    ✅ iter 423: **3 more worked examples across RL/DL/algo** (examples). +3 (418→421): rl-actor-critic (baseline is unbiased → advantage),
    dl-diffusion-models (forward process free / noise prediction), a-network-flow (bipartite matching as max flow). Node-verified;
    byte-stable inject w/ guards. Verified: gate GREEN (421 examples); dump-dom katex 125/25/23, kErr=0, rawDollar=0; smoke

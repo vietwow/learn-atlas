@@ -2,6 +2,18 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 424 — Three more second deep-dives on the hardest lessons (content / depth — owner's #1)
+A **distinct second "Deeper dive"** on three more flagship lessons across DL/PS/LA (deep-dives 175 → **178**; 30 lessons now carry two):
+- **dl-attention-mechanism** (had: "soft differentiable dictionary lookup") → **where Q,K,V come from**: all linear projections of the
+  input (`Q=XW_Q`…); self-attention takes them from one sequence, cross-attention queries another — one primitive, two wirings.
+- **ps-confidence-intervals** (had: "what 95% confidence means") → **what sets the width**: half-width `z·σ/√n` — the √n law (4× data to
+  halve it) and the confidence↔width tradeoff (`z₉₅=1.96` vs `z₉₉=2.576`).
+- **la-symmetric-spectral** (had: "stretch along perpendicular axes") → **why ML is full of symmetric matrices**: covariance, Gram/kernel,
+  and Hessian are symmetric *by construction* (`AᵀA`, mixed partials) — which is exactly what PCA, kernels, and 2nd-order optimization need.
+Authored with `String.raw` LaTeX; injected via the append-second-dd path with the full guard set + duplicate-summary guard.
+Verified: gate ALL GREEN; **via `--dump-dom`** each lesson opens **both** dd's (nDD=2) with **kErr=0, rawDollar=0**; smoke (2 dd's × 3
++ 8 pages) **errs=0/kErr=0, bad=none**. No save-shape change. SW cache `atlas-v363` → `atlas-v364`.
+
 ## iter 423 — Three more worked examples across RL/DL/algo (examples)
 A **3rd worked example** on three flagship lessons across RL/DL/algo (examples 418 → **421**, all ⌘K-searchable):
 - **rl-actor-critic** — **why a baseline doesn't bias the gradient**: `E_a[∇log π · b] = b·∇Σπ = 0`, so subtracting any
