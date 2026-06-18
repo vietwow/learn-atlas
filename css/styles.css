@@ -753,6 +753,19 @@ body::after {
 }
 @keyframes resumeIn { from { opacity: 0; transform: translate(-50%, 12px); } to { opacity: 1; transform: translate(-50%, 0); } }
 .resume-pill:hover { border-color: var(--gold); color: var(--gold); }
+
+/* focus timer — a persistent floating pill while a time-boxed study session runs */
+.focus-pill {
+  position: fixed; left: 22px; bottom: 22px; z-index: 360; display: flex; align-items: center; gap: 9px;
+  background: var(--panel); border: 1px solid var(--gold-deep); border-radius: 22px; padding: 8px 12px 8px 14px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .42); animation: focusIn .3s cubic-bezier(.2, 1.5, .4, 1) both;
+}
+@keyframes focusIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+.focus-pill .ft-ico { font-size: 15px; }
+.focus-pill .ft-time { font-family: var(--font-mono); font-size: 15px; font-weight: 600; color: var(--gold); min-width: 48px; text-align: center; letter-spacing: .5px; }
+.focus-pill.paused .ft-time { color: var(--ink-mute); }
+.focus-pill .ft-btn { background: var(--bg-2); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; width: 26px; height: 26px; cursor: pointer; font-size: 12px; display: grid; place-items: center; padding: 0; }
+.focus-pill .ft-btn:hover { border-color: var(--gold); color: var(--gold); }
 .viz-controls { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; justify-content: center; margin: 12px 0 4px; }
 .viz-slider, .viz-select { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-soft); }
 .viz-slab { font-family: var(--font-disp); color: var(--ink-mute); font-size: 13px; }
@@ -1216,7 +1229,7 @@ kbd { font-family: var(--font-mono); background: var(--panel-2); border: 1px sol
 @media (max-width: 640px) { .cs-grid { grid-template-columns: 1fr; } }
 
 @media print {
-  .sidebar, .topbar, .no-print, .toast-wrap, .menu-btn, .topbar-search { display: none !important; }
+  .sidebar, .topbar, .no-print, .toast-wrap, .menu-btn, .topbar-search, .focus-pill { display: none !important; }
   .shell, .main, .view { display: block !important; background: #fff !important; color: #111 !important; max-width: none !important; }
   body { background: #fff !important; }
   body::before, body::after { display: none !important; }

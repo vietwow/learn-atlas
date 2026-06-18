@@ -2,6 +2,20 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 279 — Focus timer: optional time-boxed study sessions (new functionality)
+The site's whole premise is "studying alongside a full-time job," where time is scarce and a focused block beats a vague
+intention — but there was no study-session tool (new-functionality was the stalest area, last 264). Added a **focus
+timer**: launch a **25- or 50-minute** session from the command palette (⌘K → "focus"), and a small **persistent
+countdown pill** appears in the corner (⏳ MM:SS · pause · stop). It's a fixed element + a module-level interval, so it
+**rides along as you navigate** lessons. On completion it plays a **gentle three-note Web-Audio chime** (the AudioContext
+is created on the start click so the delayed chime is allowed to play), **flashes the browser-tab title** ("✓ Focus
+complete" — so it reaches you even in a background tab), and toasts the result. No XP for time (ungameable by design) —
+just a calm nudge. Transient state only — **no save-shape change**; hidden in print.
+Verified: gate ALL GREEN; **via `--dump-dom`** driving the real flow — ⌘K → "focus" surfaces both commands at the top;
+clicking the 25-min one shows the pill at **25:00**, which ticks to **24:59**; the pause button toggles to ▶; the stop
+button removes the pill; `errs=0`; all-routes smoke **errs=0/kErr=0 (12 routes)**. (Completion chime/toast is the trivial
+`remaining≤0 → stop(done)` branch; not headless-timed at 25 min.) SW cache `atlas-v219` → `atlas-v220`.
+
 ## iter 278 — SVD "rotate · stretch · rotate" visualizer — 60th widget (visualizations)
 `la-svd` ("The Singular Value Decomposition") had a deeper-dive ("the SVD as rotate-stretch-rotate") but **no widget** —
 and the SVD is the most geometric idea in linear algebra. Added the **60th Lab widget `la-svd`**, embedded in that lesson:

@@ -2373,6 +2373,51 @@
     });
   }
 
+  // ---------- focus timer: optional time-boxed study sessions (for studying alongside a full-time job) ----------
+  let _ft = null, _ftTitleTO = 0;
+  function ftAudioCtx() {   // created on the start gesture so the completion chime is allowed to play later
+    try { const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null; const c = new AC(); if (c.state === "suspended") c.resume(); return c; } catch (e) { return null; }
+  }
+  function ftChime(ctx) {
+    if (!ctx) return;
+    try {
+      [880, 1175, 1568].forEach((f, i) => {   // a gentle three-note rise
+        const o = ctx.createOscillator(), g = ctx.createGain(); o.type = "sine"; o.frequency.value = f;
+        const t0 = ctx.currentTime + i * 0.18; o.connect(g); g.connect(ctx.destination);
+        g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(0.16, t0 + 0.03); g.gain.exponentialRampToValueAtTime(0.001, t0 + 0.35);
+        o.start(t0); o.stop(t0 + 0.42);
+      });
+    } catch (e) {}
+  }
+  function ftFmt(s) { const m = Math.floor(s / 60); return m + ":" + String(s % 60).padStart(2, "0"); }
+  function ftFlashTitle(msg) { const orig = document.title; document.title = msg; clearTimeout(_ftTitleTO); _ftTitleTO = setTimeout(() => { if (document.title === msg) document.title = orig; }, 6000); }
+  function stopFocusTimer(done) {
+    if (!_ft) return;
+    clearInterval(_ft.id); if (_ft.pill) _ft.pill.remove();
+    const ctx = _ft.audio, mins = _ft.mins; _ft = null;
+    if (done) { ftChime(ctx); toast("⏳", "Focus session complete!", mins + " minutes of focused study — nice block. Take a breather, then keep going."); ftFlashTitle("✓ Focus complete"); }
+    if (ctx) setTimeout(() => { try { ctx.close(); } catch (e) {} }, done ? 1200 : 0);
+  }
+  function startFocusTimer(minutes) {
+    if (_ft) stopFocusTimer(false);                       // only one timer at a time
+    const pill = document.createElement("div"); pill.className = "focus-pill"; pill.setAttribute("role", "timer"); pill.setAttribute("aria-label", "Focus timer");
+    pill.innerHTML = `<span class="ft-ico" aria-hidden="true">⏳</span><span class="ft-time">${ftFmt(minutes * 60)}</span>`
+      + `<button class="ft-btn" data-ft="pause" aria-label="Pause or resume the focus timer">⏸</button>`
+      + `<button class="ft-btn" data-ft="stop" aria-label="Stop the focus timer">✕</button>`;
+    document.body.appendChild(pill);
+    _ft = { remaining: minutes * 60, mins: minutes, paused: false, id: 0, pill, audio: ftAudioCtx() };
+    const timeEl = pill.querySelector(".ft-time"), pauseBtn = pill.querySelector('[data-ft="pause"]');
+    pauseBtn.addEventListener("click", () => { _ft.paused = !_ft.paused; pauseBtn.textContent = _ft.paused ? "▶" : "⏸"; pill.classList.toggle("paused", _ft.paused); });
+    pill.querySelector('[data-ft="stop"]').addEventListener("click", () => stopFocusTimer(false));
+    _ft.id = setInterval(() => {
+      if (!_ft || _ft.paused) return;
+      _ft.remaining--;
+      if (_ft.remaining <= 0) { stopFocusTimer(true); return; }
+      timeEl.textContent = ftFmt(_ft.remaining);
+    }, 1000);
+    toast("⏳", "Focus timer started", minutes + " minutes of focused study — I'll chime when you're done. Pause or stop it anytime in the corner.");
+  }
+
   // ---------- command palette (⌘K) ----------
   function searchIndex() {
     const out = [];
@@ -2392,7 +2437,9 @@
       { t: "Toggle theme (Ink / Parchment)", sub: "Command", icon: "🎨", action: () => { const t = toggleTheme(); toast("🎨", "Theme switched", t === "ink" ? "Ink (dark)" : "Parchment (light)"); } },
       { t: "Cycle reading text size", sub: "Command", icon: "🔠", action: () => { const p = cycleTextScale(); toast("🔠", "Text size", "Reading text scaled to " + p + "%"); } },
       { t: "Toggle high-contrast mode", sub: "Command", icon: "◐", action: () => { const c = toggleContrast(); toast(c === "high" ? "◉" : "◐", "High contrast " + (c === "high" ? "on" : "off"), c === "high" ? "Boosted text & borders for legibility." : "Back to the standard palette."); } },
-      { t: "Restart the welcome tour", sub: "Command", icon: "👋", action: () => showIntro(true) }
+      { t: "Restart the welcome tour", sub: "Command", icon: "👋", action: () => showIntro(true) },
+      { t: "Start a 25-minute focus timer", sub: "Command · time-boxed study", icon: "⏳", action: () => startFocusTimer(25) },
+      { t: "Start a 50-minute focus timer", sub: "Command · time-boxed study", icon: "⏳", action: () => startFocusTimer(50) }
     ];
   }
   // curated items shown when the palette opens with an empty query (resume + the things you most often want)

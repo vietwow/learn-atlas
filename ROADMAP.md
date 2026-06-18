@@ -177,6 +177,11 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 279: **Focus timer — time-boxed study sessions** (new functionality). For "studying alongside a full-time job": launch a
+   25/50-min session from ⌘K → persistent corner countdown pill (pause/stop), rides along across navigation; on completion
+   a gentle Web-Audio chime + tab-title flash + toast. No XP (ungameable). Transient state (no save-shape change); print-hidden.
+   Verified: gate GREEN; dump-dom real flow — ⌘K "focus" surfaces both commands, 25-min → pill 25:00→24:59, pause→▶,
+   stop→gone, errs=0; smoke errs=0/kErr=0 (12). SW →v220.
    ✅ iter 278: **SVD rotate·stretch·rotate visualizer — 60th widget** (visualizations). la-svd had a deep-dive but no viz. New
    `la-svd`: unit circle + basis through A=UΣVᵀ in 4 steppable stages (①circle ②Vᵀ rotate ③Σ stretch→ellipse ④U rotate);
    4 sliders (2 angles, σ₁/σ₂); ellipse semi-axes = singular values; det=±σ₁σ₂. Plain-unicode note (no $). app.js fallback
