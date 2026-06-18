@@ -2,6 +2,22 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 347 — Four more deeper-dives on flagship hard lessons (content / understandability)
+4 "Deeper dive" expandables across RL/algo/LLM/calc (deep-dives 105 → **109**):
+- **rl-eligibility-traces** — **TD(λ) dials between TD and Monte Carlo**: a fading trace decaying by `γλ` spreads credit
+  backward; `λ=0` is TD(0), `λ=1` is MC — a bias-variance knob built into credit assignment.
+- **a-comparison-sorts** — **quicksort vs mergesort, same Θ(n log n)**: quicksort in-place + cache-friendly (but `O(n²)`
+  worst case); mergesort stable + guaranteed `O(n log n)` (but `O(n)` space) — the tie breaks on constants/memory/stability.
+- **l-safety-and-frontier** — **alignment is a proxy problem**: we optimize a reward-model proxy, not true intent; Goodhart →
+  reward hacking, sycophancy, fluent falsehoods — no malice needed, just a misspecified objective.
+- **c-extrema-curve-sketching** — **f' and f'' draw the whole shape**: `f'` sign gives rise/fall + critical points, `f''` sign
+  gives concavity + inflection points — calculus as a recipe for sketching curves.
+Authored with `String.raw` LaTeX (`\lt`/`\gt` for the derivative-sign inequalities); injected byte-stably with round-trip +
+even-`$`/no-`**`/tag-balance + unsupported-env guards.
+Verified: gate ALL GREEN; per-lesson **via `--dump-dom`** each renders (KaTeX 5 / 5 / 0 / 13 spans — the proxy one is
+intentionally prose) with **kErr=0, rawDollar=0**; all-routes smoke **errs=0/kErr=0 (12 routes)**. No save-shape change.
+SW cache `atlas-v286` → `atlas-v287`.
+
 ## iter 346 — Three more code exercises across computational lessons (new functionality / active learning)
 Added **3 gate-verified JavaScript exercises** on flagship computational lessons across LA/calc/PS (lessons-with-code
 54 → **57**; the gate now runs **52**):
