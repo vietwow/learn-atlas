@@ -2,6 +2,30 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 260 — Five deeper-dives on flagship hard concepts + step-back review (content / understandability)
+**Step-back (every ~10 iters).** Health check of 250–259: workflow → viz → content → animation → new-function → viz →
+bugfix → understandability → gamification → accessibility — a healthy, varied rotation, plus an owner-reported streak bug
+fixed (256). Surfaces spot-checked clean this turn: flashcard sessions already show "label · i/N"; lesson tabs `flex-wrap`
+on mobile; fonts load with `display=swap` + preconnect. Most-neglected areas remain **performance** (no clean win —
+minify breaks the byte-stable inject pipeline; lazy-load risks the all-COURSES search/map/daily-concept paths) and
+**UI/UX** (last 244) — both queued, neither broken. The ship leaned into the owner's deepest love (concept depth).
+**The ship:** added **5 "Deeper dive" expandables** to flagship hard lessons that lacked one, each an *alternative "aha"
+framing* rather than a rehash (deep-dives 35 → **40**):
+- **dl-transformer-architecture** — a block is just "mix across tokens (attention), then think per token (MLP)" over a
+  residual stream you read/write but never overwrite.
+- **l-tokenization-bpe** — BPE *is* greedy compression (merge the most frequent pair, repeat); why models can't spell.
+- **rl-monte-carlo** — MC vs TD as "wait for the truth" (unbiased/high-variance) vs "trust your own guess"
+  (bootstrapped/low-variance); the whole spectrum is just how far you look before trusting your value function.
+- **ps-p-values** — what a p-value is *not*: it is P(data | H0), never P(H0 | data) — the prosecutor's fallacy, plus
+  why significance ≠ effect size.
+- **la-low-rank-pca** — PCA is just the SVD of centered data; "max-variance directions," "best rank-k fit"
+  (Eckart-Young), and "covariance eigenvectors" are three views of one decomposition.
+Authored with `String.raw` LaTeX, injected byte-stably with a no-op round-trip guard before mutating each of 5 topic
+files (so a serialization drift can't corrupt data).
+Verified: gate ALL GREEN (148 lessons · 2368 MCQs · 56 widgets · 133 glossary); per-lesson **via `--dump-dom`** each new
+deep-dive renders with its summary, KaTeX typesets (11/5/1/11/9 spans) and **kErr=0, rawDollar=0** on all five; all-routes
+smoke **errs=0/kErr=0 (12 routes)**. No save-shape change. SW cache `atlas-v200` → `atlas-v201`.
+
 ## iter 259 — Keyboard-operable draggable-vector visualizers (accessibility)
 The signature draggable-vector widgets were **mouse/touch-only** — a keyboard or screen-reader user couldn't change the
 inputs at all. Made the three `{x,y}`-vector canvases keyboard-operable via a shared `VIZUtil.dragKeys(c, getItems,

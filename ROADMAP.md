@@ -177,6 +177,14 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 260: **5 deeper-dives on flagship hard concepts + step-back** (content). Step-back: 250–259 rotation healthy + varied,
+   owner streak bug fixed (256); neglected = performance (no clean win) & UI/UX (last 244) — queued, neither broken.
+   Ship: +5 "aha" deep-dives (35→40) on lessons that lacked one — dl-transformer (mix/think over residual stream),
+   l-tokenization-bpe (BPE = greedy compression), rl-monte-carlo (MC vs TD: wait-for-truth vs trust-your-guess),
+   ps-p-values (P(data|H0) not P(H0|data)), la-low-rank-pca (PCA = SVD of centered data). String.raw LaTeX, byte-stable
+   inject w/ round-trip guard. Verified: gate GREEN; dump-dom each renders (katex 11/5/1/11/9, kErr=0, rawDollar=0);
+   smoke errs=0/kErr=0 (12). SW →v201. BACKLOG: la-projection keyboard support (scalar bx/by, deferred from 259);
+   performance lever (data parse/transfer) still open; UI/UX pass overdue.
    ✅ iter 259: **Keyboard-operable draggable-vector viz** (accessibility). The drag-only vector widgets were mouse/touch-only; added
    shared `VIZUtil.dragKeys(c, getItems, redraw)` — canvas tabindex=0 + gold focus ring, arrows nudge vector 1, Shift+arrows
    vector 2 (½-grid snap, ±7 clamp; getItems() survives preset reassignment). Applied to la-dot-product, la-vector-add,
