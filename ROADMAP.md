@@ -177,6 +177,11 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 312: **Conditional-expectation visualizer — 67th widget** (visualizations). ps-conditional-expectation had a dd but no viz.
+   New `ps-conditional-expectation`: scatter y=3+2sin(x)+noise, X sliced into bins → average Y per slice = E[Y|X] curve tracing
+   the true relationship; noise slider + true-curve toggle; deterministic jitter. app.js fallback 66→67. Verified: gate GREEN
+   (67 widgets); node binned means track f (max err 0.26); dump-dom renders, note has E[Y|X], slider+toggle update, rawDollar=0,
+   embed hydrates; smoke errs=0/kErr=0 (12). SW →v253.
    ✅ iter 311: **3 more worked examples on flagship hard lessons** (examples). +3 (310→313) across LA/PS/calc: la-svd (rank-1
    approximation keeps 25/34≈73.5%), ps-t-tests (paired t-test → t≈5.20), c-area-volume (shells: ∫2πx·x²=8π). Node-verified;
    byte-stable inject w/ guards. Verified: gate GREEN (313 examples); dump-dom each shows 3, reveal renders (katex 49/40/72,

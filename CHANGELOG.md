@@ -2,6 +2,19 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 312 — Conditional-expectation visualizer — 67th widget (visualizations)
+`ps-conditional-expectation` had a deeper-dive but no widget, and E[Y|X] is the bridge from probability to ML (regression
+*is* conditional expectation). Added the **67th Lab widget `ps-conditional-expectation`**, embedded there: a scatter of Y
+against X (here `y = 3 + 2sin(x)` + noise), with X sliced into 12 bins — the **average Y per slice** is plotted as the
+**E[Y|X] curve** (violet), threading the noisy cloud and tracing the true relationship (dashed, toggleable). A **noise
+slider** shows the slice-averages still recover the curve as noise grows (averaging cancels it). The note's takeaway:
+regression learns exactly this curve, and a straight-line fit is just its best linear approximation. Deterministic
+reproducible jitter (no `Math.random`), plain-unicode note (no `$`). app.js `viz-complete` fallback 66 → 67.
+Verified: gate ALL GREEN (**67 widgets**, embed resolves); **node** prototype confirmed binned means track `f(x)` (max
+`|mean−f|` ≈ 0.26, noise averaging out); **via `--dump-dom`** the viz renders, the note shows `E[Y|X]`, the noise slider and
+true-curve toggle both update, `rawDollar=0`, `errs=0`, the lesson embed hydrates; all-routes smoke **errs=0/kErr=0
+(12 routes)**. No save-shape change. SW cache `atlas-v252` → `atlas-v253`.
+
 ## iter 311 — Three more worked examples on flagship hard lessons (examples)
 A **3rd worked example** on three flagship lessons, each a new technique across LA/PS/calc (examples 310 → **313**):
 - **la-svd** — **best rank-1 approximation** (Eckart-Young): with singular values 5 and 3, the rank-1 truncation keeps

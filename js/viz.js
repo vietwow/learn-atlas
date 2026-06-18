@@ -1397,6 +1397,43 @@
   });
 
   /* ========================================================
+     67. Conditional expectation E[Y|X] — the regression curve / best predictor (Prob & Stats)
+     ======================================================== */
+  register({ id: 'ps-conditional-expectation', topic: 'probability-statistics', title: 'Conditional expectation E[Y|X] — the best predictor', blurb: 'Scatter Y against X and slice X into bins: the average Y in each slice is E[Y|X], the curve that best predicts Y from X (it minimizes mean squared error). The slice-averages trace the underlying relationship through the noise — exactly what regression estimates.' },
+  function (root) {
+    const W = 540, H = 350, padL = 30, padR = 14, padT = 18, padB = 26, TAU = 2 * Math.PI, N = 160;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    const f = x => 3 + 2 * Math.sin(x);
+    let amp = 1.1, showF = true;
+    const jit = i => { const v = Math.sin(i * 127.1) * 43758.5453; return ((v - Math.floor(v)) - 0.5) * 2 * amp; };
+    slider(ctl, { label: 'noise', min: 0, max: 2.5, step: 0.1, value: amp, fmt: v => v.toFixed(1), onInput: v => { amp = v; draw(); } });
+    button(ctl, 'Toggle true curve', () => { showF = !showF; draw(); });
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const pts = []; for (let i = 0; i < N; i++) { const x = (i + 0.5) / N * TAU; pts.push([x, f(x) + jit(i)]); }
+      const yLo = -1, yHi = 7;
+      const X = x => padL + x / TAU * (W - padL - padR);
+      const Y = y => (H - padB) - (y - yLo) / (yHi - yLo) * (H - padT - padB);
+      ctx.strokeStyle = p.line; ctx.globalAlpha = 0.3; ctx.beginPath(); ctx.moveTo(padL, Y(0)); ctx.lineTo(W - padR, Y(0)); ctx.stroke(); ctx.globalAlpha = 1;
+      ctx.fillStyle = p.mute; ctx.globalAlpha = 0.5; pts.forEach(pt => { ctx.beginPath(); ctx.arc(X(pt[0]), Y(pt[1]), 2, 0, 7); ctx.fill(); }); ctx.globalAlpha = 1;
+      if (showF) { ctx.strokeStyle = p.sage; ctx.setLineDash([5, 4]); ctx.lineWidth = 1.5; ctx.beginPath(); for (let x = 0; x <= TAU; x += 0.05) { const xx = X(x), yy = Y(f(x)); x === 0 ? ctx.moveTo(xx, yy) : ctx.lineTo(xx, yy); } ctx.stroke(); ctx.setLineDash([]); }
+      const BINS = 12, means = [];
+      for (let b = 0; b < BINS; b++) { const lo = b / BINS * TAU, hi = (b + 1) / BINS * TAU; const ys = pts.filter(pt => pt[0] >= lo && pt[0] < hi).map(pt => pt[1]); if (!ys.length) continue; means.push([(lo + hi) / 2, ys.reduce((a, cc) => a + cc, 0) / ys.length]); }
+      ctx.strokeStyle = p.violet; ctx.lineWidth = 2.6; ctx.beginPath(); means.forEach((mn, i) => { const xx = X(mn[0]), yy = Y(mn[1]); i ? ctx.lineTo(xx, yy) : ctx.moveTo(xx, yy); }); ctx.stroke();
+      ctx.fillStyle = p.violet; means.forEach(mn => { ctx.beginPath(); ctx.arc(X(mn[0]), Y(mn[1]), 3.5, 0, 7); ctx.fill(); });
+      ctx.font = '11px ' + cssVar('--font-mono', 'monospace'); ctx.textAlign = 'left';
+      ctx.fillStyle = p.violet; ctx.fillText('— E[Y|X] (slice averages)', padL + 4, padT + 4);
+      if (showF) { ctx.fillStyle = p.sage; ctx.fillText('-- true relationship', padL + 4, padT + 18); }
+      info.innerHTML = 'Each violet point is the <b>average Y</b> within a vertical slice of X — an estimate of <b>E[Y|X]</b>. Joined up, they trace the curve that best predicts Y from X (the one minimizing mean squared error). Even at noise ' + amp.toFixed(1) + ' the slice-averages recover the underlying relationship, because averaging cancels the noise. <b>Regression learns exactly this curve</b> — and a straight-line fit is just its best linear approximation.';
+    }
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Conditional expectation visualizer: a scatter of Y against X with the underlying curve, and the average Y within each vertical bin of X plotted as the conditional-expectation curve E[Y given X], which traces the true relationship through the noise.');
+    draw();
+  });
+
+  /* ========================================================
      23. Normal-distribution explorer (μ/σ + empirical rule / interval probability)
      ======================================================== */
   register({ id: 'ps-normal-explorer', topic: 'probability-statistics', title: 'Normal Distribution Explorer', blurb: 'Slide μ and σ to move and stretch the bell, then read off probabilities — the 68–95–99.7 rule, or any interval P(a ≤ X ≤ b).' },
