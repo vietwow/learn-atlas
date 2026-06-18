@@ -177,6 +177,11 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 269: **Consistency-strip cells pop in on landing** (animation). The forecast bars swept + stats counted up, but the 14-day
+   strip appeared instantly. sweepStrip(): cells scale-in left-to-right (chronological wave) via CSS @keyframes csPop +
+   fill-mode:both + per-cell inline animation-delay (i·38ms, cap 540) — fill-mode guarantees they settle at scale(1) (can't
+   stick hidden). Reduced-motion safe (JS guard + global rule). Verified: gate GREEN; dump-dom all 14 cells get cs-pop +
+   animation-name csPop + staggered delay (cell5=190ms), errs=0; smoke errs=0/kErr=0 (12). SW →v211.
    ✅ iter 268: **Lagrange-multipliers visualizer — 58th widget** (visualizations). c-lagrange-multipliers had a deep-dive but no viz.
    New `calc-lagrange`: maximize f=x+y on the unit circle; slider moves a point round the constraint, level line sweeps,
    ∇f (gold, constant) & ∇g (violet, radial) drawn; tangency (gradients parallel) turns sage = "∇f=λ∇g". Animated

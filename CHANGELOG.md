@@ -2,6 +2,19 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 269 — Consistency-strip cells pop in on landing (animation)
+The dashboard's forecast bars sweep up and the hero stats count up on landing, but the **14-day consistency strip
+appeared instantly** — the static odd-one-out. Added `sweepStrip()`: the strip's cells now **scale-in left-to-right** in a
+staggered chronological wave (oldest → today), a small "your history builds up to today" beat that matches the forecast
+sweep. Implemented as a CSS `@keyframes csPop` (scale+opacity) with `animation-fill-mode: both` and a per-cell inline
+`animation-delay` (i·38ms, capped 540ms) — chosen over a transition+rAF because fill-mode guarantees the cells settle at
+scale(1) and **can never get stuck hidden**. Reduced-motion safe twice over: the JS guard skips it, and the global
+reduced-motion rule collapses the animation to ~instant (still ending visible).
+Verified: gate ALL GREEN; **via `--dump-dom`** all 14 cells receive the `cs-pop` class with `animation-name: csPop` and a
+correct staggered delay (cell 5 = 190ms = 5×38), `errs=0`; all-routes smoke **errs=0/kErr=0 (12 routes)**. (CSS
+animations don't faithfully advance under headless virtual-time, so end-state is verified structurally + by the fill-mode
+guarantee; it animates in-browser.) No save-shape change. SW cache `atlas-v209` → `atlas-v211`.
+
 ## iter 268 — Lagrange-multipliers visualizer — 58th widget (visualizations)
 `c-lagrange-multipliers` ("Constrained Optimization & Lagrange Multipliers") is a flagship hard lesson that had a
 deeper-dive but **no widget** — and constrained optimization is intensely visual. Added the **58th Lab widget

@@ -215,6 +215,13 @@
       requestAnimationFrame(() => requestAnimationFrame(() => { el.style.height = target; }));
     });
   }
+  function sweepStrip() {   // staggered pop-in of the 14-day consistency cells — a left-to-right "your history builds up" wave
+    if (reducedMotion()) return;
+    document.querySelectorAll(".cs-row .cs-cell").forEach((el, i) => {
+      el.style.animationDelay = Math.min(i * 38, 540) + "ms";   // the CSS @keyframes ends at scale(1) (fill-mode both), so cells can't get stuck hidden
+      el.classList.add("cs-pop");
+    });
+  }
   function sweepGoalRing(pct) {
     const gr = document.querySelector(".goal-ring"); if (!gr) return;
     const target = Math.max(0, Math.min(100, pct || 0));
@@ -666,6 +673,7 @@
     document.querySelectorAll(".stat-strip .v").forEach(countUp);   // count-up the hero stats on landing
     sweepGoalRing(goalPct);                                          // animate the daily-goal ring fill 0 → goalPct
     sweepForecast();                                                 // sweep the review-forecast bars up 0 → height
+    sweepStrip();                                                    // pop the 14-day consistency cells in left-to-right
     typeset();
   }
 

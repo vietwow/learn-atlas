@@ -916,6 +916,8 @@ body::after {
 .consistency { margin: 0 0 26px; }
 .cs-row { display: flex; gap: 5px; margin-bottom: 8px; }
 .cs-cell { flex: 1; max-width: 26px; aspect-ratio: 1; border-radius: 5px; background: var(--line); border: 1px solid transparent; }
+.cs-cell.cs-pop { animation: csPop .4s cubic-bezier(.2, 1.5, .4, 1) both; }   /* staggered scale-in on dashboard landing (delay set inline) */
+@keyframes csPop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 .cs-cell.on { background: var(--sage); }
 .cs-cell.today { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold); }
 .cs-label { font-size: 13px; color: var(--ink-mute); }
