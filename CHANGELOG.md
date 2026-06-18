@@ -2,6 +2,21 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 294 — Three more worked examples on flagship hard lessons (examples)
+Pivoting off the two-iteration mobile pass back to content: a **3rd worked example** on three flagship lessons at two, each
+a new technique across calc/PS/DL (examples 304 → **307**):
+- **c-fundamental-theorem** — the **average value of a function**: `f̄ = (1/(b−a))∫f`; for `x²` on `[0,3]`, the integral is 9
+  → average **3**, the height of the equal-area rectangle (existing examples were a definite integral + differentiating an integral).
+- **ps-conditional-independence-bayes** — the **Monty Hall problem**: the host's *non-random* reveal funnels the 2/3 onto the
+  one unopened door, so switching wins **2/3** vs 1/3 — the 100-door intuition pump (existing: rare-disease base rates + two-coins).
+- **dl-loss-functions** — **binary cross-entropy**: confident-right `−ln(0.9)≈0.105`, hedging `−ln(0.5)≈0.693`, confident-wrong
+  `−ln(0.1)≈2.303` — loss explodes as `p→0`, punishing false confidence (existing: 3-class softmax CE + MSE).
+Every value node-verified (avg = 3; BCE 0.105 / 0.693 / 2.303); injected byte-stably with round-trip + even-`$` +
+`<strong>`/`<em>` tag-balance pre-guards.
+Verified: gate ALL GREEN (**307 examples**); **via `--dump-dom`** each lesson's Examples tab shows 3, the new solution reveals
+with KaTeX (59 / 35 / 69 spans) and **kErr=0, rawDollar=0** (the FTC answer is inside rendered KaTeX; "switch"/"2.303" appear
+in prose); all-routes smoke **errs=0/kErr=0 (12 routes)**. No save-shape change. SW cache `atlas-v234` → `atlas-v235`.
+
 ## iter 293 — Fix: Progress page overflowed horizontally on mobile (mobile / bug)
 Continuing the mobile re-audit started in 292: a 390px overflow sweep across 14 key views found **one offender** — the
 **Progress page (`#/stats`) scrolled horizontally** (scrollWidth 539 > 390). Traced to the **mastery-distribution strip**

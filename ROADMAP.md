@@ -177,6 +177,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 294: **3 more worked examples on flagship hard lessons** (examples). +3 (304→307) across calc/PS/DL: c-fundamental-theorem
+   (average value of a function → 3), ps-conditional-independence-bayes (Monty Hall → switch wins 2/3), dl-loss-functions
+   (binary cross-entropy → 0.105/0.693/2.303). Node-verified; byte-stable inject w/ even-$ + tag-balance guards. Verified: gate
+   GREEN (307 examples); dump-dom each Examples tab shows 3, reveal renders (katex 59/35/69, kErr=0, rawDollar=0); smoke errs=0/kErr=0 (12). SW →v235.
    ✅ iter 293: **Fix: Progress page overflowed horizontally on mobile** (mobile/bug). 390px audit of 14 views found #/stats
    overflowing (sw 539>390): the .dist-strip repeat(5,1fr) can't shrink 5 cols below ~88px each. Fix: auto-fit minmax(88px,1fr)
    → wraps to 2 rows on phone, single row of 5 on desktop. Verified (iframe@390): #/stats overflow=false, 5 cells 2 rows; 760px
