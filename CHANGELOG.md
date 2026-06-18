@@ -2,6 +2,19 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 401 — Nine Code-Playground snippets — roughly doubled the library (new functionality)
+Varying from the examples streak: the Code Playground's "— examples —" dropdown had only **7 snippets** (5 Python, 2 JS) covering
+4 topics. Added **9 curated, runnable snippets** (→ **16**), filling the missing topics (probability/stats, RL, LLM) and adding
+variety:
+- **Python (+5)**: Monte Carlo π, Softmax & cross-entropy, Value iteration (3-state chain → `[8.1, 9, 10]`), SVD (numpy),
+  Least squares via normal equations (`[0.667, 0.5]`).
+- **JavaScript (+4)**: Softmax (`[0.665, 0.245, 0.09]`), Value iteration, Monte Carlo π, Dot product & cosine similarity (`cos≈0.9746`).
+Each is a complete, self-contained program a learner can run and tweak in-browser (JS instantly; Python via Pyodide).
+Verified: all 4 JS snippets **run in node** with correct output; **via `--dump-dom`** the Playground page loads with **11 Python
+dropdown options** (was 6) and all 5 new Python names present, `errs=0`; gate ALL GREEN; all-routes smoke **errs=0/kErr=0 (12
+routes)**. Injected byte-stably (JSON-escaped code strings appended to each `SNIPPETS` array). `playground.js` is in `sw.js` ASSETS;
+SW cache `atlas-v340` → `atlas-v341`.
+
 ## iter 400 — ★ Step-back at iteration 400: full audit (clean) + three worked examples (examples)
 **Round-number step-back — the 400th iteration (100 since the iter-300 step-back).** Two health audits, both clean:
 - **Runtime kErr+route sweep**: all **148 lessons** (revealing every example, opening every deep-dive) → errs=0, kErr=0, 0 bad;

@@ -177,6 +177,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 401: **9 Code-Playground snippets — doubled the library** (new functionality). Playground dropdown had only 7 (5 Py, 2 JS);
+   added 9 (→16) filling PS/RL/LLM gaps: Py — Monte Carlo π, softmax+cross-entropy, value iteration, SVD, least squares; JS —
+   softmax, value iteration, Monte Carlo π, dot/cosine. JS snippets node-verified; dump-dom playground 11 Py options, errs=0; gate
+   GREEN; smoke errs=0/kErr=0. SW →v341. (Fresh modality after the examples streak; viz/dd/code-exercise all confirmed saturated.)
    ✅ iter 400: **★ STEP-BACK at iter 400: full audit (clean) + 3 worked examples** (examples). Sweeps: 148 lessons errs=0/kErr=0/0
    bad; 105 routes errs=0/kErr=0 (253 green). Coverage: 0 thin (148 dd=100%, 382 examples, 90 code, 151 glossary). Reflection
    (100 iters since 300): dd 117→148, viz→87, examples→385, code→90 lessons, glossary→151; 1 owner bug fixed (381); gate hardened
