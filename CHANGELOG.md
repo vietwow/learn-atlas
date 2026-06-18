@@ -2,6 +2,18 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 398 — Three more worked examples across calc/LA/PS (examples)
+A **3rd worked example** on three flagship lessons across calc/LA/PS (examples 376 → **379**, all ⌘K-searchable):
+- **c-integration-techniques** — **definite integral by substitution**: `∫₀¹ 2x e^{x²} dx`, `u=x²` converts the bounds (`0→1`), giving
+  `∫₀¹ eᵘ du = e−1 ≈ 1.718`; change the limits and you never back-substitute.
+- **la-dot-product-norms** — **Cauchy–Schwarz**: `|a·b| ≤ ‖a‖‖b‖` → `11 ≤ 11.18`, equality iff parallel; the algebraic shadow of
+  `|cos θ| ≤ 1`, behind the triangle inequality and `−1 ≤ ρ ≤ 1`.
+- **ps-covariance-correlation** — **correlation is scale-free**: `ρ = Cov/(σₓσ_y) = 0.6`; rescale `Y→10Y` and covariance jumps
+  `6→60` but `ρ` stays `0.6` — units cancel.
+Every value node-verified (e−1; 11≤11.18; ρ invariant); injected byte-stably with the full guard set.
+Verified: gate ALL GREEN (**379 examples**); **via `--dump-dom`** all 3 reveal with KaTeX (58 / 67 / 47 spans) and **kErr=0,
+rawDollar=0**; smoke + 8 pages **errs=0/kErr=0, bad=none**. No save-shape change. SW cache `atlas-v337` → `atlas-v338`.
+
 ## iter 397 — Thirteen flagship glossary terms (content / reference — fresh modality)
 Varying from three examples-iters in a row, filled a genuine **glossary gap**: audited 92 flagship concepts against the 138-term
 glossary and added the **13 that were genuinely missing** (most candidates were already covered under other names) → **151 terms**:
