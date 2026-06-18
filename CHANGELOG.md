@@ -2,6 +2,20 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 378 — Three more worked examples on flagship hard lessons (examples)
+A **3rd worked example** on three flagship lessons across LA/calc/RL (examples 355 → **358**, all ⌘K-searchable):
+- **la-matrices-as-transformations** — **composition = matrix product**: scale-then-rotate is `RS=[[0,−2],[2,0]]`, sending `(1,0)→(0,2)`;
+  matrix multiply *is* function composition (right-to-left), which is why products don't commute.
+- **c-multivariable-optimization** — **Lagrange multipliers**: maximize `xy` s.t. `x+y=10` via `∇f=λ∇g` → `x=y=5`, `f=25`; the
+  optimum is where the gradient points straight out of the feasible set.
+- **rl-eligibility-traces** — **the λ-return blends every n-step return**: `G^λ=(1−λ)G₁+λG₂ = 2` at `λ=0.5`; `λ=0` is TD(0),
+  `λ=1` is Monte Carlo — the bias-variance dial.
+Every value node-verified (RS·(1,0)=(0,2); xy=25; λ-return 2); injected byte-stably with round-trip + even-`$` + tag-balance +
+unsupported-env pre-guards (bmatrix is KaTeX-supported).
+Verified: gate ALL GREEN (**358 examples**); **via `--dump-dom`** each Examples tab shows 3, reveals with KaTeX (84 / 78 / 128
+spans) and **kErr=0, rawDollar=0** (the matrix example renders clean); all-routes smoke **errs=0/kErr=0 (12 routes)**. No
+save-shape change. SW cache `atlas-v317` → `atlas-v318`.
+
 ## iter 377 — Four more deeper-dives — toward full coverage (content / understandability)
 4 "Deeper dive" expandables on foundational lessons across RL/LLM/calc/PS (deep-dives 133 → **137**; only **11 of 148** lessons
 now lack one):
