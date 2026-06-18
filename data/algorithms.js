@@ -2172,6 +2172,11 @@
               "title": "Why O(log n)?",
               "body": "Why is binary search $O(\\log n)$, and how many steps for $n=1024$?",
               "solution": "Each comparison halves the remaining range, so it takes about $\\log_2 n$ steps. For $n=1024=2^{10}$, that's 10 steps."
+            },
+            {
+              "title": "lower_bound: the first match, not just any match",
+              "body": "Plain binary search finds <em>some</em> occurrence of a target. The <code>lower_bound</code> variant finds the <em>first</em> index whose value is $\\geq$ the target — the key to duplicates and insertion points. Trace it on $[1,3,3,5,7]$ searching for $3$.",
+              "solution": "<strong>Invariant.</strong> Keep a half-open window $[lo, hi)$ that always contains the answer (the first index with value $\\geq 3$). Start $lo=0,\\ hi=5$.\n<strong>Step 1.</strong> $mid=2$, $a[2]=3 \\geq 3$ — the first such index is here or earlier, so $hi=2$. Window $[0,2)$.\n<strong>Step 2.</strong> $mid=1$, $a[1]=3 \\geq 3$, so $hi=1$. Window $[0,1)$.\n<strong>Step 3.</strong> $mid=0$, $a[0]=1 \\lt 3$ — too small, go right: $lo=1$. Window $[1,1)$ is empty, stop.\n<strong>Answer: index $1$</strong>, the first $3$. <strong>Why it's the workhorse.</strong> Because it's deterministic about <em>which</em> match it returns, lower_bound gives insertion points, counts (lower_bound of $x{+}1$ minus lower_bound of $x$), and range queries — all in $O(\\log n)$."
             }
           ]
         }

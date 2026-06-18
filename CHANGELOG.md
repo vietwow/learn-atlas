@@ -2,6 +2,21 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 304 — Three more worked examples on flagship hard lessons (examples)
+A **3rd worked example** on three flagship lessons at two, each a new technique across LA/algo/RL (examples 307 → **310**):
+- **la-matrix-multiplication** — `Ax` two ways: the row view (dot products → `[4,10]`) *and* the column view (`2·[1,3]+1·[2,4]`),
+  the picture that explains column space, span, and when `Ax=b` is solvable (existing: composing maps + non-square products).
+- **a-binary-search** — the **`lower_bound`** variant traced on `[1,3,3,5,7]` for `3`: the half-open window converges to the
+  **first** index `≥` target (index 1), the deterministic workhorse behind insertion points, counts, and ranges (existing:
+  a plain trace + the O(log n) argument).
+- **rl-policies-values** — **V from Q**: `V_π(s)=Σ π(a|s)·Q(s,a)` — greedy `π=[1,0]` → 10, stochastic `[0.7,0.3]` → 8.2, so
+  exploring lowers value and the `1.8` gap is the price of randomness (existing: policy eval on a chain + greedy selection).
+Every value node-verified ([4,10]; lower_bound=1; V=8.2/gap=1.8); injected byte-stably with round-trip + even-`$` +
+`<strong>`/`<em>`/`<code>` tag-balance pre-guards.
+Verified: gate ALL GREEN (**310 examples**); **via `--dump-dom`** each Examples tab shows 3, the new solution reveals with
+KaTeX (117 / 28 / 97 spans — matrices render) and **kErr=0, rawDollar=0**; all-routes smoke **errs=0/kErr=0 (12 routes)**.
+No save-shape change. SW cache `atlas-v244` → `atlas-v245`.
+
 ## iter 303 — Four more deeper-dives on flagship hard lessons (content / understandability)
 Continuing the owner's depth directive with **4 "Deeper dive" expandables** across four topics (deep-dives 65 → **69**):
 - **la-orthonormal-gram-schmidt** — why orthonormal bases are computationally golden: `QᵀQ=I` makes the inverse free
