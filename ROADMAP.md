@@ -177,6 +177,11 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 267: **Weekly momentum on the dashboard** (gamification). Filled the missing medium-term horizon (daily streak + lifetime
+   XP existed, nothing weekly). Added a "📈 N XP this week · ▲/▼ X% vs last week" line to the consistency-strip card —
+   last-7-days XP vs the 7 before, computed in the strip's existing 14-day loop (no new state). Trend ▲/▼/even/building;
+   hidden for zero-activity users; comma-formatted. Verified: gate GREEN; dump-dom all branches (up ▲19%, down ▼83%, new
+   "building momentum", none→absent, 2,000 comma); smoke errs=0/kErr=0 (12). SW →v208.
    ✅ iter 266: **Fix: glossary tooltips caused sideways scroll on mobile** (bugfix / mobile). 390px re-audit (first since 253) found
    lessons overflowing horizontally (la-determinants +97px, c-chain-rule +116px; code-free lessons clean). Culprit:
    `.gloss-pop` (absolute, left:0, ~270px, laid out even while visibility:hidden) — a right-side term pushes its hidden popup

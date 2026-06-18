@@ -2,6 +2,19 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 267 — Weekly momentum on the dashboard — the missing medium-term horizon (gamification)
+The motivation loop had a **daily** horizon (goal, streak) and a **lifetime** one (XP, levels, achievements) but nothing
+in between — no answer to *"was this a good week?"* Added a **weekly-momentum line** to the existing consistency-strip card
+(no new widget, no clutter): "📈 **N** XP this week · ▲/▼ X% vs last week", comparing the last 7 days of earned XP to the
+7 before. Computed inside the strip's existing 14-day loop from the `activity` map — **no new state, no extra passes**.
+Trend states: ▲ green when up, ▼ rust when down, "even with last week" when flat, and "▲ building momentum" when there's
+no prior week to compare; the whole line hides for a brand-new user with zero activity (no "0 XP" noise). Thousands are
+comma-formatted.
+Verified: gate ALL GREEN; **via `--dump-dom`** all branches render correctly — up `320 XP · ▲ 19%` (320 vs 270), down
+`50 XP · ▼ 83%`, new `150 XP · ▲ building momentum` (no prior week), none → line absent (zero activity), and comma
+formatting `2,000 XP · ▲ 300%`; all-routes smoke **errs=0/kErr=0 (12 routes)**. No save-shape change. SW cache
+`atlas-v207` → `atlas-v208`.
+
 ## iter 266 — Fix: inline glossary tooltips caused sideways scroll on mobile (bugfix / mobile)
 A 390px re-audit (first since iter 253, after ~10 UI iterations) found **lessons scrolling horizontally on mobile** —
 la-determinants overflowed the viewport by 97px, c-chain-rule by 116px, while code-free lessons were clean. Bisected with

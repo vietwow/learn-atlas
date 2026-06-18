@@ -919,6 +919,7 @@ body::after {
 .cs-cell.on { background: var(--sage); }
 .cs-cell.today { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold); }
 .cs-label { font-size: 13px; color: var(--ink-mute); }
+.cs-week { font-size: 13px; color: var(--ink-mute); margin-top: 5px; }
 /* 7-day review forecast — future companion to the consistency strip */
 .forecast { margin: 0 0 26px; padding: 14px 16px 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; }
 .fcst-head { font-size: 13px; color: var(--ink-mute); margin-bottom: 11px; }

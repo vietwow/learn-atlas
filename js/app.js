@@ -482,16 +482,29 @@
       const act = Store.raw.activity || {}, active = Store.raw.activeDays || {}, pad = n => String(n).padStart(2, "0");
       const now = new Date(); now.setHours(0, 0, 0, 0);
       const key = d => d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
-      let studied = 0; const cells = [];
+      let studied = 0, thisWeek = 0, lastWeek = 0; const cells = [];
       for (let i = 13; i >= 0; i--) {
         const d = new Date(now); d.setDate(now.getDate() - i);
         const k = key(d), xp = Number(act[k]) || 0, on = xp > 0 || !!active[k];   // lit on any active day (kept the streak), not only XP days
         if (on) studied++;
+        if (i <= 6) thisWeek += xp; else lastWeek += xp;                          // last 7 days vs the 7 before — weekly momentum
         cells.push(`<span class="cs-cell${on ? " on" : ""}${i === 0 ? " today" : ""}" title="${k}${xp > 0 ? " · " + xp + " XP" : on ? " · active" : ""}"></span>`);
       }
       const studiedToday = (Number(act[key(now)]) || 0) > 0 || !!active[key(now)];
+      // weekly momentum: a medium-term horizon between the daily streak and lifetime XP — "was this a good week?"
+      const comma = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      let weekHtml = "";
+      if (thisWeek > 0 || lastWeek > 0) {
+        let trend;
+        if (lastWeek <= 0) trend = `<span style="color:var(--sage)">▲ building momentum</span>`;
+        else { const pct = Math.round((thisWeek - lastWeek) / lastWeek * 100);
+          trend = pct > 0 ? `<span style="color:var(--sage)">▲ ${pct}% vs last week</span>`
+                : pct < 0 ? `<span style="color:var(--rust)">▼ ${Math.abs(pct)}% vs last week</span>`
+                : `<span style="color:var(--ink-mute)">even with last week</span>`; }
+        weekHtml = `<div class="cs-week">📈 <b>${comma(thisWeek)}</b> XP this week · ${trend}</div>`;
+      }
       return `<div class="consistency reveal"><div class="cs-row">${cells.join("")}</div>
-        <div class="cs-label">🔥 <b>${st.streak}-day streak</b> · studied <b>${studied}</b> of the last 14 days · ${studiedToday ? `<span style="color:var(--sage)">today ✓</span>` : `<span style="color:var(--gold)">study today to keep it alive</span>`}</div></div>`;
+        <div class="cs-label">🔥 <b>${st.streak}-day streak</b> · studied <b>${studied}</b> of the last 14 days · ${studiedToday ? `<span style="color:var(--sage)">today ✓</span>` : `<span style="color:var(--gold)">study today to keep it alive</span>`}</div>${weekHtml}</div>`;
     })();
     // 7-day review forecast — the future companion to the consistency strip: when scheduled cards come due,
     // so the spaced-repetition rhythm is visible and you can plan the week. Only shown once you have cards in flight.
