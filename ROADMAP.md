@@ -177,6 +177,11 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 332: **3 more worked examples on flagship hard lessons** (examples). +3 (322→325) across calc/algo/RL: c-optimization
+   (max area, fixed perimeter → 5×5 square, 25), a-comparison-sorts (Ω(n log n) lower bound: n=4 → ≥5 comparisons),
+   rl-mdp-formalism (discounting bounds the return: 1/(1−γ) → 10). Node-verified; byte-stable inject w/ guards (\lt for <1/<0).
+   Verified: gate GREEN (325 examples); dump-dom each shows 3, reveals (katex 23/132/114, kErr=0, rawDollar=0); smoke
+   errs=0/kErr=0 (12). SW →v272. (Also confirmed read-progress bar + back-to-top already exist — didn't duplicate.)
    ✅ iter 331: **4 more deeper-dives on flagship hard lessons** (content). +4 dd (89→93) across LLM/algo/PS/LA:
    l-transformer-block (mix-then-think + residuals), a-union-find-range (lazy+flat → O(α(n))), ps-covariance-correlation
    (correlation = covariance normalized), la-matrix-multiplication (= function composition). String.raw LaTeX; byte-stable inject

@@ -2660,6 +2660,11 @@
               "title": "A gradient-descent step",
               "body": "For $f(x)=x^2$ starting at $x=5$ with learning rate $\\eta=0.1$, what is $x$ after one step?",
               "solution": "$f'(x)=2x$, so $x\\leftarrow 5-0.1\\cdot(2\\cdot5)=5-1=4$. Each step moves toward the minimum at $0$."
+            },
+            {
+              "title": "Maximizing area with a fixed perimeter",
+              "body": "You have $20$ metres of fence to enclose a rectangular garden (no walls to lean on). What dimensions maximize the area?",
+              "solution": "<strong>Reduce to one variable.</strong> With perimeter $2x + 2y = 20$ we get $y = 10 - x$, so the area depends on $x$ alone:\n$$A(x) = x(10 - x) = 10x - x^2.$$\n<strong>Find the critical point.</strong> $A'(x) = 10 - 2x = 0 \\Rightarrow x = 5$, and $A''(x) = -2 \\lt 0$ confirms a maximum.\n<strong>Solve.</strong> Then $y = 10 - 5 = 5$ — a $5 \\times 5$ <em>square</em>, area $A(5) = 25\\ \\text{m}^2$ (beating, say, a $4 \\times 6$ at $24$).\n<strong>The pattern.</strong> Among all rectangles of fixed perimeter the square is always optimal — optimization under a constraint pushes toward symmetry. The recipe never changes: express the quantity in one variable using the constraint, set the derivative to zero, confirm with the second derivative."
             }
           ]
         },

@@ -2,6 +2,21 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 332 — Three more worked examples on flagship hard lessons (examples)
+A **3rd worked example** on three flagship lessons across calc/algo/RL (examples 322 → **325**):
+- **c-optimization** — **max area, fixed perimeter**: `20 m` of fence → `A(x)=x(10−x)`, `A'=0 ⇒ x=5`, a `5×5` square with
+  area `25 m²` — constraint-optimization pushes toward symmetry (existing: minimize a quadratic + a GD step).
+- **a-comparison-sorts** — **the Ω(n log n) lower bound from counting leaves**: a sort's decision tree needs `n!` leaves, so
+  height `≥ log₂(n!)`; for `n=4`, `log₂24 ≈ 4.58` → **≥5** comparisons; Stirling gives `Θ(n log n)` (existing: 3-element
+  decision tree + merge-vs-insertion).
+- **rl-mdp-formalism** — **why discounting bounds the return**: `G=Σγᵗ·1 = 1/(1−γ)`, so `γ=0.9 → 10` (finite though rewards
+  never stop); `|G| ≤ r_max/(1−γ)` makes value functions well-defined (existing: model an MDP + compute a return).
+Every value node-verified (25; log₂24≈4.58→5; 10 & 2); injected byte-stably with round-trip + even-`$` + tag-balance +
+unsupported-env pre-guards (`\lt` used for the `<1`/`<0` to fully respect the `<`-in-math landmine).
+Verified: gate ALL GREEN (**325 examples**); **via `--dump-dom`** each Examples tab shows 3, reveals with KaTeX
+(23 / 132 / 114 spans) and **kErr=0, rawDollar=0**; all-routes smoke **errs=0/kErr=0 (12 routes)**. No save-shape change.
+SW cache `atlas-v271` → `atlas-v272`.
+
 ## iter 331 — Four more deeper-dives on flagship hard lessons (content / understandability)
 4 "Deeper dive" expandables across LLM/algo/PS/LA (deep-dives 89 → **93**):
 - **l-transformer-block** — **mix-then-think, wrapped in residuals**: attention communicates across tokens, the FFN computes
