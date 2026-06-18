@@ -2,6 +2,20 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 388 — Three more worked examples across LA/PS/calc (examples)
+A **3rd worked example** on three flagship lessons across LA/PS/calc (examples 361 → **364**, all ⌘K-searchable):
+- **la-projection-least-squares** — **projecting a vector onto a line**: `proj_a b = (a·b/a·a)a = (3.5,3.5)`; residual `(−0.5,0.5)` is
+  ⊥ to `a` — exactly why least squares projects `b` onto the column space (normal equations make the residual orthogonal).
+- **ps-expectation-variance** — **Var = E[X²]−(E[X])²**: for `{1,2,3}` with `[0.2,0.3,0.5]`, `E[X]=2.3`, `E[X²]=5.9` → `Var=0.61`,
+  `σ≈0.781` — "mean of the square minus square of the mean," derived in one pass.
+- **c-linearization-lhopital** — **linear approximation**: `√4.1 ≈ L(4.1) = 2 + 0.25·0.1 = 2.025` (true `2.0248…`); the error shrinks
+  like `(x−a)²` — "differentiable" means "locally linear."
+Every value node-verified (proj ⊥ residual; Var 0.61 / SD 0.781; 2.025 vs 2.0248); injected byte-stably with round-trip +
+even-`$` + tag-balance + unsupported-env pre-guards.
+Verified: gate ALL GREEN (**364 examples**); **via `--dump-dom`** the math-heavy two render (ps-variance KaTeX 58 with
+`\mathbb`/`\operatorname`, la-projection 78 with `\dfrac`/`\top`), **kErr=0, rawDollar=0**; smoke revealing all 3 + 8 pages
+**errs=0/kErr=0, bad=none**. No save-shape change. SW cache `atlas-v327` → `atlas-v328`.
+
 ## iter 387 — Monte Carlo convergence visualizer — 85th widget (visualizations)
 `rl-monte-carlo` had no widget. Added the **85th Lab widget `rl-mc-convergence`**, embedded there: the **running average of sampled
 returns** plotted against episode count, settling onto the **true value** (gold dashed) inside a **standard-error band** that

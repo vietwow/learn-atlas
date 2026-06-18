@@ -177,6 +177,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 388: **3 more worked examples across LA/PS/calc** (examples). +3 (361→364): la-projection-least-squares (proj=(3.5,3.5),
+   residual ⊥), ps-expectation-variance (Var=E[X²]−(E[X])²=0.61), c-linearization-lhopital (√4.1≈2.025). Node-verified; byte-stable
+   inject w/ guards. Verified: gate GREEN (364 examples); dump-dom ps-variance katex=58, la-projection katex=78, kErr=0,
+   rawDollar=0; smoke errs=0/kErr=0/bad=none. SW →v328.
    ✅ iter 387: **Monte Carlo convergence visualizer — 85th widget** (visualizations). rl-monte-carlo had no viz. New
    `rl-mc-convergence`: running average of sampled returns vs episode count, settling onto the true value with a ±σ/√n band;
    slider N (N=50→2.280/±0.155, N=500→1.988/±0.049 toward 2.0). Seeded LCG. app.js fallback 84→85. Verified: gate GREEN (85
