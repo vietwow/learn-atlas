@@ -177,6 +177,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 311: **3 more worked examples on flagship hard lessons** (examples). +3 (310→313) across LA/PS/calc: la-svd (rank-1
+   approximation keeps 25/34≈73.5%), ps-t-tests (paired t-test → t≈5.20), c-area-volume (shells: ∫2πx·x²=8π). Node-verified;
+   byte-stable inject w/ guards. Verified: gate GREEN (313 examples); dump-dom each shows 3, reveal renders (katex 49/40/72,
+   kErr=0, rawDollar=0); smoke errs=0/kErr=0 (12). SW →v252.
    ✅ iter 310: **Step-back: full-site sweep (clean) + SR-complete Playground** (a11y). Step-back: 301–309 rotation diverse
    (UI-UX/viz/content/examples/animation/viz/content/UI-UX/code), animation refreshed (305), no bugs shipped. Full 232-route
    sweep (148 lessons + 66 lab + 7 courses + 11 pages), first since 300 → errs=0/kErrTotal=0/bad=none. Ship: code-exercise/

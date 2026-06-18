@@ -2,6 +2,20 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 311 — Three more worked examples on flagship hard lessons (examples)
+A **3rd worked example** on three flagship lessons, each a new technique across LA/PS/calc (examples 310 → **313**):
+- **la-svd** — **best rank-1 approximation** (Eckart-Young): with singular values 5 and 3, the rank-1 truncation keeps
+  `25/34 ≈ 73.5%` of the energy and drops only `σ₂` — the basis of SVD/PCA compression (existing: a full 2×2 SVD + a
+  rank-deficient one).
+- **ps-t-tests** — the **paired t-test** as a one-sample test on the differences: `d=[2,4,3]` → `d̄=3, s=1, t≈5.20` on 2 df,
+  and why pairing cancels between-subject variation for more power (existing: one-sample + two-sample).
+- **c-area-volume** — **volume by cylindrical shells**: `y=x²` on `[0,2]` about the y-axis → `∫2πx·x² dx = 8π ≈ 25.13`,
+  and when shells beat washers (no inversion needed) (existing: area-between-curves + a washer volume).
+Every value node-verified (73.5%; t=5.196; 8π); injected byte-stably with round-trip + even-`$` + tag-balance pre-guards.
+Verified: gate ALL GREEN (**313 examples**); **via `--dump-dom`** each Examples tab shows 3, the new solution reveals with
+KaTeX (49 / 40 / 72 spans) and **kErr=0, rawDollar=0**; all-routes smoke **errs=0/kErr=0 (12 routes)**. No save-shape change.
+SW cache `atlas-v251` → `atlas-v252`.
+
 ## iter 310 — Step-back: full-site sweep (clean) + screen-reader-complete Playground (a11y)
 **Round-number step-back (iter 310).** Health check of 301–309: UI/UX · viz · content · examples · animation · viz · content ·
 UI/UX · code — a diverse rotation across every modality, the long-stale **animation** area finally refreshed (305, map
