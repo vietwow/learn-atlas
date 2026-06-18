@@ -177,6 +177,12 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 300: **Step-back: full-site sweep (clean) + 5 glossary terms** (understandability). Milestone step-back: 291–299 rotation
+   diverse (viz/mobile/mobile/examples/gamification/viz/content/a11y/code), 2 real mobile bugs fixed, no bugs shipped. Full
+   230-route sweep (148 lessons + 64 lab + 7 courses + 11 pages), first since 290 → errs=0/kErrTotal=0/bad=none. Ship: glossary
+   audited vs ~56 core terms (very complete); +5 gaps (133→138): Prior, Posterior, Expected value, Stationary distribution,
+   Taylor series — exact phrases now auto-link + hover-define. Byte-stable inject w/ even-$ + dup guards. Verified: gate GREEN
+   (138 glossary); dump-dom glossary page shows 5/5 with KaTeX (120 spans), kErr=0, rawDollar=0; 230-sweep clean; smoke errs=0/kErr=0 (12). SW →v241.
    ✅ iter 299: **3 more interactive code exercises across thin topics** (active learning). LA/calc/DL/RL/PS were tied at 3; +3 JS
    (lessons-with-code 30→33, gate runs 28): la-inverse-and-systems (Cramer's rule → 1 3), rl-value-iteration (Bellman update →
    9.0), c-intro-differential-equations (Euler's method → 2.25, pairs w/ the 289 slope-field dd). Node-verified; byte-stable

@@ -2,6 +2,23 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 300 — Step-back: full-site sweep (clean) + 5 glossary terms (understandability)
+**Milestone step-back (iter 300).** Health check of 291–299: viz · mobile-fix · mobile-fix · examples · gamification · viz ·
+content · a11y · code — a genuinely diverse rotation spanning all four content modalities, two **real mobile bugs caught and
+fixed** (squished canvases, Progress-page overflow), plus gamification, a11y, and a new viz. No bugs shipped.
+**Comprehensive route sweep** (first full one since iter 290): drove **all 230 routes** (148 lessons + 64 Lab widgets +
+7 courses + 11 pages) trapping JS + KaTeX errors → **errs=0, kErrTotal=0, bad=none** across every route. State of the codex
+at 300: 148 lessons · 2,368 MCQs · 889 cards · 442 homework · 307 examples · 64 viz · 65 deep-dives · 33 code-exercise
+lessons · **138 glossary** · 58 achievements. Mature, healthy, fully green end-to-end.
+**The ship (understandability).** Audited the glossary against ~56 core terms — impressively complete, with **5 genuine gaps**
+now filled (`133 → 138`): **Prior**, **Posterior**, **Expected value**, **Stationary distribution**, **Taylor series**. The
+last two have near-synonyms already ("Expectation", "Taylor approximation"), but the exact phrases now auto-link in lesson
+prose via `linkGlossary` and get hover-definitions. Defs carry KaTeX (`p(\theta\mid x)\propto p(x\mid\theta)\,p(\theta)`,
+`\pi=\pi P`, the Taylor sum). Injected byte-stably (append before the closing `];`) with even-`$` + duplicate-term pre-guards.
+Verified: gate ALL GREEN (**138 glossary**, render-hazard lint passes on every def); **via `--dump-dom`** the glossary page
+shows all **5/5** new terms with KaTeX (120 spans), **kErr=0, rawDollar=0**; the 230-route sweep is clean; all-routes smoke
+**errs=0/kErr=0 (12 routes)**. No save-shape change. SW cache `atlas-v240` → `atlas-v241`.
+
 ## iter 299 — Three more interactive code exercises across thin topics (new functionality / active learning)
 Rebalancing the gate-verified code exercises (LA/calc/DL/RL/PS were all tied at the floor of 3): added **3 JavaScript
 exercises** (lessons-with-code 30 → **33**; the gate now runs **28**), each a flagship numerical method:
