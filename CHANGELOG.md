@@ -2,6 +2,22 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 278 — SVD "rotate · stretch · rotate" visualizer — 60th widget (visualizations)
+`la-svd` ("The Singular Value Decomposition") had a deeper-dive ("the SVD as rotate-stretch-rotate") but **no widget** —
+and the SVD is the most geometric idea in linear algebra. Added the **60th Lab widget `la-svd`**, embedded in that lesson:
+the unit circle and standard basis are pushed through **A = UΣVᵀ** in four steppable stages — ① the circle, ② after the
+**Vᵀ** rotation (the shape is unchanged but the colored tick-dots and basis spin), ③ after the **Σ** stretch (the circle
+becomes an **axis-aligned ellipse** with semi-axes σ₁, σ₂), ④ after the **U** rotation (the final tilted ellipse). Four
+sliders set the two rotation angles and the two singular values; the note shows that the ellipse's semi-axes *are* the
+singular values and that `det A = ±σ₁σ₂` is the area-scaling factor. Note is **plain unicode** (no `$`, viz-note landmine).
+app.js `viz-complete` fallback 59 → 60.
+**Also:** re-audited the recent additions at **390px** (the new viz + dashboard) — `docOver=0` everywhere, no mobile
+regression after 12 iters of UI changes.
+Verified: gate ALL GREEN (**60 widgets**, embed resolves); **node** — the constructed `A = UΣVᵀ` (35°, σ=2.4/1.0, 20°)
+has singular values exactly **2.400, 1.000** and `det = 2.400` (a genuine SVD, not a fudge); **via `--dump-dom`** stage
+buttons switch the note correctly, `rawDollar=0`, `errs=0`, the lesson embed hydrates; all-routes smoke
+**errs=0/kErr=0 (12 routes)**. No save-shape change. SW cache `atlas-v218` → `atlas-v219`.
+
 ## iter 277 — Four more deeper-dives on flagship hard lessons (content / understandability)
 Continuing the owner's depth directive, added **4 "Deeper dive" expandables** on flagship hard lessons that lacked one,
 across four topics (deep-dives 49 → **53**):

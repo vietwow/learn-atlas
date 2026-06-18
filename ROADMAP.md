@@ -177,6 +177,12 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 278: **SVD rotate·stretch·rotate visualizer — 60th widget** (visualizations). la-svd had a deep-dive but no viz. New
+   `la-svd`: unit circle + basis through A=UΣVᵀ in 4 steppable stages (①circle ②Vᵀ rotate ③Σ stretch→ellipse ④U rotate);
+   4 sliders (2 angles, σ₁/σ₂); ellipse semi-axes = singular values; det=±σ₁σ₂. Plain-unicode note (no $). app.js fallback
+   59→60. Also re-audited 390px (new viz+dashboard, docOver=0, no regression). Verified: gate GREEN (60 widgets); node — A
+   has singular values exactly 2.400/1.000 (valid SVD); dump-dom stages switch, rawDollar=0, embed hydrates; smoke
+   errs=0/kErr=0 (12). SW →v219.
    ✅ iter 277: **4 more deeper-dives on flagship hard lessons** (content). +4 (49→53) across DL/calc/RL/LA:
    dl-attention-mechanism (soft differentiable dictionary lookup), c-improper-integrals (limit in disguise; 1/x² vs 1/x),
    rl-actor-critic (REINFORCE + baseline → advantage), la-inverse-and-systems (don't form A⁻¹; solve by LU/elimination).

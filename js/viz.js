@@ -650,6 +650,61 @@
   });
 
   /* ========================================================
+     60. The SVD as rotate–stretch–rotate — every matrix maps the unit circle to an ellipse (Linear Algebra)
+     ======================================================== */
+  register({ id: 'la-svd', topic: 'linear-algebra', title: 'The SVD: Rotate · Stretch · Rotate', blurb: 'Every matrix A = UΣVᵀ acts on the unit circle in three steps: rotate (Vᵀ), stretch along the axes by the singular values (Σ), rotate again (U). Step through the stages and watch the circle become an ellipse whose semi-axes ARE the singular values.' },
+  function (root) {
+    const W = 540, H = 420, S = 70, cx = W / 2, cy = H / 2;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    let thV = 35, s1 = 2.4, s2 = 1.0, thU = 20, stage = 3;
+    const D = a => a * Math.PI / 180;
+    const toPx = (x, y) => ({ x: cx + x * S, y: cy - y * S });
+    const mul = (A, B) => [A[0] * B[0] + A[1] * B[2], A[0] * B[1] + A[1] * B[3], A[2] * B[0] + A[3] * B[2], A[2] * B[1] + A[3] * B[3]];
+    const R = t => { const c2 = Math.cos(D(t)), s = Math.sin(D(t)); return [c2, -s, s, c2]; };
+    const ap = (M, x, y) => [M[0] * x + M[1] * y, M[2] * x + M[3] * y];
+    slider(ctl, { label: 'Vᵀ angle', min: -90, max: 90, step: 1, value: thV, fmt: v => v + '°', onInput: v => { thV = v; draw(); } });
+    slider(ctl, { label: 'σ₁', min: 0.2, max: 3, step: 0.05, value: s1, fmt: v => v.toFixed(2), onInput: v => { s1 = v; draw(); } });
+    slider(ctl, { label: 'σ₂', min: 0.2, max: 3, step: 0.05, value: s2, fmt: v => v.toFixed(2), onInput: v => { s2 = v; draw(); } });
+    slider(ctl, { label: 'U angle', min: -90, max: 90, step: 1, value: thU, fmt: v => v + '°', onInput: v => { thU = v; draw(); } });
+    const pre = controls(root);
+    const stageBtns = [['① unit circle', 0], ['② → Vᵀ', 1], ['③ → Σ', 2], ['④ → U  (full A)', 3]].map(([lab, n]) => button(pre, lab, () => { stage = n; draw(); }));
+    function curM() {   // cumulative transform applied at the current stage (right-to-left: Vᵀ, then Σ, then U)
+      const Vt = R(-thV), Sig = [s1, 0, 0, s2], Um = R(thU);
+      return [[1, 0, 0, 1], Vt, mul(Sig, Vt), mul(Um, mul(Sig, Vt))][stage];
+    }
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      ctx.strokeStyle = p.line; ctx.lineWidth = 1;
+      for (let gx = cx % S; gx < W; gx += S) { ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, H); ctx.stroke(); }
+      for (let gy = cy % S; gy < H; gy += S) { ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(W, gy); ctx.stroke(); }
+      ctx.strokeStyle = p.mute; ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(W, cy); ctx.moveTo(cx, 0); ctx.lineTo(cx, H); ctx.stroke();
+      const M = curM();
+      // faint original unit circle for reference
+      ctx.strokeStyle = p.line; ctx.setLineDash([3, 3]); ctx.lineWidth = 1; ctx.beginPath();
+      for (let i = 0; i <= 72; i++) { const a = i / 72 * 2 * Math.PI, q = toPx(Math.cos(a), Math.sin(a)); i ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y); } ctx.stroke(); ctx.setLineDash([]);
+      // transformed shape (circle → ellipse)
+      ctx.strokeStyle = p.gold; ctx.lineWidth = 2.5; ctx.beginPath();
+      for (let i = 0; i <= 72; i++) { const a = i / 72 * 2 * Math.PI, t = ap(M, Math.cos(a), Math.sin(a)), q = toPx(t[0], t[1]); i ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y); } ctx.stroke();
+      // colored tick dots (hue by original angle) so the rotation is visible even when the shape is still a circle
+      for (let i = 0; i < 24; i++) { const a = i / 24 * 2 * Math.PI, t = ap(M, Math.cos(a), Math.sin(a)), q = toPx(t[0], t[1]); ctx.fillStyle = 'hsl(' + Math.round(a / (2 * Math.PI) * 360) + ',70%,60%)'; ctx.beginPath(); ctx.arc(q.x, q.y, 3, 0, 7); ctx.fill(); }
+      // transformed standard basis vectors
+      const O = toPx(0, 0), e1 = ap(M, 1, 0), e2 = ap(M, 0, 1), P1 = toPx(e1[0], e1[1]), P2 = toPx(e2[0], e2[1]);
+      arrow(ctx, O.x, O.y, P1.x, P1.y, p.violet, 3); arrow(ctx, O.x, O.y, P2.x, P2.y, p.sage, 3);
+      const labels = ['The unit circle and standard basis ê₁, ê₂ — the starting point.',
+        'Vᵀ rotates the space by a pure rotation — the circle is unchanged, but watch the colored dots and basis spin. V\'s columns are the input axes A singles out.',
+        'Σ stretches along the axes by the singular values σ₁ = ' + s1.toFixed(2) + ', σ₂ = ' + s2.toFixed(2) + ' — the circle becomes an axis-aligned ellipse.',
+        'U rotates the stretched ellipse into its final orientation. The full map A = UΣVᵀ sends the unit circle to an ellipse whose semi-axes are exactly σ₁ = ' + s1.toFixed(2) + ' and σ₂ = ' + s2.toFixed(2) + '.'][stage];
+      info.innerHTML = '<b>Stage ' + (stage + 1) + ' of 4.</b> ' + labels + (stage === 3 ? ' The largest singular value σ₁ is how far A can stretch any unit vector; det A = ±σ₁σ₂ = ' + (s1 * s2).toFixed(2) + ' is the area-scaling factor.' : '');
+      stageBtns.forEach((b, n) => b.classList.toggle('active', n === stage));
+    }
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Singular value decomposition visualizer: the unit circle and standard basis are transformed by A = U Sigma V-transpose in three stages — a rotation by V-transpose, a stretch along the axes by the singular values sigma-1 and sigma-2 (turning the circle into an axis-aligned ellipse), and a final rotation by U. Stage buttons step through it; sliders set the two rotation angles and the two singular values.');
+    draw();
+  });
+
+  /* ========================================================
      14. Convolution & feature maps
      ======================================================== */
   register({ id: 'dl-convolution', topic: 'deep-learning', title: 'Convolution & Feature Maps', blurb: 'Slide a kernel over an image and watch the feature map form — edges, blur, sharpen.' },
