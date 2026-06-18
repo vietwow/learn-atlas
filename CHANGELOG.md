@@ -2,6 +2,20 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 318 — Three more worked examples on flagship hard lessons (examples)
+A **3rd worked example** on three flagship lessons, each a new technique across DL/PS/algorithms (examples 313 → **316**):
+- **dl-attention-mechanism** — **why divide by √dₖ**: unscaled scores `[16,20]` → `softmax ≈ [0.018, 0.982]` (saturated,
+  dead gradient); scaled by 8 → `[2,2.5]` → `[0.378, 0.622]` (healthy) — dot products grow like `√dₖ`, so the divide holds
+  the scale steady (existing: single-query attention + causal self-attention).
+- **ps-poisson** — **P(at least one)** via the complement: `1 − e^(−λ)` with `λ=3` → `1 − 0.0498 ≈ 0.950` (existing:
+  defects + binomial-to-Poisson).
+- **a-hash-tables** — **load factor & resizing**: `α = 6/8 = 0.75`, resize-and-rehash to `m=16` → `α = 0.375`, with the
+  amortized-`O(1)` accounting behind the rare `O(n)` resize (existing: chaining insert + linear-probing deletion).
+Every value node-verified; injected byte-stably with round-trip + even-`$` + `<strong>`/`<em>`/`<b>` tag-balance pre-guards.
+Verified: gate ALL GREEN (**316 examples**); **via `--dump-dom`** each Examples tab shows 3, the new solution reveals with
+KaTeX (57 / 25 / 57 spans) and **kErr=0, rawDollar=0**; all-routes smoke **errs=0/kErr=0 (12 routes)**. No save-shape change.
+SW cache `atlas-v258` → `atlas-v259`.
+
 ## iter 317 — Four more deeper-dives on flagship hard lessons (content / understandability)
 Steering to the topics the last few dd batches skipped (RL/calc/LA/DL) — 4 "Deeper dive" expandables (deep-dives 77 → **81**):
 - **rl-offline** — offline RL fights **distribution shift**: value estimates extrapolate wildly on actions the dataset never

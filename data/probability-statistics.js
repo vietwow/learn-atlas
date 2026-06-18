@@ -1454,6 +1454,11 @@
               "title": "Binomial-to-Poisson approximation",
               "body": "A vaccine has a rare side effect occurring in $p = 0.002$ of patients. A clinic vaccinates $n = 1000$ patients. Use the Poisson approximation to estimate the probability that exactly 3 patients experience the side effect.",
               "solution": "The exact model is $\\text{Binomial}(1000, 0.002)$, but with large $n$ and small $p$ we approximate by Poisson with $\\lambda = np = 1000 \\cdot 0.002 = 2$.\n\nThen $P(X=3) = \\frac{2^3 e^{-2}}{3!} = \\frac{8 \\cdot 0.135335}{6} = \\frac{1.08268}{6} \\approx 0.1804$.\n\nSo about an 18.0% chance. (The exact binomial value is also $\\approx 0.1806$ — the approximation is excellent because $n$ is large and $p$ is tiny, exactly the law-of-rare-events regime.)"
+            },
+            {
+              "title": "The probability of at least one event",
+              "body": "A web server receives an average of $\\lambda = 3$ requests per second. Using a Poisson model, what's the chance of <em>at least one</em> request in a given second?",
+              "solution": "<strong>The complement trick.</strong> \"At least one\" is easiest through its complement — one minus the probability of <em>zero</em>:\n$$P(X \\geq 1) = 1 - P(X = 0).$$\n<strong>The PMF at zero.</strong> With $P(X = k) = e^{-\\lambda}\\lambda^k / k!$, the $k = 0$ term is simply\n$$P(X = 0) = e^{-\\lambda} = e^{-3} \\approx 0.0498.$$\n<strong>So:</strong>\n$$P(X \\geq 1) = 1 - 0.0498 \\approx 0.950.$$\nAbout a <strong>95%</strong> chance of at least one request. <strong>The pattern.</strong> $P(\\text{at least one}) = 1 - e^{-\\lambda}$ appears everywhere rare events are counted — the higher the rate $\\lambda$, the closer to certainty that <em>something</em> happens."
             }
           ]
         },
