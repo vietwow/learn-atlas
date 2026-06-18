@@ -2,6 +2,20 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 288 — Screen-reader polish for the app chrome (accessibility)
+An audit of the persistent chrome (confirmed route-change focus management + `reducedMotion()` guards on every
+animation/confetti are already solid) surfaced three real gaps, now fixed:
+- **The logo was a mouse-only `<div onclick>`** — not keyboard-focusable and not announced. Converted to a proper
+  `<a class="brand" href="#/" data-route>` (canonical accessible home link; Enter works natively), with the decorative
+  "A" glyph `aria-hidden` so its name reads cleanly as "Atlas Learning Codex"; added `:focus-visible` ring + `color: inherit`.
+- **7 of 10 sidebar nav icons lacked `aria-hidden`** — screen readers announced the emoji ("high voltage", "memo"…)
+  before each link's text. All 10 decorative nav icons are now consistently hidden, so SR reads just "Daily Review", etc.
+- **The streak flame 🔥 was read aloud** — now `aria-hidden`, while the count + "day streak" label stay exposed
+  (verified the number itself is NOT hidden, so SR still says "N day streak").
+Verified: gate ALL GREEN; **via `--dump-dom`** — brand is a focusable anchor that navigates home from `#/lab`
+(dashboard renders), glyph hidden, **10/10** nav icons hidden, flame hidden, streak number kept, `errs=0`; all-routes
+smoke **errs=0/kErr=0 (12 routes)**. No save-shape change. SW cache `atlas-v228` → `atlas-v229`.
+
 ## iter 287 — "Whole subject complete" celebration, once per topic (gamification)
 Completing an **entire subject** is one of the biggest milestones a multi-topic learner hits — but it passed almost
 silently: finishing the last lesson only fired the "📗 Module complete!" burst for the final module, and the `topic-clear`

@@ -33,25 +33,25 @@
   <div class="shell">
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar" aria-label="Sidebar">
-      <div class="brand" onclick="location.hash='#/'">
-        <div class="glyph">A</div>
+      <a class="brand" href="#/" data-route>
+        <div class="glyph" aria-hidden="true">A</div>
         <div>
           <h1>Atlas</h1>
           <div class="sub">Learning Codex</div>
         </div>
-      </div>
+      </a>
 
       <nav class="nav" aria-label="Main navigation">
         <a href="#/" data-route><span class="i" aria-hidden="true">⌂</span> Dashboard</a>
-        <a href="#/review" data-route><span class="i">⚡</span> Daily Review</a>
-        <a href="#/test" data-route><span class="i">📝</span> Spawn a Test</a>
-        <a href="#/lab" data-route><span class="i">🎛️</span> Visualization Lab</a>
-        <a href="#/map" data-route><span class="i">🗺️</span> Knowledge Map</a>
-        <a href="#/playground" data-route><span class="i">💻</span> Code Playground</a>
+        <a href="#/review" data-route><span class="i" aria-hidden="true">⚡</span> Daily Review</a>
+        <a href="#/test" data-route><span class="i" aria-hidden="true">📝</span> Spawn a Test</a>
+        <a href="#/lab" data-route><span class="i" aria-hidden="true">🎛️</span> Visualization Lab</a>
+        <a href="#/map" data-route><span class="i" aria-hidden="true">🗺️</span> Knowledge Map</a>
+        <a href="#/playground" data-route><span class="i" aria-hidden="true">💻</span> Code Playground</a>
         <a href="#/glossary" data-route><span class="i" aria-hidden="true">📔</span> Glossary</a>
         <a href="#/library" data-route><span class="i" aria-hidden="true">📚</span> Library</a>
-        <a href="#/achievements" data-route><span class="i">🏆</span> Achievements</a>
-        <a href="#/stats" data-route><span class="i">📊</span> Progress</a>
+        <a href="#/achievements" data-route><span class="i" aria-hidden="true">🏆</span> Achievements</a>
+        <a href="#/stats" data-route><span class="i" aria-hidden="true">📊</span> Progress</a>
       </nav>
 
       <div class="nav nav-courses">
@@ -86,7 +86,7 @@
           <div class="xp-text" id="xp-text">0 XP</div>
         </div>
         <div class="streak">
-          <span class="flame">🔥</span>
+          <span class="flame" aria-hidden="true">🔥</span>
           <span class="num" id="streak-num">0</span>
           <span class="lbl">day<br>streak</span>
         </div>

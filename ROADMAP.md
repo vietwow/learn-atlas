@@ -177,6 +177,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 288: **Screen-reader polish for the app chrome** (accessibility). Audit confirmed route-focus + reducedMotion guards
+   solid; fixed 3 gaps: logo div→`<a>` (keyboard/SR home link, glyph aria-hidden, focus ring), 7/10 nav icons missing
+   aria-hidden → all 10 hidden (SR reads just the labels), streak flame aria-hidden (count kept). Verified: gate GREEN;
+   dump-dom — brand anchor navigates home, 10/10 icons + flame hidden, streak number kept, errs=0; smoke errs=0/kErr=0 (12). SW →v229.
    ✅ iter 287: **"Whole subject complete" celebration, once per topic** (gamification). Finishing a whole subject passed almost
    silently (only the final module's "📗 Module complete!" + topic-clear achievement which unlocks once). Added a per-topic
    confetti + "🎓 Topic complete!" toast, gated once-per-topic (new persisted topicDoneCelebrated map + Store.celebrateTopicOnce);

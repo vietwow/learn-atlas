@@ -158,7 +158,8 @@ body::after {
   overflow-y: auto;
 }
 
-.brand { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+.brand { display: flex; align-items: center; gap: 12px; cursor: pointer; text-decoration: none; color: inherit; }
+.brand:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 10px; }
 .brand .glyph {
   width: 42px; height: 42px; flex: none;
   display: grid; place-items: center;
