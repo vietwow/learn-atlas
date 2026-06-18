@@ -2,6 +2,22 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 373 — Four more deeper-dives on foundational lessons (content / understandability)
+4 "Deeper dive" expandables across LLM/calc/algo/PS (deep-dives 129 → **133**; only 15 of 148 lessons now lack one):
+- **l-embeddings-and-prediction-head** — **the prediction head is a similarity search** (dot the hidden state against every
+  token's embedding → softmax); often weight-tied to the input embedding.
+- **c-differentiation-rules** — **rules = linearity + product/chain structure**: `(af+bg)'`, `(fg)'`, `(f∘g)'`, plus a few atoms,
+  compose to differentiate anything — a mechanical descent through the expression tree.
+- **a-linear-sorts-selection** — **beating n log n by not comparing**: counting/radix sort use keys as *array indices* (`O(n+k)`),
+  sidestepping the comparison-sort lower bound — at the cost of needing bounded integer-like keys.
+- **ps-errors-and-power** — **the two ways a test can be wrong**: Type I (`α`, false alarm) vs Type II (`β`, miss); lowering one
+  raises the other at fixed `n` — which is worse is a domain choice (smoke alarm vs criminal trial).
+Authored with `String.raw` LaTeX (`\lt` for the comparison sign); injected byte-stably with round-trip +
+even-`$`/no-`**`/tag-balance + unsupported-env guards.
+Verified: gate ALL GREEN; per-lesson **via `--dump-dom`** each renders (KaTeX 0 / 12 / 8 / 12 spans — the prediction-head one is
+intentionally prose) with **kErr=0, rawDollar=0**; all-routes smoke **errs=0/kErr=0 (12 routes)**. No save-shape change.
+SW cache `atlas-v312` → `atlas-v313`.
+
 ## iter 372 — Cross-entropy / perplexity visualizer — 82nd widget (visualizations)
 `l-pretraining-objective-data` (the next-token objective) had no widget. Added the **82nd Lab widget `llm-cross-entropy`**,
 embedded there: a bar chart of the model's predicted distribution over 5 candidate tokens with the **true token highlighted**.
