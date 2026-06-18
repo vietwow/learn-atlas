@@ -177,6 +177,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 399: **3 more worked examples across DL/RL/algo** (examples). +3 (379→382): dl-pooling-and-cnn-architectures (conv
+   output-size ⌊(W−K+2P)/S⌋+1 → 5/4), rl-monte-carlo (discounted return G₀=2.62), a-backtracking-branch-bound (4-Queens = 2,
+   pruning 256/24). Node-verified; byte-stable inject w/ guards. Verified: gate GREEN (382 examples); dump-dom katex 80/81/149,
+   kErr=0, rawDollar=0; smoke errs=0/kErr=0/bad=none. SW →v339.
    ✅ iter 398: **3 more worked examples across calc/LA/PS** (examples). +3 (376→379): c-integration-techniques (definite u-sub →
    e−1=1.718), la-dot-product-norms (Cauchy–Schwarz 11≤11.18), ps-covariance-correlation (ρ=0.6 scale-invariant). Node-verified;
    byte-stable inject w/ guards. Verified: gate GREEN (379 examples); dump-dom katex 58/67/47, kErr=0, rawDollar=0; smoke

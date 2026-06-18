@@ -2,6 +2,18 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 399 — Three more worked examples across DL/RL/algo (examples)
+A **3rd worked example** on three flagship lessons across DL/RL/algo (examples 379 → **382**, all ⌘K-searchable):
+- **dl-pooling-and-cnn-architectures** — **the conv output-size formula** `⌊(W−K+2P)/S⌋+1`: `7,3,0,1 → 5`; `7,3,1,2 → 4` —
+  padding preserves, stride downsamples, kernel shrinks; the three knobs that set a CNN's spatial geometry.
+- **rl-monte-carlo** — **the discounted return** `G₀ = r₁+γr₂+γ²r₃ = 2.62` (γ=0.9): MC uses the *actual complete* return (no
+  bootstrapping) — unbiased but high-variance, the mirror of TD.
+- **a-backtracking-branch-bound** — **n-Queens solution count**: 4-Queens has exactly `2` solutions; backtracking prunes the
+  `4⁴=256` (or `4!=24`) space by abandoning a partial board the instant it conflicts.
+Every value node-verified (conv 5/4; G₀=2.62; 4-Queens=2); injected byte-stably with the full guard set.
+Verified: gate ALL GREEN (**382 examples**); **via `--dump-dom`** all 3 reveal with KaTeX (80 / 81 / 149 spans) and **kErr=0,
+rawDollar=0**; smoke + 8 pages **errs=0/kErr=0, bad=none**. No save-shape change. SW cache `atlas-v338` → `atlas-v339`.
+
 ## iter 398 — Three more worked examples across calc/LA/PS (examples)
 A **3rd worked example** on three flagship lessons across calc/LA/PS (examples 376 → **379**, all ⌘K-searchable):
 - **c-integration-techniques** — **definite integral by substitution**: `∫₀¹ 2x e^{x²} dx`, `u=x²` converts the bounds (`0→1`), giving
