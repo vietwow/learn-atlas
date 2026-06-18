@@ -2,6 +2,18 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 423 — Three more worked examples across RL/DL/algo (examples)
+A **3rd worked example** on three flagship lessons across RL/DL/algo (examples 418 → **421**, all ⌘K-searchable):
+- **rl-actor-critic** — **why a baseline doesn't bias the gradient**: `E_a[∇log π · b] = b·∇Σπ = 0`, so subtracting any
+  action-independent `b` keeps the mean but cuts variance; the optimal `b=V(s)` gives the advantage `A=Q−V` — what the critic learns.
+- **dl-diffusion-models** — **the forward process is free**: noising is a fixed Gaussian schedule (closed form
+  `x_t=√ᾱ_t x₀+√(1−ᾱ_t)ε`); only the reverse is learned, as MSE **noise prediction** `‖ε−ε_θ‖²` — why diffusion trains so stably.
+- **a-network-flow** — **bipartite matching as max flow**: unit-capacity `s→workers→jobs→t`; by the integrality theorem max-flow =
+  max matching — a modeling hammer (disjoint paths, project selection, segmentation all reduce to flow).
+Every value node-verified (baseline expectation ≈0; diffusion variance; reduction); injected byte-stably with the full guard set.
+Verified: gate ALL GREEN (**421 examples**); **via `--dump-dom`** all 3 reveal with KaTeX (125 / 25 / 23 spans) and **kErr=0,
+rawDollar=0**; smoke + 8 pages **errs=0/kErr=0, bad=none**. No save-shape change. SW cache `atlas-v362` → `atlas-v363`.
+
 ## iter 422 — Three more second deep-dives on the hardest lessons (content / depth — owner's #1)
 A **distinct second "Deeper dive"** on three more flagship lessons across calc/algo/LLM (deep-dives 172 → **175**; 27 lessons now carry two):
 - **c-convexity** (had: "local minimum is global") → **how to recognize/build convex functions**: the Hessian-PSD test (`f''≥0`) plus the
