@@ -2,6 +2,27 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 265 — Five more deeper-dives + a performance verdict (content / understandability)
+**Performance check (logged so the loop stops re-flagging it).** Measured the asset weights: data is ~5.3 MB raw but
+**~1.5 MB gzipped** (GitHub Pages serves gzip), JS ~0.5 MB raw / ~0.13 MB gzipped, and the service worker caches
+everything after the first visit — so the only recurring cost is JS parse at app-open, paid once per session by a single
+user. Lazy-loading the topic data would break the global search / knowledge-map / daily-concept paths (they iterate all
+COURSES), and minifying breaks the byte-stable inject pipeline. **Verdict: performance is fine for this single-user,
+SW-cached site; no safe high-value win exists** — stop treating it as a must-do (recorded in ROADMAP notes).
+**The ship:** 5 more "Deeper dive" expandables on flagship hard lessons that lacked one, deliberately covering the two
+topics iter-260 missed (algorithms, calculus) plus three more (deep-dives 40 → **45**):
+- **a-network-flow** — max-flow = min-cut: a maximization and a minimization that are the same number (LP duality).
+- **c-multivariable-optimization** — the Hessian's eigenvalues classify every critical point (min / max / saddle).
+- **la-symmetric-spectral** — a symmetric matrix as a pure stretch along perpendicular axes ($S = Q\Lambda Q^{\top}$).
+- **rl-dqn** — experience replay (decorrelate data) + target network (stabilize the objective) as fixes for the two ways
+  deep Q-learning diverges.
+- **l-positional-encoding** — attention is permutation-invariant (a bag of words); RoPE makes the dot product depend on
+  relative distance $m - n$.
+Authored with `String.raw` LaTeX, injected byte-stably with a no-op round-trip guard per topic file.
+Verified: gate ALL GREEN; per-lesson **via `--dump-dom`** each dive renders with its summary, KaTeX typesets
+(8/6/7/2/4 spans) and **kErr=0, rawDollar=0** on all five; all-routes smoke **errs=0/kErr=0 (12 routes)**. No save-shape
+change. SW cache `atlas-v205` → `atlas-v206`.
+
 ## iter 264 — Four interactive code exercises for the thinnest topics (new functionality / active learning)
 Code exercises (write code → **Run** → instant ✓/✗ vs expected output, +15 XP on first solve) are some of the strongest
 active-learning on the site, but were lopsided: algorithms had 9 while **calculus and linear algebra had just 1 each**.

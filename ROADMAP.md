@@ -177,6 +177,13 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 265: **5 more deeper-dives + performance verdict** (content). PERF (measured, logged): data ~5.3MB raw but ~1.5MB gzip
+   (Pages serves gzip), SW-cached after first visit; lazy-load breaks all-COURSES search/map/daily-concept; minify breaks
+   inject pipeline → **perf is fine for this single-user SW-cached site; not a must-do anymore.** Ship: +5 deep-dives (40→45)
+   on topics 260 missed (algorithms, calculus) + 3 more: a-network-flow (max-flow=min-cut), c-multivariable-optimization
+   (Hessian eigenvalues), la-symmetric-spectral (spectral theorem), rl-dqn (replay+target net), l-positional-encoding
+   (attention order-blind / RoPE). Verified: gate GREEN; dump-dom each renders (katex 8/6/7/2/4, kErr=0, rawDollar=0);
+   smoke errs=0/kErr=0 (12). SW →v206.
    ✅ iter 264: **4 interactive code exercises for thinnest topics** (new functionality / active learning). Calculus & LA had only 1
    code exercise each; added 4 JS (gate now runs 20, lessons-with-code 21→25): la-determinants (det=ad−bc → 5,0; ties to
    262's viz), la-dot-product-norms (dot → 0,9), c-derivative-definition (secant limit → 6.00), c-chain-rule (central diff
