@@ -2,6 +2,17 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 389 — Three more code exercises across LA/algo/calc (new functionality / active learning)
+Added **3 gate-verified JavaScript exercises** across LA/algo/calc (lessons-with-code 84 → **87**; the gate now runs **82**):
+- **la-diagonalization** — **eigenvalue from an eigenpair**: `Av=λv` recovers `λ=3` for `[[2,1],[1,2]]·[1,1]` — and then `Aⁿv=λⁿv`,
+  the payoff of diagonalization.
+- **a-union-find-range** — **connected components**: merge (0,1),(2,3),(1,2) among 5 → count distinct roots = `2` (`{0,1,2,3}`, `{4}`).
+- **c-improper-integrals** — **the p-test**: `∫₁^∞ x^(−p) = 1/(p−1)` for `p>1` → `1` at p=2 (and `Infinity` to signal divergence at p≤1).
+Every output node-verified; injected byte-stably with round-trip + no-existing-`data-code` + `**`-free guards.
+Verified: gate ALL GREEN (**82 code-exercises verified**); **via `--dump-dom`** the union-find widget runs → `2`,
+"✓ Output matches expected" (the `<` loops work); all-routes smoke **errs=0/kErr=0 (12 routes)**. No save-shape change.
+SW cache `atlas-v328` → `atlas-v329`.
+
 ## iter 388 — Three more worked examples across LA/PS/calc (examples)
 A **3rd worked example** on three flagship lessons across LA/PS/calc (examples 361 → **364**, all ⌘K-searchable):
 - **la-projection-least-squares** — **projecting a vector onto a line**: `proj_a b = (a·b/a·a)a = (3.5,3.5)`; residual `(−0.5,0.5)` is

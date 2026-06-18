@@ -177,6 +177,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 389: **3 more code exercises across LA/algo/calc** (active learning). +3 JS (84→87, gate runs 82): la-diagonalization
+   (eigenvalue from eigenpair → 3), a-union-find-range (component count → 2), c-improper-integrals (p-test → 1). Node-verified;
+   byte-stable inject w/ guards. Verified: gate GREEN (82 verified); dump-dom union-find runs → "2" "✓ matches"; smoke
+   errs=0/kErr=0 (12). SW →v329. (Only 2 code-free computational lessons left: la-symmetric-spectral, dl-transformer-architecture.)
    ✅ iter 388: **3 more worked examples across LA/PS/calc** (examples). +3 (361→364): la-projection-least-squares (proj=(3.5,3.5),
    residual ⊥), ps-expectation-variance (Var=E[X²]−(E[X])²=0.61), c-linearization-lhopital (√4.1≈2.025). Node-verified; byte-stable
    inject w/ guards. Verified: gate GREEN (364 examples); dump-dom ps-variance katex=58, la-projection katex=78, kErr=0,
