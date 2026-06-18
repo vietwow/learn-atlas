@@ -2,6 +2,17 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 354 — Gradient-descent convergence visualizer — 77th widget (visualizations)
+`c-gradient-descent-convergence` had no widget. Added the **77th Lab widget `calc-gd`**, embedded there: gradient descent on
+`f(x)=x²` from x=2, with the update `x ← x(1−2η)` drawn as a trajectory walking the parabola. Slide the **learning rate η**
+and watch the four regimes the convergence condition `|1−2η| < 1` predicts: **η<0.5** converges slowly, **η=0.5** lands in one
+jump, **0.5<η<1** oscillates inward, **η≥1** diverges outward — the same blow-up that wrecks real training at too-high LR. The
+note reports `|1−2η|` and the regime. Plain-unicode/entity note (no `$`). app.js `viz-complete` fallback 76 → 77.
+Verified: gate ALL GREEN (**77 widgets**, embed resolves); **node** prototype confirmed the trajectories (lr 0.1 slow, 0.5
+one-step, 0.9 oscillating, 1.1 diverging); **via `--dump-dom`** the slider drives the regime `slow → one-step → oscillate →
+diverge`, `rawDollar=0`, `errs=0`, the lesson embed hydrates; all-routes smoke **errs=0/kErr=0 (12 routes)**. No save-shape
+change. SW cache `atlas-v293` → `atlas-v294`.
+
 ## iter 353 — Three more worked examples on flagship hard lessons (examples)
 A **3rd worked example** on three flagship lessons across calc/LLM/PS (examples 337 → **340**, all ⌘K-searchable):
 - **c-derivatives-special-functions** — **logarithmic differentiation of `xˣ`**: `ln y = x ln x` → `y'/y = ln x + 1` →

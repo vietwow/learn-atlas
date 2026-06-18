@@ -177,6 +177,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 354: **Gradient-descent convergence visualizer — 77th widget** (visualizations). c-gradient-descent-convergence had no viz.
+   New `calc-gd`: GD on f(x)=x² from x=2, x←x(1−2η); slider η shows the 4 regimes (|1−2η|<1): slow / one-step (η=0.5) / oscillate /
+   diverge (η≥1). app.js fallback 76→77. Verified: gate GREEN (77 widgets); node trajectories; dump-dom slider drives regime
+   slow→one-step→oscillate→diverge, rawDollar=0, embed hydrates; smoke errs=0/kErr=0 (12). SW →v294.
    ✅ iter 353: **3 more worked examples on flagship hard lessons** (examples). +3 (337→340) across calc/LLM/PS:
    c-derivatives-special-functions (log diff of xˣ → 6.77), l-pretraining-objective-data (perplexity e²≈7.39),
    ps-errors-and-power (power=1−β=0.80 + four levers). Node-verified; byte-stable inject w/ guards. Verified: gate GREEN (340

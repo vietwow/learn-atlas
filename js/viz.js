@@ -1791,6 +1791,43 @@
   });
 
   /* ========================================================
+     77. Gradient-descent convergence: learning-rate regimes (Calculus)
+     ======================================================== */
+  register({ id: 'calc-gd', topic: 'calculus', title: 'Gradient-descent convergence: the learning-rate regimes', blurb: 'Gradient descent on f(x)=x² updates x ← x − η·2x = x(1−2η). It converges only when |1−2η| < 1, i.e. 0 < η < 1: too small crawls, η=0.5 lands in one step, between 0.5 and 1 it oscillates inward, and η ≥ 1 diverges. Slide the learning rate and watch the trajectory.' },
+  function (root) {
+    const W = 540, H = 340, padL = 28, padR = 14, padT = 18, padB = 26, XLO = -6, XHI = 6, YHI = 12;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    const f = x => x * x;
+    let lr = 0.1;
+    slider(ctl, { label: 'learning rate η', min: 0.05, max: 1.2, step: 0.05, value: lr, fmt: v => v.toFixed(2), onInput: v => { lr = v; draw(); } });
+    function traj() { let x = 2; const s = [x]; for (let i = 0; i < 8; i++) { x = x - lr * 2 * x; s.push(x); if (Math.abs(x) > 6) break; } return s; }
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const X = x => padL + (x - XLO) / (XHI - XLO) * (W - padL - padR);
+      const Y = y => (H - padB) - Math.min(y, YHI) / YHI * (H - padT - padB);
+      ctx.strokeStyle = p.mute; ctx.beginPath(); ctx.moveTo(padL, Y(0)); ctx.lineTo(W - padR, Y(0)); ctx.moveTo(X(0), Y(0)); ctx.lineTo(X(0), padT); ctx.stroke();
+      ctx.strokeStyle = p.ink; ctx.lineWidth = 2; ctx.beginPath(); let st = false; for (let x = XLO; x <= XHI; x += 0.05) { if (f(x) <= YHI) { const xx = X(x), yy = Y(f(x)); st ? ctx.lineTo(xx, yy) : ctx.moveTo(xx, yy); st = true; } else st = false; } ctx.stroke();
+      const T = traj();
+      for (let i = 0; i < T.length; i++) {
+        const cx = X(T[i]), cy = Y(f(T[i]));
+        if (i > 0) { ctx.strokeStyle = p.gold; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(X(T[i - 1]), Y(f(T[i - 1]))); ctx.lineTo(cx, cy); ctx.stroke(); }
+        ctx.fillStyle = (i === T.length - 1) ? p.gold : p.violet; ctx.beginPath(); ctx.arc(cx, cy, i === T.length - 1 ? 5 : 3, 0, 7); ctx.fill();
+      }
+      const r = Math.abs(1 - 2 * lr); let regime, col;
+      if (r >= 1) { regime = 'DIVERGES (η ≥ 1)'; col = p.rust; }
+      else if (Math.abs(lr - 0.5) < 1e-9) { regime = 'converges in ONE step (η = 0.5)'; col = p.sage; }
+      else if (lr > 0.5) { regime = 'oscillates but converges'; col = p.gold; }
+      else { regime = 'converges slowly'; col = p.violet; }
+      info.innerHTML = 'Gradient descent on f(x)=x²: x ← x − η·f′(x) = x(1−2η), from x=2. Convergence needs |1−2η| &lt; 1, i.e. 0 &lt; η &lt; 1; here |1−2η| = <b>' + r.toFixed(2) + '</b> → <b style="color:' + col + '">' + regime + '</b>. Too small a step crawls; η=0.5 hits the minimum in one jump; between 0.5 and 1 it overshoots and zig-zags inward; at η ≥ 1 each step grows — the same divergence that blows up real training when the learning rate is set too high.';
+    }
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Gradient-descent convergence visualizer: the parabola f(x)=x^2 with the descent trajectory from x=2 for an adjustable learning rate eta. Below 0.5 it converges slowly, at 0.5 in one step, between 0.5 and 1 it oscillates inward, and at eta 1 or above it diverges outward.');
+    draw();
+  });
+
+  /* ========================================================
      23. Normal-distribution explorer (μ/σ + empirical rule / interval probability)
      ======================================================== */
   register({ id: 'ps-normal-explorer', topic: 'probability-statistics', title: 'Normal Distribution Explorer', blurb: 'Slide μ and σ to move and stretch the bell, then read off probabilities — the 68–95–99.7 rule, or any interval P(a ≤ X ≤ b).' },
