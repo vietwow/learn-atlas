@@ -2,6 +2,15 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 375 — Three more code exercises across calc/PS/LA (new functionality / active learning)
+Added **3 gate-verified JavaScript exercises** across calc/PS/LA (lessons-with-code 75 → **78**; the gate now runs **73**):
+- **c-convexity** — **the chord-above-curve check**: `gap = (f(a)+f(b))/2 − f((a+b)/2) ≥ 0` for convex `f` — `x²` on `[1,3]` → `1.00`.
+- **ps-joint-distributions** — **marginalizing**: sum the joint over the other variable — `P(X=0)` from `[[0.1,0.2],[0.3,0.4]]` → `0.30`.
+- **la-four-subspaces-rank** — **rank-nullity**: `nullity = n − rank` — a 3×5 rank-2 matrix → `3`-dimensional null space.
+Every output node-verified; injected byte-stably with round-trip + no-existing-`data-code` + `**`-free guards.
+Verified: gate ALL GREEN (**73 code-exercises verified**); **via `--dump-dom`** the convexity-gap widget runs → `1.00`,
+"✓ Output matches expected"; all-routes smoke **errs=0/kErr=0 (12 routes)**. No save-shape change. SW cache `atlas-v314` → `atlas-v315`.
+
 ## iter 374 — Three more worked examples on flagship hard lessons (examples)
 A **3rd worked example** on three flagship lessons across PS/algo/LA (examples 352 → **355**, all ⌘K-searchable):
 - **ps-law-of-large-numbers** — **LLN says it converges; CLT says how fast**: for n=100 the proportion `→0.5` (LLN) with SE
