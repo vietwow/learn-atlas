@@ -2,6 +2,26 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 490 — Step-back: full audit (clean) + three more third deep-dives (content / depth)
+**Round-number step-back (iter 490).** Two health audits, both clean:
+- **Runtime kErr+route sweep**: all **148 lessons** (every example revealed, every deep-dive opened) → errs=0, kErr=0, 0 bad; all **107
+  non-lesson routes** → errs=0, kErr=0. **255 routes green.**
+- **Coverage + depth-distribution audit**: **0 structurally-thin** (≥2 examples [443], ≥8 MCQs [2368], ≥1 card [889], ≥1 hw [442]); dd
+  distribution **2-dd: 115 · 3-dd: 33 → 36 · 4+dd: 0** (every lesson ≥2). 3+dd by topic: DL 12, LA 7, calc 4, algo 5, RL 4, LLM 4, PS 3.
+**Reflection (480–489):** completed the 2-per-lesson runway (iter 480), then ran a clean **third-deep-dive lane** on the hardest concepts (9
+iters, +27, then +3 here). Quality bar held by verifying each angle against *both* existing dds and examples (skipped saturated/duplicate
+angles — e.g. L'Hôpital had a dedicated lesson; embeddings' analogies were examples). Zero red gates / broken pushes. Runway remains: ~110
+lessons at exactly 2dd, of which a selective subset (~7–10 iters) are genuinely "hardest" and warrant a 3rd; beyond that I'll pivot.
+**The paired ship — three more third deep-dives** (332 total):
+- **ps-normal-distribution** → **maximum-entropy**: among all distributions with a given mean & variance, the Gaussian has the most entropy
+  (fewest assumptions) — the principled "default," and why Gaussian-noise MLE = least squares.
+- **dl-gans** → **likelihood-free**: a GAN never models `p(x)`, just fools a critic → sharp samples but unstable/unmeasurable; diffusion's
+  stable likelihood-style objective is why it dethroned GANs.
+- **l-prompting-and-in-context-learning** → **induction heads**: ICL is pattern completion — attention circuits that learned to continue
+  `[A][B]…[A]→[B]` during pretraining complete the few-shot template, so behavior adapts with no weight change.
+Verified: gate ALL GREEN; **via `--dump-dom`** each lesson opens **all three** dd's (**nDD=3**) with **kErr=0, rawDollar=0**; both step-back
+sweeps clean; smoke (3 dd's × 3 + pages) **errs=0/kErr=0, bad=none**. SW cache `atlas-v429` → `atlas-v430`.
+
 ## iter 489 — Three more THIRD deep-dives on the hardest concepts (content / depth)
 A **third "Deeper dive"** on three more flagship hard concepts (deep-dives 326 → **329**; these three now carry three):
 - **la-symmetric-spectral** (had: stretch-perp-axes · ML full of symmetric) → **positive definiteness**: all eigenvalues `>0` ⟺ `xᵀAx>0` ⟺
