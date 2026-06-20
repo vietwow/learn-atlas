@@ -2,6 +2,18 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 449 — Three more second deep-dives on the hardest lessons (content / depth)
+A **distinct second "Deeper dive"** on three more flagship lessons across algo/PS/RL (deep-dives 209 → **212**; 62 lessons now carry two):
+- **a-asymptotic-analysis** (had: "why Big-O drops constants") → **Big-O of which case? (+ O/Θ/Ω)**: a complexity claim is a triple —
+  case (best/avg/worst/amortized) × bound (`O` upper / `Ω` lower / `Θ` tight) × the function; quicksort is `Θ(n log n)` avg, `O(n²)` worst.
+- **ps-sampling-distributions** (had: "why a bell") → **statistic vs parameter**: the parameter (`μ`) is fixed; the statistic (`x̄`) is
+  random because it depends on the sample — inference works because the *statistic* has a predictable sampling distribution.
+- **rl-imitation** (had: "why BC drifts") → **DAgger**: the cure for compounding errors is to label the *learner's own* states (run policy
+  → query expert → aggregate → retrain), shifting the training distribution to match test time.
+Authored with `String.raw` LaTeX; injected via the append-second-dd path with the full guard set + dup-summary guard.
+Verified: gate ALL GREEN; **via `--dump-dom`** each lesson opens **both** dd's (nDD=2) with **kErr=0, rawDollar=0**; smoke (2 dd's × 3 +
+pages) **errs=0/kErr=0, bad=none**. SW cache `atlas-v388` → `atlas-v389`.
+
 ## iter 448 — New viz: why L1 gives sparsity (the geometry) (visualizations)
 Broke a 5-iteration second-dd streak with a new visualization (the catalog gap I found: bias–variance is covered by `dl-overfitting` +
 `ps-estimator`, but the **L1-sparsity geometry** was not). Pairs with the L1-vs-L2 dd from iter 431.

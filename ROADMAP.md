@@ -188,6 +188,9 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ✅ iter 428: **Runnable 2-layer backward-pass code exercise** (new functionality; owner's backprop focus). Added JS code-exercise to
    dl-backpropagation (after the viz): same network, console.log(dw1,dw2)→"24 4"; gate RUNS it & asserts output (86 code-exercises verified).
    Verified: gate GREEN; dump-dom errs=0/kErr=0, code hydrates, &gt; decodes to >, in-browser Run → "24 4". SW →v368.
+   ✅ iter 449: **3 more second deep-dives on the hardest lessons** (content/depth). +3 dd (209→212; 62 lessons have 2):
+   a-asymptotic-analysis (Big-O of which case / O,Θ,Ω), ps-sampling-distributions (statistic vs parameter), rl-imitation (DAgger).
+   Append-second-dd inject w/ full guards. Verified: gate GREEN; dump-dom each nDD=2, kErr=0, rawDollar=0; smoke bad=none. SW →v389.
    ✅ iter 448: **New viz — why L1 gives sparsity (the geometry)** (visualizations; broke 5-iter dd streak). New viz dl-regularization-geometry
    (88→89): weight-space loss contours + L1 diamond / L2 circle constraint, solution = projection of w*; L1↔L2 toggle shows L1 snapping
    a weight to 0 (corner) vs L2 shrinking. Embedded in dl-overfitting-and-regularization; viz-complete →89. Projection math node-verified.
