@@ -2,6 +2,18 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 512 — Three more THIRD deep-dives on the hardest concepts (content / depth)
+Back to depth (alternating with 511's perf). A **third "Deeper dive"** on three more flagship hard concepts (deep-dives 377 → **380**):
+- **dl-initialization-and-vanishing-gradients** (had: compound-interest · Xavier/He) → **gradient clipping**: init/norm fix the *average* scale, but rare
+  exploding-gradient spikes (RNNs, long sequences) still happen — cap the norm (`g ← g·τ/‖g‖`, direction kept) so one bad batch can't derail training.
+- **l-peft-lora** (had: low-rank patch · merges away) → **the PEFT family beyond LoRA**: QLoRA (4-bit frozen base → fine-tune a 65B model on one GPU),
+  adapters, and prefix/prompt tuning (learn soft tokens, no weights) — all "freeze the giant, train a tiny add-on."
+- **a-amortized-analysis** (had: dynamic-array O(1) · why double) → **the three proof methods**: aggregate (total÷n), accounting/banker's (pre-paid
+  credits), and the potential method (`Φ`) — the rigorous machinery (potential scales to splay trees / Fibonacci heaps).
+Authored with `String.raw` LaTeX; injected via the append-dd path with the full guard set + dup-summary guard.
+Verified: gate ALL GREEN; **via `--dump-dom`** each lesson opens **all three** dd's (**nDD=3**) with **kErr=0, rawDollar=0**; smoke (3 dd's × 3 +
+pages) **errs=0/kErr=0, bad=none**. SW cache `atlas-v451` → `atlas-v452`.
+
 ## iter 511 — Memoize the ⌘K search index (performance)
 Switched off content (anti-monotony). The command palette rebuilt its full ~1,400-item index — including a regex sweep over *all 377 deep-dives'*
 content — on **every** open, even though the index is pure over static course/example/viz/glossary/reference data. Now it's built **once and cached**
