@@ -2,6 +2,24 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 450 — Step-back: full audit (clean) + three second deep-dives (content / depth)
+**Round-number step-back (iter 450).** Two health audits, both clean:
+- **Runtime kErr+route sweep**: all **148 lessons** (every example revealed, every deep-dive opened) → errs=0, kErr=0, 0 bad; all **107
+  non-lesson routes** (courses, Lab + 89 widgets, every utility page) → errs=0, kErr=0. **255 routes green.**
+- **Structural coverage audit**: **0 structurally-thin** — every lesson has ≥2 examples (**443**), ≥8 MCQs (2368), ≥1 flashcard (889),
+  ≥1 homework (442). Plus **215 deep-dives** (85 lessons at one dd, 63 at two), 90 code lessons, 151 glossary, 89 viz.
+**Reflection (441–449):** steady depth-runway progress (second deep-dives, the owner's #1) interleaved with one new viz (L1-sparsity
+geometry, 448) and owner-driven work — glossary clickability (439), a UI/UX maturity audit, and handling the owner's `prerender.js`
+(SEO build for `atlascodex.io`) + the missing `dist/` gitignore. Examples / UI / viz are mature; **second deep-dives is the main active
+lane** (85 lessons still at one dd). No red gate or broken push since the last step-back; the render-hazard guards (incl. the new
+zero-width-char check) held throughout.
+**The paired ship — three more second deep-dives** (215 total; 63 lessons now carry two):
+- **la-span-independence** → **dimension is the invariant** where span (`≥n`) meets independence (`≤n`); every basis has size `=n` (= rank).
+- **ps-geometric-waiting** → **expected wait `1/p`** via the memoryless one-step recursion `E = 1 + (1−p)E` (and large variance `(1−p)/p²`).
+- **a-approximation-randomized** → **approximation ratio** (e.g. 2-approx) vs **Las Vegas** (always correct, random time) vs **Monte Carlo** (fixed time, probable answer).
+Verified: gate ALL GREEN; **via `--dump-dom`** each opens **both** dd's (nDD=2) with **kErr=0, rawDollar=0**; both step-back sweeps clean;
+smoke (2 dd's × 3 + pages) **errs=0/kErr=0, bad=none**. SW cache `atlas-v389` → `atlas-v390`.
+
 ## iter 449 — Three more second deep-dives on the hardest lessons (content / depth)
 A **distinct second "Deeper dive"** on three more flagship lessons across algo/PS/RL (deep-dives 209 → **212**; 62 lessons now carry two):
 - **a-asymptotic-analysis** (had: "why Big-O drops constants") → **Big-O of which case? (+ O/Θ/Ω)**: a complexity claim is a triple —
