@@ -182,6 +182,9 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    each showing upstream×local (incl. ∂L/∂z₁=∂L/∂a₁·σ′(z₁)); σ↔ReLU toggle shows vanishing vs gating. Embedded in dl-backpropagation;
    viz-complete →88. Verified: gate GREEN; headless lab route errs=0/canvas, steps 0→fwd4→back4 (8/8), toggle+reset work; lesson route
    2 canvases hydrate, kErr=0; screenshot eyeballed. SW →v366.
+   ✅ iter 506: **3 more THIRD deep-dives on the hardest concepts** (content/depth; alternating with 505). +3 dd (368→371; 75 at 3 dd):
+   la-low-rank-pca (what PCA can't do), dl-transfer-learning (negative transfer / domain shift), l-hallucination-and-evaluation (how to reduce it:
+   RAG/abstain/verify). Verified: gate GREEN; dump-dom each nDD=3, kErr=0, rawDollar=0; smoke bad=none. SW →v446.
    ✅ iter 505: **Deep-dive search results auto-open the exact dive** (new functionality; completes 503's dd-search). Each 🧩 result's hash carries
    its ordinal (`/dd<k>`); viewLesson opens+scrolls to the k-th details.deep-dive (safe: every <summary> is a dd, 368=368). Verified: gate GREEN;
    headless …/dd3 opens only the 3rd (states 001), search→click → …/dd3 states 001, plain nav 000 (no regression), errs=0. SW →v445.

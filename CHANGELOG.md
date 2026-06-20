@@ -2,6 +2,18 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 506 — Three more THIRD deep-dives on the hardest concepts (content / depth)
+Back to depth (alternating with 505's functionality). A **third "Deeper dive"** on three more flagship hard concepts (deep-dives 368 → **371**):
+- **la-low-rank-pca** (had: PCA=SVD · Eckart–Young) → **what PCA can't do**: it's linear (curved data → kernel PCA/autoencoders/UMAP) and keeps
+  variance not relevance (class separation → LDA), and it's scale-sensitive — match the tool to the violated assumption.
+- **dl-transfer-learning** (had: why features transfer · feature hierarchy) → **when transfer fails**: under domain shift the source-specific late
+  features mislead (negative transfer), so the more dissimilar the target, the deeper you must unfreeze — a careless freeze loses to scratch.
+- **l-hallucination-and-evaluation** (had: fluency optimizes for it · how to evaluate) → **how to reduce it**: ground in retrieved sources (RAG),
+  train to abstain/calibrate, and verify (self-consistency) — attack the fluency-over-truth incentive directly rather than scaling alone.
+Authored with `String.raw` (prose, no math); injected via the append-dd path with the full guard set + dup-summary guard.
+Verified: gate ALL GREEN; **via `--dump-dom`** each lesson opens **all three** dd's (**nDD=3**) with **kErr=0, rawDollar=0**; smoke (3 dd's × 3 +
+pages) **errs=0/kErr=0, bad=none**. SW cache `atlas-v445` → `atlas-v446`.
+
 ## iter 505 — Deep-dive search results now auto-open the exact dive (new functionality)
 Completes iter 503's deep-dive search (anti-monotony off depth). Clicking a 🧩 search result previously landed you on the lesson, leaving you to
 find and open the dive yourself. Now each dd result carries its ordinal in the hash (`#/lesson/c/l/dd<k>`), and `viewLesson` opens *and scrolls to*
