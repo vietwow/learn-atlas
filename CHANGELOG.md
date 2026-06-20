@@ -2,6 +2,15 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 558 — ML example-parity: every ML lesson now has 3 worked examples (examples)
+Added a third worked example to the four remaining 2-example ML lessons, each a concept not yet exemplified there — **every ML lesson now has 3**:
+- **ml-knn** → **distance-weighted kNN flips the vote**: weights `1/d` give B (0.90 vs 1.00) even though A had more neighbors.
+- **ml-decision-trees** → **Gini vs entropy** on a 70/30 node: `0.42` vs `0.88` bits — different scales, near-identical split rankings.
+- **ml-kmeans** → **computing the WCSS** k-means minimizes: centroids → squared distances → total `4`; what the elbow plot tracks.
+- **ml-ensembles** → **AdaBoost learner weight** `α=½ln((1−ε)/ε)`: `0.42` for ε=0.3; →0 at chance, →∞ near-perfect, negative (flip it) when worse than chance.
+Appended via the byte-stable path with the full render-guard; distinct from each lesson's existing two.
+Verified: gate ALL GREEN (examples 469 → 473, **all 10 ML lessons at 3**); **headless** — each Examples tab shows **3**, all reveal with **kErr=0, rawDollar=0, errs=0**. SW cache `atlas-v497` → `atlas-v498`.
+
 ## iter 557 — Three more third deep-dives: log-derivative trick · RLHF/DPO · moments (content / depth)
 Three more high-value third deep-dives (RL/LLM/PS), each the mechanism the lesson's first two dives set up:
 - **rl-policy-gradient-theorem** → **the log-derivative trick**: `∇θ E[f] = E[f ∇θ log πθ]` — how you differentiate through sampling (act, weight the score by

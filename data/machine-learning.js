@@ -150,6 +150,11 @@
               "title": "How scaling flips the nearest neighbor",
               "scenario": "Two training points: P = (age 30, income 40000, class 'declines') and Q = (age 50, income 41000, class 'accepts'). Query R = (age 31, income 41000). Which neighbor is closer, unscaled vs. standardized?",
               "solution": "Unscaled Euclidean: to P = sqrt(1^2 + 1000^2) ≈ 1000.0; to Q = sqrt(19^2 + 0^2) = 19. So R is 'nearest' to Q — decided entirely by income. But R is 1 year from P in age and 19 years from Q. After standardizing (so age and income have comparable spread), the 1-year age gap to P outweighs the tiny income gap, and R becomes nearest to P instead. Same data, opposite neighbor — scaling changed the answer."
+            },
+            {
+              "title": "Distance-weighted kNN can flip the vote",
+              "scenario": "A query's 3 nearest neighbors are: class A at distances 2 and 2.5, and class B at distance 1. Plain majority vote among the 3 says A (2 votes to 1). Does <em>distance-weighted</em> kNN agree?",
+              "solution": "Distance weighting gives each neighbor a vote of $1/d$, so closer neighbors count more. Class A's weight is $\\tfrac{1}{2}+\\tfrac{1}{2.5}=0.5+0.4=0.9$; class B's is $\\tfrac{1}{1}=1.0$. Weighted vote: B wins, $1.0 > 0.9$ — even though A had more <em>neighbors</em>, B's single neighbor is so close it dominates. Distance weighting makes kNN smoother and less sensitive to the exact choice of $k$ (a far-away $k$-th neighbor barely matters), which is why it is often preferred to plain majority vote."
             }
           ]
         },
@@ -290,6 +295,11 @@
               "title": "Depth limit vs a fully grown tree",
               "scenario": "On a noisy 2-feature dataset, a depth-unlimited tree scores 100% train / 71% test; a depth-3 tree scores 88% train / 84% test. Which model is better, and what does the gap tell you?",
               "solution": "The depth-3 tree is better: what matters is test performance (84% vs 71%), and it generalizes far better despite lower training accuracy. The unlimited tree's perfect train score with a 29-point train-test gap is textbook overfitting — it carved pure leaves around noisy points. The shallow tree's small 4-point gap shows it captured the real signal without memorizing noise. The lesson: maximize validation/test accuracy, not training accuracy, and use depth limits or pruning to control the train-test gap."
+            },
+            {
+              "title": "Gini vs entropy on the same node",
+              "scenario": "A node holds 7 positive and 3 negative examples (so $p=0.7$). Compute its impurity two ways — Gini and entropy — and check whether the choice changes anything.",
+              "solution": "<b>Gini impurity</b> $=1-\\sum p_i^2 = 1-(0.7^2+0.3^2)=1-(0.49+0.09)=0.42$. <b>Entropy</b> $=-\\sum p_i\\log_2 p_i = -(0.7\\log_2 0.7 + 0.3\\log_2 0.3)\\approx 0.88$ bits. Both are positive (the node is impure) and both hit $0$ only for a pure node ($p=1$ or $p=0$) and peak at the 50/50 split. They differ in scale and curvature but rank splits almost identically, so trees give nearly the same structure either way — Gini is the common default mainly because it skips the logarithm and is a touch faster."
             }
           ]
         }
@@ -1173,6 +1183,11 @@
               "title": "Reading an elbow plot",
               "scenario": "You run k-means for k = 1..6 and get inertia values 1000, 300, 120, 95, 80, 70. How many clusters does the elbow method suggest?",
               "solution": "Look at how much each extra cluster reduces inertia: k1→2 drops 700, k2→3 drops 180, k3→4 drops 25, k4→5 drops 15, k5→6 drops 10. The big gains stop after k=3 (the 700 and 180 drops), and from k=3 onward the curve flattens (25, 15, 10 — diminishing returns). The 'elbow' is at k=3, so the elbow method suggests 3 clusters: beyond that you're mostly fitting noise, not real structure. (Confirm with a silhouette score if the elbow is ambiguous.)"
+            },
+            {
+              "title": "Computing the WCSS that k-means minimizes",
+              "scenario": "k-means minimizes the within-cluster sum of squares (WCSS): $\\sum_i \\lVert x_i - c_{(i)}\\rVert^2$, the total squared distance from each point to its cluster's center. For clusters A=$\\{(0,0),(2,0)\\}$ and B=$\\{(5,0),(7,0)\\}$, compute it.",
+              "solution": "First the centroids (the mean of each cluster): $c_A=(1,0)$ and $c_B=(6,0)$. Cluster A's squared distances: $(0-1)^2+(2-1)^2 = 1+1 = 2$. Cluster B's: $(5-6)^2+(7-6)^2 = 1+1 = 2$. Total WCSS $= 2+2 = 4$. This single number is k-means' objective — every assign-then-recenter step provably lowers it (or leaves it unchanged), which is why the algorithm converges. It is also what the elbow plot tracks against $k$: WCSS always drops as $k$ grows, so you look for the bend where extra clusters stop helping, not the minimum."
             }
           ]
         }
@@ -1319,6 +1334,11 @@
               "title": "Picking bagging vs boosting by the base learner",
               "scenario": "Base learner A is a full, deep decision tree (low bias, high variance). Base learner B is a depth-1 stump (high bias, low variance). Which ensemble method suits each?",
               "solution": "Use BAGGING (or a random forest) for A, the deep tree: it's already low-bias but high-variance, and bagging averages away the variance — full trees are the canonical random-forest base learner. Use BOOSTING for B, the stump: a single stump badly underfits (high bias), but boosting chains many stumps, each correcting the last, to drive the bias down into a strong learner — shallow trees are the canonical gradient-boosting base learner. The rule: bag low-bias/high-variance models to cut variance; boost high-bias/weak models to cut bias."
+            },
+            {
+              "title": "AdaBoost: how a weak learner earns its weight",
+              "scenario": "In boosting, each weak learner gets a say proportional to how good it is. AdaBoost gives a learner with weighted error $\\epsilon$ the weight $\\alpha=\\tfrac{1}{2}\\ln\\frac{1-\\epsilon}{\\epsilon}$. Compute $\\alpha$ for a stump with $\\epsilon=0.3$, and read off what happens at $\\epsilon=0.5$ and beyond.",
+              "solution": "For $\\epsilon=0.3$: $\\alpha=\\tfrac{1}{2}\\ln\\frac{0.7}{0.3}=\\tfrac{1}{2}\\ln(2.33)\\approx\\tfrac{1}{2}(0.847)=0.42$ — a positive, moderate vote. The formula encodes the right behavior: a learner barely better than chance ($\\epsilon\\to 0.5$) gets $\\alpha\\to 0$ (almost no say); a near-perfect learner ($\\epsilon\\to 0$) gets $\\alpha\\to\\infty$ (a huge say); and a learner <em>worse</em> than chance ($\\epsilon>0.5$) gets a <em>negative</em> weight — AdaBoost simply flips its predictions and uses it anyway. Boosting then reweights the data to focus the next learner on the examples this one got wrong."
             }
           ]
         }
