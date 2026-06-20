@@ -2,6 +2,15 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 566 — Example-parity site-wide: every lesson now has ≥3 worked examples (examples)
+Only two lessons remained under three examples (both LLM); added a distinct third to each — **all 158 lessons now have ≥3 worked examples**:
+- **l-scaling-laws** → **the Chinchilla 20:1 rule**: compute-optimal tokens `D≈20N` (a 7B model → ~140B tokens; GPT-3 was under-trained), and why LLaMA
+  deliberately "overtrains" past it for cheaper serving.
+- **l-rlhf-and-preference-optimization** → **the KL leash**: the objective is `r − β·KL`; at β=0.3 a reward-hacked response wins (6.2 vs 4.85), at β=1 the
+  on-distribution one wins (4.5 vs 2.0) — the leash that stops reward-hacking.
+Appended via the byte-stable path with the full render-guard (incl. the `%`-in-math check).
+Verified: gate ALL GREEN (examples 473 → 475; **0 lessons under 3**); **headless** — both Examples tabs show **3**, reveal with **kErr=0, rawDollar=0, errs=0**. SW cache `atlas-v505` → `atlas-v506`.
+
 ## iter 565 — Three more third dives: randomization · matrix-calculus identities · multiple comparisons (content / depth)
 Three more third deep-dives (algo/LA/PS) — clears the algo & LA 2-dd buckets to zero:
 - **a-approximation-randomized** → **randomization defeats the adversary**: random pivots / universal hashing get good *expected* bounds on *every* input
