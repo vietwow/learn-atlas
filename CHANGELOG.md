@@ -2,6 +2,18 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 434 — Three more worked examples across DL/RL/LLM (examples)
+A **3rd worked example** on three flagship lessons (examples 431 → **434**):
+- **dl-transfer-learning** — **why finetune with a small LR**: a large LR overwrites the pretrained features (catastrophic forgetting),
+  so you use `~2e-5` vs `1e-3`, plus discriminative LRs (tiny for early layers) and warmup — adapt, don't retrain.
+- **rl-trpo-ppo** — **the importance ratio**: `r = π_θ/π_old` reweights old-policy samples for the new policy, letting PPO take *several*
+  gradient steps per batch; the clip `[1−ε,1+ε]` (e.g. caps `r=1.5` at `1.2`) keeps the off-policy reuse honest — the source of PPO's sample efficiency.
+- **l-inference-efficiency** — **prefill vs decode**: prefill processes the whole prompt in one parallel, compute-bound pass (`O(n²)` attention, once);
+  decode is one forward pass per token, memory-bandwidth-bound — which is why KV-cache, batching, and quantization target decode.
+Every value node-verified (r=1.5→1.2); injected byte-stably with the round-trip guard.
+Verified: gate ALL GREEN (**434 examples**); **via `--dump-dom`** all 3 reveal with KaTeX (35 / 107 / 70 spans), **kErr=0, rawDollar=0**;
+smoke + pages **errs=0/kErr=0, bad=none**. SW cache `atlas-v373` → `atlas-v374`.
+
 ## iter 433 — Three more second deep-dives on the hardest lessons (content / depth)
 A **distinct second "Deeper dive"** on three more flagship lessons across LA/LLM/algo (deep-dives 182 → **185**; 35 lessons now carry two):
 - **la-matrix-multiplication** (had: "is function composition") → **the cost of multiplying**: `mnp` mults per product, and
