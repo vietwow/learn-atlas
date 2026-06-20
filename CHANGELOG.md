@@ -2,6 +2,18 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 472 — Three more second deep-dives on the hardest lessons (content / depth)
+A **distinct second "Deeper dive"** on three more flagship lessons across RL/LLM/calc (deep-dives 275 → **278**; 126 lessons now carry two):
+- **rl-trpo-ppo** (had: "why PPO clips") → **TRPO's trust region**: maximize the surrogate subject to a hard KL bound
+  `D_KL(π_old‖π_new) ≤ δ` (monotonic but second-order/expensive) — PPO's clip is a cheap first-order approximation of that KL ball.
+- **l-finetuning-and-instruction-tuning** (had: "shapes behaviour") → **catastrophic forgetting**: fine-tuning freely overwrites pretrained
+  weights, erasing general skills — cures all say "don't move far" (low LR, few epochs, frozen base / LoRA, replay).
+- **c-continuity** (had: "the IVT") → **the formal definition + three discontinuity types**: continuity is `lim f = f(a)` (defined · limit
+  exists · equal); breaking each gives removable / jump / infinite.
+Authored with `String.raw` LaTeX; injected via the append-second-dd path with the full guard set + dup-summary guard.
+Verified: gate ALL GREEN; **via `--dump-dom`** each lesson opens **both** dd's (nDD=2) with **kErr=0, rawDollar=0**; smoke (2 dd's × 3 +
+pages) **errs=0/kErr=0, bad=none**. SW cache `atlas-v411` → `atlas-v412`.
+
 ## iter 471 — Three more second deep-dives on the hardest lessons (content / depth)
 A **distinct second "Deeper dive"** on three more flagship lessons across LLM/RL/calc (deep-dives 272 → **275**; 123 lessons now carry two):
 - **l-inference-efficiency** (had: "KV-cache → linear") → **speculative decoding**: a small draft model proposes `k` tokens, the big model
