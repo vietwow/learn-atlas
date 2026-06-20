@@ -2,6 +2,17 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 517 — Machine Learning topic: Logistic Regression (content / new topic build-out)
+Continuing the 8th topic. Added **Logistic Regression: From Scores to Probabilities** to module 2 "Linear Models" (course now 2 modules / 4 lessons).
+8-section lecture (linear score + sigmoid `σ(z)=1/(1+e⁻ᶻ)` → probability · why not linear regression · cross-entropy/log-loss training · the *linear*
+decision boundary · coefficients as log-odds, `eʷ` = odds multiplier · softmax/one-vs-rest multiclass · "logistic regression *is* a single neuron")
++ **2 deep-dives** (why cross-entropy not squared error — convexity + the clean `p−y` gradient vs vanishing-gradient saturation; logistic regression is
+a *linear* classifier — boundary is the hyperplane `z=0`, the sigmoid only sets confidence) + **8 MCQs** (de-skewed 2/2/2/2) + **5 flashcards** +
+**2 homework** + **2 worked examples** (score→prob→class by hand; why a straight line on 0/1 labels misbehaves).
+Verified: `node gate.js` → **8 topics · 152 lessons · ALL GREEN**; **headless** — lesson opens with **nDD=2**, **kErr=0, rawDollar=0, errs=0** (sigmoid /
+cross-entropy / log-odds display math clean). SW cache `atlas-v456` → `atlas-v457`.
+**Queued next:** Regularization (finish module 2), then SVMs/kernels, Naive Bayes, k-Means, Ensembles, Model Selection/CV.
+
 ## iter 516 — Machine Learning topic: module 2 "Linear Models" → Linear Regression (content / new topic build-out)
 Continuing the 8th topic. Started **module 2 "Linear Models"** with its first lesson, **Linear Regression: Predicting with a Line** (course now 2
 modules / 3 lessons). Framed as a *supervised model* (distinct from la-projection's geometry): 8-section lecture (the model `ŷ=wᵀx+b` · least-squares

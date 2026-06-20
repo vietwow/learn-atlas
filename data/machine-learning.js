@@ -438,6 +438,146 @@
               "solution": "Add a transformed feature. Instead of fitting ŷ = w₁x + b, create a second feature x² and fit ŷ = w₁x + w₂x² + b. This is still ordinary least squares — you've just added a column to the design matrix — but the fitted curve is now a parabola in x. The model is linear in the parameters (w₁, w₂, b), so the same closed-form/gradient solver applies, yet it captures the U-shape. (Caution: keep adding powers and you'll eventually overfit, wiggling through every point.)"
             }
           ]
+        },
+        {
+          "id": "ml-logistic-regression",
+          "title": "Logistic Regression: From Scores to Probabilities",
+          "minutes": 17,
+          "content": "<h3>1. The hook: predicting a class, not a number</h3>\n<p>Linear regression outputs any real number — fine for prices, useless for \"spam or not.\" For <em>classification</em> you want a <strong>probability</strong>: a number in $[0,1]$ saying how likely the positive class is. <strong>Logistic regression</strong> gets there with one small twist on the linear model: compute a linear score, then squash it through an S-shaped function into a probability. It is the workhorse classifier of classical ML — fast, interpretable, well-calibrated — and, as you will see, literally a single neuron.</p>\n\n<h3>2. The model: linear score, then a squash</h3>\n<p>First compute the same linear score as before, $z = w^\\top x + b$. Then pass it through the <strong>logistic (sigmoid)</strong> function $$\\sigma(z) = \\frac{1}{1 + e^{-z}},$$ which maps any real number to $(0,1)$: large positive $z$ gives $\\sigma \\to 1$, large negative gives $\\sigma \\to 0$, and $z=0$ gives exactly $0.5$. The output $\\hat{p} = \\sigma(w^\\top x + b)$ is read as \"the model's probability that $y=1$.\" To make a hard decision you threshold, usually predicting class 1 when $\\hat{p} \\ge 0.5$ (equivalently when $z \\ge 0$).</p>\n\n<h3>3. Why not just use linear regression?</h3>\n<p>You <em>could</em> fit a line to 0/1 labels, but it misbehaves: predictions shoot below 0 and above 1 (nonsensical as probabilities), and a few far-away points tilt the line and move the boundary. The sigmoid fixes both — outputs stay in $(0,1)$, and points far on the correct side barely affect the fit. Logistic regression gives genuine, usable probabilities; linear regression on labels does not.</p>\n\n<h3>4. Training: cross-entropy (log loss)</h3>\n<p>We fit $w, b$ by <strong>maximum likelihood</strong> under a Bernoulli model, which is equivalent to minimizing the <strong>cross-entropy</strong> (log) loss: $$\\mathcal{L} = -\\frac{1}{n}\\sum_{i=1}^{n}\\Big[\\, y_i \\log \\hat{p}_i + (1-y_i)\\log(1-\\hat{p}_i)\\,\\Big].$$ It punishes confident wrong predictions enormously (predicting $\\hat{p}=0.01$ when $y=1$ costs $-\\log(0.01) \\approx 4.6$). There is no closed-form solution like the normal equations, but the loss is <em>convex</em>, so gradient descent reliably finds the global optimum.</p>\n\n<h3>5. The decision boundary is linear</h3>\n<p>Despite the curvy sigmoid, logistic regression is a <strong>linear classifier</strong>. The boundary is the set of points where $\\hat{p} = 0.5$, i.e. $z = w^\\top x + b = 0$ — a straight line in 2D, a hyperplane in general. The sigmoid only controls how <em>confidence</em> ramps up as you move away from that boundary; it does not bend the boundary itself. (Want a curved boundary? Transform the features, exactly as with linear regression.)</p>\n\n<h3>6. Reading the coefficients: log-odds</h3>\n<p>Logistic regression is interpretable, just on a different scale. The linear score $z$ is the <strong>log-odds</strong> (logit) of the positive class: $z = \\log\\frac{p}{1-p}$. So a weight $w_j$ is the change in log-odds per unit of feature $j$, and $e^{w_j}$ is the <strong>odds multiplier</strong>: a coefficient of $0.7$ means each unit of that feature multiplies the odds by $e^{0.7} \\approx 2$ (roughly doubles them), holding others fixed.</p>\n\n<h3>7. More than two classes</h3>\n<p>For $K$ classes, generalize the sigmoid to the <strong>softmax</strong>, which turns $K$ linear scores into a probability distribution over the classes (this is <em>multinomial</em> / softmax regression). A simpler alternative is <em>one-vs-rest</em>: train one binary logistic classifier per class and pick the most confident. Either way the per-class boundaries stay linear.</p>\n\n<h3>8. The big picture</h3>\n<p>Logistic regression = linear score + sigmoid + cross-entropy loss, trained by gradient descent, giving calibrated probabilities and a linear decision boundary you can read as log-odds. It is exactly a <em>single artificial neuron</em> with a sigmoid activation — so understanding it <em>is</em> understanding the atom of a neural network. As a baseline it is hard to beat: when in doubt, fit a logistic regression first.</p>\n<details class=\"deep-dive\">\n<summary>Deeper dive: why cross-entropy, not squared error, for classification</summary>\n<p>It is tempting to reuse the squared-error loss on the sigmoid output, $(y - \\hat{p})^2$. Don't — it fails in two ways that cross-entropy avoids.</p>\n<p><b>Convexity.</b> Squared error composed with the sigmoid is <em>non-convex</em> in the weights, so gradient descent can stall in bad local minima. Cross-entropy composed with the sigmoid is <em>convex</em>, giving a single global optimum that gradient descent always reaches.</p>\n<p><b>Gradient strength.</b> When the model is <em>confidently wrong</em> (say $\\hat{p} \\approx 0$ but $y=1$), squared error's gradient is tiny — the sigmoid has saturated, its slope is near zero, and the chain rule multiplies the error by that vanishing slope. Learning crawls exactly when it should be fastest. With cross-entropy the math is kinder: the gradient of the loss with respect to the score is simply $\\hat{p} - y$, which is <em>large</em> precisely when the prediction is badly wrong. The sigmoid's troublesome slope cancels out.</p>\n<p>The \"aha\": cross-entropy is not just a different loss, it is the <em>right</em> loss for probabilistic classification — the Bernoulli maximum-likelihood objective, convex, with a clean $\\hat{p} - y$ gradient that learns fast from confident mistakes. This is the same reason deep classifiers use cross-entropy, not MSE, on their softmax outputs.</p>\n</details>\n<details class=\"deep-dive\">\n<summary>Deeper dive: logistic regression is a linear classifier in disguise</summary>\n<p>The sigmoid is nonlinear, so people assume logistic regression draws curved boundaries. It does not — the curve is in the <em>probabilities</em>, not the <em>boundary</em>.</p>\n<p><b>Where the classes split.</b> A point is classified positive when $\\hat{p} = \\sigma(z) \\gt 0.5$, and the sigmoid crosses $0.5$ exactly at $z = 0$. So the decision boundary is $\\{x : w^\\top x + b = 0\\}$ — a hyperplane, the same flat boundary a perceptron or linear SVM would draw. Moving away from it, the sigmoid smoothly ramps the predicted probability toward 0 or 1; that ramp is the only thing the nonlinearity adds. Two models with the same boundary direction but different weight magnitudes differ only in how <em>sharply</em> confidence changes, not in <em>where</em> the classes split.</p>\n<p><b>Getting nonlinear boundaries.</b> Exactly as with linear regression, you lift the features: add $x^2$, $x_1 x_2$, or kernel features, and the boundary becomes nonlinear in the original space while the model stays a linear classifier in the expanded space.</p>\n<p>The \"aha\": logistic regression is a <em>linear</em> classifier that happens to report calibrated probabilities. The sigmoid sets confidence, not boundary shape — so its decision surface is a hyperplane, and curvature comes only from engineering the features.</p>\n</details>",
+          "mcq": [
+            {
+              "q": "What does a logistic regression model output for an input?",
+              "choices": [
+                "The nearest class label by distance",
+                "A probability in (0,1) that the input is in the positive class",
+                "An unbounded real-valued score only",
+                "The cluster the point belongs to"
+              ],
+              "answer": 1,
+              "explain": "Logistic regression passes the linear score through a sigmoid, producing a calibrated probability in (0,1) for the positive class."
+            },
+            {
+              "q": "The sigmoid function $\\sigma(z) = 1/(1+e^{-z})$ maps",
+              "choices": [
+                "(0,1) to all real numbers",
+                "integers to integers",
+                "probabilities to log-odds",
+                "any real number to the open interval (0,1)"
+              ],
+              "answer": 3,
+              "explain": "The sigmoid squashes the whole real line into (0,1): large +z → 1, large −z → 0, z=0 → 0.5."
+            },
+            {
+              "q": "The decision boundary of logistic regression is",
+              "choices": [
+                "linear — the hyperplane $w^\\top x + b = 0$ where $\\hat{p}=0.5$",
+                "always a circle",
+                "curved because of the sigmoid",
+                "undefined for probabilities"
+              ],
+              "answer": 0,
+              "explain": "The boundary is where the probability is 0.5, i.e. z = w·x + b = 0 — a hyperplane. The sigmoid sets confidence, not the boundary's shape."
+            },
+            {
+              "q": "Logistic regression is trained by minimizing",
+              "choices": [
+                "the squared error between probabilities and labels",
+                "the number of misclassified points directly",
+                "the cross-entropy (log) loss",
+                "the distance to the nearest neighbor"
+              ],
+              "answer": 2,
+              "explain": "Maximum likelihood under a Bernoulli model is equivalent to minimizing cross-entropy / log loss, which is convex in the weights."
+            },
+            {
+              "q": "Why is squared error a poor loss for logistic regression?",
+              "choices": [
+                "It cannot be computed for probabilities",
+                "Combined with the sigmoid it is non-convex and gives weak gradients when confidently wrong",
+                "It always predicts the majority class",
+                "It requires a closed-form solution"
+              ],
+              "answer": 1,
+              "explain": "Squared-error-plus-sigmoid is non-convex and its gradient vanishes when the model is confidently wrong (saturated sigmoid). Cross-entropy is convex with a strong p−y gradient."
+            },
+            {
+              "q": "How do you interpret a coefficient $w_j$ in logistic regression?",
+              "choices": [
+                "It is the predicted probability of feature $j$",
+                "It is the Euclidean distance along axis $j$",
+                "It has no interpretation",
+                "It changes the log-odds; $e^{w_j}$ is the odds multiplier per unit of feature $j$"
+              ],
+              "answer": 3,
+              "explain": "The linear score is the log-odds, so $w_j$ is the change in log-odds per unit feature, and $e^{w_j}$ multiplies the odds (all else fixed)."
+            },
+            {
+              "q": "To classify more than two classes, logistic regression uses",
+              "choices": [
+                "softmax (multinomial) regression or one-vs-rest",
+                "a decision tree instead",
+                "k-means clustering",
+                "nothing — it only does binary"
+              ],
+              "answer": 0,
+              "explain": "Softmax generalizes the sigmoid to K classes (a distribution over classes); one-vs-rest trains one binary classifier per class. Boundaries stay linear."
+            },
+            {
+              "q": "Logistic regression is mathematically equivalent to",
+              "choices": [
+                "a k-nearest-neighbor classifier",
+                "a fully grown decision tree",
+                "a single artificial neuron with a sigmoid activation",
+                "an unsupervised clustering method"
+              ],
+              "answer": 2,
+              "explain": "A logistic regression unit computes w·x+b then a sigmoid — exactly one neuron. It is the atom that neural networks stack and add nonlinearities to."
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "What is the logistic regression model?",
+              "back": "Compute a linear score z = wᵀx + b, then squash it with the sigmoid σ(z)=1/(1+e^(−z)) to get a probability in (0,1). Threshold at 0.5 (z=0) for a hard class."
+            },
+            {
+              "front": "What loss trains logistic regression, and why?",
+              "back": "Cross-entropy (log) loss — the Bernoulli maximum-likelihood objective. It's convex (unlike squared-error+sigmoid) and its gradient (p−y) is strong exactly when the model is confidently wrong. No closed form; use gradient descent."
+            },
+            {
+              "front": "Is logistic regression's decision boundary linear or curved?",
+              "back": "Linear — a hyperplane where w·x+b=0 (p=0.5). The sigmoid only sets how fast confidence ramps, not the boundary shape. Transform features for curved boundaries."
+            },
+            {
+              "front": "How do you interpret logistic regression coefficients?",
+              "back": "The linear score is the log-odds: z = log(p/(1−p)). So w_j is the change in log-odds per unit of feature j, and e^(w_j) is the odds multiplier (e.g. w=0.7 → odds ×2)."
+            },
+            {
+              "front": "Logistic regression and neural networks",
+              "back": "Logistic regression IS a single neuron: linear combination + sigmoid, trained with cross-entropy. Stack many such units with nonlinearities and you get a neural net. It's also a strong, calibrated baseline classifier."
+            }
+          ],
+          "homework": [
+            {
+              "q": "A logistic spam classifier outputs the score z = w·x + b = −1.5 for an email. Compute the predicted probability of spam, and state the predicted class at a 0.5 threshold. Then say what z and the probability would be for a borderline email exactly on the decision boundary.",
+              "solution": "Probability = σ(−1.5) = 1/(1 + e^(1.5)) = 1/(1 + 4.4817) ≈ 1/5.4817 ≈ 0.182. Since 0.182 < 0.5, predict NOT spam (negative class). On the decision boundary the score is z = 0, giving σ(0) = 1/(1+1) = 0.5 exactly — the point of maximum uncertainty, where the classifier is indifferent between the two classes."
+            },
+            {
+              "q": "In a logistic model for loan default, the coefficient on 'number of prior late payments' is 0.69. Interpret this on the odds scale, and explain why the effect on the probability is not constant per unit even though the effect on log-odds is.",
+              "solution": "On the log-odds scale the effect is constant: each additional late payment adds 0.69 to the log-odds of default. On the odds scale, e^(0.69) ≈ 2, so each late payment multiplies the odds of default by about 2 (doubles them), holding other features fixed. The effect on the PROBABILITY is not constant because the sigmoid is nonlinear: doubling the odds moves the probability a lot in the middle (e.g. 0.5 → 0.67) but very little near the extremes (0.99 → 0.995). Equal additive steps in log-odds (or equal multiplicative steps in odds) produce unequal changes in probability — the S-curve flattens at both ends."
+            }
+          ],
+          "examples": [
+            {
+              "title": "Score to probability to class, by hand",
+              "scenario": "A logistic model has weights w = (2, −1) and bias b = −1. For input x = (1, 1), compute z, the probability, and the predicted class (threshold 0.5).",
+              "solution": "z = w·x + b = 2·1 + (−1)·1 + (−1) = 2 − 1 − 1 = 0. Then σ(0) = 1/(1 + e^0) = 1/2 = 0.5. The probability is exactly 0.5 — the input sits on the decision boundary. With a 'predict 1 if p ≥ 0.5' rule it is classified as the positive class (1), but it is maximally uncertain; any tiny change to a feature would tip it decisively one way or the other."
+            },
+            {
+              "title": "Why a straight line on 0/1 labels misbehaves",
+              "scenario": "You fit ordinary linear regression to binary labels (0 = healthy, 1 = sick) against a dosage feature, then add one patient with a very high dosage. What goes wrong that logistic regression avoids?",
+              "solution": "Two problems. First, the fitted line is unbounded, so for high or low dosages it predicts values above 1 or below 0 — impossible as probabilities, with no sensible way to read them. Second, the single high-dosage point exerts strong leverage on the least-squares line, tilting it and shifting the implied 0.5 crossing (the decision threshold), so a far-away correct case degrades the boundary. Logistic regression avoids both: the sigmoid keeps outputs in (0,1), and points far on the correct side of the boundary contribute almost nothing to the cross-entropy gradient, so the boundary is stable."
+            }
+          ]
         }
       ]
     }
