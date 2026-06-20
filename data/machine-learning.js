@@ -1298,6 +1298,152 @@
           ]
         }
       ]
+    },
+    {
+      "id": "ml-model-selection-mod",
+      "title": "Model Selection & Evaluation",
+      "lessons": [
+        {
+          "id": "ml-model-selection",
+          "title": "Model Selection & Cross-Validation",
+          "minutes": 18,
+          "content": "<h3>1. The hook: the one number that actually matters</h3>\n<p>You can fit a hundred models; the only question that counts is <em>which one will work on data it has never seen?</em> Answering that honestly is <strong>model selection and evaluation</strong> — the meta-skill that decides whether all the algorithms in this topic actually deliver. The cardinal sin is judging a model by its performance on the very data it trained on: a flexible model can <em>memorize</em> that data and look perfect while being worthless on anything new. This lesson is the discipline that prevents fooling yourself.</p>\n\n<h3>2. Train, validation, test</h3>\n<p>Split your data into three roles. The <strong>training set</strong> fits the model's parameters. The <strong>validation set</strong> is used to tune hyperparameters and choose between models. The <strong>test set</strong> is locked away and touched <em>once</em>, at the very end, to get an unbiased estimate of real-world performance. The rule is absolute: the test set informs <em>no</em> decisions — the moment a choice depends on it, it stops being an honest estimate and becomes part of training.</p>\n\n<h3>3. Cross-validation</h3>\n<p>A single validation split wastes data and is noisy. <strong>k-fold cross-validation</strong> fixes both: split the data into $k$ equal folds, then train on $k-1$ folds and validate on the held-out fold, rotating so every fold serves as validation exactly once. Average the $k$ scores for a robust estimate, and you've used <em>all</em> the data for both training and validation. Common variants: <em>leave-one-out</em> ($k = n$, expensive), and <em>stratified</em> k-fold, which preserves class proportions in each fold (essential for imbalanced data).</p>\n\n<h3>4. Diagnosing bias and variance</h3>\n<p>Model selection is largely a hunt for the bias-variance sweet spot. <em>Underfitting</em> (high bias): poor on both training and validation — the model is too simple. <em>Overfitting</em> (high variance): great on training, poor on validation — the model memorized noise. Two diagnostic plots: a <strong>learning curve</strong> (score vs training-set size) reveals whether more data would help; a <strong>validation curve</strong> (score vs a hyperparameter like tree depth or regularization $\\lambda$) shows where complexity tips from underfit to overfit.</p>\n\n<h3>5. Hyperparameter search</h3>\n<p>Hyperparameters (k in kNN, C and $\\gamma$ in SVMs, $\\lambda$ in ridge, tree depth, learning rate) aren't learned from the training loss — you search for them. <strong>Grid search</strong> tries every combination on a grid; <strong>random search</strong> samples combinations at random and, surprisingly, often finds better settings for the same budget (because only a few hyperparameters usually matter, and random sampling explores more distinct values of them). <strong>Bayesian optimization</strong> is smarter still for expensive models. Always score candidates by cross-validation — never by the test set.</p>\n\n<h3>6. Metrics beyond accuracy</h3>\n<p>Accuracy alone lies, especially on imbalanced data: if 99% of emails are \"not fraud,\" a model that always says \"not fraud\" scores 99% and catches nothing. Use metrics matched to the problem: <strong>precision</strong> (of those flagged, how many were right), <strong>recall</strong> (of the real positives, how many were caught), their harmonic mean <strong>F1</strong> $= \\frac{2\\,PR}{P+R}$, the <strong>confusion matrix</strong>, and <strong>ROC-AUC</strong> (ranking quality across all decision thresholds). Which to optimize depends on the cost of each error type.</p>\n\n<h3>7. The silent killer: data leakage</h3>\n<p><strong>Data leakage</strong> is when information that won't be available at prediction time sneaks into training, producing glowing validation scores that collapse in production. Classic culprits: fitting preprocessing (scaling, feature selection, imputation) on the <em>whole</em> dataset before splitting, so the training folds \"see\" the validation data; or including a feature that's a proxy for the target. The fix: do <em>all</em> fitting — including preprocessing — <em>inside</em> each cross-validation fold, using a pipeline.</p>\n\n<h3>8. The big picture</h3>\n<p>Honest evaluation is the backbone of machine learning: split into train/validation/test, estimate with cross-validation, diagnose bias vs variance with learning/validation curves, search hyperparameters on CV (never the test set), pick metrics that fit the problem, and guard against leakage. Master this and every model in this topic becomes trustworthy; skip it and even the fanciest model is just a number that flatters you.</p>\n<details class=\"deep-dive\">\n<summary>Deeper dive: why you must never let the test set leak in</summary>\n<p>\"Don't touch the test set\" sounds like a rule of etiquette; it's actually a statistical necessity, and leakage is subtler than it looks.</p>\n<p><b>Every peek inflates the estimate.</b> The test score is only an unbiased estimate of generalization <em>if no decision depended on it</em>. The instant you use it to pick a model, a threshold, or a feature, you have <em>optimized against that specific test set</em> — and the score now overstates real performance, because you selected whatever happened to do well on those particular points (partly by luck). With enough tries you can get a great test score on pure noise. The test set is a single-use measuring device.</p>\n<p><b>Validation overfitting is real too.</b> Even cross-validation isn't immune: if you try hundreds of hyperparameter configurations and keep the best CV score, you've overfit the <em>validation</em> data — the winning config is partly chosen for fitting CV noise. The remedy is <em>nested cross-validation</em>: an inner loop tunes hyperparameters, an outer loop estimates performance, so the data used to <em>choose</em> is never the data used to <em>judge</em>.</p>\n<p><b>Preprocessing leaks too.</b> Fit a scaler or feature selector on the full dataset and the training folds absorb statistics from the held-out data — a quiet leak that inflates CV scores. Everything learned from data must be fit <em>inside</em> the fold (use a pipeline).</p>\n<p>The \"aha\": generalization estimates are only valid for data that influenced <em>no</em> choices. Test once, tune with nested CV, and fit preprocessing inside folds — anything else silently optimizes against your own yardstick and lies to you.</p>\n</details>\n<details class=\"deep-dive\">\n<summary>Deeper dive: accuracy is a trap (precision, recall, and the ROC curve)</summary>\n<p>Accuracy is the default metric and the most misleading one on the problems that matter most — the imbalanced ones.</p>\n<p><b>The base-rate trap.</b> If 1% of transactions are fraud, the model \"always predict legit\" scores <em>99% accuracy</em> while catching zero fraud. Accuracy rewards the majority class, so on imbalanced data it can be high and useless. You need metrics that look at the rare class.</p>\n<p><b>Precision vs recall.</b> <em>Precision</em> = of the cases you flagged positive, what fraction truly were (how trustworthy is an alarm). <em>Recall</em> = of the true positives, what fraction you caught (how many you miss). They trade off: lower the decision threshold and you catch more (recall up) but with more false alarms (precision down). The right balance depends on costs — a cancer screen wants high recall (don't miss cases); a spam filter wants high precision (don't trash real mail). <em>F1</em> is their harmonic mean when you want one number.</p>\n<p><b>ROC-AUC: threshold-free.</b> Precision and recall depend on where you set the threshold. The <em>ROC curve</em> plots true-positive rate against false-positive rate across <em>all</em> thresholds, and the <em>area under it</em> (AUC) summarizes the model's <em>ranking</em> ability — the probability it scores a random positive above a random negative — independent of any single cutoff. (On heavy imbalance, the precision-recall curve is often even more informative.)</p>\n<p>The \"aha\": pick the metric for the question. Accuracy hides failure on imbalanced data; precision/recall expose the trade-off you actually care about; F1 condenses it; ROC-AUC judges ranking across thresholds. The metric <em>is</em> a modeling decision — choose it to match the real cost of each kind of error.</p>\n</details>",
+          "mcq": [
+            {
+              "q": "Why can't you judge a model by its performance on the training set?",
+              "choices": [
+                "Training accuracy is always zero",
+                "The training set is too small to matter",
+                "Training metrics can't be computed",
+                "A flexible model can memorize the training data, so you need held-out data to estimate generalization"
+              ],
+              "answer": 3,
+              "explain": "A high-capacity model can fit (even memorize) its training data and look perfect while failing on new data. Only held-out data estimates true generalization."
+            },
+            {
+              "q": "What is the role of the train/validation/test split?",
+              "choices": [
+                "All three are used to fit parameters",
+                "Train fits parameters, validation tunes hyperparameters/selects models, test gives a final unbiased estimate (used once)",
+                "Test is used to tune the model",
+                "Validation is never needed"
+              ],
+              "answer": 1,
+              "explain": "Parameters are fit on train; hyperparameters and model choice on validation; the test set is touched once at the end for an honest performance estimate."
+            },
+            {
+              "q": "How does k-fold cross-validation work?",
+              "choices": [
+                "It trains on the test set k times",
+                "It uses only one fixed validation split",
+                "Split into k folds; train on k−1, validate on the held-out fold, rotate, and average the scores",
+                "It removes k random points and ignores them"
+              ],
+              "answer": 2,
+              "explain": "Each fold serves as validation exactly once; averaging the k scores gives a robust estimate while using all data for both training and validation."
+            },
+            {
+              "q": "Why does random search often beat grid search for the same budget?",
+              "choices": [
+                "It explores more distinct values of the few hyperparameters that actually matter",
+                "It always finds the global optimum",
+                "It needs no cross-validation",
+                "It only tries one configuration"
+              ],
+              "answer": 0,
+              "explain": "Usually only a few hyperparameters matter; random sampling covers more distinct values of those, whereas a grid wastes trials on unimportant ones."
+            },
+            {
+              "q": "On a dataset that is 99% negative, a model reporting 99% accuracy",
+              "choices": [
+                "is definitely excellent",
+                "has perfect recall",
+                "is impossible",
+                "may be useless — it could just always predict 'negative'; check precision/recall"
+              ],
+              "answer": 3,
+              "explain": "Accuracy is dominated by the majority class; 'always negative' scores 99% while catching no positives. On imbalanced data, use precision/recall/F1/AUC."
+            },
+            {
+              "q": "Data leakage is",
+              "choices": [
+                "when the model trains too slowly",
+                "information from outside the training fold (test data or the target) sneaking into training, inflating the estimate",
+                "when you have too little data",
+                "a type of regularization"
+              ],
+              "answer": 1,
+              "explain": "Leakage = the model gains access to information unavailable at prediction time (e.g. preprocessing fit on all data, or a target proxy), giving falsely high scores that collapse in production."
+            },
+            {
+              "q": "ROC-AUC is useful because it",
+              "choices": [
+                "only works for balanced data",
+                "requires no model",
+                "measures ranking quality across all decision thresholds, independent of any single cutoff",
+                "is the same as accuracy"
+              ],
+              "answer": 2,
+              "explain": "ROC-AUC summarizes how well the model ranks positives above negatives over every threshold — the probability a random positive outscores a random negative — so it doesn't depend on one chosen cutoff."
+            },
+            {
+              "q": "To tune hyperparameters honestly, you should",
+              "choices": [
+                "select on validation/cross-validation and report on a test set touched only once (nested CV if tuning heavily)",
+                "tune directly on the test set to save data",
+                "skip validation and use training accuracy",
+                "pick hyperparameters before seeing any data and never change them"
+              ],
+              "answer": 0,
+              "explain": "Choose hyperparameters by CV/validation; the test set is used once for the final estimate. Heavy tuning overfits validation, so nested CV separates choosing from judging."
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "What are the three data splits and their jobs?",
+              "back": "Train (fit parameters), Validation (tune hyperparameters / select models), Test (final unbiased estimate, used exactly once). The test set must inform no decisions."
+            },
+            {
+              "front": "What is k-fold cross-validation?",
+              "back": "Split data into k folds; train on k−1 and validate on the held-out fold, rotating so each fold validates once; average the k scores. Robust estimate using all data. Stratified k-fold preserves class balance; LOOCV is k=n."
+            },
+            {
+              "front": "How do you diagnose underfitting vs overfitting?",
+              "back": "Underfit (high bias): poor on BOTH train and validation. Overfit (high variance): great on train, poor on validation. Use a learning curve (score vs data size — does more data help?) and a validation curve (score vs a hyperparameter)."
+            },
+            {
+              "front": "Why is accuracy misleading, and what to use instead?",
+              "back": "On imbalanced data, always predicting the majority gives high accuracy but is useless. Use precision (trustworthy alarms), recall (caught positives), F1 = 2PR/(P+R), confusion matrix, and ROC-AUC (threshold-free ranking). Pick the metric matching error costs."
+            },
+            {
+              "front": "What is data leakage and how do you prevent it?",
+              "back": "Information unavailable at prediction time (test data, or a target proxy) entering training → inflated scores that collapse in production. Prevent by fitting ALL preprocessing inside each CV fold (use a pipeline), splitting before any data-driven step, and tuning with nested CV."
+            }
+          ],
+          "homework": [
+            {
+              "q": "A teammate reports 'I tried 200 hyperparameter settings and the best one got 96% on the test set — let's ship it.' Identify the methodological error and describe the correct procedure.",
+              "solution": "The error: they used the TEST set to choose among 200 settings, so the 96% is not an unbiased estimate — by trying many configurations and keeping the best test score, they optimized against that specific test set and overfit it (some of the 96% is luck on those particular points). The reported number overstates real performance. Correct procedure: tune hyperparameters using cross-validation (or a separate validation set) on the training data only — pick the setting with the best CV score. Then evaluate that single chosen model ONCE on the held-out test set to get an honest estimate. If the tuning is extensive, use nested cross-validation (inner loop tunes, outer loop estimates) so the data used to choose is never the data used to judge. The test set is a single-use measuring device."
+            },
+            {
+              "q": "You build a fraud detector on data that is 0.5% fraud, and it achieves 99.5% accuracy. Explain why this number is uninformative and which metrics you'd report instead, with the reasoning about error costs.",
+              "solution": "With only 0.5% fraud, a trivial model that labels EVERY transaction 'legit' already scores 99.5% accuracy while catching zero fraud — so 99.5% tells you nothing about whether fraud is detected. Accuracy is dominated by the overwhelming majority class. Report instead: recall (of actual fraud, how much is caught — missing fraud is costly), precision (of flagged transactions, how many are truly fraud — false alarms annoy customers and cost investigation time), the confusion matrix (to see the actual counts), and ROC-AUC or, better on heavy imbalance, the precision-recall curve / average precision. On error costs: a missed fraud (false negative) is usually far more expensive than a false alarm (false positive), so you'd typically favor higher recall, lowering the decision threshold and accepting some precision loss — then quantify the trade-off with the PR curve and pick the operating point that matches the business cost ratio."
+            }
+          ],
+          "examples": [
+            {
+              "title": "Why 99% accuracy can mean zero usefulness",
+              "scenario": "1000 emails, 10 are phishing (1%). Model M always predicts 'safe'. Compute its accuracy, precision, and recall for the phishing class.",
+              "solution": "Confusion counts: M never flags phishing, so true positives = 0, false positives = 0, false negatives = 10 (all phishing missed), true negatives = 990. Accuracy = (TP+TN)/total = (0+990)/1000 = 99.0% — impressively high. Recall = TP/(TP+FN) = 0/10 = 0% — it catches none of the phishing. Precision = TP/(TP+FP) = 0/0 — undefined (it never makes a positive prediction). So a 99% accurate model is completely useless for the actual task. This is the base-rate trap: report recall/precision (and the confusion matrix), not accuracy, on imbalanced problems."
+            },
+            {
+              "title": "A subtle data-leakage bug",
+              "scenario": "You standardize all features using the mean and standard deviation of the FULL dataset, then do 5-fold cross-validation and get a great score — but production performance is worse. What leaked, and what's the fix?",
+              "solution": "The scaler was fit on the whole dataset BEFORE the CV split, so the mean/std it used were computed partly from the validation fold. Each training fold therefore 'saw' summary statistics of its validation data — a leak that makes CV scores optimistically biased and not reproducible in production (where future data isn't available to compute statistics). Fix: move standardization INSIDE the cross-validation loop — fit the scaler on each training fold only, then apply it to that fold's validation data. In practice, wrap preprocessing and the model in a single pipeline and cross-validate the whole pipeline, so every data-driven step is fit only on training data. The same rule applies to feature selection, imputation, and any step that learns from the data."
+            }
+          ]
+        }
+      ]
     }
   ]
 }

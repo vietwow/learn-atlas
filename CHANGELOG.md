@@ -2,6 +2,19 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 523 — Machine Learning topic: Model Selection & Cross-Validation — the capstone (content / new topic build-out)
+The **capstone** of the 8th topic. Added **Model Selection & Cross-Validation** as module 6 "Model Selection & Evaluation" — the Machine Learning topic
+now stands at **6 modules / 10 lessons**, a complete classical-ML curriculum. 8-section lecture (the train/validation/test split · k-fold CV ·
+diagnosing bias/variance with learning & validation curves · grid vs random hyperparameter search · metrics beyond accuracy / precision-recall-F1-ROC ·
+data leakage) + **2 deep-dives** (why you must never let the test set leak in — every peek inflates the estimate, validation overfitting → nested CV,
+preprocessing inside folds; accuracy is a trap on imbalanced data — precision/recall trade-off, F1, threshold-free ROC-AUC) + **8 MCQs** (de-skewed
+2/2/2/2) + **5 flashcards** + **2 homework** + **2 worked examples** (99% accuracy = 0% recall on 1% positives; a subtle preprocessing-leakage bug).
+Ties the whole topic together (it references kNN's k, SVM's C/γ, ridge's λ, the trees → ensembles thread).
+Verified: `node gate.js` → **8 topics · 158 lessons · ALL GREEN**; **headless** — course page lists 10 lessons, lesson opens with **nDD=2**, **kErr=0, rawDollar=0, errs=0**. SW cache `atlas-v462` → `atlas-v463`.
+**The Machine Learning topic (8th) is now a coherent, complete curriculum** — Instance/Tree models · Linear models · Kernel & Probabilistic · Unsupervised
+· Ensembles · Model Selection. Future iterations can deepen it (3rd deep-dives, a viz, more lessons like PCA-for-ML or gradient-boosting internals) or
+resume the cross-topic depth lane. **OWNER:** rename/redirect/kill still welcome.
+
 ## iter 522 — Machine Learning topic: Ensembles (new module 5) (content / new topic build-out)
 Continuing the 8th topic. Started **module 5 "Ensembles"** with **Ensembles: Bagging, Boosting & Random Forests** (course now 5 modules / **9
 lessons**). 8-section lecture (wisdom-of-crowds · why combining helps · bagging/bootstrap · random forests & feature decorrelation · boosting/AdaBoost ·
