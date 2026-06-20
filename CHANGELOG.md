@@ -2,6 +2,18 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 502 — Three more THIRD deep-dives on the hardest concepts (content / depth)
+Back to the depth lane (alternating with iter 501's UI/UX). A **third "Deeper dive"** on three more flagship hard concepts (deep-dives 362 → **365**):
+- **l-transformer-block** (had: mix-then-think · pre-LN) → **the residual stream**: `x ← x + Sublayer(x)` makes the hidden state a *running sum* —
+  a shared additive channel each block reads from and writes to, the basis of circuit-level interpretability (and the logit lens).
+- **rl-dqn** (had: two tricks · Double-DQN) → **Rainbow**: prioritized replay, dueling heads (`Q=V+(A−Ā)`), n-step returns, distributional RL,
+  noisy nets — orthogonal, drop-in improvements that stack; DQN is a chassis, not a finished car.
+- **a-string-algorithms** (had: KMP · Rabin-Karp) → **preprocess the text**: for a fixed text with many queries, build a suffix array/tree (query
+  in ~`O(m)`, text-length-independent) or a trie over a word set — flip from preprocessing the pattern to preprocessing the data.
+Authored with `String.raw` LaTeX; injected via the append-dd path with the full guard set + dup-summary guard.
+Verified: gate ALL GREEN; **via `--dump-dom`** each lesson opens **all three** dd's (**nDD=3**) with **kErr=0, rawDollar=0**; smoke (3 dd's × 3 +
+pages) **errs=0/kErr=0, bad=none**. SW cache `atlas-v441` → `atlas-v442`.
+
 ## iter 501 — "In this lesson" deeper-dives badge now counts and opens all (UI/UX)
 **Pivot off the depth lane** (≈40 iters of content/depth → anti-monotony) to a UI/UX fix that *surfaces* the depth just built. After the depth arc,
 every lesson carries 2–3 collapsed deep-dives — but the "In this lesson" strip's badge still read a generic "deeper dive" and a click opened only the
