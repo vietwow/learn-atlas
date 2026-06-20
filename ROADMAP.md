@@ -182,6 +182,9 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    each showing upstream×local (incl. ∂L/∂z₁=∂L/∂a₁·σ′(z₁)); σ↔ReLU toggle shows vanishing vs gating. Embedded in dl-backpropagation;
    viz-complete →88. Verified: gate GREEN; headless lab route errs=0/canvas, steps 0→fwd4→back4 (8/8), toggle+reset work; lesson route
    2 canvases hydrate, kErr=0; screenshot eyeballed. SW →v366.
+   ✅ iter 541: **Interactive logistic-regression viz** (visualizations). 94th widget ml-logreg-viz: probability-field shading (sigmoid ramp) + linear
+   decision boundary trained by GD on cross-entropy; pairs with linreg viz (classification vs regression training). Embedded in Logistic Regression lesson
+   + Lab. Verified: gate GREEN (94 widgets); headless loss 0.693→0.077, kErr=0/errs=0; screenshot. SW →v481. (ML topic now has 5 interactives.)
    ✅ iter 540: **STEP-BACK: full 8-topic audit (clean) + 3 more 3rd deep-dives** (content/depth). Sweeps: 158 lessons errs=0/kErr=0/0 bad; 121 routes
    (incl. 8 cheatsheets) errs=0/kErr=0 (279 green). Coverage: 0 thin; dd dist 2dd:52 / 3dd:109 / 4+:0 (422 total). Reflection: 530→540 finished ML
    integration across every surface + resumed cross-topic depth (2dd 67→52) + 4th ML viz. Ship: c-continuity (why continuity matters), l-positional-encoding

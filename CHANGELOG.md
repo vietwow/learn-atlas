@@ -2,6 +2,15 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 541 — Interactive logistic-regression viz (visualizations)
+The **94th widget, `ml-logreg-viz` "Logistic regression: learning a decision boundary."** It trains a classifier by gradient descent on cross-entropy and
+shades the plane by the predicted **probability** — a smooth sigmoid confidence ramp (sage↔violet) that no other widget shows (kNN/tree show *hard*
+regions) — with the straight `p=0.5` decision boundary rotating into place as the loss falls. Pairs with the linreg-GD viz: regression-training vs
+classification-training; reinforces the lesson's "boundary stays linear, the sigmoid only sets confidence steepness." Step/Run/Reset + LR slider; seeded
+data. Registered in `js/viz.js`, embedded in the Logistic Regression lesson at the decision-boundary section.
+Verified: gate ALL GREEN (now **94 widgets**); **headless** — Lab canvas hydrates, GD drives **cross-entropy 0.693 → 0.077** (≈97% acc, matching a node
+sim), lesson inline canvas hydrates, **kErr=0, errs=0**; screenshot shows the gold boundary separating the sage/violet probability field. SW cache `atlas-v480` → `atlas-v481`.
+
 ## iter 540 — Step-back: full 8-topic audit (clean) + three more third deep-dives (content / depth)
 **Round-number step-back.** Two health audits, both clean:
 - **Runtime kErr+route sweep**: all **158 lessons** (every example revealed, every dd opened) → errs=0, kErr=0, 0 bad; all **121 non-lesson routes** (incl.

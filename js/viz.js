@@ -5176,4 +5176,56 @@
     genData(); draw();
   });
 
+
+  /* ========================================================
+     94. Logistic regression: learning a decision boundary (Machine Learning)
+     ======================================================== */
+  register({ id: 'ml-logreg-viz', topic: 'machine-learning', title: 'Logistic regression: learning a decision boundary', blurb: 'Train a classifier by gradient descent on cross-entropy. The background shades by the predicted probability — a smooth confidence ramp from one class to the other — and the straight decision boundary (p = 0.5) rotates into place as the loss falls. The boundary stays linear; the sigmoid only sets how fast confidence changes.' },
+  function (root) {
+    const W = 540, H = 380, padL = 10, padR = 10, padT = 10, padB = 10, RG = 8;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    let seed = 55;
+    function rng() { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }
+    function gss() { let u = 0, v = 0; while (u === 0) u = rng(); while (v === 0) v = rng(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
+    function sig(z) { return 1 / (1 + Math.exp(-z)); }
+    let lr = 0.3, w1 = 0, w2 = 0, b = 0, iter = 0, pts = [];
+    function genData() { seed = 55; pts = []; for (let i = 0; i < 16; i++) pts.push({ x: 2.6 + gss() * 1.3, y: 5.4 + gss() * 1.3, c: 0 }); for (let i = 0; i < 16; i++) pts.push({ x: 5.4 + gss() * 1.3, y: 2.6 + gss() * 1.3, c: 1 }); }
+    function gdStep() { let d1 = 0, d2 = 0, db = 0; const n = pts.length; pts.forEach(p => { const e = sig(w1 * p.x + w2 * p.y + b) - p.c; d1 += e * p.x / n; d2 += e * p.y / n; db += e / n; }); w1 -= lr * d1; w2 -= lr * d2; b -= lr * db; iter++; }
+    function loss() { let s = 0; pts.forEach(p => { const pr = sig(w1 * p.x + w2 * p.y + b); s += -(p.c * Math.log(pr + 1e-9) + (1 - p.c) * Math.log(1 - pr + 1e-9)); }); return s / pts.length; }
+    function acc() { let k = 0; pts.forEach(p => { if ((sig(w1 * p.x + w2 * p.y + b) >= 0.5 ? 1 : 0) === p.c) k++; }); return k / pts.length; }
+    function reset() { w1 = 0; w2 = 0; b = 0; iter = 0; draw(); }
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const X = x => padL + x / RG * (W - padL - padR), Y = y => (H - padB) - y / RG * (H - padT - padB);
+      const cw = 10, cellsX = Math.ceil((W - padL - padR) / cw), cellsY = Math.ceil((H - padT - padB) / cw);
+      const colA = p.sage, colB = p.violet;
+      for (let i = 0; i < cellsX; i++) for (let j = 0; j < cellsY; j++) {
+        const px = padL + (i + 0.5) * cw, py = padT + (j + 0.5) * cw;
+        const dx = (px - padL) / (W - padL - padR) * RG, dy = (Y(0) - py) / (H - padT - padB) * RG;
+        const pr = sig(w1 * dx + w2 * dy + b);
+        ctx.fillStyle = colA; ctx.globalAlpha = (1 - pr) * 0.28; ctx.fillRect(padL + i * cw, padT + j * cw, cw, cw);
+        ctx.fillStyle = colB; ctx.globalAlpha = pr * 0.28; ctx.fillRect(padL + i * cw, padT + j * cw, cw, cw);
+      }
+      ctx.globalAlpha = 1;
+      // decision boundary p=0.5  <=>  w1 x + w2 y + b = 0
+      if (Math.abs(w2) > 1e-6) { const y0 = -(w1 * 0 + b) / w2, y8 = -(w1 * RG + b) / w2; ctx.strokeStyle = p.gold; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(X(0), Y(y0)); ctx.lineTo(X(RG), Y(y8)); ctx.stroke(); }
+      pts.forEach(pt => { ctx.fillStyle = pt.c === 0 ? colA : colB; ctx.strokeStyle = p.ink; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(X(pt.x), Y(pt.y), 5, 0, 7); ctx.fill(); ctx.stroke(); });
+      info.innerHTML = 'step <b>' + iter + '</b> &middot; cross-entropy loss = <b style="color:' + p.gold + '">' + loss().toFixed(3) + '</b> &middot; training accuracy = <b style="color:' + p.sage + '">' + Math.round(acc() * 100) + '%</b><br>The shading is the predicted probability of the violet class (a smooth sigmoid ramp); the gold line is the decision boundary at p = 0.5. From a flat start it rotates into place as gradient descent lowers the loss. The boundary stays straight — only the steepness of the ramp changes.';
+    }
+    slider(ctl, { label: 'learning rate', min: 0.05, max: 0.8, step: 0.05, value: lr, fmt: v => v.toFixed(2), onInput: v => { lr = v; } });
+    button(ctl, 'Step', function () { for (let i = 0; i < 5; i++) gdStep(); draw(); });
+    let auto = null;
+    const runBtn = button(ctl, '▶ Run', function () {
+      if (auto) { auto.stop(); auto = null; runBtn.innerHTML = '▶ Run'; return; }
+      runBtn.innerHTML = '⏸ Pause'; let last = 0;
+      auto = loop(function (t) { if (t - last > 55) { last = t; for (let i = 0; i < 5; i++) gdStep(); draw(); if (iter > 1200) { if (auto) { auto.stop(); auto = null; } runBtn.innerHTML = '▶ Run'; } } });
+    });
+    button(ctl, '⏮ reset', function () { reset(); });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Logistic-regression visualizer: two classes of points on a plane, with the background shaded by the predicted probability of one class — a smooth sigmoid confidence ramp — and a straight decision boundary at probability 0.5. Gradient descent on cross-entropy rotates the boundary into place as the loss falls and accuracy rises; the boundary stays linear while the steepness of the probability ramp changes. A learning-rate slider, Step, Run, and Reset control the training.');
+    genData(); draw();
+  });
+
 })();
