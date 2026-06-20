@@ -2,6 +2,17 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 567 — Three more third dives: Poisson process · world models · scalable oversight (content / depth)
+Three more third deep-dives (PS/RL/LLM) — clears the PS 2-dd bucket:
+- **ps-poisson** → **the Poisson process & exponential waits**: counts in a window are Poisson(λt), gaps are Exponential(λ), linked by
+  `P(no event in t)=e^{−λt}` — and the exponential's memorylessness falls out.
+- **rl-connections-frontiers** → **world models (learning to imagine)**: model-based RL learns how the world works and plans inside it (MuZero, Dreamer) —
+  rehearsing imagined futures for sample efficiency.
+- **l-safety-and-frontier** → **scalable oversight**: supervising models you can't fully check — RLAIF/Constitutional AI, debate, weak-to-strong, and
+  mechanistic interpretability.
+Injected via the byte-stable append-dd path with the full guard set.
+Verified: gate ALL GREEN; **via `--dump-dom`** all three open with **nDD=3**, **kErr=0, rawDollar=0, errs=0** (Poisson `e^{−λt}` math renders). SW cache `atlas-v506` → `atlas-v507`.
+
 ## iter 566 — Example-parity site-wide: every lesson now has ≥3 worked examples (examples)
 Only two lessons remained under three examples (both LLM); added a distinct third to each — **all 158 lessons now have ≥3 worked examples**:
 - **l-scaling-laws** → **the Chinchilla 20:1 rule**: compute-optimal tokens `D≈20N` (a 7B model → ~140B tokens; GPT-3 was under-trained), and why LLaMA
