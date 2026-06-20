@@ -2,6 +2,30 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 500 — 🎉 Milestone step-back: full audit (clean) + three more third deep-dives (content / depth)
+**Iteration 500 — round-number/milestone step-back.** Two health audits, both clean:
+- **Runtime kErr+route sweep**: all **148 lessons** (every example revealed, every deep-dive opened — incl. all 63 lessons at 3 dd) → errs=0,
+  kErr=0, 0 bad; all **107 non-lesson routes** → errs=0, kErr=0. **255 routes green.**
+- **Coverage + depth audit**: **0 structurally-thin** (≥2 examples [443], ≥8 MCQs [2368], ≥1 card [889], ≥1 hw [442]); dd distribution
+  **2-dd: 85 · 3-dd: 63 → 66 · 4+dd: 0** (every lesson ≥2). 90 code, 151 glossary, 89 viz.
+**Reflection (iters ~400→500, the depth arc):** the loop spent this century of iterations executing the owner's #1 directive — *depth on hard
+concepts* — in three clean phases: (1) a **second deep-dive** on every lesson until all 148 carried ≥2 (completed iter 480); (2) the owner's
+**streak-display bug fix** (iter 463); (3) a **third deep-dive** on the ~66 hardest, most-central concepts (iters 481→500), each verified
+against existing dds *and* examples to stay genuinely distinct (skipping saturated/duplicated angles). Zero red gates or broken pushes across
+the century. The codex is now extraordinarily deep — **443 examples · 362 deep-dives · 89 viz · 90 code · 151 glossary · 16 playground**.
+**OWNER:** the site has reached deep maturity; the top tier of "hardest concepts" is largely at 3 dd's, so the marginal value per iteration is
+shrinking. Highest-leverage next arc is a **steer** — e.g. an 8th topic, an assessment/exam-prep mode, a study-planner, or a new medium —
+rather than more incremental depth. I'll keep shipping selective 3rd dd's meanwhile.
+**The paired ship — three more third deep-dives** (362 total):
+- **ps-sampling-distributions** → **the bootstrap**: resample your data with replacement to get an empirical sampling distribution → SE & CIs
+  for *any* statistic, no formula needed.
+- **rl-model-based** → **learned world models**: MuZero plans (MCTS) in a *learned latent* model without the rules; Dreamer trains on *imagined*
+  rollouts — planning's sample efficiency from raw experience.
+- **dl-learning-rate-schedules-and-tuning** → **finding the LR**: the LR range test (sweep up, pick just below the steepest drop) and one-cycle
+  (high-then-low, "super-convergence").
+Verified: gate ALL GREEN; **via `--dump-dom`** each lesson opens **all three** dd's (**nDD=3**) with **kErr=0, rawDollar=0**; both step-back
+sweeps clean; smoke (3 dd's × 3 + pages) **errs=0/kErr=0, bad=none**. SW cache `atlas-v439` → `atlas-v440`.
+
 ## iter 499 — Three more THIRD deep-dives on the hardest concepts (content / depth)
 A **third "Deeper dive"** on three more flagship hard concepts (deep-dives 356 → **359**; these three now carry three):
 - **c-derivatives-special-functions** (had: eˣ self-derivative · trig cycle) → **the inverse-function derivative rule**: `g'=1/f'(g)` (a reflection

@@ -188,6 +188,11 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ✅ iter 428: **Runnable 2-layer backward-pass code exercise** (new functionality; owner's backprop focus). Added JS code-exercise to
    dl-backpropagation (after the viz): same network, console.log(dw1,dw2)→"24 4"; gate RUNS it & asserts output (86 code-exercises verified).
    Verified: gate GREEN; dump-dom errs=0/kErr=0, code hydrates, &gt; decodes to >, in-browser Run → "24 4". SW →v368.
+   ✅ iter 500: **MILESTONE STEP-BACK: full audit (clean) + 3 more third deep-dives** (content/depth). Sweeps: 148 lessons errs=0/kErr=0/0 bad;
+   107 routes errs=0/kErr=0 (255 green). Coverage: 0 thin; dd dist 2-dd:85 / 3-dd:66 / 4+:0 (every lesson >=2; 362 dd total). Reflection: the
+   ~400-500 century executed the depth arc (every lesson >=2 dd by iter 480; 66 hardest now at 3; streak bug fixed iter 463), zero red gates.
+   OWNER: site at deep maturity — highest-leverage next is a steer (8th topic / exam mode / planner), not more incremental depth. Ship:
+   ps-sampling-distributions (bootstrap), rl-model-based (learned world models / MuZero, Dreamer), dl-learning-rate-schedules (LR finder / one-cycle). SW →v440.
    ✅ iter 499: **3 more THIRD deep-dives on the hardest concepts** (content/depth). +3 dd (356→359; 63 lessons now at 3 dd):
    c-derivatives-special-functions (inverse-function rule), l-decoding-strategies (constrained/structured decoding), a-asymptotic-analysis
    (when Big-O lies). Append-dd inject w/ full guards. Verified: gate GREEN; dump-dom each nDD=3, kErr=0, rawDollar=0; smoke bad=none. SW →v439.
