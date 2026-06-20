@@ -182,6 +182,9 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    each showing upstream×local (incl. ∂L/∂z₁=∂L/∂a₁·σ′(z₁)); σ↔ReLU toggle shows vanishing vs gating. Embedded in dl-backpropagation;
    viz-complete →88. Verified: gate GREEN; headless lab route errs=0/canvas, steps 0→fwd4→back4 (8/8), toggle+reset work; lesson route
    2 canvases hydrate, kErr=0; screenshot eyeballed. SW →v366.
+   ✅ iter 532: **Runnable code exercises for the ML topic** (new functionality/code; ML had 0, codex has 90). 3 gate-verified JS exercises: ml-knn
+   (1-D kNN classify→B), ml-kmeans (one Lloyd step→2 11), ml-decision-trees (Gini→0.375). Verified: gate RUNS them → 89 code-exercises (was 86), ALL
+   GREEN; headless each playground Runs to matching output, errs=0. SW →v472.
    ✅ iter 531: **Interactive decision-tree boundary viz** (visualizations). 92nd widget ml-tree-viz: real greedy Gini tree, max-depth slider (1–7)
    showing axis-aligned rectangular regions + leaf-count/train-accuracy (depth 2→4 leaves/71%, depth 7→11/94% = overfitting); pairs with kNN viz
    (rectangular vs smooth). Embedded in Decision Trees lesson + Lab. Verified: gate GREEN (92 widgets); headless slider rebuilds tree, kErr=0/errs=0; screenshot. SW →v471.

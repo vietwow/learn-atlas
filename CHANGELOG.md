@@ -2,6 +2,16 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 532 — Runnable code exercises for the Machine Learning topic (new functionality / code)
+The 10 ML lessons had **zero code exercises** while the rest of the codex has 90. Added three runnable, gate-verified JS exercises that implement the
+algorithms by hand:
+- **ml-knn** → a 1-D k-NN classifier (sort by distance, take k nearest, majority-vote) → outputs `B`.
+- **ml-kmeans** → one Lloyd step (assign each point to the nearer centroid, recompute centroids as cluster means) → outputs `2 11`.
+- **ml-decision-trees** → Gini impurity from class counts (`1 − Σpᵢ²`) → outputs `0.375` (matching that lesson's worked example).
+Each is embedded as a `<div data-code="javascript" data-expected="…">` so a learner can Run/edit it and self-check against the expected output.
+Verified: `node gate.js` **runs all three** → **89 code-exercises verified** (was 86), ALL GREEN; **headless** — each lesson's playground hydrates, clicking
+**Run** produces the matching output (`B` / `2 11` / `0.375`, all OK), errs=0. SW cache `atlas-v471` → `atlas-v472`.
+
 ## iter 531 — Interactive decision-tree boundary viz (visualizations)
 A third Machine-Learning interactive — the **92nd widget, `ml-tree-viz` "Decision-tree boundary: depth & overfitting."** It builds a *real* greedy
 Gini-split tree in-browser and shades the plane by its prediction, with a **max-depth slider (1–7)**: shallow → a few clean axis-aligned boxes
