@@ -2,6 +2,16 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 509 — "Deeper dives explored" tracker + two achievements (gamification)
+Switched off depth (anti-monotony) to reward exploring the 374-dive library. Until now nothing counted dives opened — "Deep Thinker" fired on the
+*first* and that was it. New `deepDivesSeen` tracker (mirrors `vizSeen`: `"lessonId#k" → true`, state-safe via blank() + load() merge), recorded in
+the deep-dive `toggle` listener (`Store.recordDeepDive(lesson.id + "#" + k)`). Surfaced as a **Progress-page stat** ("Deeper dives explored") and two
+new milestone achievements — **Deep Reader** (📖, 25 dives) and **Deep Voyager** (🔭, 75 dives) — with `achProgressMap` entries so the dashboard's
+"closest achievement" nudge tracks them, placed in the Exploration & Practice category.
+Verified: gate ALL GREEN; **headless** — booting from an *old-shape save without the field* loads clean (`merged=ok`); opening 3 dives on one lesson
+then 1 on another records **4 distinct** keys; Deep Thinker unlocks; the Progress tile reads **3** after its count-up (matching the store);
+`errs=0` throughout. SW cache `atlas-v448` → `atlas-v449`.
+
 ## iter 508 — Three more THIRD deep-dives on the hardest concepts (content / depth)
 Back to depth (alternating with 507). A **third "Deeper dive"** on three more flagship hard concepts (deep-dives 371 → **374**):
 - **la-gradients-jacobians** (had: Jacobian=generalized derivative · chain rule=Jacobian mult) → **forward vs reverse mode**: the *order* you multiply

@@ -1024,7 +1024,7 @@
     hydrateViz(body);
     hydrateCode(body);
     // reward expanding a "Deeper dive" intuition (Deep Thinker)
-    body.querySelectorAll("details.deep-dive").forEach(d => d.addEventListener("toggle", () => { if (d.open) { Store.unlock("deep-thinker"); flushAchievements(); } }));
+    body.querySelectorAll("details.deep-dive").forEach((d, di) => d.addEventListener("toggle", () => { if (d.open) { Store.recordDeepDive(lesson.id + "#" + di); flushAchievements(); } }));
     linkGlossary(body.querySelector(".prose"));   // inline term tooltips (before typeset, so tooltip math renders)
     typeset();
     offerResume(lesson.id);                        // if you left this lesson part-read, offer a one-tap jump back
@@ -2236,7 +2236,9 @@
       "viz-voyager": [Object.keys(R.vizSeen || {}).length, 15],
       "viz-complete": [Object.keys(R.vizSeen || {}).length, (window.VIZ_CATALOG || []).length || 89],
       "code-adept": [Object.keys(R.solvedCode || {}).length, 10],
-      "deep-work": [R.focusSessions || 0, 5]
+      "deep-work": [R.focusSessions || 0, 5],
+      "deep-reader": [Object.keys(R.deepDivesSeen || {}).length, 25],
+      "deep-voyager": [Object.keys(R.deepDivesSeen || {}).length, 75]
     };
   }
   // the locked, in-progress achievement closest to unlocking (for the dashboard nudge)
@@ -2259,7 +2261,7 @@
     { label: "Flashcards & Recall", ids: ["cards25", "century", "cards-500", "recaller", "total-recall"] },
     { label: "Mastery", ids: ["mastered-one", "deep-diver", "loremaster", "savant", "summit", "well-rounded"] },
     { label: "Levels & XP", ids: ["scholar", "polymath", "erudite", "sage", "luminary"] },
-    { label: "Exploration & Practice", ids: ["curious", "visualizer", "viz-voyager", "viz-complete", "pathfinder", "coder", "code-solver", "code-adept", "curator", "annotator", "deep-thinker", "deep-work", "homework-hero"] }
+    { label: "Exploration & Practice", ids: ["curious", "visualizer", "viz-voyager", "viz-complete", "pathfinder", "coder", "code-solver", "code-adept", "curator", "annotator", "deep-thinker", "deep-reader", "deep-voyager", "deep-work", "homework-hero"] }
   ];
   function viewAchievements() {
     const have = Store.raw.achievements;
@@ -2337,6 +2339,7 @@
       tile("Tests taken", (R.tests || []).length, "var(--violet)"),
       tile("Notes written", Object.keys(R.notes || {}).length, "var(--sage)", Object.keys(R.notes || {}).length ? "#/notes" : ""),
       tile("Bookmarks", Store.bookmarkIds().length, "var(--gold)"),
+      tile("Deeper dives explored", Object.keys(R.deepDivesSeen || {}).length, "var(--violet)"),
       tile("Achievements", achGot + "/" + achTot, "var(--gold)", "#/achievements"),
       tile("Day streak", R.streak, "var(--rust)", "", true)   // streak shows its true value at once (no 0-flash count-up) — it's a status, not a score
     ].join("");

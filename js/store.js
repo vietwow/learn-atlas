@@ -65,6 +65,8 @@
     { id: "flawless-five",icon:"💎", name: "Flawless Five",     desc: "Ace 5 quizzes with a perfect score." },
     { id: "crack-shot",  icon: "🎖️", name: "Crack Shot",        desc: "Answer 1,000 quiz questions correctly." },
     { id: "deep-thinker",icon: "🧩", name: "Deep Thinker",      desc: "Expand a “Deeper dive” intuition." },
+    { id: "deep-reader", icon: "📖", name: "Deep Reader",       desc: "Open 25 different “Deeper dive” sections." },
+    { id: "deep-voyager",icon: "🔭", name: "Deep Voyager",      desc: "Open 75 different “Deeper dive” sections." },
     { id: "deep-work",   icon: "🧘", name: "Deep Work",         desc: "Complete 5 focus-timer sessions." },
     { id: "daily-ritual",icon: "🌅", name: "Daily Ritual",      desc: "Finish a Daily Mix session." },
     { id: "habit",       icon: "📆", name: "Creature of Habit", desc: "Study on 14 different days." },
@@ -116,7 +118,8 @@
       focusSessions: 0,     // lifetime count of completed focus-timer sessions (for the Deep Work achievement)
       quickChecks: 0,       // lifetime count of inline Quick Checks completed (low-stakes retrieval)
       vizSeen: {},          // vizId -> true (distinct visualizations opened, for Viz Voyager)
-      solvedCode: {}        // codeKey -> true (distinct code-exercises solved, output matched)
+      solvedCode: {},       // codeKey -> true (distinct code-exercises solved, output matched)
+      deepDivesSeen: {}     // "lessonId#k" -> true (distinct deeper-dives opened, for Deep Reader/Voyager)
     };
   }
 
@@ -167,6 +170,7 @@
       base.quickChecks = num(s.quickChecks);
       base.vizSeen = (s.vizSeen && typeof s.vizSeen === "object") ? s.vizSeen : {};
       base.solvedCode = (s.solvedCode && typeof s.solvedCode === "object") ? s.solvedCode : {};
+      base.deepDivesSeen = (s.deepDivesSeen && typeof s.deepDivesSeen === "object") ? s.deepDivesSeen : {};
     }
     // Backfill activeDays from the streak: a streak of N means the N consecutive days ending at lastActive were
     // active. Reconstruct them so the consistency strip immediately matches the streak the header shows — otherwise a
@@ -261,6 +265,16 @@
     if (Object.keys(state.vizSeen || {}).length >= 15) unlock("viz-voyager");
     const vizTotal = (window.VIZ_CATALOG || []).length;   // "Full Spectrum": opened every widget in the Lab
     if (vizTotal && Object.keys(state.vizSeen || {}).length >= vizTotal) unlock("viz-complete");
+    save();
+  }
+
+  // ---- deeper-dive exploration (distinct dives opened) ----
+  function recordDeepDive(key) {
+    if (key) { if (!state.deepDivesSeen || typeof state.deepDivesSeen !== "object") state.deepDivesSeen = {}; state.deepDivesSeen[key] = true; }
+    unlock("deep-thinker");
+    const n = Object.keys(state.deepDivesSeen || {}).length;
+    if (n >= 25) unlock("deep-reader");
+    if (n >= 75) unlock("deep-voyager");
     save();
   }
 
@@ -624,7 +638,7 @@
     getNote, setNote, setGoal, setNewPerSession, todayXP, goalJustReached, bestDayJustSet, exportData, importData, freezeJustUsed, streakJustUp, streakRecord, freezeEarned, personalBests, setLastLesson, celebrateTopicOnce,
     toggleBookmark, isBookmarked, bookmarkIds,
     recordMiss, clearMiss, missedKeys, missedCount,
-    recordQuickCheck, recordVizOpen, recordCodeSolved,
+    recordQuickCheck, recordVizOpen, recordCodeSolved, recordDeepDive,
     unlock, drainUnlocked, drainLevelUps, addFocusSession,
     stats, courseProgress, resetAll, touchStreak
   };
