@@ -2,6 +2,19 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 430 — Three more worked examples across DL/RL/LLM (examples)
+Resuming the examples↔deep-dives rotation after the backprop deep-focus. A **3rd worked example** on three flagship lessons
+(examples 425 → **428**):
+- **dl-ml-recap-and-the-learning-problem** — **bias–variance decomposition**: `E[(y−f̂)²] = Bias² + Var + σ²`; a rigid line
+  (`4+1+1=6`) can beat a flexible polynomial (`0.5+6+1=7.5`) — total error is U-shaped in complexity.
+- **rl-sarsa-qlearning** — **Expected SARSA**: sample (SARSA), max (Q-learning), or policy-average the next-state value;
+  `Σπ(a|s′)Q = 0.9·10+0.1·2 = 9.2` — same mean as SARSA, lower variance; greedy π recovers Q-learning.
+- **l-transformer-block** — **where parameters live**: attention is `4d²` (1.05M at d=512), FFN is `8d²` (2.10M) — the FFN holds
+  ~**67%** of a block's weights (and much of its knowledge), which is why MoE/PEFT target it.
+Every value node-verified (6 vs 7.5; 9.2; 67%); injected byte-stably with the round-trip guard.
+Verified: gate ALL GREEN (**428 examples**); **via `--dump-dom`** all 3 reveal with KaTeX (54 / 109 / 93 spans) and **kErr=0,
+rawDollar=0**; smoke + pages **errs=0/kErr=0, bad=none**. SW cache `atlas-v369` → `atlas-v370`.
+
 ## iter 429 — Backprop in matrix form: ∂L/∂W = δaᵀ (content / depth — owner's backprop focus)
 Backprop follow-up #3 (owner's deep-focus), completing the depth arc. Added a **third** deep-dive to `dl-backpropagation` (it now
 carries 3; total deep-dives → **179**) — distinct from its existing two ("why backprop goes backward", "product of Jacobians"):

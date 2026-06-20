@@ -188,6 +188,9 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ✅ iter 428: **Runnable 2-layer backward-pass code exercise** (new functionality; owner's backprop focus). Added JS code-exercise to
    dl-backpropagation (after the viz): same network, console.log(dw1,dw2)→"24 4"; gate RUNS it & asserts output (86 code-exercises verified).
    Verified: gate GREEN; dump-dom errs=0/kErr=0, code hydrates, &gt; decodes to >, in-browser Run → "24 4". SW →v368.
+   ✅ iter 430: **3 more worked examples across DL/RL/LLM** (examples; resumed rotation). +3 (425→428): dl-ml-recap (bias–variance
+   decomposition), rl-sarsa-qlearning (Expected SARSA → 9.2), l-transformer-block (FFN is ~67% of block params). Node-verified;
+   round-trip-guarded. Verified: gate GREEN (428); dump-dom katex 54/109/93, kErr=0, rawDollar=0; smoke bad=none. SW →v370.
    ✅ iter 429: **Backprop in matrix form — ∂L/∂W = δaᵀ** (content/depth; owner's backprop focus). 3rd dd on dl-backpropagation (→179
    total): layer z=Wa+b → ∂L/∂W=δaᵀ, ∂L/∂a=Wᵀδ, batching ΔAᵀ = two matmuls/layer. Verified: gate GREEN; dump-dom nDD=3, katex 48,
    kErr=0, rawDollar=0. SW →v369.
