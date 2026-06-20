@@ -2,6 +2,18 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 483 — Three more THIRD deep-dives on the hardest concepts (content / depth)
+A **third "Deeper dive"** on three more flagship hard concepts (deep-dives 308 → **311**; these three now carry three):
+- **dl-transformer-architecture** (had: mix-then-think · why-stack) → **why transformers replaced RNNs**: dropping recurrence makes the whole
+  sequence trainable *in parallel* (no `t→t−1` chain) — GPU-scale training is the real reason transformers, not better RNNs, enabled LLMs.
+- **c-gradient-descent-convergence** (had: zigzag · momentum) → **the convergence rate**: error contracts by `(κ−1)/(κ+1)` per step (κ=100 → 0.980,
+  crawls); momentum → `√κ` (→0.818), preconditioning (normalize/Adam) shrinks effective κ.
+- **ps-conditional-independence-bayes** (had: natural frequencies · naive-Bayes) → **the odds form**: posterior odds = prior odds × likelihood
+  ratio (`P(E)` cancels); 0.1% prevalence × 99×-LR test → ~9% posterior; independent evidence just multiplies LRs.
+Authored with `String.raw` LaTeX; injected via the append-dd path with the full guard set. Node-verified κ-rates (0.980/0.818) and Bayes (9.0%).
+Verified: gate ALL GREEN; **via `--dump-dom`** each lesson opens **all three** dd's (**nDD=3**) with **kErr=0, rawDollar=0**; smoke (3 dd's × 3 +
+pages) **errs=0/kErr=0, bad=none**. SW cache `atlas-v422` → `atlas-v423`.
+
 ## iter 482 — Three more THIRD deep-dives on the hardest concepts (content / depth)
 A **third "Deeper dive"** on three more flagship hard concepts (deep-dives 305 → **308**; these three now carry three):
 - **la-matrix-multiplication** (had: composition · cost/order) → **four ways to see AB**: dot-products, column-combinations, row-combinations,
