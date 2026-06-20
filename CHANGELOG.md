@@ -2,6 +2,18 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 473 — Three more second deep-dives on the hardest lessons (content / depth)
+A **distinct second "Deeper dive"** on three more flagship lessons across LLM/algo/calc (deep-dives 278 → **281**; 129 lessons now carry two):
+- **l-multihead-and-causal-masking** (had: "÷√dₖ") → **how the causal mask works**: add `−∞` above the diagonal *before* softmax (so future
+  weights → 0 and the rest still renormalize) → lower-triangular attention — what makes parallel training match left-to-right generation.
+- **a-union-find-range** (had: "lazy & flat") → **the Fenwick tree's low-bit trick**: cell `i` covers a range of length `i&(-i)`; flip the
+  lowest set bit to walk between a number and the ranges covering it → `O(log n)` update *and* prefix query in `n` cells.
+- **c-limits-intuition** (had: "approach, not arrival") → **limits at/of infinity**: input→∞ gives end behavior (horizontal asymptote),
+  output→∞ gives blow-up (vertical asymptote) — asymptotes are just limits with an `∞` in a slot.
+Authored with `String.raw` LaTeX (`\gt` for the comparison); injected via the append-second-dd path with the full guard set.
+Verified: gate ALL GREEN; **via `--dump-dom`** each lesson opens **both** dd's (nDD=2) with **kErr=0, rawDollar=0**; smoke (2 dd's × 3 +
+pages) **errs=0/kErr=0, bad=none**. SW cache `atlas-v412` → `atlas-v413`.
+
 ## iter 472 — Three more second deep-dives on the hardest lessons (content / depth)
 A **distinct second "Deeper dive"** on three more flagship lessons across RL/LLM/calc (deep-dives 275 → **278**; 126 lessons now carry two):
 - **rl-trpo-ppo** (had: "why PPO clips") → **TRPO's trust region**: maximize the surrogate subject to a hard KL bound
