@@ -862,6 +862,11 @@
               "title": "When a straight line fails — go to a kernel",
               "scenario": "Class 1 is a tight blob at the origin; class 0 forms a ring around it. No straight line separates them. How does an SVM solve this without abandoning its linear machinery?",
               "solution": "Use a nonlinear kernel (e.g. RBF, or a polynomial/feature map like (x₁, x₂, x₁²+x₂²)). Adding the radius feature x₁²+x₂² lifts the data into a higher dimension where the inner blob (small radius) and the outer ring (large radius) become linearly separable by a flat threshold on that new axis. The SVM draws its usual maximum-margin hyperplane in that lifted space; projected back to the original 2D plane, the boundary is a circle separating blob from ring. The kernel trick does this implicitly — computing the needed dot products via k(x,z) without ever forming the lifted features."
+            },
+            {
+              "title": "The margin and the support vectors, by hand",
+              "scenario": "Two points, opposite classes: a positive example at $x_+=(1,0)$ and a negative at $x_-=(-1,0)$. The obvious maximum-margin boundary is the vertical line $x=0$. Find the weight vector $w$, bias $b$, the margin width, and the support vectors.",
+              "solution": "Use the SVM's canonical scaling, $y_i(w^\\top x_i+b)=1$ for the closest points. For $x_+$ (label $+1$): $w_1(1)+b=1$. For $x_-$ (label $-1$): $-(w_1(-1)+b)=1$, i.e. $w_1-b=1$... combine the two: $w_1+b=1$ and $w_1-b=1$ give $b=0$ and $w_1=1$, so $w=(1,0)$, $b=0$ — the line $x=0$, as expected. Margin width $=2/\\lVert w\\rVert = 2/1 = 2$ (the empty 'street' spans from $x=-1$ to $x=1$). Both points lie exactly on the margin ($y_i(w^\\top x_i+b)=1$), so both are support vectors — deleting either would change the boundary. Maximizing the margin is the same as minimizing $\\lVert w\\rVert$, which is why the canonical scaling pins the closest points to $\\pm1$."
             }
           ]
         },
@@ -1002,6 +1007,11 @@
               "title": "Why independence can miscalibrate but still classify right",
               "scenario": "Spam contains the near-synonyms 'cheap' and 'discount' that almost always co-occur. Naive Bayes treats them as independent. What does this do to the probabilities, and to the final label?",
               "solution": "Because the two words carry essentially the SAME evidence but are multiplied as if independent, Naive Bayes double-counts it — the spam score is pushed far higher than warranted, so the reported P(spam) is overconfident (e.g. 0.999 when the true confidence should be lower). The probabilities are miscalibrated. But the label is usually still correct: spam was already the higher-scoring class, and the double-counting only inflates that lead, leaving the argmax (spam) unchanged. This is exactly why Naive Bayes is a poor probability estimator yet a good classifier — the decision depends only on which class wins, not on the exact probability."
+            },
+            {
+              "title": "Laplace smoothing rescues a zero",
+              "scenario": "A spam filter has vocabulary {free, meeting, blockchain}. In the spam training text, 'blockchain' appeared 0 times, out of $N=10$ total spam word-tokens. A new email contains 'blockchain'. What is $P(\\text{blockchain}\\mid\\text{spam})$ with and without add-one smoothing, and why does it matter?",
+              "solution": "Without smoothing: $P(\\text{blockchain}\\mid\\text{spam}) = 0/10 = 0$. Because Naive Bayes multiplies the per-word probabilities, this single $0$ makes the entire spam score $0$ — no matter how spammy every other word is, the email can never be classified spam. With add-one (Laplace) smoothing you add 1 to each count and the vocabulary size $V=3$ to the denominator: $P = (0+1)/(10+3) = 1/13 \\approx 0.077$. Now the unseen word contributes a small nonzero factor instead of annihilating the product, and the informative words decide the verdict. Smoothing is essential whenever test data can contain values unseen in training."
             }
           ]
         }
@@ -1440,6 +1450,11 @@
               "title": "A subtle data-leakage bug",
               "scenario": "You standardize all features using the mean and standard deviation of the FULL dataset, then do 5-fold cross-validation and get a great score — but production performance is worse. What leaked, and what's the fix?",
               "solution": "The scaler was fit on the whole dataset BEFORE the CV split, so the mean/std it used were computed partly from the validation fold. Each training fold therefore 'saw' summary statistics of its validation data — a leak that makes CV scores optimistically biased and not reproducible in production (where future data isn't available to compute statistics). Fix: move standardization INSIDE the cross-validation loop — fit the scaler on each training fold only, then apply it to that fold's validation data. In practice, wrap preprocessing and the model in a single pipeline and cross-validate the whole pipeline, so every data-driven step is fit only on training data. The same rule applies to feature selection, imputation, and any step that learns from the data."
+            },
+            {
+              "title": "Precision, recall, and F1 from a confusion matrix",
+              "scenario": "A spam classifier on 100 emails yields: 18 spam correctly flagged (TP), 2 legit emails wrongly flagged (FP), 12 spam missed (FN), and 68 legit correctly passed (TN). Compute accuracy, precision, recall, and F1 — and say what the headline number hides.",
+              "solution": "Accuracy $=(TP+TN)/100=(18+68)/100=86\\%$. Precision $=TP/(TP+FP)=18/20=0.90$ (when it flags spam, it is right 90% of the time). Recall $=TP/(TP+FN)=18/30=0.60$ (it catches only 60% of actual spam). F1 $=2PR/(P+R)=2(0.9)(0.6)/(0.9+0.6)=1.08/1.5=0.72$. The 86% accuracy looks healthy, but recall exposes the real story: 40% of spam slips through. On imbalanced or cost-sensitive problems, report precision/recall/F1 (and pick the threshold for the error you care about), not accuracy alone."
             }
           ]
         }

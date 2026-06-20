@@ -182,6 +182,9 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    each showing upstream×local (incl. ∂L/∂z₁=∂L/∂a₁·σ′(z₁)); σ↔ReLU toggle shows vanishing vs gating. Embedded in dl-backpropagation;
    viz-complete →88. Verified: gate GREEN; headless lab route errs=0/canvas, steps 0→fwd4→back4 (8/8), toggle+reset work; lesson route
    2 canvases hydrate, kErr=0; screenshot eyeballed. SW →v366.
+   ✅ iter 543: **3rd worked example for 3 ML lessons** (examples; ML had 2 vs 3 elsewhere). ml-svm (margin & support vectors by hand), ml-naive-bayes
+   (Laplace smoothing numeric), ml-model-selection (precision/recall/F1 from a confusion matrix). Verified: gate GREEN (examples →466); headless each
+   lesson 3 examples, all reveal, kErr=0/rawD=0/errs=0. SW →v483.
    ✅ iter 542: **3 more original-topic 3rd deep-dives** (content/depth). la-vectors-operations (everything is a vector in ML), a-correctness-invariants
    (invariants beyond loops: data structures/assertions), ps-conditional-expectation (tower property / law of total expectation+variance). Verified:
    gate GREEN; dump-dom each nDD=3, kErr=0/rawD=0/errs=0. SW →v482.

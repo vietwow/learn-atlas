@@ -2,6 +2,14 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 543 — A third worked example for three ML lessons (examples)
+The ML lessons carried only **2 worked examples** each (vs 3 across the original topics). Added a third to three of them — concrete, exact, fully-worked:
+- **ml-svm** → **the margin & support vectors by hand**: two opposite-class points, canonical scaling `yᵢ(wᵀxᵢ+b)=1` → `w=(1,0), b=0`, margin `2/‖w‖=2`, both points are support vectors.
+- **ml-naive-bayes** → **Laplace smoothing rescues a zero**: an unseen word gives `P=0/10=0` (annihilating the product) vs the smoothed `(0+1)/(10+3)=1/13≈0.077`.
+- **ml-model-selection** → **precision/recall/F1 from a confusion matrix**: TP18/FP2/FN12/TN68 → accuracy 86% but recall only 60% — the headline number hides 40% missed spam.
+Appended via the byte-stable path with the full render-guard; brings those three lessons to example-parity with the rest of the codex.
+Verified: gate ALL GREEN (examples 463 → 466); **headless** — each lesson's Examples tab now shows **3** examples, all reveal with **kErr=0, rawDollar=0, errs=0**. SW cache `atlas-v482` → `atlas-v483`.
+
 ## iter 542 — Three more original-topic third deep-dives (content / depth)
 Three more high-value third deep-dives (LA/algo/PS), pulling the 2-dd count down further:
 - **la-vectors-operations** → **in ML almost everything is a vector**: data points, embeddings ("king − man + woman ≈ queen"), even functions live in
