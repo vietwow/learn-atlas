@@ -182,6 +182,9 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    each showing upstream×local (incl. ∂L/∂z₁=∂L/∂a₁·σ′(z₁)); σ↔ReLU toggle shows vanishing vs gating. Embedded in dl-backpropagation;
    viz-complete →88. Verified: gate GREEN; headless lab route errs=0/canvas, steps 0→fwd4→back4 (8/8), toggle+reset work; lesson route
    2 canvases hydrate, kErr=0; screenshot eyeballed. SW →v366.
+   ✅ iter 516: **ML topic — module 2 "Linear Models" → Linear Regression** (content/new-topic build-out). Supervised-model framing (model/training/
+   interpretation/R²), 2 dd (squared-error=Gaussian MLE; linear-in-parameters→polynomial), 8 mcq (2/2/2/2), 5 cards, 2 hw, 2 ex. Course now 2 modules/
+   3 lessons. Verified: gate 8 topics/151 lessons ALL GREEN; headless course page 3 lessons, lesson nDD=2, kErr=0/rawD=0/errs=0. SW →v456.
    ✅ iter 515: **ML topic — Decision Trees lesson (finishes module 1)** (content/new-topic build-out). 2nd lesson: anatomy, greedy recursive
    splitting, Gini & entropy/info-gain, overfitting & pruning, → ensembles; 2 dd (greedy/NP-hard; Gini vs entropy), 8 mcq (2/2/2/2), 5 cards, 2 hw,
    2 ex. Verified: gate 8 topics/150 lessons ALL GREEN; headless course page 2 lessons, lesson nDD=2, kErr=0/rawD=0/errs=0. SW →v455.

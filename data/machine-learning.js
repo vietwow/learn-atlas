@@ -294,6 +294,152 @@
           ]
         }
       ]
+    },
+    {
+      "id": "ml-linear-models",
+      "title": "Linear Models",
+      "lessons": [
+        {
+          "id": "ml-linear-regression",
+          "title": "Linear Regression: Predicting with a Line",
+          "minutes": 17,
+          "content": "<h3>1. The hook: the simplest useful predictor</h3>\n<p>You want to predict a number — a house price, a temperature, tomorrow's sales — from some features. The simplest model that could possibly work is a <strong>weighted sum</strong>: multiply each feature by an importance weight, add them up, add a baseline. That is <strong>linear regression</strong>, the oldest and most-used model in statistics and the foundation that logistic regression, regularization, and even neural networks build upon. Master it and you have the template for nearly every supervised learner that follows.</p>\n\n<h3>2. The model</h3>\n<p>Given a feature vector $x = (x_1, \\dots, x_d)$, a linear model predicts $$\\hat{y} = w_1 x_1 + w_2 x_2 + \\dots + w_d x_d + b = w^\\top x + b,$$ where the <strong>weights</strong> $w_j$ say how much each feature pushes the prediction and $b$ (the <strong>bias</strong> or intercept) is the baseline when all features are zero. Training means finding the $w$ and $b$ that fit the data best. With one feature this is the familiar \"line of best fit\"; with many features it is a hyperplane.</p>\n\n<h3>3. The objective: least squares</h3>\n<p>\"Best fit\" needs a definition. Linear regression minimizes the <strong>mean squared error</strong> between predictions and truth: $$\\text{MSE}(w,b) = \\frac{1}{n}\\sum_{i=1}^{n} (y_i - \\hat{y}_i)^2.$$ Each $(y_i - \\hat{y}_i)$ is a <em>residual</em> — how far the line misses point $i$. Squaring makes all errors positive, penalizes big misses heavily, and yields a smooth, convex objective with a single global minimum. Geometrically you are sliding and tilting the line to make the total squared vertical gap as small as possible.</p>\n\n<h3>4. Two ways to solve it</h3>\n<p>Because MSE is convex and quadratic, there is a <strong>closed-form solution</strong> — the <em>normal equations</em>: stack the data into a matrix $X$ and solve $$w = (X^\\top X)^{-1} X^\\top y.$$ (Geometrically this projects $y$ onto the column space of $X$ — the least-squares-as-projection view.) For small-to-medium problems this is exact and instant. When the features or samples number in the millions, inverting $X^\\top X$ is too expensive, so you instead minimize the MSE by <strong>gradient descent</strong>, taking steps downhill on the loss — the same workhorse that trains neural nets.</p>\n\n<h3>5. Reading the coefficients</h3>\n<p>A great virtue of linear regression is <em>interpretability</em>. Each weight $w_j$ is the expected change in the prediction for a one-unit increase in feature $j$, <em>holding the other features fixed</em>. A positive $w_j$ means the feature pushes the target up; near zero means little effect. Because the weights carry the features' units, you often <em>standardize</em> features first so the magnitudes are comparable and you can read off which features matter most.</p>\n\n<h3>6. Evaluating the fit</h3>\n<p>The standard score is $R^2$ (the coefficient of determination): $$R^2 = 1 - \\frac{\\sum_i (y_i - \\hat{y}_i)^2}{\\sum_i (y_i - \\bar{y})^2},$$ the fraction of the target's variance the model explains. $R^2 = 1$ is a perfect fit; $R^2 = 0$ means the model does no better than always predicting the mean $\\bar{y}$. But beware: $R^2$ on the <em>training</em> set always rises as you add features, even useless ones — so a high training $R^2$ can hide overfitting. Always judge on held-out data.</p>\n\n<h3>7. When the line lies: assumptions and limits</h3>\n<p>Linear regression assumes the relationship is (roughly) linear and the noise is well-behaved. If the true relationship curves, a straight fit is biased no matter how much data you have (underfitting). With many correlated features it can overfit and its coefficients become unstable (<em>multicollinearity</em>). The next lesson — <em>regularization</em> — addresses exactly this, taming the weights to trade a little bias for much less variance.</p>\n\n<h3>8. The big picture</h3>\n<p>Linear regression is a weighted sum trained by minimizing squared error, solvable exactly (normal equations) or iteratively (gradient descent), and prized for interpretable coefficients and a clean $R^2$ score. It is the atom of supervised learning: swap the squared-error loss for a different one and add a squashing function, and you get logistic regression; add a penalty and you get ridge/lasso; stack many and add nonlinearities and you get a neural network.</p>\n<details class=\"deep-dive\">\n<summary>Deeper dive: why squared error? (the Gaussian/MLE story)</summary>\n<p>Why <em>square</em> the residuals rather than take absolute values or some other penalty? There is a deep statistical reason, not just mathematical convenience.</p>\n<p><b>Squared error is maximum likelihood under Gaussian noise.</b> Assume the data is generated as $y_i = w^\\top x_i + b + \\varepsilon_i$ with the noise $\\varepsilon_i$ drawn independently from a Gaussian (normal) distribution. Writing down the likelihood of the data and maximizing it, the exponent of the Gaussian is $-(y_i - \\hat{y}_i)^2/(2\\sigma^2)$ — so <em>maximizing</em> the log-likelihood is exactly <em>minimizing</em> the sum of squared residuals. Least squares is not an arbitrary choice; it is the MLE whenever you believe the errors are Gaussian.</p>\n<p><b>The flip side: outliers.</b> Because the penalty grows with the <em>square</em> of the residual, a single far-off point can dominate the fit and drag the line toward it. If your noise has heavy tails or outliers, the Gaussian assumption is wrong, and robust losses — absolute error (MAE, the MLE under a Laplace distribution) or the Huber loss (quadratic near zero, linear in the tails) — fit better.</p>\n<p>The \"aha\": the loss you choose encodes an assumption about the noise. Squared error quietly assumes Gaussian errors (and gives you the clean closed form and convexity as a bonus); when that assumption breaks, switch losses rather than blaming the model.</p>\n</details>\n<details class=\"deep-dive\">\n<summary>Deeper dive: \"linear\" means linear in the parameters, not the features</summary>\n<p>A common misconception is that linear regression can only fit straight lines. It can fit wild curves — the word \"linear\" refers to the <em>weights</em>, not the inputs.</p>\n<p><b>Transform the features, keep the linear solver.</b> The model is linear in $w$: $\\hat{y} = \\sum_j w_j \\phi_j(x)$ for <em>any</em> fixed feature functions $\\phi_j$. Choose $\\phi(x) = (1, x, x^2, x^3)$ and you are doing <b>polynomial regression</b> — fitting a cubic — yet the math is still ordinary least squares, because each new column ($x^2$, $x^3$) is just another feature. Logs, interactions ($x_1 x_2$), sines, indicator variables: all are fair game. The decision boundary or curve becomes nonlinear in $x$ while the optimization stays the easy linear problem in $w$.</p>\n<p><b>Where it leads.</b> This \"lift the features into a richer space, then fit linearly\" idea is exactly the <em>kernel trick</em> in disguise (used by SVMs) and the reason classical ML leans so hard on <em>feature engineering</em>. It also warns you about overfitting: a high-degree polynomial has many weights and will happily wiggle through every training point.</p>\n<p>The \"aha\": linear regression's reach is far wider than straight lines. Because it is linear <em>in the parameters</em>, transforming the inputs lets one simple, convex solver fit polynomials, interactions, and more — the workhorse trick behind much of classical machine learning.</p>\n</details>",
+          "mcq": [
+            {
+              "q": "What does a linear regression model output?",
+              "choices": [
+                "The nearest training label",
+                "A probability between 0 and 1",
+                "A weighted sum of the features plus a bias: $\\hat{y} = w^\\top x + b$",
+                "The majority class of the dataset"
+              ],
+              "answer": 2,
+              "explain": "Linear regression predicts a continuous value as a weighted sum of the inputs plus an intercept; there is no squashing into [0,1]."
+            },
+            {
+              "q": "Least-squares training chooses the weights that",
+              "choices": [
+                "minimize the mean squared residual (MSE)",
+                "maximize the number of points the line passes through exactly",
+                "minimize the largest single residual only",
+                "set all weights equal"
+              ],
+              "answer": 0,
+              "explain": "Ordinary least squares minimizes the average squared difference between predictions and targets — a smooth convex objective."
+            },
+            {
+              "q": "The closed-form 'normal equations' solution for the weights is",
+              "choices": [
+                "$w = X^\\top y$",
+                "$w = (X^\\top X)^{-1} X^\\top y$",
+                "$w = X^{-1} y$",
+                "$w = \\tfrac{1}{n}\\sum_i y_i$"
+              ],
+              "answer": 1,
+              "explain": "Setting the gradient of the squared error to zero gives $w = (X^\\top X)^{-1} X^\\top y$ — geometrically, the projection of $y$ onto the column space of $X$."
+            },
+            {
+              "q": "When is gradient descent preferred over the normal equations?",
+              "choices": [
+                "When the data has no noise",
+                "When you want an exact answer",
+                "Never — the closed form is always better",
+                "When features/samples are so numerous that inverting $X^\\top X$ is too costly"
+              ],
+              "answer": 3,
+              "explain": "The normal equations need an expensive matrix inverse; for very large/high-dimensional data, iterative gradient descent scales far better."
+            },
+            {
+              "q": "How do you interpret a coefficient $w_j$?",
+              "choices": [
+                "The expected change in the prediction per one-unit increase in feature $j$, holding the others fixed",
+                "The probability that feature $j$ is relevant",
+                "The correlation between feature $j$ and every other feature",
+                "The number of times feature $j$ appears in the data"
+              ],
+              "answer": 0,
+              "explain": "Each weight is the marginal effect of its feature on the prediction, all else equal — which is why linear regression is so interpretable."
+            },
+            {
+              "q": "What does $R^2$ measure?",
+              "choices": [
+                "The total number of features used",
+                "The model's training time",
+                "The fraction of the target's variance the model explains",
+                "The probability the model is correct"
+              ],
+              "answer": 2,
+              "explain": "$R^2 = 1 - \\text{SS}_{res}/\\text{SS}_{tot}$ is the proportion of variance explained: 1 is perfect, 0 is no better than predicting the mean."
+            },
+            {
+              "q": "Why does minimizing squared error amount to maximum likelihood?",
+              "choices": [
+                "Because squaring is faster to compute",
+                "Because the data is always normalized",
+                "It does not — they are unrelated",
+                "It is the MLE when the noise is assumed Gaussian"
+              ],
+              "answer": 3,
+              "explain": "Under i.i.d. Gaussian noise, maximizing the log-likelihood reduces exactly to minimizing the sum of squared residuals."
+            },
+            {
+              "q": "Saying linear regression is 'linear in the parameters' means you can",
+              "choices": [
+                "only ever fit straight lines",
+                "fit nonlinear curves by transforming features (e.g. add $x^2$), still solving a linear problem in $w$",
+                "never use more than one feature",
+                "skip the bias term"
+              ],
+              "answer": 1,
+              "explain": "The model is linear in the weights, so transformed features (polynomials, logs, interactions) let it fit curves while the optimization stays ordinary least squares."
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "What is the linear regression model and how is it trained?",
+              "back": "Prediction ŷ = wᵀx + b (a weighted sum of features plus bias). Trained by least squares: minimize the mean squared residual MSE = (1/n)Σ(yᵢ−ŷᵢ)²."
+            },
+            {
+              "front": "Two ways to solve linear regression",
+              "back": "Closed form (normal equations): w = (XᵀX)⁻¹Xᵀy — exact, but the inverse is costly for large data. Gradient descent: iteratively minimize MSE — scales to huge/high-dim data."
+            },
+            {
+              "front": "What does R² mean?",
+              "back": "Fraction of the target's variance explained: R² = 1 − SS_res/SS_tot. 1 = perfect, 0 = no better than predicting the mean. Training R² always rises with more features — judge on held-out data."
+            },
+            {
+              "front": "Why squared error? And its weakness?",
+              "back": "Minimizing squared error = maximum likelihood under Gaussian noise (plus it's convex with a closed form). Weakness: outliers dominate (penalty grows with the square) — use MAE/Huber for heavy tails."
+            },
+            {
+              "front": "'Linear in the parameters' — what does it let you do?",
+              "back": "Fit nonlinear curves by transforming features (polynomial/basis functions, interactions) while still solving an ordinary-least-squares problem in w. The bridge to kernels and feature engineering."
+            }
+          ],
+          "homework": [
+            {
+              "q": "A simple linear model predicts house price (in thousands of dollars) as ŷ = 50 + 0.10·(size in sq ft) − 5·(age in years). Interpret each coefficient, and predict the price of a 2000 sq ft, 10-year-old house.",
+              "solution": "Prices are in thousands of dollars. Intercept 50: a hypothetical 0 sq ft, 0-year house has the baseline 50 (i.e. 50k; not physically meaningful, just the anchor). Size coefficient 0.10: each additional square foot adds 0.10 to the prediction, i.e. 100 dollars, holding age fixed. Age coefficient −5: each additional year of age lowers the prediction by 5, i.e. 5,000 dollars, holding size fixed. Prediction: 50 + 0.10·2000 − 5·10 = 50 + 200 − 50 = 200, i.e. 200,000 dollars."
+            },
+            {
+              "q": "A colleague brags that adding 20 more features raised their model's R² from 0.72 to 0.95 on the training set, calling it a big improvement. Why should you be skeptical, and what would convince you?",
+              "solution": "Training R² never decreases when you add features — even pure-noise features can only increase it, because the model has more freedom to fit the training points (including their noise). So a jump from 0.72 to 0.95 on training data is expected and not evidence of a better model; it may well be overfitting. What would convince you is improvement on held-out/test data (or cross-validated R²): if test R² also rose, the extra features carry real signal; if test R² fell or barely moved while training R² soared, it's overfitting. Adjusted R² or a validation curve would also help."
+            }
+          ],
+          "examples": [
+            {
+              "title": "Predictions, residuals, and MSE by hand",
+              "scenario": "Model ŷ = 2x + 1. Data points (x, y): (1, 4), (2, 4), (3, 8). Compute the predictions, residuals, and the MSE.",
+              "solution": "Predictions: at x=1, ŷ=3; x=2, ŷ=5; x=3, ŷ=7. Residuals (y − ŷ): 4−3 = +1; 4−5 = −1; 8−7 = +1. Squared residuals: 1, 1, 1. MSE = (1+1+1)/3 = 1.0. The line is slightly off each point by 1 unit; least-squares training would adjust the slope and intercept to reduce this total squared miss (here the fit is already quite good and balanced, since the residuals sum to +1, near zero)."
+            },
+            {
+              "title": "Fitting a parabola with 'linear' regression",
+              "scenario": "Your data clearly curves like a U, so a straight line underfits badly. How can linear regression fit it without changing the algorithm?",
+              "solution": "Add a transformed feature. Instead of fitting ŷ = w₁x + b, create a second feature x² and fit ŷ = w₁x + w₂x² + b. This is still ordinary least squares — you've just added a column to the design matrix — but the fitted curve is now a parabola in x. The model is linear in the parameters (w₁, w₂, b), so the same closed-form/gradient solver applies, yet it captures the U-shape. (Caution: keep adding powers and you'll eventually overfit, wiggling through every point.)"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

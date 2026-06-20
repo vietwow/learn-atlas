@@ -2,6 +2,18 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 516 — Machine Learning topic: module 2 "Linear Models" → Linear Regression (content / new topic build-out)
+Continuing the 8th topic. Started **module 2 "Linear Models"** with its first lesson, **Linear Regression: Predicting with a Line** (course now 2
+modules / 3 lessons). Framed as a *supervised model* (distinct from la-projection's geometry): 8-section lecture (the model `ŷ=wᵀx+b` · least-squares
+objective · normal equations vs gradient descent · interpreting coefficients · `R²` evaluation · assumptions/limits → regularization) + **2 deep-dives**
+(why squared error = Gaussian-noise MLE, and its outlier weakness → Huber/MAE; "linear in the *parameters*" → polynomial/basis-function regression, the
+bridge to kernels) + **8 MCQs** (de-skewed 2/2/2/2) + **5 flashcards** + **2 homework** + **2 worked examples** (predictions/residuals/MSE by hand;
+fitting a parabola with "linear" regression). Appended via the byte-stable path as a new module.
+Verified: `node gate.js` → **8 topics · 151 lessons · ALL GREEN**; **headless** — course page lists 3 lessons, Linear Regression opens with **nDD=2**,
+**kErr=0, rawDollar=0, errs=0** (normal-equations/`R²`/MSE display math clean). SW cache `atlas-v455` → `atlas-v456`.
+*(Authoring note: re-hit the money-`$` landmine in homework — bare `$` for dollars breaks `$…$` parity; reworded dollar-free.)*
+**Queued next:** Logistic Regression & Regularization (finish module 2), then SVMs/kernels, Naive Bayes, k-Means, Ensembles, Model Selection/CV.
+
 ## iter 515 — Machine Learning topic: Decision Trees lesson (finishes module 1) (content / new topic build-out)
 Continuing the 8th topic. Added the second lesson, **Decision Trees: Learning by Asking Questions**, completing module 1 *"Instance- and Tree-Based
 Models"* (now 2 lessons). Authored to the full bar: 8-section lecture (anatomy · greedy recursive splitting · Gini & entropy/information gain · a split
