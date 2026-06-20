@@ -2,6 +2,18 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 477 — Three more second deep-dives on the hardest lessons (content / depth)
+A **distinct second "Deeper dive"** on three more flagship lessons across LA/LLM/calc (deep-dives 290 → **293**; 141 lessons now carry two):
+- **la-low-rank-pca** (had: "PCA = SVD") → **Eckart–Young**: the top-`k` SVD `A_k` is the *provably best* rank-`k` approximation (error
+  `=σ_{k+1}`) — the optimality result behind compression, denoising, and dimensionality reduction.
+- **l-positional-encoding** (had: "attention is order-blind") → **absolute vs relative position**: relative schemes (RoPE, ALiBi) encode
+  *distance*, not index — which is what lets a model trained at 4k tokens stretch to longer contexts (length extrapolation).
+- **c-extrema-curve-sketching** (had: "derivatives draw the shape") → **Fermat's theorem**: an interior extremum forces `f'=0` (or DNE), so
+  extrema live only at critical points + endpoints — the finite candidate list that justifies the whole procedure.
+Authored with `String.raw` LaTeX (`\lt`/`\gt` for the sign comparisons); injected via the append-second-dd path with the full guard set.
+Verified: gate ALL GREEN; **via `--dump-dom`** each lesson opens **both** dd's (nDD=2) with **kErr=0, rawDollar=0**; smoke (2 dd's × 3 +
+pages) **errs=0/kErr=0, bad=none**. SW cache `atlas-v416` → `atlas-v417`.
+
 ## iter 476 — Three more second deep-dives on the hardest lessons (content / depth)
 A **distinct second "Deeper dive"** on three more flagship lessons across calc/LLM/RL (deep-dives 287 → **290**; 138 lessons now carry two):
 - **c-integration-techniques** (had: "rules in reverse") → **partial fractions**: split a rational function into simple pieces
