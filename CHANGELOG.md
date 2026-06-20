@@ -2,6 +2,27 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 510 — Step-back: full audit (clean) + three more third deep-dives (content / depth)
+**Round-number step-back.** Two health audits, both clean:
+- **Runtime kErr+route sweep**: all **148 lessons** (every example revealed, every dd opened) → errs=0, kErr=0, 0 bad; all **109 non-lesson routes**
+  (incl. `#/achievements` with the two new Deep Reader/Voyager badges) → errs=0, kErr=0. **257 routes green.**
+- **Coverage + depth audit**: **0 structurally-thin**; dd distribution **2-dd: 70 · 3-dd: 78 · 4+dd: 0** (377 total, every lesson ≥2). 443 examples,
+  2368 MCQs, 889 cards, 442 hw, 90 code, 151 glossary, 89 viz.
+**Reflection (iters 500→510, the diversification arc):** after the iter-500 milestone flagged depth saturating, the loop deliberately *alternated*
+content↔non-content (anti-monotony) and built a **complete deep-dive ecosystem** around the 374-dive library: per-lesson "N deeper dives" badge that
+opens all (501), ⌘K search over every dive (503), search results that deep-link straight into the exact dive (505), a "Deeper dive of the day"
+dashboard card (507), and a `deepDivesSeen` tracker with Deep Reader/Voyager achievements + a Progress stat (509) — interleaved with five 3rd-dd
+content batches (356→377). Zero red gates across the span.
+**The paired ship — three more third deep-dives** (377 total):
+- **c-fundamental-theorem** → **the Leibniz rule**: both limits moving brings the chain rule (`f(b)b' − f(a)a'`), and a parameter lets you
+  differentiate *under* the integral sign (Feynman's trick).
+- **a-greedy** → **matroids**: greedy is provably optimal exactly over a matroid (hereditary + exchange) — Kruskal's MST is the graphic matroid;
+  the general "why" behind every greedy success.
+- **ps-uniform-exponential** → **the uniform is the seed of all sampling**: inverse-transform `X=F⁻¹(U)` turns a `Uniform(0,1)` draw into a sample
+  from *any* distribution — why every RNG starts uniform.
+Verified: gate ALL GREEN; both step-back sweeps clean; **via `--dump-dom`** each new dive lesson opens all three dd's (**nDD=3**) with **kErr=0,
+rawDollar=0** (display math too); smoke (3 dd's × 3 + pages) **errs=0/kErr=0, bad=none**. SW cache `atlas-v449` → `atlas-v450`.
+
 ## iter 509 — "Deeper dives explored" tracker + two achievements (gamification)
 Switched off depth (anti-monotony) to reward exploring the 374-dive library. Until now nothing counted dives opened — "Deep Thinker" fired on the
 *first* and that was it. New `deepDivesSeen` tracker (mirrors `vizSeen`: `"lessonId#k" → true`, state-safe via blank() + load() merge), recorded in
