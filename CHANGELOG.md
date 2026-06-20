@@ -2,6 +2,18 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 487 — Three more THIRD deep-dives on the hardest concepts (content / depth)
+A **third "Deeper dive"** on three more flagship hard concepts (deep-dives 320 → **323**; these three now carry three):
+- **dl-pooling-and-cnn-architectures** (had: pooling · weight-sharing) → **residual connections & the depth wall**: plain deep nets *degrade*
+  (training error rises); ResNet's `y=x+F(x)` gives gradients an identity highway and makes "do nothing" trivial — unlocking 100+ layers.
+- **ps-hypothesis-testing-logic** (had: proof-by-contradiction · prosecutor's fallacy) → **statistical vs practical significance**: the statistic
+  grows like `√n`, so any nonzero effect crosses `p<0.05` with enough data — report effect sizes & CIs, not just p-values.
+- **a-comparison-sorts** (had: quick-vs-merge · `Ω(n log n)` bound) → **stability & in-place (beyond speed)**: stable (mergesort/Timsort, for
+  multi-key) vs in-place (quicksort/heapsort, `O(1)` memory) — why libraries are hybrids (Timsort, introsort).
+Authored with `String.raw` LaTeX (`\lt` for the comparison); injected via the append-dd path with the full guard set.
+Verified: gate ALL GREEN; **via `--dump-dom`** each lesson opens **all three** dd's (**nDD=3**) with **kErr=0, rawDollar=0**; smoke (3 dd's × 3 +
+pages) **errs=0/kErr=0, bad=none**. SW cache `atlas-v426` → `atlas-v427`.
+
 ## iter 486 — Three more THIRD deep-dives on the hardest concepts (content / depth)
 A **third "Deeper dive"** on three more flagship hard concepts (deep-dives 317 → **320**; these three now carry three):
 - **a-dynamic-programming** (had: DP=remembering · top-down vs bottom-up) → **the two conditions DP requires**: *optimal substructure*
