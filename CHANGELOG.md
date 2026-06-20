@@ -2,6 +2,14 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 568 — Glossary: +13 calculus terms (the most under-represented topic) (content / reference)
+Calculus had only **17 glossary terms across its 29 lessons** — the thinnest coverage relative to size. Added **13 core, lesson-covered terms** (17 → 30):
+Antiderivative, L'Hôpital's rule, Linear approximation, Newton's method, Differential equation, Implicit differentiation, Extreme Value Theorem,
+Intermediate Value Theorem, Indeterminate form, Squeeze theorem, Euler's method, Improper integral, Inflection point. (Skipped "Jacobian" — already defined
+under linear-algebra.) These feed the inline lesson tooltips, the Glossary page, and ⌘K search. Glossary 168 → **181**.
+Verified: gate ALL GREEN; **headless** — the new terms render on the Glossary page (math `kErr=0`), a calc lesson shows inline glossary tooltip spans
+(`kErr=0`), errs=0. SW cache `atlas-v507` → `atlas-v508`.
+
 ## iter 567 — Three more third dives: Poisson process · world models · scalable oversight (content / depth)
 Three more third deep-dives (PS/RL/LLM) — clears the PS 2-dd bucket:
 - **ps-poisson** → **the Poisson process & exponential waits**: counts in a window are Poisson(λt), gaps are Exponential(λ), linked by
