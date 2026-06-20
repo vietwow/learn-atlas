@@ -188,6 +188,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ✅ iter 428: **Runnable 2-layer backward-pass code exercise** (new functionality; owner's backprop focus). Added JS code-exercise to
    dl-backpropagation (after the viz): same network, console.log(dw1,dw2)→"24 4"; gate RUNS it & asserts output (86 code-exercises verified).
    Verified: gate GREEN; dump-dom errs=0/kErr=0, code hydrates, &gt; decodes to >, in-browser Run → "24 4". SW →v368.
+   ✅ iter 437: **3 more second deep-dives on the hardest lessons** (content/depth). +3 dd (188→191; 41 lessons have 2):
+   a-shortest-paths-topo (Bellman-Ford / negative edges), dl-the-artificial-neuron-and-mlp (UAT width-vs-depth catch), ps-poisson
+   (binomial limit + mean=variance=λ). Append-second-dd inject w/ full guards. Verified: gate GREEN; dump-dom each nDD=2, kErr=0,
+   rawDollar=0; smoke bad=none. SW →v377.
    ✅ iter 436: **3 more worked examples; DL at-2 pool cleared** (examples). +3 (434→437): dl-pretraining-and-finetuning-paradigm (compute
    split 6ND, ~30,000×), l-hallucination-and-evaluation (why LLMs hallucinate — fluency not truth), rl-offline (stay in-distribution: BCQ/CQL).
    Also confirmed live deploy healthy post-CNAME-revert (HTTP 200, sw atlas-v375 live). Verified: gate GREEN (437); dump-dom katex 76/23/16,

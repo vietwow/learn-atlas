@@ -2,6 +2,18 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 437 — Three more second deep-dives on the hardest lessons (content / depth)
+A **distinct second "Deeper dive"** on three more flagship lessons across algo/DL/PS (deep-dives 188 → **191**; 41 lessons now carry two):
+- **a-shortest-paths-topo** (had: "why Dijkstra needs non-negative edges") → **Bellman-Ford**: relax every edge `V−1` times (`O(VE)`)
+  to handle negative weights, and a `V`-th relaxing pass flags a negative cycle — exhaustive DP where Dijkstra's greedy assumption fails.
+- **dl-the-artificial-neuron-and-mlp** (had: "neuron=logreg, MLP=universal") → **universal approximation's catch**: "can represent" ≠
+  "efficiently/learnably" — shallow nets may need exponentially many units; depth composes features for exponentially compact, learnable representations.
+- **ps-poisson** (had: "the law of rare events") → **the binomial limit**: `Poisson(λ)=lim Binomial(n,λ/n)` (`Bin(1000,0.005)≈Poisson(5)`),
+  and the signature `mean=variance=λ` doubles as an overdispersion diagnostic.
+Authored with `String.raw` LaTeX; injected via the append-second-dd path with the full guard set + dup-summary guard.
+Verified: gate ALL GREEN; **via `--dump-dom`** each lesson opens **both** dd's (nDD=2) with **kErr=0, rawDollar=0**; smoke (2 dd's × 3 +
+pages) **errs=0/kErr=0, bad=none**. SW cache `atlas-v376` → `atlas-v377`.
+
 ## iter 436 — Three more worked examples; DL at-2 pool cleared (examples)
 First confirmed the live deploy is healthy after the owner's CNAME revert: `index.html` HTTP 200, title intact, **sw.js serving
 `atlas-v375`** (iter-435 deploy landed), no local CNAME. Then a **3rd worked example** on three lessons (examples 434 → **437**); this
