@@ -2,6 +2,17 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 534 — ML Library references + achievement audit (content / reference)
+First audited the achievement system for stale 7-topic assumptions (broken-wins check): the topic-completion achievements — `all-topics`, `atlas-complete`,
+`well-rounded`, `module-master`, `topic-clear` — are all **dynamic** over `window.COURSES`, so the 8th topic correctly made them require ML too; nothing
+stale or broken. With that confirmed, filled the **last ML-integration gap**: the Library/`data/REFERENCES` had **no `machine-learning` section**. Added
+**6 curated references** — ISL (the best first ML book, free), ESL (the rigorous reference), StatQuest (video), CS229 (Stanford), the scikit-learn User
+Guide, and Bishop's PRML — so a learner finishing the topic has canonical next steps.
+Verified: gate ALL GREEN; **headless** — the Library route shows the ML references (links present, `kErr=0`), and ⌘K search for "Statistical Learning"
+returns the **Reference** entry; errs=0. SW cache `atlas-v473` → `atlas-v474`.
+**The Machine Learning topic (iters 514–534) is now integrated across *every* surface:** lessons (all at 3 dd) · 3 interactive viz · 3 code exercises ·
+prerequisite graph · glossary · Library references · search. The 8th pillar is complete.
+
 ## iter 533 — Glossary: 17 Machine Learning terms (content / reference)
 The 8th topic introduced a lot of vocabulary but the site-wide glossary had **zero** ML terms. Added **17** (`topic: machine-learning`), so they're
 now in the Glossary page, ⌘K search, and inline tooltips: k-Nearest Neighbors, Decision tree, Gini impurity, Linear regression, Logistic regression,

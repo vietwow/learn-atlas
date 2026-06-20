@@ -51,6 +51,14 @@ window.REFERENCES = {
     { title: "StatQuest", by: "Josh Starmer", kind: "video", url: "https://www.youtube.com/@statquest", note: "Clear, friendly video explanations of statistics and ML concepts." },
     { title: "An Introduction to Statistical Learning", by: "James, Witten, Hastie & Tibshirani", kind: "book", url: "https://www.statlearning.com/", note: "Free textbook bridging statistics and machine learning — the gentle ISL." }
   ],
+  "machine-learning": [
+    { title: "An Introduction to Statistical Learning (ISL)", by: "James, Witten, Hastie & Tibshirani", kind: "book", url: "https://www.statlearning.com/", note: "The best first ML book — intuitive, with free PDF, R and Python labs. Start here." },
+    { title: "The Elements of Statistical Learning (ESL)", by: "Hastie, Tibshirani & Friedman", kind: "book", url: "https://hastie.su.domains/ElemStatLearn/", note: "The rigorous reference (free PDF). The advanced companion to ISL." },
+    { title: "StatQuest", by: "Josh Starmer", kind: "video", url: "https://statquest.org/video-index/", note: "Wonderfully clear, visual explanations of kNN, trees, SVMs, boosting, cross-validation, and more." },
+    { title: "CS229: Machine Learning", by: "Andrew Ng · Stanford", kind: "course", url: "https://cs229.stanford.edu/", note: "The classic graduate course — full notes and lectures, free." },
+    { title: "scikit-learn User Guide", by: "scikit-learn", kind: "reference", url: "https://scikit-learn.org/stable/user_guide.html", note: "The practical toolkit: every algorithm here, with usage notes and the API to run it." },
+    { title: "Pattern Recognition and Machine Learning", by: "Christopher Bishop", kind: "book", url: "https://www.microsoft.com/en-us/research/publication/pattern-recognition-machine-learning/", note: "A deep, probabilistic treatment (free PDF) — strong on the Bayesian view." }
+  ],
   "general": [
     { title: "Distill.pub", by: "Distill", kind: "interactive", url: "https://distill.pub/", note: "Interactive, visual ML explanations." },
     { title: "Brilliant", by: "Brilliant.org", kind: "interactive", url: "https://brilliant.org/", note: "Active, problem-first courses across math & CS." },

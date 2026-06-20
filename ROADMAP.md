@@ -182,6 +182,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    each showing upstream×local (incl. ∂L/∂z₁=∂L/∂a₁·σ′(z₁)); σ↔ReLU toggle shows vanishing vs gating. Embedded in dl-backpropagation;
    viz-complete →88. Verified: gate GREEN; headless lab route errs=0/canvas, steps 0→fwd4→back4 (8/8), toggle+reset work; lesson route
    2 canvases hydrate, kErr=0; screenshot eyeballed. SW →v366.
+   ✅ iter 534: **ML Library references + achievement audit** (content/reference). Audit: topic-completion achievements (all-topics/atlas-complete/
+   well-rounded) all dynamic over COURSES — 8th topic didn't break them. Filled last gap: 6 curated ML refs (ISL, ESL, StatQuest, CS229, scikit-learn,
+   Bishop). Verified: gate GREEN; headless Library shows ML refs (kErr=0), ⌘K finds "Statistical Learning" reference, errs=0. SW →v474.
+   **ML pillar now integrated across every surface (lessons/dd/viz/code/prereqs/glossary/refs/search).**
    ✅ iter 533: **Glossary — 17 ML terms** (content/reference; glossary had 0 ML terms). kNN, decision tree, Gini, linear/logistic regression, ridge&lasso,
    SVM, kernel trick, naive bayes, k-means, bias-variance, ensemble, random forest, gradient boosting, cross-validation, precision&recall, ROC/AUC.
    Glossary 151→168. Verified: gate GREEN; headless glossary kErr=0, ⌘K finds "support vector" (Glossary), errs=0. SW →v473.
