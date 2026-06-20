@@ -182,6 +182,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    each showing upstream×local (incl. ∂L/∂z₁=∂L/∂a₁·σ′(z₁)); σ↔ReLU toggle shows vanishing vs gating. Embedded in dl-backpropagation;
    viz-complete →88. Verified: gate GREEN; headless lab route errs=0/canvas, steps 0→fwd4→back4 (8/8), toggle+reset work; lesson route
    2 canvases hydrate, kErr=0; screenshot eyeballed. SW →v366.
+   ✅ iter 570: **STEP-BACK: full 8-topic audit (clean) + 3 more 3rd dives** (content/depth). Sweeps: 158 lessons errs=0/kErr=0/0 bad; 133 routes errs=0/kErr=0
+   (291 green). Coverage: 0 thin (all ≥3 ex); dd dist 2dd:7 / 3dd:151 / 4+:0 (464). Reflection 560→570: connections gap fixed (104→0), cross-topic graph +14,
+   example-parity site-wide, 2dd 22→7, code all 8 topics, glossary 168→181. Ship: l-optimization-and-stability (loss spikes/clipping), ps-geometric-waiting
+   (coupon collector), c-implicit-related-rates (implicit function theorem). Verified: gate GREEN; dump-dom nDD=3, kErr=0/rawD=0/errs=0. SW →v510. (2dd: calc 4, RL 3.)
    ✅ iter 569: **3 more 3rd dives: numerical quadrature · policy improvement · data quality** (content/depth). c-integration-techniques (Simpson/Gaussian
    quadrature), rl-policies-values (policy improvement theorem), l-pretraining-objective-data (data quality beats scale). Verified: gate GREEN; dump-dom each
    nDD=3, kErr=0/rawD=0/errs=0. SW →v509. (2dd ~10: calc 5, RL 3, LLM 1, PS 1.)

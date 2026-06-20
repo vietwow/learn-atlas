@@ -2,6 +2,21 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 570 — Step-back: full 8-topic audit (clean) + three more third dives (content / depth)
+**Round-number step-back.** Two health audits, both clean:
+- **Runtime kErr+route sweep**: all **158 lessons** (every example revealed, every dd opened) → errs=0, kErr=0, 0 bad; all **133 non-lesson routes** (incl. 8
+  cheatsheets, 8 placements, all 96 viz labs) → errs=0, kErr=0. **291 routes green.**
+- **Coverage + depth audit**: **0 thin** (now measured at ≥3 examples — *all pass*); dd distribution **2-dd: 10 → 7 · 3-dd: 148 → 151 · 4+dd: 0** (464 total).
+  8 topics · 158 lessons · 2448 MCQs · 939 cards · 475 examples · 96 viz · 108 code · 181 glossary. Remaining 2-dd: calc 4, RL 3 (LLM & PS now 0).
+**Reflection (iters 560→570):** fixed a **66%-of-lessons connections gap** (104 orphans → 0) and enriched the **cross-topic prereq graph** (+14 edges); reached
+**example-parity site-wide** (every lesson ≥3); pulled **2-dd from 22 → 7**; extended **hands-on code to all 8 topics**; and grew the **glossary 168 → 181**
+(filling the thin calculus coverage). Zero red gates shipped (one partial write at 564 caught + reverted; `toFixed`/`%`-in-math landmines recorded).
+**The paired ship — three more third dives** clearing the LLM & PS singleton buckets:
+- **l-optimization-and-stability** → **loss spikes & gradient clipping**: cap `‖g‖≤c`, and skip-batch / rewind-to-checkpoint when a spike slips through.
+- **ps-geometric-waiting** → **the coupon collector problem**: collecting all `n` is a sum of geometric waits → `≈ n ln n` (the tail dominates).
+- **c-implicit-related-rates** → **the implicit function theorem**: implicit differentiation is valid where `∂F/∂y≠0`, giving `dy/dx=−Fₓ/F_y` and the reciprocal-slope rule for inverse derivatives.
+Verified: gate ALL GREEN; both step-back sweeps clean; **via `--dump-dom`** all three open with **nDD=3**, **kErr=0, rawDollar=0, errs=0**. SW cache `atlas-v509` → `atlas-v510`.
+
 ## iter 569 — Three more third dives: numerical quadrature · policy improvement · data quality (content / depth)
 Three more third deep-dives (calc/RL/LLM):
 - **c-integration-techniques** → **numerical quadrature**: when no antiderivative exists (the common case), approximate the area — trapezoid, Simpson's
