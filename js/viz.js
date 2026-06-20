@@ -5006,4 +5006,54 @@
     genData(); initCentroids(); draw();
   });
 
+
+  /* ========================================================
+     91. k-Nearest Neighbors decision boundary (Machine Learning)
+     ======================================================== */
+  register({ id: 'ml-knn-viz', topic: 'machine-learning', title: 'kNN decision boundary: the bias-variance dial', blurb: 'Color the plane by what k-NN would predict everywhere, for two overlapping classes. Slide k: at k=1 the boundary is jagged and overfits noise (high variance); as k grows it smooths and eventually oversmooths (high bias). The classic bias-variance tradeoff, made visible.' },
+  function (root) {
+    const W = 540, H = 380, padL = 10, padR = 10, padT = 10, padB = 10;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    let seed = 4242;
+    function rng() { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }
+    function gauss() { let u = 0, v = 0; while (u === 0) u = rng(); while (v === 0) v = rng(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
+    function clamp(v) { return Math.max(0.3, Math.min(9.7, v)); }
+    let K = 1, pts = [], dataSeed = 1;
+    function genData() {
+      seed = 200 + dataSeed * 9; pts = [];
+      const A = [3.6, 6.2], B = [6.6, 4.4];          // two overlapping blobs
+      for (let i = 0; i < 22; i++) pts.push({ x: clamp(A[0] + gauss() * 1.6), y: clamp(A[1] + gauss() * 1.6), c: 0 });
+      for (let i = 0; i < 22; i++) pts.push({ x: clamp(B[0] + gauss() * 1.6), y: clamp(B[1] + gauss() * 1.6), c: 1 });
+    }
+    function classify(x, y) {
+      const d = pts.map(pt => ({ d: (pt.x - x) * (pt.x - x) + (pt.y - y) * (pt.y - y), c: pt.c }));
+      d.sort((a, b) => a.d - b.d);
+      let n0 = 0; for (let i = 0; i < K && i < d.length; i++) if (d[i].c === 0) n0++;
+      const kk = Math.min(K, d.length); return n0 > kk - n0 ? 0 : (n0 < kk - n0 ? 1 : 0);
+    }
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const X = x => padL + x / 10 * (W - padL - padR), Y = y => (H - padB) - y / 10 * (H - padT - padB);
+      const cw = 9, cellsX = Math.ceil((W - padL - padR) / cw), cellsY = Math.ceil((H - padT - padB) / cw);
+      const colA = p.sage, colB = p.violet;
+      for (let i = 0; i < cellsX; i++) for (let j = 0; j < cellsY; j++) {
+        const px = padL + (i + 0.5) * cw, py = padT + (j + 0.5) * cw;
+        const dx = (px - padL) / (W - padL - padR) * 10, dy = (Y(0) - py) / (H - padT - padB) * 10;
+        const cls = classify(dx, dy);
+        ctx.fillStyle = cls === 0 ? colA : colB; ctx.globalAlpha = 0.16; ctx.fillRect(padL + i * cw, padT + j * cw, cw, cw);
+      }
+      ctx.globalAlpha = 1;
+      pts.forEach(pt => { ctx.fillStyle = pt.c === 0 ? colA : colB; ctx.strokeStyle = p.ink; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(X(pt.x), Y(pt.y), 5, 0, 7); ctx.fill(); ctx.stroke(); });
+      let verdict; if (K <= 1) verdict = 'jagged islands that wrap individual points — <b style="color:' + p.rust + '">overfitting</b> the noise (high variance).'; else if (K >= 21) verdict = 'a very smooth, almost-straight boundary that ignores local detail — <b style="color:' + p.gold + '">oversmoothing</b> (high bias).'; else verdict = 'a balanced boundary that follows the real class structure without chasing every point.';
+      info.innerHTML = 'k = <b>' + K + '</b>. The plane is colored by what k-NN predicts at each location (sage = class A, violet = class B); dots are the training points. The boundary is ' + verdict + ' Slide k from 1 upward and watch variance fall and bias rise — the bias-variance tradeoff in one picture.';
+    }
+    slider(ctl, { label: 'k (neighbors)', min: 1, max: 31, step: 2, value: K, onInput: v => { K = v; draw(); } });
+    button(ctl, '🎲 new points', function () { dataSeed++; genData(); draw(); });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'k-Nearest-Neighbors decision-boundary visualizer: two overlapping classes of points on a plane, with the background shaded by the class k-NN would predict at each location. A slider sets k: at k=1 the boundary is jagged and wraps individual points (overfitting, high variance); as k increases the boundary smooths and eventually oversmooths (high bias) - the bias-variance tradeoff made visible.');
+    genData(); draw();
+  });
+
 })();

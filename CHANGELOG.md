@@ -2,6 +2,14 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 526 — Interactive kNN decision-boundary viz (visualizations)
+A second interactive for the Machine Learning topic — the **91st widget, `ml-knn-viz` "kNN decision boundary: the bias-variance dial."** It shades the
+whole plane by what k-NN would predict at each location for two overlapping classes, with a **k slider (1–31)**: at k=1 the boundary is jagged and wraps
+individual points (overfitting / high variance); as k grows it smooths and eventually oversmooths (high bias) — the bias-variance tradeoff in one moving
+picture. Plus a New-points control; deterministic seeded blobs. Registered in `js/viz.js` and embedded in the kNN lesson at the decision-boundary section.
+Verified: gate ALL GREEN (now **91 widgets**); **headless** — Lab canvas hydrates, the k slider reclassifies the plane (note updates k=1 → k=31), lesson
+inline canvas hydrates, **kErr=0, errs=0**; screenshot shows the two-class scatter over shaded decision regions, on-aesthetic. SW cache `atlas-v465` → `atlas-v466`.
+
 ## iter 525 — Third deep-dives on the hardest ML lessons (content / depth)
 Brought the new Machine Learning topic toward the depth of the rest of the codex (most lessons elsewhere carry 3 dd). Added a **third "Deeper dive"** to
 three of its hardest lessons:
