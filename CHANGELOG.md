@@ -2,6 +2,18 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 458 — Three more second deep-dives on the hardest lessons (content / depth)
+A **distinct second "Deeper dive"** on three more flagship lessons across DL/DL/RL (deep-dives 236 → **239**; 87 lessons now carry two):
+- **dl-dropout-and-normalization** (had: "BatchNorm two stories") → **dropout as an implicit ensemble**: random unit-deletion trains `2ⁿ`
+  weight-sharing subnetworks; testing with all units ≈ averaging them — ensemble learning hidden in one model, breaking co-adaptation.
+- **dl-ml-recap-and-the-learning-problem** (had: "a loss you can't see") → **empirical risk & the generalization gap**: you minimize `R̂`
+  (training avg) as a proxy for the true risk `R`; the gap `R−R̂` is what regularization, more data, and validation control.
+- **rl-policy-iteration** (had: "a two-step dance") → **the policy improvement theorem**: greedy w.r.t. `Vπ` gives `Vπ′ ≥ Vπ` everywhere
+  (telescoping proof) — the monotonic guarantee that makes the dance provably converge.
+Authored with `String.raw` LaTeX; injected via the append-second-dd path with the full guard set + dup-summary guard.
+Verified: gate ALL GREEN; **via `--dump-dom`** each lesson opens **both** dd's (nDD=2) with **kErr=0, rawDollar=0**; smoke (2 dd's × 3 +
+pages) **errs=0/kErr=0, bad=none**. SW cache `atlas-v397` → `atlas-v398`.
+
 ## iter 457 — Three more second deep-dives on the hardest lessons (content / depth)
 A **distinct second "Deeper dive"** on three more flagship lessons across algo/PS/LA (deep-dives 233 → **236**; 84 lessons now carry two):
 - **a-linear-sorts-selection** (had: "beat n log n by not comparing") → **quickselect**: partition like quicksort but recurse into *one*
