@@ -2,6 +2,18 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 493 — Three more THIRD deep-dives on the hardest concepts (content / depth)
+A **third "Deeper dive"** on three more flagship hard concepts (deep-dives 338 → **341**; these three now carry three):
+- **dl-activation-functions** (had: no-nonlinearity-illusion · dying ReLU) → **the modern activation zoo**: sigmoid (saturates) → ReLU (dies) →
+  GELU `x·Φ(x)` / SiLU `x·σ(x)` (smooth, small negative-side gradient) — why transformers default to GELU.
+- **ps-confidence-intervals** (had: what 95% means · width/√n) → **CIs and tests are the same thing**: a 95% CI is exactly the set of nulls a
+  two-sided 5% test won't reject (`θ₀∈CI ⟺ p>0.05`) — same SE, same multiplier; the interval is a test for every null at once.
+- **l-tokenization-bpe** (had: BPE=compression · vocab-size) → **beyond BPE**: byte-level BPE (no OOV), SentencePiece (language-agnostic), and
+  tokenizer-free byte models (perfect spelling, but longer `O(n²)` sequences) — engineering away the "can't spell" artifact.
+Authored with `String.raw` LaTeX (`\gt`); injected via the append-dd path with the full guard set + dup-summary guard.
+Verified: gate ALL GREEN; **via `--dump-dom`** each lesson opens **all three** dd's (**nDD=3**) with **kErr=0, rawDollar=0**; smoke (3 dd's × 3 +
+pages) **errs=0/kErr=0, bad=none**. SW cache `atlas-v432` → `atlas-v433`.
+
 ## iter 492 — Three more THIRD deep-dives on the hardest concepts (content / depth)
 A **third "Deeper dive"** on three more flagship hard concepts (deep-dives 335 → **338**; these three now carry three):
 - **la-inverse-and-systems** (had: never invert · when Ax=b solvable) → **LU decomposition**: factor `A=LU` once (`O(n³)`), then each new `b`
