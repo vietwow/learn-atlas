@@ -2,6 +2,16 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 563 — Three more third dives: matmul bottleneck · autodiff modes · TD-vs-MC (content / depth)
+Three more third deep-dives (algo/LA/RL), clearing the small algo & LA 2-dd buckets:
+- **a-algorithms-for-ml** → **matrix multiplication is the bottleneck**: ML compute is overwhelmingly matmul (`O(n³)`), which is why the field lives by BLAS/GPUs/TPUs.
+- **la-matrix-calculus-backprop** → **forward- vs reverse-mode autodiff**: the chain rule is a Jacobian product; with one scalar loss and millions of params,
+  reverse mode (backprop) gets every gradient in one backward sweep — that asymmetry, not magic, is why training runs backward.
+- **rl-td-learning** → **TD vs Monte Carlo, the bias-variance tradeoff**: MC uses the true return (unbiased, high variance, episode-end); TD bootstraps off its
+  own estimate `r+γV(s')` (biased, low variance, online); n-step/TD(λ) tune the dial.
+Injected via the byte-stable append-dd path with the full guard set.
+Verified: gate ALL GREEN; **via `--dump-dom`** all three open with **nDD=3**, **kErr=0, rawDollar=0, errs=0**. SW cache `atlas-v502` → `atlas-v503`.
+
 ## iter 562 — Enrich the cross-topic prerequisite graph (+14 edges) (workflow / understandability)
 With iter 561 making the prereq graph visible on every lesson, enriched the graph itself (was 50 edges over 35 keys → **64 over 48**) with genuinely
 illuminating cross-disciplinary links — surfacing in "Builds on / Leads to", the Knowledge Map, and learning paths. Highlights:
