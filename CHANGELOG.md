@@ -2,6 +2,18 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 445 — Three more second deep-dives on the hardest lessons (content / depth)
+A **distinct second "Deeper dive"** on three more flagship lessons across PS/LA/DL (deep-dives 200 → **203**; 53 lessons now carry two):
+- **ps-covariance-correlation** (had: "covariance with units divided out") → **correlation only sees lines (and isn't causation)**:
+  `r=0` ≠ independent (`y=x²` over symmetric `x` has `r=0` despite perfect dependence), and `r` is direction-blind to causation.
+- **la-inverse-and-systems** (had: "you almost never compute the inverse") → **when `Ax=b` has a (unique) solution**: invertible
+  (`det≠0`, full rank) → exactly one for every `b`; singular splits into no solution (b outside col space) or infinitely many.
+- **dl-convolution-operation** (had: "weight-sharing + locality") → **stride/padding/output-size**: `⌊(W−K+2P)/S⌋+1` (same-pad
+  `32→32`, stride-2 `32→16`); stacking `3×3` kernels grows the receptive field (`5×5`, `7×7`) cheaply.
+Authored with `String.raw` LaTeX; injected via the append-second-dd path with the full guard set + dup-summary guard.
+Verified: gate ALL GREEN; **via `--dump-dom`** each lesson opens **both** dd's (nDD=2) with **kErr=0, rawDollar=0**; smoke (2 dd's × 3 +
+pages) **errs=0/kErr=0, bad=none**. SW cache `atlas-v384` → `atlas-v385`.
+
 ## iter 444 — Three more second deep-dives — the 200th (content / depth — owner's #1)
 A **distinct second "Deeper dive"** on three more flagship lessons across calc/DL/RL, crossing **200 deep-dives** (197 → **200**; 50
 lessons now carry two):
