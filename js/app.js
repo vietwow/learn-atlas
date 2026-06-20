@@ -672,7 +672,7 @@
         <div class="goal-ring" style="--p:0"><span>${goalPct}%</span></div>
         <div class="today-text">
           <div class="t-main">Today's goal: <b>${today} / ${goal} XP</b> ${goalPct >= 100 ? "<span style='color:var(--sage)'>· hit! 🎉</span>" : ""}</div>
-          <div class="t-sub">${weak.length ? `<span style="color:var(--rust)">⚠ ${weak.length} concept${weak.length === 1 ? "" : "s"} need review</span>` : "🔥 streak " + st.streak + " days · no weak spots right now"}${Store.raw.freezes ? ` · ❄️ ${Store.raw.freezes} freeze${Store.raw.freezes === 1 ? "" : "s"}` : ""}</div>
+          <div class="t-sub">${weak.length ? `<span style="color:var(--rust)">⚠ ${weak.length} concept${weak.length === 1 ? "" : "s"} need review</span>` : "🔥 streak " + st.streak + " day" + (st.streak === 1 ? "" : "s") + " · no weak spots right now"}${Store.raw.freezes ? ` · ❄️ ${Store.raw.freezes} freeze${Store.raw.freezes === 1 ? "" : "s"}` : ""}</div>
         </div>
         ${weak.length ? `<a class="btn" href="#/test" data-route style="margin-left:auto">Drill weak spots →</a>` : ""}
       </div>

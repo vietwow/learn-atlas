@@ -2,6 +2,18 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 546 — Fix: streak display (first-paint flash + singular grammar) (owner bug)
+**Owner bug report:** the "N-day streak" display rendering wrong (header counter + animated flame + dashboard/stats text). Investigation (seeded headless
+saves across streak 0/1/6/7/12/30/100/365 + the increment/freeze/reset paths) found the *number logic* correct everywhere, and two genuine display defects:
+- **First-paint flash (header + flame).** `index.html` hardcodes `id="streak-num">0` with a class-less, inert flame, and the data/app scripts are
+  `defer`red — so on the live site a returning user briefly saw **"0 day streak" with a dead flame** before JS hydrated their real value. Fixed with a tiny
+  parse-time inline pre-hydrate script that reads `atlas.v1` and sets the streak number + correct flame tier immediately (renderChrome keeps it in sync,
+  including today's tick-up); wrapped in try/catch with a silent fallback to "0".
+- **Singular grammar.** The dashboard today-strip read **"streak 1 days"** — now "streak 1 day" (pluralized like the adjacent freeze count).
+Verified: gate ALL GREEN; **FOUC fix in isolation** (deferred scripts stripped → only the inline script runs) shows `num=42, flame-blazing` instead of 0;
+**grammar** dump shows "🔥 streak 1 day"; **all-routes smoke errs=0**; screenshot of the streak=1 dashboard eyeballed. Prior-shape saves still load (Number.isFinite
+guard + try/catch). SW cache `atlas-v485` → `atlas-v486`.
+
 ## iter 545 — Three more original-topic third deep-dives (content / depth)
 Three more high-value third deep-dives (PS/algo/LA):
 - **ps-law-of-large-numbers** → **Monte Carlo**: the LLN as a compute engine — estimate any hard expectation/integral by sampling and averaging, with a

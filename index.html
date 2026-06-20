@@ -96,6 +96,24 @@
     </div>
   </div>
 
+  <!-- Pre-hydrate the streak badge from saved state at parse time, so the header never flashes a misleading
+       "0 day streak" with an inert flame before the deferred data/app scripts run (renderChrome() keeps it in
+       sync afterward, including today's tick-up). Falls back silently to the hardcoded "0" on any error. -->
+  <script>
+    (function () {
+      try {
+        var s = JSON.parse(localStorage.getItem("atlas.v1") || "{}");
+        var n = (s && Number.isFinite(s.streak)) ? s.streak : 0;
+        var el = document.getElementById("streak-num"); if (el) el.textContent = n;
+        var f = document.querySelector(".streak .flame");
+        if (f) {
+          var tier = n <= 0 ? "unlit" : n < 7 ? "lit" : n < 30 ? "hot" : n < 100 ? "blazing" : "inferno";
+          f.classList.add("flame-" + tier); f.dataset.tier = tier;
+        }
+      } catch (e) {}
+    })();
+  </script>
+
   <!-- data + logic — `defer`: fetched in parallel, executed in document order after parse, before DOMContentLoaded -->
   <script defer src="data/linear-algebra.js"></script>
   <script defer src="data/calculus.js"></script>

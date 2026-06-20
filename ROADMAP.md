@@ -182,6 +182,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    each showing upstream×local (incl. ∂L/∂z₁=∂L/∂a₁·σ′(z₁)); σ↔ReLU toggle shows vanishing vs gating. Embedded in dl-backpropagation;
    viz-complete →88. Verified: gate GREEN; headless lab route errs=0/canvas, steps 0→fwd4→back4 (8/8), toggle+reset work; lesson route
    2 canvases hydrate, kErr=0; screenshot eyeballed. SW →v366.
+   ✅ iter 546: **FIX streak display** (owner bug). (1) First-paint flash: header hardcoded "0"+inert flame before deferred JS ran → added a parse-time
+   inline pre-hydrate (reads atlas.v1, sets streak num + flame tier instantly; try/catch fallback). (2) Singular grammar: today-strip "streak 1 days"→"1 day".
+   Number logic verified correct across 0/1/6/7/12/30/100/365 + increment/freeze/reset. Verified: gate GREEN; FOUC-isolation num=42/flame-blazing; smoke
+   errs=0; screenshot. SW →v486.
    ✅ iter 545: **3 more original-topic 3rd deep-dives** (content/depth). ps-law-of-large-numbers (Monte Carlo), a-backtracking-branch-bound (constraint
    propagation), la-four-subspaces-rank (real data is low-rank). Verified: gate GREEN; dump-dom each nDD=3, kErr=0/rawD=0/errs=0. SW →v485.
    ✅ iter 544: **Code exercises for the last 3 ML lessons** (new functionality/code; ML now 9/10 with code). ml-naive-bayes (posterior→0.769), ml-svm
