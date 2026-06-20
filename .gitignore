@@ -2,3 +2,4 @@
 *.png
 __*.html
 node_modules/
+dist/
