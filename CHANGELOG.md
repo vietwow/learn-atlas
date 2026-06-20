@@ -2,6 +2,16 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 547 — Complete the header first-paint fix: level ring + XP bar (UI/UX)
+Follow-up to the streak FOUC fix (iter 546): the **same first-paint flash** hit the rest of the header. `index.html` hardcodes the level ring (`Level 1`),
+name (`Novice`), XP bar (`0%`) and XP text (`0 XP`), and the data/app scripts are `defer`red — so a returning level-8 user briefly saw **"Novice · Level 1 ·
+0 XP"** before JS hydrated. Extended the parse-time inline pre-hydrate to compute level/XP from the saved `xp` (LEVELS curve mirrored from store.js) and set
+the ring number + `--ring` conic fill, level name/sub, XP-bar width, and XP text — so the **entire** header paints correct values on first frame. renderChrome
+remains the source of truth afterward; any LEVELS drift would only affect the single pre-paint frame.
+Verified: gate ALL GREEN; **LEVELS cross-check** — inline curve byte-identical to store.js's; **FOUC isolation** (deferred scripts stripped → only inline runs)
+hydrates `ring=4, Scholar, Level 4, "1,234 XP · 166 to Adept", fill=72%, --ring=72%, streak=42, flame-blazing`; **full app** across routes shows the same
+values with **errs=0**. SW cache `atlas-v486` → `atlas-v487`.
+
 ## iter 546 — Fix: streak display (first-paint flash + singular grammar) (owner bug)
 **Owner bug report:** the "N-day streak" display rendering wrong (header counter + animated flame + dashboard/stats text). Investigation (seeded headless
 saves across streak 0/1/6/7/12/30/100/365 + the increment/freeze/reset paths) found the *number logic* correct everywhere, and two genuine display defects:

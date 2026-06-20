@@ -182,6 +182,9 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    each showing upstream×local (incl. ∂L/∂z₁=∂L/∂a₁·σ′(z₁)); σ↔ReLU toggle shows vanishing vs gating. Embedded in dl-backpropagation;
    viz-complete →88. Verified: gate GREEN; headless lab route errs=0/canvas, steps 0→fwd4→back4 (8/8), toggle+reset work; lesson route
    2 canvases hydrate, kErr=0; screenshot eyeballed. SW →v366.
+   ✅ iter 547: **Complete header first-paint fix** (UI/UX). Extended the iter-546 inline pre-hydrate to the level ring (num+--ring fill), level name/sub,
+   XP bar width, and XP text (LEVELS mirrored from store.js) — whole header now paints correct on first frame instead of "Novice·Level 1·0 XP". Verified:
+   gate GREEN; LEVELS cross-check identical; FOUC-isolation ring=4/Scholar/166 to Adept/72%/streak=42/blazing; full-app errs=0. SW →v487.
    ✅ iter 546: **FIX streak display** (owner bug). (1) First-paint flash: header hardcoded "0"+inert flame before deferred JS ran → added a parse-time
    inline pre-hydrate (reads atlas.v1, sets streak num + flame tier instantly; try/catch fallback). (2) Singular grammar: today-strip "streak 1 days"→"1 day".
    Number logic verified correct across 0/1/6/7/12/30/100/365 + increment/freeze/reset. Verified: gate GREEN; FOUC-isolation num=42/flame-blazing; smoke
