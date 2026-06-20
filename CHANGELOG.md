@@ -2,6 +2,18 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 527 — Three more third deep-dives on ML lessons (content / depth)
+Continuing to bring the Machine Learning topic to the codex's depth (now **6 of 10 ML lessons at 3 dd**). Added a **third "Deeper dive"** to three more:
+- **ml-knn** → **weighted votes & the right metric**: distance-weighted voting (`1/d`, `e^{−d²}`) smooths the dependence on k; the metric is a modeling
+  choice (Euclidean/Manhattan/cosine for text/Mahalanobis for correlations) — "nearest" is defined by the metric.
+- **ml-kmeans** → **k-means++**: seed each centroid with probability `∝ D(x)²` (spread them out), giving a provable `O(log k)`-competitive guarantee on
+  inertia — replacing the luck of random restarts with a near-guarantee.
+- **ml-ensembles** → **stacking & free gifts**: a meta-model combines *diverse* base models (out-of-fold predictions to avoid leakage); bagged forests
+  also give out-of-bag error (free validation) and feature importance.
+Injected via the byte-stable append-dd path with the full guard set.
+Verified: gate ALL GREEN; **via `--dump-dom`** all three open with **nDD=3**, **kErr=0, rawDollar=0, errs=0**. SW cache `atlas-v466` → `atlas-v467`.
+**Remaining ML lessons at 2 dd:** linear-regression, regularization, naive-bayes, model-selection (queued for a final 3rd-dd pass).
+
 ## iter 526 — Interactive kNN decision-boundary viz (visualizations)
 A second interactive for the Machine Learning topic — the **91st widget, `ml-knn-viz` "kNN decision boundary: the bias-variance dial."** It shades the
 whole plane by what k-NN would predict at each location for two overlapping classes, with a **k slider (1–31)**: at k=1 the boundary is jagged and wraps

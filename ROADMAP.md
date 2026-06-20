@@ -182,6 +182,9 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    each showing upstream×local (incl. ∂L/∂z₁=∂L/∂a₁·σ′(z₁)); σ↔ReLU toggle shows vanishing vs gating. Embedded in dl-backpropagation;
    viz-complete →88. Verified: gate GREEN; headless lab route errs=0/canvas, steps 0→fwd4→back4 (8/8), toggle+reset work; lesson route
    2 canvases hydrate, kErr=0; screenshot eyeballed. SW →v366.
+   ✅ iter 527: **3 more 3rd deep-dives on ML lessons** (content/depth). ml-knn (weighted votes/metric), ml-kmeans (k-means++ O(log k) seeding),
+   ml-ensembles (stacking + OOB/feature-importance). 6 of 10 ML lessons now at 3 dd. Verified: gate GREEN; dump-dom each nDD=3, kErr=0/rawD=0/errs=0. SW →v467.
+   Remaining ML 2dd: linear-regression, regularization, naive-bayes, model-selection.
    ✅ iter 526: **Interactive kNN decision-boundary viz** (visualizations). 91st widget ml-knn-viz: shades the plane by k-NN's prediction for 2 overlapping
    classes; k slider (1–31) shows jagged/overfit → smooth/oversmooth (bias-variance made visible); embedded in the kNN lesson + Lab. Verified: gate GREEN
    (91 widgets); headless Lab+lesson canvases hydrate, slider reclassifies, kErr=0/errs=0; screenshot eyeballed. SW →v466.
