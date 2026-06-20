@@ -2,6 +2,18 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 491 — Three more THIRD deep-dives on the hardest concepts (content / depth)
+A **third "Deeper dive"** on three more flagship hard concepts (deep-dives 332 → **335**; these three now carry three):
+- **dl-diffusion-models** (had: learns to denoise · many small steps) → **forward/reverse & score matching**: a fixed noising chain + a learned
+  reversal; predicting the added noise ≈ estimating the score `∇ₓ log p(x)`, so sampling follows the score uphill from noise to data.
+- **la-basis-dimension** (had: basis=coordinates · change of basis) → **functions are vectors too**: functions form a vector space with inner
+  product `∫fg dx`; the sin/cos basis gives the Fourier series (coordinates = Fourier coefficients) — basis/projection in ∞ dimensions.
+- **a-np-completeness** (had: stand-or-fall · P vs NP) → **what to do when NP-hard**: can't have exact+fast+general — relax one: approximation
+  (provable ratio), heuristics/SAT solvers (no guarantee), or exploit structure (special cases, fixed-parameter `f(k)·nᶜ`).
+Authored with `String.raw` LaTeX; injected via the append-dd path with the full guard set + dup-summary guard.
+Verified: gate ALL GREEN; **via `--dump-dom`** each lesson opens **all three** dd's (**nDD=3**) with **kErr=0, rawDollar=0**; smoke (3 dd's × 3 +
+pages) **errs=0/kErr=0, bad=none**. SW cache `atlas-v430` → `atlas-v431`.
+
 ## iter 490 — Step-back: full audit (clean) + three more third deep-dives (content / depth)
 **Round-number step-back (iter 490).** Two health audits, both clean:
 - **Runtime kErr+route sweep**: all **148 lessons** (every example revealed, every deep-dive opened) → errs=0, kErr=0, 0 bad; all **107
