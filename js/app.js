@@ -2515,6 +2515,11 @@
       c.modules.forEach(m => m.lessons.forEach(l => {
         out.push({ t: l.title, sub: c.title, hash: "#/lesson/" + c.id + "/" + l.id, icon: "📖" });
         (l.examples || []).forEach(e => out.push({ t: e.title, sub: "Example · " + l.title, hash: "#/lesson/" + c.id + "/" + l.id + "/examples", icon: "📐" }));
+        // make the deep-dives searchable too — their summary lines are a large body of content otherwise reachable only by scrolling
+        (String(l.content || "").match(/<summary>[\s\S]*?<\/summary>/g) || []).forEach(s => {
+          const t = s.replace(/<\/?summary>/g, "").replace(/<[^>]+>/g, "").replace(/\$[^$]*\$/g, "").replace(/^Deeper dive:\s*/i, "").replace(/\s+/g, " ").trim();
+          if (t) out.push({ t, sub: "Deeper dive · " + l.title, hash: "#/lesson/" + c.id + "/" + l.id, icon: "🧩" });
+        });
       }));
     });
     (window.VIZ_CATALOG || []).forEach(v => out.push({ t: v.title, sub: "Visualization", hash: "#/lab/" + v.id, icon: "🎛️" }));

@@ -2,6 +2,16 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 503 — Command palette (⌘K) now searches all 365 deep-dives (workflow / search)
+Switched lanes off depth (anti-monotony) to a search/discoverability win that *surfaces* it. The ⌘K palette indexed lessons, examples, viz,
+glossary, and references — but **not the 365 deep-dives**, a large body of content otherwise reachable only by scrolling (the footer even claimed
+it "searches inside lessons"). Now each deep-dive's `<summary>` is indexed as a 🧩 result that jumps to its lesson — math spans and tags stripped,
+the "Deeper dive:" prefix dropped, whitespace collapsed for clean titles. Searching e.g. "residual stream", "Eckart–Young", or "bootstrap" now
+surfaces the dive (and the iter-501 "N deeper dives" badge opens it on arrival).
+Verified: gate ALL GREEN; **headless** — opened the palette and queried three terms that appear *only* in dd summaries:
+"residual stream"→*the residual stream*, "Eckart"→*the SVD is the best low-rank approximation*, "bootstrap"→a bootstrapping dive; each returns a
+🧩 Deeper-dive result, `errs=0`. 9-route confidence smoke **errs=0/kErr=0/bad=none**. SW cache `atlas-v442` → `atlas-v443`.
+
 ## iter 502 — Three more THIRD deep-dives on the hardest concepts (content / depth)
 Back to the depth lane (alternating with iter 501's UI/UX). A **third "Deeper dive"** on three more flagship hard concepts (deep-dives 362 → **365**):
 - **l-transformer-block** (had: mix-then-think · pre-LN) → **the residual stream**: `x ← x + Sublayer(x)` makes the hidden state a *running sum* —
