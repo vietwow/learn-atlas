@@ -2,6 +2,23 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 460 — Step-back: full audit (clean) + three second deep-dives (content / depth)
+**Round-number step-back (iter 460).** Two health audits, both clean:
+- **Runtime kErr+route sweep**: all **148 lessons** (every example revealed, every deep-dive opened) → errs=0, kErr=0, 0 bad; all **107
+  non-lesson routes** (courses, Lab + 89 widgets, every utility page) → errs=0, kErr=0. **255 routes green.**
+- **Structural coverage audit**: **0 structurally-thin** — every lesson has ≥2 examples (**443**), ≥8 MCQs (2368), ≥1 flashcard (889),
+  ≥1 homework (442). Deep-dives **245 total**: **93 lessons carry 2+, 55 at exactly one** (every lesson has ≥1). 90 code, 151 glossary, 89 viz.
+**Reflection (451–459):** nine straight second-dd batches (dd 218→242→245), steadily filling the owner's #1 depth runway with genuinely
+distinct "aha" angles (Cauchy–Schwarz, P vs NP, the reward hypothesis, pre-LN, dropout-as-ensemble, the policy improvement theorem, …).
+Quality bar holding — each is a real second perspective, not filler — and zero red gates / broken pushes since the last step-back. The
+runway now has **55 lessons at one dd** (~18 iters at 3/iter to give every lesson a second). SW cache crossed **v400**.
+**The paired ship — three more second deep-dives** (245 total):
+- **ps-sample-spaces-events** → **the Kolmogorov axioms + inclusion-exclusion** (`P(A∪B)=P(A)+P(B)−P(A∩B)`; die check = 2/3).
+- **rl-policies-values** → **V vs Q**: `V` rates states, `Q` rates moves; `argmax_a Q` needs no transition model — why Q-learning is model-free.
+- **c-functions-and-graphs** → **composition & inverses**: `f∘g` chains machines; `f⁻¹` exists only when one-to-one (`√` needs `x≥0`).
+Verified: gate ALL GREEN; **via `--dump-dom`** each opens **both** dd's (nDD=2) with **kErr=0, rawDollar=0**; both step-back sweeps clean;
+smoke (2 dd's × 3 + pages) **errs=0/kErr=0, bad=none**. SW cache `atlas-v399` → `atlas-v400`.
+
 ## iter 459 — Three more second deep-dives on the hardest lessons (content / depth)
 A **distinct second "Deeper dive"** on three more flagship lessons across PS/calc/LLM (deep-dives 239 → **242**; 90 lessons now carry two):
 - **ps-errors-and-power** (had: "the two ways a test can be wrong") → **statistical power (1−β)**: the probability of detecting a real

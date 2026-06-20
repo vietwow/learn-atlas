@@ -188,6 +188,11 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ✅ iter 428: **Runnable 2-layer backward-pass code exercise** (new functionality; owner's backprop focus). Added JS code-exercise to
    dl-backpropagation (after the viz): same network, console.log(dw1,dw2)→"24 4"; gate RUNS it & asserts output (86 code-exercises verified).
    Verified: gate GREEN; dump-dom errs=0/kErr=0, code hydrates, &gt; decodes to >, in-browser Run → "24 4". SW →v368.
+   ✅ iter 460: **STEP-BACK: full audit (clean) + 3 second deep-dives** (content/depth). Sweeps: 148 lessons errs=0/kErr=0/0 bad; 107 routes
+   errs=0/kErr=0 (255 green). Coverage: 0 thin (443 examples, 245 dd [93 lessons 2+, 55 at 1], 90 code, 151 glossary, 89 viz). Reflection
+   (451–459): 9 straight 2nd-dd batches, quality holding, no red gates; ~55 lessons left at 1 dd. Ship: +3 2nd-dd ps-sample-spaces-events
+   (axioms + inclusion-exclusion), rl-policies-values (V vs Q / model-free), c-functions-and-graphs (composition & inverses). SW →v400.
+   Verified: gate GREEN; dump-dom each nDD=2, kErr=0, rawDollar=0; smoke bad=none.
    ✅ iter 459: **3 more second deep-dives on the hardest lessons** (content/depth). +3 dd (239→242; 90 lessons have 2):
    ps-errors-and-power (statistical power 1−β), c-derivatives-special-functions (trig-derivative 4-cycle / Euler), l-transformer-block
    (pre-LN vs post-LN). Append-second-dd inject w/ full guards. Verified: gate GREEN; dump-dom each nDD=2, kErr=0, rawDollar=0; smoke bad=none. SW →v399.
