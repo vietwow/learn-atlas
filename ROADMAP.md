@@ -177,6 +177,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ARC NEXT TOPICS (one module per content iteration, interleave with compass): Deep Learning, Reinforcement Learning, LLMs, Prob & Stats.
    ✅ iter 161: MCQ arc → Deep Learning·Foundations 12→16 (+12, bank →2,056). 4th TOPIC OPENED. DL 1/7 modules. Adversarial
    agent ALL PASS; positions shuffled; render "of 16" errs=0; SW cache →v104.
+   ✅ iter 425: **3 more worked examples; algo at-2 pool cleared** (examples). +3 (421→424): a-amortized-analysis (binary counter),
+   a-union-find-range (inverse Ackermann α(n)), rl-value-approximation (the deadly triad). Node-verified; round-trip-guarded inject.
+   Verified: gate GREEN (424 examples); dump-dom katex 56/38/66, kErr=0, new examples rawDollar=0; smoke rawD7 = pre-existing
+   accounting-method escaped money (screenshot-confirmed, not a regression). SW →v365. NEXT: owner asked for a backprop deep-focus.
    ✅ iter 424: **3 more second deep-dives on the hardest lessons** (content/depth — owner's #1). +3 dd (175→178; 30 lessons have 2):
    dl-attention-mechanism (Q/K/V self vs cross attention), ps-confidence-intervals (what sets width / √n law), la-symmetric-spectral
    (why ML is full of symmetric matrices). Append-second-dd inject w/ full guards. Verified: gate GREEN; dump-dom each nDD=2, kErr=0,

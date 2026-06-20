@@ -2,6 +2,20 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 425 — Three more worked examples; algo at-2 pool cleared (examples)
+A **3rd worked example** on three lessons (examples 421 → **424**); this empties the algorithms course's 2-example backlog:
+- **a-amortized-analysis** — **the binary counter**: `n` increments cost `<2n` bit-flips total (potential `Φ`=#1-bits → amortized 2),
+  so `O(1)` amortized despite a worst-case `O(k)` single increment.
+- **a-union-find-range** — **the inverse Ackermann**: union-by-rank + path compression give `O(α(n))`; `α(n)≤4` for any conceivable
+  `n`, so "practically constant" (either optimization alone is only `O(log n)`).
+- **rl-value-approximation** — **the deadly triad**: function approximation + bootstrapping + off-policy can diverge (Baird), though
+  any two are safe — why DQN uses a target network + replay.
+Every value node-verified (8→15 flips, 1000→1994≈2n; α facts; triad); injected byte-stably with the round-trip guard.
+Verified: gate ALL GREEN (**424 examples**); **via `--dump-dom`** all 3 reveal with KaTeX (56 / 38 / 66 spans) and **kErr=0**; the new
+examples carry **rawDollar=0**. (Smoke's `rawDollar=7` traces to the *pre-existing* "Three methods" accounting-method example's escaped
+money `\$3`/`\$2` — KaTeX renders `\$` to a real `$` glyph, the iter-200 false-positive; **screenshot-confirmed** clean money, not a
+regression.) SW cache `atlas-v364` → `atlas-v365`.
+
 ## iter 424 — Three more second deep-dives on the hardest lessons (content / depth — owner's #1)
 A **distinct second "Deeper dive"** on three more flagship lessons across DL/PS/LA (deep-dives 175 → **178**; 30 lessons now carry two):
 - **dl-attention-mechanism** (had: "soft differentiable dictionary lookup") → **where Q,K,V come from**: all linear projections of the
