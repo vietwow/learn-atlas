@@ -182,6 +182,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    each showing upstream×local (incl. ∂L/∂z₁=∂L/∂a₁·σ′(z₁)); σ↔ReLU toggle shows vanishing vs gating. Embedded in dl-backpropagation;
    viz-complete →88. Verified: gate GREEN; headless lab route errs=0/canvas, steps 0→fwd4→back4 (8/8), toggle+reset work; lesson route
    2 canvases hydrate, kErr=0; screenshot eyeballed. SW →v366.
+   ✅ iter 530: **STEP-BACK: full 8-topic audit (clean) + final ML deep-dive (all 10 ML lessons now at 3 dd)** (content/depth). Sweeps: 158 lessons
+   errs=0/kErr=0/0 bad; 111 routes errs=0/kErr=0 (269 green). Coverage: 0 thin; dd dist 2dd:62 / 3dd:97 / 4+:0 (412 total). Reflection: 520→530 finished
+   the 8th topic (lessons + 2 viz + prereq graph + 3rd-dd pass) → ML now 6 modules/10 lessons, ALL at 3 dd, fully integrated. Ship: ml-regularization
+   3rd dd "the regularization path." Verified: gate 8 topics/158 ALL GREEN; headless nDD=3, kErr=0/rawD=0/errs=0. SW →v470. **ML pillar complete + at full depth.**
    ✅ iter 529: **3 more 3rd deep-dives on ML lessons** (content/depth). ml-linear-regression (multicollinearity), ml-naive-bayes (log-space compute),
    ml-model-selection (learning vs validation curves). **9 of 10 ML lessons now at 3 dd** (only regularization left → iter-530 paired ship). Verified:
    gate GREEN; dump-dom each nDD=3, kErr=0/rawD=0/errs=0. SW →v469.

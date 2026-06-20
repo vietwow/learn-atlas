@@ -2,6 +2,24 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 530 — Step-back: full 8-topic audit (clean) + final ML deep-dive (every ML lesson now at 3 dd)
+**Round-number step-back.** Two health audits, both clean:
+- **Runtime kErr+route sweep**: all **158 lessons** (every example revealed, every dd opened) → errs=0, kErr=0, 0 bad; all **111 non-lesson routes** →
+  errs=0, kErr=0. **269 routes green.**
+- **Coverage + depth audit**: **0 structurally-thin**; dd distribution **2-dd: 62 · 3-dd: 96 → 97 · 4+dd: 0** (412 total, every lesson ≥2). 8 topics ·
+  158 lessons · 2448 MCQs · 939 cards · 462 hw · 463 examples · 91 viz · 90 code · 151 glossary.
+**Reflection (iters 520→530, finishing the new pillar):** completed the 8th topic's lessons (Naive Bayes, k-Means, Ensembles, Model Selection), gave it
+**two interactives** (k-Means convergence 524, kNN bias-variance 526), **wired it into the prerequisite graph** (528), and ran a **3rd-deep-dive depth pass**
+across all its lessons (525/527/529 + this). Result: the Machine Learning topic is a **6-module / 10-lesson** curriculum, fully integrated, with 2 viz and —
+as of this iteration — **all 10 lessons at 3 deep-dives**, matching the depth standard of the original seven topics. Zero red gates across the span.
+**The paired ship — `ml-regularization` 3rd dd "the regularization path"**: the coefficients trace a continuous path as `λ` varies (smooth for ridge,
+piecewise-linear for lasso); compute the whole path in one sweep via warm starts / LARS, cross-validate along it, and read it as a feature ranking. This
+brings the **last** ML lesson to 3 dd (counts now `3,3,3,3,3,3,3,3,3,3`).
+Verified: gate → **8 topics · 158 lessons · ALL GREEN**; both step-back sweeps clean; **headless** — ml-regularization opens with **nDD=3**, **kErr=0,
+rawDollar=0, errs=0**. SW cache `atlas-v469` → `atlas-v470`.
+**The Machine Learning pillar is now complete and at full depth.** Next arcs available: more ML viz (SVM margin, gradient descent), a cross-topic depth/
+UX rotation, or — highest-leverage — an **owner steer** (a 9th topic, or a new capability).
+
 ## iter 529 — Three more third deep-dives on ML lessons (content / depth)
 Nearly finished the Machine Learning topic's depth pass — **9 of 10 ML lessons now at 3 dd** (only Regularization remains, queued for the iter-530
 step-back). Added a **third "Deeper dive"** to three more:
