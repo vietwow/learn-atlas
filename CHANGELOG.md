@@ -2,6 +2,15 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 505 — Deep-dive search results now auto-open the exact dive (new functionality)
+Completes iter 503's deep-dive search (anti-monotony off depth). Clicking a 🧩 search result previously landed you on the lesson, leaving you to
+find and open the dive yourself. Now each dd result carries its ordinal in the hash (`#/lesson/c/l/dd<k>`), and `viewLesson` opens *and scrolls to*
+the k-th `details.deep-dive` on arrival — verified safe because every `<summary>` in the data is a deep-dive (368=368), so the k-th search match
+aligns exactly with the k-th DOM dive. An unknown 4th hash segment still falls back to the lecture tab, so plain lesson links are unaffected.
+Verified: gate ALL GREEN; **headless** — direct `…/dd3` on l-transformer-block opens *only* the 3rd dive ("the residual stream", open-states `001`),
+`…/dd1` on la-svd opens only the 1st (`100`); full flow (search "residual stream" → click result) navigates to `…/dd3` and opens states `001`;
+plain lesson nav opens **no** dive (`000`, no regression); `errs=0` throughout. SW cache `atlas-v444` → `atlas-v445`.
+
 ## iter 504 — Three more THIRD deep-dives on the hardest concepts (content / depth)
 Back to depth (alternating with 503's search). A **third "Deeper dive"** on three more flagship hard concepts (deep-dives 365 → **368**):
 - **la-projection-least-squares** (had: LS=orthogonal projection · normal equations/pseudoinverse) → **don't actually solve the normal

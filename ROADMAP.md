@@ -182,6 +182,9 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    each showing upstream×local (incl. ∂L/∂z₁=∂L/∂a₁·σ′(z₁)); σ↔ReLU toggle shows vanishing vs gating. Embedded in dl-backpropagation;
    viz-complete →88. Verified: gate GREEN; headless lab route errs=0/canvas, steps 0→fwd4→back4 (8/8), toggle+reset work; lesson route
    2 canvases hydrate, kErr=0; screenshot eyeballed. SW →v366.
+   ✅ iter 505: **Deep-dive search results auto-open the exact dive** (new functionality; completes 503's dd-search). Each 🧩 result's hash carries
+   its ordinal (`/dd<k>`); viewLesson opens+scrolls to the k-th details.deep-dive (safe: every <summary> is a dd, 368=368). Verified: gate GREEN;
+   headless …/dd3 opens only the 3rd (states 001), search→click → …/dd3 states 001, plain nav 000 (no regression), errs=0. SW →v445.
    ✅ iter 427: **Backprop by hand — full numeric trace** (examples; owner's backprop focus). +1 (424→425): dl-backpropagation example
    "A full forward-and-backward pass by hand (matches the Lab viz)" — ReLU chain x=2,w₁=0.5,w₂=3,y=1 → clean integers (∂L/∂w₁=24,
    ∂L/∂w₂=4); mirrors the viz so learner can check by hand. Node-verified; gate GREEN (425); dump-dom katex 50, kErr=0, rawDollar=0. SW →v367.

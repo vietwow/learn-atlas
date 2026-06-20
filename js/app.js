@@ -791,6 +791,7 @@
     const found = findLesson(cid, lid);
     if (!found) return view404();
     const { course, lesson } = found;
+    const ddTarget = (/^dd(\d+)$/.exec(initialTab || "") || [])[1];   // search deep-link "#/lesson/c/l/dd<k>" → open the k-th dive (falls back to the lecture tab)
     Store.setLastLesson(cid + "/" + lid);
     const all = flatLessons(course);
     const idx = all.findIndex(l => l.id === lid);
@@ -864,6 +865,10 @@
       });
     });
     setTab(tabs.some(t => t.id === initialTab) ? initialTab : "lecture");   // deep-link a tab via #/lesson/c/l/<tab> (e.g. search → Examples)
+    if (ddTarget) {                                   // deep-link from a deep-dive search result: open & scroll to the k-th dive
+      const dds = body.querySelectorAll("details.deep-dive"), tgt = dds[parseInt(ddTarget, 10) - 1];
+      if (tgt) { tgt.open = true; tgt.scrollIntoView({ behavior: reducedMotion() ? "auto" : "smooth", block: "center" }); }
+    }
   }
 
   // "Builds on" (direct prereqs) + "Leads to" (lessons depending on this one)
@@ -2515,10 +2520,11 @@
       c.modules.forEach(m => m.lessons.forEach(l => {
         out.push({ t: l.title, sub: c.title, hash: "#/lesson/" + c.id + "/" + l.id, icon: "📖" });
         (l.examples || []).forEach(e => out.push({ t: e.title, sub: "Example · " + l.title, hash: "#/lesson/" + c.id + "/" + l.id + "/examples", icon: "📐" }));
-        // make the deep-dives searchable too — their summary lines are a large body of content otherwise reachable only by scrolling
-        (String(l.content || "").match(/<summary>[\s\S]*?<\/summary>/g) || []).forEach(s => {
+        // make the deep-dives searchable too — their summary lines are a large body of content otherwise reachable only by scrolling.
+        // the k-th summary (content order) == the k-th details.deep-dive in the DOM, so encode the ordinal so a result auto-opens that dive.
+        (String(l.content || "").match(/<summary>[\s\S]*?<\/summary>/g) || []).forEach((s, di) => {
           const t = s.replace(/<\/?summary>/g, "").replace(/<[^>]+>/g, "").replace(/\$[^$]*\$/g, "").replace(/^Deeper dive:\s*/i, "").replace(/\s+/g, " ").trim();
-          if (t) out.push({ t, sub: "Deeper dive · " + l.title, hash: "#/lesson/" + c.id + "/" + l.id, icon: "🧩" });
+          if (t) out.push({ t, sub: "Deeper dive · " + l.title, hash: "#/lesson/" + c.id + "/" + l.id + "/dd" + (di + 1), icon: "🧩" });
         });
       }));
     });
