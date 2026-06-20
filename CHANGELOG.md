@@ -2,6 +2,17 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 565 — Three more third dives: randomization · matrix-calculus identities · multiple comparisons (content / depth)
+Three more third deep-dives (algo/LA/PS) — clears the algo & LA 2-dd buckets to zero:
+- **a-approximation-randomized** → **randomization defeats the adversary**: random pivots / universal hashing get good *expected* bounds on *every* input
+  (no fixed worst case), and concentration makes the average case the typical case.
+- **la-matrix-derivative-identities** → **the four identities you actually use**: `∂(aᵀx)=a`, `∂‖x‖²=2x`, `∂(xᵀAx)=(A+Aᵀ)x`, `∂(Ax)=A` — chain them and the
+  normal equations / ridge / Newton steps fall out.
+- **ps-errors-and-power** → **multiple comparisons**: 20 tests at α=0.05 give ~64% odds of a false positive; Bonferroni (`α/m`) and FDR correct for it — the
+  engine p-hacking skips.
+Injected via the byte-stable append-dd path; added a `%`-in-math guard (KaTeX needs `\%`).
+Verified: gate ALL GREEN; **via `--dump-dom`** all three open with **nDD=3**, **kErr=0, rawDollar=0, errs=0** (identity list + `64\%` render). SW cache `atlas-v504` → `atlas-v505`.
+
 ## iter 564 — Hands-on code for RL · LLM · algorithms (new functionality / code)
 Extended runnable exercises to three more topics, each in a previously code-free lesson and matching its content:
 - **rl-eligibility-traces** → **discounted return** `G=Σγᵗrₜ` (Horner from the last reward) → `3.349`.
