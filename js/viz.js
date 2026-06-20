@@ -5056,4 +5056,72 @@
     genData(); draw();
   });
 
+
+  /* ========================================================
+     92. Decision-tree boundary: depth & overfitting (Machine Learning)
+     ======================================================== */
+  register({ id: 'ml-tree-viz', topic: 'machine-learning', title: 'Decision-tree boundary: depth & overfitting', blurb: 'A decision tree makes axis-aligned splits, so its decision regions are rectangles. Slide the max depth: shallow trees draw a few clean boxes (underfit); deep trees carve tiny boxes around individual points, driving training accuracy to 100% (overfit). Contrast the staircase boundary with kNN’s smooth one.' },
+  function (root) {
+    const W = 540, H = 380, padL = 10, padR = 10, padT = 10, padB = 10;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    let seed = 909;
+    function rng() { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }
+    function gss() { let u = 0, v = 0; while (u === 0) u = rng(); while (v === 0) v = rng(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
+    function clamp(v) { return Math.max(0.3, Math.min(9.7, v)); }
+    let depth = 2, pts = [], dataSeed = 1;
+    function genData() {
+      seed = 300 + dataSeed * 11; pts = [];
+      const A = [4.3, 5.7], B = [5.7, 4.3];
+      for (let i = 0; i < 24; i++) pts.push({ x: clamp(A[0] + gss() * 1.9), y: clamp(A[1] + gss() * 1.9), c: 0 });
+      for (let i = 0; i < 24; i++) pts.push({ x: clamp(B[0] + gss() * 1.9), y: clamp(B[1] + gss() * 1.9), c: 1 });
+    }
+    function gini(a) { if (!a.length) return 0; let n0 = 0; a.forEach(p => { if (p.c === 0) n0++; }); const p0 = n0 / a.length; return 1 - (p0 * p0 + (1 - p0) * (1 - p0)); }
+    function build(a, d) {
+      let n0 = 0; a.forEach(p => { if (p.c === 0) n0++; });
+      const maj = n0 >= a.length - n0 ? 0 : 1;
+      if (d <= 0 || a.length < 4 || n0 === 0 || n0 === a.length) return { leaf: true, c: maj };
+      let best = null;
+      ['x', 'y'].forEach(f => {
+        const vals = a.map(p => p[f]).slice().sort((u, v) => u - v);
+        for (let i = 0; i < vals.length - 1; i++) {
+          if (vals[i] === vals[i + 1]) continue;
+          const thr = (vals[i] + vals[i + 1]) / 2;
+          const L = a.filter(p => p[f] <= thr), R = a.filter(p => p[f] > thr);
+          if (!L.length || !R.length) continue;
+          const g = (L.length * gini(L) + R.length * gini(R)) / a.length;
+          if (!best || g < best.g) best = { g: g, f: f, thr: thr, L: L, R: R };
+        }
+      });
+      if (!best) return { leaf: true, c: maj };
+      return { leaf: false, f: best.f, thr: best.thr, left: build(best.L, d - 1), right: build(best.R, d - 1) };
+    }
+    function classify(node, x, y) { while (!node.leaf) { const v = node.f === 'x' ? x : y; node = v <= node.thr ? node.left : node.right; } return node.c; }
+    function leaves(node) { return node.leaf ? 1 : leaves(node.left) + leaves(node.right); }
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const tree = build(pts, depth);
+      const X = x => padL + x / 10 * (W - padL - padR), Y = y => (H - padB) - y / 10 * (H - padT - padB);
+      const cw = 9, cellsX = Math.ceil((W - padL - padR) / cw), cellsY = Math.ceil((H - padT - padB) / cw);
+      const colA = p.sage, colB = p.violet;
+      for (let i = 0; i < cellsX; i++) for (let j = 0; j < cellsY; j++) {
+        const px = padL + (i + 0.5) * cw, py = padT + (j + 0.5) * cw;
+        const dx = (px - padL) / (W - padL - padR) * 10, dy = (Y(0) - py) / (H - padT - padB) * 10;
+        ctx.fillStyle = classify(tree, dx, dy) === 0 ? colA : colB; ctx.globalAlpha = 0.16; ctx.fillRect(padL + i * cw, padT + j * cw, cw, cw);
+      }
+      ctx.globalAlpha = 1;
+      pts.forEach(pt => { ctx.fillStyle = pt.c === 0 ? colA : colB; ctx.strokeStyle = p.ink; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(X(pt.x), Y(pt.y), 5, 0, 7); ctx.fill(); ctx.stroke(); });
+      let correct = 0; pts.forEach(pt => { if (classify(tree, pt.x, pt.y) === pt.c) correct++; });
+      const acc = Math.round(correct / pts.length * 100), nleaf = leaves(tree);
+      let msg; if (depth <= 1) msg = 'one split: a single straight cut (a coarse, underfit boundary).'; else if (depth >= 6) msg = 'deep: tiny boxes wrap individual points — <b style="color:' + p.rust + '">overfitting</b>, training accuracy near 100%.'; else msg = 'a staircase of axis-aligned rectangles tracing the two classes.';
+      info.innerHTML = 'max depth = <b>' + depth + '</b> &middot; leaves = <b>' + nleaf + '</b> &middot; training accuracy = <b style="color:' + p.gold + '">' + acc + '%</b>. The tree carves the plane into ' + msg + ' Splits are always horizontal or vertical (axis-aligned), so the boundary is rectangular — unlike kNN’s smooth one. Raising depth fits the training points ever more tightly (toward 100%), the classic overfitting signal.';
+    }
+    slider(ctl, { label: 'max depth', min: 1, max: 7, step: 1, value: depth, onInput: v => { depth = v; draw(); } });
+    button(ctl, '🎲 new points', function () { dataSeed++; genData(); draw(); });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Decision-tree decision-boundary visualizer: two overlapping classes of points, with the background shaded by the class the tree predicts. A max-depth slider grows the tree: at depth 1 a single straight cut (underfit); at moderate depth a staircase of axis-aligned rectangles; at high depth tiny boxes wrap individual points and training accuracy approaches 100% (overfitting). The boundary is always rectangular because tree splits are axis-aligned, in contrast to kNN smooth boundary.');
+    genData(); draw();
+  });
+
 })();

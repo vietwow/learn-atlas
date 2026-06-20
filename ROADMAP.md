@@ -182,6 +182,9 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    each showing upstream×local (incl. ∂L/∂z₁=∂L/∂a₁·σ′(z₁)); σ↔ReLU toggle shows vanishing vs gating. Embedded in dl-backpropagation;
    viz-complete →88. Verified: gate GREEN; headless lab route errs=0/canvas, steps 0→fwd4→back4 (8/8), toggle+reset work; lesson route
    2 canvases hydrate, kErr=0; screenshot eyeballed. SW →v366.
+   ✅ iter 531: **Interactive decision-tree boundary viz** (visualizations). 92nd widget ml-tree-viz: real greedy Gini tree, max-depth slider (1–7)
+   showing axis-aligned rectangular regions + leaf-count/train-accuracy (depth 2→4 leaves/71%, depth 7→11/94% = overfitting); pairs with kNN viz
+   (rectangular vs smooth). Embedded in Decision Trees lesson + Lab. Verified: gate GREEN (92 widgets); headless slider rebuilds tree, kErr=0/errs=0; screenshot. SW →v471.
    ✅ iter 530: **STEP-BACK: full 8-topic audit (clean) + final ML deep-dive (all 10 ML lessons now at 3 dd)** (content/depth). Sweeps: 158 lessons
    errs=0/kErr=0/0 bad; 111 routes errs=0/kErr=0 (269 green). Coverage: 0 thin; dd dist 2dd:62 / 3dd:97 / 4+:0 (412 total). Reflection: 520→530 finished
    the 8th topic (lessons + 2 viz + prereq graph + 3rd-dd pass) → ML now 6 modules/10 lessons, ALL at 3 dd, fully integrated. Ship: ml-regularization

@@ -2,6 +2,16 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 531 — Interactive decision-tree boundary viz (visualizations)
+A third Machine-Learning interactive — the **92nd widget, `ml-tree-viz` "Decision-tree boundary: depth & overfitting."** It builds a *real* greedy
+Gini-split tree in-browser and shades the plane by its prediction, with a **max-depth slider (1–7)**: shallow → a few clean axis-aligned boxes
+(underfit, e.g. depth 2 ≈ 4 leaves / 71% train acc); deeper → a staircase of rectangles carving toward individual points (depth 7 ≈ 11 leaves / 94%),
+the overfitting signal. Live leaf-count + training-accuracy readout; New-points control; seeded overlapping blobs. Deliberately pairs with the kNN viz —
+**rectangular tree boundary vs kNN's smooth one** — driving home that tree splits are axis-aligned. Registered in `js/viz.js`, embedded in the Decision
+Trees lesson at the overfitting section.
+Verified: gate ALL GREEN (now **92 widgets**); **headless** — Lab canvas hydrates, the slider rebuilds the tree (depth 2 → 4 leaves/71%; depth 7 → 11
+leaves/94%), lesson inline canvas hydrates, **kErr=0, errs=0**; screenshot shows the rectangular decision regions over the two overlapping classes. SW cache `atlas-v470` → `atlas-v471`.
+
 ## iter 530 — Step-back: full 8-topic audit (clean) + final ML deep-dive (every ML lesson now at 3 dd)
 **Round-number step-back.** Two health audits, both clean:
 - **Runtime kErr+route sweep**: all **158 lessons** (every example revealed, every dd opened) → errs=0, kErr=0, 0 bad; all **111 non-lesson routes** →
