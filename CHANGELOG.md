@@ -2,6 +2,20 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 436 — Three more worked examples; DL at-2 pool cleared (examples)
+First confirmed the live deploy is healthy after the owner's CNAME revert: `index.html` HTTP 200, title intact, **sw.js serving
+`atlas-v375`** (iter-435 deploy landed), no local CNAME. Then a **3rd worked example** on three lessons (examples 434 → **437**); this
+empties the deep-learning course's 2-example backlog:
+- **dl-pretraining-and-finetuning-paradigm** — **the compute split**: `C≈6ND` gives pretraining `~3.2e23` FLOPs vs a `1e7`-token finetune
+  `~1.1e19` — **~30,000×** more (finetune ≈ 0.003%); the economic case for foundation models (pay once, adapt cheaply forever).
+- **l-hallucination-and-evaluation** — **why LLMs hallucinate**: next-token training rewards *fluency, not truth*, with no built-in
+  "I don't know" — structural, so fixes wrap the model (RAG, tools, calibration/abstention, verification) rather than patch weights.
+- **rl-offline** — **stay in distribution**: overestimation comes from querying `Q` on out-of-data actions; the fix family is policy
+  constraint (BCQ) or value penalty (CQL) — a conservatism dial between overestimating and merely imitating.
+Every value node-verified (30,000×); injected byte-stably with the round-trip guard (cost amounts written as words to avoid a stray money `$`).
+Verified: gate ALL GREEN (**437 examples**); **via `--dump-dom`** all 3 reveal with KaTeX (76 / 23 / 16 spans), **kErr=0, rawDollar=0**;
+smoke + pages **errs=0/kErr=0, bad=none**. SW cache `atlas-v375` → `atlas-v376`.
+
 ## iter 435 — Three more second deep-dives on the hardest lessons (content / depth)
 A **distinct second "Deeper dive"** on three more flagship lessons across DL/algo/RL (deep-dives 185 → **188**; 38 lessons now carry two):
 - **dl-activation-functions** (had: "without nonlinearity depth is an illusion") → **the dying ReLU**: the *derivative* shape decides
