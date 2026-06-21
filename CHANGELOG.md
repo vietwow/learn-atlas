@@ -2,6 +2,13 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 714 — Frontier deep-dive: state-space models (Mamba) (content / understandability)
+Audited the LLM topic for current gaps: RAG, LoRA/PEFT, quantization, chain-of-thought all already have lessons — the one absent modern paradigm was **state-space models / Mamba** (the main
+non-attention sequence model), with zero coverage. Since it's frontier (vs MoE's mainstream), added it proportionately as a 4th deep-dive to `l-self-attention` (where attention's `O(n²)` cost is
+discussed): SSMs carry a hidden state by a linear recurrence `hₜ=Ahₜ₋₁+Bxₜ`, computable as a convolution in `O(n)` with `O(1)` inference memory (no KV-cache); Mamba makes `A,B,C` input-dependent
+("selective") to recover content-based reasoning at linear scale — the leading challenger to the transformer for long sequences, with the trade that there's no explicit all-pairs interaction.
+Verified: data parses; gate ALL GREEN; **headless** — 4 deep-dives render, the recurrence math typesets when expanded (kErr=0, rawDollar=0), errs=0. SW cache `atlas-v650` → `atlas-v651`.
+
 ## iter 713 — NEW viz: Mixture-of-Experts routing (visualizations)
 Gave the new MoE lesson its visual. Built the **123rd widget, `llm-moe-router` "Mixture of Experts: sparse top-k routing"**: 5 tokens route through a router to their top-k of 8 experts (gold edges),
 with experts that receive tokens lit (sage). A top-k slider makes the core tradeoff tangible — k=1 → ~13% of expert compute (but some experts idle), k=4 → 50%; capacity stays at all 8 experts while
