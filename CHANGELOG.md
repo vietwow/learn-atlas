@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 620 — MCQ top-up runway, batch 13: ml-svm 8 → 16 (content / assessment)
+Thirteenth batch. Added **8 new MCQs to `ml-svm`** (now 16), distinct from the existing eight: non-support-vector deletion leaves the boundary unchanged, `C↑` → low-bias/
+high-variance, `C↓` → softer wider margin, the hinge loss, multiclass via one-vs-rest/one-vs-one, functional margin `=1` on the margin, SV sparsity, and large RBF `γ` →
+overfitting. Key assertion confirmed each correct choice; balanced → **4/4/4/4**.
+Verified: data parses; gate ALL GREEN; **headless** quiz "Question 1 of 16", 4 choices, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v560` → `atlas-v561`. Runway: **13 of 17** (ML 6/10).
+
 ## iter 619 — MCQ top-up runway, batch 12: ml-regularization 8 → 16 (content / assessment)
 Twelfth batch. Added **8 new MCQs to `ml-regularization`** (now 16), distinct from the existing eight: the lasso L1 penalty term, `λ→0 ⇒ OLS`, the bias-for-variance trade,
 Elastic Net = L1+L2, L1 for automatic feature selection, regularization helps most when features ≫ samples, small-`λ` overfit risk, and the L1-diamond constraint geometry.

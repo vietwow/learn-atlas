@@ -1338,6 +1338,94 @@
               ],
               "answer": 1,
               "explain": "A linear-kernel SVM gives a hyperplane; a kernelized SVM is linear in the implicit feature space, which appears as a curved boundary in the original space."
+            },
+            {
+              "q": "Deleting a training point that is NOT a support vector:",
+              "choices": [
+                "Leaves the decision boundary unchanged",
+                "Always flips the boundary",
+                "Forces a full retraining from scratch",
+                "Removes the margin entirely"
+              ],
+              "answer": 0,
+              "explain": "The boundary is determined only by the support vectors; non-support points can be removed with no effect."
+            },
+            {
+              "q": "Increasing $C$ toward a hard margin tends to give:",
+              "choices": [
+                "High bias and low variance",
+                "Low bias but high variance — a tight fit with few violations",
+                "More margin violations",
+                "A wider margin"
+              ],
+              "answer": 1,
+              "explain": "Large $C$ heavily penalizes violations, so the SVM fits the training data tightly — flexible but prone to overfitting."
+            },
+            {
+              "q": "Decreasing $C$ (a softer margin) tends to give:",
+              "choices": [
+                "Zero training error always",
+                "A narrower margin",
+                "A wider margin that tolerates more violations (higher bias, lower variance)",
+                "No support vectors at all"
+              ],
+              "answer": 2,
+              "explain": "Small $C$ values margin width over fitting every point, accepting some violations for better generalization on noisy data."
+            },
+            {
+              "q": "A soft-margin SVM minimizes which loss (plus an L2 weight penalty)?",
+              "choices": [
+                "Absolute error",
+                "Squared error",
+                "Cross-entropy",
+                "Hinge loss, $\\max(0,\\,1-y\\,(w^\\top x+b))$"
+              ],
+              "answer": 3,
+              "explain": "Hinge loss is zero once a point is correctly outside the margin and grows linearly inside it."
+            },
+            {
+              "q": "To handle more than two classes, SVMs are usually extended via:",
+              "choices": [
+                "One-vs-rest or one-vs-one schemes",
+                "A softmax output layer",
+                "Bagging",
+                "k-fold cross-validation"
+              ],
+              "answer": 0,
+              "explain": "A plain SVM is binary; multiclass is built from many binary SVMs (one-vs-rest or one-vs-one)."
+            },
+            {
+              "q": "For a support vector lying exactly on the margin, the functional margin $y\\,(w^\\top x+b)$ equals:",
+              "choices": [
+                "$0$",
+                "$1$",
+                "$-1$",
+                "$\\infty$"
+              ],
+              "answer": 1,
+              "explain": "The margin is scaled so that $y\\,(w^\\top x+b)=1$ on the margin; correctly classified points beyond it have functional margin $\\gt 1$."
+            },
+            {
+              "q": "The SVM solution is \"sparse\" because it depends only on:",
+              "choices": [
+                "The feature means",
+                "All training points equally",
+                "The support vectors (a small subset of the data)",
+                "The single largest feature"
+              ],
+              "answer": 2,
+              "explain": "Most training points have zero weight in the solution; only the support vectors contribute, which also makes prediction efficient."
+            },
+            {
+              "q": "A very large RBF-kernel $\\gamma$ (small bandwidth) tends to cause:",
+              "choices": [
+                "Faster convergence with no downside",
+                "Underfitting",
+                "A perfectly linear boundary",
+                "Overfitting — a wiggly boundary islanding individual points"
+              ],
+              "answer": 3,
+              "explain": "Small bandwidth makes each point's influence local, so the boundary contorts around individuals — high variance."
             }
           ],
           "flashcards": [
