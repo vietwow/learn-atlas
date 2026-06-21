@@ -2,6 +2,21 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 575 — NEW PILLAR: started a 9th topic — Information Theory (new functionality / bold move)
+With every content runway complete (all 158 lessons at 3 deep-dives / 3 examples / 3 homework; code on all 8 topics; viz catalog saturated), the
+highest-leverage move is a **new pillar**. Launched **Information Theory** (`data/information-theory.js`, id `information-theory`, icon `ℐ`, teal `#4ba3b8`) —
+the math of information/uncertainty that underpins every loss function (cross-entropy, KL), compression, and a model's "surprise." It slots between
+Probability and the AI topics, and the existing cross-entropy/KL viz already connect to it.
+**Phase 1 ships one complete, fully-correct foundational lesson** — *Entropy: Measuring Information and Surprise* — built to full parity: 8-section lecture
+(self-information `−log p`, entropy `H=−Σp log p`, bits vs nats, max/min uncertainty, the ML payoff), a **runnable entropy code exercise** (`[0.5,0.25,0.25]`→1.50
+bits), **3 deep-dives** (why the log / additivity, entropy = the compression limit, why uniform maximizes entropy + max-ent principle), **8 MCQs**
+(answers de-skewed 2/2/2/2), **5 flashcards**, **3 worked examples** (fair vs biased coin, a die's 2.585 bits, surprisal of a rare token), **3 homework**.
+Wired into `index.html`, `sw.js` ASSETS + cache, and **gate.js `TOPICS`**. Additive & reversible — owner may rename/redirect/expand/kill.
+Verified: `node gate.js` ALL GREEN — now **9 topics · 159 lessons · 108 code-exercises** (every number computed by the lesson hand-checked in node); **headless** —
+dashboard shows **9 topic cards** (IT present), course + lesson routes render, the lesson's **3 deep-dives** open, the **code playground runs to 1.50**,
+**kErr=0, rawDollar=0, errs=0**; screenshot eyeballed (breadcrumb, tabs Examples 3 / Quiz 8 / Flashcards 5 / Homework 3, 8-section TOC). SW cache `atlas-v514` → `atlas-v515`.
+**Queued modules:** Cross-Entropy & KL · Mutual Information · Source Coding (Shannon/Huffman) · Channel Capacity · Information in ML.
+
 ## iter 574 — Depth pass COMPLETE: every one of 158 lessons now has 3 deep-dives (content / depth)
 Finished the cross-topic depth pass by adding a third deep-dive to the **last 4 lessons** at 2 dd — **every one of the 158 lessons now has exactly 3 deep-dives**
 (a months-long runway, done):
