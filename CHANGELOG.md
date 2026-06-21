@@ -2,6 +2,16 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 604 — L1-vs-L2 regularization geometry viz — the 102nd widget (visualizations)
+The famous "why does lasso zero coefficients?" picture, made interactive — the single hardest regularization idea to get from text. **`ml-reg-viz` "L1 vs L2: why lasso
+zeros coefficients"** plots the two-weight plane: sage loss contours around the off-axis best fit, and a gold **budget region** around the origin — a **diamond** for L1
+or a **circle** for L2. The solution is where the contours first touch the region (computed by numerical boundary search). Toggle L1/L2 and shrink the budget `t`: the
+diamond's corners sit ON the axes so the touch point snaps to a corner and a weight becomes **exactly 0** (sparse — highlighted in rust); the smooth circle touches
+off-axis so both weights merely shrink. Embedded in ml-regularization right before "Why L1 zeros weights and L2 doesn't." This brings ML viz coverage to **9 of 10
+lessons** (only naive-bayes remains).
+Verified: gate ALL GREEN (now **102 widgets**); **headless** — Lab + lesson canvases hydrate; at budget t=1 the solver returns **L1 → (1.00, 0.00)** (a weight zeroed)
+and **L2 → (0.97, 0.26)** (both nonzero), matching the math; kErr=0, errs=0; screenshot confirms contours, the L1 diamond, and the best-fit point render. SW cache `atlas-v544` → `atlas-v545`.
+
 ## iter 603 — SVM maximum-margin visualization — the 101st widget (visualizations)
 The Machine Learning topic had viz for kNN, trees, regressions, k-means, ensembles, and model-selection — but **SVM, the most *visual* classical model, had none**. Added
 **`ml-svm-viz` "SVM: the maximum-margin boundary & support vectors"**: two classes split by a rotated max-margin boundary with dashed margin lines + a shaded band, and

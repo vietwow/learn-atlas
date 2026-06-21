@@ -5629,4 +5629,62 @@
     draw();
   });
 
+
+  /* ========================================================
+     102. L1 vs L2 regularization: why lasso zeros weights (Machine Learning)
+     ======================================================== */
+  register({ id: 'ml-reg-viz', topic: 'machine-learning', title: 'L1 vs L2: why lasso zeros coefficients', blurb: 'The unconstrained best fit sits off-axis (gold star). Regularization confines the solution to a budget region around the origin — a diamond for L1 (lasso), a circle for L2 (ridge) — and the answer is where the loss contours first touch that region. Shrink the budget: the L1 diamond has sharp corners ON the axes, so the touch point snaps to a corner and a coefficient becomes exactly 0 (sparsity); the smooth L2 circle touches off-axis, shrinking both but zeroing neither.' },
+  function (root) {
+    const W = 540, H = 360;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    let mode = 'L1', t = 1.0;
+    const ws = [2.6, 0.7];                 // unconstrained (OLS) optimum
+    const loss = (a, b) => (a - ws[0]) * (a - ws[0]) + (b - ws[1]) * (b - ws[1]);
+    const s = 64, cx = 150, cy = 232;
+    const map = (a, b) => [cx + a * s, cy - b * s];
+    function solve() {
+      // inside the budget? then no shrinkage
+      const norm = mode === 'L2' ? Math.hypot(ws[0], ws[1]) : Math.abs(ws[0]) + Math.abs(ws[1]);
+      if (norm <= t) return ws.slice();
+      let best = [1e9, 0, 0];
+      if (mode === 'L2') { for (let i = 0; i < 720; i++) { const th = i * Math.PI / 360, a = t * Math.cos(th), b = t * Math.sin(th), L = loss(a, b); if (L < best[0]) best = [L, a, b]; } }
+      else { const V = [[t, 0], [0, t], [-t, 0], [0, -t]]; for (let e = 0; e < 4; e++) { const p = V[e], q = V[(e + 1) % 4]; for (let k = 0; k <= 120; k++) { const f = k / 120, a = p[0] + (q[0] - p[0]) * f, b = p[1] + (q[1] - p[1]) * f, L = loss(a, b); if (L < best[0]) best = [L, a, b]; } } }
+      return [best[1], best[2]];
+    }
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      // axes
+      ctx.strokeStyle = p.line; ctx.lineWidth = 1;
+      const xa = map(-0.8, 0), xb = map(3.6, 0), ya = map(0, -1.4), yb = map(0, 2.0);
+      ctx.beginPath(); ctx.moveTo(xa[0], xa[1]); ctx.lineTo(xb[0], xb[1]); ctx.moveTo(ya[0], ya[1]); ctx.lineTo(yb[0], yb[1]); ctx.stroke();
+      ctx.fillStyle = p.mute; ctx.font = '11px ' + (cssVar('--font-mono') || 'monospace'); ctx.textAlign = 'left';
+      ctx.fillText('w1', xb[0] - 18, xb[1] + 16); ctx.fillText('w2', yb[0] + 6, yb[1] + 4);
+      // loss contours around w*
+      ctx.strokeStyle = p.sage; ctx.globalAlpha = 0.5; ctx.lineWidth = 1;
+      [0.45, 0.9, 1.4, 1.95].forEach(r => { ctx.beginPath(); ctx.ellipse(map(ws[0], ws[1])[0], map(ws[0], ws[1])[1], r * s, r * s, 0, 0, 7); ctx.stroke(); }); ctx.globalAlpha = 1;
+      // budget region
+      ctx.strokeStyle = p.gold; ctx.fillStyle = p.gold; ctx.lineWidth = 2; ctx.globalAlpha = 0.1;
+      ctx.beginPath();
+      if (mode === 'L2') { const o = map(0, 0); ctx.ellipse(o[0], o[1], t * s, t * s, 0, 0, 7); }
+      else { const v = [map(t, 0), map(0, t), map(-t, 0), map(0, -t)]; ctx.moveTo(v[0][0], v[0][1]); ctx.lineTo(v[1][0], v[1][1]); ctx.lineTo(v[2][0], v[2][1]); ctx.lineTo(v[3][0], v[3][1]); ctx.closePath(); }
+      ctx.fill(); ctx.globalAlpha = 1; ctx.stroke();
+      // OLS optimum (star-ish) and constrained solution
+      const wo = map(ws[0], ws[1]); ctx.fillStyle = p.gold; ctx.beginPath(); ctx.arc(wo[0], wo[1], 5, 0, 7); ctx.fill();
+      ctx.fillStyle = p.mute; ctx.textAlign = 'center'; ctx.fillText('best fit', wo[0], wo[1] - 10);
+      const sol = solve(), sp = map(sol[0], sol[1]);
+      const sparse = Math.abs(sol[0]) < 0.04 || Math.abs(sol[1]) < 0.04;
+      ctx.fillStyle = sparse ? p.rust : p.violet; ctx.strokeStyle = p.bg; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(sp[0], sp[1], 7, 0, 7); ctx.fill(); ctx.stroke();
+      info.innerHTML = '<b>' + (mode === 'L1' ? 'L1 (lasso) — diamond' : 'L2 (ridge) — circle') + '</b> &middot; budget t = <b>' + t.toFixed(2) + '</b> &middot; solution w = (<b>' + sol[0].toFixed(2) + ', ' + sol[1].toFixed(2) + '</b>)' + (sparse ? ' &middot; <b style="color:' + p.rust + '">a weight is exactly 0 — sparse!</b>' : '') + '.<br>' + (mode === 'L1' ? 'The diamond’s corners lie on the axes, so the contour usually first touches at a corner — driving the smaller weight to exactly 0. That is how lasso does feature selection.' : 'The circle is smooth, so the touch point sits off-axis: both weights shrink toward 0 but neither becomes exactly 0.');
+    }
+    button(ctl, 'L1 (lasso)', function () { mode = 'L1'; draw(); });
+    button(ctl, 'L2 (ridge)', function () { mode = 'L2'; draw(); });
+    slider(ctl, { label: 'budget t (smaller = stronger penalty)', min: 0.3, max: 3, step: 0.05, value: t, fmt: v => v.toFixed(2), onInput: v => { t = v; draw(); } });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Regularization geometry visualizer in the plane of two weights w1 and w2. Sage loss contours circle the unconstrained best-fit point (off-axis). A gold budget region around the origin is a diamond for L1 (lasso) or a circle for L2 (ridge); a slider shrinks it. The constrained solution is where the contours first touch the region: for L1 it snaps to a diamond corner on an axis, making one weight exactly zero (sparse, shown in rust); for L2 it sits off-axis so both weights merely shrink.');
+    draw();
+  });
+
 })();

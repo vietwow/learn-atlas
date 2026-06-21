@@ -182,6 +182,9 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    each showing upstream×local (incl. ∂L/∂z₁=∂L/∂a₁·σ′(z₁)); σ↔ReLU toggle shows vanishing vs gating. Embedded in dl-backpropagation;
    viz-complete →88. Verified: gate GREEN; headless lab route errs=0/canvas, steps 0→fwd4→back4 (8/8), toggle+reset work; lesson route
    2 canvases hydrate, kErr=0; screenshot eyeballed. SW →v366.
+   ✅ iter 604: **L1-vs-L2 regularization geometry viz — 102nd widget** (visualizations). ml-reg-viz: loss contours + gold budget region (diamond=L1 / circle=L2);
+   numerical boundary solver shows L1 snaps to an axis corner (weight→exactly 0, sparse) while L2 shrinks both. Embedded in ml-regularization §5. ML viz now 9/10
+   lessons (naive-bayes left). Verified: gate GREEN (102 widgets); headless L1→(1.00,0.00)/L2→(0.97,0.26), kErr=0/errs=0; screenshot. SW →v545.
    ✅ iter 603: **SVM maximum-margin viz — 101st widget** (visualizations). ml-svm-viz: rotated max-margin boundary + dashed margins + shaded band + gold-circled
    support vectors; C slider trades margin width for SV count (soft C=0.5→10 SVs, hard C=10→2). Embedded in ml-svm. (ML still without viz: regularization, naive-bayes.)
    Verified: gate GREEN (101 widgets); headless SV count tracks C, kErr=0/errs=0; screenshot. SW →v544.
