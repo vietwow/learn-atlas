@@ -2,6 +2,13 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 612 — MCQ top-up runway, batch 5: it-channel-capacity 8 → 16 (content / assessment)
+Fifth batch. Added **8 new MCQs to `it-channel-capacity`** (now 16), distinct from the existing eight: numeric `C(0.11)=0.5` and `C(0.2)=0.28` bits/use, capacity's units
+(bits per channel use), BSC symmetry `C(p)=C(1−p)`, the `R>C ⇒ impossible` converse, LDPC/turbo codes near the limit, the separation condition `H<C`, and that the
+`max` in `C=max I(X;Y)` is over the input distribution `p(x)`. Inequalities use `\lt`/`\gt`; in-script key assertion confirmed each correct choice; balanced → **4/4/4/4**.
+Verified: data parses; gate ALL GREEN; **headless** quiz "Question 1 of 16", 4 choices, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v552` → `atlas-v553`. Runway: **5 of 17**
+— **Information Theory's first six lessons are MCQ-complete** (only differential-entropy & information-in-ml remain in IT).
+
 ## iter 611 — MCQ top-up runway, batch 4: it-source-coding 8 → 16 (content / assessment)
 Fourth batch. Added **8 new MCQs to `it-source-coding`** (now 16), distinct from the existing eight: numeric dyadic expected length (`1.75` bits), optimal length for
 `p=1/8` (`3` bits), fixed-length cost for 4 symbols (`2` bits), the `H ≤ L < H+1` Huffman bound, variable-length/Morse intuition, why a prefix violation isn't uniquely

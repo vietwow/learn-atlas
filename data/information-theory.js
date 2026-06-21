@@ -1262,6 +1262,94 @@
               ],
               "answer": 3,
               "explain": "Separate stages are optimal for point-to-point channels; reliable transmission needs $H\\lt C$."
+            },
+            {
+              "q": "A binary symmetric channel with flip probability $p=0.11$ (where $H(0.11)\\approx 0.5$) has capacity:",
+              "choices": [
+                "$0.5$ bits/use",
+                "$0.11$ bits/use",
+                "$0.89$ bits/use",
+                "$1$ bit/use"
+              ],
+              "answer": 0,
+              "explain": "$C=1-H(p)=1-0.5=0.5$ bits per use — about 11% noise halves the reliable rate."
+            },
+            {
+              "q": "A BSC with $p=0.2$ (where $H(0.2)\\approx 0.72$) has capacity about:",
+              "choices": [
+                "$0.72$ bits/use",
+                "$0.28$ bits/use",
+                "$0.5$ bits/use",
+                "$0.2$ bits/use"
+              ],
+              "answer": 1,
+              "explain": "$C=1-H(0.2)=1-0.72=0.28$ bits per use."
+            },
+            {
+              "q": "Channel capacity is measured in:",
+              "choices": [
+                "Probability",
+                "Bits per second, always",
+                "Bits per channel use",
+                "Decibels"
+              ],
+              "answer": 2,
+              "explain": "Capacity $C=\\max_{p(x)} I(X;Y)$ is information per channel use; multiply by the channel's use-rate to get bits per second."
+            },
+            {
+              "q": "The BSC capacity is symmetric in the flip probability: $C(p)$ equals:",
+              "choices": [
+                "$2\\,C(p)$",
+                "$1-C(p)$",
+                "$C(p)^2$",
+                "$C(1-p)$"
+              ],
+              "answer": 3,
+              "explain": "$C=1-H(p)$ and $H(p)=H(1-p)$, so $C(p)=C(1-p)$ — near $p=1$ you just invert every received bit."
+            },
+            {
+              "q": "For rates $R \\gt C$ (above capacity), reliable communication is:",
+              "choices": [
+                "Impossible",
+                "Always possible",
+                "Possible at half the error rate",
+                "Simply slower"
+              ],
+              "answer": 0,
+              "explain": "Shannon's converse: above capacity the error probability is bounded away from zero no matter the code."
+            },
+            {
+              "q": "Error-correcting codes that come close to the Shannon limit include:",
+              "choices": [
+                "ASCII",
+                "LDPC and turbo codes",
+                "Fixed-length codes",
+                "Huffman coding"
+              ],
+              "answer": 1,
+              "explain": "LDPC and turbo codes achieve rates within a fraction of capacity; plain repetition is far from optimal."
+            },
+            {
+              "q": "By the separation theorem, reliably sending a source of entropy $H$ over a channel of capacity $C$ is possible iff:",
+              "choices": [
+                "$H = 2C$",
+                "$H \\gt C$",
+                "$H \\lt C$",
+                "$H = 0$"
+              ],
+              "answer": 2,
+              "explain": "Compress the source toward $H$, then channel-code below $C$: end-to-end reliability requires $H \\lt C$."
+            },
+            {
+              "q": "The maximization in $C=\\max\\, I(X;Y)$ is taken over:",
+              "choices": [
+                "The codeword length",
+                "The channel's noise",
+                "The output entropy alone",
+                "The input distribution $p(x)$"
+              ],
+              "answer": 3,
+              "explain": "The noise $p(y\\mid x)$ is fixed by the channel; capacity is the most information per use under the best choice of how often to send each symbol."
             }
           ],
           "flashcards": [
