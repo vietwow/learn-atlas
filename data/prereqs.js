@@ -70,6 +70,10 @@ window.PREREQS = {
     "la-matrix-multiplication",
     "la-dot-product-norms"
   ],
+  "dl-graph-neural-networks": [
+    "a-graph-representations-traversal",
+    "dl-the-artificial-neuron-and-mlp"
+  ],
   "dl-gans": [
     "it-cross-entropy-kl"
   ],

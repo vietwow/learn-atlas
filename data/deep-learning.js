@@ -4926,6 +4926,162 @@
               "solution": "The image is patchified and run through a vision encoder (a ViT/CLIP) to produce patch embeddings; a projection layer maps them into the LLM's token-embedding space; those image tokens are prepended to your text question, and the LLM attends over the combined sequence to answer. The chart is, in effect, translated into tokens the language model already understands."
             }
           ]
+        },
+        {
+          "id": "dl-graph-neural-networks",
+          "title": "Graph Neural Networks: Learning on Graphs",
+          "minutes": 16,
+          "content": "<h3>1. The hook: data that isn't a grid or a sequence</h3>\n<p>CNNs assume a grid (images), RNNs and transformers assume a sequence (text). But molecules, social networks, knowledge graphs, road maps, and recommendation data are <b>graphs</b> — nodes connected by edges, with no fixed order or shape. <b>Graph Neural Networks (GNNs)</b> bring deep learning to this irregular structure, learning representations that respect who-is-connected-to-whom.</p>\n<h3>2. The core idea: message passing</h3>\n<p>Every GNN is built on one operation: <b>message passing</b>. Each node updates its feature vector by <em>aggregating</em> the features of its neighbors and then transforming the result. Stack $k$ such layers and a node's representation reflects its $k$-hop neighborhood — structure flows along the edges, just as a convolution flows over nearby pixels.</p>\n<h3>3. A graph-convolution (GCN) layer</h3>\n<p>One layer: for each node, <b>aggregate</b> neighbor features (a permutation-invariant op like mean or sum), then <b>transform</b> with a shared weight matrix and a nonlinearity: $h_v' = \\sigma\\!\\big(W \\cdot \\text{mean}_{u\\in N(v)\\cup\\{v\\}}\\, h_u\\big)$. The same $W$ is reused at every node — like a CNN's shared filter, but over a node's neighbors instead of a pixel window.</p>\n<h3>4. One message-passing step, by hand</h3>\n<p>The simplest aggregation is \"average your neighbors (and yourself)\". Run one step on a tiny graph:</p>\n<div data-code=\"javascript\" data-expected=\"before: 1, 2, 3, 4\nafter:  2, 2.5, 2, 3\">// One message-passing step: each node averages its own + neighbors' features\nconst feat = [1, 2, 3, 4];                       // a scalar feature per node\nconst nbrs = [[1, 2], [0, 2, 3], [0, 1], [1]];   // adjacency list (node -> neighbors)\nconst next = feat.map((f, i) => {\n  const group = [i, ...nbrs[i]];                  // include self\n  const sum = group.reduce((s, j) => s + feat[j], 0);\n  return +(sum / group.length).toFixed(2);\n});\nconsole.log(\"before: \" + feat.join(\", \"));\nconsole.log(\"after:  \" + next.join(\", \"));\n// Each node now blends in its neighborhood -- repeat to reach farther hops.</div>\n<h3>5. Why aggregation must be permutation-invariant</h3>\n<p>A node's neighbors have no canonical order, so the aggregation must give the same answer however they're listed — that is why GNNs use <b>sum/mean/max</b>, not a fixed-order concatenation. This <b>permutation invariance</b> is the graph analogue of a CNN's translation equivariance: it is the right symmetry for the data.</p>\n<h3>6. Variants: GraphSAGE, GAT, and friends</h3>\n<p>GNNs differ mainly in how they aggregate. <b>GCN</b> uses a normalized mean; <b>GraphSAGE</b> samples a fixed number of neighbors (so it scales to huge graphs) and can mean/pool/LSTM-aggregate; <b>GAT</b> (Graph Attention) learns <em>per-neighbor weights</em> via attention, so important neighbors count more — attention, but along graph edges.</p>\n<h3>7. The catch: over-smoothing</h3>\n<p>Stacking many message-passing layers makes every node aggregate ever-larger neighborhoods, until all node features converge to nearly the same vector — <b>over-smoothing</b>. So GNNs are usually shallow (2–4 layers), unlike very deep CNNs/transformers; residuals and jumping-knowledge tricks help push a little deeper.</p>\n<h3>8. Why this matters</h3>\n<p>GNNs power drug and materials discovery (molecules are graphs of atoms), recommendation (user-item graphs), fraud detection, traffic forecasting (Google Maps), and reasoning over knowledge graphs. They complete the deep-learning toolkit: a learned architecture matched to <em>every</em> data structure — grids, sequences, and now graphs.</p>\n<details class=\"deep-dive\">\n<summary>Deeper dive: message passing unifies CNNs, transformers, and GNNs</summary>\n<p>Almost every modern architecture is message passing on some graph. A <b>CNN</b> is a GNN on a regular grid where each pixel's neighbors are its spatial window. A <b>transformer</b> is a GNN on the <em>complete</em> graph — every token is connected to every other, and attention is just learned, content-based edge weights. A <b>GNN</b> uses the actual data graph. Seen this way, \"aggregate neighbors, then transform\" is the single template, and the architectures differ only in which graph and which aggregation.</p>\n</details>\n<details class=\"deep-dive\">\n<summary>Deeper dive: why GNNs over-smooth</summary>\n<p>Repeated mean-aggregation is a diffusion process: it is essentially multiplying node features by a (normalized) adjacency matrix again and again. Like any such power iteration, it converges toward the leading eigenvector — a single direction shared by all nodes — so after many layers every node looks alike and class information is washed out. That is the formal reason GNNs stay shallow, and why attention (GAT) or residual/jumping-knowledge connections, which resist uniform averaging, let you go a bit deeper.</p>\n</details>\n<details class=\"deep-dive\">\n<summary>Deeper dive: graph attention (GAT)</summary>\n<p>Uniform mean treats every neighbor equally, but some neighbors matter more. <b>GAT</b> computes an attention score for each edge from the two endpoints' features, softmaxes over a node's neighbors, and aggregates with those weights — $h_v' = \\sigma\\!\\big(\\sum_{u\\in N(v)} \\alpha_{vu}\\, W h_u\\big)$. It is self-attention restricted to the graph's edges instead of all pairs, giving the expressiveness of attention at the cost of only the real connections.</p>\n</details>",
+          "mcq": [
+            {
+              "q": "Graph Neural Networks are designed for data that is:",
+              "choices": [
+                "A graph — nodes connected by edges, with no fixed order",
+                "Always a fixed-size grid",
+                "Always a 1-D sequence",
+                "A single scalar"
+              ],
+              "answer": 0,
+              "explain": "GNNs handle irregular graph-structured data."
+            },
+            {
+              "q": "The core operation in every GNN is:",
+              "choices": [
+                "A 2-D convolution over pixels",
+                "Message passing — aggregate neighbors, then transform",
+                "Sorting the nodes",
+                "Max-pooling over time"
+              ],
+              "answer": 1,
+              "explain": "Aggregate-and-transform along edges is the GNN template."
+            },
+            {
+              "q": "GNN neighbor aggregation must be permutation-invariant because:",
+              "choices": [
+                "Edges are directed",
+                "Graphs are always trees",
+                "A node's neighbors have no canonical ordering",
+                "Nodes have no features"
+              ],
+              "answer": 2,
+              "explain": "Sum/mean/max are order-independent; concatenation isn't."
+            },
+            {
+              "q": "Graph Attention Networks (GAT) differ from GCN by:",
+              "choices": [
+                "Only working on grids",
+                "Removing all edges",
+                "Using no weight matrix",
+                "Learning per-neighbor attention weights instead of uniform averaging"
+              ],
+              "answer": 3,
+              "explain": "GAT = attention along graph edges."
+            },
+            {
+              "q": "Stacking many GNN layers tends to cause:",
+              "choices": [
+                "Over-smoothing — node features converge to the same vector",
+                "Faster convergence with no downside",
+                "The graph to become a grid",
+                "Loss of all edges"
+              ],
+              "answer": 0,
+              "explain": "Repeated aggregation diffuses features into uniformity."
+            },
+            {
+              "q": "After $k$ message-passing layers, a node's representation reflects:",
+              "choices": [
+                "Only itself",
+                "Its $k$-hop neighborhood",
+                "The entire graph regardless of $k$",
+                "A random node"
+              ],
+              "answer": 1,
+              "explain": "Information flows one hop per layer."
+            },
+            {
+              "q": "A transformer can be viewed as a GNN on:",
+              "choices": [
+                "A 2-D pixel grid",
+                "A graph with no edges",
+                "The complete graph, with attention as learned edge weights",
+                "A binary tree"
+              ],
+              "answer": 2,
+              "explain": "Every token attends to every token = complete graph."
+            },
+            {
+              "q": "A natural application of GNNs is:",
+              "choices": [
+                "Generating random noise",
+                "Sorting a list of numbers",
+                "Compressing a single image",
+                "Predicting molecule properties (atoms = nodes, bonds = edges)"
+              ],
+              "answer": 3,
+              "explain": "Molecules/recommendation/knowledge graphs are graph data."
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "What kind of data are GNNs for?",
+              "back": "Graphs — nodes connected by edges with no fixed order or shape (molecules, social/knowledge graphs, recommendation data), unlike grids (CNNs) or sequences (transformers)."
+            },
+            {
+              "front": "Message passing",
+              "back": "The core GNN operation: each node updates its features by <em>aggregating</em> its neighbors' features and then <em>transforming</em> the result; $k$ layers reach the $k$-hop neighborhood."
+            },
+            {
+              "front": "Why must GNN aggregation be permutation-invariant?",
+              "back": "A node's neighbors have no canonical order, so the aggregator must use order-independent ops (sum/mean/max), not fixed-order concatenation."
+            },
+            {
+              "front": "GAT (Graph Attention Network)",
+              "back": "Learns per-neighbor attention weights instead of uniform averaging — self-attention restricted to the graph's edges, so important neighbors count more."
+            },
+            {
+              "front": "Over-smoothing",
+              "back": "Stacking many message-passing layers makes all node features converge to the same vector; it keeps GNNs shallow (usually 2–4 layers)."
+            },
+            {
+              "front": "How are CNNs/transformers GNNs?",
+              "back": "A CNN is message passing on a grid; a transformer is message passing on the complete graph (attention = learned edge weights). \"Aggregate neighbors, then transform\" is the shared template."
+            }
+          ],
+          "homework": [
+            {
+              "prompt": "On a path graph A–B–C (A connected to B, B to A and C, C to B), do one mean-aggregation step (including self) with features A=2, B=4, C=6.",
+              "hint": "Each node averages itself + neighbors.",
+              "solution": "A: mean(A,B)=mean(2,4)=3. B: mean(A,B,C)=mean(2,4,6)=4. C: mean(B,C)=mean(4,6)=5. New features: A=3, B=4, C=5 — each node blended with its neighborhood."
+            },
+            {
+              "prompt": "Why can't you just flatten a graph's adjacency matrix and feed it to an MLP?",
+              "hint": "Node ordering.",
+              "solution": "The adjacency matrix depends on an arbitrary node ordering — relabel the nodes and you get a different matrix for the <em>same</em> graph, so an MLP would treat isomorphic graphs differently. GNNs use permutation-invariant aggregation, so the output doesn't depend on how the nodes happen to be numbered."
+            },
+            {
+              "prompt": "Why are GNNs usually only a few layers deep?",
+              "hint": "Over-smoothing.",
+              "solution": "Each message-passing layer mixes a node with a larger neighborhood; after many layers every node has aggregated almost the whole graph, so all node features converge to nearly the same vector (over-smoothing) and become indistinguishable. Shallow GNNs (2–4 layers) avoid this; attention/residual tricks push a little deeper."
+            }
+          ],
+          "examples": [
+            {
+              "title": "A molecule as a graph",
+              "body": "To predict whether a molecule is toxic, how would a GNN represent and process it?",
+              "solution": "Atoms are nodes (features: element, charge), bonds are edges. Message passing lets each atom's representation absorb its chemical neighborhood over a few layers; a final pooling over all node vectors gives a whole-molecule embedding fed to a classifier. This is the core of modern drug/materials discovery — the model respects molecular structure rather than treating atoms as an unordered bag."
+            },
+            {
+              "title": "Choosing GCN vs GAT",
+              "body": "Some neighbors are far more relevant than others for your task. Which aggregator?",
+              "solution": "GAT. A plain GCN averages neighbors uniformly, but GAT learns an attention weight per edge, so it can up-weight the informative neighbors and down-weight the rest — at the cost of more parameters/compute. If all neighbors are roughly equally relevant, GCN's uniform mean is cheaper and often enough."
+            },
+            {
+              "title": "Transformer as a GNN",
+              "body": "In what sense is a transformer a graph neural network?",
+              "solution": "A transformer does message passing on the <em>complete</em> graph over tokens: every token is connected to every other, and self-attention computes a learned, content-based weight for each \"edge\". So a transformer is a GNN whose graph is fully connected and whose aggregation is attention — which is why long sequences are costly (all pairs) and why sparse/graph-structured attention is an active area."
+            }
+          ]
         }
       ]
     },

@@ -2,6 +2,14 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 727 — NEW lesson: Graph Neural Networks (content)
+Filled a major missing architecture: DL covered grids (CNNs), sequences (RNNs/transformers), and images (ViT), but had no lesson on **graphs**. Added `dl-graph-neural-networks` "Graph Neural Networks:
+Learning on Graphs" to DL M6: 8 sections (graph data · message passing · the GCN layer · a hand-worked step · permutation invariance · GraphSAGE/GAT variants · over-smoothing · applications), a runnable
+**message-passing code exercise** (mean-aggregate a 4-node graph → 2, 2.5, 2, 3), **3 deep-dives** (message passing unifies CNNs/transformers/GNNs · why GNNs over-smooth · graph attention/GAT), **6 flashcards,
+3 examples, 3 homework, 8 MCQs** (2/2/2/2). Also wired the cross-topic prereq edge **`dl-graph-neural-networks → a-graph-representations-traversal`** (GNNs operate on the graph data structure from algorithms).
+Site **178 lessons**; DL M6 now 5 lessons.
+Verified: message-passing math re-derived in Node; gate ALL GREEN (ran the code; every prereq id resolves; parity warning flags 8/16 — top-up queued); **headless** — 7 KaTeX/0 errors/rawDollar=0, 3 deep-dives + code runner, prereq link surfaces, quiz "Question 1 of 8"; errs=0. SW cache `atlas-v663` → `atlas-v664`.
+
 ## iter 726 — Cross-embed the curse-of-dimensionality viz into kNN (visualizations / curation)
 Verified the new viz pass the **true-390px mobile gate** (iframe-wrapped — the densest, llm-moe-router, renders legibly with no overflow), and confirmed hard-concept depth is thorough (batch-norm's
 "two stories" and SGD's implicit-regularization deep-dives already exist). Then a genuine curation win: the curse of dimensionality is *kNN's* defining weakness, and `ml-knn` §6 explained it in text only.

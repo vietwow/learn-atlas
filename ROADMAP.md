@@ -7,7 +7,7 @@ The autonomous loop (`/improve-atlas`) reads this file first. Keep it the **live
 move to CHANGELOG and out; new ideas land in the Backlog. (Full per-iteration history lives in `CHANGELOG.md`.)
 
 ## Current state (iter 708, 2026-06-22)
-**9 topics · 177 lessons (all at the 16 MCQ / 6 cards / 3 examples / 3 homework / 3 deep-dives standard) · 125 visualizations (all embedded) · 273 glossary terms · cross-topic prereq graph · Library references · code exercises.** Last full sweep: iter 718 (errs=0/bad=none).
+**9 topics · 178 lessons (all at the 16 MCQ / 6 cards / 3 examples / 3 homework / 3 deep-dives standard) · 125 visualizations (all embedded) · 273 glossary terms · cross-topic prereq graph · Library references · code exercises.** Last full sweep: iter 718 (errs=0/bad=none).
 - ✅ iter 721: `ml-dimensionality-reduction` topped to 16 MCQ + prereq edge. ✅ iter 722: +5 DR glossary terms (t-SNE, UMAP, whitening, explained-variance, manifold; glossary 268→273). DR lesson fully integrated across every surface. NOTE: learning paths are derived dynamically (new lessons auto-integrate — no curation needed).
 - ✅ iter 717: `dl-vision-transformers` topped to 16 MCQ. ✅ iter 719: **NEW viz dl-vit-patchify** (124th — image→patches→tokens; DL viz 23/23). Recent current-gap fills (iters 711–719): MoE (lesson+viz), SSM/Mamba (deep-dive), ViT/multimodal (lesson+viz) — all fully built & integrated.
 Topics: Linear Algebra · Calculus · Algorithms · Deep Learning · Reinforcement Learning · LLMs · Probability & Statistics · Machine Learning · Information Theory.
@@ -29,6 +29,7 @@ Owner steers by *reacting* to the live site. Key past steers (detail in `CHANGEL
 - **Content sweeps (long done):** worked examples (47–52, all lessons), question bank → 16 MCQ/lesson, 3 deep-dives/lesson, embedded code exercises, viz frontier (122 widgets), cross-topic prereq graph, inline glossary tooltips, a11y (ARIA/reduced-motion/high-contrast), activity heatmap, Daily Mix, Knowledge Map, search, notes, bookmarks.
 
 ## Now / live queue
+- ⏳ Top `dl-graph-neural-networks` 8→16 MCQ (iter 727; gate parity-warns). Recent architecture gap-fills: MoE, ViT, GNN.
 - ✅ iter 712: `l-mixture-of-experts` topped to 16 MCQ. ✅ iter 713: **NEW viz llm-moe-router** (123rd; LLM 19/20). MoE fully built. ✅ iter 714: **SSM/Mamba frontier deep-dive** added to l-self-attention (the last absent modern LLM paradigm). LLM current-topic coverage: MoE, RAG, LoRA, quantization, CoT, KV-cache, speculative decoding, SSMs — all present.
 - **Maturity plateau:** the autonomous high-value backlog is largely exhausted — every major area is comprehensive and fully integrated (verified repeatedly). Recent iterations = fine-grained, genuinely-additive polish (hard-concept deep-dives, accurate prereq edges, glossary/reference completeness, new viz for the last genuine gaps), rotating the compass.
 - **Owner-steer big levers (the real next jumps):** (1) a brand-new **10th topic** (everything in-scope is currently covered, so this needs owner appetite); (2) the **lazy-load data perf refactor** (see Backlog) — high-risk, LOW real urgency (the SW caches everything for the single repeat learner), so deferred pending owner steer.
