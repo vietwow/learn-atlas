@@ -512,6 +512,94 @@
               ],
               "answer": 1,
               "explain": "If $p(x)>0$ where $q(x)=0$, KL is infinite; Wasserstein distance stays meaningful for disjoint supports."
+            },
+            {
+              "q": "For a one-hot label, if the model gives the true class probability 0.5, the cross-entropy loss (in bits) is:",
+              "choices": [
+                "$1$ bit",
+                "$0.5$ bit",
+                "$2$ bits",
+                "$0$"
+              ],
+              "answer": 0,
+              "explain": "For a one-hot target it is $-\\log_2 q(\\text{true})=-\\log_2 0.5=1$ bit."
+            },
+            {
+              "q": "Cross-entropy $H(p,q)$ is, in general:",
+              "choices": [
+                "At most $H(p)$",
+                "At least $H(p)$, with equality only when $q=p$",
+                "Exactly $H(p)$ always",
+                "Unrelated to $H(p)$"
+              ],
+              "answer": 1,
+              "explain": "Since $H(p,q)=H(p)+D_{\\mathrm{KL}}(p\\|q)$ and $D_{\\mathrm{KL}}\\ge 0$, cross-entropy can never beat the entropy floor."
+            },
+            {
+              "q": "If the model assigns probability 0 to an outcome that actually occurs, that outcome's cross-entropy term is:",
+              "choices": [
+                "One bit",
+                "Zero",
+                "Infinite",
+                "Negative"
+              ],
+              "answer": 2,
+              "explain": "The term is $-\\log q=-\\log 0\\to\\infty$ — a confidently-wrong zero is infinitely penalized."
+            },
+            {
+              "q": "Cross-entropy is measured in bits when the logarithm base is:",
+              "choices": [
+                "$1$",
+                "$e$",
+                "$10$",
+                "$2$ (base $e$ gives nats)"
+              ],
+              "answer": 3,
+              "explain": "Base-2 logs give bits; natural logs ($\\ln$) give nats — the usual unit in ML."
+            },
+            {
+              "q": "For $p=[0.5,0.5]$ and $q=[0.25,0.75]$, with $H(p)=1$ bit and $H(p,q)=1.21$ bits, the KL divergence $D_{\\mathrm{KL}}(p\\|q)$ is about:",
+              "choices": [
+                "$0.21$ bits",
+                "$0$",
+                "$1.21$ bits",
+                "$1.0$ bit"
+              ],
+              "answer": 0,
+              "explain": "$D_{\\mathrm{KL}}=H(p,q)-H(p)=1.21-1=0.21$ bits — the extra bits from using $q$ instead of $p$."
+            },
+            {
+              "q": "The gradient of softmax + cross-entropy with respect to the logits is:",
+              "choices": [
+                "$p-q$",
+                "$q-p$ (prediction minus target)",
+                "$q\\cdot p$",
+                "$q/p$"
+              ],
+              "answer": 1,
+              "explain": "The softmax/cross-entropy pairing yields the clean gradient $\\hat y-y=q-p$ — one reason it pairs so naturally with neural nets."
+            },
+            {
+              "q": "Reverse KL $D_{\\mathrm{KL}}(q\\|p)$, used in variational inference, tends to be:",
+              "choices": [
+                "Symmetric with forward KL",
+                "Mode-covering — $q$ spreads over every mode",
+                "Mode-seeking — $q$ concentrates on a single mode",
+                "Always zero"
+              ],
+              "answer": 2,
+              "explain": "Reverse KL punishes $q$ for mass where $p\\approx 0$, so $q$ locks onto one mode — the opposite of forward KL's mode-covering behavior."
+            },
+            {
+              "q": "Compared with squared error, cross-entropy for a confident-but-wrong classification gives:",
+              "choices": [
+                "Zero penalty",
+                "A smaller penalty",
+                "The same penalty",
+                "A much larger penalty (growing without bound)"
+              ],
+              "answer": 3,
+              "explain": "$-\\log q(\\text{true})\\to\\infty$ as $q(\\text{true})\\to 0$, whereas squared error is bounded — cross-entropy punishes confident mistakes far harder."
             }
           ],
           "flashcards": [

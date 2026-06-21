@@ -186,8 +186,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    lessons (deduped, render-guarded). Now all at 6. Verified: gate GREEN (render-lint on 17 new cards), 0/17 off-count, headless Recall deck kErr=0/errs=0. SW →v548.
    ✅ iter 608: **MCQ top-up batch 1 — it-entropy 8→16** (content/assessment). 8 new distinct MCQs, all numbers node-verified, balanced (combined 4/4/4/4),
    answer-key assertion 8/8, headless quiz "Question 1 of 16" kErr=0/errs=0. SW →v549.
-   ⏳ MCQ runway (1 of 17 done): remaining at 8 MCQs — IT: cross-entropy-kl, mutual-information, source-coding, channel-capacity, differential-entropy, information-in-ml;
-   ML: all 10. One lesson/iter, hand-verify every answer key (gate can't catch a wrong key), de-skew new 8 to 2/2/2/2.
+   ✅ iter 609: **MCQ top-up batch 2 — it-cross-entropy-kl 8→16** (content/assessment). 8 new distinct MCQs, numbers verified, in-script key assertion, combined 4/4/4/4,
+   headless "Question 1 of 16" kErr=0/errs=0. SW →v550.
+   ⏳ MCQ runway (2 of 17 done): remaining at 8 MCQs — IT: mutual-information, source-coding, channel-capacity, differential-entropy, information-in-ml; ML: all 10.
+   One lesson/iter, hand-verify every answer key (gate can't catch a wrong key), de-skew new 8 to 2/2/2/2.
    ✅ iter 606: **Naive Bayes spam viz — 103rd widget; ML viz COMPLETE** (visualizations). ml-nb-viz: spam filter as evidence on a log-odds line — each word shifts
    odds by its likelihood ratio (multiply = add shifts under naive independence); toggle words, live P(spam) verdict. Embedded in ml-naive-bayes. All 10 ML lessons now
    have a viz. Verified: gate GREEN (103 widgets); headless default reads P(spam)=98%, toggles work, kErr=0/errs=0; screenshot. SW →v547.

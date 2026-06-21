@@ -2,6 +2,13 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 609 — MCQ top-up runway, batch 2: it-cross-entropy-kl 8 → 16 (content / assessment)
+Second batch of the MCQ-parity runway. Added **8 new MCQs to `it-cross-entropy-kl`** (now 16), distinct from the existing eight: numeric one-hot loss (`q=0.5 → 1 bit`),
+the `H(p,q) ≥ H(p)` floor, the infinite penalty for a confidently-wrong zero, bits-vs-nats, a numeric KL (`D=H(p,q)−H(p)=0.21`), the softmax+cross-entropy gradient
+`q−p`, reverse-KL being mode-seeking, and cross-entropy vs squared error on confident mistakes. Numbers checked in node; an in-script **key assertion** confirmed each
+correct choice before writing (no mismatch); new eight balanced 2/2/2/2 → combined **4/4/4/4**.
+Verified: data parses; gate ALL GREEN; **headless** quiz shows "Question 1 of 16", 4 choices, kErr=0, errs=0. SW cache `atlas-v549` → `atlas-v550`. Runway: **2 of 17**.
+
 ## iter 608 — MCQ top-up runway, batch 1: it-entropy 8 → 16 (content / assessment)
 First batch of the queued MCQ-parity runway (ML/IT have 8 MCQs/lesson vs 16 elsewhere). Doing **one lesson per iteration** so every answer key can be hand-verified —
 a wrong key teaches the learner the wrong thing and `gate.js` can't detect it. Added **8 new MCQs to `it-entropy`** (now 16), each distinct from the existing eight:
