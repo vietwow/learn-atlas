@@ -2,6 +2,14 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 660 — NEW viz: Bayesian updating (Beta prior → posterior) (visualizations)
+Capped Module 6 with its canonical missing visual. Built the **114th widget, `ps-beta-update` "Bayesian updating: prior × likelihood → posterior"**: three live curves over θ∈[0,1] —
+a gold Beta(α,β) **prior**, a sage normalized **likelihood** for k heads in n flips, and the violet **posterior** Beta(α+k, β+n−k) — computed with a Lanczos `lgamma` so any real α,β
+work. Four sliders (α, β, trials n, heads k); the readout shows prior mean, data proportion, and posterior mean `(α+k)/(α+β+n)`. As n grows the likelihood and posterior visibly sharpen
+and the posterior slides from the prior toward the data. Embedded in `ps-bayesian-inference` §3 (the Beta–Binomial update), which now has two viz (base-rate Bayes + this).
+Verified: Beta pdf re-derived in Node (Beta(2,2)@0.5=1.5 exact; posterior peaks higher); gate ALL GREEN (now **114 widgets**); **headless** — Lab hydrates, default posterior mean
+**0.643**, raising n to 40 (28 heads) moves it to **0.682** (toward the data 0.7) and sharpens; the lesson hydrates **both** canvases; kErr=0, errs=0; screenshot shows prior/likelihood/posterior. SW cache `atlas-v599` → `atlas-v600`.
+
 ## iter 659 — Bayesian module MCQ top-up: ps-computational-bayes 8 → 16 — MODULE 6 COMPLETE at full parity (content / assessment)
 Final Module-6 top-up. Added **8 new MCQs to `ps-computational-bayes`** (now 16): MH accepts a lower-density proposal *sometimes* (not always rejected), `R̂≈1` ⇒ converged, poor
 mixing ⇒ small effective sample size, Monte Carlo error shrinks like `1/√S`, VI approximates the posterior with a simpler family `q`, Stan/PyMC automate posterior computation,

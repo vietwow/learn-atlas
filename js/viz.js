@@ -6255,4 +6255,59 @@
     draw();
   });
 
+
+  /* ========================================================
+     114. Bayesian updating: Beta prior → posterior (Probability & Statistics)
+     ======================================================== */
+  register({ id: 'ps-beta-update', topic: 'probability-statistics', title: 'Bayesian updating: prior × likelihood → posterior', blurb: 'Watch Bayes’ rule for a coin’s bias θ. Set a Beta(α,β) prior (gold), then add data — k heads in n flips — and the normalized likelihood (sage) multiplies the prior into the posterior Beta(α+k, β+n−k) (violet). More data makes the likelihood, and so the posterior, sharper; the posterior always sits between prior and data, sliding toward the data as evidence accumulates.' },
+  function (root) {
+    const W = 540, H = 320, padL = 30, padR = 16, padT = 16, padB = 34;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    let a = 2, b = 2, n = 10, k = 7;
+    function lgamma(z) { const g = 7, cc = [0.99999999999980993, 676.5203681218851, -1259.1392167224028, 771.32342877765313, -176.61502916214059, 12.507343278686905, -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7]; if (z < 0.5) return Math.log(Math.PI / Math.sin(Math.PI * z)) - lgamma(1 - z); z -= 1; let x = cc[0]; for (let i = 1; i < g + 2; i++) x += cc[i] / (z + i); const t = z + g + 0.5; return 0.5 * Math.log(2 * Math.PI) + (z + 0.5) * Math.log(t) - t + Math.log(x); }
+    function betaPdf(x, A, B) { if (x <= 0 || x >= 1) return 0; return Math.exp((A - 1) * Math.log(x) + (B - 1) * Math.log(1 - x) - (lgamma(A) + lgamma(B) - lgamma(A + B))); }
+    const X = t => padL + t * (W - padL - padR), Yb = H - padB;
+    function curve(A, B, col, dash, fill) {
+      const N = 240, pts = [];
+      for (let i = 0; i <= N; i++) { const x = i / N; pts.push([x, betaPdf(x, A, B)]); }
+      return pts;
+    }
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const kk = Math.min(k, n);
+      const prior = curve(a, b), like = curve(kk + 1, n - kk + 1), post = curve(a + kk, b + n - kk);
+      let mx = 0; [prior, like, post].forEach(s => s.forEach(pt => { if (isFinite(pt[1])) mx = Math.max(mx, pt[1]); }));
+      mx = mx || 1; const Y = v => Yb - Math.min(v / mx, 1) * (H - padT - padB);
+      // axis
+      ctx.strokeStyle = p.line; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(X(0), Yb); ctx.lineTo(X(1), Yb); ctx.stroke();
+      ctx.fillStyle = p.mute; ctx.font = '10px ' + (cssVar('--font-mono') || 'monospace'); ctx.textAlign = 'center';
+      [0, 0.25, 0.5, 0.75, 1].forEach(t => ctx.fillText(t, X(t), Yb + 14));
+      ctx.fillText('θ (probability of heads)', W / 2, H - 4);
+      function plot(s, col, dash, fillA) {
+        ctx.strokeStyle = col; ctx.lineWidth = 2; ctx.setLineDash(dash || []);
+        ctx.beginPath(); s.forEach((pt, i) => { const xx = X(pt[0]), yy = Y(pt[1]); i ? ctx.lineTo(xx, yy) : ctx.moveTo(xx, yy); }); ctx.stroke(); ctx.setLineDash([]);
+        if (fillA) { ctx.globalAlpha = fillA; ctx.lineTo(X(1), Yb); ctx.lineTo(X(0), Yb); ctx.closePath(); ctx.fill && (ctx.fillStyle = col, ctx.fill()); ctx.globalAlpha = 1; }
+      }
+      plot(prior, p.gold, [5, 4]);
+      plot(like, p.sage, [2, 3]);
+      plot(post, p.violet, null, 0.18);
+      // legend
+      ctx.textAlign = 'left'; ctx.font = '11px ' + (cssVar('--font-mono') || 'monospace');
+      ctx.fillStyle = p.gold; ctx.fillText('— prior Beta(' + a + ',' + b + ')', X(0.04), padT + 8);
+      ctx.fillStyle = p.sage; ctx.fillText('— likelihood (' + kk + '/' + n + ')', X(0.04), padT + 24);
+      ctx.fillStyle = p.violet; ctx.fillText('— posterior Beta(' + (a + kk) + ',' + (b + n - kk) + ')', X(0.04), padT + 40);
+      const priMean = a / (a + b), postMean = (a + kk) / (a + b + n);
+      info.innerHTML = 'prior mean <b style="color:' + p.gold + '">' + priMean.toFixed(3) + '</b> &middot; data ' + kk + '/' + n + ' = <b>' + (n ? (kk / n).toFixed(3) : '—') + '</b> &middot; posterior mean <b style="color:' + p.violet + '">' + postMean.toFixed(3) + '</b> = (α+k)/(α+β+n). The posterior sits between prior and data and sharpens as n grows.';
+    }
+    slider(ctl, { label: 'prior α', min: 1, max: 12, step: 1, value: a, fmt: v => String(v), onInput: v => { a = v; draw(); } });
+    slider(ctl, { label: 'prior β', min: 1, max: 12, step: 1, value: b, fmt: v => String(v), onInput: v => { b = v; draw(); } });
+    slider(ctl, { label: 'trials n', min: 0, max: 40, step: 1, value: n, fmt: v => String(v), onInput: v => { n = v; if (k > n) k = n; draw(); } });
+    slider(ctl, { label: 'heads k', min: 0, max: 40, step: 1, value: k, fmt: v => String(Math.min(v, n)), onInput: v => { k = v; draw(); } });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Bayesian updating visualizer over a coin-bias theta in [0,1]. A gold dashed Beta(alpha,beta) prior, a sage dashed normalized likelihood for k heads in n flips, and the violet filled posterior Beta(alpha+k, beta+n-k). Sliders set the prior parameters and the data; as the number of trials grows the likelihood and posterior become sharper, and the posterior mean (alpha+k)/(alpha+beta+n) sits between the prior mean and the data proportion, sliding toward the data.');
+    draw();
+  });
+
 })();

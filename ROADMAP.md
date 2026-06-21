@@ -229,7 +229,9 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ✅ iter 654: **Module 6 lesson 3 `ps-bayesian-decisions`** (estimators↔losses, HPD vs equal-tailed, posterior predictive/Laplace, decision theory; ps-ci-coverage viz; 8 MCQ). 168 lessons. gate GREEN, headless 22 katex/0 err, SW →v594.
    ✅ iter 655: **Module 6 lesson 4 `ps-computational-bayes`** (Monte Carlo, MCMC/Metropolis–Hastings, diagnostics, VI/ELBO; ps-lln viz; 8 MCQ). **Module 6 "Bayesian Inference" lessons COMPLETE (4 lessons).** 169 lessons. gate GREEN, headless 24 katex/0 err, SW →v595.
    ✅ iters 656–659: topped all 4 Bayesian lessons 8→16 MCQ. **MODULE 6 "Bayesian Inference" COMPLETE at full parity** (4 lessons × 16 MCQ/6 cards/3 ex/3 hw + embedded viz). **PS is now a 6-module, 24-lesson course; site 169 lessons.** gate GREEN, SW →v599.
-   ⏳ Optional Module-6 enrichment: a NEW Beta prior→posterior update viz (drag prior + data, watch the posterior; would suit lessons 1–2). Otherwise the Bayesian arc is done — back to broad polish or the next owner-steer lever (new 10th topic / lazy-load perf).
+   ✅ iter 660: **NEW viz ps-beta-update** (114th — Beta prior×likelihood→posterior, lgamma-based; embedded in ps-bayesian-inference §3). gate GREEN, headless mean 0.643→0.682 + both canvases, SW →v600.
+   ✅ **BAYESIAN ARC COMPLETE** (iters 652–660): PS Module 6 = 4 full lessons at 16 MCQ + dedicated Beta-update viz. PS is a 6-module/24-lesson course; site 169 lessons, 114 viz.
+   ★ Next genuine value again needs OWNER STEER: a brand-new 10th topic, or the lazy-load-data perf refactor. Solo backlog otherwise = polish/curation, not core gaps.
    ★ Bigger levers still benefit from OWNER STEER: a brand-new 10th topic, or the lazy-load-data perf refactor. But Module 6 is genuine high-value autonomous work to pursue meanwhile.
    ★ The big remaining levers genuinely need OWNER STEER: (1) a 10th topic, (2) the lazy-load-data performance refactor.
    NEXT: PS lessons still lacking viz: sample-spaces, random-variables, expectation-variance, sampling-distributions; big levers are a 10th topic or the staged
