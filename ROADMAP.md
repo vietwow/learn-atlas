@@ -182,6 +182,9 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    each showing upstream×local (incl. ∂L/∂z₁=∂L/∂a₁·σ′(z₁)); σ↔ReLU toggle shows vanishing vs gating. Embedded in dl-backpropagation;
    viz-complete →88. Verified: gate GREEN; headless lab route errs=0/canvas, steps 0→fwd4→back4 (8/8), toggle+reset work; lesson route
    2 canvases hydrate, kErr=0; screenshot eyeballed. SW →v366.
+   ✅ iter 585: **Interactive mutual-information Venn viz** (visualizations). 98th widget it-mutual-info-viz: two entropy circles whose overlap = I(X;Y); dependence
+   slider (independent I=0 → coincident I=1); shows I, H(X|Y), H(X,Y). Distinct from entropy/CE/KL viz. Embedded in it-mutual-information (IT now has 2 own viz).
+   Verified: gate GREEN (98 widgets); headless I=0.00/1.00/0.19, kErr=0/errs=0; screenshot. SW →v526.
    ✅ iter 584: **Fix stale topic enumerations after the 9th pillar** (UI/UX/SEO/docs). Updated index.html meta + manifest descriptions, the intro-overlay
    subtitle, the glossary copy ("every subject", number-free), and README headline (subjects list + counts: 164 lessons/2496 MCQ/969 cards/492 hw/493 ex/97 viz/
    189 gloss/60 ach) — all now reflect all 9 topics (were stuck at the original ~6). Verified: app.js/manifest valid; gate GREEN; headless intro mentions Info

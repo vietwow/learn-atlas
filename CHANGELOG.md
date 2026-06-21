@@ -2,6 +2,16 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 585 — Interactive mutual-information Venn viz (visualizations)
+The **98th widget, `it-mutual-info-viz` "Mutual information: the overlap of two uncertainties."** Two circles — the entropies `H(X)` and `H(Y)` (each 1 bit) —
+whose **overlap is the mutual information `I(X;Y)`**. Drag a dependence slider: independent variables slide apart (tangent, `I=0`); as they grow dependent the
+circles merge until one determines the other and they coincide (`I=1` bit). Live readouts show `I`, the conditional entropy `H(X|Y)`, and the joint `H(X,Y)`; the
+crescents are labeled with what stays uncertain. It makes the Venn-diagram deep-dive tangible and is genuinely distinct from the existing entropy & cross-entropy/KL
+widgets (no MI/Venn viz existed). Embedded in the Mutual Information lesson. The IT pillar now has **two of its own viz**.
+Verified: gate ALL GREEN (now **98 widgets**); **headless** — Lab canvas hydrates, the readout gives **I=0.00** when independent, **I=1.00** when fully dependent,
+and **I=0.19** at half-dependence (matching `1−H(a)`); the lesson's inline canvas hydrates; **kErr=0, errs=0**; screenshot shows the two circles, the gold `I`
+lens, and the conditional-entropy crescents. SW cache `atlas-v525` → `atlas-v526`.
+
 ## iter 584 — Fix stale topic enumerations after the 9th pillar (UI/UX · SEO · docs)
 Adding Probability & Statistics, Machine Learning, and Information Theory over time left several places still advertising only the original ~6 topics — a real
 accuracy/SEO gap on the live site. Refreshed them all to the full nine:

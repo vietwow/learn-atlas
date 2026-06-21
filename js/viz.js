@@ -5392,4 +5392,55 @@
     draw();
   });
 
+
+  /* ========================================================
+     98. Mutual information: the overlap of two uncertainties (Information Theory)
+     ======================================================== */
+  register({ id: 'it-mutual-info-viz', topic: 'information-theory', title: 'Mutual information: the overlap of two uncertainties', blurb: 'Two circles, one for the uncertainty in X and one for Y (each 1 bit here). Their overlap is the mutual information I(X;Y) — what they share. Drag the dependence: independent variables (no overlap, I = 0) slide apart; as they become more dependent the circles merge until, when one determines the other, they coincide (I = 1 bit). The crescents are the conditional entropies that remain.' },
+  function (root) {
+    const W = 540, H = 360;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    let dep = 0.5;
+    const log2 = x => Math.log(x) / Math.log(2);
+    const Hb = a => (a <= 0 || a >= 1) ? 0 : -(a * log2(a) + (1 - a) * log2(1 - a));
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const a = 0.5 + 0.5 * dep;          // agreement probability
+      const I = 1 - Hb(a);                // mutual information (bits)
+      const Hcond = Hb(a);                // H(X|Y) = H(Y|X) here
+      const Hjoint = 1 + Hcond;           // H(X,Y)
+      const R = 96, cy = 150;
+      const d = 2 * R * (1 - I);          // center separation: I=0 -> tangent, I=1 -> coincident
+      const cxL = W / 2 - d / 2, cxR = W / 2 + d / 2;
+      // circles (semi-transparent so the lens blends)
+      ctx.globalAlpha = 0.5;
+      ctx.fillStyle = p.sage; ctx.beginPath(); ctx.arc(cxL, cy, R, 0, 7); ctx.fill();
+      ctx.fillStyle = p.violet; ctx.beginPath(); ctx.arc(cxR, cy, R, 0, 7); ctx.fill();
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = p.ink; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.arc(cxL, cy, R, 0, 7); ctx.stroke();
+      ctx.beginPath(); ctx.arc(cxR, cy, R, 0, 7); ctx.stroke();
+      // labels
+      ctx.fillStyle = p.ink; ctx.textAlign = 'center';
+      ctx.font = 'bold 13px ' + (cssVar('--font-disp') || 'serif');
+      ctx.fillText('H(X)', cxL - R * 0.55, cy - R - 8);
+      ctx.fillText('H(Y)', cxR + R * 0.55, cy - R - 8);
+      ctx.font = '12px ' + (cssVar('--font-mono') || 'monospace');
+      ctx.fillStyle = p.ink_mute || p.ink;
+      if (d > 18) { ctx.fillText('H(X|Y)', cxL - d / 2 - R * 0.1, cy + 4); ctx.fillText('H(Y|X)', cxR + d / 2 + R * 0.1, cy + 4); }
+      // I(X;Y) label in the lens
+      if (I > 0.04) { ctx.fillStyle = p.gold; ctx.font = 'bold 13px ' + (cssVar('--font-mono') || 'monospace'); ctx.fillText('I = ' + I.toFixed(2), W / 2, cy + 5); }
+      info.innerHTML = 'dependence <b>' + dep.toFixed(2) + '</b> &middot; mutual information I(X;Y) = <b style="color:' + p.gold + '">' + I.toFixed(2) + '</b> bits' +
+        '<br>H(X) = H(Y) = <b>1.00</b> &middot; H(X|Y) = <b>' + Hcond.toFixed(2) + '</b> &middot; joint H(X,Y) = <b>' + Hjoint.toFixed(2) + '</b>. ' +
+        (I < 0.03 ? 'Independent: the circles barely touch — knowing one tells you nothing about the other.' : I > 0.97 ? 'Fully dependent: the circles coincide — one variable determines the other.' : 'Partly dependent: the overlap is the shared information; the crescents are what stays uncertain.');
+    }
+    slider(ctl, { label: 'dependence', min: 0, max: 1, step: 0.01, value: dep, fmt: v => v.toFixed(2), onInput: v => { dep = v; draw(); } });
+    button(ctl, '⏮ independent', function () { dep = 0; draw(); });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Mutual information Venn visualizer: two circles for the entropies H(X) and H(Y), each one bit. Their overlap is the mutual information I(X;Y). A dependence slider moves the circles: at zero dependence they are tangent with no overlap (I = 0, independent); as dependence rises the overlap grows until the circles coincide (I = 1 bit, one variable determines the other). Live readouts show I, the conditional entropy H(X|Y), and the joint entropy H(X,Y).');
+    draw();
+  });
+
 })();
