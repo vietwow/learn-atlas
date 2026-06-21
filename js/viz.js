@@ -5463,4 +5463,69 @@
     draw();
   });
 
+
+  /* ========================================================
+     99. Binary symmetric channel: noise vs capacity (Information Theory)
+     ======================================================== */
+  register({ id: 'it-channel-capacity-viz', topic: 'information-theory', title: 'Binary symmetric channel: noise versus capacity', blurb: 'A bit sent through a noisy channel arrives flipped with probability p. The left panel shows the channel (correct paths in sage, flips in rust, thickness = probability); the right plots the capacity C = 1 - H(p) in bits per use. Drag p: a clean channel (p=0) carries a full 1 bit, a useless one (p=0.5) carries 0, and noise in between cuts the rate. Capacity is symmetric — near p=1 you just invert every bit.' },
+  function (root) {
+    const W = 560, H = 340, padL = 250, padR = 16, padT = 22, padB = 38;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    let p = 0.11;
+    const log2 = x => Math.log(x) / Math.log(2);
+    const Hb = q => (q <= 0 || q >= 1) ? 0 : -(q * log2(q) + (1 - q) * log2(1 - q));
+    function arrow(x1, y1, x2, y2, col, w) {
+      ctx.strokeStyle = col; ctx.fillStyle = col; ctx.lineWidth = w;
+      ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+      const a = Math.atan2(y2 - y1, x2 - x1), s = 7;
+      ctx.beginPath(); ctx.moveTo(x2, y2); ctx.lineTo(x2 - s * Math.cos(a - 0.4), y2 - s * Math.sin(a - 0.4)); ctx.lineTo(x2 - s * Math.cos(a + 0.4), y2 - s * Math.sin(a + 0.4)); ctx.closePath(); ctx.fill();
+    }
+    function draw() {
+      const pp = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = pp.bg; ctx.fillRect(0, 0, W, H);
+      const C = 1 - Hb(p);
+      // ---------- left: BSC schematic ----------
+      const ix = 70, ox = 188, yT = 116, yB = 214, r = 17;
+      ctx.font = '12px ' + (cssVar('--font-mono') || 'monospace'); ctx.textAlign = 'center'; ctx.fillStyle = pp.mute;
+      ctx.fillText('send', ix, yT - 40); ctx.fillText('receive', ox, yT - 40);
+      // flip arrows (rust) first so correct arrows sit on top
+      arrow(ix + r, yT + 4, ox - r, yB - 4, pp.rust, 1 + 5 * p);
+      arrow(ix + r, yB - 4, ox - r, yT + 4, pp.rust, 1 + 5 * p);
+      // correct arrows (sage)
+      arrow(ix + r, yT, ox - r, yT, pp.sage, 1 + 5 * (1 - p));
+      arrow(ix + r, yB, ox - r, yB, pp.sage, 1 + 5 * (1 - p));
+      [[ix, yT, '0'], [ix, yB, '1'], [ox, yT, '0'], [ox, yB, '1']].forEach(function (n) {
+        ctx.fillStyle = pp.panel; ctx.strokeStyle = pp.line; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.arc(n[0], n[1], r, 0, 7); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = pp.ink; ctx.font = 'bold 14px ' + (cssVar('--font-mono') || 'monospace'); ctx.fillText(n[2], n[0], n[1] + 5);
+      });
+      ctx.fillStyle = pp.sage; ctx.font = '11px ' + (cssVar('--font-mono') || 'monospace'); ctx.textAlign = 'left';
+      ctx.fillText('1−p = ' + (1 - p).toFixed(2), ix + 26, yT - 8);
+      ctx.fillStyle = pp.rust; ctx.fillText('p = ' + p.toFixed(2) + '  (flip)', ix + 22, (yT + yB) / 2 + 4);
+      // ---------- right: capacity curve C(p) ----------
+      const X = v => padL + v * (W - padL - padR), Y = v => (H - padB) - v * (H - padT - padB);
+      ctx.strokeStyle = pp.line; ctx.lineWidth = 1; ctx.textAlign = 'center';
+      ctx.beginPath(); ctx.moveTo(X(0), Y(0)); ctx.lineTo(X(1), Y(0)); ctx.moveTo(X(0), Y(0)); ctx.lineTo(X(0), Y(1.05)); ctx.stroke();
+      ctx.fillStyle = pp.mute; ctx.font = '10px ' + (cssVar('--font-mono') || 'monospace');
+      ctx.fillText('0', X(0), Y(0) + 14); ctx.fillText('0.5', X(0.5), Y(0) + 14); ctx.fillText('1', X(1), Y(0) + 14);
+      ctx.fillText('flip probability p', X(0.5), H - 8);
+      ctx.textAlign = 'right'; ctx.fillText('C=1', X(0) - 5, Y(1) + 4); ctx.fillText('0', X(0) - 5, Y(0) + 4);
+      ctx.strokeStyle = pp.line; ctx.globalAlpha = 0.4; ctx.setLineDash([3, 4]); ctx.beginPath(); ctx.moveTo(X(0), Y(1)); ctx.lineTo(X(1), Y(1)); ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1;
+      ctx.strokeStyle = pp.gold; ctx.lineWidth = 2.5; ctx.beginPath();
+      for (let i = 0; i <= 200; i++) { const q = i / 200, px = X(q), py = Y(1 - Hb(q)); i ? ctx.lineTo(px, py) : ctx.moveTo(px, py); } ctx.stroke();
+      // current point
+      ctx.strokeStyle = pp.gold; ctx.globalAlpha = 0.5; ctx.lineWidth = 1; ctx.setLineDash([2, 3]);
+      ctx.beginPath(); ctx.moveTo(X(p), Y(0)); ctx.lineTo(X(p), Y(C)); ctx.lineTo(X(0), Y(C)); ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1;
+      ctx.fillStyle = pp.violet; ctx.strokeStyle = pp.ink; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(X(p), Y(C), 6, 0, 7); ctx.fill(); ctx.stroke();
+      const verdict = C > 0.97 ? 'a near-perfect channel' : C < 0.05 ? 'useless — output independent of input' : 'noise cuts the usable rate';
+      info.innerHTML = 'flip probability p = <b>' + p.toFixed(2) + '</b> &middot; capacity C = 1 − H(p) = <b style="color:' + pp.gold + '">' + C.toFixed(3) + '</b> bits per use &middot; ' + verdict + '.<br>Reliable communication is possible at any rate below C and impossible above it. Capacity is highest at p = 0 or 1 (1 bit) and zero at the maximally-confusing p = 0.5.';
+    }
+    slider(ctl, { label: 'flip probability p', min: 0, max: 1, step: 0.01, value: p, fmt: v => v.toFixed(2), onInput: v => { p = v; draw(); } });
+    button(ctl, '⏮ noiseless', function () { p = 0; draw(); });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Binary symmetric channel visualizer. Left: two input bits 0 and 1 connect to two output bits; correct paths (probability 1 minus p) are drawn in sage and flip paths (probability p) in rust, with line thickness proportional to probability. Right: the channel capacity C = 1 minus the binary entropy H(p), plotted against the flip probability p, with a marker at the current p. Capacity is 1 bit at p = 0 or 1, falls to 0 at p = 0.5, and is symmetric about 0.5.');
+    draw();
+  });
+
 })();

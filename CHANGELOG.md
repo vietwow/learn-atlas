@@ -2,6 +2,21 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 590 — Step-back: full 9-topic audit (clean) + BSC capacity viz (visualizations)
+**Round-number step-back.** Two health sweeps + reflection, paired with a real ship.
+- **Runtime sweep**: all **165 lessons** (every example revealed, every dd opened) → errs=0, kErr=0, 0 bad; all **138 non-lesson routes** (incl. 9 cheatsheets, 9
+  placements, all 99 viz labs) → errs=0, kErr=0. **303 routes green.**
+- **Coverage audit**: **every lesson at exactly 3 deep-dives** (495 total) and **0 under-parity** (all ≥3 examples, ≥3 homework, ≥8 MCQ). 9 topics · 165 lessons ·
+  2504 MCQs · 974 cards · 496 examples · 495 homework · 118 code · 189 glossary · 49 prereq-keys.
+**Reflection (580→590):** completed the **Information Theory pillar** (Source Coding → Channel Capacity → the Info-in-ML capstone), then integrated & polished it
+site-wide — fixed the stale "6-topic" SEO/UI copy, added the **mutual-information Venn viz**, deepened with a 7th lesson (**Differential Entropy**), and shipped
+cross-cutting wins: two new **achievement tiers**, **screen-reader names for every canvas**, and a **"best place to start" prereq link**. Zero red gates all span.
+**The paired ship — the 99th widget, `it-channel-capacity-viz`.** The Channel Capacity lesson was the only IT lesson with no viz. Now it has a binary-symmetric-
+channel visualizer: a live BSC schematic (correct paths sage, flips rust, thickness = probability) beside the capacity curve `C=1−H(p)`. Drag `p`: a clean channel
+(p=0) carries 1 bit, a useless one (p=0.5) carries 0, and capacity is symmetric. Embedded in the lesson.
+Verified: gate ALL GREEN (now **99 widgets**); both sweeps clean; **headless** — Lab + lesson canvases hydrate, the readout gives **C(0)=1.000**, **C(0.5)=0.000**,
+**C(0.11)=0.500**, **kErr=0, errs=0**; screenshot shows the schematic + valley-shaped capacity curve. SW cache `atlas-v530` → `atlas-v531`.
+
 ## iter 589 — Deepen Information Theory: Differential Entropy (content / depth)
 A **7th IT lesson** — **Differential Entropy: Information in Continuous Variables** — added to the Foundations module right after Entropy, extending information
 theory from discrete symbols to continuous densities (the regime VAEs, continuous MI, and max-entropy RL live in). Full parity: 8-section lecture (`h(X)=−∫f log f`,

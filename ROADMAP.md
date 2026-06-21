@@ -182,6 +182,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    each showing upstream×local (incl. ∂L/∂z₁=∂L/∂a₁·σ′(z₁)); σ↔ReLU toggle shows vanishing vs gating. Embedded in dl-backpropagation;
    viz-complete →88. Verified: gate GREEN; headless lab route errs=0/canvas, steps 0→fwd4→back4 (8/8), toggle+reset work; lesson route
    2 canvases hydrate, kErr=0; screenshot eyeballed. SW →v366.
+   ✅ iter 590: **STEP-BACK: full 9-topic audit (clean) + BSC capacity viz** (visualizations). Sweeps: 165 lessons errs=0/kErr=0/0 bad; 138 routes errs=0/kErr=0
+   (303 green). Coverage: every lesson 3 dd (495), 0 under-parity. Reflection 580→590: IT pillar completed + integrated/polished + deepened; cross-cutting wins
+   (achievements, a11y canvas names, prereq start-link). Paired ship: 99th widget it-channel-capacity-viz (BSC schematic + C=1−H(p) curve), embedded in
+   it-channel-capacity (last IT lesson without a viz). Verified: gate GREEN (99 widgets); headless C(0)=1.000/C(0.5)=0.000/C(0.11)=0.500, kErr=0/errs=0; screenshot. SW →v531.
    ✅ iter 589: **Deepen Information Theory — Differential Entropy** (content/depth). 7th IT lesson it-differential-entropy (continuous entropy h=−∫f log f, can be
    negative, Gaussian ½log₂(2πeσ²) & max-entropy, KL/MI as invariant differences; full parity: Gaussian code→2.05 + 3 dd + 8 MCQ 2/2/2/2 + 5 cards + 3 ex + 3 hw),
    added to Foundations. Mobile spot-checked clean at 390px. Verified: gate GREEN (9 topics·165 lessons·118 code); headless nDD=3, code 2.05, kErr=0/errs=0. SW →v530. IT now 7 lessons.
