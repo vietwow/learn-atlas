@@ -207,7 +207,9 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ✅ iter 632: **inclusion–exclusion / two-event Venn viz** (107th, ps-set-events: Ω box, A/B circles, region probs, P(A∪B) with overlap clamp). Verified headless union=0.70, clamp 0.50, gate GREEN, SW →v573.
    ✅ iter 633: **cross-embedded existing viz into the last 2 no-viz PS lessons** (ps-clt→sampling-distributions; ps-binomial-poisson + ps-normal-explorer→random-variables). **PS viz coverage COMPLETE** — every PS lesson has a viz. Verified headless canvases hydrate, gate GREEN, SW →v574.
    NOTE: non-viz surfaces all verified complete this arc (content uniform, glossary 214, refs 46 [4-6/topic], keyboard nav, a11y, mobile clean, head perf/preconnect done), AND every PS lesson now has a viz.
-   ★ The big remaining levers genuinely need OWNER STEER: (1) a 10th topic, (2) the lazy-load-data performance refactor. Autonomous backlog is largely exhausted; remaining work is polish/curation across other topics' viz coverage or marginal enrichment.
+   ✅ iter 634: **RL viz curation** — cross-embedded rl-bandit/rl-td-mc/rl-q-learning/rl-policy-gradient into 4 no-viz RL lessons (10/20→14/20). Verified headless canvases hydrate, gate GREEN, SW →v575.
+   ⏳ Viz-coverage curation frontier (cross-embed existing widgets into no-viz lessons): RL now 14/20 (6 left); also LLM ~10/19, LA ~10/19, algos ~14/23, calc 17/25, DL 17/22. Match a relevant existing viz to each lesson's intro heading.
+   ★ The big remaining levers genuinely need OWNER STEER: (1) a 10th topic, (2) the lazy-load-data performance refactor.
    NEXT: PS lessons still lacking viz: sample-spaces, random-variables, expectation-variance, sampling-distributions; big levers are a 10th topic or the staged
    lazy-load-data perf project (owner steer). Keep varying lanes.
    One lesson/iter, hand-verify every answer key, de-skew new 8 to 2/2/2/2.

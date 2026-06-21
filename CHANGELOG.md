@@ -2,6 +2,13 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 634 — RL viz coverage: cross-embed existing widgets into 4 no-viz lessons (visualizations / curation)
+With PS viz complete, extended the curation approach to the worst-covered topic — Reinforcement Learning (was 10/20 lessons with a viz). Cross-embedded **existing, contextually
+matched** widgets (no new code) at the exact heading where each concept is introduced: **`rl-bandit`** → `rl-what-is-rl` at "Exploration vs. Exploitation"; **`rl-td-mc`** →
+`rl-eligibility-traces` at "Between Two Extremes" (n-step interpolates TD↔MC); **`rl-q-learning`** → `rl-dqn` at "From Tabular Q-Learning to a Neural Network"; **`rl-policy-gradient`**
+→ `rl-actor-critic` at "From Pure Policy Gradients to Actor-Critic". RL viz coverage **10/20 → 14/20**.
+Verified: gate ALL GREEN; **headless** — all four lessons hydrate their embedded canvas (kErr=0 each), errs=0. SW cache `atlas-v574` → `atlas-v575`.
+
 ## iter 633 — Cross-embed existing viz into the last 2 no-viz PS lessons → PS viz coverage complete (visualizations / curation)
 A lighter curation pass (rather than a 3rd straight new-viz build): the two remaining Probability lessons without a visualization gained **existing, highly-relevant widgets** —
 no new viz code. `ps-sampling-distributions` §2 ("The sampling distribution") now hosts **`ps-clt`** (a CLT demo *is* a sampling distribution forming); `ps-random-variables-distributions`
