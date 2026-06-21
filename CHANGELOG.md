@@ -2,6 +2,15 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 625 — Poisson distribution viz + Binomial⇄Poisson cross-embed (visualizations)
+Rotating off the long MCQ runway back to visualizations. The Probability lesson `ps-poisson` had **no embedded viz** for a core distribution. Built the **104th widget,
+`ps-poisson-viz` "The Poisson distribution: shape, mean, and variance"**: a live PMF bar chart of `P(X=k)=e^(−λ)λ^k/k!` with a λ slider, the mean line at `k=λ`, a violet
+`±√λ` band, and a readout driving home the Poisson signature — **mean = variance = λ** — and the small-λ "rare events" vs large-λ bell shapes. Also **cross-embedded the
+existing `ps-binomial-poisson` ("Binomial ⇄ Poisson Explorer")** into the lesson's §4 ("Poisson as the limit of the Binomial"), where it directly illustrates the law of
+rare events. The Poisson lesson now has two complementary, well-placed viz.
+Verified: gate ALL GREEN (now **104 widgets**); **headless** — Lab canvas hydrates and at λ=5 the readout shows **mean = variance = 5.00**; the lesson hydrates **both** embedded
+canvases; kErr=0, errs=0; screenshot confirms the PMF bars, mean line, and σ-band. SW cache `atlas-v565` → `atlas-v566`.
+
 ## iter 624 — MCQ top-up runway COMPLETE: ml-model-selection 8 → 16; whole codex now uniform (content / assessment + step-back)
 Final batch (17 of 17). Added **8 new MCQs to `ml-model-selection`** (now 16), distinct from the existing eight: 5-fold = 5 train/eval rounds, LOOCV = k-fold with `k=n`,
 numeric precision `=0.8` and recall `=0.8`, F1 = harmonic mean, stratified k-fold preserves class proportions, high-train/low-val = overfitting, both-errors-high = underfitting.

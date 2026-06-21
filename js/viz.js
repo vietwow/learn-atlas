@@ -5748,4 +5748,44 @@
     draw();
   });
 
+
+  /* ========================================================
+     104. The Poisson distribution: counts of rare events (Probability & Statistics)
+     ======================================================== */
+  register({ id: 'ps-poisson-viz', topic: 'probability-statistics', title: 'The Poisson distribution: shape, mean, and variance', blurb: 'The probability of seeing exactly k events when they arrive independently at an average rate λ: P(X=k)=e^(−λ) λ^k / k!. Drag λ and watch the bars: the peak sits near λ, the spread is √λ, and uniquely the mean and the variance are BOTH equal to λ. For small λ the shape is lopsided toward 0 (rare events); for large λ it rounds into a bell.' },
+  function (root) {
+    const W = 540, H = 340, padL = 44, padR = 16, padT = 18, padB = 40;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    let lam = 3;
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const K = Math.min(28, Math.max(8, Math.ceil(lam + 4 * Math.sqrt(lam) + 3)));
+      const pmf = []; let pk = Math.exp(-lam); pmf.push(pk);
+      for (let k = 1; k <= K; k++) { pk = pk * lam / k; pmf.push(pk); }
+      const maxP = Math.max.apply(null, pmf), n = K + 1;
+      const plotW = W - padL - padR, plotH = H - padT - padB, bw = plotW / n;
+      const X = k => padL + k * bw, Y = v => (H - padB) - v / maxP * plotH;
+      // axis
+      ctx.strokeStyle = p.line; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(padL, H - padB); ctx.lineTo(W - padR, H - padB); ctx.stroke();
+      ctx.fillStyle = p.mute; ctx.font = '10px ' + (cssVar('--font-mono') || 'monospace'); ctx.textAlign = 'center';
+      for (let k = 0; k <= K; k += (K > 16 ? 4 : 2)) ctx.fillText(k, X(k) + bw / 2, H - padB + 14);
+      ctx.fillText('k (number of events)', W / 2, H - 6);
+      // std band (mean ± 1σ) shaded
+      const sd = Math.sqrt(lam);
+      ctx.fillStyle = p.violet; ctx.globalAlpha = 0.10; ctx.fillRect(X(Math.max(0, lam - sd)) + bw / 2, padT, (2 * sd) * bw, plotH); ctx.globalAlpha = 1;
+      // bars
+      pmf.forEach((v, k) => { ctx.fillStyle = p.sage; ctx.fillRect(X(k) + bw * 0.12, Y(v), bw * 0.76, (H - padB) - Y(v)); });
+      // mean line at k=λ
+      ctx.strokeStyle = p.gold; ctx.lineWidth = 1.5; ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.moveTo(X(lam) + bw / 2, padT); ctx.lineTo(X(lam) + bw / 2, H - padB); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = p.gold; ctx.textAlign = 'left'; ctx.fillText('mean λ=' + lam.toFixed(1), X(lam) + bw / 2 + 4, padT + 10);
+      info.innerHTML = 'λ = <b>' + lam.toFixed(1) + '</b> &middot; mean = <b style="color:' + p.gold + '">' + lam.toFixed(2) + '</b> &middot; variance = <b>' + lam.toFixed(2) + '</b> &middot; std = √λ = <b>' + sd.toFixed(2) + '</b> (violet band).<br>' + (lam < 1.5 ? 'Small λ: most outcomes are 0 or 1 — the law of rare events.' : lam >= 8 ? 'Large λ: the distribution rounds into a near-Gaussian bell centered at λ.' : 'The hallmark of the Poisson: mean and variance are equal (both λ).');
+    }
+    slider(ctl, { label: 'rate λ', min: 0.3, max: 12, step: 0.1, value: lam, fmt: v => v.toFixed(1), onInput: v => { lam = v; draw(); } });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Poisson distribution visualizer: a bar chart of P(X=k)=e^(-lambda) lambda^k / k! against k. A slider sets the rate lambda; a gold dashed line marks the mean at k=lambda and a violet band shows mean plus or minus one standard deviation (root lambda). For small lambda the bars pile up near 0 (rare events); for large lambda they form a symmetric bell. The mean and variance are both equal to lambda.');
+    draw();
+  });
+
 })();
