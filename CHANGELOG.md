@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 685 — Causal-graphs lesson MCQ top-up 8 → 16 (content / assessment)
+Brought `ps-causal-graphs` to the 16-MCQ standard (the gate parity-warning had flagged it at 8/16). Added **8 new MCQs**, distinct from the first eight: DAG acyclicity, how randomization deletes
+arrows into X, the front-door criterion, the d-separation definition, why descendants of X are excluded from the adjustment set, fork = confounding, naive `P(Y|X)` vs `P(Y|do(X))`, and the
+instrumental-variable definition. Keys asserted; balanced → **4/4/4/4**. The lesson is now at full parity, and both causal lessons (170 + 171) are complete.
+Verified: data parses; gate ALL GREEN with **no parity warning**; **headless** quiz "Question 1 of 16", 4 choices, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v622` → `atlas-v623`.
+
 ## iter 684 — NEW lesson: Causal Graphs & the Backdoor Criterion (content)
 Second lesson of the causal thread, built around iter-683's `causal-dag` viz. Added `ps-causal-graphs` "Causal Graphs & the Backdoor Criterion" to PS Module 3: 8 sections (DAGs · paths &
 backdoor paths · the three junctions + embedded `causal-dag` · d-separation · the backdoor criterion · the adjustment formula · front-door & instruments · why it matters for ML/A-B tests), a

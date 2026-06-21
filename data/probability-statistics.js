@@ -3293,6 +3293,94 @@
               ],
               "answer": 3,
               "explain": "Adjustment re-weights strata of the backdoor set Z by P(z)."
+            },
+            {
+              "q": "The \"acyclic\" in DAG means the graph has:",
+              "choices": [
+                "No directed cycles — you cannot follow arrows back to where you started",
+                "No more than one edge",
+                "Only undirected edges",
+                "Exactly one collider"
+              ],
+              "answer": 0,
+              "explain": "Causal DAGs forbid directed cycles, so causation has a consistent direction."
+            },
+            {
+              "q": "Randomly assigning $X$ changes its DAG by:",
+              "choices": [
+                "Adding arrows into $X$",
+                "Deleting every arrow into $X$, so no backdoor paths remain",
+                "Removing the outcome $Y$",
+                "Creating a collider at $X$"
+              ],
+              "answer": 1,
+              "explain": "Randomization makes X independent of its causes — graph surgery on X."
+            },
+            {
+              "q": "The front-door criterion identifies an effect by using:",
+              "choices": [
+                "An additional confounder",
+                "A larger sample size",
+                "A fully-observed mediator to bypass unmeasured confounding",
+                "A collider as a control"
+              ],
+              "answer": 2,
+              "explain": "A measured mediator lets you route around unobserved X-Y confounding."
+            },
+            {
+              "q": "$X$ and $Y$ are d-separated by $Z$ when:",
+              "choices": [
+                "They share a collider",
+                "At least one path is open",
+                "$Z$ is empty",
+                "Every path between them is blocked given $Z$"
+              ],
+              "answer": 3,
+              "explain": "d-separation requires ALL paths blocked, implying conditional independence."
+            },
+            {
+              "q": "A descendant of $X$ must be excluded from the adjustment set because:",
+              "choices": [
+                "It is affected by $X$, so conditioning on it can distort the causal effect",
+                "It always blocks backdoor paths",
+                "It is never measured",
+                "It is the treatment itself"
+              ],
+              "answer": 0,
+              "explain": "Descendants of X (mediators/effects) bias the estimate if adjusted for."
+            },
+            {
+              "q": "A fork $X\\leftarrow Z\\to Y$ produces:",
+              "choices": [
+                "A direct causal effect of $X$ on $Y$",
+                "A non-causal (confounding) association between $X$ and $Y$",
+                "Independence that conditioning destroys",
+                "A blocked path by default"
+              ],
+              "answer": 1,
+              "explain": "A common cause Z confounds X and Y until you condition on Z."
+            },
+            {
+              "q": "The naive $P(Y\\mid X)$ can differ from $P(Y\\mid\\text{do}(X))$ because:",
+              "choices": [
+                "do() requires more data",
+                "They are identical by definition",
+                "Observing $X$ carries confounding; intervening removes it",
+                "Conditioning deletes arrows into $X$"
+              ],
+              "answer": 2,
+              "explain": "Only do() severs the backdoor paths; plain conditioning leaves them."
+            },
+            {
+              "q": "An instrumental variable is one that:",
+              "choices": [
+                "Is a descendant of $Y$",
+                "Is a common effect of $X$ and $Y$",
+                "Equals the confounder",
+                "Affects $X$ but has no direct path to $Y$ (and no shared confounder)"
+              ],
+              "answer": 3,
+              "explain": "An instrument injects as-good-as-random variation into X."
             }
           ],
           "flashcards": [
