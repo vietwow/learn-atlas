@@ -7,7 +7,27 @@
 (function () {
   "use strict";
   const VIZ = {}, CATALOG = [];
-  function register(meta, fn) { VIZ[meta.id] = fn; CATALOG.push(meta); }
+  function register(meta, fn) {
+    // Wrap the widget so that after it mounts, ANY canvas left without an accessible
+    // name gets a sensible fallback (role=img + aria-label from the registered title/
+    // blurb). Widgets that set their own bespoke aria-label keep it (we only fill gaps),
+    // so screen-reader users get a meaningful description of every visualization.
+    VIZ[meta.id] = function (container) {
+      const r = fn(container);
+      try {
+        const cs = (container && container.querySelectorAll) ? container.querySelectorAll('canvas') : [];
+        for (let i = 0; i < cs.length; i++) {
+          const cv = cs[i];
+          if (!cv.getAttribute('aria-label') && !cv.getAttribute('aria-labelledby')) {
+            cv.setAttribute('role', 'img');
+            cv.setAttribute('aria-label', meta.title + (meta.blurb ? '. ' + meta.blurb : ''));
+          }
+        }
+      } catch (e) {}
+      return r;
+    };
+    CATALOG.push(meta);
+  }
 
   function cssVar(n, fb) { const v = getComputedStyle(document.documentElement).getPropertyValue(n).trim(); return v || fb; }
   function P() {

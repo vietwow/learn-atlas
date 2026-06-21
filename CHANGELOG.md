@@ -2,6 +2,15 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 587 — Every visualization now has a screen-reader name (accessibility)
+Of the 98 viz widgets, only ~64 set a bespoke `aria-label` on their canvas — the other **33 canvases were nameless**, i.e. invisible to screen readers (a bare
+`<canvas>` announces nothing). Fixed at the single mount point: `register()` now wraps each widget so that, after it mounts, **any canvas left without an
+accessible name automatically gets `role="img"` + an `aria-label` derived from the widget's registered title and blurb**. Bespoke labels still win (the wrapper
+only fills gaps), so every current *and future* visualization is described to assistive tech with zero per-widget work. The slider/button controls were already
+labeled; this closes the canvas gap.
+Verified: `new Function` on viz.js clean; gate ALL GREEN; **headless** — mounted **all 98 widgets** and checked every canvas: **unlabeled = 0** (was 33),
+**33 now use the title/blurb fallback**, **64 bespoke labels preserved**, **errs = 0**. SW cache `atlas-v527` → `atlas-v528`.
+
 ## iter 586 — Two new achievement tiers for the grown site (gamification)
 The codex has grown to 9 topics · 117 code exercises · 98 visualizations, but the progression ladder still topped out at the old sizes — leaving long stretches
 with nothing to chase. Added two **data-driven** mid/long-haul tiers (no new state; they reuse existing counters):

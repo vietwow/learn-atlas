@@ -182,6 +182,9 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    each showing upstream×local (incl. ∂L/∂z₁=∂L/∂a₁·σ′(z₁)); σ↔ReLU toggle shows vanishing vs gating. Embedded in dl-backpropagation;
    viz-complete →88. Verified: gate GREEN; headless lab route errs=0/canvas, steps 0→fwd4→back4 (8/8), toggle+reset work; lesson route
    2 canvases hydrate, kErr=0; screenshot eyeballed. SW →v366.
+   ✅ iter 587: **Every visualization now has a screen-reader name** (accessibility). register() wraps each widget so any canvas without a bespoke aria-label gets
+   role=img + a title/blurb fallback (covers current + future viz). Verified: gate GREEN; headless mounted all 98 widgets — unlabeled=0 (was 33), 33 fallback, 64
+   bespoke preserved, errs=0. SW →v528.
    ✅ iter 586: **Two new achievement tiers for the grown site** (gamification). 🛠️ Code Virtuoso (solve 30 code exercises) + 🗺️ Cartographer (open 50 viz) —
    data-driven, reuse existing counters, in "Exploration & Practice". Fills ladder gaps (code 10→30, viz 15→50→98). Achievements 60→62. Verified: gate GREEN;
    headless seeded save unlocks both + they render in-category, errs=0. SW →v527.
