@@ -2,6 +2,14 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 659 — Bayesian module MCQ top-up: ps-computational-bayes 8 → 16 — MODULE 6 COMPLETE at full parity (content / assessment)
+Final Module-6 top-up. Added **8 new MCQs to `ps-computational-bayes`** (now 16): MH accepts a lower-density proposal *sometimes* (not always rejected), `R̂≈1` ⇒ converged, poor
+mixing ⇒ small effective sample size, Monte Carlo error shrinks like `1/√S`, VI approximates the posterior with a simpler family `q`, Stan/PyMC automate posterior computation,
+estimating `P(θ>c|D)` = fraction of samples exceeding `c`, and VI tends to underestimate posterior variance. Keys asserted; balanced → **4/4/4/4**.
+**Module 6 "Bayesian Inference" is now complete at full site parity** — all 4 lessons (priors/posteriors · conjugacy · decisions · computation) at 16 MCQ / 6 cards / 3 examples /
+3 homework, each with an embedded viz. **Probability & Statistics is now a 6-module, 24-lesson course.**
+Verified: data parses; gate ALL GREEN; all 4 Module-6 lessons confirmed at 16 MCQ; **headless** quiz "Question 1 of 16", 4 choices, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v598` → `atlas-v599`.
+
 ## iter 658 — Bayesian module MCQ top-up: ps-bayesian-decisions 8 → 16 (content / assessment)
 Added **8 new MCQs to `ps-bayesian-decisions`** (now 16): median↔absolute-error, MAP↔0–1 loss, symmetric posterior → mean=median=mode, numeric Laplace (3/3 → **0.8**), equal-tailed
 interval cuts 2.5%/tail, Laplace never predicts exactly 0 or 1, a numeric expected-loss decision (ship 3.0 vs withhold 2.1 → **withhold**), and asymmetric-costs → optimal action can

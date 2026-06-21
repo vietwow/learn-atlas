@@ -228,8 +228,8 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ✅ iter 653: **Module 6 lesson 2 `ps-conjugate-priors`** (Beta–Binomial, Gaussian–Gaussian precision-weighting, Gamma–Poisson, exp-family; ps-normal-explorer viz; 8 MCQ). 167 lessons. gate GREEN, headless 32 katex/0 err, SW →v593.
    ✅ iter 654: **Module 6 lesson 3 `ps-bayesian-decisions`** (estimators↔losses, HPD vs equal-tailed, posterior predictive/Laplace, decision theory; ps-ci-coverage viz; 8 MCQ). 168 lessons. gate GREEN, headless 22 katex/0 err, SW →v594.
    ✅ iter 655: **Module 6 lesson 4 `ps-computational-bayes`** (Monte Carlo, MCMC/Metropolis–Hastings, diagnostics, VI/ELBO; ps-lln viz; 8 MCQ). **Module 6 "Bayesian Inference" lessons COMPLETE (4 lessons).** 169 lessons. gate GREEN, headless 24 katex/0 err, SW →v595.
-   ✅ iters 656–658: top ps-bayesian-inference, ps-conjugate-priors, ps-bayesian-decisions 8→16 (each 4/4/4/4). gate GREEN, SW →v598.
-   ⏳ MODULE 6 last top-up: ps-computational-bayes 8→16. Then all 4 Bayesian lessons at 16 MCQ → PS is a full 6-module course at the site standard. Optional new Beta prior→posterior update viz.
+   ✅ iters 656–659: topped all 4 Bayesian lessons 8→16 MCQ. **MODULE 6 "Bayesian Inference" COMPLETE at full parity** (4 lessons × 16 MCQ/6 cards/3 ex/3 hw + embedded viz). **PS is now a 6-module, 24-lesson course; site 169 lessons.** gate GREEN, SW →v599.
+   ⏳ Optional Module-6 enrichment: a NEW Beta prior→posterior update viz (drag prior + data, watch the posterior; would suit lessons 1–2). Otherwise the Bayesian arc is done — back to broad polish or the next owner-steer lever (new 10th topic / lazy-load perf).
    ★ Bigger levers still benefit from OWNER STEER: a brand-new 10th topic, or the lazy-load-data perf refactor. But Module 6 is genuine high-value autonomous work to pursue meanwhile.
    ★ The big remaining levers genuinely need OWNER STEER: (1) a 10th topic, (2) the lazy-load-data performance refactor.
    NEXT: PS lessons still lacking viz: sample-spaces, random-variables, expectation-variance, sampling-distributions; big levers are a 10th topic or the staged

@@ -5750,6 +5750,94 @@
               ],
               "answer": 3,
               "explain": "VI trades MCMC's asymptotic exactness for speed and scale, at the cost of bias from the chosen family $q$."
+            },
+            {
+              "q": "In Metropolis–Hastings, a proposal with LOWER posterior density than the current state is:",
+              "choices": [
+                "Accepted sometimes (with probability equal to the ratio)",
+                "Always rejected",
+                "Always accepted",
+                "Used to end the chain"
+              ],
+              "answer": 0,
+              "explain": "Downhill moves are accepted with probability $\\frac{p(\\theta'\\mid D)}{p(\\theta\\mid D)}\\lt 1$, which lets the chain explore rather than get stuck at a peak."
+            },
+            {
+              "q": "Running several chains and finding $\\hat R\\approx 1$ indicates:",
+              "choices": [
+                "The model is overfit",
+                "The chains have converged to the same distribution",
+                "The prior was wrong",
+                "The data is insufficient"
+              ],
+              "answer": 1,
+              "explain": "$\\hat R$ (Gelman–Rubin) compares within- to between-chain variance; $\\approx 1$ signals convergence."
+            },
+            {
+              "q": "A poorly mixing MCMC chain produces samples that are:",
+              "choices": [
+                "Drawn from the prior",
+                "Independent and ideal",
+                "Highly correlated, so the effective sample size is small",
+                "Exactly the posterior mode"
+              ],
+              "answer": 2,
+              "explain": "Slow exploration means consecutive draws are correlated; the effective sample size (independent-equivalent count) is far below the raw count."
+            },
+            {
+              "q": "The error of a Monte Carlo estimate from $S$ samples shrinks roughly like:",
+              "choices": [
+                "It does not shrink",
+                "$1/S^2$",
+                "$\\log S$",
+                "$1/\\sqrt{S}$"
+              ],
+              "answer": 3,
+              "explain": "Monte Carlo standard error scales as $1/\\sqrt{S}$ — quadrupling the samples halves the error."
+            },
+            {
+              "q": "Variational inference approximates the posterior with:",
+              "choices": [
+                "A simpler distribution family $q$, fit by optimization",
+                "The prior, unchanged",
+                "A single point estimate only",
+                "Exact samples"
+              ],
+              "answer": 0,
+              "explain": "VI chooses a tractable family $q_\\phi$ and tunes $\\phi$ to make $q$ close to the posterior."
+            },
+            {
+              "q": "Probabilistic programming tools like Stan and PyMC mainly:",
+              "choices": [
+                "Replace the need for a likelihood",
+                "Automate posterior computation (e.g. running MCMC) for you",
+                "Guarantee a conjugate prior",
+                "Only do linear regression"
+              ],
+              "answer": 1,
+              "explain": "They let you declare a model and handle the sampling/inference machinery automatically."
+            },
+            {
+              "q": "To estimate $P(\\theta\\gt c\\mid D)$ by Monte Carlo, you:",
+              "choices": [
+                "Maximize the likelihood",
+                "Evaluate the prior at $c$",
+                "Take the fraction of posterior samples that exceed $c$",
+                "Integrate the evidence"
+              ],
+              "answer": 2,
+              "explain": "A probability is the expectation of an indicator, estimated by the sample fraction satisfying the event."
+            },
+            {
+              "q": "A well-known limitation of variational inference is that it tends to:",
+              "choices": [
+                "Be slower than MCMC",
+                "Overestimate the mean",
+                "Require conjugate priors",
+                "Underestimate posterior variance (uncertainty)"
+              ],
+              "answer": 3,
+              "explain": "The usual KL direction makes $q$ mode-seeking, so VI is typically over-confident — narrower than the true posterior."
             }
           ],
           "flashcards": [
