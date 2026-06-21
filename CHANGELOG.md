@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 656 — Bayesian module MCQ top-up: ps-bayesian-inference 8 → 16 (content / assessment)
+Began bringing Module 6 to the site's 16-MCQ standard. Added **8 new MCQs to `ps-bayesian-inference`** (now 16), distinct from the first eight: likelihood-isn't-a-distribution-over-θ,
+evidence = marginal likelihood/normalizer, Beta mean `α/(α+β)`, the numeric update Beta(2,2)+7/10 → **Beta(9,5)**, θ-as-a-random-variable, stronger-prior-needs-more-data, flat-prior →
+posterior ∝ likelihood, and the numeric posterior mean `9/14 ≈ 0.64`. Keys asserted; balanced → **4/4/4/4**.
+Verified: data parses; gate ALL GREEN; **headless** quiz "Question 1 of 16", 4 choices, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v595` → `atlas-v596`. (Remaining Module-6 top-ups: conjugate-priors, decisions, computational-bayes.)
+
 ## iter 655 — Bayesian Inference module: lesson 4 "Computational Bayes" — module lessons COMPLETE (content)
 Module 6's capstone, **`ps-computational-bayes` "Computational Bayes: MCMC & Variational Inference"**: 8 sections (when closed form fails · Monte Carlo: sample don't integrate ·
 MCMC as a chain whose stationary distribution is the posterior · Metropolis–Hastings and **why the acceptance ratio cancels `p(D)`** · diagnostics: burn-in/mixing/R-hat/ESS ·

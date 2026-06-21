@@ -5018,6 +5018,94 @@
               ],
               "answer": 3,
               "explain": "A flat prior adds no information, so maximizing the posterior reduces to maximizing the likelihood."
+            },
+            {
+              "q": "Read as a function of $\\theta$, the likelihood $p(D\\mid\\theta)$ is:",
+              "choices": [
+                "Not a probability distribution over $\\theta$ (it need not integrate to 1)",
+                "A valid distribution over $\\theta$",
+                "Always equal to the posterior",
+                "The prior in disguise"
+              ],
+              "answer": 0,
+              "explain": "The likelihood is a distribution over the DATA for fixed $\\theta$; as a function of $\\theta$ it is just a curve and generally does not integrate to 1."
+            },
+            {
+              "q": "The evidence $p(D)$ in Bayes' rule is:",
+              "choices": [
+                "The prior mean",
+                "The marginal likelihood $\\int p(D\\mid\\theta)p(\\theta)\\,d\\theta$ — a normalizing constant",
+                "The MAP estimate",
+                "The likelihood at the MLE"
+              ],
+              "answer": 1,
+              "explain": "$p(D)$ marginalizes $\\theta$ out; it normalizes the posterior and does not depend on $\\theta$."
+            },
+            {
+              "q": "The mean of a $\\mathrm{Beta}(\\alpha,\\beta)$ distribution is:",
+              "choices": [
+                "$\\frac{\\alpha-1}{\\alpha+\\beta-2}$",
+                "$\\frac{\\alpha}{\\beta}$",
+                "$\\frac{\\alpha}{\\alpha+\\beta}$",
+                "$\\alpha\\beta$"
+              ],
+              "answer": 2,
+              "explain": "Beta mean is $\\alpha/(\\alpha+\\beta)$; $(\\alpha-1)/(\\alpha+\\beta-2)$ is its mode."
+            },
+            {
+              "q": "Starting from a $\\mathrm{Beta}(2,2)$ prior, after observing 7 heads in 10 flips the posterior is:",
+              "choices": [
+                "$\\mathrm{Beta}(9,7)$",
+                "$\\mathrm{Beta}(7,3)$",
+                "$\\mathrm{Beta}(2,2)$",
+                "$\\mathrm{Beta}(9,5)$"
+              ],
+              "answer": 3,
+              "explain": "Add 7 successes to $\\alpha$ and 3 failures to $\\beta$: $\\mathrm{Beta}(2+7,\\,2+3)=\\mathrm{Beta}(9,5)$."
+            },
+            {
+              "q": "The defining difference of the Bayesian approach is that the parameter $\\theta$ is:",
+              "choices": [
+                "Treated as a random variable with its own distribution",
+                "A fixed unknown constant only",
+                "Always known",
+                "Equal to the data mean"
+              ],
+              "answer": 0,
+              "explain": "Bayesians put a probability distribution over $\\theta$ (prior, then posterior); frequentists treat it as fixed."
+            },
+            {
+              "q": "A more concentrated (stronger) prior:",
+              "choices": [
+                "Is ignored by the likelihood",
+                "Requires more data to be overturned",
+                "Always equals the posterior",
+                "Makes the evidence zero"
+              ],
+              "answer": 1,
+              "explain": "A high-precision prior dominates until enough data accumulates to outweigh it."
+            },
+            {
+              "q": "Under a flat (uniform) prior, the posterior is proportional to:",
+              "choices": [
+                "The evidence",
+                "The prior",
+                "The likelihood",
+                "A constant"
+              ],
+              "answer": 2,
+              "explain": "With $p(\\theta)$ constant, $p(\\theta\\mid D)\\propto p(D\\mid\\theta)$ — the likelihood alone shapes the posterior."
+            },
+            {
+              "q": "The posterior $\\mathrm{Beta}(9,5)$ has mean:",
+              "choices": [
+                "$\\frac{5}{14}\\approx 0.36$",
+                "$\\frac{9}{5}=1.8$",
+                "$0.5$",
+                "$\\frac{9}{14}\\approx 0.64$"
+              ],
+              "answer": 3,
+              "explain": "Beta mean $=\\frac{\\alpha}{\\alpha+\\beta}=\\frac{9}{14}\\approx 0.643$ — between the prior's 0.5 and the data's 0.7."
             }
           ],
           "flashcards": [
