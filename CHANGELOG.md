@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 729 — NEW viz: GNN message passing & over-smoothing (visualizations)
+Gave the new GNN lesson its visual. Built the **126th widget, `dl-gnn-message-passing`**: a 6-node graph where each message-passing layer replaces every node's value with the mean of itself + its
+neighbors. A layers slider shows information spreading along edges (nodes blend toward their neighborhood) and then **over-smoothing** — by ~8 layers every node collapses to the same value (spread → 0).
+Embedded at §2 of `dl-graph-neural-networks`. Deterministic (fixed graph + features).
+Verified: dynamics re-derived in Node (std 0.31 at L=0 → 0.0007 at L=8); gate ALL GREEN (now **126 widgets**); **headless** — Lab + lesson hydrate, spread shrinks with layers, over-smoothed message fires at L=8; kErr=0, errs=0; screenshot shows the node graph. SW cache `atlas-v665` → `atlas-v666`.
+
 ## iter 728 — GNN lesson MCQ top-up 8 → 16 (content / assessment)
 Brought `dl-graph-neural-networks` to the 16-MCQ standard. Added **8 new MCQs**: the GCN layer (aggregate + transform), aggregation functions (sum/mean/max), GraphSAGE neighbor sampling, CNN-as-GNN-on-a-grid,
 the over-smoothing *mechanism* (diffusion to a shared vector), graph-level readout/pooling, shared weight matrix across nodes, and node classification. Balanced → **4/4/4/4**. Lesson now at full parity; all

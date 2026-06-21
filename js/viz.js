@@ -6849,4 +6849,44 @@
     draw();
   });
 
+
+  /* ========================================================
+     126. GNN message passing & over-smoothing (Deep Learning)
+     ======================================================== */
+  register({ id: 'dl-gnn-message-passing', topic: 'deep-learning', title: 'GNN message passing (and over-smoothing)', blurb: 'Each message-passing layer replaces every node’s value with the average of itself and its neighbors. Slide the number of layers: information spreads along the edges (a node’s color blends toward its neighborhood), which is exactly how GNNs learn from graph structure. But push too far and every node converges to the same value — the over-smoothing that keeps GNNs shallow. Watch the spread shrink toward zero.' },
+  function (root) {
+    const W = 540, H = 320;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    const adj = [[1, 5, 3], [0, 2, 4], [1, 3], [2, 4, 0], [3, 5, 1], [4, 0]];
+    const init = [0.95, 0.15, 0.75, 0.25, 0.85, 0.35];
+    let layers = 0;
+    const cx = 230, cy = H / 2, R = 110;
+    const pos = init.map((_, i) => { const a = -Math.PI / 2 + i * Math.PI / 3; return [cx + R * Math.cos(a), cy + R * Math.sin(a)]; });
+    function values(L) { let v = init.slice(); for (let s = 0; s < L; s++) v = v.map((x, i) => { const g = [i, ...adj[i]]; return g.reduce((acc, j) => acc + v[j], 0) / g.length; }); return v; }
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const v = values(layers);
+      // edges
+      ctx.strokeStyle = p.line; ctx.lineWidth = 1.6;
+      adj.forEach((ns, i) => ns.forEach(j => { if (j > i) { ctx.beginPath(); ctx.moveTo(pos[i][0], pos[i][1]); ctx.lineTo(pos[j][0], pos[j][1]); ctx.stroke(); } }));
+      // nodes (gold opacity = value -> all similar = over-smoothed)
+      v.forEach((val, i) => {
+        const a = 0.12 + 0.85 * Math.max(0, Math.min(1, val));
+        ctx.fillStyle = p.gold; ctx.globalAlpha = a; ctx.beginPath(); ctx.arc(pos[i][0], pos[i][1], 22, 0, 7); ctx.fill(); ctx.globalAlpha = 1;
+        ctx.strokeStyle = p.gold; ctx.lineWidth = 1.5; ctx.stroke();
+        ctx.fillStyle = p.ink; ctx.font = '12px ' + (cssVar('--font-mono') || 'monospace'); ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText(val.toFixed(2), pos[i][0], pos[i][1] + 1);
+      });
+      const mean = v.reduce((s, x) => s + x, 0) / v.length, sd = Math.sqrt(v.reduce((s, x) => s + (x - mean) * (x - mean), 0) / v.length);
+      info.innerHTML = 'message-passing layers = <b>' + layers + '</b> &middot; spread (std of node values) = <b style="color:' + p.gold + '">' + sd.toFixed(4) + '</b>. ' +
+        (layers === 0 ? 'Layer 0: the raw node features, spread out.' : sd < 0.01 ? 'Over-smoothed: every node has collapsed to nearly the same value — class information is gone.' : 'Each node has blended in its neighborhood; spread keeps shrinking with more layers.');
+    }
+    slider(ctl, { label: 'layers', min: 0, max: 8, step: 1, value: layers, fmt: v => String(v), onInput: v => { layers = v; draw(); } });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'GNN message-passing visualizer: a 6-node graph whose nodes hold values shown as gold-opacity circles. A slider sets the number of message-passing layers; each layer replaces every node value with the average of itself and its neighbors. As layers increase the values blend and the spread (standard deviation) shrinks toward zero, so all nodes converge to the same value — illustrating both how GNNs propagate information and the over-smoothing that limits their depth.');
+    draw();
+  });
+
 })();
