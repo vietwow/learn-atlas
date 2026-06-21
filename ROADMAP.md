@@ -182,6 +182,9 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    each showing upstream×local (incl. ∂L/∂z₁=∂L/∂a₁·σ′(z₁)); σ↔ReLU toggle shows vanishing vs gating. Embedded in dl-backpropagation;
    viz-complete →88. Verified: gate GREEN; headless lab route errs=0/canvas, steps 0→fwd4→back4 (8/8), toggle+reset work; lesson route
    2 canvases hydrate, kErr=0; screenshot eyeballed. SW →v366.
+   ✅ iter 574: **DEPTH PASS COMPLETE — every one of 158 lessons now has 3 deep-dives** (content/depth). Final 4: c-functions-and-graphs (transformations),
+   c-chain-rule (Leibniz/rates-multiply), rl-eligibility-traces (forward=backward view), rl-offline (why offline RL matters). Verified: gate GREEN; 0 lessons
+   <3 dd (was 4); dump-dom each nDD=3, kErr=0/rawD=0/errs=0. SW →v514. Milestone: 474 deep-dives, every lesson at 3.
    ✅ iter 573: **ML homework-parity — a 3rd problem for every ML lesson** (content). All 10 ML lessons 2→3 homework (computed problems + worked solutions:
    Gini 0.375, posterior 0.72, ensemble error 0.104, etc., all hand-verified). Verified: gate GREEN (0 ML lessons <3 hw); headless Homework tab shows 3,
    solutions reveal correctly, kErr=0/errs=0. SW →v513.

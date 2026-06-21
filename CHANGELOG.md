@@ -2,6 +2,17 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 574 — Depth pass COMPLETE: every one of 158 lessons now has 3 deep-dives (content / depth)
+Finished the cross-topic depth pass by adding a third deep-dive to the **last 4 lessons** at 2 dd — **every one of the 158 lessons now has exactly 3 deep-dives**
+(a months-long runway, done):
+- **c-functions-and-graphs** → **transformations** (shift/scale/reflect; inside vs outside the function).
+- **c-chain-rule** → **rates multiply (the Leibniz view)**: `dy/dx=(dy/du)(du/dx)`, the inner variable "cancelling" like units (a mnemonic, since derivatives are limits).
+- **rl-eligibility-traces** → **forward = backward view**: the λ-return (look-ahead) and eligibility traces (look-back) are provably equivalent — look-ahead credit assignment with a cheap online update.
+- **rl-offline** → **why offline RL unlocks real domains**: exploration is impossible/unethical (healthcare, driving, recommenders) but logged data is plentiful — RL as data-in, policy-out.
+Injected via the byte-stable append-dd path with the full guard set.
+Verified: gate ALL GREEN; **0 lessons under 3 deep-dives** (was 4); **via `--dump-dom`** all four open with **nDD=3**, **kErr=0, rawDollar=0, errs=0**. SW cache `atlas-v513` → `atlas-v514`.
+**Codex now: 158 lessons each with 3 deep-dives (474 total), 3 examples, 3 homework, MCQs, flashcards — plus 96 viz, 111 code exercises, 181 glossary, full prereq graph.**
+
 ## iter 573 — ML homework-parity: a third problem for every ML lesson (content / examples)
 The Machine Learning lessons carried only **2 homework problems** each (avg 2.0) while all seven original topics sit at 3.0. Added a third — a tight,
 computed problem with hint + worked solution — to **all 10 ML lessons** (ML homework avg 2.0 → 3.0):
