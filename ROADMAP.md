@@ -191,8 +191,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ✅ iter 610: **MCQ batch 3 — it-mutual-information 8→16**. ✅ iter 611: **batch 4 — it-source-coding 8→16** (numeric + concept, 4/4/4/4, headless 16, kErr=0/errs=0, SW →v552).
    ✅ iter 612: **batch 5 — it-channel-capacity 8→16**. ✅ iter 613: **batch 6 — it-differential-entropy 8→16** (numeric 2.05/−1/1, 4/4/4/4, headless 16, kErr=0/errs=0, SW →v554).
    ✅ iter 614: **batch 7 — it-information-in-ml 8→16; IT MCQ-COMPLETE** (all 7 IT lessons at 16; 4/4/4/4; headless 16; SW →v555).
-   ✅ iter 622: **batch 15 — ml-kmeans 8→16**. ✅ iter 623: **batch 16 — ml-ensembles 8→16** (σ²/n, OOB, AdaBoost, stacking; 4/4/4/4; headless 16; SW →v564).
-   ⏳ MCQ runway (16 of 17 done): remaining at 8 MCQs — ML: model-selection (LAST one). Then a step-back: whole codex at uniform 16 MCQs.
+   ✅ iter 623: **batch 16 — ml-ensembles 8→16**. ✅ iter 624: **batch 17 — ml-model-selection 8→16; MCQ RUNWAY COMPLETE + step-back**.
+   ✅ **MCQ runway DONE (iters 608–624):** all 165 lessons now at 16 MCQs (2,640 total; +136 hand-verified across ML+IT), every topic 16-16, global answer
+   distribution exactly 25/25/25/25%, full 165-lesson sweep errs=0. Codex fully uniform across all 9 topics (lessons·3dd·3ex·3hw·6 cards·16 MCQ·viz·glossary·prereqs·refs).
+   NEXT: rotate back to the broad compass (viz/UX/polish/new functionality) — the big remaining levers are a 10th topic or the staged lazy-load-data perf project (owner steer).
    One lesson/iter, hand-verify every answer key, de-skew new 8 to 2/2/2/2.
    One lesson/iter, hand-verify every answer key (gate can't catch a wrong key), de-skew new 8 to 2/2/2/2.
    ✅ iter 606: **Naive Bayes spam viz — 103rd widget; ML viz COMPLETE** (visualizations). ml-nb-viz: spam filter as evidence on a log-odds line — each word shifts

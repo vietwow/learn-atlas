@@ -2,6 +2,17 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 624 — MCQ top-up runway COMPLETE: ml-model-selection 8 → 16; whole codex now uniform (content / assessment + step-back)
+Final batch (17 of 17). Added **8 new MCQs to `ml-model-selection`** (now 16), distinct from the existing eight: 5-fold = 5 train/eval rounds, LOOCV = k-fold with `k=n`,
+numeric precision `=0.8` and recall `=0.8`, F1 = harmonic mean, stratified k-fold preserves class proportions, high-train/low-val = overfitting, both-errors-high = underfitting.
+Key assertion confirmed each correct choice; balanced → **4/4/4/4**.
+**RUNWAY COMPLETE.** The disparity flagged at iter 607 (the two loop-built topics, ML & IT, had **8 MCQs/lesson vs 16** everywhere else) is closed: across iters 608–624 I
+added **136 hand-verified MCQs** (17 lessons × 8), one lesson per iteration with an explicit answer-key assertion each time. **Step-back checks:** all **165 lessons are now at
+16 MCQs** (0 off; 2,640 total), every topic uniform `16-16`, and the **global answer-position distribution is exactly 25.0/25.0/25.0/25.0%** (660 each). A full headless sweep
+of all 165 lesson quizzes ran clean. The codex is now fully uniform across all 9 topics in every dimension: lessons · 3 deep-dives · 3 examples · 3 homework · 6 flashcards ·
+16 MCQs · viz coverage · glossary · prereqs · references.
+Verified: data parses; gate ALL GREEN; site-wide uniformity + balance confirmed; **headless** quiz "Question 1 of 16", kErr=0, rawDollar=0, errs=0; full-lessons sweep errs=0. SW cache `atlas-v564` → `atlas-v565`.
+
 ## iter 623 — MCQ top-up runway, batch 16: ml-ensembles 8 → 16 (content / assessment)
 Sixteenth batch. Added **8 new MCQs to `ml-ensembles`** (now 16), distinct from the existing eight: the `σ²/n` variance-of-an-average formula, bagging = bootstrap resampling,
 the weak-learner definition, OOB as a built-in validation estimate, boosting reduces bias, AdaBoost up-weighting, why decorrelation matters, and stacking via a meta-model. Key

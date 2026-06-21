@@ -2332,6 +2332,94 @@
               ],
               "answer": 2,
               "explain": "Choose hyperparameters by CV/validation; the test set is used once for the final estimate. Heavy tuning overfits validation, so nested CV separates choosing from judging."
+            },
+            {
+              "q": "5-fold cross-validation trains and evaluates the model how many times?",
+              "choices": [
+                "$5$ times — each fold serves as the validation set once",
+                "Once",
+                "$10$ times",
+                "$25$ times"
+              ],
+              "answer": 0,
+              "explain": "The data is split into 5 folds; each is held out for validation once while the other 4 train, then results are averaged."
+            },
+            {
+              "q": "Leave-one-out cross-validation (LOOCV) is k-fold with $k$ equal to:",
+              "choices": [
+                "$1$",
+                "$n$, the number of samples",
+                "$2$",
+                "$10$"
+              ],
+              "answer": 1,
+              "explain": "Each fold holds out a single point, so there are $n$ folds — thorough but expensive."
+            },
+            {
+              "q": "With 8 true positives and 2 false positives, the precision is:",
+              "choices": [
+                "$0.5$",
+                "$0.2$",
+                "$0.8$",
+                "$1.0$"
+              ],
+              "answer": 2,
+              "explain": "Precision $=\\dfrac{TP}{TP+FP}=\\dfrac{8}{10}=0.8$ — of those predicted positive, how many are."
+            },
+            {
+              "q": "With 8 true positives and 2 false negatives, the recall is:",
+              "choices": [
+                "$1.0$",
+                "$0.2$",
+                "$0.5$",
+                "$0.8$"
+              ],
+              "answer": 3,
+              "explain": "Recall $=\\dfrac{TP}{TP+FN}=\\dfrac{8}{10}=0.8$ — of the actual positives, how many were caught."
+            },
+            {
+              "q": "The F1 score is:",
+              "choices": [
+                "The harmonic mean of precision and recall",
+                "The arithmetic mean of precision and recall",
+                "Accuracy on the positive class",
+                "The area under the ROC curve"
+              ],
+              "answer": 0,
+              "explain": "$F_1=2\\cdot\\dfrac{PR}{P+R}$; the harmonic mean punishes a large gap between precision and recall."
+            },
+            {
+              "q": "Stratified k-fold cross-validation ensures each fold:",
+              "choices": [
+                "Contains identical points",
+                "Preserves the overall class proportions",
+                "Is sorted by label",
+                "Holds only one class"
+              ],
+              "answer": 1,
+              "explain": "Stratification keeps each fold's class balance like the whole dataset — important for imbalanced data."
+            },
+            {
+              "q": "High training accuracy but low validation accuracy indicates:",
+              "choices": [
+                "Data leakage, always",
+                "Underfitting",
+                "Overfitting (high variance)",
+                "A perfect model"
+              ],
+              "answer": 2,
+              "explain": "The model memorized the training set but fails to generalize — the classic high-variance signature."
+            },
+            {
+              "q": "If both training and validation error are high, the model is likely:",
+              "choices": [
+                "Leaking data",
+                "Overfitting",
+                "Perfectly fit",
+                "Underfitting (high bias)"
+              ],
+              "answer": 3,
+              "explain": "Failing even on the training data means the model is too simple — increase capacity or add better features."
             }
           ],
           "flashcards": [
