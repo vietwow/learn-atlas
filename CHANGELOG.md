@@ -2,6 +2,15 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 693 — NEW lesson: Lagrangian Duality & the KKT Conditions (content)
+Filled a genuine, high-value gap: the site taught Lagrange multipliers but only *glimpsed* KKT and merely name-dropped **Lagrangian duality** — yet duality is core to ML (the SVM dual, the kernel
+trick, regularization-as-constraint). Added `c-duality-kkt` "Lagrangian Duality & the KKT Conditions" to calculus M7 "Convex & Constrained Optimization": 8 sections (the dual function · weak
+duality & the gap · strong duality & Slater · the four KKT conditions · a worked dual + the `calc-lagrange` viz · the SVM/ML payoff), a runnable **duality code exercise** (min x² s.t. x≥1 → primal=dual=1,
+zero gap), **3 deep-dives** (why the dual is concave · complementary slackness intuitively · the SVM dual in one breath), **6 flashcards, 3 examples, 3 homework, 8 MCQs** (2/2/2/2, keys asserted).
+Site **173 lessons**; calculus M7 now 4 lessons.
+Verified: duality math re-derived in Node; gate ALL GREEN (ran the code; parity warning flags 8/16 MCQ — top-up queued); **headless** — 53 KaTeX/0 errors/rawDollar=0 (incl. display equations),
+calc-lagrange hydrates, 3 deep-dives + code runner present, quiz "Question 1 of 8"; errs=0. SW cache `atlas-v630` → `atlas-v631`.
+
 ## iter 692 — Lesson flow: hand the primary CTA to "Next lesson" once complete (workflow / UI-UX)
 After verifying (no valid targets) that a viz active-state sweep would be wrong — most lab buttons are *actions* and modes use `select()` dropdowns — and that workflow is otherwise well-built
 (prev/next/complete/bookmark/notes/connections all present), landed a small momentum win. In the lesson footer the **primary** button was always "Mark complete"; now once a lesson is done the

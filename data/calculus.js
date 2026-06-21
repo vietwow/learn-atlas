@@ -6147,6 +6147,162 @@
               "solution": "<strong>Solve it.</strong> $\\nabla f = (y, x) = \\lambda(1,1)$ gives $x = y$, and the constraint forces $x = y = \\tfrac{S}{2}$, so the optimal value is $f^* = \\tfrac{S^2}{4}$ and $\\lambda = x = \\tfrac{S}{2}$.\n<strong>λ is the rate the optimum improves as you relax the constraint.</strong> Differentiate the optimal value with respect to the constraint level: $\\dfrac{df^*}{dS} = \\dfrac{d}{dS}\\tfrac{S^2}{4} = \\tfrac{S}{2}$ — exactly $\\lambda$. This is no coincidence (the envelope theorem): the multiplier equals the sensitivity of the best achievable value to loosening the constraint by one unit.\n<strong>Why \"shadow price.\"</strong> If the constraint is a budget, $\\lambda$ is how much more objective you gain per extra dollar — the most you would rationally pay to relax it. At $S = 10$: $\\lambda = 5$, so one more unit of total ($S \\to 11$) buys about $5$ more area.\n<strong>The aha.</strong> The Lagrange multiplier is not just bookkeeping to solve the system — it is a <em>price</em>. It measures how binding the constraint is: a large $\\lambda$ means the constraint costs you a lot, a zero $\\lambda$ means it is not binding at all. That reading drives sensitivity analysis, SVM margins, and regularization strength."
             }
           ]
+        },
+        {
+          "id": "c-duality-kkt",
+          "title": "Lagrangian Duality & the KKT Conditions",
+          "minutes": 18,
+          "content": "<h3>1. The hook: every constrained problem casts a shadow</h3>\n<p>Take a constrained minimization — the <b>primal</b> problem. Hidden inside it is a second optimization, the <b>dual</b>, built from the constraint multipliers. The dual is always a <em>lower bound</em> on the primal, it is always concave (even when the primal is not convex), and for the convex problems at the heart of ML it gives the <em>exact</em> same answer. Duality is how the SVM becomes a kernel method and how \"minimize subject to\" turns into something solvable.</p>\n<h3>2. The Lagrangian, recapped</h3>\n<p>For \"minimize $f(x)$ subject to $g_i(x)\\le 0$ and $h_j(x)=0$\", fold the constraints into one function with multipliers: $$L(x,\\lambda,\\nu)=f(x)+\\sum_i \\lambda_i\\, g_i(x)+\\sum_j \\nu_j\\, h_j(x),\\qquad \\lambda_i\\ge 0.$$ The inequality multipliers $\\lambda_i$ must be nonnegative; the equality multipliers $\\nu_j$ are free.</p>\n<h3>3. The dual function</h3>\n<p>Minimize the Lagrangian over $x$ — with the multipliers held fixed — to get the <b>dual function</b> $$g(\\lambda,\\nu)=\\inf_x L(x,\\lambda,\\nu).$$ Because it is an infimum of functions that are <em>affine</em> in $(\\lambda,\\nu)$, the dual function is always <b>concave</b>, no matter how ugly $f$ and the constraints are. Each feasible $(\\lambda,\\nu)$ with $\\lambda\\ge 0$ hands you a number.</p>\n<h3>4. Weak duality: the dual is a floor</h3>\n<p>For any $\\lambda\\ge 0$, $g(\\lambda,\\nu)\\le p^\\star$, where $p^\\star$ is the primal optimum. The best lower bound is the <b>dual problem</b> $d^\\star=\\max_{\\lambda\\ge 0,\\,\\nu} g(\\lambda,\\nu)$, and <b>weak duality</b> guarantees $d^\\star\\le p^\\star$ always. The shortfall $p^\\star-d^\\star\\ge 0$ is the <b>duality gap</b>.</p>\n<h3>5. Strong duality and Slater's condition</h3>\n<p>When the gap is zero, $d^\\star=p^\\star$ and solving the (often easier, always concave) dual solves the primal. This <b>strong duality</b> holds for convex problems under a mild qualification — <b>Slater's condition</b>: there exists a strictly feasible point (some $x$ with every $g_i(x)\\lt 0$). Most ML formulations satisfy it, which is why duality is so useful in practice.</p>\n<h3>6. The KKT conditions</h3>\n<p>At an optimum of a convex problem with strong duality, $(x^\\star,\\lambda^\\star,\\nu^\\star)$ satisfy the <b>Karush–Kuhn–Tucker</b> conditions: <b>stationarity</b> $\\nabla_x L=0$; <b>primal feasibility</b> $g_i(x^\\star)\\le 0,\\ h_j(x^\\star)=0$; <b>dual feasibility</b> $\\lambda_i^\\star\\ge 0$; and <b>complementary slackness</b> $\\lambda_i^\\star\\, g_i(x^\\star)=0$. The last is the gem: a constraint is either <em>active</em> (tight, $g_i=0$) or its multiplier is zero — the \"support vectors\" of an SVM are exactly the points with active constraints.</p>\n<div data-viz=\"calc-lagrange\"></div>\n<h3>7. A worked dual</h3>\n<p>Minimize $x^2$ subject to $x\\ge 1$. The Lagrangian is $L=x^2+\\lambda(1-x)$; minimizing over $x$ gives $x=\\lambda/2$ and the dual $g(\\lambda)=\\lambda-\\lambda^2/4$. Maximizing over $\\lambda\\ge 0$ gives $\\lambda^\\star=2$, $d^\\star=1$ — equal to the primal optimum $x^\\star=1$, $f=1$. Zero gap, and complementary slackness holds. Run it:</p>\n<div data-code=\"javascript\" data-expected=\"primal x*=1, f=1\ndual lambda*=2, g=1\nduality gap = 0\">// Primal:  minimize x^2  subject to  x >= 1\n// Lagrangian L = x^2 + lambda*(1 - x);  dual g(lambda) = min_x L = lambda - lambda^2/4\nconst g = lam => lam - lam * lam / 4;       // (minimized at x = lambda/2)\nconst lamStar = 2, xStar = lamStar / 2;     // dual optimum: maximize g over lambda >= 0\nconsole.log(\"primal x*=\" + xStar + \", f=\" + (xStar * xStar));\nconsole.log(\"dual lambda*=\" + lamStar + \", g=\" + g(lamStar));\nconsole.log(\"duality gap = \" + (xStar * xStar - g(lamStar)));   // 0 -> strong duality holds</div>\n<h3>8. Why this matters for machine learning</h3>\n<p>The dual is everywhere in ML. The <b>SVM</b> is solved in its dual, where the data appear only as inner products — the opening for the <b>kernel trick</b>. Complementary slackness picks out the <b>support vectors</b>. Regularization is a constraint in disguise (ridge = a norm budget), and Lagrangian relaxation, dual decomposition, and primal–dual methods power large-scale and constrained learning.</p>\n<details class=\"deep-dive\">\n<summary>Deeper dive: why the dual is always concave</summary>\n<p>For each fixed $x$, the map $(\\lambda,\\nu)\\mapsto L(x,\\lambda,\\nu)$ is <em>affine</em> (linear plus a constant) in the multipliers. The dual $g(\\lambda,\\nu)=\\inf_x L$ is therefore a pointwise infimum of affine functions, and an infimum of affine functions is always concave. This is why the dual problem is a concave maximization even when the primal is a wild non-convex mess — and why weak duality gives a usable bound for hard combinatorial problems.</p>\n</details>\n<details class=\"deep-dive\">\n<summary>Deeper dive: complementary slackness, intuitively</summary>\n<p>Complementary slackness says $\\lambda_i^\\star g_i(x^\\star)=0$ for every inequality. Read it as: if a constraint is <em>slack</em> (strictly satisfied, $g_i\\lt 0$) then its price $\\lambda_i^\\star$ is zero — it is not binding, so loosening it buys nothing. If the price is positive, the constraint must be <em>tight</em> ($g_i=0$). The multiplier is a <b>shadow price</b>: it measures how much the optimum would improve per unit of relaxation of an active constraint.</p>\n</details>\n<details class=\"deep-dive\">\n<summary>Deeper dive: the SVM dual in one breath</summary>\n<p>The hard-margin SVM minimizes $\\tfrac12\\lVert w\\rVert^2$ subject to $y_i(w^\\top x_i+b)\\ge 1$. Its dual maximizes $\\sum_i \\alpha_i-\\tfrac12\\sum_{i,j}\\alpha_i\\alpha_j y_i y_j\\, x_i^\\top x_j$ over $\\alpha\\ge 0$. The inputs enter <em>only</em> through the inner products $x_i^\\top x_j$ — replace them with a kernel $k(x_i,x_j)$ and you get nonlinear classification for free. By complementary slackness, only points on the margin have $\\alpha_i\\gt 0$: the support vectors.</p>\n</details>",
+          "mcq": [
+            {
+              "q": "The dual function $g(\\lambda,\\nu)=\\inf_x L(x,\\lambda,\\nu)$ is always:",
+              "choices": [
+                "Concave, regardless of whether the primal is convex",
+                "Convex only if the primal is convex",
+                "Linear in $x$",
+                "Equal to the primal objective"
+              ],
+              "answer": 0,
+              "explain": "An infimum of affine-in-(λ,ν) functions is concave."
+            },
+            {
+              "q": "Weak duality states that:",
+              "choices": [
+                "$d^\\star\\ge p^\\star$ always",
+                "$d^\\star\\le p^\\star$ — the dual optimum lower-bounds the primal optimum",
+                "$d^\\star=p^\\star$ always",
+                "The duality gap is always zero"
+              ],
+              "answer": 1,
+              "explain": "The dual is always a lower bound; equality is strong duality."
+            },
+            {
+              "q": "Strong duality (zero gap) is guaranteed for a convex problem under:",
+              "choices": [
+                "A large enough sample",
+                "Any condition at all",
+                "Slater's condition — a strictly feasible point exists",
+                "Nonnegative objective values"
+              ],
+              "answer": 2,
+              "explain": "Slater's constraint qualification closes the gap for convex problems."
+            },
+            {
+              "q": "Complementary slackness says, for each inequality constraint:",
+              "choices": [
+                "$g_i(x^\\star)\\gt 0$",
+                "$\\lambda_i^\\star=g_i(x^\\star)$",
+                "$\\lambda_i^\\star\\gt 0$ always",
+                "$\\lambda_i^\\star\\, g_i(x^\\star)=0$ — it is active or its multiplier is zero"
+              ],
+              "answer": 3,
+              "explain": "Either the constraint binds (g=0) or its price is zero."
+            },
+            {
+              "q": "In the KKT conditions, dual feasibility requires:",
+              "choices": [
+                "The inequality multipliers satisfy $\\lambda_i\\ge 0$",
+                "The gradient of $f$ is zero",
+                "All constraints are equalities",
+                "$x$ is strictly feasible"
+              ],
+              "answer": 0,
+              "explain": "Inequality multipliers must be nonnegative."
+            },
+            {
+              "q": "The duality gap is defined as:",
+              "choices": [
+                "$d^\\star-p^\\star$",
+                "$p^\\star-d^\\star\\ge 0$",
+                "$f(x)-g(x)$ for any $x$",
+                "Always exactly zero"
+              ],
+              "answer": 1,
+              "explain": "Primal optimum minus dual optimum, nonnegative by weak duality."
+            },
+            {
+              "q": "The SVM is solved in its dual primarily because:",
+              "choices": [
+                "Duality avoids needing labels",
+                "The dual has fewer constraints to type",
+                "The data enter only as inner products, enabling the kernel trick",
+                "The primal has no solution"
+              ],
+              "answer": 2,
+              "explain": "Inner-product-only structure is what kernels exploit."
+            },
+            {
+              "q": "A constraint with multiplier $\\lambda_i^\\star=0$ at the optimum is:",
+              "choices": [
+                "A support vector",
+                "Necessarily violated",
+                "The binding constraint",
+                "Generically inactive — it does not influence the solution"
+              ],
+              "answer": 3,
+              "explain": "Zero price means no pressure: slack, non-binding."
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "The dual function $g(\\lambda,\\nu)$",
+              "back": "$g(\\lambda,\\nu)=\\inf_x L(x,\\lambda,\\nu)$ — minimize the Lagrangian over $x$. Always <b>concave</b> (an inf of affine functions)."
+            },
+            {
+              "front": "Weak duality",
+              "back": "$d^\\star\\le p^\\star$ always: the dual optimum is a lower bound on the primal optimum. The difference is the <b>duality gap</b>."
+            },
+            {
+              "front": "Strong duality (and when it holds)",
+              "back": "$d^\\star=p^\\star$ (zero gap). Holds for convex problems under <b>Slater's condition</b> (a strictly feasible point exists)."
+            },
+            {
+              "front": "The four KKT conditions",
+              "back": "Stationarity ($\\nabla_x L=0$), primal feasibility, dual feasibility ($\\lambda\\ge 0$), and complementary slackness ($\\lambda_i g_i(x)=0$)."
+            },
+            {
+              "front": "Complementary slackness",
+              "back": "$\\lambda_i^\\star g_i(x^\\star)=0$: each inequality is either active ($g_i=0$) or has zero multiplier. Picks out SVM support vectors."
+            },
+            {
+              "front": "Why is the SVM solved in its dual?",
+              "back": "The dual depends on data only through inner products $x_i^\\top x_j$ — enabling the kernel trick; support vectors are the points with $\\alpha_i\\gt 0$."
+            }
+          ],
+          "homework": [
+            {
+              "prompt": "State weak duality and explain why it holds for <em>any</em> optimization problem, convex or not.",
+              "hint": "Think about what $g(\\lambda)$ is an infimum of.",
+              "solution": "Weak duality: $d^\\star\\le p^\\star$. For any feasible primal $x$ and any $\\lambda\\ge 0$, $L(x,\\lambda)=f(x)+\\sum_i\\lambda_i g_i(x)\\le f(x)$ (since $\\lambda_i\\ge 0$ and $g_i(x)\\le 0$). Taking $\\inf_x$ on the left gives $g(\\lambda)\\le f(x)$ for every feasible $x$, hence $g(\\lambda)\\le p^\\star$; maximizing over $\\lambda$ gives $d^\\star\\le p^\\star$. Convexity is never used — it only matters for closing the gap."
+            },
+            {
+              "prompt": "For \"minimize $x^2$ subject to $x\\ge 2$\", form the Lagrangian, find the dual function, and the dual optimum.",
+              "hint": "Constraint as $2-x\\le 0$.",
+              "solution": "$L=x^2+\\lambda(2-x)$. Minimizing over $x$: $x=\\lambda/2$, so $g(\\lambda)=(\\lambda/2)^2+\\lambda(2-\\lambda/2)=2\\lambda-\\lambda^2/4$. Maximize over $\\lambda\\ge 0$: $g'(\\lambda)=2-\\lambda/2=0\\Rightarrow\\lambda^\\star=4$, $d^\\star=2\\cdot4-4=4$. This equals the primal optimum $x^\\star=2$, $f=4$ — zero gap."
+            },
+            {
+              "prompt": "What does complementary slackness tell you about a constraint that is strictly satisfied at the optimum?",
+              "hint": "If $g_i(x^\\star)\\lt 0$ then ...?",
+              "solution": "If $g_i(x^\\star)\\lt 0$ (the constraint is slack/not binding), then complementary slackness $\\lambda_i^\\star g_i(x^\\star)=0$ forces $\\lambda_i^\\star=0$. The constraint exerts no \"pressure\" on the solution — relaxing it would not change the optimum (its shadow price is zero)."
+            }
+          ],
+          "examples": [
+            {
+              "title": "Reading the KKT conditions",
+              "body": "For $\\min x^2$ s.t. $x\\ge 1$, the optimum is $x^\\star=1$. Verify the KKT conditions hold with $\\lambda^\\star=2$.",
+              "solution": "Constraint $g(x)=1-x\\le 0$, $L=x^2+\\lambda(1-x)$. Stationarity: $\\partial_x L=2x-\\lambda=0\\Rightarrow x=\\lambda/2=1$ ✓. Primal feasibility: $1-1=0\\le 0$ ✓. Dual feasibility: $\\lambda=2\\ge 0$ ✓. Complementary slackness: $\\lambda(1-x)=2\\cdot 0=0$ ✓. All four hold, confirming optimality."
+            },
+            {
+              "title": "Active vs inactive constraints",
+              "body": "You solve a problem with two inequality constraints and find $\\lambda_1^\\star=3$, $\\lambda_2^\\star=0$. What does each tell you?",
+              "solution": "$\\lambda_1^\\star=3\\gt 0$ means constraint 1 is <b>active</b> (binding, $g_1(x^\\star)=0$) and has a positive shadow price — tightening it would cost you. $\\lambda_2^\\star=0$ means constraint 2 is (generically) <b>inactive</b>: it is satisfied with slack and does not influence the optimum. This is complementary slackness in action."
+            },
+            {
+              "title": "Why the kernel trick works",
+              "body": "An SVM's dual objective contains the data only as $x_i^\\top x_j$. Why does that enable nonlinear classification?",
+              "solution": "Since the inputs appear only through inner products, you can replace $x_i^\\top x_j$ with a kernel $k(x_i,x_j)=\\phi(x_i)^\\top\\phi(x_j)$ for some (possibly infinite-dimensional) feature map $\\phi$ — without ever computing $\\phi$. The dual stays the same size (one $\\alpha_i$ per point), so you get a nonlinear decision boundary at the cost of a linear one. This is only visible <em>in the dual</em>."
+            }
+          ]
         }
       ]
     }
