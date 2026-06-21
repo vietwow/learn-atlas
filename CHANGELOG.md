@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 726 — Cross-embed the curse-of-dimensionality viz into kNN (visualizations / curation)
+Verified the new viz pass the **true-390px mobile gate** (iframe-wrapped — the densest, llm-moe-router, renders legibly with no overflow), and confirmed hard-concept depth is thorough (batch-norm's
+"two stories" and SGD's implicit-regularization deep-dives already exist). Then a genuine curation win: the curse of dimensionality is *kNN's* defining weakness, and `ml-knn` §6 explained it in text only.
+Cross-embedded the new **`ml-curse-dimensionality`** viz there — so learners see the distance-concentration that breaks kNN, in the lesson about kNN. `ml-knn` now has 2 viz (its own + the curse).
+Verified: data parses; gate ALL GREEN; **headless** — ml-knn renders 2 canvases, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v662` → `atlas-v663`.
+
 ## iter 725 — Library: canonical resources for the modern lessons (reference)
 The recent MoE/ViT/DR lessons added current content, but the Library held only the classics for those topics. Added 3 canonical resources: the **ViT paper** ("An Image is Worth 16×16 Words") to Deep
 Learning, **"Mixture of Experts Explained"** (Hugging Face) to LLMs, and **Distill's "How to Use t-SNE Effectively"** to Machine Learning (which perfectly complements the lesson's "why t-SNE distances
