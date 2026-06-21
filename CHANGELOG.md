@@ -2,6 +2,14 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 711 — NEW lesson: Mixture of Experts (content)
+Filled a genuine *current* gap: the LLM topic covered transformers thoroughly but had no lesson on **Mixture of Experts** — the sparse-expert architecture behind Mixtral, Switch Transformer, DeepSeek,
+and (reportedly) GPT-4 (only passing mentions in the frontier lesson). Added `l-mixture-of-experts` "Mixture of Experts: Scaling with Sparsity" to LLM M2 (The Transformer Architecture): 8 sections
+(the MoE layer · top-k routing · the sparsity win · load balancing/router collapse · memory & all-to-all communication cost · where it's used · conditional computation), a runnable **active-vs-total
+params code exercise** (8 experts top-2 → 850M total / 250M active / 71% compute saved), **3 deep-dives** (the gating network · load-balance loss & expert capacity · dense-vs-sparse tradeoff), **6 flashcards,
+3 examples, 3 homework, 8 MCQs** (2/2/2/2, keys asserted). Site **175 lessons**; LLM M2 now 5 lessons.
+Verified: param math re-derived in Node; gate ALL GREEN (ran the code; parity warning flags 8/16 — top-up queued); **headless** — 27 KaTeX/0 errors/rawDollar=0, 3 deep-dives + code runner present, quiz "Question 1 of 8"; errs=0. SW cache `atlas-v647` → `atlas-v648`.
+
 ## iter 710 — Stamp out the last stale "original-6-topics" literal + clean visual/count audit (bug / workflow)
 Continued iter 709's fresh-eyes review across the dashboard, Knowledge Map, **Achievements**, and **Progress** pages — all polished and consistent (achievements show 62/62, all 62 categorized,
 counts dynamic; my earlier "42" read was a small-text misread). The stale-count grep is clean: README/meta/intro all correctly say "nine subjects" and list all 9.

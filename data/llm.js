@@ -1725,6 +1725,162 @@
               "solution": "<strong>Rotate by an angle proportional to position.</strong> RoPE splits each vector into 2-D pairs and rotates pair $i$ at position $m$ by angle $m\\theta_i$, with $\\theta_i = 10000^{-2i/d}$ (low dimensions spin fast, high dimensions slow — like sinusoidal frequencies, but applied as a rotation).\n<strong>The inner product depends only on the offset.</strong> For a query at position $m$ and a key at position $n$, the attention score is $\\langle R_m q,\\, R_n k\\rangle = \\langle q,\\, R_{n-m}\\, k\\rangle$ — the two rotations combine into a single rotation by $n - m$. So the score depends on the <em>relative</em> distance $n-m$, not the absolute positions. That is exactly what you want: \"3 tokens back\" should mean the same thing everywhere in the sequence.\n<strong>Why it matters.</strong> Relative position generalizes better to lengths unseen in training (a big reason RoPE is standard in modern LLMs like LLaMA), needs no extra parameters, and slots directly into the existing dot-product attention.\n<strong>The aha.</strong> Absolute encodings say \"you are at position 7\"; RoPE says \"you are 4 apart.\" By turning position into a rotation, the relative geometry falls out of the dot product for free — a small change with outsized benefits for long-context modeling."
             }
           ]
+        },
+        {
+          "id": "l-mixture-of-experts",
+          "title": "Mixture of Experts: Scaling with Sparsity",
+          "minutes": 16,
+          "content": "<h3>1. The hook: more parameters without more compute</h3>\n<p>Scaling laws say bigger models are better — but every extra parameter in a dense network costs compute on <em>every</em> token. <b>Mixture of Experts (MoE)</b> breaks that link: it holds a huge bank of parameters but routes each token through only a small slice of them. You get the knowledge capacity of a giant model at the inference cost of a small one. It is how Mixtral, Switch Transformer, and (reportedly) GPT-4 reach their scale.</p>\n<h3>2. The MoE layer: experts + a router</h3>\n<p>Inside a transformer block, replace the single feed-forward network (FFN) with $N$ parallel FFNs — the <b>experts</b> — plus a tiny <b>router</b> (gating network). For each token, the router scores the experts and sends the token to just a few of them; their outputs are combined. Attention and embeddings are shared; only the FFN becomes sparse.</p>\n<h3>3. Top-$k$ routing</h3>\n<p>The router is a small linear layer producing a score per expert; a softmax turns scores into weights, and the token is dispatched to its <b>top-$k$</b> experts (often $k=1$ or $2$). The combined output is the gate-weighted sum $y=\\sum_{i\\in\\text{top-}k} g_i\\,E_i(x)$, where $g_i$ are the (renormalized) gate weights and $E_i$ the chosen experts. Because only $k$ of $N$ experts run, compute stays flat as $N$ grows.</p>\n<h3>4. The sparsity win</h3>\n<p>MoE <b>decouples capacity from compute</b>. With $N$ experts and top-$k$ routing, total parameters scale with $N$ but the FLOPs per token scale with $k$. An 8-expert, top-2 layer has the parameter budget of 8 FFNs but the compute of 2. Run the numbers:</p>\n<div data-code=\"javascript\" data-expected=\"total params:  850M\nactive/token:  250M\ncompute saved: 71%\">// MoE: total parameters vs ACTIVE parameters per token\nconst numExperts = 8, topK = 2;\nconst expertParams = 100;   // (millions) per expert FFN\nconst sharedParams = 50;    // attention + embeddings, always active\nconst total  = sharedParams + numExperts * expertParams;\nconst active = sharedParams + topK * expertParams;\nconsole.log(\"total params:  \" + total + \"M\");\nconsole.log(\"active/token:  \" + active + \"M\");\nconsole.log(\"compute saved: \" + Math.round((1 - active / total) * 100) + \"%\");\n// 850M of capacity, but each token only pays for 250M -- the MoE bargain.</div>\n<h3>5. The load-balancing problem</h3>\n<p>Left alone, the router tends to <b>collapse</b>: a few experts get all the tokens (and all the gradient), the rest atrophy. The fix is an <b>auxiliary load-balancing loss</b> that rewards spreading tokens evenly, plus an <b>expert capacity</b> cap (tokens beyond an expert's quota are dropped or routed elsewhere). Balancing the router is the central engineering challenge of training MoE.</p>\n<h3>6. The catch: memory and communication</h3>\n<p>Sparsity saves FLOPs, not memory: <em>all</em> $N$ experts must sit in memory even though each token uses $k$. At scale the experts are sharded across devices, so routing triggers <b>all-to-all communication</b> every layer — often the real bottleneck. MoE also trains less stably than a dense model of equal compute, needing careful initialization and routing tricks.</p>\n<h3>7. Where it is used</h3>\n<p>The <b>Switch Transformer</b> (top-1) showed MoE scales to trillions of parameters; <b>Mixtral 8×7B</b> (top-2 of 8) made open-weight MoE mainstream; <b>DeepSeek-MoE</b> and (by widespread report) <b>GPT-4</b> use it. The pattern: a model that is \"large\" in capacity but \"small\" in per-token cost.</p>\n<h3>8. The big picture</h3>\n<p>MoE is the clearest expression of a modern theme — <b>conditional computation</b>: don't run the whole network on every input, run the relevant part. It buys capacity cheaply, at the price of memory and routing complexity, and is now a default tool for scaling frontier models.</p>\n<details class=\"deep-dive\">\n<summary>Deeper dive: the gating network, precisely</summary>\n<p>The router computes logits $h=W_r x$ (one per expert), softmaxes them, and keeps the top-$k$: $g=\\text{softmax}(\\text{top-}k(h))$, renormalized over the kept experts. Only those $k$ experts run; the output is $\\sum_i g_i E_i(x)$. The gate weights make routing differentiable for the chosen experts — but the discrete top-$k$ choice itself is not, which is why noisy/auxiliary tricks are used to keep all experts in play during training.</p>\n</details>\n<details class=\"deep-dive\">\n<summary>Deeper dive: load balancing and expert capacity</summary>\n<p>An auxiliary loss penalizes the product of (fraction of tokens routed to expert $i$) and (mean gate probability for $i$), which is minimized when both are uniform — nudging the router toward even usage. Separately, each expert has a <b>capacity</b> (a token budget per batch); overflow tokens are dropped (skip the layer via the residual) or rerouted. Too tight a capacity wastes tokens; too loose wastes compute — a real tuning knob.</p>\n</details>\n<details class=\"deep-dive\">\n<summary>Deeper dive: dense vs sparse — what you actually trade</summary>\n<p>Versus a dense model of the <em>same FLOPs</em>, MoE has far more parameters (more knowledge) — usually a quality win. Versus a dense model of the <em>same parameters</em>, MoE is much cheaper to run but typically a bit weaker per-parameter and harder to train. So MoE shines when memory/serving capacity is available but per-token compute is the binding constraint — exactly the regime of large-scale inference.</p>\n</details>",
+          "mcq": [
+            {
+              "q": "A Mixture-of-Experts layer replaces a transformer block's:",
+              "choices": [
+                "Feed-forward network with $N$ parallel experts plus a router",
+                "Attention with a router",
+                "Embeddings with experts",
+                "Layer norm with a gate"
+              ],
+              "answer": 0,
+              "explain": "MoE makes the FFN sparse; attention/embeddings stay shared."
+            },
+            {
+              "q": "In top-$k$ routing, each token is processed by:",
+              "choices": [
+                "All $N$ experts",
+                "Only its top-$k$ experts (often $k=1$ or $2$), not all $N$",
+                "Exactly half the experts",
+                "A randomly chosen expert"
+              ],
+              "answer": 1,
+              "explain": "Sparsity: only k of N experts run per token."
+            },
+            {
+              "q": "MoE's core benefit is that it:",
+              "choices": [
+                "Eliminates the need for attention",
+                "Reduces total parameters",
+                "Decouples parameter capacity (scales with $N$) from per-token compute (scales with $k$)",
+                "Removes all training instability"
+              ],
+              "answer": 2,
+              "explain": "Capacity grows with N; FLOPs/token with k."
+            },
+            {
+              "q": "The router (gating network) in an MoE layer:",
+              "choices": [
+                "Computes the attention weights",
+                "Averages all expert outputs equally",
+                "Is a fixed, non-learned hash",
+                "Scores the experts and dispatches each token to its top-$k$"
+              ],
+              "answer": 3,
+              "explain": "A small learned linear layer + softmax selects experts."
+            },
+            {
+              "q": "Without intervention, an MoE router tends to:",
+              "choices": [
+                "Collapse — a few experts get most tokens while the rest atrophy",
+                "Distribute tokens perfectly evenly",
+                "Disable itself",
+                "Route every token to all experts"
+              ],
+              "answer": 0,
+              "explain": "Collapse is the central training failure mode."
+            },
+            {
+              "q": "The auxiliary load-balancing loss exists to:",
+              "choices": [
+                "Increase the number of experts",
+                "Encourage roughly uniform token distribution across experts",
+                "Speed up attention",
+                "Reduce total parameters"
+              ],
+              "answer": 1,
+              "explain": "It counters router collapse by rewarding even usage."
+            },
+            {
+              "q": "A key cost MoE does NOT avoid is:",
+              "choices": [
+                "Storing the router",
+                "Per-token FLOPs",
+                "Memory — all $N$ experts must be resident (plus all-to-all communication when sharded)",
+                "Computing the gate softmax"
+              ],
+              "answer": 2,
+              "explain": "Sparsity saves compute, not memory/communication."
+            },
+            {
+              "q": "MoE is the clearest example of which modern principle?",
+              "choices": [
+                "Gradient clipping",
+                "Dense computation — run everything every time",
+                "Data augmentation",
+                "Conditional computation — run only the relevant part of the network per input"
+              ],
+              "answer": 3,
+              "explain": "Route each input through a relevant sub-network."
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "What is a Mixture-of-Experts (MoE) layer?",
+              "back": "The transformer's single FFN replaced by $N$ parallel expert FFNs plus a router that sends each token to only a few experts."
+            },
+            {
+              "front": "Top-$k$ routing",
+              "back": "A gating network scores the experts; each token goes to its top-$k$ (often 1–2); outputs are combined as a gate-weighted sum $\\sum_i g_i E_i(x)$."
+            },
+            {
+              "front": "The MoE win (capacity vs compute)",
+              "back": "Total parameters scale with the number of experts $N$, but FLOPs/token scale only with $k$ — capacity is decoupled from per-token compute."
+            },
+            {
+              "front": "Why does MoE need load balancing?",
+              "back": "Without it the router collapses onto a few experts; an auxiliary loss + expert-capacity cap spread tokens evenly."
+            },
+            {
+              "front": "What does MoE NOT save?",
+              "back": "Memory — all $N$ experts must be resident; and it adds all-to-all communication when experts are sharded across devices."
+            },
+            {
+              "front": "Conditional computation",
+              "back": "The general principle MoE embodies: run only the relevant part of a large network per input, rather than the whole thing."
+            }
+          ],
+          "homework": [
+            {
+              "prompt": "An MoE layer has 16 experts with top-1 routing; each expert is 200M params, and 100M params are shared (always active). Give the total and the active-per-token parameter counts.",
+              "hint": "active = shared + k·expert.",
+              "solution": "Total $=100+16\\times200=3300$M. Active/token $=100+1\\times200=300$M. So 3.3B of capacity at the per-token cost of 300M — roughly an 11× capacity-to-compute ratio."
+            },
+            {
+              "prompt": "Why does increasing the number of experts $N$ raise model capacity but not per-token FLOPs?",
+              "hint": "What scales with N vs k?",
+              "solution": "Total parameters grow with $N$ (more experts stored), but each token is still routed to only $k$ experts, so the matrix multiplies it actually performs depend on $k$, not $N$. Capacity (parameters) scales with $N$; compute (FLOPs/token) scales with $k$."
+            },
+            {
+              "prompt": "What goes wrong if you train an MoE without a load-balancing objective, and how is it fixed?",
+              "hint": "Router collapse.",
+              "solution": "The router collapses: a few experts receive most tokens and gradients, so the rest never learn (wasted capacity). An auxiliary load-balancing loss encourages uniform expert usage, and an expert-capacity cap bounds tokens per expert — together keeping all experts active."
+            }
+          ],
+          "examples": [
+            {
+              "title": "Counting active parameters",
+              "body": "Mixtral 8×7B routes each token to 2 of 8 experts. Roughly what fraction of its expert parameters is active per token?",
+              "solution": "About $2/8 = 1/4$ of the expert parameters per token. That is why Mixtral has ~47B total parameters but only ~13B are active per token — it runs at roughly the cost of a 13B dense model while storing far more knowledge. (Attention/embeddings are shared and always active, which is why active params are not exactly 1/4 of total.)"
+            },
+            {
+              "title": "Router collapse",
+              "body": "Early in training, you notice 2 of your 8 experts handle 90% of tokens. What is happening and what do you add?",
+              "solution": "The router has collapsed onto a couple of experts — a self-reinforcing loop (favored experts improve fastest, so the router favors them more). Add an auxiliary load-balancing loss (and/or noise to the router logits) to reward even token distribution, and set an expert-capacity cap so no expert can monopolize the batch."
+            },
+            {
+              "title": "When to choose MoE",
+              "body": "You can serve a model with lots of GPU memory but need low per-token latency at scale. Dense or MoE?",
+              "solution": "MoE. You have the memory to hold all experts, and MoE's low per-token FLOPs give you the latency/throughput of a much smaller dense model while keeping large capacity. If instead memory were the constraint (e.g. edge deployment), a dense model of equal parameters would be the better fit."
+            }
+          ]
         }
       ]
     },
