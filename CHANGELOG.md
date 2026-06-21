@@ -2,6 +2,15 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 603 — SVM maximum-margin visualization — the 101st widget (visualizations)
+The Machine Learning topic had viz for kNN, trees, regressions, k-means, ensembles, and model-selection — but **SVM, the most *visual* classical model, had none**. Added
+**`ml-svm-viz` "SVM: the maximum-margin boundary & support vectors"**: two classes split by a rotated max-margin boundary with dashed margin lines + a shaded band, and
+the points on the margin **circled as support vectors**. A **C slider** (margin hardness) shows the core trade-off live — large C → a hard, narrow margin with **few**
+support vectors; small C → a wide, soft margin with **many** — and reinforces that only the support vectors define the boundary. Embedded in ml-svm right before the
+"Support vectors" section. (ML lessons still without a viz: regularization, naive-bayes — candidates for later.)
+Verified: gate ALL GREEN (now **101 widgets**); **headless** — Lab + lesson canvases hydrate; the support-vector count tracks C correctly (**soft C=0.5 → 10 SVs**,
+**hard C=10 → 2 SVs**); kErr=0, errs=0; screenshot confirms the boundary, margin band, and gold-circled support vectors render. SW cache `atlas-v543` → `atlas-v544`.
+
 ## iter 602 — Glossary: the 12 most-fundamental terms that were missing (reference)
 The glossary had 192 terms but — by oversight — was missing some of the most *basic* vocabulary a learner meets on day one, so hovering them inline gave nothing.
 Added the 12 genuinely-absent fundamentals (dup-checked against existing forms): **Supervised / Unsupervised learning, Feature, Label, Hyperparameter, Underfitting,

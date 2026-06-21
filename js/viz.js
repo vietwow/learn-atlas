@@ -5579,4 +5579,54 @@
     draw();
   });
 
+
+  /* ========================================================
+     101. SVM: the maximum-margin boundary & support vectors (Machine Learning)
+     ======================================================== */
+  register({ id: 'ml-svm-viz', topic: 'machine-learning', title: 'SVM: the maximum-margin boundary & support vectors', blurb: 'Two classes split by a linear boundary. An SVM picks the boundary with the widest margin — and only the points ON the margin (the support vectors, circled) determine it; deleting any other point changes nothing. Drag C: a large C demands a hard, narrow margin (few support vectors); a small C allows a wider, softer margin (more support vectors), trading margin width against violations.' },
+  function (root) {
+    const W = 540, H = 360;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    let C = 6;
+    // points in a frame where signed distance to the boundary = fx (class = sign(fx)); fy runs along it
+    const PTS = [
+      [0.5, 0.2], [0.9, -0.4], [1.4, 0.5], [0.6, -0.8], [1.1, 0.9], [1.8, -0.1],   // class +1
+      [-0.5, -0.3], [-0.9, 0.4], [-1.4, -0.5], [-0.6, 0.8], [-1.1, -0.9], [-1.8, 0.1] // class -1
+    ];
+    const th = 0.42, cs = Math.cos(th), sn = Math.sin(th), s = 66, cx = W / 2, cy = H / 2;
+    const map = (fx, fy) => [cx + (fx * cs - fy * sn) * s, cy - (fx * sn + fy * cs) * s];
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const m = 0.5 + 1.1 * (1 - (C - 0.1) / 9.9);   // margin half-width: big C -> narrow, small C -> wide
+      // margin band (shaded)
+      const b1 = map(m, -3), b2 = map(m, 3), b3 = map(-m, 3), b4 = map(-m, -3);
+      ctx.fillStyle = p.gold; ctx.globalAlpha = 0.08; ctx.beginPath(); ctx.moveTo(b1[0], b1[1]); ctx.lineTo(b2[0], b2[1]); ctx.lineTo(b3[0], b3[1]); ctx.lineTo(b4[0], b4[1]); ctx.closePath(); ctx.fill(); ctx.globalAlpha = 1;
+      // margin lines (dashed) + boundary (solid)
+      ctx.strokeStyle = p.mute; ctx.lineWidth = 1; ctx.setLineDash([4, 4]);
+      [m, -m].forEach(off => { const a = map(off, -3), b = map(off, 3); ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke(); });
+      ctx.setLineDash([]); ctx.strokeStyle = p.ink; ctx.lineWidth = 2;
+      { const a = map(0, -3), b = map(0, 3); ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke(); }
+      // points; support vectors = within/on the margin (|fx| <= m)
+      let nsv = 0;
+      PTS.forEach(pt => {
+        const [px, py] = map(pt[0], pt[1]); const sv = Math.abs(pt[0]) <= m + 0.001; if (sv) nsv++;
+        const col = pt[0] > 0 ? p.violet : p.rust;
+        if (sv) { ctx.strokeStyle = p.gold; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(px, py, 10, 0, 7); ctx.stroke(); }
+        ctx.fillStyle = col; ctx.strokeStyle = p.bg; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(px, py, 6, 0, 7); ctx.fill(); ctx.stroke();
+      });
+      // labels
+      ctx.fillStyle = p.mute; ctx.font = '11px ' + (cssVar('--font-mono') || 'monospace'); ctx.textAlign = 'center';
+      const tlab = map(0, 3); ctx.fillText('boundary', tlab[0], tlab[1] - 8);
+      info.innerHTML = 'C = <b>' + C.toFixed(1) + '</b> &middot; margin width <b style="color:' + p.gold + '">' + (2 * m).toFixed(2) + '</b> &middot; <b>' + nsv + '</b> support vector' + (nsv === 1 ? '' : 's') + ' (circled).<br>' + (C >= 5 ? 'High C: a hard, narrow margin — few support vectors, little tolerance for violations (low bias, higher variance).' : C <= 1 ? 'Low C: a wide, soft margin — many support vectors, more violations tolerated (higher bias, lower variance).' : 'Only the support vectors touch the margin; every other point could be deleted without moving the boundary.');
+    }
+    slider(ctl, { label: 'C (margin hardness)', min: 0.1, max: 10, step: 0.1, value: C, fmt: v => v.toFixed(1), onInput: v => { C = v; draw(); } });
+    button(ctl, 'soft (C=0.5)', function () { C = 0.5; draw(); });
+    button(ctl, 'hard (C=10)', function () { C = 10; draw(); });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Support vector machine visualizer: two classes (violet and rust points) separated by a solid maximum-margin boundary with two dashed margin lines and a shaded margin band. Points lying on or inside the margin are the support vectors, circled in gold. A slider for C sets the margin hardness: large C gives a narrow margin with few support vectors; small C gives a wide, soft margin with more support vectors. Only the support vectors determine the boundary.');
+    draw();
+  });
+
 })();

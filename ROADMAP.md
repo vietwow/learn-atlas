@@ -182,6 +182,9 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    each showing upstream×local (incl. ∂L/∂z₁=∂L/∂a₁·σ′(z₁)); σ↔ReLU toggle shows vanishing vs gating. Embedded in dl-backpropagation;
    viz-complete →88. Verified: gate GREEN; headless lab route errs=0/canvas, steps 0→fwd4→back4 (8/8), toggle+reset work; lesson route
    2 canvases hydrate, kErr=0; screenshot eyeballed. SW →v366.
+   ✅ iter 603: **SVM maximum-margin viz — 101st widget** (visualizations). ml-svm-viz: rotated max-margin boundary + dashed margins + shaded band + gold-circled
+   support vectors; C slider trades margin width for SV count (soft C=0.5→10 SVs, hard C=10→2). Embedded in ml-svm. (ML still without viz: regularization, naive-bayes.)
+   Verified: gate GREEN (101 widgets); headless SV count tracks C, kErr=0/errs=0; screenshot. SW →v544.
    ✅ iter 602: **Glossary: 12 missing fundamentals** (reference). Added the most basic day-one vocabulary that was absent — Supervised/Unsupervised learning, Feature,
    Label, Hyperparameter, Underfitting, One-hot encoding, Bootstrap, Tensor, Sigmoid, Transfer learning, Tokenization. Glossary 192→204. Verified: gate GREEN; lean
    headless (dump-dom) 6/6 render, kErr=0/errs=0. SW →v543.
