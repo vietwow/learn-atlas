@@ -2,6 +2,14 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 666 — Gate: skip data-code blocks in the render/tag lints (tooling)
+Fixed the false-positive class I hit last iteration: the gate's KaTeX `$`-parity and HTML tag-balance lints ran over the *whole* lesson content, including `<div data-code>` exercises whose
+code/expected-output legitimately contain `$` (template literals), `<`, `%`, etc. — so a code exercise with an odd number of `$` would wrongly fail the math check (forcing awkward even-`$`
+authoring). Now `gate.js` strips `data-code` blocks before `checkRender`/`tagBalance`; the code is still fully validated by being **executed** and output-checked (unchanged). Real math in
+prose is still linted exactly as before.
+Verified: gate.js parses; gate ALL GREEN (no regression — all current content still passes; 123 code-exercises still run & verify); self-test confirms a code block with three template-literal
+`${…}` (odd `$`) now passes the parity lint after stripping while a `$\mu$` prose pair is preserved. No SW bump (gate is a dev-time tool, not a served asset).
+
 ## iter 665 — Bayesian module: decision code exercise — all 4 Bayesian lessons now have hands-on code (examples / understandability)
 Final Bayesian code exercise, in `ps-bayesian-decisions`: an **expected-loss decision** (P(helps)=0.7, ship-harm cost 10, withhold-good cost 3 → E[ship]=3.0 vs E[withhold]=2.1 →
 **withhold**), showing that asymmetric costs can outweigh "probably helps". **All four Module-6 lessons now carry a runnable, gate-verified code exercise.** Site code-exercises **122 → 123**.

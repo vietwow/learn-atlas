@@ -74,8 +74,12 @@ function tagBalance(s, where) {
 C.forEach(c => c.modules.forEach(m => m.lessons.forEach(l => {
   lessons++; if (ids.has(l.id)) errors.push("duplicate lesson id: " + l.id); ids.add(l.id); topicOf[l.id] = c.id;
   const ansPos = {}, stems = {};
-  checkRender(l.content, l.id + ".content");
-  tagBalance(l.content, l.id + ".content");
+  // Strip <div data-code …>…</div> blocks before the render/tag lints: the code and its expected-output
+  // legitimately contain `$` (template literals), `<`, `%` etc. that are NOT KaTeX/HTML and must not trip
+  // the math-$-parity or tag-balance checks. The code itself is still validated by running it (below).
+  const contentLint = String(l.content || "").replace(/<div\s+data-code="[a-z]+"\s+data-expected="[^"]*"\s*>[\s\S]*?<\/div>/g, " ");
+  checkRender(contentLint, l.id + ".content");
+  tagBalance(contentLint, l.id + ".content");
   (l.mcq || []).forEach((q, i) => {
     mcq++;
     const choices = Array.isArray(q.choices) ? q.choices : [];
