@@ -6747,4 +6747,55 @@
     draw();
   });
 
+
+  /* ========================================================
+     124. Vision Transformer patchify (Deep Learning)
+     ======================================================== */
+  register({ id: 'dl-vit-patchify', topic: 'deep-learning', title: 'Vision Transformer: an image becomes a sequence of patches', blurb: 'A ViT chops an image into a grid of fixed-size patches and treats each patch as a token — so the image becomes a sequence the transformer can attend over. Slide the patch size: smaller patches give more tokens (finer detail) but cost grows fast, because self-attention is O(n²) in the number of patches. The strip on the right is the resulting token sequence.' },
+  function (root) {
+    const W = 540, H = 330;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    let d = 7;                          // patches per side
+    const IMG = 220, ix = 24, iy = 40;  // image square
+    function imgColor(u, v) {           // a smooth "image": diagonal gold gradient + a soft blob
+      const blob = Math.exp(-(((u - 0.65) ** 2 + (v - 0.35) ** 2) / 0.06));
+      return 0.25 + 0.55 * (u * 0.5 + (1 - v) * 0.5) + 0.4 * blob;   // 0..~1 intensity
+    }
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = p.mute; ctx.font = '11px ' + (cssVar('--font-mono') || 'monospace'); ctx.textAlign = 'left';
+      ctx.fillText('image → ' + (d * d) + ' patches', ix, 26);
+      ctx.textAlign = 'right'; ctx.fillText('token sequence', W - 18, 26); ctx.textAlign = 'left';
+      // draw the patchified image
+      const cell = IMG / d;
+      for (let r = 0; r < d; r++) for (let col = 0; col < d; col++) {
+        const u = (col + 0.5) / d, v = (r + 0.5) / d, t = Math.max(0, Math.min(1, imgColor(u, v)));
+        // tint from panel to gold by intensity
+        ctx.fillStyle = 'rgba(224,164,88,' + (0.12 + 0.8 * t) + ')';
+        ctx.fillRect(ix + col * cell, iy + r * cell, cell - 1.2, cell - 1.2);
+      }
+      ctx.strokeStyle = p.line; ctx.lineWidth = 1; ctx.strokeRect(ix, iy, IMG, IMG);
+      // token strip on the right: N small squares wrapped in a column band
+      const N = d * d, sx = ix + IMG + 26, sw = W - sx - 16;
+      const cols = Math.max(1, Math.floor(sw / 16)), ts = Math.min(15, Math.floor(sw / cols) - 2);
+      for (let i = 0; i < N; i++) {
+        const u = ((i % d) + 0.5) / d, v = (Math.floor(i / d) + 0.5) / d, t = Math.max(0, Math.min(1, imgColor(u, v)));
+        const tc = i % cols, tr = Math.floor(i / cols);
+        const x = sx + tc * (ts + 2), y = iy + tr * (ts + 2);
+        if (y + ts > iy + IMG + 2) continue;   // clip overflow gracefully
+        ctx.fillStyle = 'rgba(108,174,143,' + (0.2 + 0.75 * t) + ')';
+        ctx.fillRect(x, y, ts, ts);
+      }
+      const seq = N + 1, cost = N * N;
+      info.innerHTML = 'patch grid <b>' + d + '×' + d + '</b> → <b>' + N + '</b> patch-tokens (+[CLS] = ' + seq + ') &middot; attention cost ∝ n² = <b>' + cost.toLocaleString() + '</b>. ' +
+        (d >= 12 ? 'Many small patches: fine detail, but n² attention is now very expensive.' : 'Bigger patches = fewer tokens = cheaper attention, at the cost of spatial detail.');
+    }
+    slider(ctl, { label: 'patches per side', min: 2, max: 14, step: 1, value: d, fmt: v => v + '×' + v, onInput: v => { d = v; draw(); } });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Vision-Transformer patchify visualizer: an image on the left is divided into a d-by-d grid of patches; a slider sets d. The right strip shows the resulting d-squared patch-tokens as a sequence. The readout reports the token count (plus a CLS token) and that self-attention cost grows as n-squared in the number of patches, so smaller patches give finer detail but much higher cost.');
+    draw();
+  });
+
 })();

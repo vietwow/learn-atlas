@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 719 — NEW viz: Vision Transformer patchify → DL viz COMPLETE again (visualizations)
+Gave the new ViT lesson its visual. Built the **124th widget, `dl-vit-patchify` "Vision Transformer: an image becomes a sequence of patches"**: a patchified image (d×d grid over a gradient/blob) on the
+left, the resulting d² patch-tokens as a sequence strip on the right, and a patches-per-side slider showing the token count grow as d² with the readout "attention cost ∝ n²" — making the patch-size /
+sequence-length / compute tradeoff tangible. Embedded at the patchify section of `dl-vision-transformers`. **Deep Learning is back to fully viz-covered (23/23).**
+Verified: counts re-derived (d=4→16, d=14→196 tokens); gate ALL GREEN (now **124 widgets**); **headless** — Lab + lesson hydrate, token count grows d²; kErr=0, errs=0; screenshot shows image→patches→token-strip. SW cache `atlas-v655` → `atlas-v656`.
+
 ## iter 718 — Step-back sweep (clean) + ViT/CLIP glossary terms (step-back / reference)
 Step-back at ~10 iters since the last sweep. **Full 176-lesson regression sweep**: errs=0, no KaTeX errors, bad=none, Knowledge Map 818 nodes — the recent MoE/SSM/ViT additions introduced **zero
 regressions**.
