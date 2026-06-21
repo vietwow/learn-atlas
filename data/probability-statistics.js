@@ -5392,6 +5392,162 @@
               "solution": "Expected loss of shipping $=0.3\\times 10=3.0$; of withholding $=0.7\\times 3=2.1$. Withholding has lower expected loss, so — despite \"probably helps\" — the asymmetric costs say don't ship. Decision theory, not just the point estimate, drives the call."
             }
           ]
+        },
+        {
+          "id": "ps-computational-bayes",
+          "title": "Computational Bayes: MCMC & Variational Inference",
+          "minutes": 16,
+          "content": "<h3>1. When closed form fails</h3>\n<p>Conjugate priors gave us posteriors by formula, but most real models — hierarchical priors, logistic likelihoods, neural networks — have <b>no closed-form posterior</b>, because the evidence $p(D)=\\int p(D\\mid\\theta)p(\\theta)\\,d\\theta$ is an intractable high-dimensional integral. The two dominant escapes both avoid computing that integral directly: <b>MCMC</b> (sample from the posterior) and <b>variational inference</b> (optimize an approximation to it).</p>\n<h3>2. The core trick: sample, don't integrate</h3>\n<p>Almost everything we want is a posterior expectation — a mean, a probability, a predictive. Monte Carlo replaces the integral with an average over samples $\\theta_s\\sim p(\\theta\\mid D)$:</p>\n<p>$$\\mathbb E[f(\\theta)\\mid D]=\\int f(\\theta)\\,p(\\theta\\mid D)\\,d\\theta\\;\\approx\\;\\frac1S\\sum_{s=1}^{S} f(\\theta_s).$$</p>\n<p>By the Law of Large Numbers this average converges to the true value as $S$ grows — so if we can <em>sample</em> the posterior, we can answer almost any question about it without ever integrating.</p>\n<div data-viz=\"ps-lln\"></div>\n<h3>3. MCMC: a chain that lands on the posterior</h3>\n<p>We usually cannot sample the posterior directly. <b>Markov chain Monte Carlo</b> instead builds a random walk over $\\theta$ whose <em>stationary distribution</em> is exactly the posterior. Run it long enough and the states it visits are (correlated) samples from $p(\\theta\\mid D)$ — feed them into the Monte Carlo average above.</p>\n<h3>4. Metropolis–Hastings: accept or reject</h3>\n<p>The simplest recipe: from the current $\\theta$, propose a nearby $\\theta'$, and accept it with probability (for a symmetric proposal)</p>\n<p>$$\\alpha=\\min\\!\\left(1,\\;\\frac{p(\\theta'\\mid D)}{p(\\theta\\mid D)}\\right)=\\min\\!\\left(1,\\;\\frac{p(D\\mid\\theta')p(\\theta')}{p(D\\mid\\theta)p(\\theta)}\\right).$$</p>\n<p>The magic: the intractable evidence $p(D)$ appears in both numerator and denominator and <b>cancels</b>. So MCMC only ever needs the posterior <em>up to a constant</em> — likelihood × prior — which we can always evaluate. Steps that climb toward higher posterior density are always accepted; downhill steps are accepted sometimes, which lets the chain explore.</p>\n<h3>5. Did it work? Diagnostics</h3>\n<p>Early states depend on where you started, so discard a <b>burn-in</b> period. The chain must <b>mix</b> — move freely rather than crawl — or its samples are too correlated to be useful (low <em>effective sample size</em>). Running several chains from different starts and checking that they agree ($\\hat R\\approx 1$) is the standard convergence test. MCMC is asymptotically exact but can be slow, especially in high dimensions.</p>\n<h3>6. Variational inference: integration becomes optimization</h3>\n<p>Instead of sampling, <b>variational inference</b> picks a simple family $q_\\phi(\\theta)$ (say a Gaussian) and tunes $\\phi$ to make $q$ as close as possible to the posterior. It maximizes the <b>evidence lower bound (ELBO)</b>:</p>\n<p>$$\\mathcal L(\\phi)=\\mathbb E_{q_\\phi}\\!\\big[\\log p(D,\\theta)\\big]-\\mathbb E_{q_\\phi}\\!\\big[\\log q_\\phi(\\theta)\\big]=\\log p(D)-\\mathrm{KL}\\!\\big(q_\\phi\\,\\|\\,p(\\theta\\mid D)\\big).$$</p>\n<p>Since $\\log p(D)$ is fixed, <b>maximizing the ELBO minimizes $\\mathrm{KL}(q\\,\\|\\,\\text{posterior})$</b> — turning inference into optimization (gradient ascent). It is fast and scales to huge models, but only as accurate as the chosen family $q$, and it typically <em>underestimates</em> uncertainty.</p>\n<h3>7. MCMC vs VI</h3>\n<p>MCMC is asymptotically exact but slower and harder to scale; VI is fast and scalable but approximate and biased. Rule of thumb: MCMC when you need faithful uncertainty on a moderate model; VI when you need speed at scale (it powers variational autoencoders and large Bayesian deep-learning models).</p>\n<h3>8. Why this matters</h3>\n<p>These two ideas make Bayesian inference practical beyond toy conjugate models: probabilistic programming languages (Stan, PyMC) automate MCMC, and VI underpins VAEs and scalable Bayesian deep learning. The throughline of the whole module: you rarely need $p(D)$ — likelihood × prior, plus a way to sample or optimize, is enough.</p>",
+          "mcq": [
+            {
+              "q": "MCMC and variational inference are needed because:",
+              "choices": [
+                "The posterior has no closed form (the evidence integral is intractable)",
+                "The prior is always unknown",
+                "Likelihoods cannot be evaluated",
+                "Data is always missing"
+              ],
+              "answer": 0,
+              "explain": "Most models lack a conjugate/closed-form posterior, so we sample from or optimize an approximation instead of integrating."
+            },
+            {
+              "q": "A Monte Carlo estimate of a posterior expectation is:",
+              "choices": [
+                "The maximum likelihood value",
+                "The average of $f(\\theta)$ over posterior samples",
+                "The prior mean",
+                "The mode of the prior"
+              ],
+              "answer": 1,
+              "explain": "$\\mathbb E[f(\\theta)\\mid D]\\approx\\frac1S\\sum_s f(\\theta_s)$, converging by the Law of Large Numbers."
+            },
+            {
+              "q": "The samples produced by MCMC are:",
+              "choices": [
+                "Drawn from the prior",
+                "Independent and exactly posterior-distributed from step 1",
+                "Correlated, with the posterior as their stationary distribution",
+                "Always rejected"
+              ],
+              "answer": 2,
+              "explain": "The Markov chain converges to the posterior as its stationary distribution; consecutive states are correlated."
+            },
+            {
+              "q": "Metropolis–Hastings avoids computing the evidence $p(D)$ because:",
+              "choices": [
+                "The prior replaces it",
+                "It is assumed to be 1",
+                "It is estimated separately",
+                "It cancels in the acceptance ratio"
+              ],
+              "answer": 3,
+              "explain": "The ratio $p(\\theta'\\mid D)/p(\\theta\\mid D)$ has $p(D)$ in both terms, so it cancels — only likelihood × prior is needed."
+            },
+            {
+              "q": "\"Burn-in\" in MCMC refers to:",
+              "choices": [
+                "Discarding early samples before the chain reaches its stationary distribution",
+                "Increasing the learning rate",
+                "Running on a GPU",
+                "Doubling the data"
+              ],
+              "answer": 0,
+              "explain": "Early states reflect the starting point, not the posterior, so they are discarded."
+            },
+            {
+              "q": "Variational inference turns Bayesian inference into:",
+              "choices": [
+                "A sorting problem",
+                "An optimization problem (maximize the ELBO)",
+                "A sampling-only problem",
+                "A matrix inversion"
+              ],
+              "answer": 1,
+              "explain": "VI fits a simple $q_\\phi$ to the posterior by maximizing the evidence lower bound via gradient ascent."
+            },
+            {
+              "q": "Maximizing the ELBO is equivalent to:",
+              "choices": [
+                "Minimizing the likelihood",
+                "Maximizing the prior",
+                "Minimizing $\\mathrm{KL}(q\\,\\|\\,\\text{posterior})$",
+                "Maximizing the number of samples"
+              ],
+              "answer": 2,
+              "explain": "$\\mathcal L=\\log p(D)-\\mathrm{KL}(q\\,\\|\\,p(\\theta\\mid D))$ and $\\log p(D)$ is constant, so raising the ELBO lowers the KL."
+            },
+            {
+              "q": "Compared with MCMC, variational inference is generally:",
+              "choices": [
+                "Unable to use gradients",
+                "Slower but exact",
+                "Always exact",
+                "Faster and more scalable, but approximate (biased)"
+              ],
+              "answer": 3,
+              "explain": "VI trades MCMC's asymptotic exactness for speed and scale, at the cost of bias from the chosen family $q$."
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Why do we need MCMC or variational inference?",
+              "back": "Most posteriors have no closed form — the evidence $p(D)=\\int p(D\\mid\\theta)p(\\theta)d\\theta$ is intractable — so we sample from or optimize an approximation to the posterior instead."
+            },
+            {
+              "front": "Monte Carlo estimate of a posterior expectation",
+              "back": "$\\mathbb E[f(\\theta)\\mid D]\\approx\\frac1S\\sum_s f(\\theta_s)$ with $\\theta_s$ drawn from the posterior; converges by the Law of Large Numbers."
+            },
+            {
+              "front": "What is MCMC?",
+              "back": "A Markov chain whose stationary distribution is the posterior; after burn-in its (correlated) states are posterior samples."
+            },
+            {
+              "front": "Why does Metropolis–Hastings not need $p(D)$?",
+              "back": "The acceptance ratio $\\frac{p(\\theta'\\mid D)}{p(\\theta\\mid D)}$ cancels the normalizer $p(D)$ — you only need the posterior up to a constant (likelihood × prior)."
+            },
+            {
+              "front": "The ELBO",
+              "back": "$\\mathcal L=\\log p(D)-\\mathrm{KL}(q\\,\\|\\,p(\\theta\\mid D))$; maximizing it minimizes the KL from $q$ to the posterior, turning inference into optimization."
+            },
+            {
+              "front": "MCMC vs variational inference",
+              "back": "MCMC is asymptotically exact but slower; VI is fast and scalable but approximate and tends to underestimate uncertainty."
+            }
+          ],
+          "homework": [
+            {
+              "prompt": "In Metropolis–Hastings the acceptance ratio uses $\\frac{p(\\theta'\\mid D)}{p(\\theta\\mid D)}$. Show why you never need to compute the evidence $p(D)$.",
+              "hint": "Write each posterior as likelihood × prior over $p(D)$.",
+              "solution": "$\\frac{p(\\theta'\\mid D)}{p(\\theta\\mid D)}=\\frac{p(D\\mid\\theta')p(\\theta')/p(D)}{p(D\\mid\\theta)p(\\theta)/p(D)}=\\frac{p(D\\mid\\theta')p(\\theta')}{p(D\\mid\\theta)p(\\theta)}$. The $p(D)$ factors cancel, so only the (computable) likelihood × prior is needed."
+            },
+            {
+              "prompt": "You draw 1000 posterior samples of a parameter $\\theta$ and 730 of them exceed 0.5. Estimate $P(\\theta\\gt 0.5\\mid D)$ and name the principle used.",
+              "hint": "A probability is the expectation of an indicator.",
+              "solution": "$P(\\theta\\gt 0.5\\mid D)=\\mathbb E[\\mathbf 1\\{\\theta\\gt 0.5\\}\\mid D]\\approx \\frac{730}{1000}=0.73$. This is Monte Carlo estimation: the posterior probability is approximated by the fraction of samples satisfying the event, valid by the Law of Large Numbers."
+            },
+            {
+              "prompt": "Your model must serve millions of users and only needs approximate posteriors. Would you reach for MCMC or variational inference, and what is the trade-off?",
+              "hint": "Speed/scale vs exactness.",
+              "solution": "Variational inference: it recasts inference as gradient-based optimization, so it is fast and scales to massive models (it underpins VAEs). The trade-off is bias — VI is only as good as the chosen family $q$ and usually underestimates uncertainty, whereas MCMC would be more faithful but far slower at that scale."
+            }
+          ],
+          "examples": [
+            {
+              "title": "Monte Carlo from posterior samples",
+              "body": "From 2000 posterior draws of a rate $\\lambda$, the sample mean is 3.1 and 5% of draws exceed 5. What do you report?",
+              "solution": "Posterior mean $\\approx 3.1$ (Monte Carlo average) and $P(\\lambda\\gt 5\\mid D)\\approx 0.05$. Both come straight from the samples — no integral. More draws tighten these estimates (LLN)."
+            },
+            {
+              "title": "An accepted vs rejected MH step",
+              "body": "Current $\\theta$ has likelihood×prior $=0.02$; proposal $\\theta'$ has $0.05$ (symmetric proposal). Accept?",
+              "solution": "Ratio $=0.05/0.02=2.5\\ge 1$, so $\\alpha=\\min(1,2.5)=1$: always accept — the proposal is more probable. Had it been $0.01$, $\\alpha=0.5$, accepted only half the time, letting the chain still occasionally explore downhill."
+            },
+            {
+              "title": "Reading the ELBO",
+              "body": "Why does maximizing the ELBO improve the approximation $q$?",
+              "solution": "Because $\\mathcal L=\\log p(D)-\\mathrm{KL}(q\\,\\|\\,p(\\theta\\mid D))$ and $\\log p(D)$ is constant in $\\phi$. Pushing $\\mathcal L$ up can only push $\\mathrm{KL}(q\\,\\|\\,\\text{posterior})$ down, so $q$ moves closer to the true posterior."
+            }
+          ]
         }
       ]
     }

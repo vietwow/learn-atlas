@@ -2,6 +2,14 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 655 — Bayesian Inference module: lesson 4 "Computational Bayes" — module lessons COMPLETE (content)
+Module 6's capstone, **`ps-computational-bayes` "Computational Bayes: MCMC & Variational Inference"**: 8 sections (when closed form fails · Monte Carlo: sample don't integrate ·
+MCMC as a chain whose stationary distribution is the posterior · Metropolis–Hastings and **why the acceptance ratio cancels `p(D)`** · diagnostics: burn-in/mixing/R-hat/ESS ·
+variational inference and the **ELBO = log p(D) − KL(q‖posterior)** · MCMC vs VI · why it matters), the `ps-lln` viz embedded (Monte Carlo rests on the Law of Large Numbers),
+**3 examples · 3 homework · 6 flashcards · 8 MCQs** (2/2/2/2, keys asserted). **Module 6 "Bayesian Inference" now has all 4 lessons** (priors/posteriors · conjugacy · decisions ·
+computation). Site **169 lessons**.
+Verified: data parses; gate ALL GREEN; **headless** — lecture renders 24 KaTeX, 0 errors, rawDollar=0; ps-lln hydrates; quiz "Question 1 of 8", 4 choices, qKErr=0; errs=0. SW cache `atlas-v594` → `atlas-v595`.
+
 ## iter 654 — Bayesian Inference module: lesson 3 "From Posterior to Decisions" (content)
 Module 6 lesson 3, **`ps-bayesian-decisions` "From Posterior to Decisions: Estimates, Intervals & Prediction"**: 8 sections (summarizing the posterior · point estimates and the
 loss each minimizes — **mean↔squared, median↔absolute, MAP↔0–1** · equal-tailed vs HPD credible intervals · the posterior predictive · a worked Beta–Binomial prediction (Laplace's
