@@ -6090,4 +6090,61 @@
     draw();
   });
 
+
+  /* ========================================================
+     111. Trie: a prefix tree (Algorithms)
+     ======================================================== */
+  register({ id: 'algo-trie', topic: 'algorithms', title: 'Trie: sharing prefixes across a dictionary', blurb: 'A trie stores a set of words as a tree of characters, so words sharing a prefix share a path — "car", "card", "cat" all reuse the "ca" branch. Look up a query by walking one edge per character: reach a node marked as a word-end and it is in the dictionary; fall off the tree and it is not. Cost is the length of the word, independent of how many words the trie holds.' },
+  function (root) {
+    const W = 540, H = 320;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    const words = ['car', 'card', 'cat', 'do', 'dog'];
+    function mk() { return { ch: {}, end: false }; }
+    const T = mk();
+    words.forEach(w => { let n = T; for (const c of w) { if (!n.ch[c]) n.ch[c] = mk(); n = n.ch[c]; } n.end = true; });
+    let leaf = 0, maxDepth = 0;
+    (function layout(n, d) { n.depth = d; maxDepth = Math.max(maxDepth, d); const ks = Object.keys(n.ch); if (!ks.length) { n.x = leaf++; return; } ks.forEach(k => layout(n.ch[k], d + 1)); n.x = (n.ch[ks[0]].x + n.ch[ks[ks.length - 1]].x) / 2; })(T, 0);
+    const nLeaf = leaf;
+    let path = null, result = '';
+    function search(q) {
+      path = [T]; let n = T, ok = true;
+      for (const c of q) { if (n.ch[c]) { n = n.ch[c]; path.push(n); } else { ok = false; break; } }
+      result = !ok ? '“' + q + '” — not found (fell off the tree)' : (n.end ? '“' + q + '” — found, a complete word ✓' : '“' + q + '” — a prefix, but not a stored word');
+      draw();
+    }
+    const padX = 40, padY = 36, levelH = (H - 2 * padY) / Math.max(1, maxDepth);
+    const PX = x => padX + (nLeaf <= 1 ? (W - 2 * padX) / 2 : x / (nLeaf - 1) * (W - 2 * padX));
+    const PY = d => padY + d * levelH;
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const onPath = new Set(path || []);
+      (function edges(n) { Object.keys(n.ch).forEach(k => { const m = n.ch[k];
+        const hot = onPath.has(n) && onPath.has(m);
+        ctx.strokeStyle = hot ? p.gold : p.line; ctx.lineWidth = hot ? 2.5 : 1.3;
+        ctx.beginPath(); ctx.moveTo(PX(n.x), PY(n.depth)); ctx.lineTo(PX(m.x), PY(m.depth)); ctx.stroke();
+        ctx.fillStyle = hot ? p.gold : p.mute; ctx.font = '12px ' + (cssVar('--font-mono') || 'monospace'); ctx.textAlign = 'center';
+        ctx.fillText(k, (PX(n.x) + PX(m.x)) / 2 + 7, (PY(n.depth) + PY(m.depth)) / 2 + 2);
+        edges(m); }); })(T);
+      (function nodes(n) {
+        const hot = onPath.has(n);
+        ctx.beginPath(); ctx.arc(PX(n.x), PY(n.depth), n === T ? 6 : 9, 0, 7);
+        ctx.fillStyle = n.end ? p.sage : p.panel; ctx.fill();
+        ctx.strokeStyle = hot ? p.gold : (n.end ? p.sage : p.line); ctx.lineWidth = hot ? 2.5 : 1.4; ctx.stroke();
+        if (n.end) { ctx.fillStyle = p.bg; ctx.font = '9px ' + (cssVar('--font-mono') || 'monospace'); ctx.textAlign = 'center'; ctx.fillText('●', PX(n.x), PY(n.depth) + 3); }
+        Object.keys(n.ch).forEach(k => nodes(n.ch[k]));
+      })(T);
+      ctx.fillStyle = p.mute; ctx.font = '10px ' + (cssVar('--font-mono') || 'monospace'); ctx.textAlign = 'left';
+      ctx.fillText('root', PX(T.x) + 10, PY(0) + 3);
+      ctx.fillStyle = p.sage; ctx.textAlign = 'right'; ctx.fillText('● = word end', W - 12, 18);
+      info.innerHTML = 'Dictionary: <b>' + words.join(', ') + '</b>. ' + (result ? '<br>Search ' + result : 'Tap a query below to trace its path. Shared prefixes (“ca”, “do”) reuse one branch.');
+    }
+    ['car', 'ca', 'cab', 'dog', 'dot'].forEach(q => button(ctl, 'find “' + q + '”', () => search(q)));
+    button(ctl, 'clear', () => { path = null; result = ''; draw(); });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Trie (prefix tree) visualizer for the dictionary car, card, cat, do, dog. Edges are labelled by character and words that share a prefix share a path; nodes that complete a word are marked. Query buttons walk the tree one character at a time, highlighting the path in gold and reporting whether the query is a stored word, a prefix only, or absent.');
+    draw();
+  });
+
 })();

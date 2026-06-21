@@ -2,6 +2,13 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 647 — NEW viz: Trie (prefix tree) (visualizations)
+Built the **111th widget, `algo-trie` "Trie: sharing prefixes across a dictionary"** for `a-string-algorithms` (which had no viz): the words {car, card, cat, do, dog} rendered as a
+character tree with a tidy recursive layout, word-end nodes marked, and query buttons that walk the tree one edge per character — highlighting the path in gold and reporting
+**found word / prefix-only / not-found**. Makes prefix-sharing ("ca", "do" reuse one branch) and `O(word length)` lookup concrete. Embedded under "Tries: Sharing Prefixes Across a Dictionary". algos viz coverage **20/23 → 21/23**.
+Verified: gate ALL GREEN (now **111 widgets**); **headless** — Lab + lesson canvases hydrate; "car" → "found, a complete word", "ca" → "prefix, but not a stored word", "cab" →
+"not found (fell off the tree)"; kErr=0, errs=0; screenshot shows the c/d subtrees, labelled edges, gold search path, and word-end markers. SW cache `atlas-v586` → `atlas-v587`.
+
 ## iter 646 — NEW viz: LoRA low-rank adaptation (visualizations)
 Built the **110th widget, `llm-lora` "LoRA: training a low-rank update"** for `l-peft-lora` (which had no viz): a frozen `d×d` weight matrix `W` (grey) beside a trainable update
 `ΔW = B·A` — `B` is `d×r` (gold), `A` is `r×d` (sage) — with a rank slider `r`. The readout contrasts full fine-tuning (`d²` params) against LoRA (`2·d·r`), and scales it to a
