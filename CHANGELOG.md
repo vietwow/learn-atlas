@@ -2,6 +2,14 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 637 — LLM viz coverage: cross-embed widgets into 5 no-viz lessons (visualizations / curation)
+Resumed viz-coverage curation (after two prereq-graph iterations) for LLM (was 10/19). Cross-embedded existing widgets at the heading where each concept lands — including a
+**cross-topic** link: **`llm-decoding`** → `l-what-is-a-language-model` at "Autoregressive models" (a LM emits a next-token distribution); **`llm-cross-entropy`** →
+`l-finetuning-and-instruction-tuning` at "Three Operations, One Objective" (SFT *is* next-token cross-entropy); **`llm-attention`** → `l-prompting-and-in-context-learning` at
+"In-Context Learning" (ICL works through attention over the examples); **`llm-embeddings`** → `l-rag-and-tools` at "The RAG pipeline" (retrieval by embedding similarity);
+**`rl-ppo-clip`** → `l-rlhf-and-preference-optimization` at "Stage 3: optimizing the policy with PPO" (RLHF literally runs PPO — a nice IT-style cross-topic bridge). LLM viz coverage **10/19 → 15/19**.
+Verified: gate ALL GREEN; **headless** — all five lessons hydrate their embedded canvas (kErr=0 each), including the cross-topic RL widget inside the RLHF lesson; errs=0. SW cache `atlas-v577` → `atlas-v578`.
+
 ## iter 636 — Connect Probability into calculus/LA in the prereq graph (understandability / content structure)
 Continued the prereq-graph frontier: Probability & Statistics was only 2/20 connected upstream, despite its continuous-distribution lessons genuinely resting on integration.
 Added **4 accurate cross-topic edges** (and confirmed `ps-expectation-variance` & `ps-normal-distribution` already had theirs): `ps-random-variables-distributions`,
