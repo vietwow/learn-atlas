@@ -2,6 +2,14 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 631 — Expectation-as-balance-point viz (visualizations)
+Filled another Probability viz gap. `ps-expectation-variance` (whose §1 is literally "The center of mass of randomness") had no viz. Built the **106th widget,
+`ps-expectation-balance` "Expectation = the balance point"**: four weights sit on a number line at x=1,3,5,8; sliders set them, they normalize to probabilities, and a **gold
+fulcrum slides to E[X]** — the weighted average where the line balances. A violet `±SD` band visualizes the variance, widening as weight moves away from the mean. Embedded
+right under §1. (Confirmed keyboard quiz answering — keys 1–4/a–d, A/B/C/D badges — and the rest of the feature surface already exist; this iteration adds genuinely new value.)
+Verified: gate ALL GREEN (now **106 widgets**); **headless** — Lab + lesson canvases hydrate; default uniform weights give **E[X]=4.25** (matches Σx/4), and skewing weight to
+x=8 raises it to **6.50** (balance point follows the mass); kErr=0, errs=0; screenshot shows the weighted masses, σ-band, and mean line. SW cache `atlas-v571` → `atlas-v572`.
+
 ## iter 630 — Step-back + mobile overflow audit (clean) + clickable streak pill → Progress (UI/UX)
 Round-number step-back. **Loop health:** the codex is uniform and complete across all 9 topics (165 lessons · 16 MCQ · 6 cards · 3 ex/hw · 105 viz · 214 glossary); recent lanes
 are well-rotated (content runway → viz → reference → a11y → mobile). **Mobile audit:** following the iter-629 streak bug, swept 9 key routes for horizontal overflow at true

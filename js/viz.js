@@ -5831,4 +5831,52 @@
     draw();
   });
 
+
+  /* ========================================================
+     106. Expectation as the balance point (Probability & Statistics)
+     ======================================================== */
+  register({ id: 'ps-expectation-balance', topic: 'probability-statistics', title: 'Expectation = the balance point', blurb: 'A probability distribution is a set of weights on a number line, and the expected value E[X] is exactly the point where it balances — the center of mass. Drag the four weights and watch the gold fulcrum slide to the weighted average. The violet band is one standard deviation either side; piling weight far from the mean widens it (that is the variance growing).' },
+  function (root) {
+    const W = 540, H = 320, padL = 34, padR = 34, baseY = H - 96, DMAX = 9.5;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    const pos = [1, 3, 5, 8];
+    let w = [3, 3, 3, 3];
+    const X = d => padL + d / DMAX * (W - padL - padR);
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      let sum = w.reduce((a, b) => a + b, 0); if (sum <= 0) sum = 1;
+      const pr = w.map(x => x / sum);
+      const mu = pr.reduce((a, x, i) => a + x * pos[i], 0);
+      const va = pr.reduce((a, x, i) => a + x * (pos[i] - mu) * (pos[i] - mu), 0);
+      const sd = Math.sqrt(va);
+      // sigma band
+      ctx.fillStyle = p.violet; ctx.globalAlpha = 0.12; ctx.fillRect(X(Math.max(0, mu - sd)), baseY - 78, (X(mu + sd) - X(mu - sd)), 78); ctx.globalAlpha = 1;
+      // beam (the number line that balances)
+      ctx.strokeStyle = p.line; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(X(0), baseY); ctx.lineTo(X(DMAX), baseY); ctx.stroke();
+      // ticks
+      ctx.fillStyle = p.mute; ctx.font = '10px ' + (cssVar('--font-mono') || 'monospace'); ctx.textAlign = 'center';
+      for (let t = 0; t <= 9; t++) { ctx.fillRect(X(t), baseY - 3, 1, 6); }
+      // masses
+      pr.forEach((pi, i) => {
+        const r = 6 + 30 * pi; ctx.fillStyle = p.sage; ctx.globalAlpha = 0.9;
+        ctx.beginPath(); ctx.arc(X(pos[i]), baseY - r, r, 0, 7); ctx.fill(); ctx.globalAlpha = 1;
+        ctx.fillStyle = p.ink; ctx.font = '11px ' + (cssVar('--font-mono') || 'monospace');
+        ctx.fillText(pi.toFixed(2), X(pos[i]), baseY - 2 * r - 6);
+        ctx.fillStyle = p.mute; ctx.fillText('x=' + pos[i], X(pos[i]), baseY + 16);
+      });
+      // fulcrum at the mean
+      ctx.fillStyle = p.gold; ctx.beginPath(); ctx.moveTo(X(mu), baseY + 2); ctx.lineTo(X(mu) - 15, baseY + 34); ctx.lineTo(X(mu) + 15, baseY + 34); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = p.gold; ctx.lineWidth = 1.5; ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.moveTo(X(mu), baseY - 82); ctx.lineTo(X(mu), baseY + 2); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = p.gold; ctx.font = '12px ' + (cssVar('--font-mono') || 'monospace'); ctx.fillText('E[X] = ' + mu.toFixed(2), X(mu), baseY + 50);
+      info.innerHTML = 'weights [' + w.join(', ') + '] &rarr; probabilities [' + pr.map(x => x.toFixed(2)).join(', ') + '].<br>' +
+        '<b style="color:' + p.gold + '">E[X] = ' + mu.toFixed(2) + '</b> (the balance point) &middot; <b>Var = ' + va.toFixed(2) + '</b> &middot; SD = <b style="color:' + p.violet + '">' + sd.toFixed(2) + '</b> (violet band). Move weight away from the mean and the spread grows.';
+    }
+    pos.forEach((x, i) => slider(ctl, { label: 'weight @ x=' + x, min: 0, max: 10, step: 1, value: w[i], fmt: v => String(v), onInput: v => { w[i] = v; draw(); } }));
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Expectation-as-balance-point visualizer: four weights sit on a number line at x = 1, 3, 5 and 8. Sliders set each weight; the weights are normalized to probabilities. A gold fulcrum marks the expected value E[X], the weighted average where the line balances (the center of mass). A violet band spans one standard deviation either side of the mean; shifting weight farther from the mean widens it, showing the variance increase.');
+    draw();
+  });
+
 })();
