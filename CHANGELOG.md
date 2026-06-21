@@ -2,6 +2,13 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 653 — Bayesian Inference module: lesson 2 "Conjugate Priors" (content)
+Continued **PS → Module 6: Bayesian Inference** (content-first; MCQ top-ups batched later). Added lesson 2, **`ps-conjugate-priors` "Conjugate Priors: Updates Without Integrals"**:
+8 sections (the integral conjugacy avoids · the conjugate idea · Beta–Binomial · **Gaussian–Gaussian precision-weighted averaging** · Gamma–Poisson · why conjugacy = the
+exponential family · when to abandon it for MCMC/variational · summary), the `ps-normal-explorer` viz embedded, **3 examples · 3 homework · 6 flashcards · 8 MCQs** (2/2/2/2, keys
+asserted). All updates re-derived in Node (Gauss–Gauss → N(1.6, 0.2); Gamma–Poisson → Gamma(12,6), mean 2.0; Beta–Binom → Beta(9,5)). Site now **167 lessons**; Module 6 has 2 lessons.
+Verified: data parses; gate ALL GREEN; **headless** — lecture renders 32 KaTeX, 0 errors, rawDollar=0; ps-normal-explorer hydrates; quiz "Question 1 of 8", 4 choices, qKErr=0; errs=0. SW cache `atlas-v592` → `atlas-v593`.
+
 ## iter 652 — NEW content pillar: Probability Module 6 "Bayesian Inference" — lesson 1 (content / new functionality)
 With the site feature-complete and the autonomous gap-list exhausted, took the initiative the mission calls for (a bold pillar over a tidy tweak) — and one the ROADMAP itself had
 flagged as desired ("OPTIONAL future: Module 6 — Bayesian inference"). Started **Probability & Statistics → Module 6: Bayesian Inference** with a full first lesson,

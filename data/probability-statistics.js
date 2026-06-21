@@ -5080,6 +5080,162 @@
               "solution": "Ridge minimizes $\\|y-Xw\\|^2+\\lambda\\|w\\|^2$. Reading $\\|y-Xw\\|^2$ as a Gaussian negative-log-likelihood and $\\lambda\\|w\\|^2$ as a Gaussian prior $w\\sim\\mathcal N(0,\\sigma^2 I)$ on the weights, the ridge objective is exactly $-\\log p(D\\mid w)-\\log p(w)$, so its minimizer is the MAP estimate."
             }
           ]
+        },
+        {
+          "id": "ps-conjugate-priors",
+          "title": "Conjugate Priors: Updates Without Integrals",
+          "minutes": 15,
+          "content": "<h3>1. The problem conjugacy solves</h3>\n<p>Bayes' rule says $p(\\theta\\mid D)\\propto p(D\\mid\\theta)\\,p(\\theta)$, but turning that proportionality into an actual distribution means computing the evidence $p(D)=\\int p(D\\mid\\theta)p(\\theta)\\,d\\theta$ — an integral that is usually intractable. <b>Conjugate priors</b> sidestep it: pick a prior whose algebra meshes with the likelihood so the posterior comes out in the <em>same family</em>, and the update becomes a formula instead of an integral.</p>\n<h3>2. The conjugate idea</h3>\n<p>A prior family is <b>conjugate</b> to a likelihood if multiplying them (and renormalizing) lands you back in that family. Then \"doing inference\" is just mapping the prior's parameters to the posterior's — closed form, exact, instant.</p>\n<h3>3. Beta–Binomial: the canonical pair</h3>\n<p>For a probability $\\theta$ with a Binomial likelihood, the $\\mathrm{Beta}(\\alpha,\\beta)$ prior is conjugate:</p>\n<p>$$\\theta\\mid (k\\text{ successes},\\,n)\\;\\sim\\;\\mathrm{Beta}(\\alpha+k,\\;\\beta+n-k).$$</p>\n<p>Read $\\alpha,\\beta$ as prior \"pseudo-counts\" of successes and failures; updating just <b>adds the observed successes to $\\alpha$ and failures to $\\beta$</b>.</p>\n<h3>4. Gaussian–Gaussian: precision-weighted averaging</h3>\n<p>For an unknown mean $\\theta$ with known variance $\\sigma^2$, a Gaussian prior $\\mathcal N(\\mu_0,\\sigma_0^2)$ is conjugate. Writing <b>precision</b> $=1/\\text{variance}$, the posterior precision is the <em>sum</em> of prior and data precision, and the posterior mean is their precision-weighted average:</p>\n<p>$$\\frac{1}{\\sigma_n^2}=\\frac{1}{\\sigma_0^2}+\\frac{n}{\\sigma^2},\\qquad \\mu_n=\\sigma_n^2\\!\\left(\\frac{\\mu_0}{\\sigma_0^2}+\\frac{n\\,\\bar x}{\\sigma^2}\\right).$$</p>\n<p>So evidence \"adds up\" as precision, and whichever source (prior or data) is more precise pulls the mean harder. With $\\mathcal N(0,1)$, four readings averaging $\\bar x=2$ at $\\sigma^2=1$ give posterior $\\mathcal N(1.6,\\,0.2)$.</p>\n<div data-viz=\"ps-normal-explorer\"></div>\n<h3>5. Gamma–Poisson: rates and counts</h3>\n<p>For a Poisson rate $\\lambda$, the $\\mathrm{Gamma}(\\alpha,\\beta)$ prior is conjugate; observing total count $S=\\sum x_i$ over $n$ intervals gives $\\lambda\\mid D\\sim\\mathrm{Gamma}(\\alpha+S,\\,\\beta+n)$, posterior mean $\\frac{\\alpha+S}{\\beta+n}$. Here $\\alpha$ is prior \"events\" and $\\beta$ prior \"exposure\". $\\mathrm{Gamma}(2,1)$ with $10$ events in $5$ intervals gives $\\mathrm{Gamma}(12,6)$, mean $2.0$ — matching the MLE $S/n$.</p>\n<h3>6. Why conjugacy exists: the exponential family</h3>\n<p>These pairs are not coincidences. Every conjugate pair has a likelihood in the <b>exponential family</b> — distributions whose log-likelihood is linear in some <em>sufficient statistics</em> of the data. The conjugate prior mimics that same functional form, so multiplying simply adds the prior's pseudo-data to the real data's sufficient statistics. That is exactly the \"add counts\" pattern you saw above.</p>\n<h3>7. When to abandon conjugacy</h3>\n<p>Conjugacy is a convenience, not a constraint. Real models (hierarchical priors, logistic likelihoods, neural nets) rarely have conjugate forms, and forcing a conjugate prior can distort genuine belief. When the posterior has no closed form we approximate it — <b>MCMC</b> samples from it, <b>variational inference</b> fits a simpler distribution to it. Use conjugacy when it fits; reach for computation when it does not.</p>\n<h3>8. Summary</h3>\n<p>Conjugate priors turn Bayesian updating into arithmetic on parameters: Beta+Binomial, Gaussian+Gaussian, Gamma+Poisson. Precision (or pseudo-counts) from prior and data simply add, so more or sharper data steadily overwhelms the prior — the same lesson as before, now with closed-form machinery behind it.</p>",
+          "mcq": [
+            {
+              "q": "The practical payoff of using a conjugate prior is that:",
+              "choices": [
+                "The posterior has a closed form — no evidence integral to compute",
+                "The prior becomes uniform",
+                "The data can be ignored",
+                "The likelihood disappears"
+              ],
+              "answer": 0,
+              "explain": "Conjugacy keeps the posterior in the prior's family, so updating is a formula, not an intractable integral."
+            },
+            {
+              "q": "Updating a $\\mathrm{Beta}(\\alpha,\\beta)$ prior with $k$ successes in $n$ trials gives:",
+              "choices": [
+                "$\\mathrm{Beta}(\\alpha+n,\\,\\beta+k)$",
+                "$\\mathrm{Beta}(\\alpha+k,\\,\\beta+n-k)$",
+                "$\\mathrm{Beta}(\\alpha k,\\,\\beta(n-k))$",
+                "$\\mathrm{Beta}(\\alpha,\\beta)$ unchanged"
+              ],
+              "answer": 1,
+              "explain": "Add successes to $\\alpha$ and failures $n-k$ to $\\beta$."
+            },
+            {
+              "q": "In the Gaussian–Gaussian model (known variance), the posterior mean is:",
+              "choices": [
+                "Always the prior mean",
+                "Always the data mean",
+                "A precision-weighted average of the prior mean and the data mean",
+                "The product of the two means"
+              ],
+              "answer": 2,
+              "explain": "$\\mu_n=\\sigma_n^2(\\mu_0/\\sigma_0^2+n\\bar x/\\sigma^2)$ — each source weighted by its precision."
+            },
+            {
+              "q": "The Gamma distribution is the conjugate prior for which likelihood?",
+              "choices": [
+                "Uniform",
+                "Binomial",
+                "Gaussian mean",
+                "Poisson (a rate)"
+              ],
+              "answer": 3,
+              "explain": "$\\mathrm{Gamma}(\\alpha,\\beta)$ + Poisson data $\\to\\mathrm{Gamma}(\\alpha+S,\\beta+n)$."
+            },
+            {
+              "q": "In the Gaussian–Gaussian model, the posterior precision equals:",
+              "choices": [
+                "Prior precision plus data precision ($1/\\sigma_0^2+n/\\sigma^2$)",
+                "Prior precision minus data precision",
+                "The smaller of the two precisions",
+                "Always $1$"
+              ],
+              "answer": 0,
+              "explain": "Independent Gaussian information adds as precision; variance is its reciprocal."
+            },
+            {
+              "q": "Conjugate pairs exist because the likelihood belongs to the:",
+              "choices": [
+                "Uniform family",
+                "Exponential family (log-likelihood linear in sufficient statistics)",
+                "Set of heavy-tailed distributions",
+                "Class of discrete distributions only"
+              ],
+              "answer": 1,
+              "explain": "The conjugate prior mirrors the exponential-family form, so updating just adds pseudo-data to the sufficient statistics."
+            },
+            {
+              "q": "A prior with very small variance (high precision) will:",
+              "choices": [
+                "Always equal the posterior",
+                "Be overwhelmed by a single observation",
+                "Require a lot of data before the posterior moves much",
+                "Make the likelihood irrelevant"
+              ],
+              "answer": 2,
+              "explain": "A tight, high-precision prior dominates $1/\\sigma_0^2+n/\\sigma^2$ until $n$ grows large."
+            },
+            {
+              "q": "When no conjugate prior suits the model, you should:",
+              "choices": [
+                "Use the prior as the answer",
+                "Abandon Bayesian inference",
+                "Force a uniform prior always",
+                "Approximate the posterior with MCMC or variational inference"
+              ],
+              "answer": 3,
+              "explain": "Bayes' rule still holds; you just compute the posterior numerically instead of in closed form."
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "The practical payoff of a conjugate prior",
+              "back": "The posterior is in the same family as the prior, so updating is a closed-form parameter map — no intractable evidence integral."
+            },
+            {
+              "front": "Beta–Binomial update",
+              "back": "$\\mathrm{Beta}(\\alpha,\\beta)\\to\\mathrm{Beta}(\\alpha+k,\\beta+n-k)$: add successes to $\\alpha$, failures to $\\beta$."
+            },
+            {
+              "front": "Gaussian–Gaussian (known variance) posterior",
+              "back": "Precisions add: $1/\\sigma_n^2=1/\\sigma_0^2+n/\\sigma^2$; the mean is the precision-weighted average of prior mean and data mean."
+            },
+            {
+              "front": "Gamma–Poisson update",
+              "back": "$\\mathrm{Gamma}(\\alpha,\\beta)\\to\\mathrm{Gamma}(\\alpha+S,\\beta+n)$ for total count $S$ over $n$ intervals; posterior mean $\\frac{\\alpha+S}{\\beta+n}$."
+            },
+            {
+              "front": "Why do conjugate pairs exist?",
+              "back": "The likelihood is in the exponential family; the conjugate prior copies its sufficient-statistic form, so updating just adds pseudo-data."
+            },
+            {
+              "front": "What if no conjugate prior fits?",
+              "back": "Approximate the posterior numerically — MCMC (sampling) or variational inference (fit a simpler distribution)."
+            }
+          ],
+          "homework": [
+            {
+              "prompt": "Prior $\\mathcal N(10,4)$ for an unknown mean; you take 9 measurements averaging $\\bar x=13$ with known variance $\\sigma^2=9$. Give the posterior mean and variance.",
+              "hint": "Posterior precision $=1/\\sigma_0^2+n/\\sigma^2$; mean is the precision-weighted average.",
+              "solution": "Precision $=1/4+9/9=0.25+1=1.25$, so posterior variance $=1/1.25=0.8$. Mean $=0.8\\,(10/4+9\\cdot 13/9)=0.8\\,(2.5+13)=0.8\\cdot 15.5=12.4$. The (more precise) data pulls the estimate from 10 toward 13."
+            },
+            {
+              "prompt": "Prior $\\mathrm{Gamma}(3,2)$ for a Poisson rate; you observe 20 events over 8 intervals. Give the posterior and its mean.",
+              "hint": "$\\mathrm{Gamma}(\\alpha+S,\\beta+n)$.",
+              "solution": "Posterior $=\\mathrm{Gamma}(3+20,\\,2+8)=\\mathrm{Gamma}(23,10)$, mean $=23/10=2.3$. The MLE alone would be $20/8=2.5$; the prior pulls it slightly down."
+            },
+            {
+              "prompt": "Explain why conjugacy is convenient but never required for correct Bayesian inference.",
+              "hint": "What does Bayes' rule need to hold?",
+              "solution": "Bayes' rule $p(\\theta\\mid D)\\propto p(D\\mid\\theta)p(\\theta)$ holds for ANY prior and likelihood — conjugacy only makes the resulting posterior available in closed form. With a non-conjugate prior the posterior is still well-defined; we just compute it numerically (MCMC, variational inference) instead of by formula."
+            }
+          ],
+          "examples": [
+            {
+              "title": "Gaussian–Gaussian by hand",
+              "body": "Prior $\\mathcal N(0,1)$; four readings average $\\bar x=2$, known $\\sigma^2=1$. Find the posterior.",
+              "solution": "Precision $=1/1+4/1=5\\Rightarrow$ variance $0.2$. Mean $=0.2\\,(0/1+4\\cdot 2/1)=0.2\\cdot 8=1.6$. Posterior $\\mathcal N(1.6,0.2)$ — close to the data mean 2 because four readings outweigh the unit-variance prior."
+            },
+            {
+              "title": "Gamma–Poisson by hand",
+              "body": "Prior $\\mathrm{Gamma}(2,1)$ for a call-centre rate; 10 calls arrive over 5 hours. Posterior?",
+              "solution": "$\\mathrm{Gamma}(2+10,\\,1+5)=\\mathrm{Gamma}(12,6)$, mean $12/6=2.0$ calls/hour, matching the MLE $10/5$. The weak prior (one pseudo-event over one pseudo-hour) barely shifts it."
+            },
+            {
+              "title": "Prior strength as precision",
+              "body": "Why does a small prior variance $\\sigma_0^2$ make the prior \"stubborn\"?",
+              "solution": "Prior precision $1/\\sigma_0^2$ is large when $\\sigma_0^2$ is small, so in $1/\\sigma_n^2=1/\\sigma_0^2+n/\\sigma^2$ the prior term dominates until $n$ is large. A tight prior demands a lot of data to be moved; a vague (large-variance) prior yields quickly."
+            }
+          ]
         }
       ]
     }
