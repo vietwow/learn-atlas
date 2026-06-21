@@ -2,6 +2,22 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 580 — Step-back: full 9-topic audit (clean) + homework-parity completed (content / depth)
+**Round-number step-back — now 9 topics.** Two health audits:
+- **Runtime kErr+route sweep**: all **161 lessons** (every example revealed, every dd opened) → errs=0, kErr=0, 0 bad; all **137 non-lesson routes** (incl. 9
+  cheatsheets, 9 placements, all 97 viz labs) → errs=0, kErr=0. **298 routes green.**
+- **Coverage audit**: **every lesson at exactly 3 deep-dives** (483 total, the 3 new IT lessons included); 3 examples each; MCQs/flashcards uniform. The one gap
+  found: **2 lessons at 2 homework** (a-backtracking-branch-bound, rl-exploration) — fixed below. 9 topics · 161 lessons · 2472 MCQs · 954 cards · 484 examples ·
+  97 viz · 114 code · 189 glossary · 49 prereq-keys.
+**Reflection (iters 570→580):** completed the **depth pass** (every one of 158 lessons reached 3 dd), then **launched and built the 9th pillar, Information
+Theory** — 3 lessons (Entropy → Cross-Entropy & KL → Mutual Information), its own binary-entropy viz, plus full integration (cross-topic prereqs + 8 glossary
+terms). Also extended hands-on code (107→114) and homework. Zero red gates across the span; the new topic is fully wired and connected.
+**The paired ship — homework parity, site-wide.** Added a 3rd homework problem to the two stragglers: a-backtracking-branch-bound (branch-and-bound: prune when
+the bound 40 < incumbent 42) and rl-exploration (ε-greedy `P(best)=(1−ε)+ε/k=0.925`). **Now every one of the 161 lessons has ≥3 examples AND ≥3 homework AND
+3 deep-dives.**
+Verified: gate ALL GREEN; both step-back sweeps clean; **0 lessons under 3 homework**; **headless** — both lessons' Homework tabs reveal the new solutions
+(0.925 / "prune") with **kErr=0, errs=0**. SW cache `atlas-v519` → `atlas-v520`.
+
 ## iter 579 — Interactive binary-entropy viz for the new pillar (visualizations)
 The **97th widget, `it-entropy-viz` "Binary entropy: uncertainty peaks in the middle."** Drag a coin's bias `p` and watch the curve
 `H(p)=−p log₂ p −(1−p) log₂(1−p)`: it rises to a maximum of exactly **1 bit** at a fair coin (`p=0.5`, maximal uncertainty) and falls to **0** at the certain

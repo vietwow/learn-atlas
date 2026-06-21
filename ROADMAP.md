@@ -182,6 +182,10 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    each showing upstream×local (incl. ∂L/∂z₁=∂L/∂a₁·σ′(z₁)); σ↔ReLU toggle shows vanishing vs gating. Embedded in dl-backpropagation;
    viz-complete →88. Verified: gate GREEN; headless lab route errs=0/canvas, steps 0→fwd4→back4 (8/8), toggle+reset work; lesson route
    2 canvases hydrate, kErr=0; screenshot eyeballed. SW →v366.
+   ✅ iter 580: **STEP-BACK: full 9-topic audit (clean) + homework-parity site-wide** (content/depth). Sweeps: 161 lessons errs=0/kErr=0/0 bad; 137 routes
+   errs=0/kErr=0 (298 green). Coverage: every lesson at 3 dd (483 total), 3 examples; gap found = 2 lessons at 2 hw (a-backtracking, rl-exploration) → fixed.
+   Reflection 570→580: depth pass complete + 9th pillar (Information Theory: 3 lessons+viz+integration) launched/built; code 107→114. Now every lesson has 3 dd
+   AND ≥3 examples AND ≥3 homework. Verified: gate GREEN; 0 lessons <3 hw; headless reveals correct, kErr=0/errs=0. SW →v520.
    ✅ iter 579: **Interactive binary-entropy viz** (visualizations). 97th widget it-entropy-viz: H(p) curve peaking at 1 bit (p=0.5), draggable p + coin bars;
    the one foundational entropy viz the catalog lacked. Embedded in it-entropy. Verified: gate GREEN (97 widgets); headless H(0.5)=1.000/H(0.1)=0.469, kErr=0/errs=0;
    screenshot. SW →v519.
