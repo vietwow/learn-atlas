@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 713 — NEW viz: Mixture-of-Experts routing (visualizations)
+Gave the new MoE lesson its visual. Built the **123rd widget, `llm-moe-router` "Mixture of Experts: sparse top-k routing"**: 5 tokens route through a router to their top-k of 8 experts (gold edges),
+with experts that receive tokens lit (sage). A top-k slider makes the core tradeoff tangible — k=1 → ~13% of expert compute (but some experts idle), k=4 → 50%; capacity stays at all 8 experts while
+per-token FLOPs scale with k. Embedded at the top-k routing section of `l-mixture-of-experts`. LLM viz coverage **18/20 → 19/20**.
+Verified: routing/percentages re-derived (k=1→13%/5 active, k=4→50%/8 active); gate ALL GREEN (now **123 widgets**); **headless** — Lab + lesson hydrate, compute% grows with k, idle experts at low k; kErr=0, errs=0; screenshot shows the token→expert routing. SW cache `atlas-v649` → `atlas-v650`.
+
 ## iter 712 — MoE lesson MCQ top-up 8 → 16 (content / assessment)
 Brought `l-mixture-of-experts` to the 16-MCQ standard. Added **8 new MCQs**: expert capacity, Switch Transformer (top-1), Mixtral's ~13B-of-47B active ratio, what scales with $N$ vs $k$, the gate-weighted
 output $\sum_i g_i E_i(x)$, MoE-vs-dense at equal FLOPs, why all-to-all communication arises, and the non-differentiable top-$k$ selection. Balanced → **4/4/4/4**. Lesson now at full parity.

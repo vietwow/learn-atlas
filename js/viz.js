@@ -6685,4 +6685,66 @@
     draw();
   });
 
+
+  /* ========================================================
+     123. Mixture-of-Experts routing (LLMs)
+     ======================================================== */
+  register({ id: 'llm-moe-router', topic: 'llm', title: 'Mixture of Experts: sparse top-k routing', blurb: 'Each token is scored by a router and sent to only its top-k experts out of N — so capacity (total parameters) scales with N while compute (FLOPs per token) scales with k. Slide k: at k=1 (Switch-style) each token touches one expert and compute is minimal but some experts may go unused; raising k spreads tokens and lifts quality at higher cost. Lines show each token routed to its chosen experts; dim experts received no tokens this step.' },
+  function (root) {
+    const W = 540, H = 330, padT = 30, padB = 16;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    const NE = 8;                       // experts
+    const TOK = ['The', 'cat', 'sat', 'on', 'mat'];
+    const scores = [
+      [0.9, 0.2, 0.7, 0.1, 0.4, 0.8, 0.3, 0.5],
+      [0.3, 0.85, 0.2, 0.6, 0.9, 0.1, 0.4, 0.5],
+      [0.5, 0.4, 0.95, 0.3, 0.2, 0.6, 0.8, 0.1],
+      [0.2, 0.6, 0.3, 0.9, 0.5, 0.4, 0.1, 0.75],
+      [0.7, 0.3, 0.5, 0.2, 0.8, 0.95, 0.6, 0.4]
+    ];
+    let k = 2;
+    const tokX = 70, expX = W - 90;
+    const tokY = i => padT + 18 + i * ((H - padT - padB - 30) / (TOK.length - 1));
+    const expY = i => padT + 6 + i * ((H - padT - padB - 12) / (NE - 1));
+    function topk(row, k) { return row.map((s, i) => [s, i]).sort((a, b) => b[0] - a[0]).slice(0, k).map(p => p[1]); }
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = p.mute; ctx.font = '11px ' + (cssVar('--font-mono') || 'monospace'); ctx.textAlign = 'center';
+      ctx.fillText('tokens', tokX, 16); ctx.fillText('router', W / 2, 16); ctx.fillText(NE + ' experts', expX, 16);
+      const used = new Set();
+      // edges
+      for (let t = 0; t < TOK.length; t++) {
+        const picks = topk(scores[t], k); picks.forEach(e => used.add(e));
+        picks.forEach(e => {
+          ctx.strokeStyle = p.gold; ctx.globalAlpha = 0.45; ctx.lineWidth = 1.6;
+          ctx.beginPath(); ctx.moveTo(tokX + 26, tokY(t)); ctx.quadraticCurveTo(W / 2, (tokY(t) + expY(e)) / 2, expX - 26, expY(e)); ctx.stroke();
+        });
+      }
+      ctx.globalAlpha = 1;
+      // tokens
+      for (let t = 0; t < TOK.length; t++) {
+        ctx.fillStyle = p.panel; ctx.strokeStyle = p.line; ctx.lineWidth = 1.4;
+        ctx.beginPath(); ctx.arc(tokX, tokY(t), 16, 0, 7); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = p.ink; ctx.font = '11px ' + (cssVar('--font-mono') || 'monospace'); ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText(TOK[t], tokX, tokY(t) + 1);
+      }
+      // experts
+      for (let e = 0; e < NE; e++) {
+        const on = used.has(e);
+        ctx.fillStyle = on ? p.sage : p.panel; ctx.globalAlpha = on ? 0.85 : 0.4; ctx.strokeStyle = on ? p.sage : p.line; ctx.lineWidth = 1.6;
+        ctx.beginPath(); ctx.arc(expX, expY(e), 14, 0, 7); ctx.fill(); ctx.globalAlpha = 1; ctx.stroke();
+        ctx.fillStyle = on ? p.bg : p.mute; ctx.fillText('E' + (e + 1), expX, expY(e) + 1);
+      }
+      const pct = Math.round(100 * k / NE);
+      info.innerHTML = 'top-k = <b>' + k + '</b> of ' + NE + ' experts &middot; each token uses <b style="color:' + p.sage + '">' + pct + '%</b> of expert compute &middot; experts active this step: <b>' + used.size + '/' + NE + '</b>. ' +
+        (k === 1 ? 'Switch-style top-1: cheapest, but some experts may sit idle (load-balancing matters).' : 'Capacity is still all ' + NE + ' experts; only the per-token FLOPs grow with k.');
+    }
+    slider(ctl, { label: 'top-k experts', min: 1, max: 4, step: 1, value: k, fmt: v => String(v), onInput: v => { k = v; draw(); } });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Mixture-of-Experts routing visualizer: five tokens on the left connect through a router to eight experts on the right. A slider sets top-k; each token routes to its k highest-scoring experts (gold lines), and experts that receive at least one token light up (sage). The readout shows that each token uses k/8 of the expert compute while total capacity stays at all eight experts, and that low k can leave some experts idle.');
+    draw();
+  });
+
 })();
