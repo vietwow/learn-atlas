@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 712 — MoE lesson MCQ top-up 8 → 16 (content / assessment)
+Brought `l-mixture-of-experts` to the 16-MCQ standard. Added **8 new MCQs**: expert capacity, Switch Transformer (top-1), Mixtral's ~13B-of-47B active ratio, what scales with $N$ vs $k$, the gate-weighted
+output $\sum_i g_i E_i(x)$, MoE-vs-dense at equal FLOPs, why all-to-all communication arises, and the non-differentiable top-$k$ selection. Balanced → **4/4/4/4**. Lesson now at full parity.
+Verified: data parses; gate ALL GREEN with **no parity warning**; **headless** quiz "Question 1 of 16", 4 choices, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v648` → `atlas-v649`.
+
 ## iter 711 — NEW lesson: Mixture of Experts (content)
 Filled a genuine *current* gap: the LLM topic covered transformers thoroughly but had no lesson on **Mixture of Experts** — the sparse-expert architecture behind Mixtral, Switch Transformer, DeepSeek,
 and (reportedly) GPT-4 (only passing mentions in the frontier lesson). Added `l-mixture-of-experts` "Mixture of Experts: Scaling with Sparsity" to LLM M2 (The Transformer Architecture): 8 sections

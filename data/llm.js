@@ -1819,6 +1819,94 @@
               ],
               "answer": 3,
               "explain": "Route each input through a relevant sub-network."
+            },
+            {
+              "q": "An expert's \"capacity\" in an MoE layer is:",
+              "choices": [
+                "A cap on tokens it processes per batch; overflow is dropped or rerouted",
+                "Its number of parameters",
+                "The number of experts",
+                "Its softmax temperature"
+              ],
+              "answer": 0,
+              "explain": "Capacity bounds tokens/expert to keep compute balanced."
+            },
+            {
+              "q": "The Switch Transformer popularized which routing?",
+              "choices": [
+                "Top-half of the experts",
+                "Top-1 (each token to a single expert)",
+                "Dense (all experts)",
+                "Random routing"
+              ],
+              "answer": 1,
+              "explain": "Switch routes each token to exactly one expert."
+            },
+            {
+              "q": "Mixtral 8×7B (top-2 of 8 experts) has ~47B total parameters but per token activates roughly:",
+              "choices": [
+                "~1B",
+                "All 47B",
+                "~13B — the cost of a much smaller dense model",
+                "Exactly half, 23.5B"
+              ],
+              "answer": 2,
+              "explain": "Only ~2/8 of experts (plus shared) run per token."
+            },
+            {
+              "q": "As you increase the number of experts $N$ (fixed top-$k$), what grows?",
+              "choices": [
+                "The router's depth",
+                "Per-token FLOPs",
+                "The number of attention heads",
+                "Total parameters (capacity) — not the per-token FLOPs"
+              ],
+              "answer": 3,
+              "explain": "N scales capacity; k scales compute."
+            },
+            {
+              "q": "The output of a top-$k$ MoE layer for a token $x$ is:",
+              "choices": [
+                "The gate-weighted sum $\\sum_i g_i E_i(x)$ over the chosen experts",
+                "The single best expert's output, unweighted",
+                "The average over all $N$ experts",
+                "The router's logits"
+              ],
+              "answer": 0,
+              "explain": "Chosen experts are combined by their renormalized gate weights."
+            },
+            {
+              "q": "Compared to a dense model with the SAME FLOPs per token, an MoE typically has:",
+              "choices": [
+                "Fewer parameters",
+                "Far more parameters (more capacity) — usually a quality win",
+                "Identical parameters",
+                "No router"
+              ],
+              "answer": 1,
+              "explain": "MoE buys capacity at equal compute."
+            },
+            {
+              "q": "MoE incurs all-to-all communication because:",
+              "choices": [
+                "Attention is computed twice",
+                "The router runs on the CPU",
+                "Experts are sharded across devices, so tokens must be shipped to their chosen experts",
+                "Embeddings are duplicated"
+              ],
+              "answer": 2,
+              "explain": "Distributed experts require routing tokens across devices each layer."
+            },
+            {
+              "q": "The top-$k$ expert-selection step itself is:",
+              "choices": [
+                "Computed by attention",
+                "Fully differentiable end-to-end",
+                "A fixed lookup table",
+                "Discrete (non-differentiable) — only the gate weights of chosen experts are differentiable"
+              ],
+              "answer": 3,
+              "explain": "The hard top-k pick is non-differentiable; noisy/aux tricks help training."
             }
           ],
           "flashcards": [

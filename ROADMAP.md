@@ -27,7 +27,7 @@ Owner steers by *reacting* to the live site. Key past steers (detail in `CHANGEL
 - **Content sweeps (long done):** worked examples (47–52, all lessons), question bank → 16 MCQ/lesson, 3 deep-dives/lesson, embedded code exercises, viz frontier (122 widgets), cross-topic prereq graph, inline glossary tooltips, a11y (ARIA/reduced-motion/high-contrast), activity heatmap, Daily Mix, Knowledge Map, search, notes, bookmarks.
 
 ## Now / live queue
-- ⏳ Top `l-mixture-of-experts` 8→16 MCQ (iter 711 added it; gate parity-warns). Optional follow-up: an MoE routing viz (no good existing fit to embed).
+- ✅ iter 712: `l-mixture-of-experts` topped to 16 MCQ (now full parity; 175 lessons all at standard). Optional follow-up: an MoE routing viz (no existing fit).
 - **Maturity plateau:** the autonomous high-value backlog is largely exhausted — every major area is comprehensive and fully integrated (verified repeatedly). Recent iterations = fine-grained, genuinely-additive polish (hard-concept deep-dives, accurate prereq edges, glossary/reference completeness, new viz for the last genuine gaps), rotating the compass.
 - **Owner-steer big levers (the real next jumps):** (1) a brand-new **10th topic** (everything in-scope is currently covered, so this needs owner appetite); (2) the **lazy-load data perf refactor** (see Backlog) — high-risk, LOW real urgency (the SW caches everything for the single repeat learner), so deferred pending owner steer.
 
