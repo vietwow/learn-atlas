@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 616 — MCQ top-up runway, batch 9: ml-decision-trees 8 → 16 (content / assessment)
+Ninth batch. Added **8 new MCQs to `ml-decision-trees`** (now 16), distinct from the existing eight: numeric Gini (`6A/2B → 0.375`) and entropy (`→ 0.81` bits), pure-node
+Gini `0`, max Gini `0.5` at 50/50, the information-gain formula, no feature scaling needed, pre-pruning (max depth / min leaf size), and natural handling of nonlinear
+interactions. Key assertion confirmed each correct choice; balanced → **4/4/4/4**.
+Verified: data parses; gate ALL GREEN; **headless** quiz "Question 1 of 16", 4 choices, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v556` → `atlas-v557`. Runway: **9 of 17** (ML 2/10).
+
 ## iter 615 — MCQ top-up runway, batch 8: ml-knn 8 → 16 (content / assessment)
 Eighth batch — first ML lesson. Added **8 new MCQs to `ml-knn`** (now 16), distinct from the existing eight: 1-NN training error is 0, kNN-regression = average of neighbors,
 Euclidean as the default metric, odd-`k` tie-breaking, distance-weighting, the local-smoothness assumption, highly-nonlinear boundaries, and KD-tree/approximate-NN speedups.

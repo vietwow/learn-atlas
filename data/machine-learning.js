@@ -350,6 +350,94 @@
               ],
               "answer": 0,
               "explain": "Optimal tree construction is NP-hard; CART/ID3 are greedy heuristics that take the locally-best split at each node rather than searching all trees."
+            },
+            {
+              "q": "A node with 8 samples — 6 of class A and 2 of class B — has Gini impurity:",
+              "choices": [
+                "$0.375$",
+                "$0.25$",
+                "$0.5$",
+                "$0.75$"
+              ],
+              "answer": 0,
+              "explain": "$1-(0.75^2+0.25^2)=1-0.625=0.375$."
+            },
+            {
+              "q": "That same node (6 A, 2 B) has entropy, in bits, closest to:",
+              "choices": [
+                "$1.0$",
+                "$0.81$",
+                "$0.5$",
+                "$0$"
+              ],
+              "answer": 1,
+              "explain": "$-(0.75\\log_2 0.75+0.25\\log_2 0.25)\\approx 0.81$ bits."
+            },
+            {
+              "q": "A pure node (all samples of one class) has Gini impurity:",
+              "choices": [
+                "$1$",
+                "$0.5$",
+                "$0$",
+                "$0.25$"
+              ],
+              "answer": 2,
+              "explain": "With one class at probability 1, $1-1^2=0$ — no impurity, the goal of every split."
+            },
+            {
+              "q": "For a two-class node, Gini impurity is largest ($0.5$) when:",
+              "choices": [
+                "There is a single sample",
+                "One class dominates",
+                "The node is pure",
+                "The classes are split 50/50"
+              ],
+              "answer": 3,
+              "explain": "Maximum impurity is maximum uncertainty — an even 50/50 mix; it falls to 0 as one class takes over."
+            },
+            {
+              "q": "The information gain of a split equals:",
+              "choices": [
+                "Parent impurity minus the weighted average of the children's impurities",
+                "The number of children produced",
+                "The depth of the resulting subtree",
+                "The sum of the children's impurities"
+              ],
+              "answer": 0,
+              "explain": "Gain measures how much a split purifies the labels: $\\text{impurity(parent)}-\\sum_k \\tfrac{n_k}{n}\\,\\text{impurity(child}_k)$."
+            },
+            {
+              "q": "Do decision trees require feature scaling or normalization?",
+              "choices": [
+                "Yes, exactly like kNN",
+                "No — each split is a threshold test, invariant to monotonic rescaling",
+                "Only for the root split",
+                "Only when using entropy, not Gini"
+              ],
+              "answer": 1,
+              "explain": "Splitting on \"feature ≤ threshold\" is unaffected by rescaling, so trees handle raw, mixed-scale, even categorical features directly."
+            },
+            {
+              "q": "Pre-pruning (early stopping) constrains a decision tree using:",
+              "choices": [
+                "More trees",
+                "A larger learning rate",
+                "A maximum depth or a minimum number of samples per leaf",
+                "Feature scaling"
+              ],
+              "answer": 2,
+              "explain": "Limiting depth / leaf size (or a minimum gain) stops the tree before it memorizes noise; post-pruning instead trims a grown tree back."
+            },
+            {
+              "q": "Compared with linear models, a single decision tree handles nonlinear relationships and feature interactions:",
+              "choices": [
+                "Only in two dimensions",
+                "Only after a kernel transform",
+                "Never",
+                "Naturally, with no manual feature engineering"
+              ],
+              "answer": 3,
+              "explain": "Axis-aligned splits compose into nonlinear, interaction-aware regions automatically — a key reason trees are so convenient."
             }
           ],
           "flashcards": [
