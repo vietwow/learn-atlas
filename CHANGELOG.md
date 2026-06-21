@@ -2,6 +2,13 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 689 — Step-back sweep (clean) + 12 causal glossary terms (step-back / reference)
+Round-number step-back after the causal arc. **Full 172-lesson regression sweep**: errs=0, no KaTeX errors, bad=none; the Knowledge Map renders (798 nodes) and the new "Causal Inference" module
+shows on the PS course page — the 3-lesson arc + module reorg introduced **zero regressions**.
+**Ship (reference):** the new module's vocabulary was absent from the glossary — added **12 causal terms** (Confounder, Collider, Backdoor criterion, do-operator, Propensity score, Instrumental
+variable, d-separation, Potential outcomes, ATE, Difference-in-differences, Causal DAG, Simpson's paradox). Glossary **231 → 243**; these also power the inline hover-tooltips in lecture prose.
+Verified: glossary parses; gate ALL GREEN; **headless** — full sweep errs=0/bad=none; all 12 terms render on `#/glossary` (12/12), kErr=0, rawDollar=0. SW cache `atlas-v626` → `atlas-v627`.
+
 ## iter 688 — Causal-estimation lesson MCQ top-up 8 → 16 → Causal Inference module COMPLETE (content / assessment)
 Brought `ps-causal-estimation` to the 16-MCQ standard (gate parity-warning had flagged it). Added **8 new MCQs**: the ATE definition, the fundamental problem of causal inference, inverse-
 propensity weighting, the instrument conditions (relevance + exclusion), LATE, the `1/√n` CI width, what DiD subtracts, and the credibility ladder. Balanced → **4/4/4/4**. **All three Causal
