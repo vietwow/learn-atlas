@@ -5262,6 +5262,94 @@
               ],
               "answer": 3,
               "explain": "Bayes' rule still holds; you just compute the posterior numerically instead of in closed form."
+            },
+            {
+              "q": "The conjugate prior for the mean of a Gaussian (with known variance) is:",
+              "choices": [
+                "A Gaussian",
+                "A Beta",
+                "A Gamma",
+                "A uniform on $[0,1]$"
+              ],
+              "answer": 0,
+              "explain": "Gaussian prior + Gaussian likelihood (known variance) → Gaussian posterior."
+            },
+            {
+              "q": "A $\\mathrm{Gamma}(2,1)$ prior for a Poisson rate, after 10 events over 5 intervals, becomes:",
+              "choices": [
+                "$\\mathrm{Gamma}(20,5)$",
+                "$\\mathrm{Gamma}(12,6)$",
+                "$\\mathrm{Gamma}(2,1)$",
+                "$\\mathrm{Gamma}(10,5)$"
+              ],
+              "answer": 1,
+              "explain": "$\\mathrm{Gamma}(\\alpha+S,\\beta+n)=\\mathrm{Gamma}(2+10,\\,1+5)$."
+            },
+            {
+              "q": "A uniform prior $\\mathrm{Beta}(1,1)$, after 3 successes in 5 trials, becomes:",
+              "choices": [
+                "$\\mathrm{Beta}(4,5)$",
+                "$\\mathrm{Beta}(3,5)$",
+                "$\\mathrm{Beta}(4,3)$",
+                "$\\mathrm{Beta}(1,1)$"
+              ],
+              "answer": 2,
+              "explain": "Add 3 successes and 2 failures: $\\mathrm{Beta}(1+3,\\,1+2)=\\mathrm{Beta}(4,3)$."
+            },
+            {
+              "q": "In $\\mathrm{Beta}(\\alpha,\\beta)$, the parameters $\\alpha$ and $\\beta$ behave like:",
+              "choices": [
+                "Sample size and number of trials",
+                "The data mean and variance",
+                "The MLE and its error",
+                "Prior pseudo-counts of successes and failures"
+              ],
+              "answer": 3,
+              "explain": "A Beta prior acts as $\\alpha-1$ prior successes and $\\beta-1$ prior failures; updating just adds observed counts."
+            },
+            {
+              "q": "In a Gaussian–Gaussian model, prior precision $1$ and data precision $4$ give a posterior variance of:",
+              "choices": [
+                "$0.2$",
+                "$5$",
+                "$0.25$",
+                "$1.25$"
+              ],
+              "answer": 0,
+              "explain": "Precisions add: $1+4=5$; variance is the reciprocal, $1/5=0.2$."
+            },
+            {
+              "q": "In the Gaussian–Gaussian posterior mean, the estimate is pulled toward:",
+              "choices": [
+                "Always the prior mean",
+                "Whichever source (prior or data) has higher precision",
+                "Always the data mean",
+                "The larger of the two means"
+              ],
+              "answer": 1,
+              "explain": "The mean is a precision-weighted average, so the more precise source dominates."
+            },
+            {
+              "q": "Bayesian updating is sequential: after seeing a batch of data,",
+              "choices": [
+                "All earlier data is discarded",
+                "The prior must be reset to uniform",
+                "Today's posterior becomes the prior for the next batch",
+                "The likelihood is recomputed from scratch each time"
+              ],
+              "answer": 2,
+              "explain": "Posteriors chain: $p(\\theta\\mid D_1,D_2)\\propto p(D_2\\mid\\theta)\\,p(\\theta\\mid D_1)$, so yesterday's posterior is today's prior."
+            },
+            {
+              "q": "The posterior $\\mathrm{Beta}(4,3)$ has mean:",
+              "choices": [
+                "$0.5$",
+                "$\\frac{3}{7}\\approx 0.43$",
+                "$\\frac{4}{3}$",
+                "$\\frac{4}{7}\\approx 0.57$"
+              ],
+              "answer": 3,
+              "explain": "Beta mean $=\\frac{\\alpha}{\\alpha+\\beta}=\\frac{4}{7}\\approx 0.571$."
             }
           ],
           "flashcards": [

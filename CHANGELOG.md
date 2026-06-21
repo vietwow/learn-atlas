@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 657 — Bayesian module MCQ top-up: ps-conjugate-priors 8 → 16 (content / assessment)
+Added **8 new MCQs to `ps-conjugate-priors`** (now 16), distinct from the first eight: Gaussian-mean conjugate is a Gaussian, numeric Gamma(2,1)+10/5 → **Gamma(12,6)**, numeric
+Beta(1,1)+3/5 → **Beta(4,3)**, α/β as pseudo-counts, numeric precision 1+4 → variance **0.2**, mean pulled toward higher precision, sequential updating (posterior becomes next prior),
+and the numeric Beta(4,3) mean **4/7 ≈ 0.57**. Keys asserted; balanced → **4/4/4/4**.
+Verified: data parses; gate ALL GREEN; **headless** quiz "Question 1 of 16", 4 choices, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v596` → `atlas-v597`. (Remaining Module-6 top-ups: decisions, computational-bayes.)
+
 ## iter 656 — Bayesian module MCQ top-up: ps-bayesian-inference 8 → 16 (content / assessment)
 Began bringing Module 6 to the site's 16-MCQ standard. Added **8 new MCQs to `ps-bayesian-inference`** (now 16), distinct from the first eight: likelihood-isn't-a-distribution-over-θ,
 evidence = marginal likelihood/normalizer, Beta mean `α/(α+β)`, the numeric update Beta(2,2)+7/10 → **Beta(9,5)**, θ-as-a-random-variable, stronger-prior-needs-more-data, flat-prior →
