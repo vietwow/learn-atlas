@@ -17,6 +17,7 @@ const path = require("path");
 // Where the site will live. Canonical/OG/sitemap urls point here; override in CI if needed.
 const BASE = (process.env.SITE_URL || "https://atlascodex.io").replace(/\/+$/, "");
 const OUT = path.join(__dirname, "dist");
+const GC = "vspinftu"; // GoatCounter site code — each prerendered page reports its own visits
 
 // ---- load the data layer exactly like gate.js (no DOM, just collect window.COURSES) ----
 global.window = {};
@@ -139,6 +140,7 @@ ${staticizeContent(lesson.content || "")}
 <footer>Atlas — a free, gamified codex for linear algebra, calculus, algorithms, deep learning, reinforcement learning, LLMs &amp; statistics. <a href="${BASE}/">Explore all topics →</a></footer>
 </div>
 <script>document.addEventListener("DOMContentLoaded",function(){if(window.renderMathInElement)renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:true},{left:"$",right:"$",display:false}],throwOnError:false});});</script>
+<script data-goatcounter="https://${GC}.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>`;
 }
