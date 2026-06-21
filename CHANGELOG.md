@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 615 — MCQ top-up runway, batch 8: ml-knn 8 → 16 (content / assessment)
+Eighth batch — first ML lesson. Added **8 new MCQs to `ml-knn`** (now 16), distinct from the existing eight: 1-NN training error is 0, kNN-regression = average of neighbors,
+Euclidean as the default metric, odd-`k` tie-breaking, distance-weighting, the local-smoothness assumption, highly-nonlinear boundaries, and KD-tree/approximate-NN speedups.
+Key assertion confirmed each correct choice; balanced → **4/4/4/4**.
+Verified: data parses; gate ALL GREEN; **headless** quiz "Question 1 of 16", 4 choices, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v555` → `atlas-v556`. Runway: **8 of 17** (ML 1/10).
+
 ## iter 614 — MCQ top-up runway, batch 7: it-information-in-ml 8 → 16; INFORMATION THEORY now MCQ-complete (content / assessment)
 Seventh batch. Added **8 new MCQs to the IT capstone `it-information-in-ml`** (now 16), distinct from the existing eight: numeric perplexity (`CE=3 bits → 8`), numeric VAE
 KL (`μ=0,σ=1 → 0`), perplexity as effective branching factor, RLHF-without-KL → reward hacking, MDL's `L(model)` = a complexity penalty (= regularization), Gaussian weight

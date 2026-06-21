@@ -106,6 +106,94 @@
               ],
               "answer": 0,
               "explain": "kNN defers all work to query time: a naive prediction is O(nd), comparing the query against all n training points. Spatial indexes mitigate this."
+            },
+            {
+              "q": "A 1-NN classifier's training error is:",
+              "choices": [
+                "$0$ — each point is its own nearest neighbor",
+                "About $50\\%$",
+                "Equal to the test error",
+                "Undefined"
+              ],
+              "answer": 0,
+              "explain": "At $k=1$ every training point's nearest neighbor is itself, so it is always classified correctly — zero training error, but high variance."
+            },
+            {
+              "q": "For kNN regression, the prediction at a query point is:",
+              "choices": [
+                "The single nearest target value",
+                "The average of the $k$ nearest neighbors' target values",
+                "The majority class",
+                "The global mean of all targets"
+              ],
+              "answer": 1,
+              "explain": "kNN regression averages the targets of the $k$ closest points (optionally distance-weighted)."
+            },
+            {
+              "q": "The most common distance metric used in kNN is:",
+              "choices": [
+                "Edit distance",
+                "Cosine of the labels",
+                "Euclidean distance",
+                "The number of features"
+              ],
+              "answer": 2,
+              "explain": "Euclidean (L2) distance is the default; others (Manhattan, cosine) suit particular data, and all require scaled features."
+            },
+            {
+              "q": "In binary kNN classification, a simple way to avoid tied votes is to:",
+              "choices": [
+                "Square the distances",
+                "Always use $k=2$",
+                "Drop the nearest point",
+                "Use an odd value of $k$"
+              ],
+              "answer": 3,
+              "explain": "An odd $k$ guarantees a majority in two-class problems; distance-weighting also breaks ties."
+            },
+            {
+              "q": "In distance-weighted kNN, closer neighbors:",
+              "choices": [
+                "Get more weight in the vote (e.g. weight proportional to $1/\\text{distance}$)",
+                "Are ignored",
+                "Count the same as far ones",
+                "Are used only when $k=1$"
+              ],
+              "answer": 0,
+              "explain": "Weighting by $1/\\text{distance}$ lets nearby points dominate, smoothing predictions and reducing sensitivity to $k$."
+            },
+            {
+              "q": "kNN's core assumption about the data is that:",
+              "choices": [
+                "Features are linearly related to the label",
+                "Nearby points tend to have similar labels or values",
+                "The data is Gaussian",
+                "The classes are linearly separable"
+              ],
+              "answer": 1,
+              "explain": "kNN relies on local smoothness — points close in feature space share outputs — which is also why feature scaling and low dimensionality matter."
+            },
+            {
+              "q": "kNN decision boundaries are:",
+              "choices": [
+                "Always quadratic",
+                "Always straight lines",
+                "Potentially highly nonlinear, following the data",
+                "Always axis-aligned"
+              ],
+              "answer": 2,
+              "explain": "Because the boundary is induced point-by-point, kNN can fit complex nonlinear shapes with no explicit model."
+            },
+            {
+              "q": "To speed up kNN prediction on a very large dataset, you can use:",
+              "choices": [
+                "Gradient descent",
+                "A larger learning rate",
+                "More training epochs",
+                "KD-trees or approximate nearest-neighbor search"
+              ],
+              "answer": 3,
+              "explain": "kNN has no training, but each query scans the data ($O(n)$); spatial structures (KD/ball-trees) or approximate NN cut that cost."
             }
           ],
           "flashcards": [
