@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 622 — MCQ top-up runway, batch 15: ml-kmeans 8 → 16 (content / assessment)
+Fifteenth batch. Added **8 new MCQs to `ml-kmeans`** (now 16), distinct from the existing eight: a worked 1-D convergence example, assign=nearest-centroid, update=cluster-mean,
+local-optimum convergence, inertia decreasing monotonically with `k`, the `O(nkd)` per-iteration cost, the numeric-features/k-modes requirement, and centroids being means (not
+data points). Key assertion confirmed each correct choice; balanced → **4/4/4/4**.
+Verified: data parses; gate ALL GREEN; **headless** quiz "Question 1 of 16", 4 choices, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v562` → `atlas-v563`. Runway: **15 of 17** (ML 8/10).
+
 ## iter 621 — MCQ top-up runway, batch 14: ml-naive-bayes 8 → 16 (content / assessment)
 Fourteenth batch. Added **8 new MCQs to `ml-naive-bayes`** (now 16), distinct from the existing eight: a numeric posterior (`P(spam|"free")≈0.77`), log-space to avoid
 underflow, Gaussian NB (continuous) and Bernoulli NB (binary) variants, why `P(x)` cancels in classification, the Laplace mechanism (unseen word → small nonzero), `P(c)` =

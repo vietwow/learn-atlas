@@ -1832,6 +1832,94 @@
               ],
               "answer": 2,
               "explain": "GMM (fit by EM) gives each point a probability of membership in each Gaussian cluster; k-means is the hard-assignment, spherical-equal-variance special case."
+            },
+            {
+              "q": "Run k-means on $\\{1,2,3,10,11,12\\}$ with centroids at 2 and 11. After one assign + update step, the centroids are:",
+              "choices": [
+                "Still $2$ and $11$ — it has converged",
+                "$1.5$ and $11.5$",
+                "$6.5$ and $6.5$",
+                "$3$ and $10$"
+              ],
+              "answer": 0,
+              "explain": "Points split as $\\{1,2,3\\}$ and $\\{10,11,12\\}$ with means $2$ and $11$ — unchanged, so the assignments are stable."
+            },
+            {
+              "q": "The assign step of k-means assigns each point to:",
+              "choices": [
+                "A random cluster",
+                "Its nearest centroid",
+                "The cluster with the fewest points",
+                "The global mean"
+              ],
+              "answer": 1,
+              "explain": "Each point joins the cluster whose centroid is closest (by Euclidean distance)."
+            },
+            {
+              "q": "The update step of k-means moves each centroid to:",
+              "choices": [
+                "The median of all the data",
+                "A random assigned point",
+                "The mean of the points assigned to it",
+                "The nearest data point"
+              ],
+              "answer": 2,
+              "explain": "Setting the centroid to the cluster mean is exactly what minimizes that cluster's squared distance."
+            },
+            {
+              "q": "k-means is guaranteed to:",
+              "choices": [
+                "Increase inertia over time",
+                "Find the global optimum",
+                "Run forever",
+                "Decrease the objective each step and converge to a local optimum"
+              ],
+              "answer": 3,
+              "explain": "Both steps never increase the inertia, so it converges — but to a local optimum depending on initialization."
+            },
+            {
+              "q": "As the number of clusters $k$ increases, the within-cluster sum of squares (inertia):",
+              "choices": [
+                "Decreases monotonically, reaching $0$ at $k=n$",
+                "Increases",
+                "Stays constant",
+                "Oscillates"
+              ],
+              "answer": 0,
+              "explain": "More clusters always fit tighter, so you cannot just minimize inertia over $k$ — hence the elbow heuristic."
+            },
+            {
+              "q": "The cost of one k-means iteration is roughly:",
+              "choices": [
+                "$O(n^2)$",
+                "$O(n\\,k\\,d)$ — each of $n$ points compared to $k$ centroids in $d$ dimensions",
+                "$O(k^n)$",
+                "$O(1)$"
+              ],
+              "answer": 1,
+              "explain": "The assign step dominates: $n$ points times $k$ centroids times $d$ features."
+            },
+            {
+              "q": "k-means requires features that are:",
+              "choices": [
+                "Already clustered",
+                "Strictly binary",
+                "Numeric with a meaningful distance (categorical data needs k-modes)",
+                "Probabilities summing to 1"
+              ],
+              "answer": 2,
+              "explain": "Means and Euclidean distances need numeric features; categorical variants (k-modes/k-prototypes) replace the mean and metric."
+            },
+            {
+              "q": "The centroids k-means returns are:",
+              "choices": [
+                "The farthest-apart points",
+                "Always real data points",
+                "The cluster medoids",
+                "Cluster means (centers of mass), not necessarily actual data points"
+              ],
+              "answer": 3,
+              "explain": "A centroid is the average of its members; k-medoids instead restricts centers to be actual data points."
             }
           ],
           "flashcards": [
