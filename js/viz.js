@@ -6440,4 +6440,47 @@
     draw();
   });
 
+
+  /* ========================================================
+     118. Calibration: confidence vs accuracy (LLMs)
+     ======================================================== */
+  register({ id: 'llm-calibration', topic: 'llm', title: 'Calibration: does confidence match accuracy?', blurb: 'A model is calibrated when its stated confidence equals its real accuracy: of the answers it gives at 80% confidence, 80% should be right. Plot accuracy against confidence (a reliability diagram) — the diagonal is perfect calibration. Slide from over-confident (points below the line: it claims 90% but is right 80% — the seedbed of confident hallucinations) through calibrated to under-confident. The Expected Calibration Error (ECE) is the average gap.' },
+  function (root) {
+    const W = 540, H = 340, pad = 44;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    let gamma = 2;
+    const sz = Math.min(W - 2 * pad, H - 2 * pad);
+    const x0 = pad, y0 = (H - sz) / 2;
+    const X = v => x0 + v * sz, Y = v => y0 + sz - v * sz;
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      // axes box
+      ctx.strokeStyle = p.line; ctx.lineWidth = 1; ctx.strokeRect(x0, y0, sz, sz);
+      ctx.fillStyle = p.mute; ctx.font = '11px ' + (cssVar('--font-mono') || 'monospace'); ctx.textAlign = 'center';
+      ctx.fillText('confidence', x0 + sz / 2, y0 + sz + 26);
+      ctx.save(); ctx.translate(x0 - 28, y0 + sz / 2); ctx.rotate(-Math.PI / 2); ctx.fillText('accuracy', 0, 0); ctx.restore();
+      [0, 0.5, 1].forEach(t => { ctx.fillText(t, X(t), y0 + sz + 13); ctx.textAlign = 'right'; ctx.fillText(t, x0 - 6, Y(t) + 3); ctx.textAlign = 'center'; });
+      // perfect-calibration diagonal
+      ctx.strokeStyle = p.mute; ctx.setLineDash([5, 4]); ctx.lineWidth = 1.4; ctx.beginPath(); ctx.moveTo(X(0), Y(0)); ctx.lineTo(X(1), Y(1)); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = p.mute; ctx.textAlign = 'left'; ctx.font = '10px ' + (cssVar('--font-mono') || 'monospace'); ctx.fillText('perfect', X(0.72) + 4, Y(0.72) - 6);
+      // bins
+      let ece = 0; const over = gamma > 1.02, under = gamma < 0.98;
+      const col = over ? p.rust : under ? p.violet : p.sage;
+      for (let i = 0; i < 10; i++) {
+        const cc = (i + 0.5) / 10, a = Math.pow(cc, gamma); ece += Math.abs(cc - a);
+        ctx.strokeStyle = col; ctx.globalAlpha = 0.5; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(X(cc), Y(cc)); ctx.lineTo(X(cc), Y(a)); ctx.stroke(); ctx.globalAlpha = 1;
+        ctx.fillStyle = col; ctx.beginPath(); ctx.arc(X(cc), Y(a), 4, 0, 7); ctx.fill();
+      }
+      ece /= 10;
+      info.innerHTML = 'state: <b style="color:' + col + '">' + (over ? 'over-confident' : under ? 'under-confident' : 'well-calibrated') + '</b> &middot; Expected Calibration Error = <b>' + ece.toFixed(3) + '</b>. ' +
+        (over ? 'Points sit below the diagonal — it claims more confidence than it earns, exactly how a fluent model states falsehoods with conviction.' : under ? 'Points sit above the diagonal — it is more accurate than it admits, hedging too much.' : 'Confidence matches accuracy — its 80% answers really are right ~80% of the time.');
+    }
+    slider(ctl, { label: 'over- ↔ under-confident', min: 0.3, max: 3, step: 0.05, value: gamma, fmt: v => v.toFixed(2), onInput: v => { gamma = v; draw(); } });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Calibration reliability diagram: accuracy versus confidence with a dashed diagonal marking perfect calibration. Ten points show the accuracy at each confidence level. A slider moves the model from over-confident (points below the diagonal — it claims more confidence than it earns, the seedbed of confident hallucinations) through well-calibrated (on the diagonal) to under-confident (above). The readout reports the Expected Calibration Error, the average gap, which is zero only when calibrated.');
+    draw();
+  });
+
 })();

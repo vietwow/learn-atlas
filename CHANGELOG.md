@@ -2,6 +2,14 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 678 — NEW viz: calibration / reliability diagram (visualizations)
+Filled a no-viz LLM lesson with a genuinely visual, high-value concept. Built the **118th widget, `llm-calibration` "Calibration: does confidence match accuracy?"** for
+`l-hallucination-and-evaluation`: a reliability diagram (accuracy vs confidence, dashed perfect-calibration diagonal) with a slider from **over-confident** (dots below the line — the
+seedbed of confident hallucinations) through **calibrated** to **under-confident**, and a live **Expected Calibration Error** readout. Embedded under §2 "Why Next-Token Prediction Produces
+Confident Falsehoods". LLM viz coverage **16/19 → 17/19**.
+Verified: ECE math re-derived (γ=1 → 0.000, γ=2 → 0.167 overconfident); gate ALL GREEN (now **118 widgets**); **headless** — Lab + lesson hydrate; γ=1 well-calibrated/ECE 0, γ=2 over-,
+γ=0.5 under-confident; kErr=0, errs=0; screenshot shows rust dots below the diagonal. SW cache `atlas-v615` → `atlas-v616`.
+
 ## iter 677 — NEW viz: transfer learning (freeze vs fine-tune) → DL viz COMPLETE (visualizations)
 Filled Deep Learning's last no-viz lesson. Built the **117th widget, `dl-transfer` "Transfer learning: how much to freeze"** for `dl-transfer-learning`: a pretrained backbone drawn as a
 layer stack (general features at the bottom → task-specific head at top); a slider sets how many early layers are **frozen** (🔒 grey, reused) vs **fine-tuned** (✎ gold), with a readout of
