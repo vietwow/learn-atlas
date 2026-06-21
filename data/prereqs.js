@@ -188,5 +188,17 @@ window.PREREQS = {
   ],
   "it-information-in-ml": [
     "ps-random-variables-distributions"
+  ],
+  "ps-random-variables-distributions": [
+    "c-definite-integral-riemann"
+  ],
+  "ps-uniform-exponential": [
+    "c-definite-integral-riemann"
+  ],
+  "ps-conditional-expectation": [
+    "c-definite-integral-riemann"
+  ],
+  "ps-covariance-correlation": [
+    "la-dot-product-norms"
   ]
 };

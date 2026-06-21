@@ -2,6 +2,15 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 636 — Connect Probability into calculus/LA in the prereq graph (understandability / content structure)
+Continued the prereq-graph frontier: Probability & Statistics was only 2/20 connected upstream, despite its continuous-distribution lessons genuinely resting on integration.
+Added **4 accurate cross-topic edges** (and confirmed `ps-expectation-variance` & `ps-normal-distribution` already had theirs): `ps-random-variables-distributions`,
+`ps-uniform-exponential`, `ps-conditional-expectation` → `c-definite-integral-riemann` (continuous probability is *area under the density*; E[Y|X] is an integral);
+`ps-covariance-correlation` → `la-dot-product-norms` (correlation is a normalized inner product). Conservative — only added where the dependency is real; discrete/inference
+lessons stay self-contained. Edges point upstream (PS→calc/LA), so the DAG is clean: LA/calc → PS → IT/ML/DL. **PS prereq coverage 2/20 → 6/20.**
+Verified: `new Function` clean; gate ALL GREEN (every prereq id resolves); **headless** — the new edges surface as in-lesson links (ps-covariance-correlation → la-dot-product-norms,
+ps-random-variables-distributions → c-definite-integral-riemann), Knowledge Map renders (768 nodes); errs=0. SW cache `atlas-v576` → `atlas-v577`.
+
 ## iter 635 — Connect Information Theory into the prerequisite graph (understandability / content structure)
 A non-viz structural fix: Information Theory was nearly disconnected from the cross-topic prerequisite graph (only 2 of 7 lessons had edges), so its "🧭 prerequisites build up to
 this" banner, the **Knowledge Map**, and learning-paths under-represented how IT rests on probability. Added **5 accurate cross-topic edges** (each a genuine dependency on a real

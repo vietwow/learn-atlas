@@ -210,7 +210,8 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ✅ iter 634: **RL viz curation** — cross-embedded rl-bandit/rl-td-mc/rl-q-learning/rl-policy-gradient into 4 no-viz RL lessons (10/20→14/20). Verified headless canvases hydrate, gate GREEN, SW →v575.
    ⏳ Viz-coverage curation frontier (cross-embed existing widgets into no-viz lessons): RL now 14/20 (6 left); also LLM ~10/19, LA ~10/19, algos ~14/23, calc 17/25, DL 17/22. Match a relevant existing viz to each lesson's intro heading.
    ✅ iter 635: **connected Information Theory into the prereq graph** (understandability) — 5 accurate cross-topic edges, IT 2/7→7/7. Verified gate GREEN, map renders, edges surface as links, SW →v576.
-   ⏳ Prereq-graph frontier (non-viz): PS is 2/20 cross-topic edges — could connect PS lessons upstream to calculus (integration for continuous distributions) where genuinely dependent.
+   ✅ iter 636: **connected PS upstream into calculus/LA** (understandability) — 4 accurate edges, PS 2/20→6/20. DAG clean (LA/calc→PS→IT/ML/DL). Verified gate GREEN, links surface, map renders, SW →v577.
+   Prereq-graph: foundations (LA/calc/algos) intentionally have no upstream edges; downstream topics (DL/ML/LLM/IT) well-connected; PS/IT now connected. Graph is in good shape.
    ★ The big remaining levers genuinely need OWNER STEER: (1) a 10th topic, (2) the lazy-load-data performance refactor.
    NEXT: PS lessons still lacking viz: sample-spaces, random-variables, expectation-variance, sampling-distributions; big levers are a 10th topic or the staged
    lazy-load-data perf project (owner steer). Keep varying lanes.
