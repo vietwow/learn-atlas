@@ -164,6 +164,158 @@
               "solution": "$H=\\log_2 256 = \\mathbf{8}$ bits. Perplexity $=2^{H}=2^8=\\mathbf{256}$ — the model is as confused as if it were guessing uniformly among all 256 tokens. Perplexity is just the entropy exponentiated, so it reads as an 'effective number of equally-likely choices.'"
             }
           ]
+        },
+        {
+          "id": "it-differential-entropy",
+          "title": "Differential Entropy: Information in Continuous Variables",
+          "minutes": 17,
+          "content": "<h3>1. The hook: entropy when outcomes are continuous</h3>\n<p>So far entropy has counted the average surprise of <em>discrete</em> outcomes — coin flips, symbols, classes. But most quantities in machine learning are <em>continuous</em>: a pixel intensity, a latent code, a reward. How do we measure the information in a probability <em>density</em>? The answer, <strong>differential entropy</strong>, replaces the sum with an integral — and comes with one delightful twist that the discrete version never had.</p>\n<h3>2. From sums to integrals</h3>\n<p>For a continuous variable with density $f(x)$, the <strong>differential entropy</strong> is $$h(X) = -\\int f(x)\\,\\log f(x)\\,dx = \\mathbb{E}[-\\log f(X)].$$ It is the natural analogue of $H(X)=-\\sum p\\log p$: average surprise, now weighted by a density and integrated. As before, spread-out densities have high entropy and concentrated ones have low entropy.</p>\n<h3>3. The twist: it can be negative</h3>\n<p>Here is what makes differential entropy different: <em>it can be negative.</em> Because a density $f(x)$ can exceed 1 (densities integrate to 1, but their <em>height</em> is unbounded), $-\\log f$ can be negative, and so can the whole integral. A uniform distribution on $[0,a]$ has $h = \\log_2 a$: positive when $a\\gt 1$, but <strong>negative when $a\\lt 1$</strong> (a tightly concentrated density). Differential entropy is therefore not \"bits of uncertainty\" in the literal counting sense — it is a relative measure, sensitive even to the units you measure $x$ in.</p>\n<h3>4. Compute it yourself</h3>\n<p><b>Try it in code.</b> The differential entropy of a Gaussian has a clean closed form: $h = \\tfrac12\\log_2(2\\pi e\\,\\sigma^2)$. For the standard normal ($\\sigma=1$) it is about 2.05 bits.</p>\n<div data-code=\"javascript\" data-expected=\"2.05\">// Differential entropy of a Gaussian: h = 0.5 * log2(2*pi*e*sigma^2)\nconst sigma = 1;\nconst log2 = x => Math.log(x) / Math.log(2);\nconst h = 0.5 * log2(2 * Math.PI * Math.E * sigma * sigma);\nconsole.log(h.toFixed(2));</div>\n<h3>5. The Gaussian is the maximum-entropy distribution</h3>\n<p>A beautiful fact ties this back to why the normal distribution is everywhere: <strong>among all distributions with a given variance, the Gaussian has the largest differential entropy.</strong> In the maximum-entropy sense it is the \"least presumptuous\" choice — it assumes nothing beyond the variance you fixed. From $h=\\tfrac12\\log_2(2\\pi e\\,\\sigma^2)$ you can also read off that entropy grows with the log of the spread: doubling $\\sigma$ adds exactly 1 bit.</p>\n<h3>6. KL and mutual information survive the move to continuous</h3>\n<p>If differential entropy is unit-dependent and can go negative, can we still do information theory with continuous variables? Yes — because the quantities ML actually cares about are <em>differences</em> of differential entropies, and the awkward parts cancel. The <strong>KL divergence</strong> $D_{\\mathrm{KL}}(f\\|g)=\\int f\\log\\frac{f}{g}$ and the <strong>mutual information</strong> $I(X;Y)=h(X)-h(X\\mid Y)$ remain well-defined, nonnegative, and coordinate-invariant. That is why a VAE can compute a Gaussian KL term, and why continuous mutual-information objectives (InfoNCE) make sense.</p>\n<h3>7. Where it shows up in ML</h3>\n<p>Differential entropy and its relatives are everywhere continuous variables live. The <strong>VAE</strong>'s regularizer is a KL between continuous Gaussians (closed form from these entropies). <strong>Continuous mutual information</strong> underlies contrastive representation learning. The <strong>maximum-entropy principle</strong> justifies Gaussian priors and noise models. And <strong>maximum-entropy reinforcement learning</strong> adds a (differential) entropy bonus to the reward so the policy stays as random as possible while still earning return — the idea behind soft actor-critic.</p>\n<h3>8. The big picture</h3>\n<p>Differential entropy extends entropy to continuous variables, $h(X)=-\\int f\\log f$ — same idea, integral instead of sum, but now it can be negative and depends on units. The Gaussian maximizes it for a fixed variance. And although $h$ itself is a relative measure, the <em>differences</em> that matter — KL divergence and mutual information — stay well-defined and invariant, which is what lets information theory power continuous-variable machine learning from VAEs to max-entropy RL.</p>\n<details class=\"deep-dive\">\n<summary>Deeper dive: why differential entropy can be negative (and isn't coordinate-invariant)</summary>\n<p>Discrete entropy is always $\\ge 0$ because each probability $p\\le 1$, so $-\\log p\\ge 0$. The continuous version loses this guarantee, and the reason is worth understanding.</p>\n<p>A probability <em>density</em> $f(x)$ is not a probability — it can be larger than 1 (only its integral must be 1). Where $f(x)\\gt 1$, the term $-\\log f(x)$ is negative, and if the density is concentrated enough the whole integral $h=-\\int f\\log f$ goes negative. Concretely, a uniform density on $[0,a]$ is $1/a$, giving $h=\\log_2 a$ — which is $-1$ bit for $a=\\tfrac12$. Worse, if you rescale $x\\mapsto cx$ (say, measure in centimetres instead of metres), $h$ shifts by $\\log_2 c$: differential entropy depends on your <em>units</em>.</p>\n<p>The \"aha\": differential entropy is not an absolute bit-count like discrete entropy — it is measured relative to the coordinate system. That sounds fatal, but the cure is built in: KL divergence and mutual information are <em>differences</em> of differential entropies, and the unit-dependent and density-height terms cancel, leaving quantities that are nonnegative and invariant. So we compute $h$ as a stepping stone, but trust the differences.</p>\n</details>\n<details class=\"deep-dive\">\n<summary>Deeper dive: the Gaussian as the maximum-entropy distribution</summary>\n<p>Why does the normal distribution show up as the \"default\" everywhere? One deep reason is a maximum-entropy theorem: <strong>of all densities with a fixed variance $\\sigma^2$, the Gaussian uniquely maximizes the differential entropy.</strong></p>\n<p>The proof is a constrained optimization: maximize $-\\int f\\log f$ subject to $\\int f=1$ and $\\int x^2 f=\\sigma^2$. Setting up the Lagrangian and solving forces $\\log f$ to be a quadratic in $x$, i.e. $f$ is Gaussian. Intuitively, fixing the variance is the only constraint, and the entropy-maximizing choice spreads probability as evenly as that constraint allows — which is the bell curve. (Fix the mean only, on the positive reals, and you instead get the exponential; fix nothing on a bounded interval and you get the uniform.)</p>\n<p>The \"aha\": the maximum-entropy principle says \"assume the least beyond what you know,\" and with only a variance to go on, that least-presumptuous distribution is the Gaussian. This — alongside the central limit theorem — is a principled reason the normal is the natural prior and noise model throughout statistics and ML.</p>\n</details>\n<details class=\"deep-dive\">\n<summary>Deeper dive: the VAE's Gaussian KL, derived from these entropies</summary>\n<p>The capstone lesson quoted the VAE KL term as a closed form; differential entropy is where it comes from. For two Gaussians the KL has an exact expression built entirely from differential-entropy pieces.</p>\n<p>For a diagonal posterior $q=\\mathcal{N}(\\mu,\\sigma^2)$ against the standard-normal prior $p=\\mathcal{N}(0,1)$, $$D_{\\mathrm{KL}}(q\\|p)=\\tfrac12\\big(\\mu^2+\\sigma^2-1-\\ln\\sigma^2\\big).$$ You can read its parts: the $-\\tfrac12\\ln\\sigma^2$ (up to constants) is the negative differential entropy of $q$ — penalizing a posterior that is too narrow — while the $\\tfrac12(\\mu^2+\\sigma^2)$ is the cross-term that grows as $q$ drifts from the prior's center and unit spread. Minimizing it pulls $\\mu\\to 0$ and $\\sigma\\to 1$. Because it is a KL (a difference of entropies), it is nonnegative and unit-free even though each Gaussian's differential entropy alone is not.</p>\n<p>The \"aha\": the VAE regularizer you computed earlier is differential entropy made useful — the unit-dependent $h$ terms assemble into a clean, invariant KL that measures exactly how far the learned latent code has strayed from its prior, in nats.</p>\n</details>",
+          "mcq": [
+            {
+              "q": "Differential entropy is defined as:",
+              "choices": [
+                "$-\\int f(x)\\log f(x)\\,dx$",
+                "$-\\sum_x p(x)\\log p(x)$",
+                "$\\int x f(x)\\,dx$",
+                "$\\max_x f(x)$"
+              ],
+              "answer": 0,
+              "explain": "The continuous analogue of entropy: a density-weighted integral of $-\\log f$."
+            },
+            {
+              "q": "Unlike discrete entropy, differential entropy:",
+              "choices": [
+                "Is always zero",
+                "Is always greater than 1",
+                "Cannot be computed",
+                "Can be negative"
+              ],
+              "answer": 3,
+              "explain": "A density can exceed 1, so $-\\log f$ (and the integral) can be negative."
+            },
+            {
+              "q": "A uniform distribution on $[0,a]$ has differential entropy:",
+              "choices": [
+                "$a$",
+                "$1/a$",
+                "$\\log_2 a$",
+                "$0$"
+              ],
+              "answer": 2,
+              "explain": "$h=\\log_2 a$ — negative when $a\\lt 1$, zero at $a=1$, positive when $a\\gt 1$."
+            },
+            {
+              "q": "Among all distributions with a fixed variance, which has the maximum differential entropy?",
+              "choices": [
+                "The uniform",
+                "The exponential",
+                "The Gaussian",
+                "The Laplace"
+              ],
+              "answer": 2,
+              "explain": "The Gaussian is the maximum-entropy distribution for a fixed variance — the 'least presumptuous' choice."
+            },
+            {
+              "q": "Why are KL divergence and mutual information still well-behaved for continuous variables?",
+              "choices": [
+                "They ignore the density",
+                "They only work for Gaussians",
+                "They are always zero",
+                "They are differences of differential entropies, so unit-dependent terms cancel"
+              ],
+              "answer": 3,
+              "explain": "As differences, the coordinate-dependent and density-height terms cancel, leaving invariant, nonnegative quantities."
+            },
+            {
+              "q": "The differential entropy of a Gaussian is $\\tfrac12\\log_2(2\\pi e\\,\\sigma^2)$. Doubling $\\sigma$:",
+              "choices": [
+                "Halves the entropy",
+                "Adds exactly 1 bit",
+                "Leaves it unchanged",
+                "Makes it negative"
+              ],
+              "answer": 1,
+              "explain": "Entropy grows with $\\log\\sigma$; doubling $\\sigma$ adds $\\log_2 2=1$ bit."
+            },
+            {
+              "q": "Differential entropy depends on:",
+              "choices": [
+                "The units in which $x$ is measured",
+                "Only the mean",
+                "Only the sample size",
+                "Nothing — it is invariant"
+              ],
+              "answer": 0,
+              "explain": "Rescaling $x\\mapsto cx$ shifts $h$ by $\\log_2 c$; it is not coordinate-invariant (KL and MI are)."
+            },
+            {
+              "q": "Maximum-entropy reinforcement learning adds to the reward:",
+              "choices": [
+                "A penalty on entropy",
+                "A differential-entropy bonus to keep the policy random",
+                "The channel capacity",
+                "The KL to a uniform prior over states"
+              ],
+              "answer": 1,
+              "explain": "An entropy bonus keeps the policy as stochastic as possible while earning return — the idea behind soft actor-critic."
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Differential entropy $h(X)$",
+              "back": "$-\\int f(x)\\log f(x)\\,dx$ — the continuous analogue of entropy. Can be negative; depends on the units of $x$."
+            },
+            {
+              "front": "Why can $h(X)$ be negative?",
+              "back": "A density $f$ can exceed 1, so $-\\log f$ can be negative. E.g. Uniform$[0,a]$ has $h=\\log_2 a$, negative for $a\\lt 1$."
+            },
+            {
+              "front": "Gaussian differential entropy",
+              "back": "$h=\\tfrac12\\log_2(2\\pi e\\,\\sigma^2)$. The Gaussian maximizes $h$ among all distributions with a given variance."
+            },
+            {
+              "front": "Why KL/MI survive in the continuous case",
+              "back": "They are differences of differential entropies, so the unit-dependent terms cancel — leaving nonnegative, coordinate-invariant quantities."
+            },
+            {
+              "front": "Max-entropy principle (continuous)",
+              "back": "Fixed variance → Gaussian; fixed mean on $[0,\\infty)$ → exponential; bounded interval, no other constraint → uniform. Assume the least beyond what's known."
+            }
+          ],
+          "examples": [
+            {
+              "title": "Uniform differential entropy — and a negative value",
+              "scenario": "Compute the differential entropy of a uniform distribution on $[0,2]$ and on $[0,0.5]$.",
+              "solution": "For Uniform$[0,a]$, the density is $1/a$, so $h=-\\int_0^a \\tfrac1a\\log_2\\tfrac1a\\,dx=\\log_2 a$. On $[0,2]$: $h=\\log_2 2=\\mathbf{1}$ bit. On $[0,0.5]$: $h=\\log_2 0.5=\\mathbf{-1}$ bit — <em>negative</em>, because the density $1/0.5=2$ exceeds 1, something discrete entropy can never do. Concentrating the distribution drives differential entropy down, past zero."
+            },
+            {
+              "title": "Gaussian entropy grows with spread",
+              "scenario": "Using $h=\\tfrac12\\log_2(2\\pi e\\,\\sigma^2)$, compute the differential entropy of a Gaussian with $\\sigma=1$ and with $\\sigma=2$.",
+              "solution": "With $\\sigma=1$: $h=\\tfrac12\\log_2(2\\pi e)\\approx\\tfrac12\\log_2(17.08)\\approx\\mathbf{2.05}$ bits. With $\\sigma=2$: $\\sigma^2=4$, so $h=\\tfrac12\\log_2(2\\pi e\\cdot 4)=2.05+\\tfrac12\\log_2 4=2.05+1=\\mathbf{3.05}$ bits. Each doubling of $\\sigma$ adds exactly 1 bit — entropy tracks the log of the spread."
+            },
+            {
+              "title": "Why the Gaussian is the default noise model",
+              "scenario": "You must choose a continuous distribution for a quantity where you only know its variance. What does the maximum-entropy principle recommend, and why?",
+              "solution": "It recommends the <b>Gaussian</b>. Among all densities with the given variance, the Gaussian uniquely maximizes differential entropy, so it adds the fewest extra assumptions beyond the one fact you have (the variance). Any other choice secretly encodes more structure than you actually know. This — together with the central limit theorem — is why Gaussian noise and Gaussian priors are the principled defaults across statistics and ML."
+            }
+          ],
+          "homework": [
+            {
+              "prompt": "Compute the differential entropy of a uniform distribution on $[0,4]$, and state whether it is positive or negative.",
+              "hint": "For Uniform$[0,a]$, $h=\\log_2 a$.",
+              "solution": "$h=\\log_2 4=\\mathbf{2}$ bits — positive, since $a=4\\gt 1$ (the density $1/4\\lt 1$). For comparison, Uniform$[0,1]$ gives $h=\\log_2 1=0$, and any narrower interval gives a negative differential entropy. Widening the support increases differential entropy by the log of the width."
+            },
+            {
+              "prompt": "A Gaussian has $\\sigma=0.5$. Using $h=\\tfrac12\\log_2(2\\pi e\\,\\sigma^2)$ and the fact that $\\sigma=1$ gives $h\\approx 2.05$ bits, find its differential entropy.",
+              "hint": "Halving $\\sigma$ changes $h$ by $\\tfrac12\\log_2$ of the variance ratio — i.e. subtract 1 bit per halving of $\\sigma$.",
+              "solution": "Halving $\\sigma$ from 1 to 0.5 multiplies $\\sigma^2$ by $\\tfrac14$, changing $h$ by $\\tfrac12\\log_2\\tfrac14=\\tfrac12(-2)=-1$ bit. So $h\\approx 2.05-1=\\mathbf{1.05}$ bits. (Direct check: $\\tfrac12\\log_2(2\\pi e\\cdot 0.25)=\\tfrac12\\log_2(4.27)\\approx 1.05$.) Each halving of $\\sigma$ removes exactly 1 bit."
+            },
+            {
+              "prompt": "Explain why we can meaningfully minimize a KL divergence between two continuous distributions even though each one's differential entropy depends on the choice of units.",
+              "hint": "Write KL as a difference involving $\\int f\\log f$ and $\\int f\\log g$.",
+              "solution": "KL is $D_{\\mathrm{KL}}(f\\|g)=\\int f\\log\\frac{f}{g}=\\int f\\log f-\\int f\\log g$ — a <em>difference</em> of terms of the same differential-entropy form. Under a change of units $x\\mapsto cx$, both terms shift by the same $\\log c$, so the shift cancels and the KL is unchanged (coordinate-invariant). It is also always $\\ge 0$. So even though $h(f)$ and $h(g)$ individually are unit-dependent and can be negative, their difference — the KL the VAE actually minimizes — is a clean, invariant, nonnegative quantity."
+            }
+          ]
         }
       ]
     },

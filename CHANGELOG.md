@@ -2,6 +2,17 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 589 — Deepen Information Theory: Differential Entropy (content / depth)
+A **7th IT lesson** — **Differential Entropy: Information in Continuous Variables** — added to the Foundations module right after Entropy, extending information
+theory from discrete symbols to continuous densities (the regime VAEs, continuous MI, and max-entropy RL live in). Full parity: 8-section lecture (`h(X)=−∫f log f`,
+why it can be *negative* and is unit-dependent, the Gaussian closed form `½log₂(2πeσ²)`, the Gaussian as the max-entropy distribution, and why KL/MI survive as
+invariant *differences*), a **runnable code exercise** (Gaussian `σ=1` → 2.05 bits), **3 deep-dives** (why `h` can be negative / non-invariant; the Gaussian
+max-entropy theorem; deriving the VAE Gaussian KL from these entropies), **8 MCQs** (de-skewed 2/2/2/2), **5 flashcards**, **3 examples** (uniform incl. a negative
+value, Gaussian growth with σ, why Gaussian is the default noise model), **3 homework**. Numbers hand-verified (Uniform[0,2]→1, [0,0.5]→−1; Gaussian σ=1→2.05, σ=2→3.05).
+Also **spot-checked mobile**: the IT lesson, the new prereq banner, tabs/TOC, and `max-width:100%` canvases all render cleanly at true 390px (iframe wrapper) — no fix needed.
+Verified: gate ALL GREEN (now **9 topics · 165 lessons · 118 code-exercises**); **headless** — nDD=3, the Gaussian code runs to **2.05**, examples reveal, **kErr=0,
+rawDollar=0, errs=0**. SW cache `atlas-v529` → `atlas-v530`. Information Theory now has **7 lessons**.
+
 ## iter 588 — Prerequisite banner now names where to start (understandability / UX)
 When you open a lesson you're not ready for, the 🧭 banner used to only show a *count* ("4 prerequisites build up to this concept") and a link to the full path
 page — leaving "so where do I actually begin?" unanswered. It now also names the **earliest unmet prerequisite** (the foundational starting point, from the
