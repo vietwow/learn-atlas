@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 728 — GNN lesson MCQ top-up 8 → 16 (content / assessment)
+Brought `dl-graph-neural-networks` to the 16-MCQ standard. Added **8 new MCQs**: the GCN layer (aggregate + transform), aggregation functions (sum/mean/max), GraphSAGE neighbor sampling, CNN-as-GNN-on-a-grid,
+the over-smoothing *mechanism* (diffusion to a shared vector), graph-level readout/pooling, shared weight matrix across nodes, and node classification. Balanced → **4/4/4/4**. Lesson now at full parity; all
+**178 lessons at standard**.
+Verified: data parses; gate ALL GREEN with **no parity warning**; **headless** quiz "Question 1 of 16", 4 choices, kErr=0, errs=0. SW cache `atlas-v664` → `atlas-v665`.
+
 ## iter 727 — NEW lesson: Graph Neural Networks (content)
 Filled a major missing architecture: DL covered grids (CNNs), sequences (RNNs/transformers), and images (ViT), but had no lesson on **graphs**. Added `dl-graph-neural-networks` "Graph Neural Networks:
 Learning on Graphs" to DL M6: 8 sections (graph data · message passing · the GCN layer · a hand-worked step · permutation invariance · GraphSAGE/GAT variants · over-smoothing · applications), a runnable

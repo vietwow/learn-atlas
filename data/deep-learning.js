@@ -5020,6 +5020,94 @@
               ],
               "answer": 3,
               "explain": "Molecules/recommendation/knowledge graphs are graph data."
+            },
+            {
+              "q": "A single graph-convolution (GCN) layer does:",
+              "choices": [
+                "Aggregate neighbor features, then transform with a shared weight matrix + nonlinearity",
+                "Sort the nodes by degree",
+                "Run a 2-D convolution over pixels",
+                "Delete low-degree nodes"
+              ],
+              "answer": 0,
+              "explain": "Aggregate then transform — the GCN layer."
+            },
+            {
+              "q": "Typical GNN aggregation functions are:",
+              "choices": [
+                "Concatenation in a fixed order",
+                "Sum, mean, or max (order-independent)",
+                "Sorting",
+                "Matrix inversion"
+              ],
+              "answer": 1,
+              "explain": "Permutation-invariant pooling over neighbors."
+            },
+            {
+              "q": "GraphSAGE scales GNNs to huge graphs by:",
+              "choices": [
+                "Removing the weight matrix",
+                "Using all neighbors always",
+                "Sampling a fixed number of neighbors per node",
+                "Converting the graph to a grid"
+              ],
+              "answer": 2,
+              "explain": "Neighbor sampling bounds per-node cost."
+            },
+            {
+              "q": "A convolutional network (CNN) can be seen as message passing on:",
+              "choices": [
+                "A graph with no edges",
+                "A complete graph",
+                "A tree",
+                "A regular grid, where each pixel's neighbors are its spatial window"
+              ],
+              "answer": 3,
+              "explain": "CNN = GNN on a grid."
+            },
+            {
+              "q": "The mechanism behind over-smoothing is that repeated aggregation:",
+              "choices": [
+                "Acts like diffusion, driving all node features toward one shared vector",
+                "Adds random noise each layer",
+                "Removes edges",
+                "Increases the number of nodes"
+              ],
+              "answer": 0,
+              "explain": "Power iteration on the adjacency converges to a common direction."
+            },
+            {
+              "q": "To predict a property of a whole graph (e.g. a molecule), a GNN:",
+              "choices": [
+                "Uses only the first node",
+                "Pools (reads out) over all node embeddings into one vector",
+                "Ignores the node features",
+                "Predicts one label per edge"
+              ],
+              "answer": 1,
+              "explain": "A readout/pooling gives a graph-level embedding."
+            },
+            {
+              "q": "In a GNN layer, the transform weight matrix is:",
+              "choices": [
+                "Fixed and not learned",
+                "Unique to each node",
+                "Shared across all nodes (like a CNN's shared filter)",
+                "Different every layer per node"
+              ],
+              "answer": 2,
+              "explain": "Parameter sharing across nodes, like conv filters."
+            },
+            {
+              "q": "Node classification with a GNN means:",
+              "choices": [
+                "Sorting nodes alphabetically",
+                "Predicting one label for the whole graph",
+                "Counting the edges",
+                "Predicting a label for each node from its learned embedding"
+              ],
+              "answer": 3,
+              "explain": "Per-node prediction from message-passed embeddings."
             }
           ],
           "flashcards": [
