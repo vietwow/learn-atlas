@@ -2,6 +2,13 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 662 — Bayesian module: hands-on code exercise (examples / understandability)
+Closed a parity gap — 15/24 PS lessons had a runnable code exercise but the 4 new Bayesian lessons had none. Added a **"Code it: a Bayesian update"** exercise to `ps-bayesian-inference`:
+a short JavaScript Beta–Binomial update (prior Beta(2,2) + 7 heads/10 → posterior Beta(9,5), mean 0.643, vs flat-prior MLE 0.700) that the learner can run and tweak. The gate executes
+it and checks the output, so it is verified live. Site code-exercises **119 → 120**.
+Verified: data parses; gate ALL GREEN and ran the new exercise ("code-exercises verified", 120 total); **headless** — the lesson renders the code runner (Run affordance present), both
+embedded viz still hydrate, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v601` → `atlas-v602`. (Queued: code exercises for the other 3 Bayesian lessons.)
+
 ## iter 661 — Glossary: integrate the Bayesian vocabulary (reference)
 Integrated the new Module 6 by adding its core vocabulary to the glossary (so the terms surface as inline tooltips inside the Bayesian lessons, in ⌘K search, and on the glossary page).
 Added **10 terms**: **Likelihood, Conjugate prior, Maximum a posteriori (MAP), Credible interval, Posterior predictive distribution, Markov chain Monte Carlo (MCMC), Variational
