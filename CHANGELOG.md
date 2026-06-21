@@ -2,6 +2,15 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 640 — Step-back regression sweep (clean) + DL viz coverage → 21/22 (visualizations / curation + step-back)
+Round-number step-back. **Full 165-lesson regression sweep** (after iters 625–639 added 4 new viz, ~21 cross-embeds, glossary/prereq/a11y/mobile edits): **errs=0, no KaTeX errors in any
+lesson, bad=none** — the whole arc introduced zero regressions. **Loop health:** site measurably better (viz coverage now PS 20/20, ML 10/10, LA 18/19, DL 21/22, LLM 15/19, RL
+14/20; prereq graph connected; mobile bug fixed; a11y labels added); north star well-served; only owner-steer levers (10th topic, lazy-load perf) remain big.
+**Ship:** finished Deep Learning viz coverage — `dl-overfitting` → `dl-ml-recap-and-the-learning-problem` ("The Loss and the Risk"); `dl-convolution` → `dl-pooling-and-cnn-architectures`
+("Why We Pool"); **`llm-transformer-block`** → `dl-transformer-architecture` ("From RNNs to Transformers"); **`llm-scaling`** → `dl-pretraining-and-finetuning-paradigm` ("Scaling Laws").
+DL **17/22 → 21/22** (only `dl-transfer-learning` lacks a fitting widget).
+Verified: gate ALL GREEN; full sweep errs=0/bad=none; **headless** — all four DL lessons hydrate their embedded canvas (kErr=0 each), errs=0. SW cache `atlas-v580` → `atlas-v581`.
+
 ## iter 639 — Finish LA viz coverage via cross-topic curation → 18/19 (visualizations / curation)
 The LA "matrix-calculus" lessons I'd flagged as needing new builds actually have strong **cross-topic** matches (backprop/chain-rule viz already exist). Embedded: **`la-vector-add`**
 → `la-basis-dimension` at "Coordinates: turning a vector into a list of numbers" (coordinates = combination weights in a basis); **`calc-chain`** → `la-gradients-jacobians` at "where
