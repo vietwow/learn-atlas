@@ -2,6 +2,17 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 652 — NEW content pillar: Probability Module 6 "Bayesian Inference" — lesson 1 (content / new functionality)
+With the site feature-complete and the autonomous gap-list exhausted, took the initiative the mission calls for (a bold pillar over a tidy tweak) — and one the ROADMAP itself had
+flagged as desired ("OPTIONAL future: Module 6 — Bayesian inference"). Started **Probability & Statistics → Module 6: Bayesian Inference** with a full first lesson,
+**`ps-bayesian-inference` "Bayesian Inference: Priors, Likelihoods & Posteriors"**: an 8-section lecture (the Bayesian worldview · posterior ∝ likelihood × prior · the Beta–Binomial
+update · conjugate priors · MAP vs MLE · credible vs confidence intervals · how data overwhelms the prior · why it matters for ML), the existing `calc-bayes` viz embedded, plus
+**3 examples, 3 homework (hint+solution), 6 flashcards, and 8 MCQs** (de-skewed 2/2/2/2, every answer key asserted). All numbers re-derived in Node (Beta(2,2)+7/10 → Beta(9,5),
+mean 0.643, MAP 0.667, MLE 0.7; uniform-prior MAP=MLE). Site now **166 lessons**.
+**Phased plan:** top this lesson to 16 MCQs, then add lessons 2–4 (conjugacy in depth · posterior→decisions/predictive · computational Bayes: MCMC & variational intuition).
+Verified: data parses; gate ALL GREEN (166 lessons; validates MCQ answers + render hazards); **headless** — lecture renders with **46 KaTeX, 0 errors, rawDollar=0**, the calc-bayes
+canvas hydrates, quiz shows "Question 1 of 8" with 4 choices (qKErr=0); the course page lists the new "Bayesian Inference" module + lesson; errs=0. SW cache `atlas-v591` → `atlas-v592`.
+
 ## iter 651 — Glossary: 6 missing high-frequency ML/DL terms (reference)
 Audited ~60 important terms against the glossary and found six genuinely missing (most candidates were already present or covered by a related entry). Added concise, accurate
 definitions: **Principal Component Analysis (PCA)**, **Bagging**, **Dimensionality reduction**, **Curse of dimensionality**, **Feature scaling**, and **Stochastic gradient descent

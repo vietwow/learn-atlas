@@ -4921,6 +4921,167 @@
           ]
         }
       ]
+    },
+    {
+      "title": "Bayesian Inference",
+      "lessons": [
+        {
+          "id": "ps-bayesian-inference",
+          "title": "Bayesian Inference: Priors, Likelihoods & Posteriors",
+          "minutes": 16,
+          "content": "<h3>1. The Bayesian worldview: probability as belief</h3>\n<p>Frequentist statistics treats a parameter (say a coin's bias $\\theta$) as a fixed unknown number and asks how data would behave under repetition. <b>Bayesian inference</b> instead treats $\\theta$ itself as a random quantity and represents our <em>uncertainty</em> about it with a probability distribution. Learning is then nothing more than updating that distribution as evidence arrives.</p>\n<p>This is the same Bayes' theorem you met for events, now applied to a continuous parameter: we start with a <b>prior</b>, multiply by how well each value explains the data (the <b>likelihood</b>), and renormalize to get a <b>posterior</b>.</p>\n<h3>2. Bayes' rule for inference: posterior ∝ likelihood × prior</h3>\n<p>$$p(\\theta \\mid D) \\;=\\; \\frac{p(D \\mid \\theta)\\,p(\\theta)}{p(D)} \\;\\propto\\; \\underbrace{p(D\\mid\\theta)}_{\\text{likelihood}}\\;\\underbrace{p(\\theta)}_{\\text{prior}}.$$</p>\n<p>The denominator $p(D)=\\int p(D\\mid\\theta)\\,p(\\theta)\\,d\\theta$ is just the normalizing constant (the <em>evidence</em>); it does not depend on $\\theta$, so for finding the shape of the posterior we can ignore it and write <b>posterior $\\propto$ likelihood $\\times$ prior</b>.</p>\n<div data-viz=\"calc-bayes\"></div>\n<h3>3. A worked update: a coin's bias (Beta–Binomial)</h3>\n<p>Let $\\theta$ be the probability of heads. Encode prior belief with a $\\mathrm{Beta}(\\alpha,\\beta)$ distribution; observing $k$ heads in $n$ flips contributes a Binomial likelihood $\\theta^{k}(1-\\theta)^{n-k}$. Multiplying, the posterior is again Beta:</p>\n<p>$$\\theta\\sim\\mathrm{Beta}(\\alpha,\\beta),\\quad \\text{data }(k,n)\\;\\Rightarrow\\; \\theta\\mid D \\sim \\mathrm{Beta}(\\alpha+k,\\;\\beta+n-k).$$</p>\n<p>The update is wonderfully simple: <b>add successes to $\\alpha$ and failures to $\\beta$.</b> Starting from $\\mathrm{Beta}(2,2)$ (a mild \"probably fair\") and seeing $7$ heads in $10$ gives $\\mathrm{Beta}(9,5)$, with posterior mean $\\tfrac{9}{14}\\approx 0.64$ — pulled from the prior's $0.5$ toward the data's $0.7$.</p>\n<h3>4. Conjugate priors</h3>\n<p>The Beta prior is <b>conjugate</b> to the Binomial likelihood: the posterior stays in the same family (Beta), so updating is just arithmetic on the parameters — no integrals. Other famous pairs: Gaussian–Gaussian (known variance), and Gamma–Poisson. Conjugacy is a convenience, not a requirement; without it we approximate the posterior numerically (MCMC, variational inference).</p>\n<h3>5. Point estimates: MAP vs MLE</h3>\n<p>Sometimes you want a single number, not a whole distribution. The <b>MAP</b> (maximum a posteriori) estimate is the posterior's mode — the most probable $\\theta$ given prior and data. The <b>MLE</b> (maximum likelihood) maximizes only the likelihood, ignoring the prior:</p>\n<p>$$\\hat\\theta_{\\text{MAP}}=\\arg\\max_\\theta\\, p(\\theta\\mid D),\\qquad \\hat\\theta_{\\text{MLE}}=\\arg\\max_\\theta\\, p(D\\mid\\theta).$$</p>\n<p>With a <em>flat</em> prior the two coincide, so MAP can be read as \"MLE plus a regularizing prior\". For our coin, $\\mathrm{Beta}(2,2)$ gives $\\hat\\theta_{\\text{MAP}}=\\tfrac{8}{12}\\approx 0.67$ versus $\\hat\\theta_{\\text{MLE}}=0.7$.</p>\n<h3>6. Credible intervals (not confidence intervals)</h3>\n<p>A <b>95% credible interval</b> is an interval that holds 95% of the posterior probability: given the data, there is a 95% chance $\\theta$ lies inside it. That is the direct probability statement people <em>wish</em> a confidence interval made — but a frequentist CI cannot, because to it $\\theta$ is fixed and only the interval is random. The Bayesian version says what we actually want, at the cost of requiring a prior.</p>\n<h3>7. How data overwhelms the prior</h3>\n<p>With little data the prior steers the answer; as $n$ grows the likelihood sharpens and dominates, so two analysts with different (non-dogmatic) priors converge. In $\\mathrm{Beta}(\\alpha+k,\\beta+n-k)$ the prior's $\\alpha,\\beta$ become negligible once $k$ and $n-k$ are large — the posterior mean $\\to k/n$, the MLE. The prior matters most exactly when data is scarce, which is also when it helps most.</p>\n<h3>8. Why this matters for machine learning</h3>\n<p>Bayesian thinking underlies regularization (a prior on weights — ridge is a Gaussian prior, lasso a Laplace prior), $\\mathrm{MAP}$ training, Bayesian model comparison, Gaussian processes, Thompson sampling for bandits, and modern uncertainty estimation. Even when we only compute a point estimate, \"posterior $\\propto$ likelihood $\\times$ prior\" is the lens that explains <em>why</em> the estimate looks the way it does.</p>",
+          "mcq": [
+            {
+              "q": "In Bayesian inference, the posterior is proportional to:",
+              "choices": [
+                "Likelihood × prior",
+                "Prior ÷ likelihood",
+                "The evidence $p(D)$ alone",
+                "Likelihood − prior"
+              ],
+              "answer": 0,
+              "explain": "$p(\\theta\\mid D)\\propto p(D\\mid\\theta)\\,p(\\theta)$; the evidence only normalizes."
+            },
+            {
+              "q": "The prior $p(\\theta)$ encodes:",
+              "choices": [
+                "The probability of the data",
+                "Belief about the parameter before seeing the data",
+                "The final answer",
+                "The sampling noise"
+              ],
+              "answer": 1,
+              "explain": "The prior is the pre-data distribution over the parameter; data then updates it."
+            },
+            {
+              "q": "A prior is \"conjugate\" to a likelihood when:",
+              "choices": [
+                "The likelihood is Gaussian",
+                "The prior is uniform",
+                "The posterior is in the same family as the prior",
+                "No data is observed"
+              ],
+              "answer": 2,
+              "explain": "Conjugacy keeps the posterior in the prior's family (e.g. Beta→Beta), making the update pure arithmetic."
+            },
+            {
+              "q": "The Beta distribution is the conjugate prior for which likelihood?",
+              "choices": [
+                "Exponential",
+                "Poisson",
+                "Gaussian with known mean",
+                "Binomial / Bernoulli"
+              ],
+              "answer": 3,
+              "explain": "Beta prior + Binomial likelihood → Beta posterior $\\mathrm{Beta}(\\alpha+k,\\beta+n-k)$."
+            },
+            {
+              "q": "The MAP estimate is:",
+              "choices": [
+                "The mode of the posterior",
+                "The mean of the prior",
+                "The maximum of the likelihood, ignoring the prior",
+                "Always equal to the MLE"
+              ],
+              "answer": 0,
+              "explain": "MAP $=\\arg\\max_\\theta p(\\theta\\mid D)$ — the posterior mode, which uses the prior. MLE ignores the prior."
+            },
+            {
+              "q": "As the amount of data grows without bound, the posterior:",
+              "choices": [
+                "Stays equal to the prior",
+                "Concentrates and the prior's influence fades",
+                "Becomes uniform",
+                "Ignores the likelihood"
+              ],
+              "answer": 1,
+              "explain": "The likelihood sharpens with $n$, so the posterior concentrates near the MLE and the prior matters less."
+            },
+            {
+              "q": "A 95% credible interval $[a,b]$ means:",
+              "choices": [
+                "$\\theta$ equals the midpoint with 95% chance",
+                "95% of repeated intervals would cover $\\theta$",
+                "There is a 95% posterior probability that $\\theta\\in[a,b]$",
+                "The data lies in $[a,b]$ 95% of the time"
+              ],
+              "answer": 2,
+              "explain": "Bayesian credible intervals make a direct probability statement about $\\theta$ given the data — unlike frequentist confidence intervals."
+            },
+            {
+              "q": "Under a flat (uniform) prior, the MAP estimate:",
+              "choices": [
+                "Is undefined",
+                "Is always 0.5",
+                "Equals the prior mean",
+                "Equals the MLE"
+              ],
+              "answer": 3,
+              "explain": "A flat prior adds no information, so maximizing the posterior reduces to maximizing the likelihood."
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Bayes' rule in its inference form",
+              "back": "$p(\\theta\\mid D)\\propto p(D\\mid\\theta)\\,p(\\theta)$ — posterior is proportional to likelihood times prior; the evidence $p(D)$ just normalizes."
+            },
+            {
+              "front": "What is the prior $p(\\theta)$?",
+              "back": "Your belief about the parameter <em>before</em> seeing the data, expressed as a probability distribution."
+            },
+            {
+              "front": "What is the likelihood $p(D\\mid\\theta)$?",
+              "back": "How probable the observed data is for each value of the parameter — read as a function of $\\theta$."
+            },
+            {
+              "front": "Conjugate prior",
+              "back": "A prior whose posterior stays in the same family (e.g. Beta prior + Binomial likelihood → Beta posterior), so updating is just arithmetic."
+            },
+            {
+              "front": "MAP vs MLE",
+              "back": "MAP maximizes the posterior (uses the prior); MLE maximizes only the likelihood. They coincide under a flat prior."
+            },
+            {
+              "front": "Credible interval",
+              "back": "An interval containing the parameter with a stated posterior probability (e.g. 95%) — a direct probability statement about $\\theta$, unlike a confidence interval."
+            }
+          ],
+          "homework": [
+            {
+              "prompt": "You hold a $\\mathrm{Beta}(3,1)$ prior for a coin's heads-probability and then observe 4 heads and 6 tails. What is the posterior distribution, and its mean?",
+              "hint": "Posterior $=\\mathrm{Beta}(\\alpha+k,\\beta+n-k)$; Beta mean $=\\frac{\\alpha}{\\alpha+\\beta}$.",
+              "solution": "Posterior $=\\mathrm{Beta}(3+4,\\,1+6)=\\mathrm{Beta}(7,7)$, with mean $\\frac{7}{14}=0.5$. The data (0.4 heads) pulled the prior (mean 0.75) down to a balanced 0.5."
+            },
+            {
+              "prompt": "Show that with a uniform prior $\\mathrm{Beta}(1,1)$ the MAP estimate of a coin's bias equals the MLE $k/n$.",
+              "hint": "Posterior is $\\mathrm{Beta}(1+k,1+n-k)$; its mode is $\\frac{\\alpha-1}{\\alpha+\\beta-2}$.",
+              "solution": "Mode $=\\frac{(1+k)-1}{(1+k)+(1+n-k)-2}=\\frac{k}{n}$, exactly the MLE. A flat prior adds no information, so MAP collapses to MLE."
+            },
+            {
+              "prompt": "A 95% credible interval for a treatment effect is $[0.2,\\,0.6]$. State precisely what this means, and contrast it with the frequentist confidence-interval interpretation.",
+              "hint": "In the Bayesian view $\\theta$ is random given the data.",
+              "solution": "Given the data and prior, there is a 95% posterior probability that the effect lies in $[0.2,0.6]$. A 95% <em>confidence</em> interval instead means: if the procedure were repeated many times, 95% of such intervals would cover the (fixed) true effect — it says nothing about this particular interval's probability."
+            }
+          ],
+          "examples": [
+            {
+              "title": "Updating a coin step by step",
+              "body": "Prior $\\mathrm{Beta}(2,2)$. You flip and see H, H, T, H. Update after each flip.",
+              "solution": "Add each success to $\\alpha$, each failure to $\\beta$: H→Beta(3,2), H→Beta(4,2), T→Beta(4,3), H→Beta(5,3). Final posterior mean $=\\frac{5}{8}=0.625$. Order does not matter — only the totals (3 heads, 1 tail) do."
+            },
+            {
+              "title": "Prior strength as pseudo-counts",
+              "body": "Interpret $\\mathrm{Beta}(\\alpha,\\beta)$ as having already \"seen\" $\\alpha-1$ heads and $\\beta-1$ tails. How strong is $\\mathrm{Beta}(50,50)$ versus $\\mathrm{Beta}(2,2)$?",
+              "solution": "$\\mathrm{Beta}(50,50)$ acts like 49 heads + 49 tails of prior evidence — very strong; 10 new flips barely move it. $\\mathrm{Beta}(2,2)$ is like 1+1 pseudo-counts — weak, so data quickly takes over. Larger $\\alpha+\\beta$ = more confident prior."
+            },
+            {
+              "title": "MAP as regularized MLE",
+              "body": "Why is ridge regression a MAP estimate?",
+              "solution": "Ridge minimizes $\\|y-Xw\\|^2+\\lambda\\|w\\|^2$. Reading $\\|y-Xw\\|^2$ as a Gaussian negative-log-likelihood and $\\lambda\\|w\\|^2$ as a Gaussian prior $w\\sim\\mathcal N(0,\\sigma^2 I)$ on the weights, the ridge objective is exactly $-\\log p(D\\mid w)-\\log p(w)$, so its minimizer is the MAP estimate."
+            }
+          ]
+        }
+      ]
     }
   ]
 }
