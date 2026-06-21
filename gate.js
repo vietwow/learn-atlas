@@ -5,6 +5,7 @@
    and every prereq id (lesson.prereqs + PREREQS) points at a real lesson. Exits non-zero on any
    failure. Also prints non-blocking warnings (answer-position skew, duplicate stems within a lesson). */
 const fs = require("fs");
+const cp = require("child_process");
 global.window = {};
 global.document = { documentElement: {}, createElement: () => ({ getContext: () => ({ scale() {} }), style: {}, addEventListener() {} }), addEventListener() {} };
 global.getComputedStyle = () => ({ getPropertyValue: () => "" });
@@ -31,6 +32,7 @@ const C = global.window.COURSES || [];
 const vizIds = new Set((global.window.VIZ_CATALOG || []).map(v => v.id));
 const ids = new Set(), topicOf = {};
 let lessons = 0, mcq = 0, cards = 0, hw = 0, ex = 0, codeChecked = 0, errors = [], warnings = [], skew = [];
+const pyExercises = [];   // python code-exercises collected for a post-pass (run via python3 if available)
 
 // ---- render-hazard lints (the class of bugs that render WRONG without throwing: iter 189 "<"-in-math,
 //      iter 200 money-"\$" garble, iter 52 raw markdown). The app normalizer escapes "<" and "\$" at boot,
@@ -96,16 +98,40 @@ C.forEach(c => c.modules.forEach(m => m.lessons.forEach(l => {
   (l.examples || []).forEach((e, i) => { ex++; if (e) Object.keys(e).forEach(k => checkRender(e[k], l.id + " ex#" + i + "." + k)); });
   ((l.content || "").match(/data-viz="([^"]+)"/g) || []).forEach(s => { const id = s.slice(10, -1); if (!vizIds.has(id)) errors.push("unknown data-viz id '" + id + "' in " + l.id); });
   // run every embedded JavaScript code-exercise and confirm its output equals data-expected (catches a wrong
-  // expected string — which silently shows the learner "✗ Doesn't match" on correct code). Python can't run here.
+  // expected string — which silently shows the learner "✗ Doesn't match" on correct code). Python is collected
+  // here and verified in a post-pass via python3 (if installed), so those exercises are protected too.
   const codeRe = /<div\s+data-code="([a-z]+)"\s+data-expected="([^"]*)"\s*>([\s\S]*?)<\/div>/g;
   let cm; while ((cm = codeRe.exec(l.content || ""))) {
     const lang = cm[1], expected = unesc(cm[2]).trim(), code = unesc(cm[3]).trim();
-    if (lang !== "javascript") continue;
-    codeChecked++;
-    let out; try { out = runJS(code).trim(); } catch (e) { errors.push("data-code threw in " + l.id + ": " + e.message); continue; }
-    if (out !== expected) errors.push("data-code expected-mismatch in " + l.id + "\n      got: " + JSON.stringify(out.slice(0, 90)) + "\n      exp: " + JSON.stringify(expected.slice(0, 90)));
+    if (lang === "javascript") {
+      codeChecked++;
+      let out; try { out = runJS(code).trim(); } catch (e) { errors.push("data-code threw in " + l.id + ": " + e.message); continue; }
+      if (out !== expected) errors.push("data-code expected-mismatch in " + l.id + "\n      got: " + JSON.stringify(out.slice(0, 90)) + "\n      exp: " + JSON.stringify(expected.slice(0, 90)));
+    } else if (lang === "python") {
+      pyExercises.push({ lid: l.id, code, expected });
+    }
   }
 })));
+// python code-exercises: verify via python3 if available (Pyodide runs them in the browser; this protects the
+// data-expected strings from silent regressions). If python3 is missing (some CI), skip with a warning, never fail.
+if (pyExercises.length) {
+  let py3 = true;
+  try { cp.execSync("python3 --version", { stdio: "ignore" }); } catch (e) { py3 = false; }
+  if (!py3) {
+    warnings.push("python3 not found — skipped verifying " + pyExercises.length + " python code-exercise(s)");
+  } else {
+    const tmp = require("os").tmpdir() + "/atlas_gate_py.py";
+    for (const pe of pyExercises) {
+      fs.writeFileSync(tmp, pe.code);
+      let out;
+      try { out = cp.execSync("python3 " + JSON.stringify(tmp), { encoding: "utf8", timeout: 10000 }).trim(); }
+      catch (e) { errors.push("python data-code threw in " + pe.lid + ": " + String(e.stderr || e.message).slice(0, 120)); continue; }
+      codeChecked++;
+      if (out !== pe.expected) errors.push("python data-code expected-mismatch in " + pe.lid + "\n      got: " + JSON.stringify(out.slice(0, 90)) + "\n      exp: " + JSON.stringify(pe.expected.slice(0, 90)));
+    }
+    try { fs.unlinkSync(tmp); } catch (e) {}
+  }
+}
 // dangling internal links: any hand-authored "#/lesson/<topic>/<id>" in content must resolve to a real lesson
 // (a renamed/removed lesson leaves a link that silently 404s on click). Second pass — all ids are now known.
 let linksChecked = 0;

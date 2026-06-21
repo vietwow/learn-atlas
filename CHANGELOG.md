@@ -2,6 +2,15 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 598 — Gate now verifies Python code-exercises too (tooling / correctness)
+`node gate.js` ran and checked every **JavaScript** code-exercise against its `data-expected`, but the **5 Python exercises** (run by Pyodide in the browser) were
+skipped — so a wrong expected string there would silently show the learner "✗ Doesn't match" on correct code, undetected. The gate now collects python exercises
+and verifies them in a post-pass via `python3`: each is run and its output asserted equal to `data-expected`. If `python3` isn't installed (some CI), it **skips with
+a warning rather than failing**, so the gate stays portable. First audited all 5 by hand (all correct), then wired the check in.
+Verified: `new Function` on gate.js clean; **gate ALL GREEN — now 119 code-exercises verified (was 114; +5 python)**; **negative test** — temporarily breaking
+`a-binary-search`'s python `data-expected` made the gate report `✗ python data-code expected-mismatch` (RED), and reverting returned it to GREEN, proving the new
+check actually catches regressions. No runtime/asset change (gate.js is a dev tool, not served), so no SW bump.
+
 ## iter 597 — Connect the newest IT lessons into the knowledge graph (understandability / connections)
 The two most-recent Information Theory lessons (Differential Entropy, and the Info-in-ML capstone) had **zero cross-topic prerequisite edges**, leaving them
 islanded in the Knowledge Map and "Builds on / Leads to" panels. Added 4 pedagogically-real edges: **Differential Entropy** now builds on `ps-random-variables-distributions`
