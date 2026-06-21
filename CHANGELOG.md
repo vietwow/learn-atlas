@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 669 — Bayesian module: deep-dives — ps-conjugate-priors (content / understandability)
+Continued the deep-dive parity fix. Added 3 to `ps-conjugate-priors`: **the exponential family behind every conjugate pair** (sufficient statistics → the "add counts" rule), **prior
+strength as an effective sample size** (Beta(50,50) ≈ 100 prior flips), and **when conjugacy breaks** (mixtures stay conjugate; otherwise MCMC/VI). Site standard is 3 deep-dives/lesson.
+Verified: data parses; gate ALL GREEN; **headless** — 3 `details.deep-dive` render, expanded math renders (kErr=0, rawDollar=0), ps-normal-explorer hydrates, errs=0. SW cache `atlas-v607` → `atlas-v608`. (Queued: ps-bayesian-decisions, ps-computational-bayes deep-dives.)
+
 ## iter 668 — Bayesian module: deep-dives (parity fix) — ps-bayesian-inference (content / understandability)
 Found and started fixing a parity gap I'd created: the 4 Bayesian lessons had **0 deeper-dive sections** while every other lesson on the site has 3 (the `<details class="deep-dive">`
 expandables that also feed the "Deeper dive of the day"). Added 3 to `ps-bayesian-inference`: **flat/weak/improper priors**, **the likelihood principle** (and how frequentist p-values can
