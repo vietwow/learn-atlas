@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 675 — Library: curated Bayesian references (reference)
+The new Bayesian module had no resources in the Library. Added 3 real, high-quality references to Probability & Statistics: **Statistical Rethinking** (McElreath — the loved Bayesian
+course), **Bayesian Methods for Hackers** (Davidson-Pilon — free, code-first PyMC notebooks), and **3Blue1Brown's "Bayes' theorem"** video. PS references **5 → 8**.
+Verified: references.js parses; gate ALL GREEN; **headless** — all 3 render on the Library page (3/3), kErr=0, errs=0. SW cache `atlas-v612` → `atlas-v613`.
+
 ## iter 674 — NEW viz: value-function approximation via tile coding (visualizations)
 Filled the highest-value no-viz RL lesson. Built the **116th widget, `rl-value-approx` "Value approximation: trading resolution for generalization"** for `rl-value-approximation` — the
 tabular→deep-RL bridge: a true value function `V*(s)` (gold) approximated by a **tile-coding staircase** (violet), with a slider for the number of tiles. Few tiles → coarse/high-bias but

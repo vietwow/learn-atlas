@@ -49,7 +49,10 @@ window.REFERENCES = {
     { title: "Introduction to Probability (Stat 110)", by: "Joseph Blitzstein · Harvard", kind: "course", url: "https://projects.iq.harvard.edu/stat110/home", note: "The definitive intro course — superb intuition; free lectures and book." },
     { title: "Think Stats", by: "Allen B. Downey", kind: "book", url: "https://greenteapress.com/wp/think-stats-2e/", note: "Statistics through Python: exploratory, computational, and free." },
     { title: "StatQuest", by: "Josh Starmer", kind: "video", url: "https://www.youtube.com/@statquest", note: "Clear, friendly video explanations of statistics and ML concepts." },
-    { title: "An Introduction to Statistical Learning", by: "James, Witten, Hastie & Tibshirani", kind: "book", url: "https://www.statlearning.com/", note: "Free textbook bridging statistics and machine learning — the gentle ISL." }
+    { title: "An Introduction to Statistical Learning", by: "James, Witten, Hastie & Tibshirani", kind: "book", url: "https://www.statlearning.com/", note: "Free textbook bridging statistics and machine learning — the gentle ISL." },
+    { title: "Statistical Rethinking", by: "Richard McElreath", kind: "course", url: "https://xcelab.net/rm/statistical-rethinking/", note: "The most loved Bayesian course — builds the whole subject from priors and posteriors with free lectures." },
+    { title: "Bayesian Methods for Hackers", by: "Cameron Davidson-Pilon", kind: "interactive", url: "https://dataorigami.net/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers/", note: "Free, code-first Bayesian inference in notebooks (PyMC) — learn MCMC by running it." },
+    { title: "Bayes' theorem, the geometry of changing beliefs", by: "3Blue1Brown", kind: "video", url: "https://www.youtube.com/watch?v=HZGCoVF3YvM", note: "A visual derivation that makes prior × likelihood → posterior click." }
   ],
   "machine-learning": [
     { title: "An Introduction to Statistical Learning (ISL)", by: "James, Witten, Hastie & Tibshirani", kind: "book", url: "https://www.statlearning.com/", note: "The best first ML book — intuitive, with free PDF, R and Python labs. Start here." },
