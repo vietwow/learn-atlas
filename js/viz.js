@@ -6556,4 +6556,47 @@
     draw();
   });
 
+
+  /* ========================================================
+     120. Lagrangian duality: the dual is a lower bound (Calculus)
+     ======================================================== */
+  register({ id: 'calc-duality', topic: 'calculus', title: 'Duality: the dual is a floor under the primal', blurb: 'For the problem "minimize x² subject to x ≥ 1" the primal optimum is p★ = 1. Its dual function g(λ) = λ − λ²/4 is concave and, by weak duality, never rises above p★ — it is a floor under the answer. Slide the multiplier λ: the gap p★ − g(λ) shrinks to zero exactly at the dual optimum λ★ = 2, where the floor touches the ceiling. That zero gap is strong duality.' },
+  function (root) {
+    const W = 540, H = 320, padL = 44, padR = 16, padT = 18, padB = 36;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    let lam = 0.6;
+    const LMAX = 4, pStar = 1, yMin = 0, yMax = 1.35;
+    const dual = l => l - l * l / 4;
+    const X = l => padL + (l / LMAX) * (W - padL - padR);
+    const Y = v => (H - padB) - (v - yMin) / (yMax - yMin) * (H - padT - padB);
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      // axes
+      ctx.strokeStyle = p.line; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(padL, Y(yMin)); ctx.lineTo(W - padR, Y(yMin)); ctx.moveTo(padL, padT); ctx.lineTo(padL, Y(yMin)); ctx.stroke();
+      ctx.fillStyle = p.mute; ctx.font = '10px ' + (cssVar('--font-mono') || 'monospace'); ctx.textAlign = 'center';
+      [0, 1, 2, 3, 4].forEach(t => ctx.fillText(t, X(t), Y(yMin) + 14)); ctx.fillText('multiplier λ', W / 2, H - 4);
+      // p* ceiling (primal optimum)
+      ctx.strokeStyle = p.gold; ctx.setLineDash([6, 4]); ctx.lineWidth = 1.6; ctx.beginPath(); ctx.moveTo(padL, Y(pStar)); ctx.lineTo(W - padR, Y(pStar)); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = p.gold; ctx.textAlign = 'left'; ctx.fillText('p★ = 1  (primal optimum)', X(0.1), Y(pStar) - 6);
+      // dual curve g(λ)
+      ctx.strokeStyle = p.violet; ctx.lineWidth = 2.5; ctx.beginPath();
+      for (let i = 0; i <= 240; i++) { const l = i / 240 * LMAX, v = dual(l); i ? ctx.lineTo(X(l), Y(v)) : ctx.moveTo(X(l), Y(v)); } ctx.stroke();
+      ctx.fillStyle = p.violet; ctx.fillText('g(λ) = λ − λ²/4  (dual, concave)', X(1.15), Y(dual(3.4)) + 4);
+      // gap bar at current λ
+      const gv = dual(lam), gap = pStar - gv;
+      ctx.strokeStyle = p.rust; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(X(lam), Y(gv)); ctx.lineTo(X(lam), Y(pStar)); ctx.stroke();
+      ctx.fillStyle = p.violet; ctx.beginPath(); ctx.arc(X(lam), Y(gv), 4.5, 0, 7); ctx.fill();
+      // dual optimum marker
+      ctx.fillStyle = p.gold; ctx.beginPath(); ctx.arc(X(2), Y(1), 3.5, 0, 7); ctx.fill();
+      info.innerHTML = 'λ = <b>' + lam.toFixed(2) + '</b> &middot; dual value g(λ) = <b style="color:' + p.violet + '">' + gv.toFixed(3) + '</b> &middot; duality gap p★ − g(λ) = <b style="color:' + (gap < 1e-6 ? p.gold : p.rust) + '">' + gap.toFixed(3) + '</b>. ' +
+        (gap < 1e-6 ? 'Zero gap at λ★ = 2 — strong duality: solving the dual solved the primal.' : 'The dual is below p★ (weak duality). Push λ toward 2 to close the gap.');
+    }
+    slider(ctl, { label: 'multiplier λ', min: 0, max: 4, step: 0.05, value: lam, fmt: v => v.toFixed(2), onInput: v => { lam = v; draw(); } });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Lagrangian-duality visualizer for minimize x squared subject to x at least 1. A gold dashed horizontal line marks the primal optimum p-star = 1. A violet concave curve is the dual function g of lambda = lambda minus lambda squared over four, which stays at or below p-star (weak duality). A slider sets lambda; a rust bar shows the duality gap p-star minus g of lambda, which shrinks to zero at the dual optimum lambda-star = 2, illustrating strong duality.');
+    draw();
+  });
+
 })();

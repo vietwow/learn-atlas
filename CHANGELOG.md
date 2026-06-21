@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 695 — NEW viz: the duality gap (weak → strong duality) (visualizations)
+The duality lesson explained the dual function abstractly but had no picture of it. Built the **120th widget, `calc-duality` "Duality: the dual is a floor under the primal"**: for min x² s.t.
+x≥1, it draws the primal optimum p★=1 as a gold ceiling and the concave dual g(λ)=λ−λ²/4 below it; a λ slider shows the **duality gap** (rust bar) shrinking to zero at λ★=2 — weak duality becoming
+**strong duality**. Embedded at §4 "Weak duality" of `c-duality-kkt` (now 2 viz). 
+Verified: dual values re-derived in Node; gate ALL GREEN (now **120 widgets**); **headless** — Lab + lesson hydrate; gap = 0.490 at λ=0.6 and 0.000 at λ=2 (strong-duality message fires); lesson shows 2 canvases; kErr=0, errs=0; screenshot confirms the floor/ceiling/gap. SW cache `atlas-v632` → `atlas-v633`.
+
 ## iter 694 — Duality lesson MCQ top-up 8 → 16 (content / assessment)
 Brought `c-duality-kkt` to the 16-MCQ standard (gate parity-warning had flagged it). Added **8 new MCQs**: the Lagrangian form, KKT stationarity, Slater as the constraint qualification, the dual
 problem (concave maximization), SVM support vectors via complementary slackness, why the dual is tractable (always concave), the shadow-price reading of a multiplier, and KKT being necessary &
