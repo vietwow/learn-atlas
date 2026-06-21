@@ -6391,4 +6391,53 @@
     draw();
   });
 
+
+  /* ========================================================
+     117. Transfer learning: freeze vs fine-tune (Deep Learning)
+     ======================================================== */
+  register({ id: 'dl-transfer', topic: 'deep-learning', title: 'Transfer learning: how much to freeze', blurb: 'Start from a pretrained backbone and choose how many of its layers to FREEZE (reuse as-is, grey) versus FINE-TUNE (keep training, gold). Early layers learn general features (edges, textures) that transfer across tasks; later layers grow task-specific. Slide the freeze depth: freeze more → far fewer trainable parameters, so it works on tiny datasets but adapts little; freeze fewer → more capacity to adapt, but needs more data or it overfits.' },
+  function (root) {
+    const W = 540, H = 320;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    const layers = [
+      { name: 'Conv block 1  (edges)', p: 2 },
+      { name: 'Conv block 2  (textures)', p: 8 },
+      { name: 'Conv block 3  (parts)', p: 20 },
+      { name: 'Conv block 4  (objects)', p: 30 },
+      { name: 'Pooling + dense', p: 25 },
+      { name: 'Classifier head', p: 5 }
+    ];
+    const L = layers.length, total = layers.reduce((a, l) => a + l.p, 0);
+    let frozen = 4;
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const x0 = 70, bw = W - 70 - 30, bh = 36, gap = 6, top = 20;
+      // layers drawn bottom (input) to top (output): index 0 at bottom
+      let trainP = 0;
+      for (let i = 0; i < L; i++) {
+        const li = L - 1 - i; // draw from top of canvas downward = output-side first
+        const lay = layers[li];
+        const isFrozen = li < frozen;
+        if (!isFrozen) trainP += lay.p;
+        const y = top + i * (bh + gap);
+        ctx.fillStyle = isFrozen ? p.panel : p.gold; ctx.globalAlpha = isFrozen ? 0.5 : 0.32; ctx.fillRect(x0, y, bw, bh); ctx.globalAlpha = 1;
+        ctx.strokeStyle = isFrozen ? p.line : p.gold; ctx.lineWidth = 1.6; ctx.strokeRect(x0, y, bw, bh);
+        ctx.fillStyle = p.ink; ctx.font = '12px ' + (cssVar('--font-mono') || 'monospace'); ctx.textAlign = 'left';
+        ctx.fillText((isFrozen ? '🔒 ' : '✎ ') + lay.name, x0 + 10, y + bh / 2 + 4);
+      }
+      // side labels
+      ctx.fillStyle = p.mute; ctx.font = '10px ' + (cssVar('--font-mono') || 'monospace'); ctx.textAlign = 'center'; ctx.save();
+      ctx.translate(20, top + 30); ctx.rotate(-Math.PI / 2); ctx.fillText('task-specific  ↑   general', 0, 0); ctx.restore();
+      const pct = Math.round(100 * trainP / total);
+      info.innerHTML = 'frozen <b>' + frozen + '</b> of ' + L + ' layers &middot; training <b style="color:' + p.gold + '">' + (L - frozen) + '</b> layers ≈ <b>' + pct + '%</b> of weights. ' +
+        (frozen >= 5 ? 'Feature extraction: only the head trains — great for tiny datasets, minimal adaptation.' : frozen === 0 ? 'Full fine-tuning: maximum adaptation, but needs the most data to avoid overfitting.' : 'Partial fine-tuning: freeze the general early layers, adapt the task-specific later ones.');
+    }
+    slider(ctl, { label: 'layers frozen', min: 0, max: 6, step: 1, value: frozen, fmt: v => String(v), onInput: v => { frozen = v; draw(); } });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Transfer-learning visualizer: a pretrained network drawn as a stack of layers from general (bottom, edges/textures) to task-specific (top, classifier head). A slider sets how many early layers are frozen (grey, locked, reused) versus fine-tuned (gold, still training). The readout shows the share of weights being trained: freezing more leaves only the head trainable (feature extraction, good for tiny datasets); freezing fewer trains most of the network (full fine-tuning, needs more data).');
+    draw();
+  });
+
 })();

@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 677 — NEW viz: transfer learning (freeze vs fine-tune) → DL viz COMPLETE (visualizations)
+Filled Deep Learning's last no-viz lesson. Built the **117th widget, `dl-transfer` "Transfer learning: how much to freeze"** for `dl-transfer-learning`: a pretrained backbone drawn as a
+layer stack (general features at the bottom → task-specific head at top); a slider sets how many early layers are **frozen** (🔒 grey, reused) vs **fine-tuned** (✎ gold), with a readout of
+the share of weights being trained and the data tradeoff. Embedded under "Two Strategies: Feature Extraction vs. Fine-Tuning". **Deep Learning is now 22/22 — fully viz-covered.**
+Verified: gate ALL GREEN (now **117 widgets**); **headless** — Lab + lesson hydrate; freezing 5 of 6 → ~6% of weights train, freezing 0 → 100%; kErr=0, errs=0; screenshot shows the frozen/fine-tuned split. SW cache `atlas-v614` → `atlas-v615`.
+
 ## iter 676 — Information Theory viz coverage COMPLETE: cross-embed CE & KL viz into it-information-in-ml (visualizations / curation)
 The capstone IT lesson `it-information-in-ml` is literally about cross-entropy loss and KL regularization — and viz for both already existed in Deep Learning. Cross-embedded
 **`dl-cross-entropy`** at §2 ("Cross-entropy: the default loss") and **`dl-kl-divergence`** at §3 ("KL divergence as a regularizer"). **Information Theory is now 7/7 — fully viz-covered.**
