@@ -182,6 +182,9 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    each showing upstream×local (incl. ∂L/∂z₁=∂L/∂a₁·σ′(z₁)); σ↔ReLU toggle shows vanishing vs gating. Embedded in dl-backpropagation;
    viz-complete →88. Verified: gate GREEN; headless lab route errs=0/canvas, steps 0→fwd4→back4 (8/8), toggle+reset work; lesson route
    2 canvases hydrate, kErr=0; screenshot eyeballed. SW →v366.
+   ✅ iter 578: **Information Theory module 3 — Mutual Information** (content/depth). it-mutual-information (joint/conditional entropy, I(X;Y), MI vs correlation;
+   full parity: MI code→0.28 + 3 dd + 8 MCQ 2/2/2/2 + 5 cards + 3 ex + 3 hw). Verified: gate GREEN (9 topics·161 lessons·110 code); headless nDD=3, code 0.28,
+   kErr=0/errs=0. SW →v518. IT now 3 lessons; modules 4–6 queued (source coding, channel capacity, info in ML).
    ✅ iter 577: **Integrate Information Theory — cross-topic prereqs + glossary** (workflow/reference). +5 prereq edges (it-entropy→ps-random-variables;
    ml-decision-trees/dl-loss-functions/ml-logistic-regression/l-pretraining→IT), +8 IT glossary terms (self-info, mutual info, bit, nat, info gain, max-ent,
    channel capacity, source coding). Verified: gate GREEN; headless connections both directions, glossary renders, map ok, errs=0. SW →v517.

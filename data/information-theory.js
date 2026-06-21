@@ -324,6 +324,164 @@
           ]
         }
       ]
+    },
+    {
+      "id": "it-joint",
+      "title": "Joint Information and Dependence",
+      "lessons": [
+        {
+          "id": "it-mutual-information",
+          "title": "Mutual Information: Shared Uncertainty",
+          "minutes": 18,
+          "content": "<h3>1. The hook: how much does one variable tell you about another?</h3>\n<p>Entropy measures the uncertainty in a single variable; cross-entropy and KL compare two distributions. <strong>Mutual information</strong> answers a third, deeply practical question: if I learn $Y$, how many bits of uncertainty about $X$ do I lose? It quantifies the <em>shared information</em> between two variables — and unlike correlation, it captures <em>any</em> kind of dependence, linear or not.</p>\n<h3>2. Joint and conditional entropy</h3>\n<p>First we need entropy for pairs. The <strong>joint entropy</strong> $H(X,Y)=-\\sum_{x,y}p(x,y)\\log p(x,y)$ is the total uncertainty in the pair. The <strong>conditional entropy</strong> $H(X\\mid Y)=\\sum_y p(y)\\,H(X\\mid Y{=}y)$ is the uncertainty <em>remaining</em> in $X$ once you know $Y$. They satisfy the intuitive chain rule $$H(X,Y)=H(Y)+H(X\\mid Y):$$ the uncertainty in the pair is the uncertainty in $Y$ plus whatever is left in $X$ after seeing $Y$.</p>\n<h3>3. Mutual information: the uncertainty removed</h3>\n<p><strong>Mutual information</strong> is the drop in uncertainty about $X$ from learning $Y$: $$I(X;Y)=H(X)-H(X\\mid Y).$$ Equivalently, by the chain rule, $I(X;Y)=H(X)+H(Y)-H(X,Y)$ — and it is <em>symmetric</em>, $I(X;Y)=I(Y;X)$, so $Y$ tells you exactly as much about $X$ as $X$ tells you about $Y$. In its raw form it is a KL divergence between the joint and the product of marginals: $$I(X;Y)=\\sum_{x,y}p(x,y)\\log\\frac{p(x,y)}{p(x)\\,p(y)} = D_{\\mathrm{KL}}\\!\\big(p(x,y)\\,\\|\\,p(x)p(y)\\big).$$</p>\n<h3>4. Zero exactly when independent</h3>\n<p>That KL form makes a key fact obvious: $I(X;Y)\\ge 0$, and $I(X;Y)=0$ <em>if and only if</em> $X$ and $Y$ are independent (then $p(x,y)=p(x)p(y)$ and the log is zero). Any dependence at all — however nonlinear — gives positive mutual information. This is what makes MI a far more general measure of association than the correlation coefficient.</p>\n<h3>5. MI vs. correlation</h3>\n<p>Correlation only sees <em>linear</em> relationships. Two variables related by $Y=X^2$ (with $X$ symmetric around 0) have <em>zero</em> correlation yet are clearly dependent — and mutual information detects it, because knowing $X$ pins down $Y$. MI = 0 is the true test of independence; correlation = 0 is not. The price is that MI needs the full joint distribution (or a good estimate of it), which is harder to get than a correlation.</p>\n<h3>6. Compute it yourself</h3>\n<p><b>Try it in code.</b> For the correlated joint $p=\\begin{smallmatrix}0.4&0.1\\\\0.1&0.4\\end{smallmatrix}$ (marginals both fair), the mutual information is about 0.28 bits — that is how much one bit tells you about the other here.</p>\n<div data-code=\"javascript\" data-expected=\"0.28\">// Mutual information I(X;Y) = sum p(x,y) * log2( p(x,y) / (p(x)p(y)) )\nconst joint = [[0.4, 0.1], [0.1, 0.4]];\nconst px = [0.5, 0.5], py = [0.5, 0.5];   // row / column sums\nconst log2 = x => Math.log(x) / Math.log(2);\nlet I = 0;\nfor (let i = joint.length - 1; i >= 0; i--)\n  for (let j = joint[i].length - 1; j >= 0; j--) {\n    const p = joint[i][j];\n    if (p > 0) I += p * log2(p / (px[i] * py[j]));\n  }\nconsole.log(I.toFixed(2));</div>\n<h3>7. Where mutual information shows up</h3>\n<p>MI is everywhere in ML. <strong>Decision trees</strong> split on the feature with the highest <em>information gain</em> — which is exactly the mutual information between that feature and the label. <strong>Feature selection</strong> ranks features by their MI with the target. The <strong>information bottleneck</strong> frames learning as keeping the MI between a representation and the label while squeezing out MI with the raw input. And modern <strong>contrastive learning</strong> (InfoNCE) trains representations by maximizing a lower bound on the mutual information between different views of the same data.</p>\n<h3>8. The big picture</h3>\n<p>Mutual information is the shared uncertainty between two variables: $I(X;Y)=H(X)-H(X\\mid Y)=H(X)+H(Y)-H(X,Y)$, symmetric, nonnegative, and zero exactly when they are independent. It is the KL divergence between the joint and the product of marginals — a general, nonlinear measure of dependence that powers information gain, feature selection, the information bottleneck, and contrastive learning.</p>\n<details class=\"deep-dive\">\n<summary>Deeper dive: the information Venn diagram</summary>\n<p>The entropies of two variables fit together like a Venn diagram, and the set operations are <em>literally</em> the information identities.</p>\n<p>Picture two overlapping circles, one of area $H(X)$ and one of area $H(Y)$. Their <em>union</em> is the joint entropy $H(X,Y)$; their <em>intersection</em> is the mutual information $I(X;Y)$; and the part of $X$'s circle outside $Y$'s is the conditional entropy $H(X\\mid Y)$. Every identity drops out by reading the picture: $H(X,Y)=H(X)+H(Y)-I(X;Y)$ (union = sum minus intersection); $I(X;Y)=H(X)-H(X\\mid Y)$ (intersection = circle minus the part outside); $H(X\\mid Y)+I(X;Y)=H(X)$.</p>\n<p>The \"aha\": information quantities obey set algebra. Joint entropy is a union, conditional entropy is a set difference, and mutual information is the intersection — which is why it is symmetric and why \"total = each part plus the shared overlap, counted once\" just works. (The analogy has limits for three or more variables, where the \"interaction information\" can go negative, but for two it is exact.)</p>\n</details>\n<details class=\"deep-dive\">\n<summary>Deeper dive: why MI beats correlation</summary>\n<p>Pearson correlation $\\rho$ measures one thing: the strength of a <em>linear</em> relationship. It is blind to everything else, and that blindness is dangerous.</p>\n<p><b>The classic trap.</b> Let $X$ be symmetric about 0 and $Y=X^2$. Then $Y$ is <em>completely determined</em> by $X$ — maximal dependence — yet $\\rho(X,Y)=0$, because the relationship is symmetric and non-monotonic. Anyone trusting correlation would call them unrelated. Mutual information, in contrast, is large: knowing $X$ removes all uncertainty about $Y$, so $I(X;Y)=H(Y)>0$. MI sees the dependence that correlation cannot.</p>\n<p><b>The general statement.</b> $\\rho=0$ does <em>not</em> imply independence (only the converse holds, and even that only loosely); but $I(X;Y)=0$ <em>does</em> imply independence, exactly. That is why MI is the gold-standard dependence measure when you can estimate it — at the cost of needing the joint distribution, whereas correlation needs only second moments.</p>\n<p>The \"aha\": correlation answers \"do they move together in a straight line?\"; mutual information answers \"does knowing one reduce uncertainty about the other, in any way at all?\" Only the second is a true test of independence.</p>\n</details>\n<details class=\"deep-dive\">\n<summary>Deeper dive: information gain in decision trees IS mutual information</summary>\n<p>Decision trees and information theory meet exactly here. A tree chooses, at each node, the feature that best \"purifies\" the labels — measured by <strong>information gain</strong>, the drop in label entropy from knowing the feature: $\\mathrm{IG}(Y;F)=H(Y)-H(Y\\mid F)$.</p>\n<p>That formula <em>is</em> the definition of mutual information, $I(Y;F)$. So \"split on the highest-information-gain feature\" means \"split on the feature that shares the most information with the label.\" A feature independent of the label has $I=0$ and is useless for splitting; a feature that determines the label has $I=H(Y)$ and splits it perfectly. The entropy-based impurity criterion (ID3, C4.5) is greedy mutual-information maximization, one node at a time.</p>\n<p>The \"aha\": the decision tree you met in Machine Learning was doing information theory all along — information gain is just mutual information between a candidate split and the target, which is why both fields define \"uncertainty reduced by knowing a feature\" the same way.</p>\n</details>",
+          "mcq": [
+            {
+              "q": "Mutual information $I(X;Y)$ measures:",
+              "choices": [
+                "The total entropy of the pair",
+                "The linear correlation of $X$ and $Y$",
+                "The entropy of $Y$ alone",
+                "The reduction in uncertainty about $X$ from learning $Y$"
+              ],
+              "answer": 3,
+              "explain": "$I(X;Y)=H(X)-H(X\\mid Y)$ — the bits of uncertainty about $X$ removed by knowing $Y$."
+            },
+            {
+              "q": "Which identity is correct?",
+              "choices": [
+                "$I(X;Y)=H(X)+H(Y)+H(X,Y)$",
+                "$I(X;Y)=H(X,Y)-H(X)$",
+                "$I(X;Y)=H(X)+H(Y)-H(X,Y)$",
+                "$I(X;Y)=H(X)\\cdot H(Y)$"
+              ],
+              "answer": 2,
+              "explain": "Union minus overlap: $H(X,Y)=H(X)+H(Y)-I(X;Y)$, rearranged."
+            },
+            {
+              "q": "Mutual information equals zero:",
+              "choices": [
+                "Only if $X=Y$",
+                "If and only if $X$ and $Y$ are independent",
+                "Whenever the correlation is zero",
+                "Never"
+              ],
+              "answer": 1,
+              "explain": "$I=D_{\\mathrm{KL}}(p(x,y)\\|p(x)p(y))=0$ iff $p(x,y)=p(x)p(y)$ — independence."
+            },
+            {
+              "q": "Compared with the correlation coefficient, mutual information:",
+              "choices": [
+                "Detects any dependence, including nonlinear",
+                "Only detects linear relationships",
+                "Is always equal to the correlation",
+                "Ignores the joint distribution"
+              ],
+              "answer": 0,
+              "explain": "Correlation sees only linear structure; MI captures arbitrary dependence."
+            },
+            {
+              "q": "For $Y=X^2$ with $X$ symmetric about 0, which is true?",
+              "choices": [
+                "Correlation is high, MI is zero",
+                "Both are zero",
+                "Correlation is zero, but MI is positive",
+                "Both are maximal and equal"
+              ],
+              "answer": 2,
+              "explain": "The relationship is non-monotonic so $\\rho=0$, yet $X$ determines $Y$ so $I(X;Y)>0$."
+            },
+            {
+              "q": "Mutual information is:",
+              "choices": [
+                "Symmetric: $I(X;Y)=I(Y;X)$",
+                "Asymmetric in general",
+                "Always greater than 1 bit",
+                "Negative when variables are dependent"
+              ],
+              "answer": 0,
+              "explain": "It is the shared overlap, so it is symmetric and nonnegative."
+            },
+            {
+              "q": "A decision tree's 'information gain' for a feature is:",
+              "choices": [
+                "The variance of the feature",
+                "The feature's correlation with the label",
+                "The entropy of the feature",
+                "The mutual information between the feature and the label"
+              ],
+              "answer": 3,
+              "explain": "$\\mathrm{IG}=H(Y)-H(Y\\mid F)=I(Y;F)$ — mutual information."
+            },
+            {
+              "q": "Conditional entropy $H(X\\mid Y)$ represents:",
+              "choices": [
+                "The uncertainty in $X$ before knowing $Y$",
+                "The uncertainty remaining in $X$ after $Y$ is known",
+                "The mutual information",
+                "The joint entropy"
+              ],
+              "answer": 1,
+              "explain": "It is the leftover uncertainty in $X$ given $Y$; $H(X)-H(X\\mid Y)=I(X;Y)$."
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Mutual information $I(X;Y)$",
+              "back": "$H(X)-H(X\\mid Y)=H(X)+H(Y)-H(X,Y)$ — uncertainty about $X$ removed by knowing $Y$. Symmetric, $\\ge 0$."
+            },
+            {
+              "front": "When is $I(X;Y)=0$?",
+              "back": "Exactly when $X,Y$ are independent. (It is $D_{\\mathrm{KL}}(p(x,y)\\|p(x)p(y))$, zero iff the joint factors.)"
+            },
+            {
+              "front": "MI vs correlation",
+              "back": "Correlation sees only linear relationships; MI detects any dependence. $\\rho=0$ does not imply independence, but $I=0$ does."
+            },
+            {
+              "front": "Conditional entropy $H(X\\mid Y)$",
+              "back": "Uncertainty left in $X$ after learning $Y$. Chain rule: $H(X,Y)=H(Y)+H(X\\mid Y)$."
+            },
+            {
+              "front": "Information gain (decision trees)",
+              "back": "$H(Y)-H(Y\\mid F)=I(Y;F)$ — the mutual information between a split feature and the label. Trees greedily maximize it."
+            }
+          ],
+          "examples": [
+            {
+              "title": "Independent variables share no information",
+              "scenario": "Two fair coins are flipped independently, giving joint distribution $p(x,y)=0.25$ for all four pairs. Compute $I(X;Y)$.",
+              "solution": "With independence, $p(x,y)=p(x)p(y)=0.5\\times 0.5=0.25$ for every pair, so each log-ratio is $\\log\\frac{0.25}{0.25}=\\log 1=0$. Thus $I(X;Y)=\\mathbf{0}$ bits — independent variables share no information, exactly as mutual information should report. (Equivalently $H(X\\mid Y)=H(X)=1$, so nothing is removed.)"
+            },
+            {
+              "title": "Mutual information as uncertainty removed",
+              "scenario": "$X,Y$ have the correlated joint $[[0.4,0.1],[0.1,0.4]]$, so $H(X)=1$ bit. Given the data, $H(X\\mid Y)\\approx 0.72$ bits. What is $I(X;Y)$, and what does it mean?",
+              "solution": "$I(X;Y)=H(X)-H(X\\mid Y)=1-0.72=\\mathbf{0.28}$ bits. Meaning: before seeing $Y$ you have 1 bit of uncertainty about $X$; after seeing $Y$ you have 0.72 bits left, so $Y$ removed 0.28 bits. That matches the direct sum $\\sum p\\log\\frac{p}{p_x p_y}$ — the two formulas always agree."
+            },
+            {
+              "title": "A feature that determines the label",
+              "scenario": "A label $Y$ has entropy $H(Y)=1$ bit. Feature $A$ perfectly determines $Y$ (knowing $A$ leaves no doubt); feature $B$ is independent of $Y$. What is the information gain of each?",
+              "solution": "Feature $A$: $H(Y\\mid A)=0$, so $\\mathrm{IG}=I(Y;A)=1-0=\\mathbf{1}$ bit — the maximum; a decision tree would split on it first. Feature $B$: $H(Y\\mid B)=H(Y)=1$, so $\\mathrm{IG}=I(Y;B)=\\mathbf{0}$ — useless for predicting $Y$. Information gain ranks features by exactly this shared information."
+            }
+          ],
+          "homework": [
+            {
+              "prompt": "Using $H(X)=1$ bit and a measured $H(X\\mid Y)=0.5$ bits, compute the mutual information $I(X;Y)$, and state what fraction of $X$'s uncertainty $Y$ explains.",
+              "hint": "$I(X;Y)=H(X)-H(X\\mid Y)$.",
+              "solution": "$I(X;Y)=1-0.5=\\mathbf{0.5}$ bits. Since $X$ started with 1 bit of uncertainty and $Y$ removes 0.5, $Y$ explains <b>50%</b> of $X$'s uncertainty. (The ratio $I(X;Y)/H(X)$ is sometimes called the uncertainty coefficient.)"
+            },
+            {
+              "prompt": "Explain why $I(X;Y)=0$ is a stronger statement than $\\rho(X,Y)=0$ (zero correlation).",
+              "hint": "Think about a nonlinear relationship like $Y=X^2$.",
+              "solution": "$I(X;Y)=0$ means the joint factors as $p(x,y)=p(x)p(y)$ — full statistical independence, so $Y$ carries <em>no</em> information about $X$ of any kind. $\\rho=0$ only means no <em>linear</em> trend: variables like $Y=X^2$ (with $X$ symmetric) have $\\rho=0$ yet are completely dependent, with large $I$. So $I=0$ implies $\\rho=0$, but not the reverse — mutual information is the true independence test."
+            },
+            {
+              "prompt": "A candidate split feature $F$ has the same distribution within every class of the label $Y$. What is its information gain, and should a decision tree use it?",
+              "hint": "If $F$'s distribution doesn't change with $Y$, are they dependent?",
+              "solution": "If $F$'s distribution is identical across all values of $Y$, then $F$ and $Y$ are independent, so $H(Y\\mid F)=H(Y)$ and the information gain $I(Y;F)=H(Y)-H(Y)=\\mathbf{0}$. The tree should <b>not</b> split on it — it tells you nothing about the label. Trees pick the feature with the largest gain, i.e. the most mutual information with $Y$."
+            }
+          ]
+        }
+      ]
     }
   ]
 }

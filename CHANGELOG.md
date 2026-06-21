@@ -2,6 +2,15 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 578 — Information Theory module 3: Mutual Information (content / depth)
+Third IT lesson — **Mutual Information: Shared Uncertainty** (new module "Joint Information and Dependence"). Full parity: 8-section lecture (joint &
+conditional entropy + chain rule, `I(X;Y)=H(X)−H(X|Y)=H(X)+H(Y)−H(X,Y)`, MI as `D_KL(p(x,y)‖p(x)p(y))` so it's 0 iff independent, MI vs correlation), a
+**runnable MI code exercise** (correlated 2×2 joint → 0.28 bits), **3 deep-dives** (the information Venn diagram; why MI beats correlation via `Y=X²`;
+information gain = MI in decision trees), **8 MCQs** (de-skewed 2/2/2/2), **5 flashcards**, **3 examples** (independent→0, MI as uncertainty removed, a
+label-determining feature), **3 homework**. Every number hand-verified in node (MI=0.28 matches both the direct sum and `H(X)−H(X|Y)`).
+Verified: gate ALL GREEN (now **9 topics · 161 lessons · 110 code-exercises**); **headless** — nDD=3, MI code runs to **0.28**, examples reveal, **kErr=0,
+rawDollar=0, errs=0**. SW cache `atlas-v517` → `atlas-v518`. Information Theory now has **3 lessons**; modules 4–6 (source coding, channel capacity, info in ML) queued.
+
 ## iter 577 — Integrate Information Theory: cross-topic prereqs + glossary (workflow / reference)
 Wired the new pillar into the rest of the codex (the same integration the ML topic got at iters 528/533) — so it stops being a graph orphan and starts
 surfacing in "Builds on / Leads to", the Knowledge Map, learning paths, inline tooltips, the Glossary page, and ⌘K.
