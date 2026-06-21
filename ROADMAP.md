@@ -182,6 +182,9 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    each showing upstream×local (incl. ∂L/∂z₁=∂L/∂a₁·σ′(z₁)); σ↔ReLU toggle shows vanishing vs gating. Embedded in dl-backpropagation;
    viz-complete →88. Verified: gate GREEN; headless lab route errs=0/canvas, steps 0→fwd4→back4 (8/8), toggle+reset work; lesson route
    2 canvases hydrate, kErr=0; screenshot eyeballed. SW →v366.
+   ✅ iter 582: **Information Theory module 5 — Channels, Noise, and Capacity** (content/depth). it-channel-capacity (noisy channels, C=max I(X;Y), BSC C=1−H(p),
+   noisy-channel coding theorem, ECC; full parity: BSC code→0.53 + 3 dd + 8 MCQ 2/2/2/2 + 5 cards + 3 ex + 3 hw). Builder gained `<`/`>`→`\lt`/`\gt` math-escaper.
+   Verified: gate GREEN (9 topics·163 lessons·116 code); 0 bare-< math spans; headless nDD=3, code 0.53, kErr=0/errs=0. SW →v523. IT now 5 lessons; module 6 (info in ML) queued.
    ✅ iter 581: **Information Theory module 4 — Source Coding** (content/depth). it-source-coding (prefix codes, Shannon source-coding theorem L≥H, Huffman,
    arithmetic coding, compression=prediction; full parity: Huffman code→1.75 + 3 dd + 8 MCQ 2/2/2/2 + 5 cards + 3 ex + 3 hw). Verified: gate GREEN (9 topics·162
    lessons·115 code); headless nDD=3, code 1.75, kErr=0/errs=0. SW →v521. IT now 4 lessons; modules 5–6 queued (channel capacity, info in ML).

@@ -2,6 +2,18 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 582 — Information Theory module 5: Channels, Noise, and Capacity (content / depth)
+Fifth IT lesson — **Channels, Noise, and Capacity** (new module "Channels and Noise"), the communication half of Shannon's theory. Full parity: 8-section
+lecture (noisy-channel model, binary symmetric channel, capacity `C=max I(X;Y)`, the BSC formula `C=1−H(p)`, the noisy-channel coding theorem, error-correcting
+codes), a **runnable BSC-capacity code exercise** (p=0.1 → 0.53 bits/use), **3 deep-dives** (why capacity maximizes mutual information; the coding theorem via
+random codes & typical sequences; the source-channel separation theorem), **8 MCQs** (de-skewed 2/2/2/2), **5 flashcards**, **3 examples** (capacity across noise
+levels, a repetition code cutting error 0.1→0.028, can-this-source-fit-this-channel via `H<C`), **3 homework**. Every number hand-verified.
+**Tooling:** the builder gained a math-inequality auto-escaper (`<`/`>` → `\lt`/`\gt` inside `$…$`) since this lesson is full of rate/entropy comparisons like
+`R<C` and `H<C` — the `<`-in-math landmine, now handled at authoring time.
+Verified: gate ALL GREEN (now **9 topics · 163 lessons · 116 code-exercises**); gate-style scan finds **0 bare-`<` math spans**; **headless** — nDD=3, BSC code
+runs to **0.53**, examples reveal, **kErr=0, rawDollar=0, errs=0**. SW cache `atlas-v521` → `atlas-v523`. Information Theory now has **5 lessons**; module 6
+(Information in ML) — the capstone — queued.
+
 ## iter 581 — Information Theory module 4: Source Coding (content / depth)
 Fourth IT lesson — **Source Coding: Compression and the Entropy Limit** (new module "Coding and Communication"), the payoff where entropy *becomes* the
 compression floor. Full parity: 8-section lecture (prefix-free codes, Shannon's source-coding theorem `L≥H`, optimal length `−log₂ p`, Huffman's greedy merge,

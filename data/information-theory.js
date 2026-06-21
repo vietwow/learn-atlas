@@ -640,6 +640,164 @@
           ]
         }
       ]
+    },
+    {
+      "id": "it-channels",
+      "title": "Channels and Noise",
+      "lessons": [
+        {
+          "id": "it-channel-capacity",
+          "title": "Channels, Noise, and Capacity",
+          "minutes": 18,
+          "content": "<h3>1. The hook: sending bits through noise</h3>\n<p>Source coding asked \"how small can a message get?\" The other half of Shannon's theory asks the opposite-facing question: \"how <em>reliably</em> can I send a message through a <em>noisy</em> channel?\" Every real channel — a Wi-Fi link, a scratched DVD, a deep-space radio, even a wire — corrupts some bits. Shannon's stunning answer: there is a precise speed limit, the <strong>capacity</strong>, below which you can communicate with <em>arbitrarily small</em> error, and above which reliable communication is impossible.</p>\n<h3>2. The noisy channel model</h3>\n<p>A channel takes an input symbol $X$ and emits an output $Y$ according to transition probabilities $p(y\\mid x)$ — the noise. The receiver sees $Y$ and must guess $X$. The cleanest example is the <strong>binary symmetric channel (BSC)</strong>: you send a bit, and with \"flip probability\" $p$ it arrives inverted, with probability $1-p$ it arrives intact. Noise is exactly the uncertainty $p(y\\mid x)$ injects between what you sent and what was received.</p>\n<h3>3. Capacity is maximized mutual information</h3>\n<p>How much information actually gets through? Exactly the <strong>mutual information</strong> $I(X;Y)$ between input and output — the bits about $X$ you can recover from $Y$. Since you control the input distribution, the channel's <strong>capacity</strong> is the best you can do: $$C = \\max_{p(x)} I(X;Y).$$ It is measured in bits per channel use. For the BSC the uniform input is optimal and the capacity has a clean form: $$C = 1 - H(p),$$ where $H(p)$ is the binary entropy of the flip probability.</p>\n<h3>4. Reading the BSC capacity</h3>\n<p>That formula tells the whole story. A <em>noiseless</em> channel ($p=0$) has $C = 1-0 = 1$ bit per use — every bit gets through. A <em>useless</em> channel ($p=0.5$) has $C = 1-1 = 0$: the output is a coin flip independent of the input, so no information passes. In between, a 10% flip rate ($p=0.1$) leaves $C = 1 - H(0.1) \\approx 0.53$ bits per use — noise cuts your effective rate roughly in half, but does not destroy it.</p>\n<h3>5. Shannon's noisy-channel coding theorem</h3>\n<p>The theorem that founded the digital age: for any rate $R \\lt  C$, there exist codes that make the error probability <em>as small as you like</em>; for any rate $R \\gt  C$, reliable communication is <em>impossible</em>. The trick is to add structured <strong>redundancy</strong> and encode long blocks, so noise can be detected and corrected. The astonishing part is that error can vanish while the rate stays a positive fraction of capacity — you do <em>not</em> have to slow to a crawl to beat noise.</p>\n<h3>6. Compute it yourself</h3>\n<p><b>Try it in code.</b> The binary symmetric channel's capacity is $C = 1 - H(p)$. For a 10% flip probability it should be about 0.53 bits per use.</p>\n<div data-code=\"javascript\" data-expected=\"0.53\">// Binary symmetric channel capacity: C = 1 - H(p), p = flip probability\nconst p = 0.1;\nconst log2 = x => Math.log(x) / Math.log(2);\nconst Hb = (p <= 0 || p >= 1) ? 0 : -(p * log2(p) + (1 - p) * log2(1 - p));\nconst C = 1 - Hb;\nconsole.log(C.toFixed(2));</div>\n<h3>7. Error-correcting codes</h3>\n<p>How do we actually approach capacity? With <strong>error-correcting codes</strong> that add redundancy cleverly. The naive idea — a <em>repetition code</em> (send each bit three times, take the majority) — works but is wildly inefficient (rate $1/3$ to cut a 10% error to ~3%). Real codes do far better: <em>Hamming</em> codes correct single-bit errors with little overhead, and modern <em>LDPC</em> and <em>turbo</em> codes get within a whisker of the Shannon limit. They are everywhere — Wi-Fi, 5G, QR codes, SSDs, and the Voyager probes still phoning home from interstellar space.</p>\n<h3>8. The big picture</h3>\n<p>A noisy channel has a capacity $C=\\max_{p(x)} I(X;Y)$ — for the BSC, $C=1-H(p)$ — and Shannon's coding theorem says you can communicate with vanishing error at any rate below $C$ and not above it. Together with source coding, this is the two-part foundation of all digital communication and storage: squeeze out redundancy to hit the entropy, then <em>add structured redundancy back</em> to beat the noise.</p>\n<details class=\"deep-dive\">\n<summary>Deeper dive: why capacity is the maximum over input distributions</summary>\n<p>Capacity is $C=\\max_{p(x)} I(X;Y)$ — but why the <em>maximum</em>, and why over the <em>input</em> distribution?</p>\n<p>The channel's noise $p(y\\mid x)$ is fixed; what you control is how often you send each symbol, i.e. $p(x)$. The mutual information $I(X;Y)=H(Y)-H(Y\\mid X)$ measures how many bits get through, and it changes with $p(x)$: the term $H(Y\\mid X)$ (the noise) is set by the channel, but $H(Y)$ (the output's spread) is yours to maximize. Capacity is the <em>best</em> achievable, so you optimize over all input distributions. For the BSC, symmetry makes the uniform input optimal, giving $H(Y)=1$ and $H(Y\\mid X)=H(p)$, hence $C=1-H(p)$.</p>\n<p>The \"aha\": capacity is a single number that summarizes a channel by the most information it can carry under the smartest input strategy. It is mutual information again — the same quantity that measures dependence now measures throughput — pushed to its maximum over the one thing the sender controls.</p>\n</details>\n<details class=\"deep-dive\">\n<summary>Deeper dive: the coding theorem and the magic of random codes</summary>\n<p>The forward half of the noisy-channel theorem (rates below $C$ are achievable) has one of the most beautiful proofs in the subject — and it is <em>non-constructive</em>.</p>\n<p><b>Random coding.</b> Shannon did not exhibit a clever code; he showed that a code chosen <em>at random</em> works, on average, with vanishing error for any rate $R\\lt C$. The intuition: spread $2^{nR}$ random codewords through the space of length-$n$ blocks. Noise nudges a sent codeword into a \"typical\" cloud around it; as $n$ grows these clouds occupy a $2^{nH(Y\\mid X)}$-sized region while the total output space holds $2^{nH(Y)}$ typical sequences. You can pack about $2^{n(H(Y)-H(Y\\mid X))}=2^{nC}$ non-overlapping clouds — so up to rate $C$ the decoder can tell codewords apart. The <em>converse</em> (rates above $C$ must fail) uses Fano's inequality.</p>\n<p>The \"aha\": reliable communication over noise is not only possible but achievable with a <em>positive</em> fraction of capacity and exponentially small error — and the existence proof needs no ingenuity, just randomness and the law of large numbers (\"typical sequences\"). Decades of work since then has been about finding <em>practical</em> codes (LDPC, turbo, polar) that match what random codes promised.</p>\n</details>\n<details class=\"deep-dive\">\n<summary>Deeper dive: the source-channel separation theorem</summary>\n<p>We have two halves — source coding (squeeze out redundancy down to entropy) and channel coding (add redundancy back to beat noise). A natural worry: should they be designed <em>together</em> for best results? Shannon's <strong>separation theorem</strong> says no.</p>\n<p>For a wide class of sources and channels, you lose nothing by doing the two stages <em>separately</em>: first compress the source to its entropy $H$, then protect the compressed bits with a channel code at any rate below capacity $C$. Reliable end-to-end transmission is possible if and only if $H \\lt  C$ — source entropy below channel capacity. This modularity is why your devices have a clean split between a <em>compressor</em> (JPEG, MP3, H.264) and a separate <em>error-correction</em> layer (the modem/Wi-Fi codes), designed by different engineers and freely mixed.</p>\n<p>The \"aha\": \"remove redundancy, then add the right redundancy back\" is not a contradiction but an <em>optimal</em> two-stage design — separation says the source and channel problems can be solved independently with no loss, which is the architectural backbone of all modern communication systems. (The clean separation can break in networks or with delay/complexity limits, where joint source-channel coding helps.)</p>\n</details>",
+          "mcq": [
+            {
+              "q": "The capacity of a channel is defined as:",
+              "choices": [
+                "The maximum of $I(X;Y)$ over input distributions",
+                "The minimum mutual information",
+                "The entropy of the noise",
+                "The output entropy $H(Y)$"
+              ],
+              "answer": 0,
+              "explain": "$C=\\max_{p(x)} I(X;Y)$ — the most information per use, optimized over the input you control."
+            },
+            {
+              "q": "For a binary symmetric channel with flip probability $p$, the capacity is:",
+              "choices": [
+                "$H(p)$",
+                "$p$",
+                "$1-p$",
+                "$1-H(p)$"
+              ],
+              "answer": 3,
+              "explain": "Uniform input is optimal, giving $C=1-H(p)$ bits per use."
+            },
+            {
+              "q": "A BSC with $p=0.5$ has capacity:",
+              "choices": [
+                "1 bit",
+                "0.5 bits",
+                "0 (no information passes)",
+                "Infinite"
+              ],
+              "answer": 2,
+              "explain": "$C=1-H(0.5)=1-1=0$: the output is independent of the input."
+            },
+            {
+              "q": "Shannon's noisy-channel coding theorem says reliable communication is possible:",
+              "choices": [
+                "At any rate",
+                "Only at rate 0",
+                "At any rate below the capacity $C$",
+                "Only with infinite power"
+              ],
+              "answer": 2,
+              "explain": "For $R\\lt C$ error can be made arbitrarily small; for $R\\gt C$ it cannot."
+            },
+            {
+              "q": "A noiseless channel ($p=0$) has capacity:",
+              "choices": [
+                "1 bit per use",
+                "0",
+                "Infinite",
+                "$H(0)$ which is undefined"
+              ],
+              "answer": 0,
+              "explain": "$C=1-H(0)=1-0=1$ bit per use — every bit gets through."
+            },
+            {
+              "q": "How do we approach capacity in practice?",
+              "choices": [
+                "By sending faster",
+                "By removing all redundancy",
+                "By lowering the voltage",
+                "By adding structured redundancy (error-correcting codes)"
+              ],
+              "answer": 3,
+              "explain": "Codes like Hamming, LDPC, and turbo add redundancy to detect and correct noise."
+            },
+            {
+              "q": "A 3x repetition code (majority vote) is:",
+              "choices": [
+                "Optimal",
+                "Simple but inefficient (low rate for its protection)",
+                "Unable to correct any errors",
+                "Better than LDPC codes"
+              ],
+              "answer": 1,
+              "explain": "Rate 1/3 to cut a 10% error to ~3%; real codes do far better near the Shannon limit."
+            },
+            {
+              "q": "The separation theorem states that source coding and channel coding:",
+              "choices": [
+                "Must always be designed jointly",
+                "Can be designed separately with no loss (compress, then protect)",
+                "Cannot be combined",
+                "Are the same operation"
+              ],
+              "answer": 1,
+              "explain": "Separate stages are optimal for point-to-point channels; reliable transmission needs $H\\lt C$."
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Channel capacity",
+              "back": "$C=\\max_{p(x)} I(X;Y)$ — the maximum mutual information between input and output, in bits per channel use. The reliable-communication speed limit."
+            },
+            {
+              "front": "Binary symmetric channel capacity",
+              "back": "$C=1-H(p)$ for flip probability $p$. $p=0\\Rightarrow C=1$; $p=0.5\\Rightarrow C=0$."
+            },
+            {
+              "front": "Noisy-channel coding theorem",
+              "back": "For any rate $R\\lt C$, error can be made arbitrarily small; for $R\\gt C$, reliable communication is impossible."
+            },
+            {
+              "front": "How to approach capacity",
+              "back": "Add structured redundancy: error-correcting codes (Hamming, LDPC, turbo). Repetition works but is inefficient."
+            },
+            {
+              "front": "Separation theorem",
+              "back": "Source coding (compress to entropy $H$) and channel coding (protect up to capacity $C$) can be done separately with no loss; transmit reliably iff $H\\lt C$."
+            }
+          ],
+          "examples": [
+            {
+              "title": "Capacity across noise levels",
+              "scenario": "Compute the BSC capacity for flip probabilities $p=0$, $p=0.1$, and $p=0.5$, and interpret each.",
+              "solution": "$C=1-H(p)$. At $p=0$: $C=1-0=\\mathbf{1}$ bit/use — perfect channel. At $p=0.1$: $H(0.1)\\approx 0.47$, so $C\\approx\\mathbf{0.53}$ bits/use — noise roughly halves the rate. At $p=0.5$: $H(0.5)=1$, so $C=\\mathbf{0}$ — output independent of input, nothing gets through. Capacity falls smoothly from 1 to 0 as the channel goes from perfect to useless, bottoming out at the maximally-confusing $p=0.5$."
+            },
+            {
+              "title": "A repetition code reduces errors",
+              "scenario": "Over a BSC with flip probability $p=0.1$, you send each bit three times and decode by majority vote. What is the resulting bit-error probability?",
+              "solution": "A majority-of-3 vote is wrong only if 2 or 3 of the copies flip: $P=\\binom{3}{2}p^2(1-p)+p^3 = 3(0.1)^2(0.9)+(0.1)^3 = 0.027+0.001=\\mathbf{0.028}$. The error drops from 10% to ~2.8% — but at a cost: the rate fell to $1/3$ bit per use, far below the capacity $0.53$. Good codes achieve similar reliability much closer to capacity."
+            },
+            {
+              "title": "Can this source go through this channel?",
+              "scenario": "A source has entropy $H=0.6$ bits/symbol. You must send it over a BSC with $p=0.1$ (capacity $\\approx 0.53$ bits/use), one symbol per use. Is reliable transmission possible?",
+              "solution": "By the separation theorem, reliable transmission needs $H \\lt  C$. Here $H=0.6$ but $C\\approx 0.53$, so $H\\gt C$ — it is <b>not</b> possible at one channel use per symbol. You would need a higher-capacity channel (less noise), more channel uses per source symbol, or some loss. If instead $H=0.4 \\lt  0.53$, it would be achievable: compress to ~0.4 bits, then channel-code below 0.53."
+            }
+          ],
+          "homework": [
+            {
+              "prompt": "A binary symmetric channel has flip probability $p=0.2$. Compute its capacity (use $H(0.2)\\approx 0.72$).",
+              "hint": "$C=1-H(p)$.",
+              "solution": "$C=1-H(0.2)=1-0.72=\\mathbf{0.28}$ bits per channel use. A 20% flip rate leaves only about 0.28 bits of reliable information per use — noisier channels have lower capacity, reaching 0 at $p=0.5$."
+            },
+            {
+              "prompt": "Explain why a channel with flip probability $p=0.5$ carries zero information, and what happens for $p$ near 1.",
+              "hint": "Think about whether the output depends on the input; and what flipping (almost) every bit means.",
+              "solution": "At $p=0.5$ the output is a fair coin regardless of the input, so $Y$ is independent of $X$, $I(X;Y)=0$, and $C=1-H(0.5)=0$ — no information passes. For $p$ near 1, almost every bit flips, but that is <em>predictable</em>: just invert the received bits and you are back to a near-noiseless channel. So capacity is symmetric, $C(p)=C(1-p)$, high near both $p=0$ and $p=1$, and zero only at the maximally-confusing $p=0.5$."
+            },
+            {
+              "prompt": "A source produces 1.2 bits/symbol of entropy and must be sent over a channel of capacity 0.8 bits/use. Using the separation theorem, can it be sent reliably at one use per symbol? What is one fix?",
+              "hint": "Compare $H$ to $C$.",
+              "solution": "No: reliable transmission requires $H\\lt C$, but $H=1.2\\gt 0.8=C$, so at one channel use per symbol it is impossible without loss. One fix is to use <b>more channel uses per source symbol</b> — e.g. 2 uses per symbol gives $2\\times 0.8=1.6$ bits of capacity per symbol, comfortably above $1.2$. (Alternatives: a less noisy channel, or lossy compression that drops $H$ below $C$.)"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
