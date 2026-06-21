@@ -201,6 +201,8 @@ The owner reviewed the mature site and set the next arc. Rotate across these (bi
    ✅ iter 628: **screen-reader labels on graded quiz choices** (accessibility) — sr-only "(correct answer)"/"(your answer, incorrect)" in all 3 MCQ surfaces. Verified gate GREEN, headless both labels, SW →v569.
    ✅ iter 629: **FIX streak pill clipped on mobile** (owner bug). margin-left:auto pinned the pill off the right edge at ≤900px; dropped it (+ level-badge margin-right:auto) inside the media query. Desktop untouched. Verified 390px screenshot fully visible, all-routes errs=0, SW →v570.
    NOTE (landmine): elements with `margin-left:auto` inside a `flex-wrap` topbar can overflow the viewport instead of wrapping on mobile — check 390px when touching topbar layout.
+   ✅ iter 630: **step-back + mobile overflow audit (9 routes clean) + clickable streak pill → #/stats** (UI/UX). gate GREEN, headless click→Progress, 390px clean, SW →v571.
+   TECHNIQUE (landmine): to audit mobile DOM/overflow at 390px, serve via `python3 -m http.server` and read the iframe's `contentDocument` SAME-ORIGIN — `file://` iframes throw cross-origin on `contentDocument`, so only screenshots work there. Overflow check: `max(documentElement.scrollWidth, app.scrollWidth) - 390 > 2`.
    NEXT: PS lessons still lacking viz: sample-spaces, random-variables, expectation-variance, sampling-distributions; big levers are a 10th topic or the staged
    lazy-load-data perf project (owner steer). Keep varying lanes.
    One lesson/iter, hand-verify every answer key, de-skew new 8 to 2/2/2/2.

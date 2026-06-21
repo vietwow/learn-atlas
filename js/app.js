@@ -477,6 +477,7 @@
       : `${lv.xp.toLocaleString()} XP · max level`;
     const st = Store.stats();
     document.getElementById("streak-num").textContent = st.streak;
+    const streakLink = document.querySelector("a.streak"); if (streakLink) streakLink.setAttribute("aria-label", st.streak + "-day streak — view your progress");
     const flameEl = document.querySelector(".streak .flame");   // flame intensity tiers — the longer the streak, the hotter it glows
     if (flameEl) {
       const tier = st.streak <= 0 ? "unlit" : st.streak < 7 ? "lit" : st.streak < 30 ? "hot" : st.streak < 100 ? "blazing" : "inferno";

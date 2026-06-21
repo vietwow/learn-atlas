@@ -250,7 +250,11 @@ body::after {
 .streak {
   margin-left: auto; display: flex; align-items: center; gap: 9px;
   background: var(--panel); border: 1px solid var(--line); padding: 9px 15px; border-radius: 30px;
+  text-decoration: none; color: inherit; cursor: pointer;          /* it's a link to Progress */
+  transition: border-color .2s ease, background .2s ease;
 }
+.streak:hover { border-color: color-mix(in srgb, var(--gold) 45%, var(--line)); background: var(--panel-2); }
+.streak:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 /* streak flame — a living, always-visible ember: a gentle ambient flicker whose glow
    intensifies with the streak length, plus a one-time flare when today extends the streak.
    (All animation auto-stilled under prefers-reduced-motion by the global rule above.) */

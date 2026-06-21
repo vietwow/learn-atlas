@@ -2,6 +2,17 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 630 — Step-back + mobile overflow audit (clean) + clickable streak pill → Progress (UI/UX)
+Round-number step-back. **Loop health:** the codex is uniform and complete across all 9 topics (165 lessons · 16 MCQ · 6 cards · 3 ex/hw · 105 viz · 214 glossary); recent lanes
+are well-rotated (content runway → viz → reference → a11y → mobile). **Mobile audit:** following the iter-629 streak bug, swept 9 key routes for horizontal overflow at true
+390px (dashboard, lesson, test, lab, stats, map, glossary, playground, library) — **all clean, no overflow** (the streak pill was the only issue, already fixed). Technique:
+serve the repo over `python3 -m http.server` and measure the iframe's DOM same-origin — `file://` iframes block `contentDocument` reads as cross-origin, which had silently
+failed earlier DOM probes.
+**Ship (UI/UX):** made the header **streak pill a link to `#/stats`** — a natural affordance (tap your streak to see your progress/personal-bests). Added a hover highlight,
+a focus-visible ring, and a dynamic `aria-label` ("42-day streak — view your progress"); the `.active` highlight rules are all scoped so the pill isn't restyled when on Progress.
+Verified: gate ALL GREEN; **headless** — pill is now an `<a>`, click navigates to `#/stats` (Progress renders), aria-label updates with the count, number/flame intact, errs=0;
+mobile header still fully visible at 390px (screenshot), non-layout CSS so desktop unchanged. SW cache `atlas-v570` → `atlas-v571`.
+
 ## iter 629 — FIX: streak pill clipped off the right edge on mobile (owner bug report · mobile)
 **Owner-reported bug:** the N-day streak display wasn't rendering correctly. Root cause was **mobile-only**: the header streak pill (`🔥 N day streak`) carries
 `margin-left:auto`, which pins it to the far right of the topbar. On the ≤900px layout the topbar wraps, but the auto-margin made the pill **overflow past the right viewport
