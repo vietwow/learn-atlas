@@ -6487,6 +6487,94 @@
               ],
               "answer": 3,
               "explain": "An unobserved common cause biases the estimate irreducibly."
+            },
+            {
+              "q": "The average treatment effect (ATE) is defined as:",
+              "choices": [
+                "$\\mathbb E[Y(1)-Y(0)]$, the mean difference of the two potential outcomes",
+                "$\\mathbb E[Y\\mid X{=}1]$ alone",
+                "The correlation of $X$ and $Y$",
+                "The variance of the treatment"
+              ],
+              "answer": 0,
+              "explain": "ATE averages each unit's treated-minus-untreated potential outcome."
+            },
+            {
+              "q": "The \"fundamental problem of causal inference\" is that:",
+              "choices": [
+                "Samples are always too small",
+                "We never observe both potential outcomes for the same unit",
+                "Randomization is impossible",
+                "Confounders cannot be measured"
+              ],
+              "answer": 1,
+              "explain": "Each unit reveals only Y(1) or Y(0), never both."
+            },
+            {
+              "q": "Inverse-propensity weighting estimates an effect by:",
+              "choices": [
+                "Maximizing the correlation",
+                "Discarding all confounders",
+                "Reweighting units by $1/e(Z)$ (treated) and $1/(1-e(Z))$ (control) to mimic a randomized sample",
+                "Using only the largest stratum"
+              ],
+              "answer": 2,
+              "explain": "IPW upweights under-represented treatment/covariate combinations."
+            },
+            {
+              "q": "A valid instrument must affect $X$ and:",
+              "choices": [
+                "Equal the outcome",
+                "Be caused by $Y$",
+                "Be a descendant of $X$",
+                "Have no direct effect on $Y$ and share no confounder with $Y$"
+              ],
+              "answer": 3,
+              "explain": "Relevance plus the exclusion restriction define an instrument."
+            },
+            {
+              "q": "With heterogeneous effects, an instrument identifies a:",
+              "choices": [
+                "Local average treatment effect (LATE) — for the units it actually moves",
+                "Global effect for everyone",
+                "Effect only for the control group",
+                "Purely correlational quantity"
+              ],
+              "answer": 0,
+              "explain": "IV recovers the effect among compliers, the LATE."
+            },
+            {
+              "q": "In an A/B test, the confidence interval for the lift narrows roughly like:",
+              "choices": [
+                "$1/n^2$",
+                "$1/\\sqrt{n}$ as the sample size $n$ grows",
+                "$\\log n$",
+                "It does not depend on $n$"
+              ],
+              "answer": 1,
+              "explain": "Standard error scales as 1/sqrt(n)."
+            },
+            {
+              "q": "Difference-in-differences isolates the treatment effect by subtracting:",
+              "choices": [
+                "The outcome variance",
+                "The treated group's baseline from the control group's baseline",
+                "The control group's change (the background trend) from the treated group's change",
+                "The propensity score"
+              ],
+              "answer": 2,
+              "explain": "The control's change estimates the counterfactual trend."
+            },
+            {
+              "q": "On the \"credibility ladder\" of causal methods, the most credible (when feasible) is:",
+              "choices": [
+                "A naive correlation",
+                "Propensity matching",
+                "Difference-in-differences",
+                "A randomized experiment"
+              ],
+              "answer": 3,
+              "explain": "Randomization balances all confounders, measured or not."
             }
           ],
           "flashcards": [

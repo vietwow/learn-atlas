@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 688 — Causal-estimation lesson MCQ top-up 8 → 16 → Causal Inference module COMPLETE (content / assessment)
+Brought `ps-causal-estimation` to the 16-MCQ standard (gate parity-warning had flagged it). Added **8 new MCQs**: the ATE definition, the fundamental problem of causal inference, inverse-
+propensity weighting, the instrument conditions (relevance + exclusion), LATE, the `1/√n` CI width, what DiD subtracts, and the credibility ladder. Balanced → **4/4/4/4**. **All three Causal
+Inference lessons are now at full parity** — the module is complete (confounding → graphs/backdoor → estimation), and all **172 lessons are at the site standard**.
+Verified: data parses; gate ALL GREEN with **no parity warning**; **headless** quiz "Question 1 of 16", 4 choices, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v625` → `atlas-v626`.
+
 ## iter 687 — NEW lesson: Estimating Causal Effects (content)
 Third lesson of the Causal Inference module. Added `ps-causal-estimation` "Estimating Causal Effects: Experiments & Observational Methods": 8 sections (ATE & potential outcomes · the RCT/A-B
 test estimator + embedded `ps-ci-coverage` · propensity scores · instrumental variables / Wald estimator · **difference-in-differences** · peeking & other pitfalls · the credibility ladder), a
