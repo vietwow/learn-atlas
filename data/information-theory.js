@@ -762,6 +762,94 @@
               ],
               "answer": 0,
               "explain": "It is the leftover uncertainty in $X$ given $Y$; $H(X)-H(X\\mid Y)=I(X;Y)$."
+            },
+            {
+              "q": "If $H(X)=1$ bit and $H(X\\mid Y)=0.6$ bits, then the mutual information $I(X;Y)$ is:",
+              "choices": [
+                "$0.4$ bits",
+                "$1.6$ bits",
+                "$0.6$ bits",
+                "$1.0$ bit"
+              ],
+              "answer": 0,
+              "explain": "$I(X;Y)=H(X)-H(X\\mid Y)=1-0.6=0.4$ bits — the uncertainty about $X$ that learning $Y$ removes."
+            },
+            {
+              "q": "When $Y$ completely determines $X$ (e.g. $Y=X$), the mutual information $I(X;Y)$ equals:",
+              "choices": [
+                "$0$",
+                "$H(X)$",
+                "$1$ bit, always",
+                "$2H(X)$"
+              ],
+              "answer": 1,
+              "explain": "Knowing $Y$ removes all uncertainty, so $H(X\\mid Y)=0$ and $I=H(X)-0=H(X)$."
+            },
+            {
+              "q": "Mutual information equals which KL divergence?",
+              "choices": [
+                "$H(X)+H(Y)$",
+                "$D_{\\mathrm{KL}}\\big(p(x)\\,\\|\\,p(y)\\big)$",
+                "$D_{\\mathrm{KL}}\\big(p(x,y)\\,\\|\\,p(x)p(y)\\big)$",
+                "$0$ for all distributions"
+              ],
+              "answer": 2,
+              "explain": "$I(X;Y)$ is the KL from the true joint to the product of marginals — how far the variables are from independence."
+            },
+            {
+              "q": "The entropy chain rule states that $H(X,Y)$ equals:",
+              "choices": [
+                "$\\max(H(X),H(Y))$",
+                "$H(X)\\cdot H(Y)$",
+                "$H(X)-H(Y)$",
+                "$H(X)+H(Y\\mid X)$"
+              ],
+              "answer": 3,
+              "explain": "The pair's uncertainty is $X$'s plus whatever remains in $Y$ once $X$ is known: $H(X,Y)=H(X)+H(Y\\mid X)$."
+            },
+            {
+              "q": "Conditioning never increases entropy on average, so:",
+              "choices": [
+                "$H(X\\mid Y)\\le H(X)$, with equality iff $X,Y$ are independent",
+                "$H(X\\mid Y)\\ge H(X)$",
+                "$H(X\\mid Y)=H(X)$ always",
+                "$H(X\\mid Y)>H(X,Y)$"
+              ],
+              "answer": 0,
+              "explain": "Extra information can only reduce (or leave unchanged) the average remaining uncertainty; equality holds exactly when $Y$ tells you nothing about $X$."
+            },
+            {
+              "q": "If $X$ and $Y$ are independent, the conditional entropy $H(X\\mid Y)$ equals:",
+              "choices": [
+                "$0$",
+                "$H(X)$",
+                "$H(Y)$",
+                "$H(X,Y)$"
+              ],
+              "answer": 1,
+              "explain": "Independence means $Y$ carries no information about $X$, so none of $X$'s uncertainty is removed: $H(X\\mid Y)=H(X)$."
+            },
+            {
+              "q": "Mutual information $I(X;Y)$ is always:",
+              "choices": [
+                "Between 0 and 1",
+                "Negative",
+                "Nonnegative ($\\ge 0$)",
+                "Greater than $H(X)$"
+              ],
+              "answer": 2,
+              "explain": "As a KL divergence, $I(X;Y)\\ge 0$, with $0$ exactly when $X,Y$ are independent."
+            },
+            {
+              "q": "In terms of conditional entropy, $I(X;Y)$ equals:",
+              "choices": [
+                "$H(X)\\cdot H(X\\mid Y)$",
+                "$H(X)+H(X\\mid Y)$",
+                "$H(X\\mid Y)-H(X)$",
+                "$H(X)-H(X\\mid Y)$"
+              ],
+              "answer": 3,
+              "explain": "Mutual information is the drop in uncertainty about $X$ from learning $Y$: $I(X;Y)=H(X)-H(X\\mid Y)$."
             }
           ],
           "flashcards": [

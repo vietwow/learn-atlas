@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 610 — MCQ top-up runway, batch 3: it-mutual-information 8 → 16 (content / assessment)
+Third batch. Added **8 new MCQs to `it-mutual-information`** (now 16), distinct from the existing eight: numeric `I = H(X)−H(X|Y) = 0.4`, `Y` determines `X` ⇒ `I=H(X)`,
+MI as the KL `D(p(x,y)‖p(x)p(y))`, the entropy chain rule `H(X,Y)=H(X)+H(Y|X)`, conditioning never raises entropy (`H(X|Y)≤H(X)`), independence ⇒ `H(X|Y)=H(X)`, `I≥0`,
+and the formula `I=H(X)−H(X|Y)`. In-script key assertion confirmed each correct choice; balanced 2/2/2/2 → combined **4/4/4/4**.
+Verified: data parses; gate ALL GREEN; **headless** quiz "Question 1 of 16", 4 choices, kErr=0, errs=0. SW cache `atlas-v550` → `atlas-v551`. Runway: **3 of 17**.
+
 ## iter 609 — MCQ top-up runway, batch 2: it-cross-entropy-kl 8 → 16 (content / assessment)
 Second batch of the MCQ-parity runway. Added **8 new MCQs to `it-cross-entropy-kl`** (now 16), distinct from the existing eight: numeric one-hot loss (`q=0.5 → 1 bit`),
 the `H(p,q) ≥ H(p)` floor, the infinite penalty for a confidently-wrong zero, bits-vs-nats, a numeric KL (`D=H(p,q)−H(p)=0.21`), the softmax+cross-entropy gradient
