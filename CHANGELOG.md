@@ -2,6 +2,13 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 797 — Cross-link: CLIP ↔ the contrastive-learning lesson (understandability)
+Non-code lane for range. Confirmed multimodal LLMs are already covered (`dl-vision-transformers` has a "how a multimodal LLM sees" deep-dive + "CLIP's contrastive objective") and that lesson completion already has a full
+juice flow (completion stamp + XP/unlock toasts + module/topic confetti). Then improved the knowledge graph: the "CLIP's contrastive objective" deep-dive described the loss but didn't link to the dedicated contrastive-learning
+lesson. Added a see-also — "CLIP's loss is the same contrastive (InfoNCE) objective covered in depth in its own lesson, here applied across image–text pairs" → `dl-self-supervised-contrastive`. (Verification note: a transient
+"empty link text" smoke reading was traced to querySelector matching a pre-existing module-nav dot to the same lesson, *first*; the rendered DOM confirms the see-also link carries its proper text.)
+Verified: data parses + round-trips; gate ALL GREEN (internal-links lint confirms it resolves); **headless** — rendered HTML shows the see-also `<a>` with text "contrastive (InfoNCE) objective", kErr=0, errs=0. SW cache `atlas-v730` → `atlas-v731`.
+
 ## iter 796 — NEW code exercise: a limit, computed numerically (examples / hands-on)
 Added a runnable exercise to `c-computing-limits` (calculus — a fresh topic for hands-on). The classic 0/0 form $\frac{x^2-4}{x-2}$ is undefined right at $x=2$, but the learner evaluates it at $x=2.01$ (→ 4.010) and $x=2.001$
 (→ 4.001) and watches the values close in on **4** — the same answer the algebraic factoring gives ($x+2\to4$). Placed right after "Technique 1 — Factoring", so the numerical check confirms the symbolic trick: trust, then verify.
