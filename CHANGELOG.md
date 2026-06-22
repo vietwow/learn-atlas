@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 783 — Progress page verified at 10 topics + interpretability glossary (UX check / reference)
+Reviewed the Progress page (seeded, 10 topics): renders cleanly — XP/level, 40/185 lessons, 85% accuracy, personal bests, activity grid, recent tests. Investigated an apparent "0 Perfect quizzes" and confirmed it's a
+**non-bug**: `load()` restores `perfectQuizzes` (Store.raw=6 == localStorage), the tile reads it, and persistence is correct — my earlier DOM heuristic mis-grabbed a sibling. Then completed the interpretability glossary thread:
+added **Induction head** and **Circuit (interpretability)** (both appear in lessons; joining superposition/SAE/monosemantic/mech-interp from iter 780). Glossary **305 → 307** (0 holes).
+Verified: glossary parses; gate ALL GREEN; persistence confirmed (Store.raw.perfectQuizzes survives reload); **headless** — both terms render on `#/glossary` (2/2), kErr=0, errs=0. SW cache `atlas-v716` → `atlas-v717`.
+
 ## iter 782 — NEW viz: superposition (more features than dimensions) (visualizations)
 Gave the cutting-edge interpretability concept from iter 779 its visual — the **134th widget, `dl-superposition`**: a 2-D plane with N feature directions from the origin. At N=2 they sit orthogonal with zero interference
 (they fit cleanly); slide N up and they must crowd together, the largest pairwise cosine (interference) climbing 0 → 0.97 — exactly why a network packs more features than dimensions, tolerated because features are sparse.
