@@ -1296,3 +1296,10 @@ a.gloss-item:hover .gloss-go, a.gloss-item:focus-visible .gloss-go { opacity: 1;
   .deep-dive *, .deep-dive .katex { color: #111 !important; }
   .hw-item { border: 1px solid #ccc !important; background: #fff !important; break-inside: avoid; }
 }
+
+/* payoff matrices (game theory) — scoped table style, dark-academia */
+.payoff { border-collapse: collapse; margin: 1.1rem 0; font-family: var(--font-mono); font-size: 14px; }
+.payoff th, .payoff td { border: 1px solid var(--line); padding: 8px 14px; text-align: center; }
+.payoff th { color: var(--ink-mute); font-weight: 600; background: var(--panel); }
+.payoff td { color: var(--ink); }
+.payoff caption { color: var(--ink-mute); font-size: 12px; padding-bottom: 6px; }
