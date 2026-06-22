@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 853 — Glossary: training-technique terms (reference)
+Audited the normalization/training-technique vocabulary: batch norm, layer norm, dropout, weight decay, gradient clipping were already defined, but three common, taught-but-undefined terms were missing. Added **Internal covariate
+shift** (the drift BN fixes — completing the iter-851 BN viz thread), **Early stopping**, and **Data augmentation**. Glossary **343 → 346** (0 holes).
+Verified: glossary parses; gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), kErr=0, rawDollar=0, errs=0. SW cache `atlas-v786` → `atlas-v787`.
+
 ## iter 852 — NEW code exercise: coordinates in a non-standard basis (examples / hands-on)
 Filled the last linear-algebra lesson without code — `la-basis-dimension`. In its worked-example section the learner solves $B\mathbf c=\mathbf v$ by Cramer's rule to express $\mathbf v=(5,6)$ in the basis $(1,1),(1,-1)$ →
 **coordinates: [5.5, -0.5]** (i.e. $5.5\,\mathbf b_1 - 0.5\,\mathbf b_2 = \mathbf v$). Makes "a vector is just a list of numbers *relative to a basis*" something you compute. Linear algebra is now 100% code-covered.
