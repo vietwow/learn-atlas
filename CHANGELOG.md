@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 868 — Hard-concept: Gaussian processes — a prior over functions (content)
+Filled a genuine ML gap: Gaussian processes were only name-dropped (a list in `ps-bayesian-inference`), never explained. Added a deep-dive there: a GP puts a prior directly over <em>functions</em> (any finite set of points is jointly
+Gaussian); a **kernel** $k(x,x')$ encodes smoothness; conditioning on data gives a posterior GP whose **mean** is the prediction and whose **variance** is calibrated error bars — tight near data, wide where there's none. It's Bayesian linear regression with
+infinitely many basis functions (the SVM's kernel trick — cross-linked), and the engine of Bayesian optimization (explore-exploit on the posterior).
+Verified: g()-guarded; byte-stable JSON re-serialize (JSON-form); gate ALL GREEN (internal-links lint confirms ml-svm); **headless** — 4 deep-dives, GP/prior/posterior/kernel + cross-link present, 58 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v801` → `atlas-v802`.
+
 ## iter 867 — NEW code exercise: the finite-difference gradient (examples / hands-on)
 Added a runnable exercise to `c-partial-derivatives`, which had none — a partial *is* a limit of a difference quotient, so the learner estimates $\nabla f$ for $f(x,y)=x^2+xy+y^2$ at $(1,2)$ by **central differences** →
 **gradient ~ [4.00, 5.00]**, matching the analytic $(2x+y, x+2y)$. It's the basis of gradient-checking (how you verify a backprop implementation). Placed in "The Partial Derivative" section.
