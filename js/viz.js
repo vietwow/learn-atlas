@@ -7448,4 +7448,60 @@
     draw();
   });
 
+
+  /* ========================================================
+     139. VC dimension by shattering: a line shatters 3 points, not 4 (learning theory)
+     ======================================================== */
+  register({ id: 'dl-vc-shattering', topic: 'deep-learning', title: 'VC dimension: shattering points with a line', blurb: 'The VC dimension of a hypothesis class is the largest number of points it can shatter — label in every possible +/− way. Click a point to flip its label and watch a straight-line classifier try to separate the two colours. With 3 points (in general position) every one of the 8 labelings can be split, so a line shatters 3 points. Switch to 4 points and two labelings — the XOR/diagonal ones — can never be separated by a single line. That is why a linear classifier in 2-D has VC dimension exactly 3.' },
+  function (root) {
+    const W = 460, H = 320, R = 110;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    const cx = W / 2, cy = H / 2 - 6;
+    const TRI = [[0, 1], [-0.87, -0.5], [0.87, -0.5]];
+    const SQ = [[-0.72, 0.72], [0.72, 0.72], [-0.72, -0.72], [0.72, -0.72]];
+    let pts = TRI.slice(), labels = pts.map(() => 1);
+    function separating(P, L) {            // returns {wx,wy,b} of a separating line, or null
+      for (let a = 0; a < 180; a++) {
+        const th = a * Math.PI / 180, wx = Math.cos(th), wy = Math.sin(th);
+        let maxNeg = -1e9, minPos = 1e9, maxPos = -1e9, minNeg = 1e9, nPos = 0, nNeg = 0;
+        for (let i = 0; i < P.length; i++) { const s = wx * P[i][0] + wy * P[i][1]; if (L[i] > 0) { nPos++; minPos = Math.min(minPos, s); maxPos = Math.max(maxPos, s); } else { nNeg++; minNeg = Math.min(minNeg, s); maxNeg = Math.max(maxNeg, s); } }
+        if (!nPos || !nNeg) return { wx, wy, b: 0, trivial: true };
+        if (maxNeg < minPos) return { wx, wy, b: (maxNeg + minPos) / 2 };
+        if (maxPos < minNeg) return { wx, wy, b: (maxPos + minNeg) / 2 };
+      }
+      return null;
+    }
+    function shatterSummary(P) { let ok = 0, n = P.length; for (let m = 0; m < (1 << n); m++) { const L = []; for (let i = 0; i < n; i++) L.push((m >> i) & 1 ? 1 : -1); if (separating(P, L)) ok++; } return { ok, total: 1 << n }; }
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const X = u => cx + u * R, Y = v => cy - v * R;
+      const sep = separating(pts, labels);
+      if (sep && !sep.trivial) {        // draw the separating line
+        const { wx, wy, b } = sep, ox = b * wx, oy = b * wy, dx = -wy, dy = wx, Lr = 2.2;
+        ctx.strokeStyle = p.sage; ctx.lineWidth = 2; ctx.setLineDash([]); ctx.beginPath();
+        ctx.moveTo(X(ox - Lr * dx), Y(oy - Lr * dy)); ctx.lineTo(X(ox + Lr * dx), Y(oy + Lr * dy)); ctx.stroke();
+      }
+      pts.forEach((pt, i) => { const x = X(pt[0]), y = Y(pt[1]);
+        ctx.fillStyle = labels[i] > 0 ? p.gold : p.violet; ctx.strokeStyle = p.bg; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.arc(x, y, 12, 0, 7); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = p.bg; ctx.font = 'bold 13px ' + (cssVar('--font-mono') || 'monospace'); ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText(labels[i] > 0 ? '+' : '−', x, y); });
+      const sum = shatterSummary(pts), shattered = sum.ok === sum.total;
+      info.innerHTML = 'This labeling: <b style="color:' + (sep ? p.sage : p.rust) + '">' + (sep ? 'separable by a line ✓' : 'no line can separate it ✗') + '</b>. ' +
+        'Across all <b>' + sum.total + '</b> labelings of these <b>' + pts.length + '</b> points, <b>' + sum.ok + '</b> are separable — ' +
+        (shattered ? '<b style="color:' + p.sage + '">all of them, so a line SHATTERS ' + pts.length + ' points</b> (VC ≥ ' + pts.length + ').' : '<b style="color:' + p.rust + '">not all, so ' + pts.length + ' points are NOT shattered</b> → a 2-D line has VC dimension 3.');
+    }
+    function rebuild() {
+      ctl.innerHTML = '';
+      button(ctl, pts.length === 3 ? 'Use 4 points' : 'Use 3 points', () => { pts = pts.length === 3 ? SQ.slice() : TRI.slice(); labels = pts.map(() => 1); rebuild(); });
+      pts.forEach((_, i) => button(ctl, 'Flip ' + 'ABCD'[i], () => { labels[i] = -labels[i]; draw(); }));
+      draw();
+    }
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'VC dimension shattering demo: 3 or 4 points on a plane, each labeled plus or minus, with a straight-line classifier trying to separate the two colours. Flipping labels shows that all 8 labelings of 3 points are linearly separable (a line shatters 3 points), but for 4 points two labelings (the XOR/diagonal cases) cannot be separated, so a 2-D linear classifier has VC dimension 3.');
+    rebuild();
+  });
+
 })();

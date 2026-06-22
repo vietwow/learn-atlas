@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 804 — NEW viz: VC dimension by shattering (visualizations)
+Gave the iter-803 PAC/VC concept its visual — the **139th widget, `dl-vc-shattering`**: a straight-line classifier trying to separate +/− labeled points. Flip any point's label (buttons) and a brute-force direction search draws a
+separating line or reports "no line can separate it." With **3 points all 8 labelings split → a line shatters 3 points**; switch to **4 points and 2 labelings (the XOR/diagonal cases) can never be split → not shattered**, so a 2-D
+linear classifier has VC dimension exactly 3 — the abstract capacity measure made concrete. Embedded *inside* the PAC deep-dive in `dl-ml-recap-and-the-learning-problem`, right where VC dimension is defined. Deterministic.
+Verified: separability logic re-derived in Node (triangle 8/8 separable; square 14/16, the two XOR labelings fail); gate ALL GREEN (now **139 widgets**); **headless** — readout reads "SHATTERS 3 points" for the triangle and "NOT shattered" after switching to 4, label-flip updates separability, kErr=0, errs=0; screenshot shows points + separating line. SW cache `atlas-v737` → `atlas-v738`.
+
 ## iter 803 — Hard-concept: PAC learning & VC dimension (content)
 Varied off hands-on exercises. Audited learning theory: bias-variance, generalization bounds, no-free-lunch, and bootstrap are all covered, but **PAC learning** was a genuine MISS (VC dimension only got passing mentions).
 Added a 4th deep-dive to `dl-ml-recap-and-the-learning-problem` — it builds straight on the lesson's "generalization gap" and "no free lunch" dives: a class is **PAC-learnable** if a finite sample makes error $\leq\epsilon$ with
