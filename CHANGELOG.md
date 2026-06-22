@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 755 — Hard-concept: from tool calls to AI agents (the ReAct loop) (content / understandability)
+Agents/ReAct were *mentioned* across LLM lessons but never *taught* — `l-rag-and-tools` covers RAG and tools, yet all its deep-dives were RAG. Filled the gap with a 4th deep-dive: **from a single tool call to an agent
+(the ReAct loop)** — the Reason→Act→Observe cycle, planning and reflection (Reflexion), and the catch (compounding error: a 95%-reliable step is only $0.95^{10}\approx 0.60$ over ten steps; growing context; step-scaled
+cost) and the guardrails real agents need. The defining 2024-25 application paradigm — the engine behind coding assistants, research agents, and computer-use.
+Verified: data parses; gate ALL GREEN (incl. proseInMath on the $0.95^{10}$ math); **headless** — 4 deep-dives render, ReAct/agent-loop text present when expanded, 30 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v688` → `atlas-v689`.
+
 ## iter 754 — ROADMAP de-duplication (workflow / loop maintenance)
 Step-6 loop maintenance (flagged at iter 753): the ROADMAP had ballooned to **321 lines** because the entire section block (Current state → … → Backlog) was **duplicated 5×** — and the copies had diverged/interleaved
 (a botched concatenation; one boundary even split mid-line). Reconstructed a single clean **80-line** live queue: refreshed the Current-state to iter-753 reality (179 lessons · 129 viz · 290 glossary · last sweep iter 750),
