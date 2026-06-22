@@ -499,6 +499,168 @@
           ]
         }
       ]
+    },
+    {
+      "id": "gt-repeated-mod",
+      "title": "Repeated Games and Cooperation",
+      "lessons": [
+        {
+          "id": "gt-repeated-cooperation",
+          "title": "Repeated Games and the Evolution of Cooperation",
+          "minutes": 18,
+          "content": "<h3>1. The shadow of the future</h3>\n<p>In a <em>one-shot</em> <a href=\"#/lesson/game-theory/gt-foundations\" data-route>Prisoner's Dilemma</a>, defection dominates and rational players betray. But most real interactions repeat — with the same colleagues, rivals, or trading partners, again and again. When a game is played repeatedly, today's choice casts a <b>shadow of the future</b>: betray now and you may be punished for many rounds to come. That single change — repetition — can flip the logic of the game and make cooperation rational.</p>\n<h3>2. The iterated Prisoner's Dilemma</h3>\n<p>The <b>iterated Prisoner's Dilemma (IPD)</b> plays the same dilemma over and over between the same two players, who remember the history. Now a \"strategy\" is not a single move but a <em>rule</em> mapping the history so far to the next move. The question becomes: which rules thrive when they meet each other repeatedly?</p>\n<h3>3. Some strategies</h3>\n<p>A few classics: <b>Always Defect</b> (betray every round — safe but lonely); <b>Always Cooperate</b> (trusting but exploitable); <b>Grim Trigger</b> (cooperate until the opponent defects once, then defect forever — unforgiving); and <b>Tit-for-Tat</b> (cooperate on the first move, then simply copy whatever the opponent did last). Tit-for-tat is startlingly simple, yet it turns out to be remarkably strong.</p>\n<h3>4. Axelrod's tournament</h3>\n<p>In Robert Axelrod's famous 1980 tournaments, game theorists submitted strategies that played each other round-robin. The winner — twice — was the simplest entry: <b>tit-for-tat</b>. Axelrod distilled why it does so well into four traits: it is <em>nice</em> (never defects first), <em>retaliatory</em> (punishes defection immediately), <em>forgiving</em> (returns to cooperation the moment the opponent does), and <em>clear</em> (so simple the opponent quickly learns it can't be exploited). Crucially, tit-for-tat never \"wins\" a single match — but it elicits cooperation so reliably that it racks up the highest total.</p>\n<h3>5. When cooperation becomes an equilibrium</h3>\n<p>Repetition can make mutual cooperation a genuine <b>Nash equilibrium</b>. Against a grim-trigger (or tit-for-tat) opponent, defecting once earns you a one-time bonus but triggers lasting retaliation; if the future matters enough, that bonus isn't worth the lost cooperation. So \"cooperate, and punish defection\" becomes a best response to itself — no one wants to deviate. The threat of future punishment, credible because the game continues, is what stabilizes cooperation.</p>\n<h3>6. The discount factor</h3>\n<p>How much \"the future matters\" is captured by a <b>discount factor</b> $\\delta$ between 0 and 1: a payoff one round later is worth a fraction $\\delta$ of the same payoff now (and the game effectively continues each round with probability $\\delta$). Cooperation is sustainable only when $\\delta$ is large enough — patient players, or interactions likely to continue, support cooperation; impatient players or a known last round unravel it. For the standard Prisoner's Dilemma under grim trigger, cooperation holds once $\\delta \\ge \\tfrac12$. The longer the shadow of the future, the more cooperation you can sustain.</p>\n<h3>7. Cooperation and AI</h3>\n<p>These ideas run straight into multi-agent AI. <b>Multi-agent reinforcement learning</b> studies agents in <em>sequential social dilemmas</em> — repeated games where learned policies must navigate cooperation and defection. Reciprocity strategies like tit-for-tat inspire algorithms that sustain cooperation among self-interested learners. <b>Mechanism design</b> engineers the payoffs and repetition (reputation systems, staking, slashing) so that honest behavior is the equilibrium. Even human–AI alignment has this flavor: a durable, repeated relationship is easier to keep cooperative than a one-shot deal.</p>\n<h3>8. Summary</h3>\n<p>Repetition adds the shadow of the future: with a high enough discount factor, the threat of future punishment makes cooperation a Nash equilibrium. Tit-for-tat — nice, retaliatory, forgiving, clear — shows how a simple reciprocal rule can elicit and sustain cooperation, a lesson that reaches all the way into multi-agent AI.</p>\n<details class=\"deep-dive\">\n<summary>Deeper dive: the folk theorem — almost anything can be an equilibrium</summary>\n<p>The repeated-game version of the bad news is also good news. The <b>folk theorem</b> says that in an infinitely repeated game with patient enough players (discount factor near 1), <em>any</em> feasible payoff profile in which each player does at least as well as their one-shot security (minimax) level can be supported as a Nash equilibrium — sustained by the threat of reverting to punishment if anyone deviates. Mutual cooperation in the Prisoner's Dilemma is just one such point. The flip side: repeated games have a <em>multitude</em> of equilibria (cooperation, defection, and many partial arrangements), so the theory predicts what is <em>possible</em> rather than picking a unique outcome — which is exactly why norms, focal points, and design matter for which equilibrium a society or a multi-agent system actually lands on.</p>\n</details>\n<details class=\"deep-dive\">\n<summary>Deeper dive: why tit-for-tat is strong but fragile to noise</summary>\n<p>Tit-for-tat's four virtues make it formidable in a clean tournament, but add <b>noise</b> — a small chance that a move is misimplemented or misread — and a single accidental defection makes two tit-for-tats retaliate against each other forever, an <em>echo</em> of mutual punishment (CD, DC, CD, …) that tanks both scores. The fixes soften the retaliation: <b>tit-for-two-tats</b> (only retaliate after two defections in a row) and <b>generous tit-for-tat</b> (forgive a defection with some probability) restore cooperation after mistakes. The deeper lesson for multi-agent learning is that robustness to noise often requires <em>forgiveness</em>, not just reciprocity — pure retaliation is brittle in a stochastic world.</p>\n</details>\n<details class=\"deep-dive\">\n<summary>Deeper dive: the discount-factor condition, derived</summary>\n<p>When is cooperating better than grabbing the one-time temptation, under grim trigger? Use the Prisoner's Dilemma payoffs reward $R$, temptation $T$, punishment $P$ (with $T > R > P$). Cooperating forever is worth $R + \\delta R + \\delta^2 R + \\dots = R/(1-\\delta)$. Defecting now grabs $T$ this round but condemns you to $P$ forever after: $T + \\delta P/(1-\\delta)$. Cooperation is the better deal exactly when $R/(1-\\delta) \\ge T + \\delta P/(1-\\delta)$, which rearranges to $\\delta \\ge (T-R)/(T-P)$. With the classic values $T=5, R=3, P=1$ that is $\\delta \\ge \\tfrac12$: you must value next round at least half as much as this one. Below the threshold, the future is too faint to deter betrayal and cooperation collapses.</p>\n</details>\n<h3>Try it: tit-for-tat in the iterated Prisoner's Dilemma</h3>\n<p>Simulate five rounds. Two tit-for-tats cooperate the whole way; against a relentless defector, tit-for-tat takes one hit then defends itself:</p>\n<div data-code=\"javascript\" data-expected=\"TFT vs TFT: 15, TFT vs AllD (TFT score): 4\">// Iterated Prisoner&#39;s Dilemma: both cooperate -> 3 each; both defect -> 1; sucker 0; temptation 5.\nfunction play(a, b, n) {            // a, b are strategies: opponent&#39;s last move -> your next move\n  let sa = 0, sb = 0, la = \"C\", lb = \"C\";\n  for (let i = 0; i &lt; n; i++) {\n    const ma = a(lb), mb = b(la);\n    const pay = { CC: [3, 3], DD: [1, 1], CD: [0, 5], DC: [5, 0] };\n    const xy = pay[ma + mb]; sa += xy[0]; sb += xy[1]; la = ma; lb = mb;\n  }\n  return [sa, sb];\n}\nconst TFT = last => last;   // cooperate first (last starts \"C\"), then copy the opponent\nconst AllD = () => \"D\";\n// TFT thrives with a fellow cooperator, but only limps to 4 against a pure defector:\nconsole.log(\"TFT vs TFT: \" + play(TFT, TFT, 5)[0] + \", TFT vs AllD (TFT score): \" + play(TFT, AllD, 5)[0]);</div>",
+          "mcq": [
+            {
+              "q": "What does repetition add to a Prisoner's Dilemma that can make cooperation rational?",
+              "choices": [
+                "The \"shadow of the future\" — today's move can be punished in later rounds",
+                "A third player",
+                "A way to change the one-shot payoffs directly",
+                "Removal of the defect option"
+              ],
+              "answer": 0,
+              "explain": "Future punishment is the new force."
+            },
+            {
+              "q": "Tit-for-tat's rule is:",
+              "choices": [
+                "Always defect",
+                "Cooperate first, then copy the opponent's previous move",
+                "Defect first, then cooperate",
+                "Play randomly each round"
+              ],
+              "answer": 1,
+              "explain": "Nice start, then reciprocate."
+            },
+            {
+              "q": "Tit-for-tat won Axelrod's tournaments because it:",
+              "choices": [
+                "Never cooperates",
+                "Beats every single opponent head-to-head",
+                "Elicits mutual cooperation reliably, scoring the highest TOTAL across opponents",
+                "Memorizes the entire history"
+              ],
+              "answer": 2,
+              "explain": "Wins on total, never on a single match."
+            },
+            {
+              "q": "Grim trigger is the strategy that:",
+              "choices": [
+                "Alternates cooperate and defect",
+                "Always cooperates no matter what",
+                "Copies the opponent's last move",
+                "Cooperates until the opponent defects once, then defects forever"
+              ],
+              "answer": 3,
+              "explain": "Harshest credible punishment."
+            },
+            {
+              "q": "The discount factor δ measures:",
+              "choices": [
+                "How much a future payoff is worth relative to the present (and how likely the game continues)",
+                "The number of players",
+                "The temptation payoff",
+                "The probability of cooperation"
+              ],
+              "answer": 0,
+              "explain": "Patience / shadow of the future."
+            },
+            {
+              "q": "Cooperation under grim trigger in the Prisoner's Dilemma is sustainable only when:",
+              "choices": [
+                "The game is played exactly once",
+                "The discount factor is high enough (players value the future enough)",
+                "The temptation payoff is largest",
+                "Players cannot remember the past"
+              ],
+              "answer": 1,
+              "explain": "Need δ above a threshold."
+            },
+            {
+              "q": "The folk theorem says that in an infinitely repeated game with patient players:",
+              "choices": [
+                "Cooperation is impossible",
+                "There is exactly one equilibrium",
+                "Almost any payoff above each player's minimax can be a Nash equilibrium",
+                "Only defection survives"
+              ],
+              "answer": 2,
+              "explain": "A multitude of equilibria, not a unique one."
+            },
+            {
+              "q": "Tit-for-tat is fragile to NOISE because:",
+              "choices": [
+                "Noise removes its retaliation",
+                "It forgets the history",
+                "It always cooperates",
+                "One accidental defection can trigger an endless retaliation echo between two tit-for-tats"
+              ],
+              "answer": 3,
+              "explain": "Pure reciprocity echoes mistakes; forgiveness fixes it."
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "The \"shadow of the future\"",
+              "back": "In a repeated game, today's move affects future rounds — betrayal can be punished for many rounds to come. This is what can make cooperation rational where a one-shot game would not."
+            },
+            {
+              "front": "Tit-for-tat",
+              "back": "Cooperate on the first move, then copy the opponent's last move. Winner of Axelrod's tournaments; it is <em>nice, retaliatory, forgiving, and clear</em>."
+            },
+            {
+              "front": "Why tit-for-tat wins a tournament without winning a match",
+              "back": "It never out-scores a direct opponent, but it elicits mutual cooperation so reliably (high payoff with cooperators, quick retaliation against defectors) that its <em>total</em> across opponents is highest."
+            },
+            {
+              "front": "Grim trigger",
+              "back": "Cooperate until the opponent defects once, then defect forever. The harshest credible punishment; it makes cooperation a Nash equilibrium but is unforgiving of mistakes."
+            },
+            {
+              "front": "Discount factor δ",
+              "back": "How much a future payoff is worth relative to now (between 0 and 1); also the per-round probability the game continues. Cooperation is sustainable only when $\\delta$ is large enough — a long shadow of the future."
+            },
+            {
+              "front": "The folk theorem",
+              "back": "In an infinitely repeated game with patient players, <em>any</em> payoff profile above each player's minimax can be sustained as a Nash equilibrium. Repetition creates a multitude of equilibria, not a unique one."
+            }
+          ],
+          "homework": [
+            {
+              "prompt": "Explain why \"Always Defect\" is the rational strategy in a ONE-SHOT Prisoner's Dilemma but can be a poor strategy in the ITERATED game.",
+              "hint": "What does repetition add?",
+              "solution": "In the one-shot game defection strictly dominates, so a rational player always defects — there is no future to protect. In the iterated game, defecting against a reciprocating opponent (tit-for-tat, grim trigger) triggers lasting retaliation: you grab one temptation payoff but then earn the low mutual-defection payoff for the rest of the game, while cooperators reap repeated mutual-cooperation payoffs. If the future matters enough (high discount factor), the long-run cost of being punished outweighs the one-time gain, so Always Defect underperforms reciprocal cooperators."
+            },
+            {
+              "prompt": "Tit-for-tat is \"nice, retaliatory, forgiving, and clear.\" Briefly say what each trait means and why it helps.",
+              "hint": "Map each adjective to a behavior.",
+              "solution": "<b>Nice</b>: never defects first — it doesn't start trouble, so it can establish cooperation with other nice strategies. <b>Retaliatory</b>: punishes a defection immediately — so it can't be exploited by defectors. <b>Forgiving</b>: returns to cooperation as soon as the opponent does — so a single defection doesn't doom the relationship to permanent punishment. <b>Clear</b>: it is simple and predictable — opponents quickly learn that cooperation pays and defection is punished, which elicits cooperation. Together these make it both safe and good at building mutual cooperation."
+            },
+            {
+              "prompt": "Under grim trigger with Prisoner's-Dilemma payoffs T=5, R=3, P=1, cooperation holds when δ ≥ (T−R)/(T−P). Compute the threshold and interpret it.",
+              "hint": "Plug in the numbers.",
+              "solution": "$(T-R)/(T-P) = (5-3)/(5-1) = 2/4 = \\tfrac12$. So cooperation is sustainable when $\\delta \\ge \\tfrac12$ — you must value next round at least half as much as the current one (equivalently, the game must continue with probability at least one-half). If players are more impatient than that (or the end is near and known), the temptation to defect now outweighs the future punishment, and cooperation unravels."
+            }
+          ],
+          "examples": [
+            {
+              "title": "Two tit-for-tats meet",
+              "body": "What happens when two tit-for-tat players play each other for many rounds, and why is that good for both?",
+              "solution": "Both start by cooperating. Each then copies the other's last move — which was cooperation — so they cooperate every single round, earning the mutual-cooperation payoff throughout (e.g. 3 per round, the most two players can jointly sustain in the Prisoner's Dilemma). Neither is ever tempted to defect, because defecting would provoke retaliation and lose the cooperative stream. This is why a population of tit-for-tats does so well: they unlock the high mutual-cooperation payoff with each other, which pure defectors can never reach among themselves."
+            },
+            {
+              "title": "A noisy channel",
+              "body": "In a noisy environment a tit-for-tat occasionally defects by accident. What goes wrong, and how do you fix it?",
+              "solution": "A single accidental defection triggers the opponent's retaliation, which the first player then retaliates against, locking the pair into an alternating or mutual punishment \"echo\" that destroys both scores — pure reciprocity is brittle to noise. Fixes add forgiveness: <b>tit-for-two-tats</b> only retaliates after two consecutive defections (riding out single mistakes), and <b>generous tit-for-tat</b> forgives a defection with some probability, breaking the echo. The lesson: in stochastic settings, robust cooperation needs forgiveness, not just retaliation."
+            },
+            {
+              "title": "Designing for cooperation",
+              "body": "An online marketplace wants buyers and sellers to behave honestly even though cheating pays once. How does repeated-game theory guide the design?",
+              "solution": "Lengthen and make visible the shadow of the future. A <b>reputation system</b> records past behavior so a one-time cheat is punished by all future counterparties (a community-wide grim trigger), and repeated interaction raises the effective discount factor so honesty is the equilibrium. Stakes/escrow and the prospect of continued business add credible future losses for defecting. This is mechanism design: you don't change participants' self-interest, you engineer payoffs and repetition so that cooperating honestly is each party's best response."
+            }
+          ]
+        }
+      ]
     }
   ]
 }

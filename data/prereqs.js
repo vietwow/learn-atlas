@@ -92,6 +92,9 @@ window.PREREQS = {
     "dl-rnn-lstm-gru",
     "dl-transformer-architecture"
   ],
+  "gt-repeated-cooperation": [
+    "gt-foundations"
+  ],
   "gt-mixed-zero-sum": [
     "gt-foundations"
   ],

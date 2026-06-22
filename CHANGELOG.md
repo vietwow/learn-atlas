@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 815 — Game Theory build-out: lesson 3 — Repeated Games & the Evolution of Cooperation (content)
+The capstone. Opened **module 2 "Repeated Games and Cooperation"** with `gt-repeated-cooperation`: 8 sections (the shadow of the future · the iterated PD · strategies incl. grim trigger & tit-for-tat · Axelrod's tournament & TFT's
+four traits · when cooperation becomes a Nash equilibrium · the discount factor δ · cooperation in multi-agent AI · summary), a runnable **iterated-PD simulation** (TFT vs TFT → 15, TFT vs AllD → 4), 3 deep-dives (the folk theorem ·
+why TFT is strong but noise-fragile → tit-for-two-tats/generous-TFT · the discount-factor condition $\delta\ge(T-R)/(T-P)$ derived), 6 cards, 3 examples, 3 homework, 8 MCQs (top later). Cross-link + prereq → gt-foundations. Game Theory now **3 lessons / 2 modules**; site **11 topics · 188 lessons**.
+Verified: data parses + round-trips; gate ALL GREEN (expected 8/16 parity); **headless** — 3 deep-dives, PD cross-link resolves, code runs (TFT 15 / 4), apostrophe entities decode, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v748` → `atlas-v749`.
+
 ## iter 814 — Game Theory build-out: lesson 2 to full 16-MCQ parity (content / assessment)
 Brought `gt-mixed-zero-sum` to the 16-MCQ standard. Added **8 new MCQs**: computing a mixed equilibrium via indifference, Matching-Pennies value (0/fair), why mixing is unexploitable, self-play/AlphaZero as minimax, adversarial
 robustness as min-max, pure-as-special-case-of-mixed, the lower envelope, and the crossing/indifference point. Balanced → **4/4/4/4**. **Both Game Theory lessons are now at full content-parity.**
