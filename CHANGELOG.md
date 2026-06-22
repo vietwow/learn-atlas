@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 812 — Game Theory build-out: minimax / mixed-strategy crossing viz (visualizations)
+Added the **141st widget, `gt-minimax-lines`** — the classic minimax picture, the visual companion to lesson 2's code exercise. For a 2×2 zero-sum game, two lines show the row player's payoff if the column player picks column 0
+(sage) or column 1 (violet); the minimizing column player always takes the **lower envelope** (gold), and its **peak sits exactly where the lines cross** — the minimax mixing probability (p* = 0.33) and the game's value (1.00). A p
+slider shows how any other mix lets the column player hold the row player to less. Embedded in `gt-mixed-zero-sum` §4, right after the code exercise that computes the same p. Deterministic.
+Verified: geometry re-derived in Node (lines cross at p=1/3, value=1, lower-envelope peak); gate ALL GREEN (now **141 widgets**); **headless** — slider updates the guaranteed payoff, readout shows p*=0.33 / value=1.00, kErr=0, errs=0; screenshot shows the labeled lines. SW cache `atlas-v745` → `atlas-v746`.
+
 ## iter 811 — Game Theory build-out: lesson 2 — Mixed Strategies & Zero-Sum Games (content)
 Added the topic's **2nd lesson, `gt-mixed-zero-sum` "Mixed Strategies and Zero-Sum Games"**: 8 sections (when pure strategies fail · mixed strategies · the indifference principle · computing a 2×2 mixed equilibrium · zero-sum
 & the value of a game · von Neumann's minimax theorem · from minimax to AI · summary), a runnable **mixed-equilibrium code exercise** (solve the indifference equation → p = 0.33), 3 deep-dives (why you mix to make the *opponent*

@@ -7552,4 +7552,55 @@
     draw();
   });
 
+
+  /* ========================================================
+     141. Minimax / mixed-strategy lines: the indifference crossing (Game Theory)
+     ======================================================== */
+  register({ id: 'gt-minimax-lines', topic: 'game-theory', title: 'Mixed strategies: the minimax crossing', blurb: 'In a 2×2 zero-sum game the row player mixes row 0 with probability p. The two lines show the row player’s expected payoff if the column player picks column 0 or column 1. The column player (the minimizer) always takes the LOWER line, so the row player’s guaranteed payoff is the lower envelope (gold). Slide p: the row player maximizes that envelope, and its peak sits exactly where the two lines cross — the indifference point. That crossing is the minimax solution; its height is the value of the game.' },
+  function (root) {
+    const W = 480, H = 320, padL = 40, padR = 16, padT = 18, padB = 34;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    const A = [[3, -1], [0, 2]];   // row player's payoffs (zero-sum)
+    let p = 0.15;
+    const V0 = q => q * A[0][0] + (1 - q) * A[1][0];   // column plays col 0
+    const V1 = q => q * A[0][1] + (1 - q) * A[1][1];   // column plays col 1
+    const pStar = (A[1][1] - A[1][0]) / ((A[0][0] - A[1][0]) - (A[0][1] - A[1][1]));
+    const value = V0(pStar);
+    function draw() {
+      const P0 = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = P0.bg; ctx.fillRect(0, 0, W, H);
+      const plotW = W - padL - padR, plotH = H - padT - padB;
+      const lo = -1.5, hi = 3.2;
+      const X = q => padL + q * plotW, Y = v => padT + (1 - (v - lo) / (hi - lo)) * plotH;
+      // axes
+      ctx.strokeStyle = P0.line; ctx.lineWidth = 1; ctx.strokeRect(padL, padT, plotW, plotH);
+      ctx.fillStyle = P0.mute; ctx.font = '10px ' + (cssVar('--font-mono') || 'monospace'); ctx.textAlign = 'center';
+      ctx.fillText('p  (prob. row player plays row 0) →', padL + plotW / 2, H - 10);
+      ctx.save(); ctx.translate(12, padT + plotH / 2); ctx.rotate(-Math.PI / 2); ctx.fillText('row payoff', 0, 0); ctx.restore();
+      if (lo < 0 && hi > 0) { ctx.strokeStyle = P0.line; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(padL, Y(0)); ctx.lineTo(W - padR, Y(0)); ctx.stroke(); ctx.setLineDash([]); }
+      // lower envelope (gold, thick) = what the minimizing column player concedes
+      ctx.strokeStyle = P0.gold; ctx.lineWidth = 3.2; ctx.beginPath();
+      for (let i = 0; i <= 100; i++) { const q = i / 100, x = X(q), y = Y(Math.min(V0(q), V1(q))); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); } ctx.stroke();
+      // the two payoff lines
+      ctx.lineWidth = 1.6;
+      ctx.strokeStyle = P0.sage; ctx.beginPath(); ctx.moveTo(X(0), Y(V0(0))); ctx.lineTo(X(1), Y(V0(1))); ctx.stroke();
+      ctx.strokeStyle = P0.violet; ctx.beginPath(); ctx.moveTo(X(0), Y(V1(0))); ctx.lineTo(X(1), Y(V1(1))); ctx.stroke();
+      // labels for the lines
+      ctx.textAlign = 'left'; ctx.fillStyle = P0.sage; ctx.fillText('column plays 0', X(1) - 86, Y(V0(1)) - 8);
+      ctx.fillStyle = P0.violet; ctx.fillText('column plays 1', X(0) + 4, Y(V1(0)) - 8);
+      // equilibrium crossing
+      ctx.fillStyle = P0.ink; ctx.strokeStyle = P0.gold; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(X(pStar), Y(value), 5, 0, 7); ctx.fill(); ctx.stroke();
+      // current p marker
+      ctx.strokeStyle = P0.rust; ctx.setLineDash([4, 3]); ctx.beginPath(); ctx.moveTo(X(p), padT); ctx.lineTo(X(p), H - padB); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = P0.rust; ctx.beginPath(); ctx.arc(X(p), Y(Math.min(V0(p), V1(p))), 3.5, 0, 7); ctx.fill();
+      info.innerHTML = 'p = <b style="color:' + P0.rust + '">' + p.toFixed(2) + '</b> → row is guaranteed only <b style="color:' + P0.rust + '">' + Math.min(V0(p), V1(p)).toFixed(2) + '</b> (the column player takes the lower line). ' +
+        'The lower envelope peaks at <b style="color:' + P0.gold + '">p* = ' + pStar.toFixed(2) + '</b>, where the lines cross — the minimax mix, with game value <b style="color:' + P0.gold + '">' + value.toFixed(2) + '</b>.';
+    }
+    slider(ctl, { label: 'p (row player mixes row 0)', min: 0, max: 1, step: 0.01, value: p, fmt: v => v.toFixed(2), onInput: v => { p = v; draw(); } });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Mixed-strategy minimax plot for a 2x2 zero-sum game. Two straight lines show the row player’s expected payoff when the column player picks column 0 (sage) or column 1 (violet), as a function of the row player’s mixing probability p. The minimizing column player always takes the lower line, so the row player’s guaranteed payoff is the lower envelope (gold), whose peak is exactly where the two lines cross — the minimax mixing probability and the value of the game. A draggable p marker shows the currently guaranteed payoff.');
+    draw();
+  });
+
 })();
