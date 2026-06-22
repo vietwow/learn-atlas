@@ -7650,4 +7650,45 @@
     rebuild();
   });
 
+
+  /* ========================================================
+     143. Normalizing flow: an invertible warp reshapes a density (deep learning)
+     ======================================================== */
+  register({ id: 'dl-normalizing-flow', topic: 'deep-learning', title: 'Normalizing flow: warping a simple density', blurb: 'A normalizing flow turns a simple base distribution into a complex one by pushing samples through an invertible map. Here the base is a single Gaussian bump (faint); slide the warp strength and an invertible "shift-apart" map pulls its two halves away from the center, sculpting one bump into two — a bimodal target. Because the map is invertible, you can run it backwards to score any point’s exact likelihood. Real flows stack many such learnable warps; this is one, made visible.' },
+  function (root) {
+    const W = 520, H = 300, padL = 16, padR = 16, padT = 16, padB = 28;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    let a = 1.2;
+    const LO = -5, HI = 5, BINS = 44, N = 4000;
+    function prng(s) { return function () { s |= 0; s = s + 0x6D2B79F5 | 0; let t = Math.imul(s ^ s >>> 15, 1 | s); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+    const r = prng(7), Z = [];
+    for (let i = 0; i < N; i++) { const u1 = Math.max(r(), 1e-9), u2 = r(); Z.push(Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2)); }
+    function hist(xs) { const h = new Array(BINS).fill(0); for (const x of xs) { const b = Math.floor((x - LO) / (HI - LO) * BINS); if (b >= 0 && b < BINS) h[b]++; } return h; }
+    const base = hist(Z);
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const X = hist(Z.map(z => z + a * Math.sign(z)));
+      const plotW = W - padL - padR, plotH = H - padT - padB, bw = plotW / BINS;
+      const maxH = Math.max.apply(null, base);
+      const Y = v => padT + plotH - (v / maxH) * plotH;
+      // base (faint)
+      ctx.fillStyle = 'rgba(150,136,113,0.28)';
+      for (let i = 0; i < BINS; i++) ctx.fillRect(padL + i * bw, Y(base[i]), bw - 1, padT + plotH - Y(base[i]));
+      // warped (gold)
+      ctx.fillStyle = 'rgba(224,164,88,0.85)';
+      for (let i = 0; i < BINS; i++) ctx.fillRect(padL + i * bw, Y(X[i]), bw - 1, padT + plotH - Y(X[i]));
+      ctx.strokeStyle = p.line; ctx.beginPath(); ctx.moveTo(padL, padT + plotH); ctx.lineTo(W - padR, padT + plotH); ctx.stroke();
+      const modal = a < 0.35 ? 'still one bump (the base Gaussian)' : 'split into two modes — a bimodal density';
+      info.innerHTML = 'warp strength a = <b style="color:' + p.gold + '">' + a.toFixed(2) + '</b> · map x = z + a·sign(z). ' +
+        '<span style="color:rgba(150,136,113,1)">faint</span> = base Gaussian, <span style="color:' + p.gold + '">gold</span> = warped: ' + modal + '. ' +
+        'The map is invertible, so its exact density follows from the change-of-variables formula.';
+    }
+    slider(ctl, { label: 'warp strength a', min: 0, max: 2.5, step: 0.05, value: a, fmt: v => v.toFixed(2), onInput: v => { a = v; draw(); } });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Normalizing-flow density warp: a histogram of samples from a base Gaussian (faint) and the same samples after an invertible shift-apart map x = z + a*sign(z) (gold). At warp strength 0 the warped histogram is the single Gaussian bump; as the slider increases, the map pulls the two halves away from the center, sculpting the unimodal base into a bimodal density, illustrating how an invertible flow reshapes a simple distribution into a complex one.');
+    draw();
+  });
+
 })();

@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 824 — NEW viz: normalizing flow warps a density (visualizations)
+Gave the normalizing-flows thread (822 content, 823 glossary) its visual — the **143rd widget, `dl-normalizing-flow`**: a histogram of base-Gaussian samples (faint) and the same samples after an invertible shift-apart map
+x = z + a·sign(z) (gold). Slide the warp strength and the single Gaussian bump splits into a **bimodal** density — the core "a flow reshapes a simple distribution into a complex one" idea, made visible; invertibility is what lets a flow
+score exact likelihoods. Embedded *inside* the normalizing-flows deep-dive in `dl-autoencoders-vae`. Deterministic (seeded Box-Muller). (Caught and fixed a viz-note `$…$` that would've shown a literal `$` — viz notes aren't typeset.)
+Verified: warp re-derived in Node (center bin 530 → 0 as a goes 0→1, bimodal); gate ALL GREEN (now **143 widgets**); **headless** — unimodal at a=0, bimodal at a=2, note has no raw `$`, kErr=0, errs=0; screenshot shows the two-humped histogram. SW cache `atlas-v757` → `atlas-v758`.
+
 ## iter 823 — Glossary: normalizing-flow terms (reference)
 Completed the iter-822 deep-dive's glossary integration. Added **Normalizing flow** (exact-likelihood generative model via an invertible network) and **Change of variables (density)** — the $p_X(x)=p_Z(f^{-1}(x))\,|\det\,\partial f^{-1}/\partial x|$
 identity that powers it — now in tooltips. Glossary **323 → 325** (0 holes).
