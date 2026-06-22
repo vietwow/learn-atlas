@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 867 — NEW code exercise: the finite-difference gradient (examples / hands-on)
+Added a runnable exercise to `c-partial-derivatives`, which had none — a partial *is* a limit of a difference quotient, so the learner estimates $\nabla f$ for $f(x,y)=x^2+xy+y^2$ at $(1,2)$ by **central differences** →
+**gradient ~ [4.00, 5.00]**, matching the analytic $(2x+y, x+2y)$. It's the basis of gradient-checking (how you verify a backprop implementation). Placed in "The Partial Derivative" section.
+Verified: re-derived in Node; data parses + round-trips; **gate ALL GREEN — code-exercises verified (now 161)**; **headless** — Run executes, output exactly right, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v800` → `atlas-v801`.
+
 ## iter 866 — Glossary: sampling & resampling terms (reference)
 Completed the iter-865 bootstrap thread and filled a foundational miss: **Sampling distribution** wasn't even a glossary term (only "Nucleus sampling" matched). Added **Sampling distribution**, **Resampling**, and **Percentile**.
 Glossary **352 → 355** (0 holes).
