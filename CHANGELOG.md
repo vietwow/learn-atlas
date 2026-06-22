@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 832 — Hard-concept: concentration inequalities (Markov→Chebyshev→Hoeffding) (content)
+Filled a foundational gap: Chebyshev appears in the LLN proof, but the **concentration-inequality family** wasn't taught as a concept. Added a deep-dive to `ps-law-of-large-numbers`: **Markov** ($P(X\ge a)\le\mathbb{E}[X]/a$, mean
+only) → **Chebyshev** ($P(|X-\mu|\ge k\sigma)\le 1/k^2$, +variance, proves the weak LLN) → **Hoeffding** ($P(|\bar X-\mu|\ge\epsilon)\le 2e^{-2n\epsilon^2/(b-a)^2}$, exponential). Each step buys a tighter bound for one more assumption. The exponential
+tail is *why* sample complexity scales like $\log(1/\delta)/\epsilon^2$ — the engine under **PAC guarantees** and the **UCB** exploration bonus, both cross-linked. The bridge from "averages converge" to "exactly how many samples you need."
+Verified: data parses + round-trips; gate ALL GREEN (internal-links lint confirms both cross-links; proseInMath on the inequality math); **headless** — 4 deep-dives, Markov/Chebyshev/Hoeffding + both cross-links present, 78 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v765` → `atlas-v766`.
+
 ## iter 831 — NEW viz: dark knowledge — hard labels vs soft targets (visualizations)
 Completed the distillation thread (826 content, 827 glossary) with its missing surface — the **144th widget, `dl-dark-knowledge`**: side-by-side bar charts of a hard one-hot label vs a teacher's soft target for a handwritten "7".
 The hard label keeps only "7"; the teacher also puts small weight on the similar digits **1 and 9** (highlighted) but ~none on "cat" — the *dark knowledge* a student learns. A temperature slider exposes it: low T collapses toward the
