@@ -82,6 +82,9 @@ window.PREREQS = {
   "ts-stationarity": [
     "ps-expectation-variance"
   ],
+  "ts-arima": [
+    "ml-linear-regression"
+  ],
   "dl-gans": [
     "it-cross-entropy-kl"
   ],

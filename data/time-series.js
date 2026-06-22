@@ -752,6 +752,162 @@
               "solution": "<b>Holt–Winters, multiplicative</b> seasonality: you need a trend component (sales rise) and a seasonal component, and because the seasonal swings grow with the level the multiplicative form fits (equivalently, model the log and use additive). Plain SES or Holt would miss the season; additive Holt–Winters would mis-size the growing swings."
             }
           ]
+        },
+        {
+          "id": "ts-arima",
+          "title": "ARIMA: Autoregression, Integration & Moving Averages",
+          "minutes": 17,
+          "content": "<h3>1. The hook: one model, three ideas</h3>\n<p><b>ARIMA</b> is the workhorse of classical forecasting, and its name <em>is</em> its recipe: <b>AR</b> (autoregression) + <b>I</b> (integration / differencing) + <b>MA</b> (moving average of errors). Written <b>ARIMA(p, d, q)</b>, it regresses a series on its own recent values <em>and</em> its own recent forecast errors, after differencing it $d$ times to make it stationary. Master those three letters and you can read almost any classical forecast.</p>\n<h3>2. AR(p): regress on your own past</h3>\n<p>An <b>autoregressive</b> model predicts the next value from a weighted sum of the previous $p$ values: $y_t = c + \\phi_1 y_{t-1} + \\dots + \\phi_p y_{t-p} + \\varepsilon_t$. It is literally linear regression where the \"features\" are lagged copies of the series. AR captures <em>momentum and mean-reversion</em>: with $|\\phi| < 1$, an AR(1) drifts back toward its long-run mean $c/(1-\\phi)$.</p>\n<h3>3. MA(q): regress on your own errors</h3>\n<p>A <b>moving-average</b> model (in the ARIMA sense — not the smoothing average!) predicts from the last $q$ forecast <em>errors</em>: $y_t = c + \\varepsilon_t + \\theta_1 \\varepsilon_{t-1} + \\dots + \\theta_q \\varepsilon_{t-q}$. It captures short-lived <em>shocks</em>: a surprise today nudges the next few values, then fades. AR remembers past <em>levels</em>; MA remembers past <em>surprises</em>.</p>\n<h3>4. ARMA: the two together</h3>\n<p>Combine them and you get <b>ARMA(p, q)</b> — past values <em>and</em> past errors in one equation. ARMA models any <em>stationary</em> series with short-range dependence, and is far more flexible than either piece alone. The catch in its name: ARMA assumes stationarity. Real series usually aren't.</p>\n<h3>5. The \"I\": integrate to handle trends</h3>\n<p>That is what the <b>I</b> fixes. Difference the series $d$ times (from the stationarity lesson) until it's stationary, fit an ARMA to the differenced series, then <em>un-difference</em> (cumulatively sum) the forecasts back to the original scale. The \"$d$\" in ARIMA(p, d, q) is exactly that number of differences — usually 0, 1, or 2.</p>\n<h3>6. AR(1) in action</h3>\n<p>Watch an AR(1) with $c=2,\\ \\phi=0.6$ generate its own forecasts from a starting value of 10, decaying toward the long-run mean $2/(1-0.6)=5$:</p>\n<div data-code=\"javascript\" data-expected=\"10, 8, 6.8, 6.08, 5.65\">// AR(1): each value is a constant plus phi times the previous value\nconst c = 2, phi = 0.6;\nconst y = [10];\nfor (let t = 1; t < 5; t++) y.push(+(c + phi * y[t - 1]).toFixed(2));\nconsole.log(y.join(\", \"));\n// It mean-reverts toward c/(1 - phi) = 5 -- the signature of a stationary AR.</div>\n<h3>7. Choosing p, d, q</h3>\n<p>The classical recipe (<b>Box–Jenkins</b>): pick $d$ by differencing until stationary (plot + ADF), then read the <b>ACF</b> and <b>PACF</b> to suggest $p$ and $q$ — a sharp cutoff in the PACF at lag $p$ points to AR(p); a cutoff in the ACF at lag $q$ points to MA(q). Compare candidates by <b>AIC/BIC</b> (fit penalized for complexity), and check that the residuals look like white noise. Modern <code>auto.arima</code> automates this search.</p>\n<h3>8. SARIMA and where ARIMA fits</h3>\n<p>Add seasonal AR/I/MA terms at the seasonal lag and you get <b>SARIMA</b>, the seasonal extension. ARIMA shines on a single, regular, medium-length series with clear autocorrelation — often matching or beating heavier models there, with interpretable coefficients and honest prediction intervals. It struggles with many related series, rich external features, and nonlinearity — exactly where the deep forecasters in the next module take over.</p>\n<details class=\"deep-dive\">\n<summary>Deeper dive: AR vs MA — and their ACF/PACF fingerprints</summary>\n<p>The two halves remember different things. <b>AR</b> regresses on past <em>values</em> (levels), so its influence decays geometrically and forever — its <b>ACF</b> tails off slowly while its <b>PACF</b> cuts off sharply after lag $p$ (the partial correlation removes the indirect effects, exposing the true order). <b>MA</b> regresses on past <em>errors</em> (shocks), which only matter for $q$ steps — so the pattern is mirrored: its <b>ACF</b> cuts off after lag $q$ while its PACF tails off. That duality (PACF cutoff ⇒ AR order; ACF cutoff ⇒ MA order) is the heart of Box–Jenkins identification.</p>\n</details>\n<details class=\"deep-dive\">\n<summary>Deeper dive: the stationarity condition and the long-run mean</summary>\n<p>An AR(1), $y_t = c + \\phi y_{t-1} + \\varepsilon_t$, is stationary only if $|\\phi| < 1$. Take expectations of both sides at the stationary mean $\\mu$: $\\mu = c + \\phi\\mu$, so $\\mu = c/(1-\\phi)$ — the level the series reverts to (5 in the code example). At $\\phi = 1$ you have a random walk (a unit root, non-stationary — hence the need to difference); at $|\\phi| > 1$ the series explodes. For higher-order AR(p), the analogous condition is that the roots of the characteristic polynomial lie outside the unit circle — the multivariable generalization of $|\\phi| < 1$.</p>\n</details>\n<details class=\"deep-dive\">\n<summary>Deeper dive: Box–Jenkins and auto-ARIMA</summary>\n<p>The <b>Box–Jenkins</b> method is a three-step loop: <em>identify</em> (difference to stationarity, read ACF/PACF for tentative $p,q$), <em>estimate</em> (fit by maximum likelihood), and <em>diagnose</em> (are the residuals white noise? if not, revise). Done by hand it takes judgement. <code>auto.arima</code> automates it: it searches over $(p,d,q)$ (and seasonal orders), uses unit-root tests to set $d$, and minimizes <b>AICc</b> to balance fit against parameter count — the same overfitting-vs-underfitting tension as everywhere in ML. It's a strong default, but a glance at the residual ACF still pays off.</p>\n</details>",
+          "mcq": [
+            {
+              "q": "In ARIMA(p, d, q), the letters stand for:",
+              "choices": [
+                "AutoRegressive, Integrated (differencing), Moving-average (of errors)",
+                "Average, Difference, Multiply",
+                "Approximate, Decompose, Model",
+                "Additive, Deterministic, Markov"
+              ],
+              "answer": 0,
+              "explain": "AR + I + MA."
+            },
+            {
+              "q": "An autoregressive AR(p) model predicts the next value from:",
+              "choices": [
+                "The previous q forecast errors",
+                "A weighted sum of the previous p values of the series",
+                "A moving average window",
+                "Pure random noise"
+              ],
+              "answer": 1,
+              "explain": "AR regresses on lagged values."
+            },
+            {
+              "q": "A moving-average MA(q) term (in the ARIMA sense) regresses on:",
+              "choices": [
+                "The seasonal indices",
+                "The last q raw values",
+                "The last q forecast errors (shocks)",
+                "The trend slope"
+              ],
+              "answer": 2,
+              "explain": "MA uses past errors, not past values."
+            },
+            {
+              "q": "The \"I\" (integration) part of ARIMA means the series has been:",
+              "choices": [
+                "Shuffled",
+                "Multiplied by a constant",
+                "Smoothed with a log",
+                "Differenced d times to make it stationary"
+              ],
+              "answer": 3,
+              "explain": "I = differencing for stationarity."
+            },
+            {
+              "q": "An AR(1) $y_t = c + \\phi y_{t-1} + \\varepsilon_t$ is stationary only when:",
+              "choices": [
+                "The absolute value of $\\phi$ is less than 1",
+                "$\\phi$ equals exactly 1",
+                "$\\phi$ is greater than 1",
+                "$c$ equals 0"
+              ],
+              "answer": 0,
+              "explain": "|phi|<1; phi=1 is a random walk."
+            },
+            {
+              "q": "The long-run mean of a stationary AR(1) is:",
+              "choices": [
+                "$c \\times \\phi$",
+                "$c / (1 - \\phi)$",
+                "$\\phi / c$",
+                "Always zero"
+              ],
+              "answer": 1,
+              "explain": "Solve mu = c + phi*mu."
+            },
+            {
+              "q": "In Box–Jenkins identification, a sharp cutoff in the PACF at lag p suggests:",
+              "choices": [
+                "More differencing",
+                "An MA(p) term",
+                "An AR(p) term",
+                "Seasonality"
+              ],
+              "answer": 2,
+              "explain": "PACF cutoff → AR order; ACF cutoff → MA order."
+            },
+            {
+              "q": "ARIMA is the LEAST natural choice for:",
+              "choices": [
+                "When you want interpretable coefficients",
+                "A single series with clear autocorrelation",
+                "A medium-length monthly series",
+                "Forecasting tens of thousands of related series with rich covariates"
+              ],
+              "answer": 3,
+              "explain": "Global/covariate-rich problems suit deep forecasters."
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "What do the three letters of ARIMA(p, d, q) mean?",
+              "back": "<b>AR</b>(p): regress on the last $p$ values. <b>I</b>(d): difference $d$ times for stationarity. <b>MA</b>(q): regress on the last $q$ forecast errors."
+            },
+            {
+              "front": "Autoregressive AR(p) model",
+              "back": "$y_t = c + \\phi_1 y_{t-1} + \\dots + \\phi_p y_{t-p} + \\varepsilon_t$ — linear regression on lagged values. Captures momentum/mean-reversion; AR(1) reverts to $c/(1-\\phi)$."
+            },
+            {
+              "front": "Moving-average MA(q) model (ARIMA sense)",
+              "back": "$y_t = c + \\varepsilon_t + \\theta_1\\varepsilon_{t-1} + \\dots + \\theta_q\\varepsilon_{t-q}$ — regress on past <em>errors</em> (shocks), not values. (Different from the smoothing moving average.)"
+            },
+            {
+              "front": "AR vs MA — what does each remember?",
+              "back": "AR remembers past <em>levels</em> (decays geometrically, forever); MA remembers past <em>shocks</em> (only for q steps). ACF/PACF: AR → PACF cuts off; MA → ACF cuts off."
+            },
+            {
+              "front": "What is the \"I\" (integration) in ARIMA?",
+              "back": "The number of differences $d$ applied to make the series stationary before fitting ARMA; forecasts are un-differenced (cumulatively summed) back. Usually 0, 1, or 2."
+            },
+            {
+              "front": "Box–Jenkins / auto-ARIMA",
+              "back": "Identify (difference + read ACF/PACF), estimate (max likelihood), diagnose (residual white-noise check). <code>auto.arima</code> searches $(p,d,q)$ and minimizes AICc."
+            }
+          ],
+          "homework": [
+            {
+              "prompt": "Run the AR(1) $y_t = 1 + 0.5\\,y_{t-1}$ for two steps from $y_0 = 10$. What's the long-run mean it heads toward?",
+              "hint": "Iterate, then use c/(1-phi).",
+              "solution": "$y_1 = 1 + 0.5\\cdot10 = 6$; $y_2 = 1 + 0.5\\cdot6 = 4$. The long-run mean is $c/(1-\\phi) = 1/(1-0.5) = 2$, so the series keeps decaying toward 2 (next would be 3, then 2.5, …)."
+            },
+            {
+              "prompt": "A series is non-stationary with a clear trend, but after one difference it looks stationary and its ACF cuts off sharply at lag 1. What ARIMA(p, d, q) orders does this suggest?",
+              "hint": "d from differencing; ACF cutoff → MA order.",
+              "solution": "One difference made it stationary, so $d = 1$. An ACF that cuts off at lag 1 (with a tailing PACF) is the MA signature with $q = 1$, and no AR term needed, so $p = 0$. That points to <b>ARIMA(0, 1, 1)</b> — which, fittingly, is equivalent to simple exponential smoothing."
+            },
+            {
+              "prompt": "Why can't you fit a plain ARMA model directly to a trending sales series?",
+              "hint": "What does ARMA assume?",
+              "solution": "ARMA assumes the series is <b>stationary</b> (constant mean/variance), but a trending series has a drifting mean. Fitting ARMA directly gives unstable, misleading coefficients. You must first difference it (the \"I\" step) to remove the trend, fit ARMA to the stationary differences, then integrate the forecasts back — i.e. use ARIMA with $d \\ge 1$."
+            }
+          ],
+          "examples": [
+            {
+              "title": "Reading ARIMA(2, 1, 0)",
+              "body": "A model is reported as ARIMA(2, 1, 0). Describe what it does in words.",
+              "solution": "It takes <b>one difference</b> of the series ($d=1$, to remove a trend), then models the differenced series as <b>AR(2)</b> — each value is a constant plus weighted contributions from the previous two differenced values ($p=2$) — with <b>no MA term</b> ($q=0$). Forecasts are made on the differenced scale and cumulatively summed back. The pure-AR form suggests a PACF that cut off at lag 2."
+            },
+            {
+              "title": "ARIMA or exponential smoothing?",
+              "body": "You have one medium-length monthly series with clear autocorrelation and want interpretable coefficients and prediction intervals. ARIMA or ETS?",
+              "solution": "Either can work — they overlap — but ARIMA is the natural pick when you want to model the <b>autocorrelation structure</b> explicitly and read off AR/MA coefficients, and it gives principled intervals. ETS is the pick when you think in terms of <b>components</b> (level/trend/season). With clear autocorrelation and a single regular series, ARIMA (or SARIMA if seasonal) is a strong, interpretable choice."
+            },
+            {
+              "title": "When ARIMA is the wrong tool",
+              "body": "You must forecast daily demand for 50,000 products at once, using price, promotions, and weather. Is ARIMA a good fit?",
+              "solution": "No. ARIMA is built for a <em>single</em> series with endogenous autocorrelation and few external drivers; fitting 50,000 separate ARIMAs ignores shared structure, and ARIMA doesn't naturally use rich covariates (price/weather/promotions) or learn across series. This is the regime for <b>global deep forecasters</b> (one model trained on all series with covariates) — the next module's territory."
+            }
+          ]
         }
       ]
     }

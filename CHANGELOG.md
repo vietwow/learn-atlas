@@ -2,6 +2,13 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 766 — NEW lesson: ARIMA (Time Series #4) (content)
+The centerpiece classical model — `ts-arima` "ARIMA: Autoregression, Integration & Moving Averages" (Module 2): 8 sections (one model/three ideas · AR(p) regress on past values · MA(q) regress on past errors · ARMA ·
+the I/differencing · AR(1) in action · choosing p,d,q via Box–Jenkins/ACF/PACF/AIC · SARIMA & where ARIMA fits vs deep), a runnable **AR(1) code exercise** (mean-reverting → 10,8,6.8,6.08,5.65), 3 deep-dives (AR-vs-MA &
+their ACF/PACF fingerprints · the stationarity condition & long-run mean c/(1−φ) · Box–Jenkins/auto-ARIMA), 6 cards, 3 examples, 3 homework, 8 MCQs (2/2/2/2). Cross-topic prereq **→ ml-linear-regression** (AR = regression on
+lags). Site **10 topics · 183 lessons**; Time Series now 4 lessons across 2 modules. It ties together the earlier lessons (the I uses differencing; SES ≡ ARIMA(0,1,1)).
+Verified: data parses + round-trips; gate ALL GREEN (183 lessons; expected 8/16 parity warn); **headless** — 32 KaTeX/0 errors/rawDollar=0, 3 deep-dives + AR(1) runner, prereq link surfaces, quiz "Question 1 of 8"; errs=0. SW cache `atlas-v699` → `atlas-v700`.
+
 ## iter 765 — Exponential-smoothing lesson MCQ top-up 8 → 16 (content / assessment)
 Brought `ts-exponential-smoothing` to the 16-MCQ standard. Added **8 new MCQs**: the naive forecast, moving-average equal weights, SES weights summing to 1, flat multi-step forecast, Holt–Winters multiplicative,
 beating the baseline, the ETS acronym (Error/Trend/Seasonal), and SES ≡ ARIMA(0,1,1). Balanced → **4/4/4/4**. All three Time Series lessons now at full parity.
