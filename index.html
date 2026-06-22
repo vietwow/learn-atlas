@@ -106,8 +106,22 @@
       try {
         var s = JSON.parse(localStorage.getItem("atlas.v1") || "{}");
         var set = function (id, v) { var e = document.getElementById(id); if (e) e.textContent = v; };
-        // streak number + flame intensity tier
-        var n = (s && Number.isFinite(s.streak)) ? s.streak : 0;
+        // streak number + flame intensity tier — show the EFFECTIVE streak (mirror store.js touchStreak's
+        // day-diff logic) so the first paint matches what the app computes a moment later. Without this,
+        // reopening after a missed day briefly flashed the stale, now-broken streak (e.g. "30" with a blazing
+        // flame) before it collapsed to 1 once the deferred ~6MB scripts booted. renderChrome re-syncs after.
+        var n = (function () {
+          var saved = (s && Number.isFinite(s.streak)) ? s.streak : 0;
+          var fz = (s && Number.isFinite(s.freezes)) ? s.freezes : 0;
+          var la = s && s.lastActive;
+          if (!la) return saved > 0 ? saved : 1;       // brand-new/first open → touchStreak counts today
+          var d = new Date(), today = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+          if (la === today) return saved;              // already counted today → unchanged
+          var diff = Math.round((new Date(today + "T00:00:00") - new Date(la + "T00:00:00")) / 86400000);
+          if (diff === 1) return saved + 1;            // consecutive day → ticks up
+          if (diff === 2 && fz > 0) return saved + 1;  // a freeze will cover the 1-day gap
+          return 1;                                    // missed >1 day (or no freeze) → resets
+        })();
         set("streak-num", n);
         var f = document.querySelector(".streak .flame");
         if (f) {

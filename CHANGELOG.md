@@ -2,6 +2,14 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 784 — BUGFIX: streak header flashed a stale/broken count on reopen (owner bug report)
+**Owner-reported:** the N-day streak display rendered wrong. Root cause found via seeded saves: the **index.html pre-hydrate** script (which paints the header before the ~6MB deferred scripts boot) showed the *saved*
+`s.streak` verbatim — so reopening after a missed day flashed the **stale, now-broken streak with an over-hot flame** (proven: a 5-day-old streak of 30 painted as `30` / `blazing`) for up to a second before `touchStreak`
+reset it to `1` once app.js booted. The steady state was always correct; only the first-paint frame lied.
+**Fix:** the pre-hydrate now computes the *effective* streak, mirroring `store.js` `touchStreak`'s day-diff logic — today → unchanged, consecutive day → +1, 2-day gap with a freeze → +1, otherwise → reset to 1; fresh user → 1.
+First paint (number **and** flame tier) now matches what the app computes. Added a reciprocal sync-note in `touchStreak` so the two stay aligned.
+Verified (seeded, headless, pre-hydrate isolated): broken-streak **1/lit** (was 30/blazing), today **13/hot**, new-day **14/hot**, fresh **1/lit**; full-boot consistency **header=1 state=1** (no flash); all-routes smoke **errs=0**; gate ALL GREEN. SW `atlas-v717` → `atlas-v718`.
+
 ## iter 783 — Progress page verified at 10 topics + interpretability glossary (UX check / reference)
 Reviewed the Progress page (seeded, 10 topics): renders cleanly — XP/level, 40/185 lessons, 85% accuracy, personal bests, activity grid, recent tests. Investigated an apparent "0 Perfect quizzes" and confirmed it's a
 **non-bug**: `load()` restores `perfectQuizzes` (Store.raw=6 == localStorage), the tile reads it, and persistence is correct — my earlier DOM heuristic mis-grabbed a sibling. Then completed the interpretability glossary thread:

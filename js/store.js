@@ -194,6 +194,8 @@
 
   // ---- streak ----------------------------------------------------------
   let _freezeJustUsed = false, _streakJustUp = false, _streakRecord = false, _freezeEarned = false;
+  // NOTE: the index.html pre-hydrate script mirrors this day-diff logic to paint the correct streak/flame
+  // before the deferred scripts boot — keep the two in sync if you change the streak rules here.
   function touchStreak() {
     const t = todayStr();
     if (!state.activeDays || typeof state.activeDays !== "object") state.activeDays = {};
