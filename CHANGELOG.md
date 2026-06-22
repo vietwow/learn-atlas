@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 882 — Glossary: adversarial-ML terms (reference)
+Completed the iter-881 thread with **3 glossary terms** — **Adversarial example**, **Fast Gradient Sign Method (FGSM)** ($x'=x+\epsilon\,\mathrm{sign}(\nabla_x J)$), and **Adversarial training**. Glossary **364 → 367** (0 holes).
+Verified: glossary parses with `\nabla` intact (JSON-form); gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), 343 KaTeX, kErr=0, errs=0. SW cache `atlas-v814` → `atlas-v815`.
+
 ## iter 881 — Hard-concept: adversarial examples & FGSM (content)
 Filled a genuine, important gap: adversarial examples were entirely absent. Added a deep-dive to `dl-ml-recap-and-the-learning-problem` (its 5th): a 99%-confident panda becomes a 99%-confident gibbon under an imperceptible perturbation.
 **Why** — high-dim boundaries run close to every point and the net is locally linear; the **Fast Gradient Sign Method** $x' = x + \epsilon\,\mathrm{sign}(\nabla_x J)$ steps the *input* (not the weights) up the loss it's cross-linked to. **The lesson:** a low generalization gap is *not* robustness — adversarial inputs live where the data distribution never samples; the defense is adversarial training.
