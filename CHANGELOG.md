@@ -2,6 +2,13 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 779 — Dashboard verified at 10 topics + hard-concept: superposition & SAEs (UX check / content)
+A fresh-eyes review of the seeded returning-learner dashboard at 10 topics confirmed it's polished — "34/185 lessons · 84% quiz accuracy" (the iter-733 "—"/% fix and iter-734 title-case fix both holding), sensible
+recommendations, all 10 topics in the sidebar; no bug. Then filled a genuine current gap: **superposition** and **sparse autoencoders** (the core of modern mechanistic interpretability) were uncovered. Added a 4th deep-dive
+to `l-safety-and-frontier` — why neurons are polysemantic (superposition packs more features than dimensions as near-orthogonal directions), how an overcomplete sparse autoencoder decomposes activations into monosemantic,
+human-interpretable features, and why this is the leading route from black box toward an auditable, steerable model. The empirical companion to the lesson's alignment deep-dives.
+Verified: data parses; gate ALL GREEN (the proseInMath/raw-& guard caught a stray "&" in the summary pre-commit — fixed to "and"); **headless** — 4 deep-dives render, superposition/SAE/monosemantic text present when expanded, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v712` → `atlas-v713`.
+
 ## iter 778 — Glossary: gradient-estimator terms (reference)
 Completed the iter-777 deep-dive's glossary integration. Added **Score-function estimator (REINFORCE)** and **Pathwise gradient (reparameterization)** — the two estimators for differentiating through randomness — now
 powering tooltips across the RL and VAE lessons (Policy gradient already existed). Glossary **299 → 301** (crossing 300; 0 holes).
