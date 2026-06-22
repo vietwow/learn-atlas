@@ -7737,4 +7737,66 @@
     draw();
   });
 
+
+  /* ========================================================
+     145. Autocorrelation function (ACF): the time-series fingerprint (time series)
+     ======================================================== */
+  register({ id: 'ts-acf', topic: 'time-series', title: 'Autocorrelation function (ACF)', blurb: 'The ACF plots how strongly a series correlates with its own past at each lag — the first thing you compute to diagnose temporal structure. Slide the AR(1) coefficient φ: at φ=0 the series is white noise and every bar sits inside the (dashed) significance band; raise φ and the bars decay geometrically like φ^k; push φ near 1 and the ACF barely decays at all — the signature of a near-random-walk that is NOT stationary and needs differencing.' },
+  function (root) {
+    const W = 520, H = 300, padL = 34, padR = 12, padT = 16, padB = 30;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    let phi = 0.7;
+    const N = 200, K = 18;
+    function prng(s) { return function () { s |= 0; s = s + 0x6D2B79F5 | 0; let t = Math.imul(s ^ s >>> 15, 1 | s); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+    function series() {
+      const r = prng(42), g = () => { const u1 = Math.max(r(), 1e-9), u2 = r(); return Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2); };
+      const x = [0]; for (let t = 1; t < N; t++) x.push(phi * x[t - 1] + g()); return x;
+    }
+    function acf(x) {
+      const n = x.length, mean = x.reduce((a, b) => a + b, 0) / n;
+      let d0 = 0; for (let t = 0; t < n; t++) d0 += (x[t] - mean) ** 2;
+      const out = []; for (let k = 0; k <= K; k++) { let s = 0; for (let t = k; t < n; t++) s += (x[t] - mean) * (x[t - k] - mean); out.push(s / d0); } return out;
+    }
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const a = acf(series());
+      const plotW = W - padL - padR, plotH = H - padT - padB, x0 = padL;
+      const yTop = padT, yBot = padT + plotH, lo = -0.4, hi = 1.0;
+      const Y = v => yBot - (v - lo) / (hi - lo) * plotH;
+      // axes + zero line
+      ctx.strokeStyle = p.line; ctx.beginPath(); ctx.moveTo(x0, yTop); ctx.lineTo(x0, yBot); ctx.stroke();
+      ctx.strokeStyle = p.soft; ctx.beginPath(); ctx.moveTo(x0, Y(0)); ctx.lineTo(W - padR, Y(0)); ctx.stroke();
+      // significance band ±1.96/sqrt(N)
+      const sig = 1.96 / Math.sqrt(N);
+      ctx.fillStyle = 'rgba(150,136,113,0.13)'; ctx.fillRect(x0, Y(sig), plotW, Y(-sig) - Y(sig));
+      ctx.strokeStyle = 'rgba(150,136,113,0.5)'; ctx.setLineDash([4, 3]);
+      [sig, -sig].forEach(s => { ctx.beginPath(); ctx.moveTo(x0, Y(s)); ctx.lineTo(W - padR, Y(s)); ctx.stroke(); });
+      ctx.setLineDash([]);
+      // y ticks
+      ctx.fillStyle = p.mute; ctx.font = '10px ' + (cssVar('--font-mono') || 'monospace'); ctx.textAlign = 'right';
+      [1, 0.5, 0, -0.4].forEach(v => ctx.fillText(v.toFixed(1), x0 - 4, Y(v) + 3));
+      // bars
+      const bw = plotW / (K + 1);
+      for (let k = 0; k <= K; k++) {
+        const bx = x0 + k * bw + bw * 0.2, h = Y(a[k]) - Y(0);
+        ctx.fillStyle = k === 0 ? p.soft : (Math.abs(a[k]) > sig ? p.gold : p.mute);
+        ctx.fillRect(bx, a[k] >= 0 ? Y(a[k]) : Y(0), bw * 0.6, Math.abs(h));
+      }
+      ctx.fillStyle = p.mute; ctx.textAlign = 'center'; [0, 6, 12, 18].forEach(k => ctx.fillText(k, x0 + k * bw + bw * 0.5, yBot + 14));
+      ctx.textAlign = 'left'; ctx.fillText('lag k', W - padR - 34, yBot + 14);
+      const sigCount = a.slice(1).filter(v => Math.abs(v) > sig).length;
+      const verdict = phi < 0.15 ? 'white noise — all bars inside the band (no structure to model).' :
+        phi > 0.9 ? 'barely decaying — a near-random-walk: NOT stationary, difference it first.' :
+        'geometric decay like φ^k — a stationary AR(1) signature.';
+      info.innerHTML = 'AR(1) coefficient φ = <b style="color:' + p.gold + '">' + phi.toFixed(2) + '</b>. ' +
+        sigCount + ' of ' + K + ' lags poke past the ±1.96/√N band. ' + verdict;
+    }
+    slider(ctl, { label: 'AR(1) coefficient φ', min: 0, max: 0.95, step: 0.05, value: phi, fmt: v => v.toFixed(2), onInput: v => { phi = v; draw(); } });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Autocorrelation function of an AR(1) time series. The chart is a bar plot of correlation versus lag with a shaded ±1.96 over square-root-N significance band. A slider sets the AR(1) coefficient phi: at phi near 0 the series is white noise and all bars fall inside the band; at moderate phi the bars decay geometrically like phi to the k, the signature of a stationary autoregressive process; at phi near 1 the bars barely decay, the signature of a near-random-walk that is not stationary and must be differenced.');
+    draw();
+  });
+
 })();

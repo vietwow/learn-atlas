@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 837 — NEW viz: the autocorrelation function (ACF) (visualizations)
+Filled a real gap: ACF is discussed in 4 time-series lessons but was never visualized, and `ts-stationarity` had **no viz at all**. Added the **145th widget, `ts-acf`** (its first viz, in "Testing for stationarity"): an AR(1) series'
+sample ACF as a correlation-vs-lag bar plot with a ±1.96/√N significance band. Slide φ — at φ=0 it's white noise (all bars inside the band); moderate φ gives geometric decay like φ^k (stationary AR signature); φ near 1 barely decays
+(near-random-walk → not stationary, difference it). Deterministic (seeded AR(1) + Box-Muller). Note: time-series.js is a push-wrapper file, so I injected via a targeted unique-anchor raw replace (single-quoted attr), verified by re-parsing.
+Verified: AR(1)+sample-ACF re-derived in Node (φ=0.7 → 1, .69, .46…; φ=0.95 → persistent); gate ALL GREEN (now **145 widgets**); **headless** — all three regimes read correctly (white-noise / geometric-decay / random-walk), kErr=0, errs=0; screenshot shows the decaying bars. SW cache `atlas-v770` → `atlas-v771`.
+
 ## iter 836 — Glossary: data-processing-inequality terms (reference)
 Completed the iter-835 deep-dive's glossary integration. Added **Data processing inequality** ($I(X;Z)\le I(X;Y)$ along a Markov chain) and **Sufficient statistic** (retains all the data's information; achieves DPI equality), now
 in tooltips across the IT lessons. Glossary **332 → 334** (0 holes).
