@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 743 — Library: canonical resources for GNN & self-supervised lessons (reference)
+The new GNN (iter 727) and self-supervised/contrastive (iter 737) lessons had no curated Library resources — the last surface they weren't on. Added 2 to Deep Learning: **"A Gentle Introduction to Graph Neural
+Networks"** (Distill — interactive message-passing walkthrough) and **"Self-Supervised Representation Learning"** (Lilian Weng — a thorough SimCLR/MoCo/CLIP/BYOL survey). DL references 6 → 8.
+Verified: references.js parses; gate ALL GREEN; **headless** — both render on the Library page (2/2), kErr=0, errs=0. SW cache `atlas-v679` → `atlas-v680`.
+
 ## iter 742 — NEW viz: the double-descent curve (visualizations)
 Made iter-741's deep-dive visual. Built the **129th widget, `ml-double-descent`**: error vs model capacity, with training error falling to zero at the interpolation threshold and the test-error curve showing the
 classical U (a sweet spot), a spike at the threshold, then a **second descent** in the over-parameterized regime — dropping below the classical sweet spot (test: 0.35 sweet → 0.94 peak → 0.22 modern). A capacity

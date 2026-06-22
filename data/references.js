@@ -32,7 +32,9 @@ window.REFERENCES = {
     { title: "Deep Learning", by: "Goodfellow, Bengio, Courville", kind: "book", url: "https://www.deeplearningbook.org/", note: "The foundational textbook, free online." },
     { title: "Practical Deep Learning", by: "fast.ai", kind: "course", url: "https://course.fast.ai/", note: "Top-down, code-first; train real models fast." },
     { title: "Dive into Deep Learning (d2l)", by: "Zhang, Lipton, Li, Smola", kind: "interactive", url: "https://d2l.ai/", note: "Interactive book with runnable code & math." },
-    { title: "An Image is Worth 16x16 Words (ViT)", by: "Dosovitskiy et al.", kind: "paper", url: "https://arxiv.org/abs/2010.11929", note: "The Vision Transformer paper — transformers applied to image patches, the bridge to multimodal models." }
+    { title: "An Image is Worth 16x16 Words (ViT)", by: "Dosovitskiy et al.", kind: "paper", url: "https://arxiv.org/abs/2010.11929", note: "The Vision Transformer paper — transformers applied to image patches, the bridge to multimodal models." },
+    { title: "A Gentle Introduction to Graph Neural Networks", by: "Sanchez-Lengeling et al. (Distill)", kind: "interactive", url: "https://distill.pub/2021/gnn-intro/", note: "Interactive walkthrough of message passing and GNNs — build intuition by playing with the graphs." },
+    { title: "Self-Supervised Representation Learning", by: "Lilian Weng", kind: "article", url: "https://lilianweng.github.io/posts/2019-11-10-self-supervised/", note: "A thorough survey of pretext tasks and contrastive methods (SimCLR, MoCo, CLIP, BYOL) — the SSL landscape in one post." }
   ],
   "reinforcement-learning": [
     { title: "Reinforcement Learning: An Introduction", by: "Sutton & Barto", kind: "book", url: "http://incompleteideas.net/book/the-book-2nd.html", note: "The RL bible — free PDF. Start here." },
