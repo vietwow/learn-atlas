@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 796 — NEW code exercise: a limit, computed numerically (examples / hands-on)
+Added a runnable exercise to `c-computing-limits` (calculus — a fresh topic for hands-on). The classic 0/0 form $\frac{x^2-4}{x-2}$ is undefined right at $x=2$, but the learner evaluates it at $x=2.01$ (→ 4.010) and $x=2.001$
+(→ 4.001) and watches the values close in on **4** — the same answer the algebraic factoring gives ($x+2\to4$). Placed right after "Technique 1 — Factoring", so the numerical check confirms the symbolic trick: trust, then verify.
+Verified: data parses + round-trips; **gate ALL GREEN — code-exercises verified** (runs it, confirms "x=2.01: 4.010, x=2.001: 4.001"); **headless** — Run executes, output shows the values, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v729` → `atlas-v730`.
+
 ## iter 795 — Cross-link: regularization penalties ARE vector norms (understandability)
 Rotated off code exercises for range. Audited several candidate gaps and confirmed they're already covered (batch-norm's "why" debate has a dedicated deep-dive; determinant-as-area, the multi-armed bandit, etc. all have viz)
 and that there's no *safe* small perf win (the ~7.2MB of data is genuinely needed and the SW caches it after first visit). Then extended iter-794: grounded ML regularization in its linear-algebra foundation with a see-also in
