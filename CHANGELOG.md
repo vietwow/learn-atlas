@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 777 — Hard-concept: score-function vs pathwise gradient estimators (content / understandability)
+Diversified off Time Series. The site taught the reparameterization trick (VAE) and the log-derivative/score-function trick (policy gradients) as *separate* deep-dives but never unified them. Added a 4th deep-dive to
+`rl-policy-gradient-theorem` — **two ways to differentiate through randomness**: the **score-function** estimator ($\mathbb{E}[f\,\nabla\log p]$ — works for black-box/discrete $f$, high variance; used in RL) vs the **pathwise /
+reparameterization** estimator ($x=g(\theta,\varepsilon)$, push the gradient through — low variance, needs differentiable $f$ + continuous distribution; used in VAEs). Same goal, two estimators — explicitly connecting RL and generative models.
+Verified: data parses; gate ALL GREEN (incl. proseInMath on the estimator math); **headless** — 4 deep-dives render, both estimators + reparameterization present when expanded, 162 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v710` → `atlas-v711`.
+
 ## iter 776 — Achievements verified at 10 topics + NEW viz: exponential-smoothing α dial (gamification check / visualizations)
 First confirmed the 10th topic didn't break gamification: **all achievement logic is dynamic** (`window.COURSES.every(...)`, count thresholds) — no hardcoded topic count, so "all-topics"/"atlas-complete" correctly scaled to 10
 topics with zero stale-count bugs. Then filled a real gap: the `ts-exponential-smoothing` lesson had **no viz** despite its core "α dial" being highly visual. Built the **133rd widget, `ts-exp-smoothing`**: a noisy series with a
