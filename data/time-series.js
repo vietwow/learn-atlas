@@ -996,6 +996,162 @@
               "solution": "No. ARIMA is built for a <em>single</em> series with endogenous autocorrelation and few external drivers; fitting 50,000 separate ARIMAs ignores shared structure, and ARIMA doesn't naturally use rich covariates (price/weather/promotions) or learn across series. This is the regime for <b>global deep forecasters</b> (one model trained on all series with covariates) — the next module's territory."
             }
           ]
+        },
+        {
+          "id": "ts-forecast-evaluation",
+          "title": "Forecast Evaluation & Backtesting",
+          "minutes": 16,
+          "content": "<h3>1. The hook: a forecast is only as good as its test</h3>\n<p>Any model can fit the past — the only question that matters is how it does on data it hasn't seen. For time series that means one thing: evaluate on the <b>future</b>. Hold out the most recent stretch, forecast it, and compare to what actually happened. A model's training error is marketing; its out-of-sample error on a held-out future is the truth.</p>\n<h3>2. The time-respecting split</h3>\n<p>Split by <em>time</em>, never at random: train on $[1..k]$, test on the contiguous block $[k+1..n]$. Random k-fold leaks the future into training (a fatal error we met earlier). Every feature must also be computable from data strictly before the point it predicts — a centred rolling mean, for example, peeks ahead and is forbidden.</p>\n<h3>3. Scale-dependent error metrics</h3>\n<p>The two staples measure error in the data's own units. <b>MAE</b> (mean absolute error) averages $|y_t - \\hat{y}_t|$. <b>RMSE</b> (root mean squared error) squares first: $\\sqrt{\\frac{1}{n}\\sum (y_t - \\hat{y}_t)^2}$. Because squaring magnifies big misses, <b>RMSE $\\ge$ MAE</b> always, and the gap grows when a few large errors dominate. Pick RMSE when big errors are disproportionately costly; MAE when every unit of error counts the same.</p>\n<h3>4. Computing MAE and RMSE</h3>\n<p>Four forecasts, one of them badly off — watch RMSE exceed MAE:</p>\n<div data-code=\"javascript\" data-expected=\"MAE = 1.50, RMSE = 1.73\">// MAE averages absolute errors; RMSE squares first, so outliers cost more\nconst actual = [10, 12, 14, 13];\nconst pred   = [11, 11, 15, 10];   // last forecast is off by 3\nconst n = actual.length;\nconst err = actual.map((a, i) => a - pred[i]);\nconst mae = err.reduce((s, e) => s + Math.abs(e), 0) / n;\nconst rmse = Math.sqrt(err.reduce((s, e) => s + e * e, 0) / n);\nconsole.log(\"MAE = \" + mae.toFixed(2) + \", RMSE = \" + rmse.toFixed(2));\n// RMSE > MAE because the single large miss is penalized more heavily.</div>\n<h3>5. Percentage and scaled metrics</h3>\n<p>To compare accuracy <em>across</em> series of different magnitudes you need a unit-free metric. <b>MAPE</b> (mean absolute percentage error) divides each error by the actual — intuitive, but it explodes when actuals are near zero and punishes over- and under-forecasts asymmetrically. <b>MASE</b> (mean absolute scaled error) fixes this by dividing the MAE by the MAE of a naive forecast: $\\text{MASE} < 1$ means you beat naive, $> 1$ means you didn't. It is the robust default for cross-series comparison.</p>\n<h3>6. Backtesting: rolling-origin evaluation</h3>\n<p>A single train/test split gives one noisy number. <b>Backtesting</b> (rolling-origin or time-series cross-validation) does better: forecast from many successive cut-points and average the errors. Either expand the window (train on everything so far) or slide a fixed window forward. Each test point is always in the future of its training data, so the estimate is honest and far less dependent on which single split you happened to choose.</p>\n<h3>7. Always beat a baseline</h3>\n<p>An RMSE of 50 means nothing in isolation — 50 <em>what</em>, compared to <em>what</em>? Always report skill <em>relative to a baseline</em> (naive, seasonal-naive, or mean). MASE bakes this in; a <b>skill score</b> $1 - \\text{error}_{\\text{model}}/\\text{error}_{\\text{baseline}}$ does it explicitly. A complex model that can't beat seasonal-naive should be retired, not shipped.</p>\n<h3>8. Beyond point forecasts</h3>\n<p>Most decisions need <em>uncertainty</em>, not just a number. A good <b>prediction interval</b> is judged on two things: <b>calibration/coverage</b> (a 90% interval should contain the truth ~90% of the time) and <b>sharpness</b> (narrower is better, given calibration). Quantile forecasts are scored with the <b>pinball loss</b>. A point forecast with honest intervals beats a slightly-better point forecast with no uncertainty almost every time.</p>\n<details class=\"deep-dive\">\n<summary>Deeper dive: MAE vs RMSE — and what each one optimizes</summary>\n<p>The choice isn't cosmetic — the two metrics reward different forecasts. Minimizing <b>squared</b> error (RMSE/MSE) is minimized by the <em>conditional mean</em>, and because squaring weights large deviations heavily, it is sensitive to outliers and pulls the forecast toward avoiding big misses. Minimizing <b>absolute</b> error (MAE) is minimized by the <em>conditional median</em>, which is robust to outliers and to skew. So on a spiky or heavy-tailed series the two can prefer genuinely different models. Rule of thumb: optimize the metric that matches the real cost — RMSE if a single large error is catastrophic (inventory stockout), MAE if total absolute deviation is what you pay for.</p>\n</details>\n<details class=\"deep-dive\">\n<summary>Deeper dive: why MAPE misleads, and MASE fixes it</summary>\n<p><b>MAPE</b> $= \\frac{1}{n}\\sum |y_t - \\hat{y}_t| / |y_t|$ has three traps: it is undefined/explosive when $y_t \\approx 0$ (intermittent demand), it is <em>asymmetric</em> (a forecast that is too high is penalized differently from one too low — it favours under-forecasting), and it is meaningless for data that can be negative. <b>MASE</b> avoids all of this by scaling against the in-sample naive forecast's MAE: $\\text{MASE} = \\text{MAE}_{\\text{model}} / \\text{MAE}_{\\text{naive}}$. It is unit-free (so it compares across series), defined whenever the series isn't constant, symmetric, and has a clean interpretation — below 1 beats the naive benchmark. For competitions and many-series problems, MASE is the standard.</p>\n</details>\n<details class=\"deep-dive\">\n<summary>Deeper dive: scoring intervals — calibration, sharpness, pinball loss</summary>\n<p>A point forecast hides risk; an interval forecast exposes it, and is judged on two axes. <b>Calibration (coverage):</b> over many forecasts, the fraction of times the truth falls inside a nominal 90% interval should be ~90% — too few means over-confident, too many means too wide. <b>Sharpness:</b> among calibrated intervals, the narrowest is best (it commits to more). You can't chase coverage alone (the interval $(-\\infty, \\infty)$ has perfect coverage and zero value). For an individual quantile $\\tau$, the <b>pinball (quantile) loss</b> rewards being on the right side the right fraction of the time; averaging it across quantiles (the CRPS in the limit) gives a single proper score for the whole predictive distribution.</p>\n</details>",
+          "mcq": [
+            {
+              "q": "A time-series forecast should be evaluated on:",
+              "choices": [
+                "A held-out future block (out-of-sample), respecting time order",
+                "The training data it was fit on",
+                "A random shuffle of all points",
+                "The single largest value"
+              ],
+              "answer": 0,
+              "explain": "Honest evaluation = on the unseen future."
+            },
+            {
+              "q": "Compared with MAE, RMSE:",
+              "choices": [
+                "Ignores large errors",
+                "Penalizes large errors more heavily (and is always ≥ MAE)",
+                "Is always smaller than MAE",
+                "Is unit-free"
+              ],
+              "answer": 1,
+              "explain": "Squaring magnifies big misses."
+            },
+            {
+              "q": "Minimizing squared error (RMSE/MSE) targets the conditional ___, while minimizing absolute error (MAE) targets the conditional ___:",
+              "choices": [
+                "mode; mean",
+                "median; mean",
+                "mean; median",
+                "variance; mean"
+              ],
+              "answer": 2,
+              "explain": "MSE→mean, MAE→median."
+            },
+            {
+              "q": "MAPE (mean absolute percentage error) is problematic because it:",
+              "choices": [
+                "Penalizes small errors most",
+                "Is always undefined",
+                "Cannot be computed",
+                "Explodes near zero and is asymmetric"
+              ],
+              "answer": 3,
+              "explain": "Near-zero actuals and asymmetry break MAPE."
+            },
+            {
+              "q": "MASE (mean absolute scaled error) below 1 means:",
+              "choices": [
+                "The model beats the naive baseline",
+                "The model is worse than naive",
+                "The forecast is perfect",
+                "The series is non-stationary"
+              ],
+              "answer": 0,
+              "explain": "MASE = model MAE / naive MAE."
+            },
+            {
+              "q": "Rolling-origin (backtesting) evaluation:",
+              "choices": [
+                "Shuffles points into random folds",
+                "Forecasts from many successive time cut-points and averages the errors",
+                "Uses only the first data point",
+                "Trains on the future"
+              ],
+              "answer": 1,
+              "explain": "Multiple time-respecting folds."
+            },
+            {
+              "q": "Reporting \"RMSE = 120\" alone is insufficient because RMSE is:",
+              "choices": [
+                "Unit-free",
+                "Always between 0 and 1",
+                "Scale-dependent — it needs a baseline for context",
+                "Independent of the data"
+              ],
+              "answer": 2,
+              "explain": "Compare to a naive/seasonal baseline."
+            },
+            {
+              "q": "A well-judged 90% prediction interval should be:",
+              "choices": [
+                "Independent of the data",
+                "As wide as possible regardless of coverage",
+                "Exactly the point forecast",
+                "Calibrated (covers the truth ~90% of the time) and as sharp as possible"
+              ],
+              "answer": 3,
+              "explain": "Coverage first, then sharpness."
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "How must a time-series forecast be evaluated?",
+              "back": "Out-of-sample on the <em>future</em>: hold out the most recent contiguous block, never a random split (which leaks the future). Features must use only past data."
+            },
+            {
+              "front": "MAE vs RMSE",
+              "back": "MAE averages $|y-\\hat{y}|$; RMSE squares first, $\\sqrt{\\frac1n\\sum(y-\\hat{y})^2}$. RMSE $\\ge$ MAE and penalizes large errors more. MSE is minimized by the mean, MAE by the median."
+            },
+            {
+              "front": "MAPE and its pitfalls",
+              "back": "Mean absolute <em>percentage</em> error — unit-free but explodes near zero, is asymmetric (favours under-forecasting), and fails on negative data. Avoid for intermittent series."
+            },
+            {
+              "front": "MASE (mean absolute scaled error)",
+              "back": "MAE of the model divided by MAE of the naive forecast. Unit-free, robust, symmetric; $< 1$ beats naive, $> 1$ doesn't. The standard for comparing across series."
+            },
+            {
+              "front": "Backtesting / rolling-origin evaluation",
+              "back": "Forecast from many successive cut-points (expanding or sliding window) and average the errors — each test point in the future of its training data. Far more reliable than one split."
+            },
+            {
+              "front": "Evaluating prediction intervals",
+              "back": "Judge on <b>calibration/coverage</b> (a 90% interval covers the truth ~90% of the time) AND <b>sharpness</b> (narrower is better given calibration). Quantiles scored by the pinball loss."
+            }
+          ],
+          "homework": [
+            {
+              "prompt": "Forecasts vs actuals give errors [2, -2, 6]. Compute the MAE and the RMSE. Why do they differ?",
+              "hint": "MAE = mean |e|; RMSE = sqrt(mean e^2).",
+              "solution": "MAE = (2+2+6)/3 = 10/3 ≈ 3.33. RMSE = √((4+4+36)/3) = √(44/3) = √14.67 ≈ 3.83. RMSE > MAE because squaring inflates the single large error of 6 (36 vs the others' 4), so RMSE penalizes that big miss more heavily."
+            },
+            {
+              "prompt": "Why is random k-fold cross-validation the wrong way to evaluate a time-series forecaster, and what replaces it?",
+              "hint": "What does shuffling do to time?",
+              "solution": "Random k-fold puts future points in the training folds and past points in the test folds — <b>temporal leakage</b> — so it overstates accuracy and collapses in production. Replace it with <b>rolling-origin (time-series) cross-validation</b>: train on a prefix, test on the next block, roll forward, and average; every test point is strictly in the future of its training data."
+            },
+            {
+              "prompt": "A report says \"our model's RMSE is 120.\" Why is that, alone, not enough to judge it?",
+              "hint": "Compared to what?",
+              "solution": "RMSE is scale-dependent and meaningless without a reference: 120 could be excellent or terrible depending on the series' magnitude and difficulty. You must compare it to a <b>baseline</b> (naive/seasonal-naive/mean) — via a skill score or MASE. A model only earns its place by beating the simple benchmark."
+            }
+          ],
+          "examples": [
+            {
+              "title": "Choosing a metric",
+              "body": "You forecast hospital bed demand, where a single large under-forecast (no beds) is far costlier than many tiny errors. Which error metric should you optimize?",
+              "solution": "<b>RMSE</b> (or an asymmetric cost if under- and over-forecasting differ). Because RMSE squares errors, it heavily penalizes the occasional large miss you most want to avoid, pushing the model to keep big errors rare. MAE would treat one huge under-forecast the same as several small ones, which doesn't match the real cost."
+            },
+            {
+              "title": "Comparing across products",
+              "body": "You must rank a forecasting method across 500 products whose sales differ by orders of magnitude. What metric, and why not MAPE?",
+              "solution": "Use <b>MASE</b>: it scales each series' error by that series' naive-forecast error, so it's unit-free and comparable across magnitudes, and it's robust to the near-zero and negative values MAPE chokes on. MAPE would be dominated by low-volume products (tiny denominators blow up the percentage) and is undefined when sales hit zero — common in retail."
+            },
+            {
+              "title": "Reading interval coverage",
+              "body": "Your 90% prediction intervals actually contain the truth only 70% of the time on the backtest. What's wrong and what would you do?",
+              "solution": "The intervals are <b>over-confident / under-calibrated</b> — too narrow (only 70% coverage vs the nominal 90%). The model is underestimating its uncertainty. Widen the intervals (e.g. recalibrate using the empirical error distribution, or fix the variance/noise model) until backtested coverage matches the nominal level, then check sharpness. Coverage first, then make them as tight as calibration allows."
+            }
+          ]
         }
       ]
     }

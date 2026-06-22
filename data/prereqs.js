@@ -85,6 +85,9 @@ window.PREREQS = {
   "ts-arima": [
     "ml-linear-regression"
   ],
+  "ts-forecast-evaluation": [
+    "ml-model-selection"
+  ],
   "dl-gans": [
     "it-cross-entropy-kl"
   ],

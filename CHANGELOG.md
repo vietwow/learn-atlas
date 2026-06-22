@@ -2,6 +2,13 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 768 — NEW lesson: Forecast Evaluation & Backtesting (Time Series #5) (content)
+Completed Module 2 with `ts-forecast-evaluation` "Forecast Evaluation & Backtesting": 8 sections (evaluate on the future · the time-respecting split · scale-dependent MAE/RMSE · computing them · percentage/scaled metrics
+MAPE/MASE · rolling-origin backtesting · always beat a baseline · prediction intervals: calibration & sharpness), a runnable **MAE/RMSE code exercise** (→ MAE 1.50, RMSE 1.73, showing RMSE penalizes the outlier), 3
+deep-dives (MAE↔median vs RMSE↔mean · why MAPE misleads & MASE fixes it · scoring intervals via coverage/sharpness/pinball loss), 6 cards, 3 examples, 3 homework, 8 MCQs (2/2/2/2). Cross-topic prereq **→ ml-model-selection**
+(out-of-sample evaluation). Site **10 topics · 184 lessons**; Time Series now 5 lessons (Foundations 2 + Classical Forecasting 3).
+Verified: data parses + round-trips; gate ALL GREEN (184 lessons; expected 8/16 parity warn); **headless** — 15 KaTeX/0 errors/rawDollar=0, 3 deep-dives + MAE/RMSE runner, prereq link surfaces, quiz "Question 1 of 8"; errs=0. SW cache `atlas-v701` → `atlas-v702`.
+
 ## iter 767 — ARIMA lesson MCQ top-up 8 → 16 (content / assessment)
 Brought `ts-arima` to the 16-MCQ standard. Added **8 new MCQs**: ACF-cutoff→MA(q), φ=1 random walk, residuals=white noise, AIC/BIC order selection, SARIMA seasonal terms, auto.arima, the ARIMA-MA vs smoothing-MA
 distinction, and AR(2). Balanced → **4/4/4/4**. All four Time Series lessons now at full parity.
