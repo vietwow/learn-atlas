@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 735 — NEW viz: the reparameterization trick (visualizations)
+The VAE lesson explained the reparameterization trick in text + a deep-dive but its only embedded viz was KL-divergence — the trick itself (one of DL's hardest, most *visual* ideas) had none. Built the **127th widget,
+`dl-reparameterization`**: a top axis of fixed noise ε ~ N(0,1) and a bottom axis of z = μ + σ·ε under a N(μ,σ²) curve, with μ and σ sliders. Sliding μ shifts every z point together; sliding σ spreads them — while the
+**same ε points stay put** — making concrete that z is a deterministic, differentiable function of μ,σ (∂z/∂μ=1, ∂z/∂σ=ε), so gradients flow, unlike a raw sample. Embedded at §6 of `dl-autoencoders-vae` (now 2 viz). Deterministic.
+Verified: gate ALL GREEN (now **127 widgets**); **headless** — Lab + lesson hydrate, μ/σ readouts update (2.00 / 2.20), gradient note present, VAE lesson renders 2 canvases, kErr=0, errs=0; screenshot shows the ε/z bands. SW cache `atlas-v671` → `atlas-v672`.
+
 ## iter 734 — Capitalize the "Deeper dive of the day" card title (UX polish)
 Spotted in the iter-733 dashboard screenshot: the "Deeper dive of the day" card heading rendered as a lowercase fragment (e.g. "the dot product measures alignment"). Audited the title generator across all **539
 deep-dives** — **88% (476)** produced a lowercase-first title, because deep-dive `<summary>` text is phrased as a lowercase continuation ("why X…", "the Y…") and the card strips the "Deeper dive:" prefix. Fixed at

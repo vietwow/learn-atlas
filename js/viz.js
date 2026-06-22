@@ -6889,4 +6889,51 @@
     draw();
   });
 
+
+  /* ========================================================
+     127. The reparameterization trick: z = mu + sigma*eps (Deep Learning)
+     ======================================================== */
+  register({ id: 'dl-reparameterization', topic: 'deep-learning', title: 'The reparameterization trick: z = μ + σ·ε', blurb: 'A VAE needs to sample its latent z, but you cannot backprop through a random draw. The trick: pull the randomness OUT into a fixed noise ε ~ N(0,1) drawn once, and compute z = μ + σ·ε. Now z is a smooth, deterministic function of the encoder outputs μ and σ — slide them and watch the same ε points shift (μ) and spread (σ) in lockstep, so gradients ∂z/∂μ = 1 and ∂z/∂σ = ε flow straight back to the encoder.' },
+  function (root) {
+    const W = 540, H = 300, cx = W / 2, scale = 34, topY = 96, botY = 232;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    const EPS = [-1.9, -1.3, -0.9, -0.55, -0.25, 0.25, 0.55, 0.9, 1.3, 1.9];
+    let mu = 0, sg = 1;
+    function gauss(ctx2, m, s, yBase, col, p) {
+      ctx.strokeStyle = col; ctx.lineWidth = 1.6; ctx.globalAlpha = 0.9; ctx.beginPath();
+      for (let px = 0; px <= W; px += 3) { const x = (px - cx) / scale; const y = Math.exp(-0.5 * ((x - m) / s) * ((x - m) / s)); const yy = yBase - y * 46; if (px === 0) ctx.moveTo(px, yy); else ctx.lineTo(px, yy); }
+      ctx.stroke(); ctx.globalAlpha = 1;
+    }
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      ctx.font = '11px ' + (cssVar('--font-mono') || 'monospace'); ctx.textBaseline = 'alphabetic';
+      // axes
+      ctx.strokeStyle = p.line; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(16, topY); ctx.lineTo(W - 16, topY); ctx.moveTo(16, botY); ctx.lineTo(W - 16, botY); ctx.stroke();
+      ctx.fillStyle = p.mute; ctx.textAlign = 'left';
+      ctx.fillText('ε ~ N(0, 1)   (fixed noise, drawn once)', 16, topY - 52);
+      ctx.fillText('z = μ + σ·ε   ~ N(μ, σ²)', 16, botY - 52);
+      // curves
+      gauss(ctx, 0, 1, topY, p.sage, p);
+      gauss(ctx, mu, sg, botY, p.gold, p);
+      // connecting lines + points
+      EPS.forEach(e => {
+        const xt = cx + e * scale, z = mu + sg * e, xb = cx + z * scale;
+        ctx.strokeStyle = p.line; ctx.globalAlpha = 0.5; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(xt, topY); ctx.lineTo(xb, botY); ctx.stroke(); ctx.globalAlpha = 1;
+        ctx.fillStyle = p.sage; ctx.beginPath(); ctx.arc(xt, topY, 4.5, 0, 7); ctx.fill();
+        ctx.fillStyle = p.gold; ctx.beginPath(); ctx.arc(Math.max(8, Math.min(W - 8, xb)), botY, 4.5, 0, 7); ctx.fill();
+      });
+      // mu marker on bottom axis
+      ctx.strokeStyle = p.rust; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(cx + mu * scale, botY - 50); ctx.lineTo(cx + mu * scale, botY + 6); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = p.rust; ctx.textAlign = 'center'; ctx.fillText('μ', cx + mu * scale, botY + 18);
+      info.innerHTML = 'μ = <b style="color:' + p.rust + '">' + mu.toFixed(2) + '</b> · σ = <b style="color:' + p.gold + '">' + sg.toFixed(2) + '</b> · the noise ε never changes — z is a smooth function of μ, σ, so <b>∂z/∂μ = 1</b> and <b>∂z/∂σ = ε</b> carry gradients back to the encoder. (A raw <em>sample</em> z ~ N(μ, σ²) would block them.)';
+    }
+    slider(ctl, { label: 'μ (mean)', min: -3, max: 3, step: 0.05, value: mu, fmt: v => v.toFixed(2), onInput: v => { mu = v; draw(); } });
+    slider(ctl, { label: 'σ (std)', min: 0.2, max: 2.5, step: 0.05, value: sg, fmt: v => v.toFixed(2), onInput: v => { sg = v; draw(); } });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Reparameterization-trick visualizer: a top axis shows ten fixed noise points drawn from a standard normal ε ~ N(0,1), and a bottom axis shows the latent z = μ + σ·ε under a N(μ, σ²) curve. Sliding the mean μ shifts every z point together and sliding the std σ spreads them, while the underlying ε points stay fixed — showing that z is a deterministic, differentiable function of μ and σ, so gradients flow back to the encoder, unlike a raw random sample.');
+    draw();
+  });
+
 })();
