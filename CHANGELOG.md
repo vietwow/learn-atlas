@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 773 — Library: Time Series resources (reference)
+Completed the 10th topic's integration on its last surface — the Library had no Time Series section. Added a **"Time Series" topic** with 3 curated resources: **Hyndman & Athanasopoulos, "Forecasting: Principles
+and Practice"** (the free definitive textbook), the **DLinear paper** ("Are Transformers Effective for Time Series Forecasting?", tying to the capstone deep-dive), and **Chronos** (time-series foundation model). REFERENCES now spans **11 topic keys**.
+The 10th topic is now woven into *every* surface — lessons, MCQs, code, viz, deep-dives, glossary, prereqs, and Library.
+Verified: references.js parses; gate ALL GREEN; **headless** — all 3 render under a Time Series Library section (3/3), kErr=0, errs=0. SW cache `atlas-v706` → `atlas-v707`.
+
 ## iter 772 — Deep-forecasting lesson MCQ top-up 8 → 16 (content / assessment)
 Brought `ts-deep-forecasting` to the 16-MCQ standard. Added **8 new MCQs**: DeepAR/RNN, TCN dilated causal convolutions, covariates, the pinball loss, Chronos tokenizing values, lag-feature leakage, cold-start via
 global/pretrained models, and PatchTST patching. Balanced → **4/4/4/4**. **All six Time Series lessons are now at full parity** — the entire 10th topic is complete and standard-compliant across all three modules.

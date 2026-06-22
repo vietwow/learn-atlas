@@ -83,5 +83,10 @@ window.REFERENCES = {
     { title: "Visual Information Theory", by: "Chris Olah", kind: "article", url: "https://colah.github.io/posts/2015-09-Visual-Information/", note: "A gorgeous visual essay on entropy, cross-entropy, and KL divergence — pairs perfectly with this topic's lessons." },
     { title: "How to send a self-correcting message (Hamming codes)", by: "3Blue1Brown", kind: "video", url: "https://www.youtube.com/watch?v=X8jsijhllIA", note: "Error-correcting codes built up visually from scratch — the channel-coding side of Shannon's theory." },
     { title: "6.441 Information Theory", by: "MIT OpenCourseWare", kind: "course", url: "https://ocw.mit.edu/courses/6-441-information-theory-spring-2016/", note: "A full graduate course with notes — the rigorous path once the intuition lands." }
+  ],
+  "time-series": [
+    { title: "Forecasting: Principles and Practice (3rd ed.)", by: "Rob J Hyndman & George Athanasopoulos", kind: "book", url: "https://otexts.com/fpp3/", note: "The free, definitive online textbook — decomposition, ETS, ARIMA, evaluation, and modern methods, with code. Start here." },
+    { title: "Are Transformers Effective for Time Series Forecasting?", by: "Zeng et al. (AAAI 2023)", kind: "paper", url: "https://arxiv.org/abs/2205.13504", note: "The DLinear paper — a one-layer linear model beats elaborate transformer forecasters; a reminder to always benchmark simple baselines." },
+    { title: "Chronos: Learning the Language of Time Series", by: "Ansari et al. (Amazon)", kind: "paper", url: "https://arxiv.org/abs/2403.07815", note: "A time-series foundation model that tokenizes values and reuses an LLM architecture for zero-shot forecasting." }
   ]
 };
