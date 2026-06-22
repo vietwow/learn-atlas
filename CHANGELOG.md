@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 873 — NEW code exercise: power iteration → the dominant eigenvector (examples / hands-on)
+Audited lesson completeness (all ≥3 deep-dives/6 cards — uniform floor, no thin outliers), then added a 2nd, *distinct* code exercise to `la-eigenvalues-eigenvectors` (the existing one solves the characteristic equation analytically). **Power
+iteration** — repeatedly apply A and renormalize — converges to the dominant eigenvector → **eigenvalue ~ 3.00, eigenvector ~ [0.71, 0.71]**, exactly how Google's PageRank computes its ranking vector. Placed in "Computing in Practice".
+**Self-caught:** my draft intro used `\begin{psmallmatrix}` (an unsupported KaTeX env on the BADENV list) — my own guard threw before writing; rewrote with plain notation.
+Verified: re-derived in Node; `<`→`&lt;` escaped (decode confirmed); **gate ALL GREEN — code-exercises verified (now 163)**; **headless** — Run executes, output exactly right, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v806` → `atlas-v807`.
+
 ## iter 872 — NEW code exercise: the limit definition of e (examples / hands-on)
 Rotated off the stats thread. Added a runnable exercise to `c-limits-intuition`, which had none, in its "Reading a limit from a table" section — exactly what it does: compute $(1+\tfrac1n)^n$ for growing $n$ and watch it march toward
 $e$ → **2.000 -> 2.594 -> 2.717 -> 2.718**. Makes "read a limit from the numbers" something you run, with the most famous limit there is.
