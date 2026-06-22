@@ -698,7 +698,7 @@
 
       <div class="stat-strip">
         <div class="stat reveal" style="--c:var(--gold)"><div class="v">${st.lessonsDone}/${st.totalLessons}</div><div class="k">Lessons done</div></div>
-        <div class="stat reveal" style="--c:var(--sage)"><div class="v">${st.accuracy}%</div><div class="k">Quiz accuracy</div></div>
+        <div class="stat reveal" style="--c:var(--sage)"><div class="v"${st.accuracyKnown ? "" : " data-nocount"}>${st.accuracyKnown ? st.accuracy + "%" : "—"}</div><div class="k">Quiz accuracy</div></div>
         <div class="stat reveal" style="--c:var(--rust)"><div class="v">${st.reviewDue}</div><div class="k">Cards due</div></div>
         <div class="stat reveal" style="--c:var(--violet)"><div class="v" data-nocount>${st.streak}</div><div class="k">Day streak</div></div>
       </div>
@@ -2442,7 +2442,7 @@
         <div class="stat" style="--c:var(--gold)"><div class="v">${lv.xp.toLocaleString()}</div><div class="k">Total XP</div></div>
         <div class="stat" style="--c:var(--sage)"><div class="v">${st.lessonsDone}/${st.totalLessons}</div><div class="k">Lessons</div></div>
         <div class="stat" style="--c:var(--rust)"><div class="v">${st.cardsReviewed}</div><div class="k">Cards reviewed</div></div>
-        <div class="stat" style="--c:var(--violet)"><div class="v">${st.accuracy}%</div><div class="k">Quiz accuracy</div></div>
+        <div class="stat" style="--c:var(--violet)"><div class="v"${st.accuracyKnown ? "" : " data-nocount"}>${st.accuracyKnown ? st.accuracy + "%" : "—"}</div><div class="k">Quiz accuracy</div></div>
       </div>
 
       <div class="page-head reveal" style="margin:24px 0 14px"><h2 style="font-size:24px">Personal bests</h2></div>

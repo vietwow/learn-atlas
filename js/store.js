@@ -618,6 +618,7 @@
       reviewDue,       // cards you've started that are now due — the "what needs attention" number
       newCount,        // never-seen cards
       accuracy: acc,
+      accuracyKnown: state.mcq.total > 0,   // distinguish "no quizzes yet" (show —) from a real 0%
       streak: state.streak
     };
   }

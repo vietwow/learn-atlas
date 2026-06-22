@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 733 — Dashboard "Quiz accuracy" shows "—" before any quiz, not a misleading "0%" (UX / understandability)
+Seeded a realistic returning-learner save and screenshotted the dashboard (good populated-state check). Found a real first-impression wart: a learner who hasn't taken a quiz yet saw **"0% Quiz accuracy"** — which reads as "you
+got everything wrong" rather than "no data yet" (`accuracy` fell back to `0` when `mcq.total === 0`). Fixed: `stats()` now returns `accuracyKnown`, and both the dashboard and the stats page render **"—"** (no count-up) until
+the first quiz, then the real percentage (with its 0→N count-up) once `mcq.total > 0`. A small but kinder greeting on the "want to come back" surface.
+Verified: gate ALL GREEN; **headless** — fresh save → "—" (screenshot confirms clean em-dash, on-style), seeded `mcq{17/20}` → animates to "85%"; all routes errs=0. SW cache `atlas-v669` → `atlas-v670` (store.js + app.js are served).
+
 ## iter 732 — Runtime money-garble audit (clean) + permanent gate lint (workflow / gates)
 Followed up the iter-731 money-garble fix by (1) auditing the whole site for the bug class and (2) making the gate catch it forever.
 **Audit:** headless-loaded all 178 lessons, scanned every `.katex` span for collapsed prose (long letter-runs containing English words). After filtering false positives (legit `\text{}` multi-word spans, `\Longleftrightarrow`-type
