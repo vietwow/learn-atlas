@@ -504,6 +504,168 @@
           ]
         }
       ]
+    },
+    {
+      "id": "ts-classical",
+      "title": "Classical Forecasting",
+      "lessons": [
+        {
+          "id": "ts-exponential-smoothing",
+          "title": "Moving Averages & Exponential Smoothing",
+          "minutes": 16,
+          "content": "<h3>1. The hook: the simplest forecasts</h3>\n<p>Before any fancy model, three baselines anchor every forecasting problem. The <b>naive</b> forecast: tomorrow equals today ($\\hat{y}_{t+1} = y_t$). The <b>mean</b> forecast: predict the historical average. The <b>drift</b> forecast: extend the line from first to last point. They sound trivial, but a model that can't beat them isn't worth shipping — they are the bar.</p>\n<h3>2. Moving average as a forecast</h3>\n<p>One step up: forecast with the <b>moving average</b> of the last $k$ points. It smooths noise, but it has two flaws — it weights all $k$ points <em>equally</em> (a value from $k$ steps ago counts as much as yesterday), and it <em>lags</em> behind a trend. We want recent observations to count more.</p>\n<h3>3. Simple exponential smoothing (SES)</h3>\n<p><b>Simple exponential smoothing</b> does exactly that. The next forecast is a blend of the latest observation and the previous forecast: $\\hat{y}_{t+1} = \\alpha\\,y_t + (1-\\alpha)\\,\\hat{y}_t$, where $0 < \\alpha < 1$. Unrolling it shows every past point contributes with a weight that <em>decays geometrically</em> into the past — hence \"exponential.\" Recent points dominate; old ones fade but never fully vanish.</p>\n<h3>4. Computing SES</h3>\n<p>Initialize with the first value, then sweep forward applying the update. Here with $\\alpha = 0.5$:</p>\n<div data-code=\"javascript\" data-expected=\"10, 11, 12, 12, 13.5\">// Simple exponential smoothing: blend the new point with the running estimate\nconst y = [10, 12, 13, 12, 15];\nconst alpha = 0.5;\nlet s = y[0];                  // start at the first observation\nconst out = [s];\nfor (let t = 1; t < y.length; t++) {\n  s = alpha * y[t] + (1 - alpha) * s;   // weight recent more\n  out.push(+s.toFixed(2));\n}\nconsole.log(out.join(\", \"));\n// The smoothed level tracks the data while filtering the jitter.</div>\n<h3>5. The smoothing parameter α</h3>\n<p>$\\alpha$ is the responsiveness dial. Near <b>1</b>, the forecast chases the latest value (fast to react, but noisy — almost the naive forecast). Near <b>0</b>, it is sluggish and very smooth (almost the long-run mean). In practice $\\alpha$ is <em>fit</em> by choosing the value that minimizes one-step forecast error on the history — a tiny optimization, not a guess.</p>\n<h3>6. Holt's method: adding a trend</h3>\n<p>Plain SES forecasts a flat line — it has no notion of direction, so it lags a trend. <b>Holt's linear method</b> fixes this by smoothing <em>two</em> things: the <b>level</b> and a separate <b>trend</b> (slope), each with its own parameter. The forecast then extrapolates the current level along the current slope, so it keeps up with a rising or falling series.</p>\n<h3>7. Holt–Winters: adding seasonality</h3>\n<p><b>Holt–Winters</b> adds a third smoothed component — the <b>seasonal</b> indices — giving three equations (level, trend, season) and a forecast that carries trend <em>and</em> the repeating pattern forward. It comes in additive and multiplicative flavours, matching the decomposition choice from the first lesson. This is the classic, robust workhorse for seasonal business data.</p>\n<h3>8. When to reach for it</h3>\n<p>Exponential smoothing (the ETS family) is fast, needs little data, is hard to overfit, and produces strong baselines — often competitive with far heavier models on regular business series. Its limits: it captures level/trend/season but not complex dynamics, external drivers, or long-range dependence. Use it as the baseline every richer model (ARIMA, deep forecasters) must beat.</p>\n<details class=\"deep-dive\">\n<summary>Deeper dive: why \"exponential\"? the geometric weights</summary>\n<p>Unroll the recursion $\\hat{y}_{t+1} = \\alpha y_t + (1-\\alpha)\\hat{y}_t$ and it becomes a weighted sum of <em>all</em> past observations: $\\hat{y}_{t+1} = \\alpha y_t + \\alpha(1-\\alpha) y_{t-1} + \\alpha(1-\\alpha)^2 y_{t-2} + \\cdots$ The weight on the point $j$ steps back is $\\alpha(1-\\alpha)^j$ — it shrinks <b>geometrically</b> (exponentially) with age, and the weights sum to 1. So unlike a moving average's hard window with equal weights, SES has an infinitely long but exponentially-fading memory. This is the identical idea behind the exponential moving averages in momentum/Adam optimizers and the running averages in RL — one recursive line, an exponentially-decaying memory.</p>\n</details>\n<details class=\"deep-dive\">\n<summary>Deeper dive: choosing α by minimizing error</summary>\n<p>You don't eyeball $\\alpha$. You pick the value that minimizes the sum of squared one-step-ahead forecast errors over the training history, $\\sum_t (y_t - \\hat{y}_t)^2$ — a 1-D optimization solved by grid search or a numerical optimizer. A large fitted $\\alpha$ tells you the series is dominated by recent shocks (little persistent structure); a small $\\alpha$ says the level is stable and old data still informs the present. The same principle scales up: Holt and Holt–Winters fit their two or three smoothing parameters jointly the same way.</p>\n</details>\n<details class=\"deep-dive\">\n<summary>Deeper dive: ETS, state-space, and the link to ARIMA</summary>\n<p>Modern software treats exponential smoothing as the <b>ETS</b> (Error, Trend, Seasonal) family of <em>state-space</em> models: a hidden state (level, trend, seasonal) evolves and emits the observation, which lets you fit by likelihood and get prediction intervals, not just point forecasts. Strikingly, several ETS models are <em>equivalent</em> to particular ARIMA models — e.g. simple exponential smoothing is the optimal forecast for an ARIMA(0,1,1). So ETS and ARIMA are two lenses on overlapping ground: ETS organizes models by components (trend/season), ARIMA by autocorrelation structure (AR/I/MA). Knowing both lets you pick the framing that fits the problem.</p>\n</details>",
+          "mcq": [
+            {
+              "q": "Simple exponential smoothing forecasts the next value as:",
+              "choices": [
+                "A blend of the latest observation and the previous forecast",
+                "The simple average of all points equally",
+                "A random draw",
+                "The maximum so far"
+              ],
+              "answer": 0,
+              "explain": "SES: alpha*y_t + (1-alpha)*prev."
+            },
+            {
+              "q": "In SES, the weight on an observation $j$ steps in the past:",
+              "choices": [
+                "Is the same for all ages",
+                "Decays geometrically (exponentially) with age",
+                "Grows with age",
+                "Is exactly zero"
+              ],
+              "answer": 1,
+              "explain": "Weights alpha(1-alpha)^j fade exponentially."
+            },
+            {
+              "q": "A smoothing parameter $\\alpha$ close to 1 makes the forecast:",
+              "choices": [
+                "Ignore the latest point",
+                "Very smooth and sluggish",
+                "React fast to recent values (noisy, close to the naive forecast)",
+                "Constant forever"
+              ],
+              "answer": 2,
+              "explain": "High alpha = high responsiveness."
+            },
+            {
+              "q": "Plain SES lags a trending series because it:",
+              "choices": [
+                "Weights old points more",
+                "Uses too many parameters",
+                "Removes the seasonality",
+                "Forecasts a flat line with no slope"
+              ],
+              "answer": 3,
+              "explain": "SES has no trend term → flat forecast."
+            },
+            {
+              "q": "Holt's linear method extends SES by smoothing:",
+              "choices": [
+                "A separate trend (slope) component as well as the level",
+                "The seasonal indices only",
+                "Nothing new",
+                "The variance"
+              ],
+              "answer": 0,
+              "explain": "Holt = level + trend."
+            },
+            {
+              "q": "Holt–Winters adds, on top of level and trend:",
+              "choices": [
+                "A second trend",
+                "A smoothed seasonal component",
+                "A neural network",
+                "Random noise"
+              ],
+              "answer": 1,
+              "explain": "Holt-Winters = level + trend + season."
+            },
+            {
+              "q": "How is the smoothing parameter $\\alpha$ usually chosen?",
+              "choices": [
+                "By the number of data points",
+                "Always set to 0.5",
+                "By minimizing one-step-ahead forecast error on the history",
+                "Randomly each step"
+              ],
+              "answer": 2,
+              "explain": "Fit alpha to minimize squared forecast error."
+            },
+            {
+              "q": "A good reason to use exponential smoothing is that it:",
+              "choices": [
+                "Always beats every other model",
+                "Captures arbitrary nonlinear dynamics",
+                "Requires no choice of components",
+                "Gives fast, robust baselines that need little data and rarely overfit"
+              ],
+              "answer": 3,
+              "explain": "ETS = strong, cheap baseline."
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "The three baseline forecasts",
+              "back": "<b>Naive</b> ($\\hat{y}_{t+1}=y_t$), <b>mean</b> (the historical average), and <b>drift</b> (extend the first-to-last line). Any real model must beat these."
+            },
+            {
+              "front": "Simple exponential smoothing (SES)",
+              "back": "$\\hat{y}_{t+1} = \\alpha\\,y_t + (1-\\alpha)\\,\\hat{y}_t$ — blend the latest value with the previous forecast. Past points get geometrically (exponentially) decaying weights."
+            },
+            {
+              "front": "What does the smoothing parameter $\\alpha$ control?",
+              "back": "Responsiveness. Near 1 → tracks recent values fast (noisy, ~naive); near 0 → smooth and sluggish (~long-run mean). It's fit by minimizing one-step forecast error."
+            },
+            {
+              "front": "Holt's linear method",
+              "back": "Exponential smoothing with two components — a smoothed <b>level</b> and a smoothed <b>trend</b> (slope) — so the forecast extrapolates direction and doesn't lag a trend."
+            },
+            {
+              "front": "Holt–Winters",
+              "back": "Adds a smoothed <b>seasonal</b> component to Holt (three equations: level, trend, season), in additive or multiplicative form. The classic workhorse for seasonal data."
+            },
+            {
+              "front": "Why is SES called \"exponential\"?",
+              "back": "Unrolling the recursion gives weights $\\alpha(1-\\alpha)^j$ on the point $j$ steps back — they decay geometrically/exponentially with age, an infinitely long but fading memory."
+            }
+          ],
+          "homework": [
+            {
+              "prompt": "Run simple exponential smoothing with $\\alpha = 0.5$ on [20, 24, 22], starting the level at the first value. What is the forecast for the next step?",
+              "hint": "s starts at 20; update twice.",
+              "solution": "Start s=20. After 24: s = 0.5·24 + 0.5·20 = 22. After 22: s = 0.5·22 + 0.5·22 = 22. The one-step-ahead forecast is the current level, <b>22</b>. (SES forecasts a flat line at the latest smoothed level.)"
+            },
+            {
+              "prompt": "Your series has a steady upward trend. Why will plain SES under-forecast, and which method fixes it?",
+              "hint": "What does SES extrapolate?",
+              "solution": "SES forecasts a flat line at the current level, with no slope, so on a rising series it persistently lags behind and under-forecasts. <b>Holt's linear method</b> fixes it by smoothing a separate trend (slope) term and extrapolating the level along it, keeping the forecast on the trend."
+            },
+            {
+              "prompt": "Two analysts fit SES to the same series; one gets $\\alpha \\approx 0.9$, the other (different series) $\\alpha \\approx 0.1$. What does each value say about its series?",
+              "hint": "High vs low responsiveness.",
+              "solution": "$\\alpha \\approx 0.9$: the forecast leans almost entirely on the most recent observation — the series is dominated by recent shocks with little persistent level, so old data is nearly ignored. $\\alpha \\approx 0.1$: the level is stable and changes slowly, so the forecast averages over a long memory and barely reacts to any single point."
+            }
+          ],
+          "examples": [
+            {
+              "title": "Picking a baseline",
+              "body": "You're asked to forecast next week's daily website visits and want a quick, defensible first number. What do you try first?",
+              "solution": "Start with the baselines: naive (next day = today) and the mean, plus a simple moving average. Then fit <b>simple exponential smoothing</b> — one parameter, robust, and it weights recent days more. If there's a weekly pattern, jump to <b>Holt–Winters</b> with period 7. Only escalate to ARIMA or a deep model if these baselines aren't accurate enough; they often are."
+            },
+            {
+              "title": "Reading a fitted α",
+              "body": "Software fits SES to your monthly demand and reports $\\alpha = 0.05$. What does that imply, and is a flat forecast reasonable?",
+              "solution": "A tiny $\\alpha$ means the smoothed level moves very slowly — demand has a stable underlying level and month-to-month wiggles are mostly noise. The model essentially forecasts the long-run average, which is reasonable <em>if</em> there's no trend or seasonality. If a plot shows trend/season, SES is the wrong tool — switch to Holt or Holt–Winters."
+            },
+            {
+              "title": "Choosing among ETS variants",
+              "body": "Quarterly sales trend upward and have a clear seasonal pattern whose size grows with the level. Which exponential-smoothing model?",
+              "solution": "<b>Holt–Winters, multiplicative</b> seasonality: you need a trend component (sales rise) and a seasonal component, and because the seasonal swings grow with the level the multiplicative form fits (equivalently, model the log and use additive). Plain SES or Holt would miss the season; additive Holt–Winters would mis-size the growing swings."
+            }
+          ]
+        }
+      ]
     }
   ]
 }

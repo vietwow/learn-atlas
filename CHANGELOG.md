@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 764 — NEW lesson + module: Moving Averages & Exponential Smoothing (Time Series #3) (content)
+Third Time Series lesson, opening a **new Module 2 "Classical Forecasting"** — `ts-exponential-smoothing`: 8 sections (baseline forecasts naive/mean/drift · moving average as a forecast · simple exponential
+smoothing (SES) · computing SES · the α responsiveness dial · Holt's trend method · Holt–Winters seasonality · when to use ETS), a runnable **SES code exercise** (α=0.5 → 10,11,12,12,13.5), 3 deep-dives (geometric/exponential
+weights & the link to optimizer EMAs · choosing α by minimizing error · ETS/state-space & equivalence to ARIMA), 6 cards, 3 examples, 3 homework, 8 MCQs (2/2/2/2). Site **10 topics · 182 lessons**; Time Series now 3 lessons across 2 modules.
+Verified: data parses + round-trips; gate ALL GREEN (182 lessons; expected 8/16 parity warn); **headless** — 20 KaTeX/0 errors/rawDollar=0, 3 deep-dives + code runner, quiz "Question 1 of 8"; errs=0. SW cache `atlas-v697` → `atlas-v698`.
+
 ## iter 763 — Stationarity lesson MCQ top-up 8 → 16 (content / assessment)
 Brought `ts-stationarity` to the 16-MCQ standard. Added **8 new MCQs**: autocovariance-depends-on-lag, white noise, the ADF/unit-root test, transform order (log before differencing), differencing length (one fewer
 value), trend ⇒ non-stationary, un-differencing (cumulative sum), and why AR/MA/ARMA require stationarity. Balanced → **4/4/4/4**. Both Time Series lessons now at full parity.
