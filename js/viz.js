@@ -7983,4 +7983,48 @@
     draw();
   });
 
+
+  /* ========================================================
+     150. The bootstrap: resampling to estimate uncertainty (probability & statistics)
+     ======================================================== */
+  register({ id: 'ps-bootstrap', topic: 'probability-statistics', title: 'The bootstrap: a confidence interval from one sample', blurb: 'You have a single sample and want to know how much its mean might vary — but you can’t collect new samples. The bootstrap fakes them: resample your data WITH replacement, recompute the mean, repeat thousands of times. The spread of those bootstrap means approximates the true sampling distribution, and its middle 95% is a confidence interval — with no formula and no normality assumption. Slide the number of resamples B: with few it is jagged and the interval jitters; with thousands it settles into a smooth, stable estimate.' },
+  function (root) {
+    const W = 520, H = 300, padL = 16, padR = 16, padT = 16, padB = 30;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    const sample = [2, 3, 3, 4, 5, 5, 6, 7, 8, 9, 10, 12, 15, 18, 22];
+    const n = sample.length, mean = sample.reduce((a, b) => a + b, 0) / n;
+    const LO = 4, HI = 14, BINS = 40;
+    let B = 400;
+    function prng(s) { return function () { s |= 0; s = s + 0x6D2B79F5 | 0; let t = Math.imul(s ^ s >>> 15, 1 | s); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+    function bootMeans() { const r = prng(99), out = []; for (let b = 0; b < B; b++) { let s = 0; for (let i = 0; i < n; i++) s += sample[Math.floor(r() * n)]; out.push(s / n); } return out; }
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const means = bootMeans(), sorted = [...means].sort((a, b) => a - b);
+      const lo = sorted[Math.floor(0.025 * B)], hi = sorted[Math.floor(0.975 * B)];
+      const h = new Array(BINS).fill(0);
+      for (const m of means) { const bi = Math.floor((m - LO) / (HI - LO) * BINS); if (bi >= 0 && bi < BINS) h[bi]++; }
+      const plotW = W - padL - padR, plotH = H - padT - padB, bw = plotW / BINS, maxH = Math.max.apply(null, h) || 1;
+      const X = v => padL + (v - LO) / (HI - LO) * plotW, Y = q => padT + plotH - (q / maxH) * plotH;
+      // 95% CI band
+      ctx.fillStyle = 'rgba(224,164,88,0.12)'; ctx.fillRect(X(lo), padT, X(hi) - X(lo), plotH);
+      // bars
+      ctx.fillStyle = 'rgba(125,154,154,0.85)';
+      for (let i = 0; i < BINS; i++) ctx.fillRect(padL + i * bw, Y(h[i]), bw - 1, padT + plotH - Y(h[i]));
+      // sample mean + CI lines
+      ctx.strokeStyle = p.gold; ctx.setLineDash([4, 3]); [lo, hi].forEach(v => { ctx.beginPath(); ctx.moveTo(X(v), padT); ctx.lineTo(X(v), padT + plotH); ctx.stroke(); }); ctx.setLineDash([]);
+      ctx.strokeStyle = p.soft; ctx.beginPath(); ctx.moveTo(X(mean), padT); ctx.lineTo(X(mean), padT + plotH); ctx.stroke();
+      ctx.fillStyle = p.mute; ctx.font = '10px ' + (cssVar('--font-mono') || 'monospace'); ctx.textAlign = 'center';
+      [4, 6, 8, 10, 12, 14].forEach(v => ctx.fillText(v, X(v), padT + plotH + 14));
+      info.innerHTML = '<b>' + B + '</b> resamples of the same ' + n + ' data points (sample mean <b>' + mean.toFixed(2) + '</b>). ' +
+        '95% bootstrap CI = <b style="color:' + p.gold + '">[' + lo.toFixed(2) + ', ' + hi.toFixed(2) + ']</b> — the middle 95% of the bootstrap means, no formula or normality needed. ' +
+        (B < 100 ? 'Few resamples → the interval still jitters.' : 'Thousands of resamples → a smooth, stable estimate.');
+    }
+    slider(ctl, { label: 'number of resamples B', min: 20, max: 2000, step: 20, value: B, fmt: v => v.toFixed(0), onInput: v => { B = v; draw(); } });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Bootstrap demonstration: a histogram of the means of many resamples-with-replacement drawn from a single fixed 15-point sample, with the middle 95 percent shaded as a confidence interval and dashed lines at its bounds and the sample mean. A slider sets the number of resamples B; at small B the histogram is jagged and the interval jitters, while at thousands of resamples it settles into a smooth, stable bootstrap distribution, illustrating how resampling estimates a sampling distribution and a confidence interval without any parametric formula.');
+    draw();
+  });
+
 })();

@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 865 — NEW viz: the bootstrap (resampling → confidence interval) (visualizations) — 150th widget
+Filled a real stats gap — bootstrap is taught in 3 lessons but had no dedicated viz. Added the **150th widget, `ps-bootstrap`**, in `ps-sampling-distributions`: resample one fixed 15-point sample with replacement, recompute the mean, repeat;
+the histogram of bootstrap means with its middle-95% shaded is a confidence interval with **no formula and no normality assumption** (sample mean 8.60 → 95% CI ≈ [5.9, 11.8]). Slide B — few resamples jitter, thousands settle into a smooth, stable estimate. Deterministic (seeded).
+Verified: bootstrap CI re-derived in Node (stabilizes as B grows); gate ALL GREEN (now **150 widgets**); **headless** — "jitter" at B=20, "smooth, stable" at B=2000, CI present, kErr=0, errs=0; screenshot shows the bell + CI band. SW cache `atlas-v798` → `atlas-v799`.
+
 ## iter 864 — Wire PPO/TRPO ↔ KL divergence (understandability)
 rl-trpo-ppo uses "KL" 16× but never linked to where it's defined. Added a **bidirectional cross-link**: `rl-trpo-ppo` ↔ `it-cross-entropy-kl`. TRPO/PPO's trust region *is* a KL constraint, so the RL lesson now points to the KL
 definition ("the extra bits" cost), and the KL lesson points to RL as a non-loss use of KL (a hard cap on policy drift). Another strand connecting the cross-topic web (KL now visibly links IT → DL losses → RL trust regions).
