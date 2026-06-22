@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 826 — Hard-concept: knowledge distillation (content)
+Audited deployment/eval concepts (calibration, quantization, pruning all covered substantively) and found **knowledge distillation** only mentioned in passing. Added a dedicated deep-dive to `dl-loss-functions` (building on its
+cross-entropy/KL and label-smoothing dives): train a small **student** on the **teacher's soft probabilities**, not the hard label — those soft targets carry "**dark knowledge**" (the relative probabilities among wrong classes encode
+similarity structure one-hot labels discard); soften with temperature $T>1$ and minimize the KL to the teacher (the same KL loss, richer target). It's why DistilBERT-style compact models work, and a cousin of label smoothing. Cross-linked to `it-cross-entropy-kl`.
+Verified: data parses + round-trips; gate ALL GREEN (internal-links lint confirms the KL cross-link; proseInMath on the temperature math); **headless** — 4 deep-dives render, distillation/dark-knowledge/teacher text + cross-link present, 158 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v759` → `atlas-v760`.
+
 ## iter 825 — NEW code exercise: precision, recall & F1 from the counts (examples / hands-on)
 Added a runnable exercise to `dl-practical-training-and-debugging`, which had none, placed right under its "Interactive — precision vs recall" threshold viz. From confusion-matrix counts (TP=80, FP=20, FN=10) the learner computes
 precision = TP/(TP+FP), recall = TP/(TP+FN), and their harmonic mean F1 → **P=0.80 R=0.89 F1=0.84** — pairing the threshold *intuition* (the viz) with the actual *arithmetic*.
