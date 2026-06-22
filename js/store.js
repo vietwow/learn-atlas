@@ -38,6 +38,7 @@
     { id: "curious",     icon: "🔭", name: "Curious Mind",     desc: "Study a Concept of the Day." },
     { id: "visualizer",  icon: "🎛️", name: "Visualizer",       desc: "Open an interactive visualization." },
     { id: "pathfinder",  icon: "🧭", name: "Pathfinder",       desc: "Open a guided learning path." },
+    { id: "calibrated",  icon: "🎯", name: "Calibrated",       desc: "Complete a placement test." },
     { id: "coder",       icon: "💻", name: "Hello, World",     desc: "Run code in the playground." },
     { id: "mastered-one",icon: "🏔️", name: "Mastery",          desc: "Reach 80% mastery on a concept." },
     { id: "module-master",icon:"📗", name: "Module Master",    desc: "Complete every lesson in a module." },

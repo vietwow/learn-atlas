@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 748 — NEW achievement: "Calibrated" for the placement test (gamification)
+Audited the 62 achievements by theme — comprehensive (streaks, MCQ, cards, lessons, mastery, viz, tests, code, focus, deep-dives) except one clear gap: the **placement/diagnostic** flow had no achievement, despite being a
+useful "skip what you already know" onboarding action worth nudging. Added **"Calibrated" 🎯 — Complete a placement test**: defined in store.js, unlocked in `finishPlacement()` (with the achievement toast), and filed
+under "Exploration & Practice" in the Hall. ACHIEVEMENTS **62 → 63**.
+Verified: store.js + app.js parse; gate ALL GREEN (its achievement-categorization check enforces that every id is both defined and categorized — confirms the wiring); **headless** — the Hall renders "Calibrated" with its 🎯 icon and description, unlock call confirmed inside finishPlacement, errs=0. SW cache `atlas-v684` → `atlas-v685`.
+
 ## iter 747 — Glossary: modern-generalization terms (reference)
 A fresh-eyes review of the Placement flow (hub + a topic diagnostic) found it polished — all 9 topics, math renders, keyboard hints (1-4 answer · ↵ next), progress tracker — no bug. Then completed the
 iters 741-745 modern-generalization arc's glossary integration. Added **4 terms**: Double descent, Interpolation threshold, Grokking, Implicit regularization — now powering inline tooltips wherever they appear

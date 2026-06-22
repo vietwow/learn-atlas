@@ -1819,6 +1819,7 @@
       const course = opts.course;
       let correct = 0;
       items.forEach((it, k) => { const ok = answers[k] === it.q.answer; if (ok) { correct++; Store.markKnown(it.lessonId); } else Store.bumpMastery(it.lessonId, { correct: false }); });
+      Store.unlock("calibrated"); flushAchievements();   // finishing a placement diagnostic is worth celebrating (nudges the skip-what-you-know flow)
       // recommended starting point = first lesson in order that isn't "known"
       const known = {}; items.forEach((it, k) => { if (answers[k] === it.q.answer) known[it.lessonId] = 1; });
       const flat = flatLessons(course);
@@ -2335,7 +2336,7 @@
     { label: "Flashcards & Recall", ids: ["cards25", "century", "cards-500", "recaller", "total-recall"] },
     { label: "Mastery", ids: ["mastered-one", "deep-diver", "loremaster", "savant", "summit", "well-rounded"] },
     { label: "Levels & XP", ids: ["scholar", "polymath", "erudite", "sage", "luminary"] },
-    { label: "Exploration & Practice", ids: ["curious", "visualizer", "viz-voyager", "viz-50", "viz-complete", "pathfinder", "coder", "code-solver", "code-adept", "code-master", "curator", "annotator", "deep-thinker", "deep-reader", "deep-voyager", "deep-work", "homework-hero"] }
+    { label: "Exploration & Practice", ids: ["curious", "visualizer", "viz-voyager", "viz-50", "viz-complete", "pathfinder", "calibrated", "coder", "code-solver", "code-adept", "code-master", "curator", "annotator", "deep-thinker", "deep-reader", "deep-voyager", "deep-work", "homework-hero"] }
   ];
   function viewAchievements() {
     const have = Store.raw.achievements;
