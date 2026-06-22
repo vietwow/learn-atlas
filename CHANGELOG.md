@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 814 — Game Theory build-out: lesson 2 to full 16-MCQ parity (content / assessment)
+Brought `gt-mixed-zero-sum` to the 16-MCQ standard. Added **8 new MCQs**: computing a mixed equilibrium via indifference, Matching-Pennies value (0/fair), why mixing is unexploitable, self-play/AlphaZero as minimax, adversarial
+robustness as min-max, pure-as-special-case-of-mixed, the lower envelope, and the crossing/indifference point. Balanced → **4/4/4/4**. **Both Game Theory lessons are now at full content-parity.**
+Verified: data parses + round-trips; gate ALL GREEN with no parity warning; **headless** quiz "Question 1 of 16", 4 choices, kErr=0, errs=0. SW cache `atlas-v747` → `atlas-v748`.
+
 ## iter 813 — Game Theory build-out: Library references (reference)
 Put Game Theory on the Library surface (it had no curated resources). Added a **"Game Theory" topic** with 3 hand-picked resources spanning intuition → mechanics → AI: **Nicky Case's "The Evolution of Trust"** (the superb
 interactive iterated-Prisoner's-Dilemma sandbox), **William Spaniel's "Game Theory 101"** (free course on dominance/Nash/mixed strategies), and **"Algorithmic Game Theory"** (Nisan et al. — the free CS/AI text on mechanism design,

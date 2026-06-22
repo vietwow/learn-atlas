@@ -347,6 +347,94 @@
               ],
               "answer": 3,
               "explain": "Zero-sum: caution and optimal play agree."
+            },
+            {
+              "q": "To find a 2×2 mixed equilibrium you solve for the probability that:",
+              "choices": [
+                "Makes the opponent's two strategies yield equal expected payoffs",
+                "Maximizes your own single best cell",
+                "Makes both players play their dominant strategy",
+                "Sets all payoffs to zero"
+              ],
+              "answer": 0,
+              "explain": "Indifference: equalize the opponent's payoffs."
+            },
+            {
+              "q": "The value of Matching Pennies (a symmetric fair game) is:",
+              "choices": [
+                "+1 for the first mover",
+                "0 — it is fair, neither player has an edge under optimal mixing",
+                "Undefined",
+                "Equal to the number of strategies"
+              ],
+              "answer": 1,
+              "explain": "Symmetric zero-sum → value 0."
+            },
+            {
+              "q": "Randomizing your play in a zero-sum game helps because:",
+              "choices": [
+                "It makes the game cooperative",
+                "It always increases your payoff",
+                "An unpredictable strategy can't be read and exploited by the opponent",
+                "It removes the opponent's strategies"
+              ],
+              "answer": 2,
+              "explain": "Unpredictability = unexploitability."
+            },
+            {
+              "q": "The minimax theorem underlies which AI technique?",
+              "choices": [
+                "Naive Bayes",
+                "k-means clustering",
+                "Principal component analysis",
+                "Self-play and game-tree search (e.g. AlphaZero, minimax search)"
+              ],
+              "answer": 3,
+              "explain": "Two-player zero-sum solving = minimax."
+            },
+            {
+              "q": "Adversarial robustness training is naturally a minimax problem because you:",
+              "choices": [
+                "Minimize the loss that a worst-case attacker tries to maximize",
+                "Maximize accuracy on clean data only",
+                "Average over random labels",
+                "Ignore the attacker entirely"
+              ],
+              "answer": 0,
+              "explain": "min over defender of max over attacker."
+            },
+            {
+              "q": "A pure strategy is, in the language of mixed strategies:",
+              "choices": [
+                "Always suboptimal",
+                "The special case that puts all probability on one option",
+                "A distribution over the opponent's moves",
+                "Only valid in zero-sum games"
+              ],
+              "answer": 1,
+              "explain": "Pure = degenerate mixed (all weight on one)."
+            },
+            {
+              "q": "In the minimax line plot, the column player (minimizer) forces the row player onto:",
+              "choices": [
+                "A horizontal line at zero",
+                "The higher of the two lines",
+                "The lower envelope of the two payoff lines",
+                "The average of the two lines"
+              ],
+              "answer": 2,
+              "explain": "Minimizer takes the lower line; row maximizes that envelope."
+            },
+            {
+              "q": "At the minimax equilibrium of a 2×2 zero-sum game, the optimal mixing probability sits exactly where:",
+              "choices": [
+                "The probability equals 1",
+                "One line hits zero",
+                "Both lines are at their maximum",
+                "The two payoff lines cross (the indifference point)"
+              ],
+              "answer": 3,
+              "explain": "Lower-envelope peak = crossing = indifference."
             }
           ],
           "flashcards": [
