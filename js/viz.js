@@ -7603,4 +7603,51 @@
     draw();
   });
 
+
+  /* ========================================================
+     142. Iterated Prisoner's Dilemma match visualizer (Game Theory)
+     ======================================================== */
+  register({ id: 'gt-ipd-match', topic: 'game-theory', title: 'Iterated Prisoner’s Dilemma: strategies face off', blurb: 'Pick two strategies and watch eight rounds of the iterated Prisoner’s Dilemma play out move by move (green = cooperate, red = defect), with running scores. Two Tit-for-Tats (or any two "nice" strategies) cooperate the whole way and both score 24; Always-Cooperate gets ruthlessly exploited by Always-Defect (0 vs 40); but Tit-for-Tat and Grim Trigger take just one hit from a defector and then defend themselves. Reciprocity beats both blind trust and blind betrayal.' },
+  function (root) {
+    const W = 480, H = 300, N = 8;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    const STR = ["TFT", "AllD", "AllC", "Grim"];
+    const NAME = { TFT: "Tit-for-Tat", AllD: "Always Defect", AllC: "Always Cooperate", Grim: "Grim Trigger" };
+    let ai = 0, bi = 1;
+    function move(s, oppLast, oppEverD) { return s === "AllC" ? "C" : s === "AllD" ? "D" : s === "TFT" ? oppLast : (oppEverD ? "D" : "C"); }
+    function sim(A, B) { let sa = 0, sb = 0, la = "C", lb = "C", aD = false, bD = false; const mv = []; const pay = { CC: [3, 3], DD: [1, 1], CD: [0, 5], DC: [5, 0] };
+      for (let i = 0; i < N; i++) { const ma = move(A, lb, bD), mb = move(B, la, aD); const p = pay[ma + mb]; sa += p[0]; sb += p[1]; if (ma === "D") aD = true; if (mb === "D") bD = true; la = ma; lb = mb; mv.push([ma, mb]); } return { sa, sb, mv }; }
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const A = STR[ai], B = STR[bi], r = sim(A, B);
+      const cw = 40, x0 = 120, y0 = 90, gap = 6;
+      ctx.font = '12px ' + (cssVar('--font-mono') || 'monospace'); ctx.textBaseline = 'middle';
+      ['round'].forEach(() => {}); ctx.fillStyle = p.mute; ctx.textAlign = 'center';
+      for (let i = 0; i < N; i++) ctx.fillText(String(i + 1), x0 + i * (cw + gap) + cw / 2, y0 - 18);
+      ctx.fillText('round', x0 + N * (cw + gap) / 2, y0 - 36);
+      [[A, r.sa, 0], [B, r.sb, 1]].forEach(row => {
+        const [nm, score, ri] = row, y = y0 + ri * (cw + 16);
+        ctx.fillStyle = p.soft; ctx.textAlign = 'right'; ctx.fillText(NAME[nm], x0 - 12, y + cw / 2);
+        for (let i = 0; i < N; i++) { const mvv = r.mv[i][ri], x = x0 + i * (cw + gap);
+          ctx.fillStyle = mvv === 'C' ? 'rgba(136,163,122,0.85)' : 'rgba(210,113,90,0.9)';
+          ctx.fillRect(x, y, cw, cw); ctx.fillStyle = p.bg; ctx.font = 'bold 13px ' + (cssVar('--font-mono') || 'monospace'); ctx.textAlign = 'center'; ctx.fillText(mvv, x + cw / 2, y + cw / 2); ctx.font = '12px ' + (cssVar('--font-mono') || 'monospace'); }
+        ctx.fillStyle = p.gold; ctx.textAlign = 'left'; ctx.font = 'bold 15px ' + (cssVar('--font-mono') || 'monospace'); ctx.fillText(String(score), x0 + N * (cw + gap) + 8, y + cw / 2); ctx.font = '12px ' + (cssVar('--font-mono') || 'monospace');
+      });
+      const verdict = r.sa === r.sb ? (r.sa >= 20 ? 'Both stayed cooperative — top joint score.' : 'A stalemate of mutual defection.') :
+        (Math.abs(r.sa - r.sb) >= 30 ? 'Blind cooperation is ruthlessly exploited.' : 'The reciprocator takes one hit, then refuses to be a sucker.');
+      info.innerHTML = '<span style="color:rgba(136,163,122,1)">green = cooperate</span>, <span style="color:rgba(210,113,90,1)">red = defect</span>. ' +
+        NAME[A] + ' scored <b style="color:' + p.gold + '">' + r.sa + '</b>, ' + NAME[B] + ' scored <b style="color:' + p.gold + '">' + r.sb + '</b> over ' + N + ' rounds. ' + verdict;
+    }
+    function rebuild() { ctl.innerHTML = '';
+      button(ctl, 'Player A: ' + NAME[STR[ai]], () => { ai = (ai + 1) % STR.length; rebuild(); });
+      button(ctl, 'Player B: ' + NAME[STR[bi]], () => { bi = (bi + 1) % STR.length; rebuild(); });
+      draw();
+    }
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Iterated Prisoner’s Dilemma match: two chosen strategies (Tit-for-Tat, Always Defect, Always Cooperate, or Grim Trigger) play eight rounds, shown as a grid of cooperate (green) and defect (red) moves with each side’s total score. Two nice strategies cooperate throughout and both score 24; Always Cooperate is exploited 0 to 40 by Always Defect; Tit-for-Tat and Grim Trigger take one loss against a defector then defect to limit the damage.');
+    rebuild();
+  });
+
 })();

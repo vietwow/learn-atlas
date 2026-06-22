@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 816 — Game Theory build-out: iterated-PD match visualizer (visualizations)
+Added the **142nd widget, `gt-ipd-match`** — the capstone viz for lesson 3. Pick two strategies (Tit-for-Tat, Always Defect, Always Cooperate, Grim Trigger) via cycle buttons and watch eight rounds play out as a move grid
+(green = cooperate, red = defect) with running scores. The contrast is vivid: two nice strategies cooperate throughout (24/24), Always-Cooperate is exploited 0-vs-40 by Always-Defect, while Tit-for-Tat/Grim take one hit from a
+defector then defend themselves (7/12). Reciprocity beats both blind trust and blind betrayal. Embedded in `gt-repeated-cooperation` §4 (Axelrod's tournament). Deterministic.
+Verified: simulation re-derived in Node (TFT/TFT 24/24, TFT/AllD 7/12, AllC/AllD 0/40); gate ALL GREEN (now **142 widgets**); **headless** — default TFT-vs-AllD shows 7/12, cycling to a cooperator gives 24, kErr=0, errs=0; screenshot shows the green/red move grid. SW cache `atlas-v749` → `atlas-v750`.
+
 ## iter 815 — Game Theory build-out: lesson 3 — Repeated Games & the Evolution of Cooperation (content)
 The capstone. Opened **module 2 "Repeated Games and Cooperation"** with `gt-repeated-cooperation`: 8 sections (the shadow of the future · the iterated PD · strategies incl. grim trigger & tit-for-tat · Axelrod's tournament & TFT's
 four traits · when cooperation becomes a Nash equilibrium · the discount factor δ · cooperation in multi-agent AI · summary), a runnable **iterated-PD simulation** (TFT vs TFT → 15, TFT vs AllD → 4), 3 deep-dives (the folk theorem ·
