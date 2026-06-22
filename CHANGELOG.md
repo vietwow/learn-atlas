@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 876 — Wire PCA: linear algebra ↔ machine learning (understandability)
+Confirmed algorithms is fully covered too (dedicated lessons for KMP, union-find, topo-sort), then made a genuinely-unmade canonical bridge: **PCA** is taught deeply in both `la-low-rank-pca` (eigendecomposition/SVD of the covariance) and
+`ml-dimensionality-reduction` (compressing data, the curse of dimensionality) — but they had **no cross-link route** (the earlier "link" was just prose). Added a **bidirectional** one so the LA machinery and its ML payoff connect.
+**Self-caught:** my ml→la link text had a raw `&` ("Approximation & PCA") — the gate tolerated it but I rewrote it to "and" for render-safety.
+Verified: byte-stable course-object inject (both JSON-form); gate ALL GREEN (internal-links lint confirms both); **headless** — both routes render ("Dimensionality Reduction" / "Low-Rank Approximation and PCA"), errs=0. SW cache `atlas-v809` → `atlas-v810`.
+
 ## iter 875 — NEW viz: power iteration converging to the dominant eigenvector (visualizations)
 Capped the power-iteration thread (873 code, 874 glossary) with its visual — the **152nd widget, `la-power-iteration`** in `la-eigenvalues-eigenvectors`: a unit circle with A=[[2,1],[1,2]]'s eigendirections (45° λ=3, −45° λ=1); slide
 the iteration count and the gold vector swings from an off-axis start (17°) onto the **45° dominant eigendirection**, with a trail showing each step. The *visual proof* of why power iteration works (the λ=3 component outgrows the λ=1 one) — distinct from the existing static eigen viz.
