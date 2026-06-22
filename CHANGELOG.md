@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 794 — NEW code exercise: feel L1 vs L2 by computing both (examples / hands-on)
+Confirmed RL viz is already complete (10 widgets incl. `rl-bandit` for explore-exploit), then added a runnable exercise to `ml-regularization`, which had none. The learner computes both penalties on a weight vector with one
+large value — L1 sums |w| (6.60), L2 sums w² (14.26) — and the comment makes the squaring vivid: the weight 3 adds 3 to L1 but **9** to L2, which is *why* L2 shrinks large weights while L1 zeros small ones. Placed in section 5
+"Why L1 zeros weights and L2 doesn't", turning the central ridge-vs-lasso intuition into something you execute.
+Verified: data parses + round-trips; `<` escaped to `&lt;`; **gate ALL GREEN — code-exercises verified** (runs it, confirms "L1 = 6.60, L2 = 14.26"); **headless** — Run executes, output shows the values, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v727` → `atlas-v728`.
+
 ## iter 793 — Library gets search + topic filters (UI / UX)
 Rotated lanes after two code exercises. The Library had grown to **64 curated resources across 11 topics** but, unlike the Glossary, was an unfiltered scroll. Added the Glossary's proven controls: a **search box** (matches
 title, author, note, and kind — so typing "video" surfaces video resources) and **topic-filter chips** (All + each of the 11 topics). Refactored `viewLibrary` around a `render(q)` that filters by the active topic + query, with an
