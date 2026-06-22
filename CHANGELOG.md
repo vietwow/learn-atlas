@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 805 — Glossary: learning-theory terms (reference)
+Completed the PAC/VC thread's integration (deep-dive 803 + viz 804) on the glossary surface. Added **3 tightly-linked terms** — PAC learning ($\le\epsilon$ error w.p. $\ge 1-\delta$), VC dimension (largest shatterable set →
+sample complexity), and Shattering (realizing every $+/-$ labeling) — now powering tooltips wherever they appear. Glossary **309 → 312** (0 holes).
+Verified: glossary parses; gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), 320 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v738` → `atlas-v739`.
+
 ## iter 804 — NEW viz: VC dimension by shattering (visualizations)
 Gave the iter-803 PAC/VC concept its visual — the **139th widget, `dl-vc-shattering`**: a straight-line classifier trying to separate +/− labeled points. Flip any point's label (buttons) and a brute-force direction search draws a
 separating line or reports "no line can separate it." With **3 points all 8 labelings split → a line shatters 3 points**; switch to **4 points and 2 labelings (the XOR/diagonal cases) can never be split → not shattered**, so a 2-D
