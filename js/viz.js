@@ -8027,4 +8027,64 @@
     draw();
   });
 
+
+  /* ========================================================
+     151. Gaussian process regression: prediction with error bars (probability & statistics)
+     ======================================================== */
+  register({ id: 'ps-gaussian-process', topic: 'probability-statistics', title: 'Gaussian process regression: a model that knows what it doesn’t know', blurb: 'A Gaussian process fits a smooth curve through the data AND reports how sure it is. The shaded band is ±2 standard deviations of the posterior: it pinches to nothing at each observed point (there, the answer is known) and balloons out between and beyond them (there, many curves remain plausible). Slide the kernel lengthscale: short values give a wiggly curve that trusts only nearby points; long values give a smooth curve that interpolates broadly. This calibrated uncertainty — tight near data, wide in the unknown — is exactly what plain regression cannot give you.' },
+  function (root) {
+    const W = 520, H = 300, padL = 24, padR = 12, padT = 14, padB = 24;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    const X = [-4, -2, 0, 1, 3], Y = [-1.5, 0.5, 1.2, 0.8, -0.6];
+    const XLO = -6, XHI = 6, YLO = -3, YHI = 3;
+    let L = 1.2;
+    function kern(a, b) { return Math.exp(-((a - b) * (a - b)) / (2 * L * L)); }
+    function solve(A, b) {
+      const n = b.length, M = A.map((r, i) => r.concat([b[i]]));
+      for (let col = 0; col < n; col++) {
+        let p = col; for (let r = col + 1; r < n; r++) if (Math.abs(M[r][col]) > Math.abs(M[p][col])) p = r;
+        const t = M[col]; M[col] = M[p]; M[p] = t;
+        for (let r = 0; r < n; r++) { if (r === col) continue; const f = M[r][col] / M[col][col]; for (let cc = col; cc <= n; cc++) M[r][cc] -= f * M[col][cc]; }
+      }
+      return M.map((r, i) => r[n] / M[i][i]);
+    }
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const plotW = W - padL - padR, plotH = H - padT - padB;
+      const PX = x => padL + (x - XLO) / (XHI - XLO) * plotW, PY = y => padT + (YHI - y) / (YHI - YLO) * plotH;
+      const n = X.length, K = X.map((xi, i) => X.map((xj, j) => kern(xi, xj) + (i === j ? 1e-6 : 0)));
+      const alpha = solve(K.map(r => r.slice()), Y.slice());
+      const G = 90, mean = [], hi = [], lo = [], xs = [];
+      for (let g = 0; g <= G; g++) {
+        const x = XLO + (XHI - XLO) * g / G, ks = X.map(xi => kern(x, xi));
+        const m = ks.reduce((s, v, i) => s + v * alpha[i], 0);
+        const v = solve(K.map(r => r.slice()), ks.slice());
+        const variance = Math.max(0, 1 - ks.reduce((s, kv, i) => s + kv * v[i], 0)), sd = Math.sqrt(variance);
+        xs.push(x); mean.push(m); hi.push(m + 2 * sd); lo.push(m - 2 * sd);
+      }
+      // axes
+      ctx.strokeStyle = p.line; ctx.beginPath(); ctx.moveTo(padL, PY(0)); ctx.lineTo(W - padR, PY(0)); ctx.stroke();
+      // uncertainty band
+      ctx.fillStyle = 'rgba(139,123,184,0.20)'; ctx.beginPath();
+      xs.forEach((x, i) => i ? ctx.lineTo(PX(x), PY(hi[i])) : ctx.moveTo(PX(x), PY(hi[i])));
+      for (let i = xs.length - 1; i >= 0; i--) ctx.lineTo(PX(xs[i]), PY(lo[i]));
+      ctx.closePath(); ctx.fill();
+      // mean
+      ctx.strokeStyle = p.violet; ctx.lineWidth = 2; ctx.beginPath();
+      xs.forEach((x, i) => i ? ctx.lineTo(PX(x), PY(mean[i])) : ctx.moveTo(PX(x), PY(mean[i]))); ctx.stroke(); ctx.lineWidth = 1;
+      // data points
+      ctx.fillStyle = p.gold; X.forEach((xi, i) => { ctx.beginPath(); ctx.arc(PX(xi), PY(Y[i]), 4, 0, 7); ctx.fill(); });
+      const sdAtGap = (function () { const x = 5, ks = X.map(xi => kern(x, xi)); const v = solve(K.map(r => r.slice()), ks.slice()); return Math.sqrt(Math.max(0, 1 - ks.reduce((s, kv, i) => s + kv * v[i], 0))); })();
+      info.innerHTML = 'kernel lengthscale ℓ = <b style="color:' + p.violet + '">' + L.toFixed(2) + '</b>. ' +
+        'The <span style="color:' + p.violet + '">posterior mean</span> threads the <span style="color:' + p.gold + '">data</span>; the band is ±2σ — <b>~0 at each point</b>, widening to ±' + (2 * sdAtGap).toFixed(1) + ' out where x=5 (no data). ' +
+        (L < 0.7 ? 'Short ℓ → wiggly, distrusts anything far.' : L > 2 ? 'Long ℓ → very smooth, confident interpolation.' : 'Moderate ℓ → a balanced fit.');
+    }
+    slider(ctl, { label: 'kernel lengthscale ℓ', min: 0.3, max: 3, step: 0.1, value: L, fmt: v => v.toFixed(2), onInput: v => { L = v; draw(); } });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Gaussian process regression. A violet posterior-mean curve passes through five gold data points, surrounded by a shaded plus-or-minus two-standard-deviation band. The band pinches to zero width at each observed point and widens between and beyond them, where the data does not constrain the function. A slider sets the kernel lengthscale: small values make the curve wiggly and locally cautious, large values make it smooth and broadly confident, illustrating how a Gaussian process reports calibrated uncertainty that is tight near data and wide in unexplored regions.');
+    draw();
+  });
+
 })();

@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 871 — NEW viz: Gaussian process regression with uncertainty bands (visualizations)
+Gave the iter-868 GP thread its iconic visual — the **151st widget, `ps-gaussian-process`**, embedded after the GP deep-dive: real GP regression (RBF kernel, small kernel-matrix solve in JS) over 5 data points. The violet posterior mean
+threads the data and the ±2σ band **pinches to ~0 at each observed point and balloons in the gaps and beyond** — "a model that knows what it doesn't know." Slide the lengthscale ℓ: short → wiggly/locally-cautious, long → smooth/confident.
+Verified: GP posterior re-derived in Node (std 0.00 at a data point, ~1.0 extrapolating); gate ALL GREEN (now **151 widgets**); **headless** — short-ℓ "wiggly", long-ℓ "very smooth", band "~0 at each point, widening", kErr=0, errs=0; screenshot shows the pinch-and-balloon band. SW cache `atlas-v804` → `atlas-v805`.
+
 ## iter 870 — Step-back: kErr-aware sweep (clean) + wire Bayesian-opt ↔ UCB (step-back / understandability)
 Step-back at ~10 iters. **kErr-aware 188-lesson sweep** across all 11 topics: errs=0, **kErrLessons=NONE**, mapNodes=883 — zero regressions since iter 860, validating the recent PPO code and KL/GP/bootstrap injections.
 **Ship:** wired the explore-exploit thread — `ps-bayesian-inference` (Bayesian optimization / acquisition function) → `rl-exploration` (UCB & bandits). The "sample where the estimate is high OR uncertainty is large" rule is the *same* in both, so the GP/BO deep-dive now links to where it's formalized.
