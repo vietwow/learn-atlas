@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 823 — Glossary: normalizing-flow terms (reference)
+Completed the iter-822 deep-dive's glossary integration. Added **Normalizing flow** (exact-likelihood generative model via an invertible network) and **Change of variables (density)** — the $p_X(x)=p_Z(f^{-1}(x))\,|\det\,\partial f^{-1}/\partial x|$
+identity that powers it — now in tooltips. Glossary **323 → 325** (0 holes).
+Verified: glossary parses; gate ALL GREEN; **headless** — both render on `#/glossary` (2/2), 324 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v756` → `atlas-v757`.
+
 ## iter 822 — Hard-concept: normalizing flows — the 4th generative family (content)
 Filled a genuine gap: the site taught VAEs, GANs, and diffusion but not **normalizing flows**. Added a 4th deep-dive to `dl-autoencoders-vae` (the generative hub with the trilemma dive): flows deliver the *exact* likelihood by
 making the generator **invertible** — map $z\sim\mathcal{N}(0,I)$ through invertible $f$, and the change-of-variables formula $p_X(x)=p_Z(f^{-1}(x))\,\left|\det\frac{\partial f^{-1}}{\partial x}\right|$ gives the density; the catch is needing a
