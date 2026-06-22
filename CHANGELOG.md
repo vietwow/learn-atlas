@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 838 — NEW code exercise: N-queens by backtracking (examples / hands-on)
+Added a runnable exercise to `a-backtracking-branch-bound` (algorithms), which had none — the canonical backtracking demo. Depth-first search with feasibility pruning places queens row by row, abandoning any partial board that
+already conflicts, and counts every solution → **8-queens solutions: 92**. Placed at the end of the "depth-first search with feasibility pruning" section.
+Like time-series.js, algorithms.js is **not** byte-stable JSON-serialized, so I injected via an encoded targeted raw replace (`"`→`\"`, newline→`\n`, matching the file's string encoding) at the unique CSP heading, verified by re-parsing.
+Verified: N-queens re-derived in Node (=92); `<`→`&lt;` escaped (no literal entities); **gate ALL GREEN — code-exercises verified (now 153)**; **headless** — Run executes, output exactly "8-queens solutions: 92", kErr=0, rawDollar=0, errs=0. SW cache `atlas-v771` → `atlas-v772`.
+
 ## iter 837 — NEW viz: the autocorrelation function (ACF) (visualizations)
 Filled a real gap: ACF is discussed in 4 time-series lessons but was never visualized, and `ts-stationarity` had **no viz at all**. Added the **145th widget, `ts-acf`** (its first viz, in "Testing for stationarity"): an AR(1) series'
 sample ACF as a correlation-vs-lag bar plot with a ±1.96/√N significance band. Slide φ — at φ=0 it's white noise (all bars inside the band); moderate φ gives geometric decay like φ^k (stationary AR signature); φ near 1 barely decays
