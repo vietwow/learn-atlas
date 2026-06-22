@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 862 — Glossary: Bayesian-game terms (reference)
+Completed the iter-861 thread with **3 glossary terms** — **Bayesian game** (incomplete information / types), **Bayesian Nash equilibrium**, and **Signaling** (costly type-revealing actions). Glossary **349 → 352** (0 holes).
+Verified: glossary parses; gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), kErr=0, rawDollar=0, errs=0. SW cache `atlas-v795` → `atlas-v796`.
+
 ## iter 861 — Deepen Game Theory: Bayesian games & signaling (content)
 Filled another distinct, uncovered GT branch (verified Bayesian-games/incomplete-info absent; causal inference is already its own pair of stats lessons). Added a deep-dive to `gt-mixed-zero-sum` (its 4th): when you don't know others'
 payoffs, model the private information as a **type** $\theta_i$ with a common prior; a **Bayesian Nash equilibrium** has every type best-respond against beliefs about others' types. The second-price auction *is* a Bayesian game (a bidder's
