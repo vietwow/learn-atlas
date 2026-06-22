@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 749 — Hard-concept: the lottery ticket hypothesis (content / understandability)
+Verified the recent viz pass the **true-390px mobile gate** (double-descent — the densest-label one — scales cleanly, no overflow) — no fix needed. Then completed the "over-parameterization surprises" trilogy: with
+double descent (iters 741-742) and grokking (745) already in place, added a 5th deep-dive to `dl-overfitting-and-regularization` on the **lottery ticket hypothesis** — a dense network contains a sparse "winning ticket"
+subnetwork that, rewound to its original init, trains to full accuracy alone. Together the three reframe what over-parameterization buys (it's not just more memorization), and lottery tickets are the theory under modern pruning.
+Verified: data parses; gate ALL GREEN (incl. proseInMath); **headless** — 5 deep-dives render, lottery-ticket text present when expanded (kErr=0, rawDollar=0), errs=0. SW cache `atlas-v685` → `atlas-v686`.
+
 ## iter 748 — NEW achievement: "Calibrated" for the placement test (gamification)
 Audited the 62 achievements by theme — comprehensive (streaks, MCQ, cards, lessons, mastery, viz, tests, code, focus, deep-dives) except one clear gap: the **placement/diagnostic** flow had no achievement, despite being a
 useful "skip what you already know" onboarding action worth nudging. Added **"Calibrated" 🎯 — Complete a placement test**: defined in store.js, unlocked in `finishPlacement()` (with the achievement toast), and filed
