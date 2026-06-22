@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 847 — Dashboard audited (excellent) + forecast glossary terms (UX check / reference)
+Investigated the dashboard for the "want to come back" dimension: it's excellent — stats, today's XP goal, streak strip, three rotating "of the day" picks, a **"Keep it fresh" fading-concepts strip** (spacing-effect nudge via
+`fadingConcepts()`), bookmarks, and a nearest-achievement nudge. The retention machinery is thoroughly built (nothing to fix). Then completed the iter-846 forecast-cone with **3 glossary terms** — Prediction interval, Forecast horizon,
+and Random walk ($x_t = x_{t-1} + \epsilon_t$). Glossary **337 → 340** (0 holes).
+Verified: glossary parses with `\epsilon` intact (JSON-form); gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), 338 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v780` → `atlas-v781`.
+
 ## iter 846 — NEW viz: the forecast uncertainty cone (visualizations)
 Filled the iconic time-series gap — no forecast-uncertainty viz existed. Added the **147th widget, `ts-forecast-cone`**, in `ts-arima` section 6 (pairing with the AR(1)-process viz): an AR(1) history, a point forecast decaying as φ^h, and a
 95% prediction band fanning out. Slide φ — **mean-reverting (φ<1) → the cone plateaus, uncertainty is BOUNDED; random walk (φ=1) → it widens as √h forever, UNBOUNDED**. Persistence decides whether the future is foreseeable. Deterministic.
