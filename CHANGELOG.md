@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 825 — NEW code exercise: precision, recall & F1 from the counts (examples / hands-on)
+Added a runnable exercise to `dl-practical-training-and-debugging`, which had none, placed right under its "Interactive — precision vs recall" threshold viz. From confusion-matrix counts (TP=80, FP=20, FN=10) the learner computes
+precision = TP/(TP+FP), recall = TP/(TP+FN), and their harmonic mean F1 → **P=0.80 R=0.89 F1=0.84** — pairing the threshold *intuition* (the viz) with the actual *arithmetic*.
+Verified: data parses + round-trips; **gate ALL GREEN — code-exercises verified**; **headless** — Run executes, output exactly right, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v758` → `atlas-v759`.
+
 ## iter 824 — NEW viz: normalizing flow warps a density (visualizations)
 Gave the normalizing-flows thread (822 content, 823 glossary) its visual — the **143rd widget, `dl-normalizing-flow`**: a histogram of base-Gaussian samples (faint) and the same samples after an invertible shift-apart map
 x = z + a·sign(z) (gold). Slide the warp strength and the single Gaussian bump splits into a **bimodal** density — the core "a flow reshapes a simple distribution into a complex one" idea, made visible; invertibility is what lets a flow
