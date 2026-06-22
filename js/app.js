@@ -2047,20 +2047,44 @@
     const order = C().map(c => c.id).concat(["general"]);
     const titleFor = id => id === "general" ? "General & Foundations" : (findCourse(id) || {}).title || id;
     const colorFor = id => id === "general" ? "var(--gold)" : (findCourse(id) || {}).color || "var(--gold)";
-    const blocks = order.filter(id => refs[id]).map(id => `
-      <div class="module reveal"><div class="module-head"><span class="mnum" style="color:${colorFor(id)}">📚</span><h3>${esc(titleFor(id))}</h3></div>
-        ${refs[id].map(r => `<a class="ref-item" href="${esc(r.url)}" target="_blank" rel="noopener">
-          <span class="ref-kind">${KIND[r.kind] || "🔗"}</span>
-          <span class="ref-main"><span class="ref-title">${esc(r.title)}</span><span class="ref-by">${esc(r.by)}</span>${r.note ? `<span class="ref-note">${esc(r.note)}</span>` : ""}</span>
-          <span class="ref-tag">${esc(r.kind)} ↗</span></a>`).join("")}
-      </div>`).join("");
+    const present = order.filter(id => refs[id] && refs[id].length);
+    const total = present.reduce((n, id) => n + refs[id].length, 0);
+    let topicF = "all";
+    function render(q) {
+      q = (q || "").trim().toLowerCase();
+      const shown = present.filter(id => topicF === "all" || id === topicF);
+      const html = shown.map(id => {
+        const items = refs[id].filter(r => !q || (r.title + " " + r.by + " " + (r.note || "") + " " + r.kind + " " + titleFor(id)).toLowerCase().includes(q));
+        if (!items.length) return "";
+        return `<div class="module reveal"><div class="module-head"><span class="mnum" style="color:${colorFor(id)}">📚</span><h3>${esc(titleFor(id))}</h3></div>
+          ${items.map(r => `<a class="ref-item" href="${esc(r.url)}" target="_blank" rel="noopener">
+            <span class="ref-kind">${KIND[r.kind] || "🔗"}</span>
+            <span class="ref-main"><span class="ref-title">${esc(r.title)}</span><span class="ref-by">${esc(r.by)}</span>${r.note ? `<span class="ref-note">${esc(r.note)}</span>` : ""}</span>
+            <span class="ref-tag">${esc(r.kind)} ↗</span></a>`).join("")}
+        </div>`;
+      }).join("");
+      document.getElementById("lib-list").innerHTML = html || emptyState("🔍", "No resources match “" + esc(q) + "”.");
+    }
     app.innerHTML = `
     <div class="view">
       <div class="crumbs"><a href="#/" data-route>Codex</a> &nbsp;›&nbsp; Library</div>
-      <div class="page-head reveal"><div class="eyebrow">Curated external resources</div><h2>The <em>Library</em></h2>
-      <p>The best book, video, course, and paper for each topic — when you want to go deeper than the lessons.</p></div>
-      ${blocks}
+      <div class="page-head reveal"><div class="eyebrow">${total} curated resources</div><h2>The <em>Library</em></h2>
+      <p>The best book, video, course, and paper for each topic — when you want to go deeper than the lessons. Search by title, author, or kind (e.g. “video”), or filter by topic.</p></div>
+      <input class="gloss-search" id="lib-search" placeholder="Search resources…" aria-label="Search the library">
+      <div class="lab-topics" role="group" aria-label="Filter library by topic">
+        <button class="lab-tbtn active" data-t="all" aria-pressed="true">All topics</button>
+        ${present.map(id => `<button class="lab-tbtn" data-t="${id}" aria-pressed="false">${esc(titleFor(id))}</button>`).join("")}
+      </div>
+      <div id="lib-list"></div>
     </div>`;
+    render("");
+    const ls = document.getElementById("lib-search");
+    ls.addEventListener("input", e => render(e.target.value));
+    Array.prototype.slice.call(document.querySelectorAll(".lab-tbtn")).forEach(b => b.addEventListener("click", () => {
+      topicF = b.dataset.t;
+      document.querySelectorAll(".lab-tbtn").forEach(x => { const on = x === b; x.classList.toggle("active", on); x.setAttribute("aria-pressed", on ? "true" : "false"); });
+      render(ls.value);
+    }));
     bindGo();
   }
 

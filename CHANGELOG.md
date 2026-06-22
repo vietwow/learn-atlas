@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 793 — Library gets search + topic filters (UI / UX)
+Rotated lanes after two code exercises. The Library had grown to **64 curated resources across 11 topics** but, unlike the Glossary, was an unfiltered scroll. Added the Glossary's proven controls: a **search box** (matches
+title, author, note, and kind — so typing "video" surfaces video resources) and **topic-filter chips** (All + each of the 11 topics). Refactored `viewLibrary` around a `render(q)` that filters by the active topic + query, with an
+empty state, consistent with `viewGlossary`. The eyebrow now shows the live count.
+Verified: app.js parses; gate ALL GREEN; **headless** — 64 refs + 12 chips render, search "video" narrows to 12, a topic chip collapses to 1 block, errs=0; desktop screenshot polished; **390px mobile gate passes** (chips wrap, full-width search, no overflow). SW cache `atlas-v726` → `atlas-v727`.
+
 ## iter 792 — NEW code exercise: watch the Law of Large Numbers converge (examples / hands-on)
 Continued the hands-on vein from iter 791 (best-value lane repeat): added a runnable exercise to `ps-law-of-large-numbers`, which had a viz but no code. The learner computes the sample mean of fair-die rolls after 4
 vs 16 draws — the few-roll average lands far off (**1.50**) while the many-roll average sits right on the true mean (**3.50**), making "averages converge to the expectation" something you execute, not just read. Placed in
