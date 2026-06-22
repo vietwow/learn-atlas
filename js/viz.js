@@ -7691,4 +7691,50 @@
     draw();
   });
 
+
+  /* ========================================================
+     144. Dark knowledge: hard label vs teacher's soft target (deep learning)
+     ======================================================== */
+  register({ id: 'dl-dark-knowledge', topic: 'deep-learning', title: 'Dark knowledge: hard labels vs soft targets', blurb: 'A hard one-hot label says only "this is a 7." A trained teacher’s softmax says "mostly 7, a little 1, a little 9 (similar digit shapes), basically never a cat" — the relative probabilities of the WRONG classes encode a similarity structure the one-hot label throws away. That extra signal is the dark knowledge distillation transfers. Slide the temperature: low T collapses toward the hard label, high T flattens the distribution and exposes the faint dark-knowledge bars that a student learns from.' },
+  function (root) {
+    const W = 500, H = 300, padT = 18, padB = 56, padL = 28;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    const labels = ["7", "1", "9", "4", "cat"];
+    const logits = [5, 2, 1.5, 0.5, -3];
+    const top = 0;
+    let T = 1;
+    function softmax(arr) { const z = arr.map(x => Math.exp(x / T)); const s = z.reduce((a, b) => a + b, 0); return z.map(v => v / s); }
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const soft = softmax(logits);
+      const groups = [["Hard label (one-hot)", labels.map((_, i) => i === top ? 1 : 0), p.mute], ["Teacher (soft target)", soft, p.gold]];
+      const gw = (W - padL - 16) / 2, plotH = H - padT - padB, baseY = padT + plotH;
+      ctx.font = '11px ' + (cssVar('--font-mono') || 'monospace');
+      groups.forEach((G, gi) => {
+        const [title, probs, col] = G, gx = padL + gi * (gw + 16);
+        ctx.fillStyle = p.soft; ctx.textAlign = 'center'; ctx.fillText(title, gx + gw / 2, padT - 4);
+        const bw = gw / labels.length;
+        probs.forEach((pr, i) => {
+          const x = gx + i * bw, h = pr * plotH;
+          // dark-knowledge bars (soft, non-top, non-trivial) get a distinct tint
+          const isDK = gi === 1 && i !== top && pr > 0.01;
+          ctx.fillStyle = i === top ? col : (isDK ? p.rust : (gi === 1 ? 'rgba(210,113,90,0.4)' : p.line));
+          ctx.fillRect(x + 3, baseY - h, bw - 6, h);
+          ctx.fillStyle = p.mute; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+          ctx.fillText(labels[i], x + bw / 2, baseY + 14);
+          if (pr > 0.02) { ctx.fillStyle = p.soft; ctx.fillText(pr.toFixed(2), x + bw / 2, baseY - h - 4); }
+        });
+        ctx.strokeStyle = p.line; ctx.beginPath(); ctx.moveTo(gx, baseY); ctx.lineTo(gx + gw, baseY); ctx.stroke();
+      });
+      info.innerHTML = 'temperature T = <b style="color:' + p.gold + '">' + T.toFixed(2) + '</b>. The hard label keeps only "7"; the teacher (soft) also puts weight on <span style="color:' + p.rust + '">1 and 9</span> — similar digit shapes — but never "cat". ' +
+        'That <b>dark knowledge</b> is what the student learns. ' + (T < 0.7 ? 'Low T → almost a hard label (dark knowledge hidden).' : T > 2 ? 'High T → flattened, dark knowledge vivid.' : 'Raise T to expose more of it.');
+    }
+    slider(ctl, { label: 'temperature T', min: 0.4, max: 4, step: 0.05, value: T, fmt: v => v.toFixed(2), onInput: v => { T = v; draw(); } });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Dark knowledge demo: two bar charts of a five-class output for a handwritten 7. The hard one-hot label puts all weight on class 7; the teacher’s soft target (softmax with a temperature slider) puts most weight on 7 but also small amounts on the similar digits 1 and 9 and almost none on cat. Raising the temperature flattens the distribution and makes those dark-knowledge probabilities more visible, illustrating the similarity structure that knowledge distillation transfers to a student.');
+    draw();
+  });
+
 })();

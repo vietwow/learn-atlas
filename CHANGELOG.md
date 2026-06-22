@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 831 — NEW viz: dark knowledge — hard labels vs soft targets (visualizations)
+Completed the distillation thread (826 content, 827 glossary) with its missing surface — the **144th widget, `dl-dark-knowledge`**: side-by-side bar charts of a hard one-hot label vs a teacher's soft target for a handwritten "7".
+The hard label keeps only "7"; the teacher also puts small weight on the similar digits **1 and 9** (highlighted) but ~none on "cat" — the *dark knowledge* a student learns. A temperature slider exposes it: low T collapses toward the
+hard label, high T flattens the distribution to reveal the faint similarity bars. Distinct from the decoding-temperature viz (this is about the training *target*). Embedded *inside* the distillation deep-dive in `dl-loss-functions`. Deterministic.
+Verified: softmax re-derived in Node (T=1 → "7"=0.92 with 1/9 small; T=3 → flattened); gate ALL GREEN (now **144 widgets**); **headless** — readout reads "hidden" at low T and "vivid" at high T, kErr=0, errs=0; screenshot shows the hard-vs-soft comparison. SW cache `atlas-v764` → `atlas-v765`.
+
 ## iter 830 — Step-back sweep (clean) + scaling-law glossary terms (step-back / reference)
 Step-back at ~10 iters. **Full 188-lesson regression sweep across all 11 topics**: errs=0, no KaTeX errors, bad=none, Knowledge Map **883 nodes** — zero regressions since iter 820 (normalizing flows, distillation, scaling-law &
 P/R/F1 & GD code, cross-links all clean).
