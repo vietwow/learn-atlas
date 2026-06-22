@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 878 — NEW code exercise: why LLM decode is memory-bound (examples / hands-on)
+Firmly varied off cross-links to a code exercise. Added a runnable demo to `l-inference-efficiency`, which had none, in its "Why decode is memory-bandwidth bound" section: decoding a token reads every weight, so throughput ≈ bandwidth ÷
+weight-bytes. For a 7B model on a 1000 GB/s GPU → **FP16: ~71 tok/s, int8: ~143 tok/s (quantization ~2x)** — making concrete why decode is bandwidth-bound and why quantization roughly doubles speed.
+Verified: re-derived in Node; byte-stable inject (llm.js is JSON-form); **gate ALL GREEN — code-exercises verified (now 164)**; **headless** — Run executes, output exactly right, kErr=0, errs=0 (first smoke regex was malformed; re-ran with an exact-string check). SW cache `atlas-v811` → `atlas-v812`.
+
 ## iter 877 — Wire cross-entropy = MLE: deep learning ↔ machine learning (understandability)
 After confirming the famous theorems (No Free Lunch, universal approximation, Bayes-optimal) and the Daily-Mix engagement flow are all covered/solid, made a deep "same idea" bridge: `dl-loss-functions` ("every loss is a negative
 log-likelihood") ↔ `ml-logistic-regression` (fit by maximum likelihood = cross-entropy). The loss neural nets minimize *is* MLE — now navigable both ways.
