@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 877 — Wire cross-entropy = MLE: deep learning ↔ machine learning (understandability)
+After confirming the famous theorems (No Free Lunch, universal approximation, Bayes-optimal) and the Daily-Mix engagement flow are all covered/solid, made a deep "same idea" bridge: `dl-loss-functions` ("every loss is a negative
+log-likelihood") ↔ `ml-logistic-regression` (fit by maximum likelihood = cross-entropy). The loss neural nets minimize *is* MLE — now navigable both ways.
+**Self-caught:** a convoluted inject duplicated ml-logistic's section-8 heading; verification flagged it (count=2) and I removed the redundant `<h3>`, restoring count=1.
+Verified: byte-stable inject; gate ALL GREEN (internal-links lint confirms both); **headless** — both routes resolve, kErr=0, errs=0. SW cache `atlas-v810` → `atlas-v811`.
+
 ## iter 876 — Wire PCA: linear algebra ↔ machine learning (understandability)
 Confirmed algorithms is fully covered too (dedicated lessons for KMP, union-find, topo-sort), then made a genuinely-unmade canonical bridge: **PCA** is taught deeply in both `la-low-rank-pca` (eigendecomposition/SVD of the covariance) and
 `ml-dimensionality-reduction` (compressing data, the curse of dimensionality) — but they had **no cross-link route** (the earlier "link" was just prose). Added a **bidirectional** one so the LA machinery and its ML payoff connect.
