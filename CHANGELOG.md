@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 734 — Capitalize the "Deeper dive of the day" card title (UX polish)
+Spotted in the iter-733 dashboard screenshot: the "Deeper dive of the day" card heading rendered as a lowercase fragment (e.g. "the dot product measures alignment"). Audited the title generator across all **539
+deep-dives** — **88% (476)** produced a lowercase-first title, because deep-dive `<summary>` text is phrased as a lowercase continuation ("why X…", "the Y…") and the card strips the "Deeper dive:" prefix. Fixed at
+the source (`dailyDeepDive()`): capitalize the first letter of the generated card title. No degenerate/empty titles existed (good). Daily-surfaced element, so this lifts the heading quality of ~9 in 10 possible picks.
+Verified: app.js parses; gate ALL GREEN; **headless** — the card's `h3` now starts uppercase (`firstCharUpper=true`), renders correctly, errs=0. SW cache `atlas-v670` → `atlas-v671`.
+
 ## iter 733 — Dashboard "Quiz accuracy" shows "—" before any quiz, not a misleading "0%" (UX / understandability)
 Seeded a realistic returning-learner save and screenshotted the dashboard (good populated-state check). Found a real first-impression wart: a learner who hasn't taken a quiz yet saw **"0% Quiz accuracy"** — which reads as "you
 got everything wrong" rather than "no data yet" (`accuracy` fell back to `0` when `mcq.total === 0`). Fixed: `stats()` now returns `accuracyKnown`, and both the dashboard and the stats page render **"—"** (no count-up) until

@@ -168,7 +168,8 @@
     if (!all.length) return null;
     const rng = mulberry(dayNumber() + 101);   // offset apart from dailyConcept so the two daily picks don't correlate
     const pick = all[Math.floor(rng() * all.length)];
-    const title = pick.summary.replace(/<\/?summary>/g, "").replace(/<[^>]+>/g, "").replace(/\$[^$]*\$/g, "").replace(/^Deeper dive:\s*/i, "").replace(/\s+/g, " ").trim();
+    const raw = pick.summary.replace(/<\/?summary>/g, "").replace(/<[^>]+>/g, "").replace(/\$[^$]*\$/g, "").replace(/^Deeper dive:\s*/i, "").replace(/\s+/g, " ").trim();
+    const title = raw.charAt(0).toUpperCase() + raw.slice(1);   // deep-dive summaries are lowercase continuations ("why X…"); as a card heading, capitalize the first letter
     const node = index()[pick.lid];
     return node ? { node, k: pick.k, title } : null;
   }
