@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 869 — Glossary: Gaussian-process & Bayesian-optimization terms (reference)
+Completed the iter-868 GP thread with **3 glossary terms** — **Gaussian process**, **Bayesian optimization**, and **Acquisition function** (kernel trick was already defined). Glossary **355 → 358** (0 holes).
+Verified: glossary parses; gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), kErr=0, errs=0. SW cache `atlas-v802` → `atlas-v803`.
+
 ## iter 868 — Hard-concept: Gaussian processes — a prior over functions (content)
 Filled a genuine ML gap: Gaussian processes were only name-dropped (a list in `ps-bayesian-inference`), never explained. Added a deep-dive there: a GP puts a prior directly over <em>functions</em> (any finite set of points is jointly
 Gaussian); a **kernel** $k(x,x')$ encodes smoothness; conditioning on data gives a posterior GP whose **mean** is the prediction and whose **variance** is calibrated error bars — tight near data, wide where there's none. It's Bayesian linear regression with
