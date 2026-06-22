@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 858 — Glossary: cooperative-game terms (reference)
+Completed the iter-857 Shapley thread with **3 glossary terms** — **Shapley value** ($v(S\cup\{i\})-v(S)$ averaged over join orders), **Cooperative game**, and **SHAP** (tagged machine-learning — the GT→XAI bridge). Glossary **346 → 349** (0 holes).
+Verified: glossary parses with `\cup` intact (JSON-form); gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), 339 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v791` → `atlas-v792`.
+
 ## iter 857 — Deepen Game Theory: cooperative games & the Shapley value (content)
 Filled a genuinely distinct, uncovered GT branch (verified Shapley/cooperative-games/SHAP were all absent). Added a deep-dive to `gt-repeated-cooperation` (its 5th): cooperative games split a coalition's joint payoff $v(S)$; the
 **Shapley value** $\phi_i$ pays each player their average marginal contribution $v(S\cup\{i\})-v(S)$ over all join orders — the unique split satisfying efficiency/symmetry/null-player/additivity. The payoff: **SHAP** in explainable AI *is* this — features are players, the prediction is the payoff — cross-linked to `ml-ensembles`.
