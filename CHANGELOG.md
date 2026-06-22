@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 802 — NEW code exercise: UCB picks the under-explored arm (examples / hands-on)
+First RL hands-on exercise (its core return/value lessons already had code; conceptual ones didn't). `rl-exploration` had a "UCB by hand" worked example but no runnable version — added one. The learner computes the UCB score
+$\bar{x}_i + c\sqrt{\ln t / n_i}$ for three arms and sees **arm 1 win despite a middling mean (0.6)** because, with only 2 pulls, its exploration bonus is large — the exploration/exploitation trade-off made concrete. Output:
+`UCB: [1.25, 2.28, 1.36] -> pull arm 1`. Placed right after the lesson's hand-computed worked example.
+Verified: data parses + round-trips; `<`→`&lt;`/`>`→`&gt;` escaped (decode confirmed in-browser, no literal entities); **gate ALL GREEN — code-exercises verified**; **headless** — Run executes, output exactly right, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v735` → `atlas-v736`.
+
 ## iter 801 — NEW viz: Fourier synthesis (a square wave from sine harmonics) (visualizations)
 Gave the Fourier thread (convolution theorem 798, glossary 800) its visual — the **138th widget, `dl-fourier-synthesis`**: the classic demonstration that any periodic signal is a sum of pure sines. A flat-topped square wave is
 rebuilt from odd harmonics (sin x + ⅓sin 3x + ⅕sin 5x + …); a slider adds harmonics — one sine is a crude bump, more sharpen the corners and flatten the top toward the square, and the persistent edge spikes are the **Gibbs
