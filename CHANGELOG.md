@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 774 — NEW viz: AR(1) process explorer (visualizations)
+Strengthened the (viz-light) 10th topic with the **132nd widget, `ts-ar-process`**: an AR(1) explorer where a single φ slider switches the whole regime — 0<φ<1 mean-reverts (stationary), φ=1 becomes a random walk
+(unit root, non-stationary), |φ|>1 explodes (auto-scaled so you see it run off), and negative φ oscillates/flips sign — all on the same fixed noise. Directly illustrates ARIMA's AR section and the |φ|<1 stationarity
+condition. Embedded at §2 of `ts-arima`, colour-coded by regime. Deterministic.
+Verified: dynamics re-derived in Node (maxabs 1.2→3.6→41.7 as φ 0.5→1→1.05; sign-flips spike at φ=−0.8); gate ALL GREEN (now **132 widgets**); **headless** — Lab + lesson hydrate, all four regimes label correctly with the slider, kErr=0, errs=0; screenshot shows the series. SW cache `atlas-v707` → `atlas-v708`.
+
 ## iter 773 — Library: Time Series resources (reference)
 Completed the 10th topic's integration on its last surface — the Library had no Time Series section. Added a **"Time Series" topic** with 3 curated resources: **Hyndman & Athanasopoulos, "Forecasting: Principles
 and Practice"** (the free definitive textbook), the **DLinear paper** ("Are Transformers Effective for Time Series Forecasting?", tying to the capstone deep-dive), and **Chronos** (time-series foundation model). REFERENCES now spans **11 topic keys**.

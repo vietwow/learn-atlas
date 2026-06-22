@@ -7149,4 +7149,46 @@
     draw();
   });
 
+
+  /* ========================================================
+     132. AR(1) process explorer: phi controls the regime (Time Series)
+     ======================================================== */
+  register({ id: 'ts-ar-process', topic: 'time-series', title: 'AR(1) explorer: how φ sets the behaviour', blurb: 'An AR(1) series is yₜ = φ·yₜ₋₁ + noise. The single coefficient φ decides everything. Slide it: with 0 < φ < 1 the series mean-reverts (stationary); at φ = 1 it becomes a random walk that wanders without a fixed level (non-stationary — a unit root); past 1 it explodes; and negative φ makes it oscillate, flipping sign each step. Same noise throughout — only φ changes.' },
+  function (root) {
+    const W = 540, H = 300, padL = 14, padR = 14, padT = 16, padB = 26;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    const N = 80;
+    let phi = 0.6;
+    function prng(s) { return function () { s |= 0; s = s + 0x6D2B79F5 | 0; let t = Math.imul(s ^ s >>> 15, 1 | s); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+    function series() { const r = prng(99); const y = [0]; for (let t = 1; t < N; t++) y.push(phi * y[t - 1] + (r() * 2 - 1)); return y; }
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const y = series();
+      let lo = Math.min.apply(null, y), hi = Math.max.apply(null, y); const span = Math.max(hi - lo, 2), pad = span * 0.12; lo -= pad; hi += pad;
+      const plotW = W - padL - padR, plotH = H - padT - padB;
+      const X = i => padL + i / (N - 1) * plotW;
+      const Y = v => padT + (1 - (v - lo) / (hi - lo)) * plotH;
+      // zero line (the long-run mean for |phi|<1)
+      if (lo < 0 && hi > 0) { ctx.strokeStyle = p.line; ctx.setLineDash([4, 3]); ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(padL, Y(0)); ctx.lineTo(W - padR, Y(0)); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle = p.mute; ctx.font = '10px ' + (cssVar('--font-mono') || 'monospace'); ctx.textAlign = 'left'; ctx.fillText('mean 0', padL + 2, Y(0) - 3); }
+      const abs = Math.abs(phi);
+      const col = abs > 1.001 ? p.rust : Math.abs(phi - 1) < 0.02 ? p.gold : phi < 0 ? p.violet : p.sage;
+      ctx.strokeStyle = col; ctx.lineWidth = 1.8; ctx.beginPath();
+      y.forEach((v, i) => { const x = X(i), yy = Y(v); if (i === 0) ctx.moveTo(x, yy); else ctx.lineTo(x, yy); });
+      ctx.stroke();
+      const regime = abs > 1.001 ? 'explosive — non-stationary (runs off to infinity)'
+        : Math.abs(phi - 1) < 0.02 ? 'random walk (unit root) — wanders, non-stationary'
+        : phi < -0.02 ? 'stationary but oscillating — flips sign each step'
+        : abs < 0.02 ? 'pure white noise (no memory)'
+        : 'stationary — mean-reverts toward 0';
+      info.innerHTML = 'φ = <b style="color:' + col + '">' + phi.toFixed(2) + '</b> · <b style="color:' + col + '">' + regime + '</b>. ' +
+        (abs < 1 && abs > 0.02 ? 'Closer to 1 ⇒ slower reversion (more persistent); the stationarity condition is |φ| &lt; 1.' : abs > 1.001 ? 'Notice the vertical scale explode.' : '');
+    }
+    slider(ctl, { label: 'φ (AR coefficient)', min: -1.1, max: 1.1, step: 0.01, value: phi, fmt: v => v.toFixed(2), onInput: v => { phi = v; draw(); } });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'AR(1) process explorer: a line plot of y_t = phi*y_{t-1} + noise with a phi slider. For 0<phi<1 the series mean-reverts toward zero (stationary); at phi=1 it becomes a random walk that wanders (non-stationary unit root); for |phi|>1 it explodes; for negative phi it oscillates, flipping sign each step. The same fixed noise is used throughout so only phi changes the behaviour.');
+    draw();
+  });
+
 })();
