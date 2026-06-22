@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 822 — Hard-concept: normalizing flows — the 4th generative family (content)
+Filled a genuine gap: the site taught VAEs, GANs, and diffusion but not **normalizing flows**. Added a 4th deep-dive to `dl-autoencoders-vae` (the generative hub with the trilemma dive): flows deliver the *exact* likelihood by
+making the generator **invertible** — map $z\sim\mathcal{N}(0,I)$ through invertible $f$, and the change-of-variables formula $p_X(x)=p_Z(f^{-1}(x))\,\left|\det\frac{\partial f^{-1}}{\partial x}\right|$ gives the density; the catch is needing a
+cheap Jacobian determinant (coupling layers → triangular Jacobian, RealNVP/Glow). Frames the generative zoo as four routes to one goal — VAE (likelihood bound), GAN (implicit), diffusion (iterative), flow (exact) — cross-linked to `dl-gans` and `dl-diffusion-models`.
+Verified: data parses + round-trips; gate ALL GREEN (internal-links lint confirms both cross-links; proseInMath on the change-of-variables math); **headless** — 4 deep-dives render, flow/exact/invertible text + cross-links present, 62 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v755` → `atlas-v756`.
+
 ## iter 821 — NEW code exercise: watch gradient descent converge geometrically (examples / hands-on)
 Rotated off Game Theory. Added a runnable exercise to `c-gradient-descent-convergence` (calculus), which had none. Minimizing $f(x)=x^2$ from $x=10$ with step size $0.1$, each update multiplies $x$ by $1-2\eta=0.8$ — the learner
 watches `x: 10 -> 8 -> 6.4 -> 5.12 -> 4.096 -> 3.277` shrink by a constant factor every step, which *is* linear (geometric) convergence. Placed in section 5 "Strong convexity gives speed", turning the convergence-rate theory into something you run.
