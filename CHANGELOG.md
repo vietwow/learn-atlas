@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 830 — Step-back sweep (clean) + scaling-law glossary terms (step-back / reference)
+Step-back at ~10 iters. **Full 188-lesson regression sweep across all 11 topics**: errs=0, no KaTeX errors, bad=none, Knowledge Map **883 nodes** — zero regressions since iter 820 (normalizing flows, distillation, scaling-law &
+P/R/F1 & GD code, cross-links all clean).
+**Ship:** completed the scaling-laws integration with **2 glossary terms** — Compute-optimal scaling (Chinchilla) and Power law ($y=a\,x^{-\alpha}$, straight on log-log). Glossary **327 → 329** (0 holes).
+Verified: glossary parses; gate ALL GREEN; full sweep clean; **headless** — both render on `#/glossary` (2/2), 325 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v763` → `atlas-v764`.
+
 ## iter 829 — Cheatsheet verified at 11 topics + wire compression techniques (UX check / understandability)
 Verified a surface I hadn't checked for the new topics — the **cheatsheet**: `#/cheatsheet/game-theory` renders cleanly (all 18 flashcards from the 3 lessons in a grid, Print/Save-PDF), errs=0 across new and old topics; the
 shorter length just reflects fewer lessons. The 11th topic is now confirmed on *every* surface. Then a genuine cross-link tying the model-compression toolkit together: added a see-also in `l-inference-efficiency` (quantization) →
