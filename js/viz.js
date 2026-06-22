@@ -7895,4 +7895,47 @@
     draw();
   });
 
+
+  /* ========================================================
+     148. Batch normalization: a layer's inputs, standardized (deep learning)
+     ======================================================== */
+  register({ id: 'dl-batchnorm', topic: 'deep-learning', title: 'Batch normalization standardizes a layer’s inputs', blurb: 'As training proceeds, the distribution of values feeding each layer drifts and rescales — "internal covariate shift" — forcing every layer to chase a moving target. Batch norm fixes this: for each mini-batch it subtracts the mean and divides by the standard deviation, so the layer always sees a clean, zero-mean unit-variance input. Slide the incoming mean and spread: the faint raw histogram lurches around, but the gold batch-normed histogram stays locked at N(0,1). (A learnable scale γ and shift β, not shown, then let the network re-stretch it if it wants.)' },
+  function (root) {
+    const W = 520, H = 300, padL = 16, padR = 16, padT = 16, padB = 28;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    let mu = 4, sig = 2.5;
+    const LO = -10, HI = 10, BINS = 48, N = 1200;
+    function prng(s) { return function () { s |= 0; s = s + 0x6D2B79F5 | 0; let t = Math.imul(s ^ s >>> 15, 1 | s); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+    const r0 = prng(11), Z = [];
+    for (let i = 0; i < N; i++) { const u1 = Math.max(r0(), 1e-9), u2 = r0(); Z.push(Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2)); }
+    function hist(xs) { const h = new Array(BINS).fill(0); for (const x of xs) { const b = Math.floor((x - LO) / (HI - LO) * BINS); if (b >= 0 && b < BINS) h[b]++; } return h; }
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const raw = Z.map(z => mu + sig * z);                       // incoming activations N(mu, sig)
+      const m = raw.reduce((a, b) => a + b, 0) / N, v = raw.reduce((a, b) => a + (b - m) * (b - m), 0) / N;
+      const bn = raw.map(x => (x - m) / Math.sqrt(v + 1e-5));     // batch norm -> ~N(0,1)
+      const hRaw = hist(raw), hBN = hist(bn);
+      const plotW = W - padL - padR, plotH = H - padT - padB, bw = plotW / BINS;
+      const maxH = Math.max(Math.max.apply(null, hBN), Math.max.apply(null, hRaw), 1);
+      const Y = q => padT + plotH - (q / maxH) * plotH;
+      ctx.fillStyle = 'rgba(150,136,113,0.30)';
+      for (let i = 0; i < BINS; i++) ctx.fillRect(padL + i * bw, Y(hRaw[i]), bw - 1, padT + plotH - Y(hRaw[i]));
+      ctx.fillStyle = 'rgba(224,164,88,0.85)';
+      for (let i = 0; i < BINS; i++) ctx.fillRect(padL + i * bw, Y(hBN[i]), bw - 1, padT + plotH - Y(hBN[i]));
+      ctx.strokeStyle = p.line; ctx.beginPath(); ctx.moveTo(padL, padT + plotH); ctx.lineTo(W - padR, padT + plotH); ctx.stroke();
+      // zero tick
+      const zx = padL + (0 - LO) / (HI - LO) * plotW; ctx.strokeStyle = p.soft; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(zx, padT); ctx.lineTo(zx, padT + plotH); ctx.stroke(); ctx.setLineDash([]);
+      const bnM = bn.reduce((a, b) => a + b, 0) / N, bnV = bn.reduce((a, b) => a + (b - bnM) * (b - bnM), 0) / N;
+      info.innerHTML = 'incoming <span style="color:rgba(150,136,113,1)">raw</span> ~ mean <b>' + mu.toFixed(1) + '</b>, std <b>' + sig.toFixed(1) + '</b>. ' +
+        'After <span style="color:' + p.gold + '">batch norm</span>: mean <b>' + bnM.toFixed(2) + '</b>, std <b>' + Math.sqrt(bnV).toFixed(2) + '</b> — locked at N(0,1) no matter how the raw input drifts.';
+    }
+    slider(ctl, { label: 'incoming mean', min: -6, max: 6, step: 0.2, value: mu, fmt: v => v.toFixed(1), onInput: v => { mu = v; draw(); } });
+    slider(ctl, { label: 'incoming spread (std)', min: 0.5, max: 4, step: 0.1, value: sig, fmt: v => v.toFixed(1), onInput: v => { sig = v; draw(); } });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Batch normalization demo: a faint histogram of a layer’s raw incoming activations drawn from a normal distribution whose mean and spread are set by two sliders, overlaid with a gold histogram of the same values after batch normalization. However far the raw histogram drifts or however wide it spreads, the batch-normed histogram stays centered at zero with unit standard deviation, illustrating how batch norm hands each layer a stable standardized input and cancels internal covariate shift.');
+    draw();
+  });
+
 })();

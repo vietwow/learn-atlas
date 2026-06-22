@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 851 — NEW viz: batch normalization standardizes a layer's inputs (visualizations)
+Filled a real DL gap — dropout and signal-propagation had viz, but **batch norm had none** despite being one of the most important training tricks. Added the **148th widget, `dl-batchnorm`**, in `dl-dropout-and-normalization`'s
+Batch-Norm section (alongside the dropout viz): two sliders set the incoming activation mean and spread; the faint raw histogram lurches around but the gold batch-normed histogram **stays locked at N(0,1)** — the cure for internal
+covariate shift (learnable γ/β then re-stretch it). Deterministic (seeded).
+Verified: BN math re-derived in Node (raw 3.90/3.05 → 0.000/1.000); placement confirmed (in dl-dropout-and-normalization, both viz present); gate ALL GREEN (now **148 widgets**); **headless** — output stays N(0,1) under shift, 2 sliders, kErr=0, errs=0; screenshot shows the centered BN vs shifted raw histograms. SW cache `atlas-v784` → `atlas-v785`.
+
 ## iter 850 — Step-back: kErr-aware sweep (clean) + mechanism-design glossary (step-back / reference)
 Step-back at ~10 iters. **kErr-aware 188-lesson sweep** across all 11 topics: errs=0, **kErrLessons=NONE**, mapNodes=883 — entire corpus KaTeX-render-clean, zero regressions since iter 840, validating the recent push-wrapper
 injections (ACF, replicator, ESS, mechanism-design, Vickrey) that the byte-stable path can't guard.
