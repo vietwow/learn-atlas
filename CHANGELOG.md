@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 738 — SSL lesson MCQ top-up 8 → 16 (content / assessment)
+Brought `dl-self-supervised-contrastive` to the 16-MCQ standard. Added **8 new MCQs**: CLIP zero-shot classification, BYOL/DINO anti-collapse (momentum encoder + stop-gradients), MAE's mask-and-reconstruct
+pretext, why bigger batches help (more negatives), the pretext task's true goal (the representation), cosine similarity as the InfoNCE score, fine-tuning after pretraining, and InfoNCE ↔ mutual-information.
+Balanced → **4/4/4/4**. Lesson now at full parity; all **179 lessons at standard**.
+Verified: data parses; gate ALL GREEN with **no parity warning** (and the `proseInMath` guard clean); **headless** quiz "Question 1 of 16", 4 choices, kErr=0, errs=0. SW cache `atlas-v674` → `atlas-v675`.
+
 ## iter 737 — NEW lesson: Self-Supervised & Contrastive Learning (content)
 Filled a major modern paradigm that was only *mentioned* across pretraining lessons, never taught. Added `dl-self-supervised-contrastive` "Self-Supervised & Contrastive Learning" to DL M6: 8 sections
 (why labels are scarce · pretext tasks · pull-together/push-apart · the InfoNCE objective · SimCLR augmentations · CLIP cross-modal · masked & non-contrastive (MAE/BYOL/DINO) · why it matters), a runnable

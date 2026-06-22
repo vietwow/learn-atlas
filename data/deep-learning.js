@@ -5264,6 +5264,94 @@
               ],
               "answer": 3,
               "explain": "Small temperature sharpens focus on confusable negatives."
+            },
+            {
+              "q": "CLIP does zero-shot classification by:",
+              "choices": [
+                "Scoring the image against a text prompt for each candidate class",
+                "Retraining the head on each new class",
+                "Counting pixels",
+                "Using the image's filename"
+              ],
+              "answer": 0,
+              "explain": "Embed text prompts, pick the closest to the image."
+            },
+            {
+              "q": "Non-contrastive methods (BYOL, DINO) avoid representation collapse without negatives by using:",
+              "choices": [
+                "A larger learning rate",
+                "A momentum/target encoder and stop-gradients",
+                "More negatives",
+                "Random labels"
+              ],
+              "answer": 1,
+              "explain": "Architectural anti-collapse tricks replace negatives."
+            },
+            {
+              "q": "The pretext task in masked autoencoding (MAE) is to:",
+              "choices": [
+                "Classify the image",
+                "Sort the patches by colour",
+                "Hide a fraction of input patches and reconstruct them",
+                "Contrast against the whole batch"
+              ],
+              "answer": 2,
+              "explain": "Mask-and-reconstruct; no negatives needed."
+            },
+            {
+              "q": "Larger batches tend to help contrastive learning because they:",
+              "choices": [
+                "Add more labels",
+                "Reduce the embedding dimension",
+                "Remove the need for augmentation",
+                "Provide more negatives per step"
+              ],
+              "answer": 3,
+              "explain": "More negatives sharpen the contrast."
+            },
+            {
+              "q": "The real goal of a self-supervised pretext task is:",
+              "choices": [
+                "The representation the network must build, not solving the puzzle itself",
+                "To memorize the training set",
+                "To label new data",
+                "To minimize the number of parameters"
+              ],
+              "answer": 0,
+              "explain": "The puzzle is a means; the representation is the end."
+            },
+            {
+              "q": "The similarity score used inside InfoNCE is typically:",
+              "choices": [
+                "The raw pixel difference",
+                "Cosine similarity between the embeddings",
+                "The number of shared labels",
+                "The determinant of the batch"
+              ],
+              "answer": 1,
+              "explain": "Cosine similarity / temperature, then softmax."
+            },
+            {
+              "q": "After self-supervised pre-training, the typical next step is to:",
+              "choices": [
+                "Retrain from scratch",
+                "Discard the encoder",
+                "Fine-tune on a small labelled dataset for the target task",
+                "Add more negatives"
+              ],
+              "answer": 2,
+              "explain": "SSL pretrain, then cheap labelled fine-tune."
+            },
+            {
+              "q": "Minimizing the InfoNCE loss is equivalent to:",
+              "choices": [
+                "Minimizing the batch size",
+                "Minimizing the model's parameter count",
+                "Maximizing the learning rate",
+                "Maximizing a lower bound on the mutual information between the two views"
+              ],
+              "answer": 3,
+              "explain": "InfoNCE = Info Noise-Contrastive Estimation."
             }
           ],
           "flashcards": [

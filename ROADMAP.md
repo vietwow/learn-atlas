@@ -29,7 +29,7 @@ Owner steers by *reacting* to the live site. Key past steers (detail in `CHANGEL
 - **Content sweeps (long done):** worked examples (47–52, all lessons), question bank → 16 MCQ/lesson, 3 deep-dives/lesson, embedded code exercises, viz frontier (122 widgets), cross-topic prereq graph, inline glossary tooltips, a11y (ARIA/reduced-motion/high-contrast), activity heatmap, Daily Mix, Knowledge Map, search, notes, bookmarks.
 
 ## Now / live queue
-- ⏳ Top `dl-self-supervised-contrastive` 8→16 MCQ (iter 737; gate parity-warns). DL M6 modern stack: ViT · GNN · self-supervised/contrastive (+ MoE/SSM in LLM).
+- ✅ iter 738: `dl-self-supervised-contrastive` topped to 16 MCQ (full parity). DL M6 modern stack complete: ViT · GNN · self-supervised/contrastive (+ MoE/SSM in LLM). All 179 lessons at standard.
 - ✅ iter 728: `dl-graph-neural-networks` topped to 16 MCQ (full parity). DL architecture coverage now complete: MLP·CNN·RNN/LSTM·Transformer·ViT·GNN. Recent architecture gap-fills (iters 711–728): MoE, SSM/Mamba, ViT/multimodal, dim-reduction, GNN.
 - ✅ iter 712: `l-mixture-of-experts` topped to 16 MCQ. ✅ iter 713: **NEW viz llm-moe-router** (123rd; LLM 19/20). MoE fully built. ✅ iter 714: **SSM/Mamba frontier deep-dive** added to l-self-attention (the last absent modern LLM paradigm). LLM current-topic coverage: MoE, RAG, LoRA, quantization, CoT, KV-cache, speculative decoding, SSMs — all present.
 - **Maturity plateau:** the autonomous high-value backlog is largely exhausted — every major area is comprehensive and fully integrated (verified repeatedly). Recent iterations = fine-grained, genuinely-additive polish (hard-concept deep-dives, accurate prereq edges, glossary/reference completeness, new viz for the last genuine gaps), rotating the compass.
