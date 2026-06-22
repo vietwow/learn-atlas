@@ -6996,4 +6996,57 @@
     draw();
   });
 
+
+  /* ========================================================
+     129. Double descent: test error vs model capacity (Machine Learning)
+     ======================================================== */
+  register({ id: 'ml-double-descent', topic: 'machine-learning', title: 'Double descent: capacity vs test error', blurb: 'The classic bias-variance story says test error is U-shaped: there is a sweet spot, and bigger models overfit. Slide model capacity rightward and watch the fuller picture — error dips (classical sweet spot), then spikes at the interpolation threshold where the model first fits the training data exactly, then descends a SECOND time, often below the old sweet spot. Modern over-parameterized networks live in that second descent: sometimes a bigger model, not a smaller one, cures overfitting.' },
+  function (root) {
+    const W = 540, H = 320, padL = 44, padR = 16, padT = 20, padB = 40;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    const CMAX = 2;
+    let cap = 0.55;
+    function testErr(x) { return 0.18 + 0.60 * Math.exp(-3.0 * x) + 0.55 * Math.exp(-Math.pow((x - 1.0) / 0.16, 2)) + (x <= 1 ? 0.18 * x * x : 0.04); }
+    function trainErr(x) { return x >= 1 ? 0 : 0.70 * Math.pow(1 - x, 1.5); }
+    const X = x => padL + x / CMAX * (W - padL - padR);
+    const Y = e => padT + (1 - e) * (H - padT - padB);
+    function curve(fn, col, dash) {
+      ctx.strokeStyle = col; ctx.lineWidth = 2.2; ctx.setLineDash(dash || []); ctx.beginPath();
+      for (let px = 0; px <= 1; px += 0.005) { const x = px * CMAX, y = Y(Math.min(1, fn(x))); if (px === 0) ctx.moveTo(X(x), y); else ctx.lineTo(X(x), y); }
+      ctx.stroke(); ctx.setLineDash([]);
+    }
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      ctx.font = '11px ' + (cssVar('--font-mono') || 'monospace');
+      // modern-regime shading (c > 1)
+      ctx.fillStyle = p.panel2 || p.panel; ctx.globalAlpha = 0.35; ctx.fillRect(X(1), padT, X(CMAX) - X(1), H - padT - padB); ctx.globalAlpha = 1;
+      // axes
+      ctx.strokeStyle = p.line; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(padL, padT); ctx.lineTo(padL, H - padB); ctx.lineTo(W - padR, H - padB); ctx.stroke();
+      ctx.fillStyle = p.mute; ctx.textAlign = 'center';
+      ctx.fillText('model capacity →', (padL + W - padR) / 2, H - 8);
+      ctx.save(); ctx.translate(13, (padT + H - padB) / 2); ctx.rotate(-Math.PI / 2); ctx.fillText('error', 0, 0); ctx.restore();
+      // interpolation threshold
+      ctx.strokeStyle = p.rust; ctx.setLineDash([4, 3]); ctx.beginPath(); ctx.moveTo(X(1), padT); ctx.lineTo(X(1), H - padB); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = p.rust; ctx.fillText('interpolation', X(1), padT - 6);
+      ctx.fillStyle = p.mute; ctx.textAlign = 'left'; ctx.fillText('classical', X(0.05), padT + 10); ctx.textAlign = 'right'; ctx.fillText('modern (interpolating)', X(CMAX) - 4, padT + 10);
+      // curves
+      curve(trainErr, p.sage); curve(testErr, p.gold);
+      // legend
+      ctx.textAlign = 'left'; ctx.fillStyle = p.gold; ctx.fillText('— test error', X(0.05), H - padB - 10); ctx.fillStyle = p.sage; ctx.fillText('— training error', X(0.05), H - padB + 2 - 10 + 14);
+      // capacity marker
+      const tx = X(cap), ty = Y(Math.min(1, testErr(cap)));
+      ctx.strokeStyle = p.violet; ctx.setLineDash([2, 3]); ctx.beginPath(); ctx.moveTo(tx, padT); ctx.lineTo(tx, H - padB); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = p.violet; ctx.beginPath(); ctx.arc(tx, ty, 5, 0, 7); ctx.fill();
+      const regime = cap < 0.7 ? (cap < 0.4 ? 'underfitting (high bias)' : 'classical sweet spot') : cap < 1.08 ? 'interpolation peak (classic overfitting)' : 'modern regime — second descent';
+      info.innerHTML = 'capacity = <b>' + cap.toFixed(2) + '</b> · test error = <b style="color:' + p.gold + '">' + testErr(cap).toFixed(2) + '</b> · <b style="color:' + p.violet + '">' + regime + '</b>. ' +
+        (cap > 1.1 ? 'Past interpolation, error falls again — often below the classical sweet spot.' : cap > 1.0 ? 'Right at the threshold the model can just fit the data exactly — test error peaks here.' : 'The textbook U: bias falls, then variance rises toward the peak.');
+    }
+    slider(ctl, { label: 'model capacity', min: 0.05, max: 2, step: 0.05, value: cap, fmt: v => v.toFixed(2), onInput: v => { cap = v; draw(); } });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Double-descent visualizer: a plot of error versus model capacity. The training-error curve falls to zero at the interpolation threshold and stays there. The test-error curve shows the classical U (a sweet spot) then a spike at the interpolation threshold, then a second descent in the over-parameterized "modern" regime, often dropping below the classical sweet spot. A capacity slider moves a marker along the test curve and names the regime.');
+    draw();
+  });
+
 })();

@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 742 — NEW viz: the double-descent curve (visualizations)
+Made iter-741's deep-dive visual. Built the **129th widget, `ml-double-descent`**: error vs model capacity, with training error falling to zero at the interpolation threshold and the test-error curve showing the
+classical U (a sweet spot), a spike at the threshold, then a **second descent** in the over-parameterized regime — dropping below the classical sweet spot (test: 0.35 sweet → 0.94 peak → 0.22 modern). A capacity
+slider walks a marker through all four regimes (underfit · sweet spot · interpolation peak · second descent) with live labels. Embedded at §4 "Diagnosing bias and variance" of `ml-model-selection` (now 2 viz). Deterministic.
+Verified: curve re-derived in Node (modern plateau < classical sweet = true double descent); gate ALL GREEN (now **129 widgets**); **headless** — Lab + lesson hydrate, all 3 regimes label correctly, double-descent confirmed, kErr=0, errs=0; screenshot shows the labelled curve + interpolation threshold. SW cache `atlas-v678` → `atlas-v679`.
+
 ## iter 741 — Hard-concept: double descent in model selection (content / understandability)
 Confirmed the resume/last-lesson feature is already well-built (dashboard "Continue" card, mid-lesson offer). Then filled a genuine *conceptual* gap: `ml-model-selection` teaches the classic bias-variance
 U-curve (and has a bias-variance-decomposition deep-dive) but never mentions **double descent** — the modern phenomenon where, past the interpolation threshold, test error descends *again*, so an over-parameterized
