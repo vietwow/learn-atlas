@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 778 — Glossary: gradient-estimator terms (reference)
+Completed the iter-777 deep-dive's glossary integration. Added **Score-function estimator (REINFORCE)** and **Pathwise gradient (reparameterization)** — the two estimators for differentiating through randomness — now
+powering tooltips across the RL and VAE lessons (Policy gradient already existed). Glossary **299 → 301** (crossing 300; 0 holes).
+Verified: glossary parses; gate ALL GREEN (incl. proseInMath on the $\mathbb{E}[f\nabla\log p]$ math); **headless** — both render on `#/glossary` (2/2), 315 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v711` → `atlas-v712`.
+
 ## iter 777 — Hard-concept: score-function vs pathwise gradient estimators (content / understandability)
 Diversified off Time Series. The site taught the reparameterization trick (VAE) and the log-derivative/score-function trick (policy gradients) as *separate* deep-dives but never unified them. Added a 4th deep-dive to
 `rl-policy-gradient-theorem` — **two ways to differentiate through randomness**: the **score-function** estimator ($\mathbb{E}[f\,\nabla\log p]$ — works for black-box/discrete $f$, high variance; used in RL) vs the **pathwise /
