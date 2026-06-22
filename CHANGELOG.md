@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 863 — NEW code exercise: the PPO clipped objective (examples / hands-on) — 160th exercise
+Rotated off Game Theory to RL. Added a runnable demo to `rl-trpo-ppo` (which had the clip viz but no code), in its "Worked Example" section. One sample: new policy 1.5× as likely (ratio 1.5), advantage +2 — unclipped you'd grab 3.0, but
+the clip caps the ratio at 1+ε=1.2 → **ratio=1.50, clipped objective=2.40**. Makes PPO's "pessimistic, step-limited" update concrete next to its viz.
+Verified: objective re-derived in Node; function-replacer inject (push-wrapper, no leakage); **gate ALL GREEN — code-exercises verified (now 160)**; **headless** — Run executes, output exactly right, kErr=0, errs=0. SW cache `atlas-v796` → `atlas-v797`.
+
 ## iter 862 — Glossary: Bayesian-game terms (reference)
 Completed the iter-861 thread with **3 glossary terms** — **Bayesian game** (incomplete information / types), **Bayesian Nash equilibrium**, and **Signaling** (costly type-revealing actions). Glossary **349 → 352** (0 holes).
 Verified: glossary parses; gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), kErr=0, rawDollar=0, errs=0. SW cache `atlas-v795` → `atlas-v796`.
