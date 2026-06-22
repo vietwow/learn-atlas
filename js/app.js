@@ -1595,9 +1595,9 @@
         <div class="tc-row">
           <label class="viz-slab" for="t-scope">Scope</label>
           <select id="t-scope">
-            <option value="mastered">✓ Only lessons I've completed (${completed.length})</option>
+            <option value="mastered" ${completed.length ? "selected" : ""}>✓ Only lessons I've completed (${completed.length})</option>
             <option value="weak">⚠ Focus my weak spots (${Store.weakSpots().length})</option>
-            <option value="all">Everything (all topics)</option>
+            <option value="all" ${completed.length ? "" : "selected"}>Everything (all topics)</option>
             ${courses.map(c => `<option value="course:${c.id}">${esc(c.title)} only</option>`).join("")}
           </select>
         </div>

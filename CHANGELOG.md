@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 744 — Spawn-a-Test: smart scope default fixes the first-run dead-end (UX)
+A fresh-eyes review of the test flow found it robust (2864-question bank, mastery mode, empty-scope Start correctly disabled) — but a **brand-new user hit a dead-end**: the scope `<select>` always defaulted to its first
+option, "Only lessons I've completed (0)", so with 0 completions the readout showed "0 questions" and Start was disabled on first visit. Fixed: the default now adapts — a user with **no completed lessons** lands on
+**"Everything (all topics)"** (Start enabled, 2864 questions), while a returning user with completions keeps the pedagogically-sound **"completed"** default. One-line `selected`-attribute change driven by `completed.length`.
+Verified: app.js parses; gate ALL GREEN; **headless** — fresh save → scope "all", Start enabled, "2864 questions available"; seeded 1 completed lesson → scope "mastered", Start enabled; errs=0. SW cache `atlas-v680` → `atlas-v681`.
+
 ## iter 743 — Library: canonical resources for GNN & self-supervised lessons (reference)
 The new GNN (iter 727) and self-supervised/contrastive (iter 737) lessons had no curated Library resources — the last surface they weren't on. Added 2 to Deep Learning: **"A Gentle Introduction to Graph Neural
 Networks"** (Distill — interactive message-passing walkthrough) and **"Self-Supervised Representation Learning"** (Lilian Weng — a thorough SimCLR/MoCo/CLIP/BYOL survey). DL references 6 → 8.
