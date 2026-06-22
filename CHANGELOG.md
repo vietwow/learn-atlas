@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 756 — NEW viz: the ReAct agent loop, step by step (visualizations)
+Made iter-755's agent deep-dive interactive. Built the **130th widget, `llm-react-loop`** (a DOM step-through, not canvas): click "Next step" to watch an agent solve "France's population, doubled" — Thought → Action
+(search) → Observation → Thought → Action (calculator) → Observation → Answer, with colour-coded step cards (Thought/Action/Observation/Answer) making the reason-act-observe **loop** and its two tool calls concrete.
+Embedded at the "From RAG to tools, functions, and agents" section of `l-rag-and-tools` (now 2 viz).
+Verified: viz.js parses; gate ALL GREEN (now **130 widgets**); **headless** — 0→7 steps reveal on clicks, the "looped" completion message fires, the widget mounts in the lesson, errs=0; screenshot shows the colour-coded cards. SW cache `atlas-v689` → `atlas-v690`.
+
 ## iter 755 — Hard-concept: from tool calls to AI agents (the ReAct loop) (content / understandability)
 Agents/ReAct were *mentioned* across LLM lessons but never *taught* — `l-rag-and-tools` covers RAG and tools, yet all its deep-dives were RAG. Filled the gap with a 4th deep-dive: **from a single tool call to an agent
 (the ReAct loop)** — the Reason→Act→Observe cycle, planning and reflection (Reflexion), and the catch (compounding error: a 95%-reliable step is only $0.95^{10}\approx 0.60$ over ten steps; growing context; step-scaled

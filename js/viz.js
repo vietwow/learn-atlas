@@ -7049,4 +7049,48 @@
     draw();
   });
 
+
+  /* ========================================================
+     130. The ReAct agent loop (LLM) — DOM step-through
+     ======================================================== */
+  register({ id: 'llm-react-loop', topic: 'llm', title: 'The ReAct agent loop: reason, act, observe, repeat', blurb: 'A plain LLM answers in one shot. An agent runs a loop: it has a Thought, takes an Action (calls a tool), reads the Observation, and feeds that back into the next Thought — repeating until it can answer. Step through an agent solving "France’s population, doubled": it searches, observes, calculates, observes, then answers. Two tool calls, one loop.' },
+  function (root) {
+    const STEPS = [
+      { type: 'Thought',     text: 'I need France’s population, then double it.' },
+      { type: 'Action',      text: 'search("population of France")' },
+      { type: 'Observation', text: '≈ 68 million' },
+      { type: 'Thought',     text: 'Now double 68 million using a calculator.' },
+      { type: 'Action',      text: 'calculator("68000000 * 2")' },
+      { type: 'Observation', text: '136000000' },
+      { type: 'Answer',      text: '≈ 136 million.' }
+    ];
+    const COLORS = { Thought: 'violet', Action: 'gold', Observation: 'sage', Answer: 'rust' };
+    const stage = el('div', 'react-stage', root);
+    stage.style.cssText = 'min-height:150px;margin:4px 0 2px';
+    const ctl = controls(root);
+    const info = note(root);
+    let shown = 0, nextBtn;
+    function render() {
+      const p = P(); stage.innerHTML = '';
+      for (let i = 0; i < shown; i++) {
+        const s = STEPS[i], col = p[COLORS[s.type]] || p.ink;
+        const row = el('div', 'react-step', stage);
+        row.style.cssText = 'display:flex;gap:10px;align-items:baseline;margin:6px 0;padding:8px 11px;border-left:3px solid ' + col + ';background:' + (p.panel || '#1b1b1b') + ';border-radius:7px';
+        const badge = el('span', '', row); badge.textContent = s.type;
+        badge.style.cssText = 'color:' + col + ';font-weight:700;min-width:104px;font-family:' + (cssVar('--font-mono') || 'monospace') + ';font-size:12px;letter-spacing:.3px';
+        const txt = el('span', '', row); txt.textContent = s.text; txt.style.cssText = 'color:' + p.ink + ';font-size:14px';
+      }
+      const done = shown >= STEPS.length;
+      if (nextBtn) { nextBtn.disabled = done; nextBtn.classList.toggle('disabled', done); }
+      info.innerHTML = done
+        ? 'Done in <b>' + STEPS.length + '</b> steps. The agent <b>looped</b> Thought → Action → Observation twice (search, then calculator) before answering — each Observation fed the next Thought. That loop is the whole idea.'
+        : (shown === 0
+          ? 'A plain model would answer in one shot. Click <b>Next step</b> to watch an <b>agent</b> work the problem with tools instead.'
+          : 'Step <b>' + shown + ' / ' + STEPS.length + '</b> — reason, act, observe, repeat.');
+    }
+    nextBtn = button(ctl, 'Next step ▶', function () { if (shown < STEPS.length) { shown++; render(); } }, 'primary');
+    button(ctl, 'Reset', function () { shown = 0; render(); });
+    render();
+  });
+
 })();
