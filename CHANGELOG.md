@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 864 — Wire PPO/TRPO ↔ KL divergence (understandability)
+rl-trpo-ppo uses "KL" 16× but never linked to where it's defined. Added a **bidirectional cross-link**: `rl-trpo-ppo` ↔ `it-cross-entropy-kl`. TRPO/PPO's trust region *is* a KL constraint, so the RL lesson now points to the KL
+definition ("the extra bits" cost), and the KL lesson points to RL as a non-loss use of KL (a hard cap on policy drift). Another strand connecting the cross-topic web (KL now visibly links IT → DL losses → RL trust regions).
+**Caught a corruption:** I forgot `enc()` on the KL→RL insert, so its `class="see-also"`/`href` quotes broke the content string (parse error). Reverted that file and redid it through the encoder — RL side was already correct.
+Verified: both files parse, no control chars; gate ALL GREEN (internal-links lint confirms both resolve); **headless** — both directions render (rl→kl, kl→rl), errs=0. SW cache `atlas-v797` → `atlas-v798`.
+
 ## iter 863 — NEW code exercise: the PPO clipped objective (examples / hands-on) — 160th exercise
 Rotated off Game Theory to RL. Added a runnable demo to `rl-trpo-ppo` (which had the clip viz but no code), in its "Worked Example" section. One sample: new policy 1.5× as likely (ratio 1.5), advantage +2 — unclipped you'd grab 3.0, but
 the clip caps the ratio at 1+ε=1.2 → **ratio=1.50, clipped objective=2.40**. Makes PPO's "pessimistic, step-limited" update concrete next to its viz.
