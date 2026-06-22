@@ -2,6 +2,13 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 860 — Step-back: kErr-aware sweep (clean) + NEW Shapley viz (step-back / visualizations)
+Step-back at ~10 iters. **kErr-aware 188-lesson sweep** across all 11 topics: errs=0, **kErrLessons=NONE**, mapNodes=883 — zero regressions since iter 850, specifically validating the Shapley deep-dive/code (the injection that
+nearly corrupted the file via `$'`-substitution, now confirmed clean).
+**Ship:** completed the cooperative-game thread with its visual — the **149th widget, `gt-shapley`** (concept → viz → code, placed after the deep-dive): a 3-player game's Shapley shares as bars; slide the value of the A+B partnership and
+fair value flows toward A and B and away from C, always summing to 120 (efficiency). Shows fairness ≠ equal split — it tracks contribution.
+Verified: shares re-derived in Node (C 65→25, A 30→50 as v(AB) 0→120); function-replacer inject, no leakage; gate ALL GREEN (now **149 widgets**); full sweep clean; **headless** — shares shift + sum to 120, kErr=0, errs=0; screenshot shows the bars. SW cache `atlas-v793` → `atlas-v794`.
+
 ## iter 859 — NEW code exercise: compute a Shapley value (examples / hands-on)
 Made the iter-857 Shapley concept tangible with a runnable demo (gt-repeated-cooperation's 2nd code exercise), right after the deep-dive. A 3-player game (singletons 0, pairs 70–90, grand coalition 120): averaging each player's
 marginal contribution over all 6 join orders yields **Shapley values: [45, 40, 35]** (summing to 120 — efficiency). Turns the abstract averaging formula into something you run.

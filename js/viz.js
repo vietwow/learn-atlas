@@ -7938,4 +7938,49 @@
     draw();
   });
 
+
+  /* ========================================================
+     149. Shapley value: fair shares shift with coalition strength (game theory)
+     ======================================================== */
+  register({ id: 'gt-shapley', topic: 'game-theory', title: 'Shapley value: dividing the spoils fairly', blurb: 'Three players form a coalition worth 120; alone each is worth nothing. The Shapley value pays each their average marginal contribution over all six orders of joining — the unique fair split. Slide the value of the A+B partnership: as A and B become more productive together, the fair shares flow toward them and away from C, yet the three shares always sum to the full 120 (efficiency). Fairness here is not equal split — it tracks who actually contributes.' },
+  function (root) {
+    const W = 500, H = 300, padL = 30, padR = 14, padT = 18, padB = 40;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    let v01 = 60;
+    const names = ["A", "B", "C"];
+    function shapley(x) {
+      const v = { "": 0, "0": 0, "1": 0, "2": 0, "01": x, "02": 80, "12": 70, "012": 120 };
+      function perms(a) { if (a.length <= 1) return [a]; return a.flatMap((e, i) => perms(a.slice(0, i).concat(a.slice(i + 1))).map(p => [e].concat(p))); }
+      const orders = perms([0, 1, 2]), phi = [0, 0, 0];
+      for (const o of orders) { let S = []; for (const p of o) { const b = v[[...S].sort().join("")]; S.push(p); phi[p] += v[[...S].sort().join("")] - b; } }
+      return phi.map(z => z / orders.length);
+    }
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const s = shapley(v01);
+      const plotW = W - padL - padR, plotH = H - padT - padB, x0 = padL, baseY = padT + plotH;
+      const maxV = 70, Y = q => baseY - (q / maxV) * plotH;
+      ctx.strokeStyle = p.line; ctx.beginPath(); ctx.moveTo(x0, baseY); ctx.lineTo(W - padR, baseY); ctx.stroke();
+      ctx.fillStyle = p.mute; ctx.font = '10px ' + (cssVar('--font-mono') || 'monospace'); ctx.textAlign = 'right';
+      [0, 35, 70].forEach(q => ctx.fillText(q, x0 - 4, Y(q) + 3));
+      const cols = [p.gold, p.sage, p.violet], bw = plotW / 3;
+      s.forEach((val, i) => {
+        const bx = x0 + i * bw + bw * 0.2, h = (val / maxV) * plotH;
+        ctx.fillStyle = cols[i]; ctx.fillRect(bx, baseY - h, bw * 0.6, h);
+        ctx.fillStyle = p.soft; ctx.textAlign = 'center';
+        ctx.fillText(val.toFixed(1), bx + bw * 0.3, baseY - h - 5);
+        ctx.fillStyle = p.mute; ctx.fillText("player " + names[i], bx + bw * 0.3, baseY + 16);
+      });
+      info.innerHTML = 'value of the <b style="color:' + p.gold + '">A</b>+<b style="color:' + p.sage + '">B</b> partnership v(AB) = <b>' + v01.toFixed(0) + '</b>. ' +
+        'Shapley shares: <b style="color:' + p.gold + '">' + s[0].toFixed(1) + '</b> · <b style="color:' + p.sage + '">' + s[1].toFixed(1) + '</b> · <b style="color:' + p.violet + '">' + s[2].toFixed(1) + '</b> (sum ' + s.reduce((a, b) => a + b, 0).toFixed(0) + '). ' +
+        'A stronger A+B coalition pulls fair value toward them and away from C — never an equal split, always contribution-weighted.';
+    }
+    slider(ctl, { label: 'v(AB) — value of the A+B partnership', min: 0, max: 120, step: 5, value: v01, fmt: x => x.toFixed(0), onInput: x => { v01 = x; draw(); } });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Shapley value bar chart for a three-player cooperative game worth 120, with singletons worth nothing and a slider for the value of the A-plus-B partnership. Three bars show each player’s Shapley value — their average marginal contribution over all six join orders. As the A+B partnership value rises, the bars for A and B grow while C’s shrinks, and the three always sum to 120, showing that the fair split tracks contribution rather than splitting equally.');
+    draw();
+  });
+
 })();
