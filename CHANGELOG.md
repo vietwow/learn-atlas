@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 963 — Audit (glossary↔lessons) + hard-concept: the maximum entropy principle (content-parity / content)
+Ran a **systematic audit**: which of the 417 glossary terms never appear in any lesson body? 37 flagged, but spot-checks showed all-but-one are hyphen/dash/apostrophe wording mismatches (Vickrey, Pinsker, Jensen-Shannon, propensity, Baum-Welch… all taught). The one genuine teach-gap: the **maximum entropy principle** was only name-dropped, no deep-dive.
+Filled it — added a deep-dive to `it-entropy` (its 4th): choose the highest-entropy distribution consistent with the constraints (least-committal). The payoff is *which* one falls out — range→uniform, mean→exponential, mean+variance→**Gaussian** (the exponential family); the reason those are "default" distributions, plus softmax/max-ent models and uninformative priors. Cross-linked to the normal.
+Verified: g()-checked, LaTeX-free; parse via `new Function` (no leakage/control chars); gate ALL GREEN (internal-links lint); **headless** — 4 deep-dives, principle/uniform/exponential-family/least-committal + cross-link, entities decoded, kErr=0, errs=0. SW cache `atlas-v894` → `atlas-v895`.
+
 ## iter 962 — Hard-concept: the moment generating function (content)
 Fixed a self-introduced gap: MGF was a glossary term (959) but **never actually taught**. Added a deep-dive to `ps-expectation-variance` (its 4th): $M(t)=\mathbb{E}[e^{tX}]$ packs all moments into one function ($M^{(k)}(0)=\mathbb{E}[X^k]$);
 it uniquely determines the distribution, the MGF of a sum of independents is the product (convolution → multiplication), and that's the cleanest CLT proof (standardized sum → $e^{t^2/2}$). Notes the existence caveat → characteristic function.
