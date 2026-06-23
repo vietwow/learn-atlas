@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1002 — Hard-concept: Robbins-Monro (why SGD converges) (content)
+Rotated to calculus/optimization and filled a genuine gap (mirror descent also surfaced). Added a deep-dive to `c-gradient-descent-convergence` (its 4th): the **Robbins-Monro** stochastic-approximation theorem — SGD with noisy gradients converges iff the step schedule satisfies $\sum a_t=\infty$ (can travel far enough) and $\sum a_t^2<\infty$ (noise averages out), threaded exactly by $a_t=1/t$.
+This is *why* learning-rate schedules **decay** (cross-linked): a constant rate violates the second condition → SGD rattles forever in a noise ball.
+Verified: g()-guarded (proseInMath on the Σ-conditions); byte-stable JSON re-serialize; gate ALL GREEN (internal-links lint); **headless** — 4 deep-dives, Robbins-Monro/noise-ball/harmonic-series/decay + cross-link, 75 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v933` → `atlas-v934`.
+
 ## iter 1001 — Glossary: Nash-bargaining terms (reference)
 Completed the iter-1000 thread with **2 glossary terms** — **Nash bargaining solution** and **Disagreement point**. Glossary **444 → 446** (0 holes).
 Verified: glossary parses; gate ALL GREEN; **headless** — both render on `#/glossary` (2/2), 412 KaTeX, kErr=0, errs=0. SW cache `atlas-v932` → `atlas-v933`.
