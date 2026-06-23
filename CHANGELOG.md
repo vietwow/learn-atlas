@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 912 — Hard-concept: classifier-free guidance (content)
+Filled a genuine modern gap. Added a deep-dive to `dl-diffusion-models` (its 4th): **classifier-free guidance** — the "guidance scale" knob behind every text-to-image generator. Train one network with and without the
+condition, then at sampling extrapolate $\tilde{\varepsilon}=\varepsilon_{\text{uncond}}+w(\varepsilon_{\text{cond}}-\varepsilon_{\text{uncond}})$. The scale $w$ trades prompt fidelity vs diversity ($w{=}1$ ordinary conditional, $w{>}1$ exaggerates prompt pull) — exactly the CFG slider in Stable Diffusion / Imagen / DALL·E.
+Verified: g()-guarded (proseInMath on the guidance math); byte-stable JSON re-serialize; gate ALL GREEN; **headless** — 4 deep-dives, classifier-free-guidance/guidance-scale/Stable-Diffusion/CFG-scale present, 51 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v843` → `atlas-v844`.
+
 ## iter 911 — Glossary: meta-learning terms (reference)
 Completed the iter-909/910 thread with **3 glossary terms** — **Meta-learning**, **MAML (Model-Agnostic Meta-Learning)**, and **Few-shot learning**. Glossary **381 → 384** (0 holes).
 Verified: glossary parses; gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), kErr=0, errs=0. SW cache `atlas-v842` → `atlas-v843`.
