@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1007 — Glossary: mixup & vicinal-risk terms (reference)
+Completed the iter-1006 thread with **2 glossary terms** — **Mixup** and **Vicinal risk minimization** (training over a neighborhood around each point, the principle behind augmentation/mixup). Glossary **451 → 453** (0 holes).
+Verified: glossary parses; gate ALL GREEN; **headless** — both render on `#/glossary` (2/2), 425 KaTeX, kErr=0, errs=0. SW cache `atlas-v938` → `atlas-v939`.
+
 ## iter 1006 — Hard-concept: mixup (content)
 Rotated to deep learning and filled a genuine gap: mixup/cutmix were absent. Added a deep-dive to `dl-overfitting-and-regularization` (its 7th): **mixup** trains on convex blends of example pairs, $\tilde x=\lambda x_i+(1-\lambda)x_j$, $\tilde y=\lambda y_i+(1-\lambda)y_j$, $\lambda\sim\mathrm{Beta}(\alpha,\alpha)$ — a vicinal-risk method that smooths boundaries, improves **calibration** (cross-linked) and robustness; **cutmix** pastes patches instead; kin to label smoothing.
 **Self-caught:** first cross-link pointed at a non-existent `ml-calibration`; the link-target guard aborted the write → repointed to `ml-model-selection` (where calibration/conformal live).
