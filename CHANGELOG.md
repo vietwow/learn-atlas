@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 965 — Hard-concept: the core of a cooperative game (content)
+Rotated to game theory and filled a genuine gap (fictitious play & revenue equivalence also surfaced). Added a deep-dive to `gt-repeated-cooperation` (its 6th, companion to the Shapley dive): **the core** — the set of payoff allocations no coalition can beat by seceding ($\sum_{i\in S}x_i\ge v(S)$ for every coalition).
+Stability where Shapley gives fairness: the Shapley value may lie *outside* the core, and the core can be **empty** (majority-vote games). The cooperative-game analogue of Nash, and the link to competitive-market equilibria.
+Push-wrapper LaTeX: enc escapes backslashes first — verified `\sum` survives and headless **kErr=0**.
+Verified: g()-guarded (proseInMath); parse via `new Function` (no leakage/control chars); gate ALL GREEN; headless — 6 deep-dives, core/stable/empty/Shapley present, 36 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v896` → `atlas-v897`.
+
 ## iter 964 — NEW viz: the maximum-entropy die (visualizations)
 Gave the iter-963 max-entropy deep-dive its visual — the **163rd widget, `it-max-entropy`** in `it-entropy`: six bars showing the max-entropy distribution of a die given a target mean. Slide the mean — the bars take the **Boltzmann tilt** $p_i\propto e^{\lambda i}$
 (λ solved by bisection to hit the mean); at 3.5 the tilt vanishes → uniform, entropy maxed at log₂6=2.585; off-center the bars tilt exponentially and entropy falls (2.137 at mean 4.8). The principle made tangible.
