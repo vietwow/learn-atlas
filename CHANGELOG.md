@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1019 — Hard-concept: online algorithms & competitive ratio (content)
+Rotated to algorithms and filled a genuine gap (skip list also surfaced). Added a deep-dive to `a-greedy` (its 4th): **online algorithms** decide irrevocably without the future, judged by the **competitive ratio** (online cost ÷ optimal offline). **Ski rental** is 2-competitive ($e/(e-1)$ with randomization); caching's LRU is $k$-competitive, randomized marking $O(\log k)$. The recurring lesson — randomization provably beats deterministic against an adversary — links it to **no-regret learning** (cross-linked).
+Verified: g()-guarded (proseInMath on the ratio math); byte-stable JSON re-serialize; gate ALL GREEN (internal-links lint); **headless** — 4 deep-dives, competitive-ratio/ski-rental/2-competitive/randomization + cross-link, 109 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v950` → `atlas-v951`.
+
 ## iter 1018 — Glossary: Kalman & particle filter (reference)
 Completed the iter-1017 thread with **2 glossary terms** — **Kalman filter** and **Particle filter** (its nonlinear/non-Gaussian sequential-Monte-Carlo successor). Glossary **462 → 464** (0 holes).
 Verified: glossary parses; gate ALL GREEN; **headless** — both render on `#/glossary` (2/2), kErr=0, errs=0. SW cache `atlas-v949` → `atlas-v950`.
