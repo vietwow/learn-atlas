@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1074 — Glossary: survival-analysis terms (reference)
+Completed the iter-1073 thread with **3 glossary terms** — **Hazard function**, **Censoring**, and **Cox proportional hazards**. Glossary **525 → 528** (0 holes).
+Verified: glossary parses with `\exp`/`\int`/`\beta` intact (JSON-form); gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), 521 KaTeX, kErr=0, errs=0. SW cache `atlas-v1005` → `atlas-v1006`.
+
 ## iter 1073 — Hard-concept: survival analysis (content)
 Rotated to ML and filled a genuine gap (DL probed fully covered — NTK & lottery ticket already have dives). Added a deep-dive to `ml-linear-regression` (its 4th): **survival analysis** — regression for *time-to-event with censoring*. Survival $S(t)=P(T>t)$, hazard $h(t)=f(t)/S(t)$, $S=\exp(-\int_0^t h)$ (constant hazard = exponential, cross-linked); Kaplan-Meier reads $S(t)$ off censored data; **Cox proportional hazards** $h(t\mid x)=h_0(t)e^{\beta^\top x}$ gives hazard ratios by partial likelihood without modelling the baseline. Churn, reliability, clinical trials, time-to-default.
 Verified: g()-guarded (proseInMath on the hazard/Cox math); byte-stable JSON re-serialize; gate ALL GREEN (internal-links lint); **headless** — 4 deep-dives, survival/censoring/Kaplan-Meier/proportional-hazards + cross-link, 67 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v1004` → `atlas-v1005`.
