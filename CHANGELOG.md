@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1091 — Glossary: active-learning terms (reference)
+Completed the iter-1090 thread with **3 glossary terms** — **Active learning**, **Uncertainty sampling**, and **Query-by-committee** (acquisition function already present). Glossary **544 → 547** (0 holes).
+Verified: glossary parses; gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), kErr=0, errs=0. SW cache `atlas-v1022` → `atlas-v1023`.
+
 ## iter 1090 — Step-back (clean) + hard-concept: active learning (step-back / content)
 Step-back **kErr + visible-newline-aware 188-lesson sweep**: errs=0, **kErrLessons=NONE**, **visNlessons=NONE**, mapNodes=883 — zero regressions since iter 1080.
 **Ship:** rotated to ML and filled the noted gap (semi-supervised turned out covered in dl-self-supervised). Added a deep-dive to `ml-logistic-regression` (its 4th): **active learning** — the model picks which unlabeled points to label. Uncertainty sampling (least-confidence, margin, entropy $H=-\sum_c p\log p$ off the class probabilities, cross-linked to entropy), query-by-committee, BALD; the catch — greedy querying biases the labeled set (boundary-hugging), fixed by diversity/density weighting. The discrete cousin of Bayesian-optimization acquisition.
