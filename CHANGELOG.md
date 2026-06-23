@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 992 — Glossary: delta-method & asymptotic-normality terms (reference)
+Completed the iter-991 thread with **2 glossary terms** — **Delta method** and **Asymptotic normality** (the property tying together the CLT, MLE standard errors, and the delta method). Glossary **436 → 438** (0 holes).
+Verified: glossary parses with `\sqrt`/`\nabla` intact (JSON-form); gate ALL GREEN; **headless** — both render on `#/glossary` (2/2), 397 KaTeX, kErr=0, errs=0. SW cache `atlas-v923` → `atlas-v924`.
+
 ## iter 991 — Hard-concept: the delta method (content)
 Rotated to statistics and filled a genuine gap (confirmed Mamba/MoE/beam-search etc. all covered first). Added a deep-dive to `ps-point-estimation` (its 5th): the **delta method** — the variance/asymptotic normality of a transformed estimator via one-term Taylor expansion, $\operatorname{Var}(g(\hat\theta))\approx[g'(\theta)]^2\operatorname{Var}(\hat\theta)$ (and $\sqrt{n}(g(\hat\theta)-g(\theta))\to\mathcal{N}(0,[g']^2\sigma^2)$).
 Framed as **local linearization** (cross-linked to calculus): a linear map scales variance by the slope squared; multivariate $\nabla g^\top\Sigma\nabla g$; falls back to the bootstrap when $g$ curves sharply.
