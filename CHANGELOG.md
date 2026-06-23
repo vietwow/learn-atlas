@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 929 — Code-parity backlog: verifying the special-function derivative rules (examples / content-parity)
+Backlog, fresh topic (calculus). Added a code exercise to `c-derivatives-special-functions` (had none), before its chain-rule section: a central-difference derivative checks all three headline rules at once → **e^x@1=2.718 sin@0=1.000 ln@2=0.500**
+(confirming d/dx eˣ=eˣ, d/dx sin=cos, d/dx ln=1/x). Backlog now 15 lessons.
+Verified: re-derived in Node; byte-stable JSON inject (no `<`/`>`); **gate ALL GREEN — code-exercises verified (now 178)**; **headless** — Run executes, output exactly right, entities decoded, kErr=0, errs=0. SW cache `atlas-v860` → `atlas-v861`.
+
 ## iter 928 — Glossary: NTK & feature learning (reference)
 Completed the iter-927 thread with **2 glossary terms** — **Neural tangent kernel (NTK)** ($K=\nabla_\theta f(x)\cdot\nabla_\theta f(x')$) and **Feature learning** (the lazy-vs-feature-learning distinction). Glossary **391 → 393** (0 holes).
 Verified: glossary parses with `\nabla` intact (JSON-form); gate ALL GREEN; **headless** — both render on `#/glossary` (2/2), 357 KaTeX, kErr=0, errs=0. SW cache `atlas-v859` → `atlas-v860`.
