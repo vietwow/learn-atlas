@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1095 — Glossary: flow-matching terms (reference)
+Completed the iter-1094 thread with **3 glossary terms** — **Flow matching**, **Rectified flow**, and **Continuous normalizing flow (CNF)** (normalizing flow & Neural ODE already present). Glossary **550 → 553** (0 holes).
+Verified: glossary parses with `\frac` intact (JSON-form); gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), 552 KaTeX, kErr=0, errs=0. SW cache `atlas-v1026` → `atlas-v1027`.
+
 ## iter 1094 — Hard-concept: flow matching (content)
 Rotated to deep learning and filled a modern gap (flow matching was only a passing "continuous normalizing flows" mention, no dive). Added a deep-dive to `dl-diffusion-models` (its 6th): **flow matching** — learn a velocity field $v_\theta(x,t)$ that transports noise→data via $\tfrac{dx}{dt}=v_\theta$. Conditional flow matching regresses onto per-sample target velocities along straight paths $x_t=(1{-}t)x_0+tx_1$ (target $x_1-x_0$) — plain MSE, no score, no ODE solves. **Rectified flow** straightens trajectories → few-step (even 1-step) sampling. Diffusion's probability-flow ODE is one instance; the training behind SD3/Flux. Cross-linked to normalizing flows.
 Verified: g()-guarded (proseInMath on the velocity/path math); byte-stable JSON re-serialize; gate ALL GREEN (internal-links lint); **headless** — 6 deep-dives, flow-matching/rectified-flow/velocity-field/SD3-Flux + cross-link, 76 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v1025` → `atlas-v1026`.
