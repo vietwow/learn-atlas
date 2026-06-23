@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1072 — Glossary: consistent-hashing terms (reference)
+Completed the iter-1071 thread with **3 glossary terms** — **Consistent hashing**, **Virtual nodes**, and **Rolling hash** (verified taught in a-hash-tables/a-string-algorithms). Glossary **522 → 525** (0 holes).
+Verified: glossary parses; gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), 516 KaTeX, kErr=0, errs=0. SW cache `atlas-v1003` → `atlas-v1004`.
+
 ## iter 1071 — Hard-concept: consistent hashing (content)
 Rotated to algorithms and filled a genuine gap (max-flow, bipartite matching, rolling hash all already present). Added a deep-dive to `a-hash-tables` (its 5th): **consistent hashing** — hashing $\bmod N$ remaps almost every key when $N$ changes; instead hash keys *and* servers onto a ring ($[0,2^{32})$), so a membership change moves only ~$K/N$ keys. **Virtual nodes** even out arc sizes and scatter a failed node's load. The backbone of Dynamo/Cassandra/memcached/CDN routing; cross-linked to randomized hashing.
 Verified: g()-guarded (proseInMath, bmod-aware); byte-stable JSON re-serialize; gate ALL GREEN (internal-links lint); **headless** — 5 deep-dives, consistent-hashing/virtual-nodes/ring/Cassandra + cross-link, 232 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v1002` → `atlas-v1003`.
