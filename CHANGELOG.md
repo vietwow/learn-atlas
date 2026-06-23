@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1102 — Glossary: convex-hull / geometry terms (reference)
+Completed the iter-1101 thread with **3 glossary terms** — **Convex hull**, **Graham scan**, and **Orientation test**. Glossary **558 → 561** (0 holes).
+Verified: glossary parses with `\log`/`\times` intact (JSON-form); gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), 565 KaTeX, kErr=0, errs=0. SW cache `atlas-v1033` → `atlas-v1034`.
+
 ## iter 1101 — Hard-concept: convex hull (content)
 Rotated to algorithms and filled a genuine gap (computational geometry was absent). Added a deep-dive to `a-divide-and-conquer` (its 4th): the **convex hull** — smallest convex polygon around a point set. Everything rests on the **orientation** test, the sign of $(b-a)\times(c-a)$ (left/right/collinear, no trig); **Graham scan** (sort by angle, stack, pop right turns) and **Andrew's monotone chain** (sort by $x$, sweep upper+lower) run in $O(n\log n)$ dominated by the **sort** (cross-linked); a D&C hull merges two halves. Bounding volumes, Delaunay, 2-D LP; the orientation primitive recurs in segment-intersection and point-in-polygon.
 Verified: g()-guarded (proseInMath on the cross-product math); byte-stable JSON re-serialize; gate ALL GREEN (internal-links lint); **headless** — 4 deep-dives, convex-hull/Graham-scan/monotone-chain/orientation + cross-link, 190 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v1032` → `atlas-v1033`.
