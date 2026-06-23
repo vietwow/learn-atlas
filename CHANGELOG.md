@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1093 — Glossary: stochastic-games / MARL terms (reference) — glossary hits 550 🎯
+Completed the iter-1092 thread with **3 glossary terms** — **Stochastic game (Markov game)**, **Multi-agent RL (MARL)**, and **Self-play**. Glossary **547 → 550** (0 holes) — milestone: **550 terms**.
+Verified: glossary parses; gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), kErr=0, errs=0. SW cache `atlas-v1024` → `atlas-v1025`.
+
 ## iter 1092 — Hard-concept: stochastic (Markov) games (content)
 Rotated to game theory and filled a genuine gap (Bayesian/signaling games already touched; this MISS). Added a deep-dive to `gt-mixed-zero-sum` (its 6th): **stochastic (Markov) games** — the $N$-agent generalization of an MDP (cross-linked): each state, players act simultaneously, the joint action sets rewards + transition. One player = MDP, one state = normal-form game, two-player zero-sum = Shapley's 1953 game / minimax-Q. Solution is a per-state **Nash equilibrium** of policies; value iteration solves a one-shot game (minimax or Nash-Q) each step. The backbone of multi-agent RL — non-stationarity & equilibrium selection are the hard parts; self-play (AlphaZero), markets, MARL.
 Verified: g()-guarded; byte-stable JSON re-serialize (game-theory.js); gate ALL GREEN (internal-links lint); **headless** — 6 deep-dives, stochastic-game/minimax-Q/non-stationarity/self-play + cross-link, 15 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v1023` → `atlas-v1024`.
