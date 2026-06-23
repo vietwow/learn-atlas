@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 884 — Playground now covers all 11 topics (new functionality)
+The ROADMAP freshening surfaced a real functional gap: the Code Playground's example-snippet dropdown covered only 9 topics — the two newest, **Time Series** and **Game Theory**, had no snippets. Added one of each in **both languages**: a **Moving average** (SMA smoothing) and the **Iterated Prisoner's Dilemma** (tit-for-tat vs always-defect → TFT/TFT [15,15], TFT/AllD [4,9]). Playground example coverage now matches the site's 11 topics.
+Verified: JS snippets re-run in Node (SMA + IPD outputs correct); playground.js parses; all 11 topics confirmed present; gate ALL GREEN; **headless** — playground loads, dropdown lists both new snippets (Moving average, Prisoner's Dilemma), errs=0. ROADMAP "playground (all 9 topics)" → "all 11". SW cache `atlas-v815` → `atlas-v816`.
+
 ## iter 883 — Freshen the ROADMAP (live queue) — accuracy (workflow / dev-flow)
 The ROADMAP is the loop's first-read orientation doc, and (per the iter-882 flag) it had drifted: header said *(iter 759)*; the topic list named only 9 topics (missing Time Series & Game Theory); the "Now / live queue" still described Time Series as "started iter 759 — 1 lesson, QUEUE" though it's 6 lessons done, and never mentioned Game Theory; perf-notes/backlog said "9 data files" (now 11).
 Fixed all: header → iter 883; topic list → all 11; live-queue → both new topics marked DONE with their actual build-out, plateau note refreshed (GP/adversarial/bootstrap gaps + cross-topic web), and the "next big topic" lever renumbered 10th→12th; data-file count 9→11 in two places.
