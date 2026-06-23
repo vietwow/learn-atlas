@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 890 — Step-back: kErr-aware sweep (clean) + wire Fisher info → natural gradient/TRPO (step-back / understandability)
+Step-back at ~10 iters. **kErr-aware 188-lesson sweep** across all 11 topics: errs=0, **kErrLessons=NONE**, mapNodes=883 — zero regressions since iter 880, validating the recent Fisher/info-gain/DQN/decode injections.
+**Ship:** turned the iter-888 Fisher deep-dive's existing "natural-gradient optimization" mention into a live link to `rl-trpo-ppo` — the Fisher information matrix *is* the metric behind TRPO's natural policy gradient (and its KL trust region). A genuinely deep estimation→RL connection, and rl-trpo-ppo already discusses both, so the bridge is exact.
+Verified: byte-stable JSON re-serialize; gate ALL GREEN (internal-links lint); full sweep clean; **headless** — link renders as "natural-gradient optimization", kErr=0, errs=0. SW cache `atlas-v821` → `atlas-v822`.
+
 ## iter 889 — Glossary: estimation-theory terms (reference)
 Completed the iter-888 thread with **3 glossary terms** — **Fisher information** ($I(\theta)=-\mathbb{E}[\partial^2_\theta\log L]$), **Cramér–Rao bound** ($\mathrm{Var}(\hat\theta)\ge 1/I(\theta)$), and **Efficient estimator**. Glossary **367 → 370** (0 holes).
 Verified: glossary parses with `\partial` intact (JSON-form); gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), 345 KaTeX, kErr=0, errs=0. SW cache `atlas-v820` → `atlas-v821`.
