@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 920 — Step-back (clean) + glossary: Kolmogorov / MDL (step-back / reference)
+Step-back **kErr-aware 188-lesson sweep** across all 11 topics: errs=0, **kErrLessons=NONE**, mapNodes=883 — zero regressions since iter 910 (validates the code injections 914–919 + Kolmogorov 917).
+**Ship:** completed the iter-917 thread with **2 glossary terms** — **Kolmogorov complexity** ($K(x)$) and **Minimum description length (MDL)** — defining the single-object information measure and its computable, Occam's-razor stand-in. Glossary **386 → 388** (0 holes).
+Verified: glossary parses; gate ALL GREEN; full sweep clean; **headless** — both render (2/2), 356 KaTeX, kErr=0, errs=0. SW cache `atlas-v851` → `atlas-v852`.
+
 ## iter 919 — Code-parity backlog: model-based RL (learn + plan) (examples / content-parity)
 Backlog, fresh topic (RL). Added a code exercise to `rl-model-based` (had none), spanning its "learn the model" + "plan" sections: estimate transition probabilities from observed transitions, then plan a one-step Bellman backup with the
 learned model → **learned P(B)=0.75 P(C)=0.25 gives Q(A)=5.88**. Shows both halves of model-based RL in one run. Backlog now 20 lessons.
