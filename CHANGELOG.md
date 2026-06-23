@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 948 — Hard-concept: regression discontinuity (content)
+Filled the last flagged causal gap. Added a deep-dive to `ps-causal-estimation` (its 5th): **regression discontinuity** — a sharp cutoff rule (scholarship at score ≥ 80, etc.) makes units just-below vs just-above nearly identical except for treatment, so the
+**jump in the outcome at the cutoff** is the causal effect ($\tau=\lim_{x\to c^+}\mathbb{E}[Y]-\lim_{x\to c^-}\mathbb{E}[Y]$). Covers the smoothness/no-manipulation assumptions, locality, and **fuzzy RD** as the IV Wald ratio at the threshold.
+Verified: g()-guarded (proseInMath on the limit math); byte-stable JSON re-serialize; gate ALL GREEN; **headless** — 5 deep-dives, RD/cutoff/jump/fuzzy present, 59 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v879` → `atlas-v880`.
+
 ## iter 947 — Glossary: causal-ML estimation terms (reference)
 Completed the iter-946 thread with **3 glossary terms** — **Doubly robust estimation**, **Inverse propensity weighting (IPW)**, and **Double machine learning (DML)**. Glossary **407 → 410** (0 holes).
 Verified: glossary parses; gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), kErr=0, errs=0. SW cache `atlas-v878` → `atlas-v879`.
