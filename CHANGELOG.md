@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1066 — NEW viz: CUSUM change-point detector (visualizations)
+Varied the format to a viz (completes the iter-1064/65 change-point thread) — the **170th widget, `ts-cusum`** in `ts-stationarity`. Two panels: a series whose mean jumps at t=70, and the CUSUM statistic $S=\max(0,S+x-k)$ that hugs zero, then ramps after the shift and trips an alarm when it crosses threshold $h$. Slider on $h$ makes the **detection-delay vs false-alarm** trade visible; reseed button.
+Verified: CUSUM detection re-derived in Node (delay grows with $h$); gate ALL GREEN (now **170 widgets**); **headless** — lab mounts, alarm fires (delay 4 at h=4, true change t=70), reseed present, kErr=0, errs=0; screenshot shows S flat→ramp crossing the threshold at the detection dot. SW cache `atlas-v997` → `atlas-v998`.
+
 ## iter 1065 — Glossary: change-point & sequential-testing terms (reference)
 Completed the iter-1064 thread with **3 glossary terms** — **Change-point detection**, **CUSUM**, and **Sequential probability ratio test (SPRT)** (verified referenced in ts-stationarity + ps-causal-estimation). Glossary **516 → 519** (0 holes).
 Verified: glossary parses with `\max`/`\ell` intact (JSON-form); gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), 508 KaTeX, kErr=0, errs=0. SW cache `atlas-v996` → `atlas-v997`.

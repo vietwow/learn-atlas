@@ -8843,4 +8843,58 @@
     draw();
   });
 
+
+  /* ========================================================
+     170. CUSUM change-point detection: the statistic ramps after a mean shift (time series)
+     ======================================================== */
+  register({ id: 'ts-cusum', topic: 'time-series', title: 'CUSUM: catching a shift in the mean', blurb: 'The top panel is a series whose mean jumps partway through (dashed line = the true change). The bottom panel is the CUSUM statistic S = max(0, S + x − k): it hugs zero while the mean is steady, then ramps up once the shift begins, and trips an alarm (dot) when it crosses the threshold h. Raise h and the alarm comes later but false alarms get rarer — the detection-delay vs false-alarm trade in one slider.' },
+  function (root) {
+    const W = 500, H = 320, padL = 40, padR = 14, midGap = 26;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    const N = 120, cp = 70, shift = 1.6, k = 0.5; let h = 4, seed = 7;
+    function mk(s) { return function () { s = (s * 1103515245 + 12345) & 0x7fffffff; return s / 0x7fffffff; }; }
+    function build() {
+      const r = mk(seed); const x = [];
+      for (let i = 0; i < N; i++) { const mean = (i >= cp) ? shift : 0; x.push(mean + (r() + r() + r() + r() - 2)); }
+      const S = []; let s = 0, det = -1, fa = 0;
+      for (let i = 0; i < N; i++) { s = Math.max(0, s + (x[i] - k)); S.push(s); if (s > h) { if (i < cp) { fa++; } else if (det < 0) { det = i; } } }
+      return { x, S, det, fa };
+    }
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const d = build();
+      const topY = 12, topH = (H - midGap - 24) / 2, botY = topY + topH + midGap, botH = topH;
+      const X = i => padL + i / (N - 1) * (W - padL - padR);
+      ctx.font = '10px ' + (cssVar('--font-mono') || 'monospace');
+      // ---- top: series ----
+      const xmin = -2.5, xmax = shift + 2.5, TY = v => topY + topH - (v - xmin) / (xmax - xmin) * topH;
+      ctx.strokeStyle = p.line; ctx.beginPath(); ctx.moveTo(padL, TY(0)); ctx.lineTo(W - padR, TY(0)); ctx.stroke();
+      ctx.fillStyle = p.mute; ctx.textAlign = 'right'; ctx.fillText('series', W - padR, topY + 9);
+      // true change-point
+      ctx.strokeStyle = p.gold; ctx.setLineDash([4, 3]); ctx.beginPath(); ctx.moveTo(X(cp), topY); ctx.lineTo(X(cp), topY + topH); ctx.stroke(); ctx.setLineDash([]);
+      ctx.strokeStyle = p.violet; ctx.lineWidth = 1.4; ctx.beginPath(); d.x.forEach((v, i) => { const px = X(i), py = TY(v); i ? ctx.lineTo(px, py) : ctx.moveTo(px, py); }); ctx.stroke(); ctx.lineWidth = 1;
+      // ---- bottom: CUSUM ----
+      const smax = Math.max(h * 1.5, Math.max.apply(null, d.S) * 1.05), BY = v => botY + botH - v / smax * botH;
+      ctx.strokeStyle = p.line; ctx.beginPath(); ctx.moveTo(padL, BY(0)); ctx.lineTo(W - padR, BY(0)); ctx.stroke();
+      ctx.fillStyle = p.mute; ctx.textAlign = 'right'; ctx.fillText('CUSUM S', W - padR, botY + 9);
+      // threshold
+      ctx.strokeStyle = p.rose || p.gold; ctx.setLineDash([5, 3]); ctx.beginPath(); ctx.moveTo(padL, BY(h)); ctx.lineTo(W - padR, BY(h)); ctx.stroke(); ctx.setLineDash([]);
+      ctx.textAlign = 'left'; ctx.fillStyle = p.rose || p.gold; ctx.fillText('h = ' + h.toFixed(1), padL + 2, BY(h) - 3);
+      ctx.strokeStyle = p.gold; ctx.setLineDash([4, 3]); ctx.beginPath(); ctx.moveTo(X(cp), botY); ctx.lineTo(X(cp), botY + botH); ctx.stroke(); ctx.setLineDash([]);
+      ctx.strokeStyle = p.sage; ctx.lineWidth = 1.8; ctx.beginPath(); d.S.forEach((v, i) => { const px = X(i), py = BY(v); i ? ctx.lineTo(px, py) : ctx.moveTo(px, py); }); ctx.stroke(); ctx.lineWidth = 1;
+      // detection marker
+      if (d.det >= 0) { ctx.fillStyle = p.ink; ctx.beginPath(); ctx.arc(X(d.det), BY(d.S[d.det]), 4.5, 0, 2 * Math.PI); ctx.fill(); }
+      info.innerHTML = 'threshold h = <b style="color:' + (p.rose || p.gold) + '">' + h.toFixed(1) + '</b> → ' +
+        (d.det >= 0 ? 'alarm at t=' + d.det + ', <b>delay ' + (d.det - cp) + '</b> after the true change (t=' + cp + ')' : '<b>no alarm</b>') +
+        '; false alarms before the change: <b>' + d.fa + '</b>.';
+    }
+    slider(ctl, { label: 'threshold h', min: 1, max: 12, step: 0.5, value: h, fmt: v => v.toFixed(1), onInput: v => { h = v; draw(); } });
+    button(controls(root), '🎲 New noise', () => { seed = (seed * 16807 + 11) & 0x7fffffff; draw(); });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'CUSUM change-point detection. Top panel: a noisy series whose mean jumps upward at a dashed gold line (the true change-point). Bottom panel: the CUSUM statistic stays near zero before the change, then ramps upward and crosses a dashed threshold line h, where an alarm dot marks detection shortly after the true change. A slider raises or lowers h, trading detection delay against false alarms; a reseed button redraws the noise.');
+    draw();
+  });
+
 })();
