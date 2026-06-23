@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1044 — Hard-concept: dynamic time warping (content)
+Rotated to time series and filled a genuine gap (change-point, wavelets, STL also surfaced). Added a deep-dive to `ts-what-is-a-time-series` (its 4th): **DTW** aligns series that drift in time (different speeds/phase) where Euclidean distance fails — a textbook **dynamic program** $D(i,j)=d(a_i,b_j)+\min(D(i{-}1,j),D(i,j{-}1),D(i{-}1,j{-}1))$ in $O(nm)$ (cross-linked to DP). 1-NN+DTW is a strong classification baseline; speech/gesture/bio uses; the Sakoe-Chiba band speeds it up.
+Verified: g()-guarded (proseInMath on the DP recurrence); byte-stable JSON re-serialize; gate ALL GREEN (internal-links lint); **headless** — 4 deep-dives, DTW/warping-path/Sakoe-Chiba/nearest-neighbour + cross-link, 34 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v975` → `atlas-v976`.
+
 ## iter 1043 — Glossary: empirical-Bayes terms (reference)
 Completed the iter-1042 thread with **3 glossary terms** — **Empirical Bayes**, **James-Stein estimator**, and **Shrinkage**. Glossary **490 → 493** (0 holes).
 Verified: glossary parses; gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), kErr=0, errs=0. SW cache `atlas-v974` → `atlas-v975`.
