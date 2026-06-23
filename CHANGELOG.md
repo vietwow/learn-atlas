@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 999 — Code: conjugate gradient in a few lines (examples)
+Made the iter-997 CG dive runnable — a code exercise in `la-inverse-and-systems`: solves $A\mathbf{x}=\mathbf{b}$ for SPD $A=\begin{psmallmatrix}4&1\\1&3\end{psmallmatrix}$ using only `matvec(A,p)` products, exact in n=2 steps → **x = [0.091, 0.636], check Ax = [1.000, 2.000]**. $A$ never appears as a stored inverse. Completes the thread (content 997 + glossary 998 + code 999).
+Verified: re-derived in Node; byte-stable JSON inject (no `<`/`>` — used `[0,1].forEach`, not a `<`-loop); **gate ALL GREEN — code-exercises verified (now 192)**; **headless** — Run executes, output exactly right, entities decoded, kErr=0, errs=0. SW cache `atlas-v930` → `atlas-v931`.
+
 ## iter 998 — Glossary: conjugate-gradient & preconditioning (reference)
 Completed the iter-997 thread with **2 glossary terms** — **Conjugate gradient (CG)** and **Preconditioning**. Glossary **442 → 444** (0 holes).
 Verified: glossary parses with `\mathbf` intact (JSON-form); gate ALL GREEN; **headless** — both render on `#/glossary` (2/2), 410 KaTeX, kErr=0, errs=0. SW cache `atlas-v929` → `atlas-v930`.
