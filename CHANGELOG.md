@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1085 — Hard-concept: off-policy evaluation (content)
+Rotated to RL and filled a genuine gap (it was only name-dropped as IS in TRPO/PPO). Added a deep-dive to `rl-offline` (its 4th): **off-policy evaluation** — score a target policy $\pi$ from logs under behaviour $\beta$. Importance sampling $\rho=\prod_t\pi/\beta$ is unbiased but explodes over the horizon; weighted IS trades bias for variance; the **doubly-robust** estimator fuses a value model $\hat Q$ with an IS correction — consistent if *either* model or propensities are right. The same IPW/doubly-robust as **causal inference** (cross-linked); underlies offline RL and ads/recommender evaluation.
+Verified: g()-guarded (proseInMath on the IS/DR math); byte-stable JSON re-serialize; gate ALL GREEN (internal-links lint); **headless** — 4 deep-dives, OPE/doubly-robust/importance-sampling/curse-of-horizon + cross-link, 19 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v1016` → `atlas-v1017`.
+
 ## iter 1084 — Glossary: order-statistics terms (reference)
 Completed the iter-1083 thread with **3 glossary terms** — **Order statistic**, **Q-Q plot**, and **Gumbel-max trick**. Glossary **536 → 539** (0 holes).
 Verified: glossary parses with `\mathrm`/`\arg\max` intact (JSON-form); gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), 543 KaTeX, kErr=0, errs=0. SW cache `atlas-v1015` → `atlas-v1016`.
