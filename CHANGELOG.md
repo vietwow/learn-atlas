@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 892 — NEW code exercise: LoRA's parameter savings (examples / hands-on)
+Confirmed the stats/progress page is mature (no engagement gaps), then added a code exercise to `l-peft-lora`, which had none, in its "Counting Parameters and Memory" worked-example section. Full fine-tuning of a 4096×4096 layer trains
+all d² params; LoRA trains two thin factors (2·d·r) → **LoRA trains 65536 of 16777216 params (0.39%)** — the whole point of LoRA, made concrete (change d/r and watch the fraction).
+Verified: re-derived in Node; byte-stable inject (llm.js JSON-form); **gate ALL GREEN — code-exercises verified (now 166)**; **headless** — Run executes, output exactly right, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v823` → `atlas-v824`.
+
 ## iter 891 — NEW viz: Fisher information — the likelihood sharpens with data (visualizations)
 Capped the Fisher thread (888 deep-dive, 889 glossary, 890 link) with its visual — the **154th widget, `ps-fisher-information`** in `ps-point-estimation`: the likelihood of a Gaussian mean is a bell whose width *is* the Cramér–Rao std σ/√n.
 Slide n — the peak **spikes sharply** (Fisher info I = n/σ² rises) and the shaded ±1σ band **shrinks like 1/√n** (n=1 → ±2.0, n=100 → ±0.2). "Fisher information is just how pointed this peak is" — made visible.
