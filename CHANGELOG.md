@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 939 — Code-parity backlog: function composition & inverses (examples / content-parity)
+Backlog, fresh topic (calculus). Added a code exercise to `c-functions-and-graphs` (had none), before its wrap-up: composition is order-sensitive and an inverse cancels its function → **f(g(3))=19, g(f(3))=49, f(finv(7))=7**
+(19≠49 shows non-commutativity; the inverse returns 7). Backlog now 9 lessons — and the codeable ones are nearly exhausted (most remaining, e.g. l-safety / rl-connections, are conceptual by nature).
+Verified: re-derived in Node; byte-stable JSON inject (no `<`/`>`); **gate ALL GREEN — code-exercises verified (now 184)**; **headless** — Run executes, output exactly right, intro KaTeX clean, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v870` → `atlas-v871`.
+
 ## iter 938 — NEW viz: TV, KL & Pinsker's bound (visualizations)
 Gave the iter-935/936 distance thread its visual — the **158th widget, `it-distances`** in `it-cross-entropy-kl`: paired bars for a fixed p (gold) and adjustable q (violet) over 4 outcomes, with live **TV**, **KL**, and the **Pinsker
 bound √(KL/2)**. Slide q toward p: both distances fall to 0 together, and TV never exceeds the bound (holds ✓ at every t). Makes "small KL ⇒ small TV" something you watch happen.
