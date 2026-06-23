@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1082 — Glossary: watermarking terms (reference)
+Completed the iter-1081 thread with **2 glossary terms** — **Text watermarking (LLM)** and **Green-list watermark**. Glossary **534 → 536** (0 holes).
+Verified: glossary parses with `\gamma`/`\delta` intact (JSON-form); gate ALL GREEN; **headless** — both render on `#/glossary` (2/2), 535 KaTeX, kErr=0, errs=0. SW cache `atlas-v1013` → `atlas-v1014`.
+
 ## iter 1081 — Hard-concept: watermarking generated text (content)
 Rotated to LLMs and filled the noted gap. Added a deep-dive to `l-decoding-strategies` (its 4th): **watermarking** — hash the previous token to split the vocab into a green list (fraction $\gamma$), add bias $\delta$ to green logits at decode time; detect with a model-free z-test $z=(g-\gamma T)/\sqrt{T\gamma(1-\gamma)}$. The deep limit is an **entropy budget** (cross-linked) — low-entropy spans (code, quotes) can't be marked; raising $\delta$ trades quality for detectability; paraphrase attacks erode it.
 Verified: g()-guarded (proseInMath on the γ/δ/z-test math); byte-stable JSON re-serialize; gate ALL GREEN (internal-links lint); **headless** — 4 deep-dives, watermark/green/entropy-budget/paraphrase + cross-link, 103 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v1012` → `atlas-v1013`.
