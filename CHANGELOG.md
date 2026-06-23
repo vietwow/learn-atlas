@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 908 — NEW code exercise: Stackelberg vs Cournot duopoly (examples / hands-on)
+Capped the Stackelberg thread (906 deep-dive, 907 glossary) with a runnable exercise inside the deep-dive in `gt-foundations`: a linear-demand duopoly, simultaneous (Cournot) vs leader-commits-first (Stackelberg) → **Cournot each 16 |
+Stackelberg leader 18, follower 9**. The leader's profit *rises* (16 → 18) by committing first while the follower's falls — the first-mover advantage in numbers. Written without `<`/`>` so the push-wrapper inject needs no entity escaping.
+Verified: re-derived in Node; function-replacer + enc inject (no leakage, no control chars); **gate ALL GREEN — code-exercises verified (now 168)**; **headless** — deep-dive expands, Run executes, output exactly right, entities decoded, kErr=0, errs=0. SW cache `atlas-v839` → `atlas-v840`.
+
 ## iter 907 — Glossary: GARCH & Stackelberg terms (reference)
 Completed the 904–906 threads with **4 glossary terms** — **GARCH** ($\sigma_t^2=\omega+\alpha\,\varepsilon_{t-1}^2+\beta\,\sigma_{t-1}^2$), **Volatility clustering**, **Stackelberg game**, and **Bilevel optimization**. Glossary **377 → 381** (0 holes).
 Verified: glossary parses with `\sigma` intact (JSON-form); gate ALL GREEN; **headless** — all 4 render on `#/glossary` (4/4), 350 KaTeX, kErr=0, errs=0. SW cache `atlas-v838` → `atlas-v839`.
