@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 906 — Hard-concept: Stackelberg games (content)
+Closed the last flagged gap. Added a deep-dive to `gt-foundations` (its 5th): **Stackelberg games** — sequential play where a *leader* commits first and a *follower* best-responds, solved by backward induction. The
+counter-intuitive payoff: committing first can *raise* your payoff (Stackelberg vs Cournot duopoly), if the commitment is credible. Structurally it's **bilevel optimization** (leader optimizes over the follower's optimization) — the template behind real **security games** (airport/coast-guard patrol scheduling) and ML bilevel problems (hyperparameter optimization, meta-learning).
+Wrote it LaTeX-free for push-wrapper safety (game-theory.js); function-replacer + enc, HTML entities for apostrophes.
+Verified: parse via `new Function` (no leakage, no control chars); gate ALL GREEN; **headless** — 5 deep-dives, Stackelberg/leader/backward-induction/bilevel/security-games present, entities decoded, kErr=0, errs=0. SW cache `atlas-v837` → `atlas-v838`.
+
 ## iter 905 — NEW viz: GARCH volatility clustering (visualizations)
 Gave the iter-904 GARCH deep-dive its visual — the **156th widget, `ts-garch-volatility`** in `ts-arima`: a simulated GARCH(1,1) path (seeded LCG, reproducible) with returns εₜ on top and conditional volatility σₜ below. Slide
 persistence α+β: near 0.2 the volatility line is flat (constant variance, what ARIMA assumes); near 0.97 calm and turbulent stretches bunch into long runs — **volatility clustering** you can see. "New path" reseeds.
