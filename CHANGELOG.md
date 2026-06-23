@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 984 — Code: a Bloom filter in a handful of lines (examples)
+Made the iter-983 Bloom dive runnable — a code exercise in `a-hash-tables`: a 32-bit array + 3 hashes, `add` flips bits, `has` checks them. Inserts {cat,dog,fish} then queries → **cat? true, dog? true, bird? false** — members never miss, the absent key caught by a still-0 bit. Completes the thread (content 983 + code 984).
+**Self-caught:** first draft used a `for (i<s.length)` loop — the `<` tripped my no-`<`-in-code guard; rewrote with `.split("").forEach`.
+Verified: re-derived in Node; byte-stable JSON inject (no `<`/`>`); **gate ALL GREEN — code-exercises verified (now 191)**; **headless** — Run executes, output exactly right, entities decoded, kErr=0, errs=0. SW cache `atlas-v915` → `atlas-v916`.
+
 ## iter 983 — Hard-concept: Bloom filters (content)
 Rotated to algorithms and caught a teach-gap: Bloom filters were name-dropped in `a-hash-tables` but never taught. Added a deep-dive (its 4th): a bit array of $m$ bits + $k$ hashes; insert sets $k$ bits, query checks them — any 0 → **definitely not present**, all 1 → **probably present**.
 The asymmetry (no false negatives, tunable false positives ~$0.6185^{m/n}$, ~1% at 10 bits/item) plus no-deletion caveat (→ counting Bloom filters), and why it guards databases/caches/CDNs/crawlers.
