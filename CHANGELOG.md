@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 947 — Glossary: causal-ML estimation terms (reference)
+Completed the iter-946 thread with **3 glossary terms** — **Doubly robust estimation**, **Inverse propensity weighting (IPW)**, and **Double machine learning (DML)**. Glossary **407 → 410** (0 holes).
+Verified: glossary parses; gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), kErr=0, errs=0. SW cache `atlas-v878` → `atlas-v879`.
+
 ## iter 946 — Hard-concept: doubly robust estimation & double ML (content)
 Filled a genuine causal-inference gap. Added a deep-dive to `ps-causal-estimation` (its 4th): **doubly robust** (AIPW) estimation fuses outcome regression and inverse-propensity weighting so the estimate stays consistent if *either*
 nuisance model is right — "two chances to be right". That robustness + orthogonality is the foundation of **double / debiased machine learning** (flexible ML nuisances + cross-fitting → valid CIs for the causal effect). Also surfaced double-ML and regression-discontinuity as remaining gaps.
