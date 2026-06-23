@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1016 — Glossary: f-divergence family terms (reference)
+Completed the iter-1015 thread with **3 glossary terms** — **f-divergence**, **Hellinger distance**, and **Chi-squared divergence**. Glossary **459 → 462** (0 holes) — crossed 460.
+Verified: glossary parses with `\chi`/`\sqrt` intact (JSON-form); gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), 440 KaTeX, kErr=0, errs=0. SW cache `atlas-v947` → `atlas-v948`.
+
 ## iter 1015 — Hard-concept: f-divergences (content)
 Rotated to information theory and filled a genuine gap (entropy rate, MINE, χ² also surfaced). Added a deep-dive to `it-cross-entropy-kl` (its 5th): the **f-divergence** template $D_f(P\Vert Q)=\mathbb{E}_Q[f(p/q)]$ unifying KL, TV, **Hellinger**, χ², and JS (cross-linked) via different convex $f$; convexity gives non-negativity, joint convexity, and the **data-processing inequality** for free.
 The Fenchel-dual form is the **f-GAN** recipe (cross-linked to GANs) — each $f$ → a different generator objective.
