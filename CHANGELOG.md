@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1070 — Step-back (clean) + code: Kelly growth rate (step-back / examples)
+Step-back **kErr + visible-newline-aware 188-lesson sweep**: errs=0, **kErrLessons=NONE**, **visNlessons=NONE**, mapNodes=883 — zero regressions since iter 1060.
+**Ship:** varied the format to a code exercise (last code iter 1051) completing the iter-1069 Kelly thread — runnable in `it-mutual-information`: `growth(f)=p·log(1+f)+(1−p)·log(1−f)` for three stakes → **f=0.20 (Kelly) : 0.0201 highest; f=0.40 : −0.0024 (over-betting into negative growth)**. Makes "bet Kelly, not more" concrete.
+**Self-caught:** first draft used `->` in output/comments → tripped the no-`<`/`>` code guard; switched to `:` separator.
+Verified: re-derived in Node; byte-stable JSON inject; **gate ALL GREEN — code-exercises verified (now 195)**; full sweep clean; **headless** — Run executes, Kelly highest + over-bet negative shown, entities decoded, kErr=0, errs=0. SW cache `atlas-v1001` → `atlas-v1002`.
+
 ## iter 1069 — Hard-concept: the Kelly criterion (content)
 Rotated to information theory and filled a genuine gap. Added a deep-dive to `it-mutual-information` (its 5th): the **Kelly criterion** — bet to maximize $\mathbb{E}[\log W]$ (wealth compounds multiplicatively), optimal stake $f^\ast=p-\frac{1-p}{b}$; over-betting raises variance for *lower* growth (hence fractional Kelly). The IT punchline: horse-race growth $W^\ast=\log N-H(X)$ (entropy caps it, cross-linked), side information buys $I(X;Y)$ of extra growth, wrong beliefs forfeit the KL. Betting *is* using information.
 Verified: g()-guarded (proseInMath on the f*/growth math); byte-stable JSON re-serialize; gate ALL GREEN (internal-links lint); **headless** — 5 deep-dives, Kelly/doubling-rate/fractional-Kelly/side-information + cross-link, 98 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v1000` → `atlas-v1001`.
