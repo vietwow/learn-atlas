@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 986 — Hard-concept: distributional RL (content)
+Rotated to RL and caught a teach-gap: distributional RL was name-dropped in `rl-dqn`'s Rainbow list but never taught. Added a deep-dive (its 4th): learn the full return distribution $Z(s,a)$, not just $\mathbb{E}[Z]=Q$ — the distributional Bellman equation $Z\stackrel{D}{=}R+\gamma Z'$ (a Wasserstein contraction), **C51** (categorical atoms + cross-entropy) vs **QR-DQN** (quantiles + pinball loss),
+why a richer target sharpens representations (a core Rainbow gain), and risk-sensitive control the mean can't express.
+Verified: g()-guarded (proseInMath on the Bellman/expectation math); byte-stable JSON re-serialize; gate ALL GREEN; **headless** — 4 deep-dives, distributional/C51/quantile/risk-sensitive/Wasserstein present, 110 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v917` → `atlas-v918`.
+
 ## iter 985 — Glossary: Bloom filter & probabilistic data structures (reference)
 Completed the iter-983/984 Bloom thread with **2 glossary terms** — **Bloom filter** and **Probabilistic data structure** (the umbrella: Bloom, HyperLogLog, Count-Min sketch, MinHash/LSH). Glossary **429 → 431** (0 holes).
 Verified: glossary parses; gate ALL GREEN; **headless** — both render on `#/glossary` (2/2), kErr=0, errs=0. SW cache `atlas-v916` → `atlas-v917`.
