@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 950 — Step-back (clean) + RD estimator code (step-back / examples)
+**Milestone iter 950.** Step-back **kErr-aware 188-lesson sweep** across all 11 topics: errs=0, **kErrLessons=NONE**, mapNodes=883 — zero regressions since iter 940 (validates the causal content 946/948, the 3 new viz 945/949, and the glossary batches).
+**Ship:** completed the RD thread (948 content + 949 viz + **950 code**) with a runnable estimator inside the RD deep-dive in `ps-causal-estimation`: fit a line each side, read the gap at the cutoff → **estimated effect (jump at cutoff) = 1.60**. Now 186 code-exercises.
+Verified: re-derived in Node; byte-stable JSON inject (no `<`/`>`); gate ALL GREEN; full sweep clean; **headless** — Run executes, output exactly right, kErr=0, errs=0. SW cache `atlas-v881` → `atlas-v882`.
+
 ## iter 949 — NEW viz: regression discontinuity (visualizations)
 Gave the iter-948 RD deep-dive its visual — the **160th widget**, `ps-regression-discontinuity` in `ps-causal-estimation`: untreated (violet) and treated (green) points around a cutoff at x=5, a fitted line per side, and a **gold bar marking the jump** where they
 meet the cutoff. Slide the true effect τ: the estimated jump tracks it (0.92 at τ=1, 2.92 at τ=3), recovered from the discontinuity alone. The causal effect *is* the gap, made visible.
