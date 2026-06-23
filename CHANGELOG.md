@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 910 — Step-back (clean) + wire Stackelberg → meta-learning: GT → DL (step-back / understandability)
+Step-back **kErr-aware 188-lesson sweep** across all 11 topics: errs=0, **kErrLessons=NONE**, mapNodes=883 — zero regressions since iter 900 (validates the GARCH/Stackelberg/correlated-equilibrium/MAML injections of 901–909).
+**Ship:** completed the bilevel-optimization thread — the Stackelberg deep-dive's "parts of meta-learning" mention (906) now links to `dl-transfer-learning`, where MAML lives (909). The leader-follower (bilevel) idea is now a navigable arc: Stackelberg (GT) → meta-learning/MAML (DL) → in-context learning (LLM).
+Verified: push-wrapper function-replacer + enc (no control chars); gate ALL GREEN (internal-links lint); full sweep clean; **headless** — link renders as "meta-learning", kErr=0, errs=0. SW cache `atlas-v841` → `atlas-v842`.
+
 ## iter 909 — Hard-concept: meta-learning / MAML (content)
 Filled a genuine gap. Added a deep-dive to `dl-transfer-learning` (its 4th): **meta-learning** — "learning to learn" across many tasks so a model adapts to a new one from few examples. **MAML** learns an *initialization*, not a
 solution: an inner loop adapts ($\theta'=\theta-\alpha\nabla\mathcal{L}_{\text{task}}$), an outer loop optimizes the post-adaptation loss ($\theta\leftarrow\theta-\beta\nabla\sum\mathcal{L}_{\text{query}}$) differentiating *through* the inner step. It's the **bilevel** (leader-follower) structure (907) applied to learning itself, the optimization-cousin of transfer learning, and — cross-linked — what LLM few-shot **in-context learning** does implicitly.
