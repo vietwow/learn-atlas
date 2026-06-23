@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 975 — Hard-concept: forward vs reverse-mode autodiff (content)
+Rotated to calculus and crystallized the deepest "why" behind backprop. Autodiff was mentioned and forward/reverse named, but no dive explained the tradeoff. Added one to `c-chain-rule` (its 4th): **forward mode** cost scales with #inputs (derivative of all outputs w.r.t. one input per sweep); **reverse mode** cost scales with #outputs (derivative of one output w.r.t. all inputs).
+ML lives at the extreme — one scalar loss, millions of params — so reverse mode (backprop, cross-linked) gets *every* gradient in one backward pass; forward mode would need one sweep per parameter. That asymmetry is why every DL framework uses reverse-mode autodiff.
+Verified: g()-guarded (proseInMath on the ∂ math); byte-stable JSON re-serialize; gate ALL GREEN (internal-links lint); **headless** — 4 deep-dives, forward/reverse/single-backward-pass/scalar-loss + cross-link, 146 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v906` → `atlas-v907`.
+
 ## iter 974 — Glossary: matrix-exponential & phase-portrait terms (reference)
 Completed the iter-972/973 LA continuous-dynamics thread with **2 glossary terms** — **Matrix exponential** and **Phase portrait**. Glossary **422 → 424** (0 holes).
 Verified: glossary parses with `\dot`/`\tfrac` intact (JSON-form); gate ALL GREEN; **headless** — both render on `#/glossary` (2/2), 380 KaTeX, kErr=0, errs=0. SW cache `atlas-v905` → `atlas-v906`.
