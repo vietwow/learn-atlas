@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 898 — NEW viz: Gumbel-softmax temperature dial (visualizations)
+Gave the iter-897 deep-dive its visual — the **155th widget, `dl-gumbel-softmax`** in `dl-autoencoders-vae`: 4-category bars of $y=\text{softmax}((\log\pi+g)/\tau)$ with a temperature slider and a "resample noise" button. Slide τ down →
+the bars **snap toward one-hot** (one weight ≈ 0.98); slide up → they **flatten toward uniform** (≈ 0.25 each). The note adapts (one-hot / soft stand-in / heavily-smoothed). The abstract "temperature interpolates discrete↔continuous" is now a dial you turn.
+Verified: temperature behavior re-derived in Node; gate ALL GREEN (now **155 widgets**); **headless** — lab mounts, resample button present, peak weight high at τ=0.1 / ≈0.28 at τ=5 (exact peak varies with the random Gumbel draw, as it should), kErr=0, errs=0; screenshot shows a near-one-hot bar (0.98) at low τ. SW cache `atlas-v829` → `atlas-v830`.
+
 ## iter 897 — Hard-concept: Gumbel-softmax (content)
 Filled a genuine advanced gap (A*, amortized analysis already covered; this wasn't). Added a deep-dive to `dl-autoencoders-vae` (its 5th, extending the lesson's reparameterization-trick coverage): **Gumbel-softmax** is the
 reparameterization trick for *discrete* latents. The Gumbel-max trick externalizes the randomness ($\arg\max_i(\log\pi_i+g_i)$), then a temperature-τ softmax relaxes the non-differentiable argmax into a smooth one-hot stand-in — so gradients flow through categorical choices. Covers the τ→0 vs large-τ trade-off, annealing, and the straight-through variant; this is what makes discrete VAEs / VQ latents / differentiable NAS trainable.

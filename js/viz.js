@@ -8212,4 +8212,50 @@
     draw();
   });
 
+
+  /* ========================================================
+     155. Gumbel-softmax: temperature morphs a sample from soft to one-hot (deep learning)
+     ======================================================== */
+  register({ id: 'dl-gumbel-softmax', topic: 'deep-learning', title: 'Gumbel-softmax: the temperature dial', blurb: 'To backprop through a discrete choice, Gumbel-softmax draws Gumbel noise, adds it to the category log-probabilities, and passes the result through a temperature-τ softmax: y = softmax((log π + g)/τ). The bars below are one such differentiable sample over four categories. Slide τ: near zero the output snaps to a near one-hot vector (a faithful but high-variance sample); large τ smooths it toward uniform (low-variance but biased). Resample to draw fresh Gumbel noise — every forward pass is a different soft sample.' },
+  function (root) {
+    const W = 460, H = 280, padL = 40, padB = 50, padT = 24;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const btns = controls(root);
+    const info = note(root);
+    const logits = [2.0, 1.0, 0.5, 0.0], labels = ['A', 'B', 'C', 'D'];
+    let tau = 1, g = [];
+    function gumbel() { return -Math.log(-Math.log(Math.random() * 0.9998 + 0.0001)); }
+    function resample() { g = logits.map(() => gumbel()); draw(); }
+    function softmax(z) { const m = Math.max.apply(null, z); const e = z.map(x => Math.exp(x - m)); const s = e.reduce((a, b) => a + b, 0); return e.map(x => x / s); }
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const y = softmax(logits.map((L, i) => (L + g[i]) / tau));
+      const plotH = H - padT - padB, baseY = padT + plotH, n = logits.length;
+      const bw = (W - padL - 20) / n * 0.6, gap = (W - padL - 20) / n;
+      // y-axis gridlines
+      ctx.strokeStyle = p.line; ctx.fillStyle = p.mute; ctx.font = '10px ' + (cssVar('--font-mono') || 'monospace'); ctx.textAlign = 'right';
+      [0, 0.5, 1].forEach(v => { const yy = baseY - v * plotH; ctx.beginPath(); ctx.moveTo(padL, yy); ctx.lineTo(W - 20, yy); ctx.stroke(); ctx.fillText(v.toFixed(1), padL - 4, yy + 3); });
+      // bars
+      y.forEach((v, i) => {
+        const x = padL + 10 + i * gap;
+        ctx.fillStyle = i === 0 ? p.sage : p.violet;
+        ctx.fillRect(x, baseY - v * plotH, bw, v * plotH);
+        ctx.fillStyle = p.soft; ctx.textAlign = 'center';
+        ctx.fillText(labels[i], x + bw / 2, baseY + 16);
+        ctx.fillText(v.toFixed(2), x + bw / 2, baseY - v * plotH - 5);
+      });
+      const mx = Math.max.apply(null, y);
+      info.innerHTML = 'temperature τ = <b style="color:' + p.gold + '">' + tau.toFixed(2) + '</b>. Largest weight = <b>' + mx.toFixed(2) + '</b>. ' +
+        (tau <= 0.3 ? 'Almost a hard one-hot sample — faithful to a true draw, but the gradient is high-variance.'
+          : tau >= 3 ? 'Heavily smoothed toward uniform — low-variance gradients, but a biased (blurry) sample.'
+            : 'A soft, differentiable stand-in for a one-hot sample — gradients flow through it.');
+    }
+    slider(ctl, { label: 'temperature τ', min: 0.1, max: 5, step: 0.1, value: tau, fmt: v => v.toFixed(1), onInput: v => { tau = v; draw(); } });
+    button(btns, '🎲 Resample noise', resample);
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Gumbel-softmax over four categories A through D. Bars show the softmax of (log-probability plus Gumbel noise) divided by temperature tau. A slider sets tau: near 0.1 one bar rises to almost 1 and the rest collapse to near 0 (a near one-hot sample); at large tau the four bars flatten toward equal height (near uniform). A resample button draws fresh Gumbel noise, giving a different soft sample each time.');
+    resample();
+  });
+
 })();
