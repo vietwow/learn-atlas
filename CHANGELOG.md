@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1030 — Step-back (clean) + hard-concept: multi-task learning (step-back / content)
+Step-back **kErr + visible-newline-aware 188-lesson sweep**: errs=0, **kErrLessons=NONE**, **visNlessons=NONE**, mapNodes=883 — zero regressions since iter 1020.
+**Ship:** filled the noted ML gap — added a **multi-task learning** deep-dive to `dl-pretraining-and-finetuning-paradigm` (its 4th, after its "one shared base, many tasks" close): hard parameter sharing (shared trunk + task heads, $\mathcal{L}=\sum_t w_t\mathcal{L}_t$), why it regularizes/transfers, the **negative-transfer** risk (gradient conflict → task weighting, gradient surgery), and massively-multi-task pretraining → foundation models. Cross-linked to transfer learning (simultaneous vs sequential).
+Verified: g()-guarded; byte-stable JSON re-serialize; gate ALL GREEN (internal-links lint); full sweep clean; **headless** — 4 deep-dives, multi-task/hard-parameter-sharing/negative-transfer/foundation-models + cross-link, 79 KaTeX, kErr=0, errs=0. (The "gradient surgery" content check tripped a known false-negative — the glossary tooltip for "gradient" splits the phrase in textContent; verified present in source.) SW cache `atlas-v961` → `atlas-v962`.
+
 ## iter 1029 — Code: ski rental's competitive ratio (examples)
 Made the iter-1019 online-algorithms dive runnable — a code exercise in `a-greedy`: the rent-until-$B$-then-buy rule vs the optimal offline cost across horizons → **worst-case ratio = 1.900 (bound 2 - 1/B = 1.900)**, the worst case landing exactly at $d=B$. Completes the thread (content 1019 + glossary 1020 + code 1029).
 Verified: re-derived in Node; byte-stable JSON inject (no `<`/`>` — used Math.min/max + ternary + Array.from, not comparison operators); **gate ALL GREEN — code-exercises verified (now 193)**; **headless** — Run executes, output exactly right, entities decoded, kErr=0, errs=0. SW cache `atlas-v960` → `atlas-v961`.
