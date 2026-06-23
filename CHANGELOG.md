@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 921 — Code-parity backlog: stack (LIFO) vs queue (FIFO) (examples / content-parity)
+Backlog, fresh topic (algorithms). Added a code exercise to `a-arrays-lists-stacks-queues` (had none), in its "Stacks and Queues: Policies, Not New Structures" section: same pushes, opposite removal policy → **stack(LIFO): 4,3,2,1 | queue(FIFO): 1,2,3,4**.
+Makes the lesson's core point — the *policy* is the difference, not the structure — runnable. Backlog now 19 lessons.
+Verified: re-derived in Node; push-wrapper function-replacer + enc (no leakage, no control chars, no `<`/`>`); **gate ALL GREEN — code-exercises verified (now 174)**; **headless** — Run executes, output exactly right, entities decoded, kErr=0, errs=0. SW cache `atlas-v852` → `atlas-v853`.
+
 ## iter 920 — Step-back (clean) + glossary: Kolmogorov / MDL (step-back / reference)
 Step-back **kErr-aware 188-lesson sweep** across all 11 topics: errs=0, **kErrLessons=NONE**, mapNodes=883 — zero regressions since iter 910 (validates the code injections 914–919 + Kolmogorov 917).
 **Ship:** completed the iter-917 thread with **2 glossary terms** — **Kolmogorov complexity** ($K(x)$) and **Minimum description length (MDL)** — defining the single-object information measure and its computable, Occam's-razor stand-in. Glossary **386 → 388** (0 holes).
