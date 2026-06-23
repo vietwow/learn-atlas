@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1021 — Hard-concept: options & hierarchical RL (content)
+Rotated to RL and filled a genuine gap (successor representation also surfaced). Added a deep-dive to `rl-mdp-formalism` (its 4th): **hierarchical RL** via the **options** framework — an option = initiation set + internal policy + termination condition, running for many primitive steps and turning the MDP into a **semi-MDP**. It shortens the effective horizon, enables skill transfer, and structures exploration; discovered by hand, at subgoals, or end-to-end (option-critic, feudal nets — cross-linked to frontiers).
+Verified: g()-guarded; byte-stable JSON re-serialize; gate ALL GREEN (internal-links lint); **headless** — 4 deep-dives, hierarchical-RL/options/semi-MDP/termination/option-critic + cross-link, kErr=0, errs=0. SW cache `atlas-v952` → `atlas-v953`.
+
 ## iter 1020 — Step-back (clean) + glossary: online-algorithm terms (step-back / reference)
 Step-back **kErr + visible-newline-aware 188-lesson sweep**: errs=0, **kErrLessons=NONE**, **visNlessons=NONE**, mapNodes=883 — zero regressions since iter 1010.
 **Ship:** completed the iter-1019 thread with **2 glossary terms** — **Online algorithm** and **Competitive ratio**. Glossary **464 → 466** (0 holes).
