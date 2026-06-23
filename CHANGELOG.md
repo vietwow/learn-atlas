@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1046 — Hard-concept: skip lists (content)
+Rotated to algorithms and filled a genuine gap. Added a deep-dive to `a-trees-heaps` (its 4th): the **skip list** — a sorted linked list with coin-flip "express lanes" ($p=\tfrac12$ promotion → ~$\log_2 n$ levels) giving $O(\log n)$ *expected* search/insert/delete with no rotations. Loved for simplicity and concurrency (Redis sorted sets, LevelDB/RocksDB memtables, ConcurrentSkipListMap); the **randomized** answer to the balanced BST (cross-linked).
+**Self-caught:** first draft self-linked "BST" within a-trees-heaps → plain text, kept the randomized cross-link.
+Verified: g()-guarded; byte-stable JSON re-serialize; gate ALL GREEN (internal-links lint); **headless** — 4 deep-dives, skip-list/express-lane/coin-flip/Redis + cross-link, 132 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v976` → `atlas-v978`.
+
 ## iter 1045 — Glossary: DTW & edit-distance terms (reference)
 Completed the iter-1044 thread with **2 glossary terms** — **Dynamic time warping (DTW)** and **Edit distance** (its discrete cousin, verified taught in a-dynamic-programming). Glossary **493 → 495** (0 holes) — approaching 500.
 Verified: glossary parses with `\min` intact (JSON-form); gate ALL GREEN; **headless** — both render on `#/glossary` (2/2), 471 KaTeX, kErr=0, errs=0. SW cache `atlas-v976` → `atlas-v977`.
