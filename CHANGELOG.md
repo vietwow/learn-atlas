@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 889 — Glossary: estimation-theory terms (reference)
+Completed the iter-888 thread with **3 glossary terms** — **Fisher information** ($I(\theta)=-\mathbb{E}[\partial^2_\theta\log L]$), **Cramér–Rao bound** ($\mathrm{Var}(\hat\theta)\ge 1/I(\theta)$), and **Efficient estimator**. Glossary **367 → 370** (0 holes).
+Verified: glossary parses with `\partial` intact (JSON-form); gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), 345 KaTeX, kErr=0, errs=0. SW cache `atlas-v820` → `atlas-v821`.
+
 ## iter 888 — Hard-concept: Fisher information & the Cramér–Rao bound (content)
 Filled a genuine estimation-theory gap. Added a deep-dive to `ps-point-estimation` (its 4th, extending the existing MLE/variance dives): **Fisher information** $I(\theta)$ is the expected curvature of the log-likelihood (how sharply the data
 pins down θ); the **Cramér–Rao bound** $\mathrm{Var}(\hat\theta)\ge 1/I(\theta)$ is the hard floor on *any* unbiased estimator's variance. Fisher info is additive over samples (→ the √n rule), the **MLE** is asymptotically efficient (achieves the bound — cross-linked), and the same curvature reappears in natural-gradient optimization and the Laplace approximation.
