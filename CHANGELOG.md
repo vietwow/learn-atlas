@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1027 — Hard-concept: the representer theorem (content)
+Rotated to ML and filled a genuine gap (multi-task & curriculum learning also surfaced). Added a deep-dive to `ml-svm` (its 4th): the **representer theorem** — for any RKHS-regularized fit, the optimum is a *finite* combination of kernels at the training points, $f(x)=\sum_i\alpha_i k(x_i,x)$, so an infinite-dimensional problem collapses to an $n\times n$ one. This is *why* SVMs, kernel ridge, and GP regression are tractable, and the rigorous license for the **kernel trick** ($\langle\phi(x),\phi(x')\rangle=k(x,x')$) in an **RKHS**.
+Verified: g()-guarded (proseInMath on the kernel-sum math); byte-stable JSON re-serialize; gate ALL GREEN; **headless** — 4 deep-dives, representer-theorem/reproducing-kernel/kernel-trick/finite, 48 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v958` → `atlas-v959`.
+
 ## iter 1026 — Glossary: neural-ODE terms (reference)
 Completed the iter-1025 thread with **2 glossary terms** — **Neural ODE** and **Adjoint method**. Glossary **471 → 473** (0 holes).
 Verified: glossary parses with `\frac` intact (JSON-form); gate ALL GREEN; **headless** — both render on `#/glossary` (2/2), 451 KaTeX, kErr=0, errs=0. SW cache `atlas-v957` → `atlas-v958`.
