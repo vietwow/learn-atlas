@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1014 — Glossary: martingale terms (reference)
+Completed the iter-1013 thread with **2 glossary terms** — **Martingale** and **Optional stopping theorem**. Glossary **457 → 459** (0 holes) — approaching 460.
+Verified: glossary parses; gate ALL GREEN; **headless** — both render on `#/glossary` (2/2), 431 KaTeX, kErr=0, errs=0. SW cache `atlas-v945` → `atlas-v946`.
+
 ## iter 1013 — Hard-concept: martingales (content)
 Rotated to probability and filled a genuine gap (concentration inequalities already have a deep-dive). Added a deep-dive to `ps-conditional-expectation` (its 4th, since a martingale *is* a conditional-expectation property): $\mathbb{E}[X_{t+1}\mid\text{past}]=X_t$ — the math of a **fair game**. Covers the **optional stopping theorem** (no betting system beats a fair game, $\mathbb{E}[X_\tau]=X_0$) and the **martingale convergence theorem** (which underpins why SGD settles). Cross-linked to Brownian motion (a martingale).
 Verified: g()-guarded (proseInMath on the conditional-expectation math); byte-stable JSON re-serialize; gate ALL GREEN (internal-links lint); **headless** — 4 deep-dives, martingale/optional-stopping/fair-game/convergence + cross-link, 102 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v944` → `atlas-v945`.
