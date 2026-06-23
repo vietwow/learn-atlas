@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 945 — NEW viz: conformal prediction coverage (visualizations)
+Gave the iter-943/944 conformal thread its visual — the **159th widget, `ml-conformal`** in `ml-model-selection`: test points around ŷ=0.5x wrapped in a band ŷ ± q̂ (q̂ = the 1−α calibration-residual quantile), points
+green if covered / red if not. Slide α: the **empirical coverage tracks the target 1−α** (0.90 at α=0.1 → 0.52 at α=0.5) while the band widens to keep its promise. Makes the distribution-free guarantee tangible.
+Verified: coverage re-derived in Node (0.905/0.825/0.565); gate ALL GREEN (now **159 widgets**); **headless** — lab mounts, empirical 0.90 at α=0.1 & 0.52 at α=0.5 (tracks target), band widens as α shrinks, kErr=0, errs=0; screenshot shows the band with ~90% green points. SW cache `atlas-v876` → `atlas-v877`.
+
 ## iter 944 — Glossary: uncertainty-quantification terms (reference)
 Completed the iter-943 thread with **4 glossary terms** — **Conformal prediction**, **Exchangeability**, **Calibration**, and **Coverage** (calibration & coverage were taught across topics but never defined). Glossary **403 → 407** (0 holes).
 Verified: glossary parses; gate ALL GREEN; **headless** — all 4 render on `#/glossary` (4/4), 364 KaTeX, kErr=0, errs=0. SW cache `atlas-v875` → `atlas-v876`.
