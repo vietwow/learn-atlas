@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1029 — Code: ski rental's competitive ratio (examples)
+Made the iter-1019 online-algorithms dive runnable — a code exercise in `a-greedy`: the rent-until-$B$-then-buy rule vs the optimal offline cost across horizons → **worst-case ratio = 1.900 (bound 2 - 1/B = 1.900)**, the worst case landing exactly at $d=B$. Completes the thread (content 1019 + glossary 1020 + code 1029).
+Verified: re-derived in Node; byte-stable JSON inject (no `<`/`>` — used Math.min/max + ternary + Array.from, not comparison operators); **gate ALL GREEN — code-exercises verified (now 193)**; **headless** — Run executes, output exactly right, entities decoded, kErr=0, errs=0. SW cache `atlas-v960` → `atlas-v961`.
+
 ## iter 1028 — Glossary: representer-theorem & RKHS (reference)
 Completed the iter-1027 thread with **2 glossary terms** — **Representer theorem** and **Reproducing kernel Hilbert space (RKHS)**. Glossary **473 → 475** (0 holes).
 Verified: glossary parses with `\sum`/`\langle` intact (JSON-form); gate ALL GREEN; **headless** — both render on `#/glossary` (2/2), 455 KaTeX, kErr=0, errs=0. SW cache `atlas-v959` → `atlas-v960`.
