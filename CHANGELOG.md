@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1018 — Glossary: Kalman & particle filter (reference)
+Completed the iter-1017 thread with **2 glossary terms** — **Kalman filter** and **Particle filter** (its nonlinear/non-Gaussian sequential-Monte-Carlo successor). Glossary **462 → 464** (0 holes).
+Verified: glossary parses; gate ALL GREEN; **headless** — both render on `#/glossary` (2/2), kErr=0, errs=0. SW cache `atlas-v949` → `atlas-v950`.
+
 ## iter 1017 — Hard-concept: the Kalman filter (content)
 Rotated to time series and filled a genuine gap: "state space" was mentioned but the **Kalman filter** itself was absent (DTW & change-point also surfaced). Added a deep-dive to `ts-deep-forecasting` (its 4th): the optimal recursive state estimator — a **predict-update** cycle that *is* Bayesian updating for Gaussians (cross-linked), the **Kalman gain** $\hat x=\hat x_{\text{pred}}+K(z-\hat x_{\text{pred}})$ balancing model vs sensor, constant work per step; EKF/UKF/particle-filter extensions, and exponential smoothing as a special case.
 Verified: g()-guarded (proseInMath on the gain formula); byte-stable JSON re-serialize; gate ALL GREEN (internal-links lint); **headless** — 4 deep-dives, Kalman/gain/predict-update/particle-filter + cross-link, 11 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v948` → `atlas-v949`.
