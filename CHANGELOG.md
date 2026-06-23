@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 943 — Hard-concept: conformal prediction (content)
+Filled a genuine modern gap. Added a deep-dive to `ml-model-selection` (its 6th): **conformal prediction** — distribution-free uncertainty with a *guarantee*. Output a prediction set $\{y: 1-p(y\mid x)\le\hat q\}$, where $\hat q$ is the
+$\lceil(1-\alpha)(n+1)\rceil$-th smallest calibration nonconformity score; it covers the truth with probability ≥ $1-\alpha$ for **any** model and distribution (assuming exchangeability). The magic: it holds even for a bad model (just bigger sets). Turns calibration's approximate promise into a finite-sample one — cross-linked.
+Verified: g()-guarded (proseInMath on the conformal math); byte-stable JSON re-serialize; gate ALL GREEN (internal-links lint); **headless** — 6 deep-dives, conformal/coverage/exchangeability/nonconformity + cross-link, 27 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v874` → `atlas-v875`.
+
 ## iter 942 — Glossary: RL imitation & practical terms (reference)
 A glossary completeness check found core RL vocabulary taught but undefined. Added **6 terms** — **Behavioral cloning**, **Imitation learning**, **Inverse reinforcement learning (IRL)**, **DAgger**, **Reward shaping**, **Credit assignment**. Glossary **397 → 403** (0 holes) — crossed 400.
 Verified: glossary parses; gate ALL GREEN; **headless** — all 6 render on `#/glossary` (6/6), kErr=0, errs=0. SW cache `atlas-v873` → `atlas-v874`.
