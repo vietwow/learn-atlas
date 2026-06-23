@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 953 — Glossary: multivariate time-series terms (reference)
+Completed the Granger thread + covered the last flagged TS gap with **3 glossary terms** — **Granger causality**, **Vector autoregression (VAR)**, and **Cointegration**. Glossary **410 → 413** (0 holes).
+Verified: glossary parses; gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), kErr=0, errs=0. SW cache `atlas-v884` → `atlas-v885`.
+
 ## iter 952 — Wire Granger causality → interventional causal tools: TS → stats (understandability)
 Threaded the iter-951 Granger dive into the causal-inference module: its closing line ("far below the interventional tools — RCTs, instruments, regression discontinuity") now links **regression discontinuity** to `ps-causal-estimation`. Makes the
 causal-ladder framing navigable — a learner can jump from the weakest (predictive) notion of causality straight to the interventional machinery that licenses real "what if" claims.
