@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 895 — Glossary: HMM terms (reference)
+Completed the iter-894 thread with **3 glossary terms** — **Hidden Markov Model (HMM)**, **Viterbi algorithm**, and **Baum–Welch algorithm**. Glossary **370 → 373** (0 holes).
+Verified: glossary parses; gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), kErr=0, errs=0. SW cache `atlas-v826` → `atlas-v827`.
+
 ## iter 894 — Hard-concept: Hidden Markov Models (content)
 Filled a genuine gap (Kalman filter & state-space models were covered, but HMMs weren't). Added a deep-dive to `ml-naive-bayes` (its 4th, building on its generative-vs-discriminative dive): an **HMM is naive Bayes unrolled over a
 sequence** — a hidden Markov chain of states, each emitting $P(o_t\mid s_t)$. Its three algorithms: **forward** (likelihood, DP), **Viterbi** (decoding, DP — structurally edit-distance), **Baum–Welch** (learning = EM, cross-linked). The Kalman filter is its continuous-state cousin; add actions+rewards and you get a POMDP.
