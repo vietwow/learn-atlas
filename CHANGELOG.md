@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 959 — Glossary: stochastic-process terms (reference)
+Completed the iter-958 thread (plus the flagged MGF gap) with **4 glossary terms** — **Brownian motion (Wiener process)**, **Stochastic process**, **Stochastic differential equation (SDE)**, and **Moment generating function (MGF)**. Glossary **413 → 417** (0 holes).
+Verified: glossary parses with `\sim`/`\mathrm` intact (JSON-form); gate ALL GREEN; **headless** — all 4 render on `#/glossary` (4/4), 371 KaTeX, kErr=0, errs=0. SW cache `atlas-v890` → `atlas-v891`.
+
 ## iter 958 — Hard-concept: Brownian motion / Wiener process (content)
 Filled a genuine foundational gap. Added a deep-dive to `ps-normal-distribution` (its 4th): **Brownian motion** is the continuous-time limit of a random walk — a nowhere-differentiable path with independent **Gaussian increments** $W_t-W_s\sim\mathcal{N}(0,t-s)$,
 so it spreads like $\sqrt t$ (diffusive scaling) and the normal distribution is literally the law of its increments (CLT). It's the canonical noise of an SDE $\mathrm{d}X=\mu\,\mathrm{d}t+\sigma\,\mathrm{d}W$ — driving **diffusion models** (cross-linked), Black–Scholes, and Einstein's pollen.
