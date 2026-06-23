@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1047 — Glossary: skip-list & data-structure terms (reference)
+Completed the iter-1046 thread plus two core terms — **3 glossary terms**: **Skip list**, **Randomized algorithm**, and **Binary search tree (BST)**. Glossary **495 → 498** (0 holes) — nearing 500.
+Verified: glossary parses with `\log` intact (JSON-form); gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), 474 KaTeX, kErr=0, errs=0. SW cache `atlas-v978` → `atlas-v979`.
+
 ## iter 1046 — Hard-concept: skip lists (content)
 Rotated to algorithms and filled a genuine gap. Added a deep-dive to `a-trees-heaps` (its 4th): the **skip list** — a sorted linked list with coin-flip "express lanes" ($p=\tfrac12$ promotion → ~$\log_2 n$ levels) giving $O(\log n)$ *expected* search/insert/delete with no rotations. Loved for simplicity and concurrency (Redis sorted sets, LevelDB/RocksDB memtables, ConcurrentSkipListMap); the **randomized** answer to the balanced BST (cross-linked).
 **Self-caught:** first draft self-linked "BST" within a-trees-heaps → plain text, kept the randomized cross-link.
