@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 946 — Hard-concept: doubly robust estimation & double ML (content)
+Filled a genuine causal-inference gap. Added a deep-dive to `ps-causal-estimation` (its 4th): **doubly robust** (AIPW) estimation fuses outcome regression and inverse-propensity weighting so the estimate stays consistent if *either*
+nuisance model is right — "two chances to be right". That robustness + orthogonality is the foundation of **double / debiased machine learning** (flexible ML nuisances + cross-fitting → valid CIs for the causal effect). Also surfaced double-ML and regression-discontinuity as remaining gaps.
+Verified: g()-guarded (proseInMath on the AIPW formula); byte-stable JSON re-serialize; gate ALL GREEN; **headless** — 4 deep-dives, doubly-robust/IPW/double-ML/cross-fitting present, 50 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v877` → `atlas-v878`.
+
 ## iter 945 — NEW viz: conformal prediction coverage (visualizations)
 Gave the iter-943/944 conformal thread its visual — the **159th widget, `ml-conformal`** in `ml-model-selection`: test points around ŷ=0.5x wrapped in a band ŷ ± q̂ (q̂ = the 1−α calibration-residual quantile), points
 green if covered / red if not. Slide α: the **empirical coverage tracks the target 1−α** (0.90 at α=0.1 → 0.52 at α=0.5) while the band widens to keep its promise. Makes the distribution-free guarantee tangible.
