@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1036 — Hard-concept: the Perron-Frobenius theorem (content)
+Rotated to linear algebra and filled a genuine gap. Added a deep-dive to `la-eigenvalues-eigenvectors` (its 4th): **Perron-Frobenius** — an irreducible nonnegative matrix has a strictly-largest, simple real eigenvalue $\lambda^\ast$ whose eigenvector is all-positive. The engine behind **PageRank** and **Markov-chain stationary distributions** (both the $\lambda^\ast=1$ Perron eigenvector), and *why* **power iteration** converges (the dominant eigenvalue washes out the rest).
+Verified: g()-guarded (proseInMath on the λ* math); byte-stable JSON re-serialize; gate ALL GREEN; **headless** — 4 deep-dives, Perron-Frobenius/PageRank/stationary-distribution/power-iteration present, 175 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v967` → `atlas-v968`.
+
 ## iter 1035 — Glossary: calculus-of-variations terms (reference)
 Completed the iter-1034 thread with **2 glossary terms** — **Calculus of variations** and **Euler-Lagrange equation**. Glossary **480 → 482** (0 holes).
 Verified: glossary parses with `\int`/`\frac`/`\partial` intact (JSON-form); gate ALL GREEN; **headless** — both render on `#/glossary` (2/2), 458 KaTeX, kErr=0, errs=0. SW cache `atlas-v966` → `atlas-v967`.
