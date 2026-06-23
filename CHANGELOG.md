@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1069 — Hard-concept: the Kelly criterion (content)
+Rotated to information theory and filled a genuine gap. Added a deep-dive to `it-mutual-information` (its 5th): the **Kelly criterion** — bet to maximize $\mathbb{E}[\log W]$ (wealth compounds multiplicatively), optimal stake $f^\ast=p-\frac{1-p}{b}$; over-betting raises variance for *lower* growth (hence fractional Kelly). The IT punchline: horse-race growth $W^\ast=\log N-H(X)$ (entropy caps it, cross-linked), side information buys $I(X;Y)$ of extra growth, wrong beliefs forfeit the KL. Betting *is* using information.
+Verified: g()-guarded (proseInMath on the f*/growth math); byte-stable JSON re-serialize; gate ALL GREEN (internal-links lint); **headless** — 5 deep-dives, Kelly/doubling-rate/fractional-Kelly/side-information + cross-link, 98 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v1000` → `atlas-v1001`.
+
 ## iter 1068 — Glossary: hindsight/goal-conditioned RL terms (reference) · SW cache hits v1000
 Completed the iter-1067 thread with **3 glossary terms** — **Hindsight experience replay (HER)**, **Goal-conditioned RL**, and **Sparse reward**. Glossary **519 → 522** (0 holes) — crossed 520. SW cache rolled to **atlas-v1000**.
 Verified: glossary parses with `\pi`/`\mid` intact (JSON-form); gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), 513 KaTeX, kErr=0, errs=0. SW cache `atlas-v999` → `atlas-v1000`.
