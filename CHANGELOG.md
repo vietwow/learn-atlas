@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 970 — Step-back (clean) + glossary: auction terms (step-back / reference)
+Step-back **kErr-aware 188-lesson sweep** across all 11 topics: errs=0, **kErrLessons=NONE**, mapNodes=883 — zero regressions since iter 960 (validates the core/fictitious-play/revenue-equivalence/max-entropy/MGF/Brownian content + 4 new viz + glossary batches).
+**Ship:** completed the iter-969 thread with **2 glossary terms** — **Revenue equivalence** and **First-price auction**. Glossary **420 → 422** (0 holes).
+Verified: glossary parses; gate ALL GREEN; full sweep clean; **headless** — both render (2/2), kErr=0, errs=0. SW cache `atlas-v901` → `atlas-v902`.
+
 ## iter 969 — Hard-concept: revenue equivalence (content)
 Filled the last flagged GT gap. Added a deep-dive to `gt-foundations` (its 6th, grouped with the mechanism-design/Vickrey dive): **revenue equivalence** — under standard assumptions (independent private values, risk-neutral, item to the highest bidder, zero surplus at the bottom), first-price, second-price/Vickrey, all-pay, Dutch, and English auctions all raise the **same expected revenue**, because a bidder's expected payment is pinned by the allocation, not the format. Covers where it breaks (risk aversion, correlated values → linkage principle, asymmetry).
 Wrote LaTeX-free for push-wrapper safety; function-replacer + enc.
