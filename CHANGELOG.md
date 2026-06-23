@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 905 — NEW viz: GARCH volatility clustering (visualizations)
+Gave the iter-904 GARCH deep-dive its visual — the **156th widget, `ts-garch-volatility`** in `ts-arima`: a simulated GARCH(1,1) path (seeded LCG, reproducible) with returns εₜ on top and conditional volatility σₜ below. Slide
+persistence α+β: near 0.2 the volatility line is flat (constant variance, what ARIMA assumes); near 0.97 calm and turbulent stretches bunch into long runs — **volatility clustering** you can see. "New path" reseeds.
+Verified: clustering-vs-persistence re-derived in Node (monotone rising); gate ALL GREEN (now **156 widgets**); **headless** — lab mounts, reseed button present, clustering metric rises 0.118 (α+β=0.2) → 0.232 (0.97), kErr=0, errs=0; screenshot shows clear vol clusters aligned across both panels. SW cache `atlas-v836` → `atlas-v837`.
+
 ## iter 904 — Hard-concept: GARCH / volatility clustering (content)
 Filled the flagged TS gap. Added a deep-dive to `ts-arima` (its 4th): **GARCH** models *time-varying variance* — the counterpart to ARIMA's mean model. Returns show **volatility clustering** (big moves bunch together); GARCH(1,1) is
 $\sigma_t^2 = \omega + \alpha\,\varepsilon_{t-1}^2 + \beta\,\sigma_{t-1}^2$, with persistence $\alpha+\beta$ governing how long volatility shocks linger. ARIMA-GARCH together forecast *where* the series goes and *how uncertain* that is — the basis of honest prediction intervals, Value-at-Risk, and option pricing.

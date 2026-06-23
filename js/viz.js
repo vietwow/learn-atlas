@@ -8258,4 +8258,54 @@
     resample();
   });
 
+
+  /* ========================================================
+     156. GARCH: volatility clustering (time series)
+     ======================================================== */
+  register({ id: 'ts-garch-volatility', topic: 'time-series', title: 'GARCH: volatility clustering', blurb: 'A GARCH(1,1) process feeds yesterday’s squared shock and variance back into today’s variance: σ²ₜ = ω + α·ε²ₜ₋₁ + β·σ²ₜ₋₁. The top panel is the simulated returns; the bottom panel is the conditional volatility σₜ driving them. Slide the persistence α+β: near zero the volatility is almost flat (constant-variance, like ARIMA assumes); near one, calm and turbulent stretches bunch into long runs — the volatility clustering real markets show. The long-run variance is held at 1 so only the clustering changes, not the scale.' },
+  function (root) {
+    const W = 520, H = 320, padL = 34, padR = 12;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const btns = controls(root);
+    const info = note(root);
+    const N = 260, alpha = 0.15;
+    let persist = 0.92, seed = 7;
+    function sim() {
+      let s = seed; const rnd = () => { s = (s * 1103515245 + 12345) & 0x7fffffff; return s / 0x7fffffff; };
+      const gauss = () => { const u1 = Math.max(rnd(), 1e-9), u2 = rnd(); return Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2); };
+      const beta = Math.max(0, persist - alpha), omega = 1 - persist;
+      let v = 1, eps = 0; const R = [], S = [];
+      for (let t = 0; t < N; t++) { v = omega + alpha * eps * eps + beta * v; const sd = Math.sqrt(v); eps = sd * gauss(); R.push(eps); S.push(sd); }
+      return { R, S };
+    }
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const { R, S } = sim();
+      const plotW = W - padL - padR, x = i => padL + i / (N - 1) * plotW;
+      // top panel: returns (mid at y=70, range +/- 60)
+      const midR = 72, scR = 11;
+      ctx.strokeStyle = p.line; ctx.beginPath(); ctx.moveTo(padL, midR); ctx.lineTo(W - padR, midR); ctx.stroke();
+      ctx.fillStyle = p.mute; ctx.font = '10px ' + (cssVar('--font-mono') || 'monospace'); ctx.textAlign = 'left'; ctx.fillText('returns εₜ', padL, 16);
+      ctx.strokeStyle = p.violet; ctx.beginPath();
+      R.forEach((r, i) => { const yy = midR - r * scR; i ? ctx.lineTo(x(i), yy) : ctx.moveTo(x(i), yy); }); ctx.stroke();
+      // bottom panel: conditional volatility sigma_t (baseline y=300, up)
+      const baseV = 300, scV = 60;
+      ctx.strokeStyle = p.line; ctx.beginPath(); ctx.moveTo(padL, baseV); ctx.lineTo(W - padR, baseV); ctx.stroke();
+      ctx.fillStyle = p.mute; ctx.textAlign = 'left'; ctx.fillText('volatility σₜ', padL, 168);
+      ctx.strokeStyle = p.gold; ctx.lineWidth = 2; ctx.beginPath();
+      S.forEach((sd, i) => { const yy = baseV - sd * scV; i ? ctx.lineTo(x(i), yy) : ctx.moveTo(x(i), yy); }); ctx.stroke(); ctx.lineWidth = 1;
+      const mean = S.reduce((a, b) => a + b, 0) / N, cl = Math.sqrt(S.reduce((a, b) => a + (b - mean) * (b - mean), 0) / N);
+      info.innerHTML = 'persistence α+β = <b style="color:' + p.gold + '">' + persist.toFixed(2) + '</b>. Volatility spread (clustering) = <b>' + cl.toFixed(3) + '</b>. ' +
+        (persist <= 0.4 ? 'Nearly constant variance — shocks die instantly, no clustering (what plain ARIMA assumes).'
+          : persist >= 0.85 ? 'Strong clustering — calm and turbulent runs persist, just like real returns.'
+            : 'Moderate clustering — volatility drifts in waves.');
+    }
+    slider(ctl, { label: 'persistence α+β', min: 0.2, max: 0.97, step: 0.01, value: persist, fmt: v => v.toFixed(2), onInput: v => { persist = v; draw(); } });
+    button(btns, '🎲 New path', () => { seed = (seed * 16807 + 1) & 0x7fffffff; draw(); });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'GARCH volatility clustering. Top panel: simulated returns over time. Bottom panel: the conditional volatility sigma_t. A persistence slider (alpha plus beta) controls clustering: near 0.2 the volatility line is almost flat and returns look uniform; near 0.97 the volatility forms long high and low runs and the returns show clusters of large and small moves. A New-path button reseeds the simulation.');
+    draw();
+  });
+
 })();
