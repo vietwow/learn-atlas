@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1006 — Hard-concept: mixup (content)
+Rotated to deep learning and filled a genuine gap: mixup/cutmix were absent. Added a deep-dive to `dl-overfitting-and-regularization` (its 7th): **mixup** trains on convex blends of example pairs, $\tilde x=\lambda x_i+(1-\lambda)x_j$, $\tilde y=\lambda y_i+(1-\lambda)y_j$, $\lambda\sim\mathrm{Beta}(\alpha,\alpha)$ — a vicinal-risk method that smooths boundaries, improves **calibration** (cross-linked) and robustness; **cutmix** pastes patches instead; kin to label smoothing.
+**Self-caught:** first cross-link pointed at a non-existent `ml-calibration`; the link-target guard aborted the write → repointed to `ml-model-selection` (where calibration/conformal live).
+Verified: g()-guarded (proseInMath on the blend math) + link-target check; byte-stable JSON re-serialize; gate ALL GREEN (internal-links lint); **headless** — 7 deep-dives, mixup/cutmix/vicinal/label-smoothing + cross-link, 68 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v937` → `atlas-v938`.
+
 ## iter 1005 — Glossary: mirror-descent terms (reference)
 Completed the iter-1004 thread with **3 glossary terms** — **Mirror descent**, **Bregman divergence**, and **Multiplicative weights**. Glossary **448 → 451** (0 holes) — crossed 450.
 Verified: glossary parses with `\nabla`/`\psi` intact (JSON-form); gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), 422 KaTeX, kErr=0, errs=0. SW cache `atlas-v936` → `atlas-v937`.
