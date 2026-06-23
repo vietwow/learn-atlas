@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1005 — Glossary: mirror-descent terms (reference)
+Completed the iter-1004 thread with **3 glossary terms** — **Mirror descent**, **Bregman divergence**, and **Multiplicative weights**. Glossary **448 → 451** (0 holes) — crossed 450.
+Verified: glossary parses with `\nabla`/`\psi` intact (JSON-form); gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), 422 KaTeX, kErr=0, errs=0. SW cache `atlas-v936` → `atlas-v937`.
+
 ## iter 1004 — Hard-concept: mirror descent (content)
 Filled the noted optimization gap. Added a deep-dive to `c-proximal-projected` (its 4th): **mirror descent** — replace gradient descent's hidden Euclidean leash with a **Bregman divergence** $D_\psi$, minimizing $\langle\nabla f,x\rangle+\tfrac1\eta D_\psi(x,x_t)$; step via the mirror map $\nabla\psi$ and back. $\psi=\tfrac12\lVert\cdot\rVert^2$ → plain GD; negative entropy on the simplex → **multiplicative weights / exponentiated gradient**.
 Matching geometry to the domain sharpens convergence; the engine behind **no-regret learning** (cross-linked) and boosting.
