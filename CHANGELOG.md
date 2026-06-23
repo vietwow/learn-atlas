@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1088 — Glossary: wavelet & time-frequency terms (reference)
+Completed the iter-1087 thread with **3 glossary terms** — **Wavelet transform**, **Multi-resolution analysis**, and **Short-time Fourier transform (STFT)**. Glossary **541 → 544** (0 holes).
+Verified: glossary parses with `\psi` intact (JSON-form); gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), 550 KaTeX, kErr=0, errs=0. SW cache `atlas-v1019` → `atlas-v1020`.
+
 ## iter 1087 — Hard-concept: wavelets (content)
 Rotated to time series and filled the noted gap. Added a deep-dive to `ts-what-is-a-time-series` (its 5th): **wavelets** — Fourier says *which* frequencies but not *when*; wavelets use scalable localized atoms $\psi_{a,b}(t)=\tfrac1{\sqrt a}\psi(\tfrac{t-b}{a})$ for **multi-resolution** (big scale = fine frequency, small scale = fine time). The DWT is an $O(n)$ Mallat filter-bank cascade (Haar, Daubechies); powers JPEG 2000, transient detection, and **soft-threshold denoising** (cross-linked to the proximal operator).
 Verified: g()-guarded (proseInMath on the scaling math); byte-stable JSON re-serialize; gate ALL GREEN (internal-links lint); **headless** — 5 deep-dives, wavelet/multi-resolution/Daubechies/Mallat + cross-link, 43 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v1018` → `atlas-v1019`.
