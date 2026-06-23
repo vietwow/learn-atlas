@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 971 — Code: revenue equivalence in numbers (examples)
+After confirming the modern LLM-systems space is fully covered (FlashAttention, RoPE, test-time compute, KV-cache, speculative decoding all present), made the surprising revenue-equivalence theorem **runnable** — a code exercise inside the iter-969 dive in `gt-foundations`: two bidders with uniform values, first-price (bid v/2, pay max/2) vs second-price (pay the min) → **first-price = 0.333, second-price = 0.333 (revenue equivalence!)**. Completes the thread (content 969 + glossary 970 + code 971).
+Verified: re-derived in Node; push-wrapper function-replacer + enc (no leakage, no control chars, no `<`/`>`); **gate ALL GREEN — code-exercises verified (now 189)**; **headless** — Run executes, output exactly right, entities decoded, kErr=0, errs=0. SW cache `atlas-v902` → `atlas-v903`.
+
 ## iter 970 — Step-back (clean) + glossary: auction terms (step-back / reference)
 Step-back **kErr-aware 188-lesson sweep** across all 11 topics: errs=0, **kErrLessons=NONE**, mapNodes=883 — zero regressions since iter 960 (validates the core/fictitious-play/revenue-equivalence/max-entropy/MGF/Brownian content + 4 new viz + glossary batches).
 **Ship:** completed the iter-969 thread with **2 glossary terms** — **Revenue equivalence** and **First-price auction**. Glossary **420 → 422** (0 holes).
