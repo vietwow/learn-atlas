@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 941 — Code-parity backlog: behavioral cloning's compounding error (examples / content-parity)
+Backlog, fresh topic (RL). Added a code exercise to `rl-imitation` (had none), in its "fatal flaw: compounding errors" section: a per-step error ε over horizon T grows like **εT²**, not εT, because one slip leads to unseen states →
+**supervised bound ~ 5.0, BC compounding ~ 500** (ε=0.05, T=100). Crystallizes *why* naive behavioral cloning fails and DAgger/IRL exist. Backlog now 8 lessons.
+Verified: re-derived in Node; push-wrapper function-replacer + enc (no leakage, no control chars, no `<`/`>`); **gate ALL GREEN — code-exercises verified (now 185)**; **headless** — Run executes, output exactly right, entities decoded, kErr=0, errs=0. SW cache `atlas-v872` → `atlas-v873`.
+
 ## iter 940 — Step-back (clean) + wire GAN objective ↔ distribution distances (step-back / understandability)
 Step-back **kErr-aware 188-lesson sweep** across all 11 topics: errs=0, **kErrLessons=NONE**, mapNodes=883 — zero regressions since iter 930 (validates code 931–939, TV/Pinsker content 935, and the two new viz 932/938).
 **Ship:** first cross-link since iter 910 — wired the distance-measures dive (`it-cross-entropy-kl`) ↔ `dl-gans` bidirectionally: a GAN's objective *is* minimizing a distribution distance (Jensen–Shannon for the classic GAN, Wasserstein for WGAN). Turns a stated-but-unlinked connection into a navigable one (IT ↔ DL).
