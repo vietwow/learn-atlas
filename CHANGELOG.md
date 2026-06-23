@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1090 — Step-back (clean) + hard-concept: active learning (step-back / content)
+Step-back **kErr + visible-newline-aware 188-lesson sweep**: errs=0, **kErrLessons=NONE**, **visNlessons=NONE**, mapNodes=883 — zero regressions since iter 1080.
+**Ship:** rotated to ML and filled the noted gap (semi-supervised turned out covered in dl-self-supervised). Added a deep-dive to `ml-logistic-regression` (its 4th): **active learning** — the model picks which unlabeled points to label. Uncertainty sampling (least-confidence, margin, entropy $H=-\sum_c p\log p$ off the class probabilities, cross-linked to entropy), query-by-committee, BALD; the catch — greedy querying biases the labeled set (boundary-hugging), fixed by diversity/density weighting. The discrete cousin of Bayesian-optimization acquisition.
+Verified: g()-guarded; byte-stable JSON re-serialize; gate ALL GREEN (internal-links lint); full sweep clean; **headless** — 4 deep-dives, active-learning/uncertainty-sampling/query-by-committee/acquisition + cross-link, 58 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v1021` → `atlas-v1022`.
+
 ## iter 1089 — Hard-concept: error-correcting codes (content)
 Rotated to information theory and filled a gap (ECC was only name-dropped, no dive; Rényi entropy also surfaced). Added a deep-dive to `it-channel-capacity` (its 4th): **error-correcting codes** — the constructive side of the channel theorem. Rate $R=k/n$, minimum distance $d$ → detect $d-1$, correct $\lfloor(d-1)/2\rfloor$ (decode to nearest codeword); parity ($d{=}2$), Hamming(7,4) ($d{=}3$), Reed-Solomon (bursts), LDPC/turbo (capacity-approaching, belief-propagation). The exact complement of **source coding** (cross-linked): compression removes redundancy to the entropy floor, channel coding adds it to the capacity ceiling.
 Verified: g()-guarded (proseInMath on the rate/distance math); byte-stable JSON re-serialize; gate ALL GREEN (internal-links lint); **headless** — 4 deep-dives, ECC/Hamming/Reed-Solomon/LDPC + cross-link, 62 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v1020` → `atlas-v1021`.
