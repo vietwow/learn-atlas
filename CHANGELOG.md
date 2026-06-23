@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 927 — Hard-concept: the neural tangent kernel (content)
+Varied off the code backlog to fill a genuine advanced gap (the lone "NTK" hit was "NTK-aware RoPE scaling", unrelated). Added a deep-dive to `dl-overfitting-and-regularization` (its 6th, completing the over-parameterization arc beside
+double descent / grokking / lottery ticket): the **neural tangent kernel** — in the infinite-width limit, GD training becomes **kernel regression** with a fixed kernel ($K=\nabla_\theta f(x)\cdot\nabla_\theta f(x')$), "lazy training" explaining provable convergence + generalization. Honest caveat: real nets do **feature learning** and beat their NTK. Cross-linked to kernels (ml-svm).
+Verified: g()-guarded (proseInMath on the NTK math); byte-stable JSON re-serialize; gate ALL GREEN (internal-links lint); **headless** — 6 deep-dives, NTK/lazy-training/feature-learning/kernel-regression + cross-link, 63 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v858` → `atlas-v859`.
+
 ## iter 926 — Code-parity backlog: the discounted return (examples / content-parity)
 Backlog, fresh topic (RL). Added a code exercise to `rl-what-is-rl` (had none), in its "A Tiny Episode" worked example: the **discounted return** $G=\sum_t\gamma^t r_t$ — the quantity an agent actually maximizes →
 **discounted return G = 4.807** (rewards [1,0,2,3], γ=0.9). The most foundational RL number, now runnable in the intro lesson. Backlog now 16 lessons.
