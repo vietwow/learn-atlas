@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1076 — Hard-concept: line search & the Wolfe conditions (content)
+Rotated to calculus/optimization and filled a genuine gap (BFGS, interior-point, autodiff, Newton all already present). Added a deep-dive to `c-gradient-descent-convergence` (its 5th): **line search** — having picked a direction $p$, choose the step $\alpha$ in $x\leftarrow x+\alpha p$. The **Wolfe conditions** — Armijo sufficient decrease $f(x+\alpha p)\le f(x)+c_1\alpha\nabla f^\top p$ + curvature $\nabla f(x+\alpha p)^\top p\ge c_2\nabla f^\top p$ — bracket a useful step; **backtracking** (halve until Armijo) is the cheap default; curvature keeps quasi-Newton's Hessian PD. A deep net's **learning rate** (cross-linked) is the cheap per-minibatch stand-in.
+Verified: g()-guarded (proseInMath on the Armijo/Wolfe math); byte-stable JSON re-serialize; gate ALL GREEN (internal-links lint); **headless** — 5 deep-dives, line-search/Wolfe/Armijo/backtracking + cross-link, 85 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v1007` → `atlas-v1008`.
+
 ## iter 1075 — OWNER REQUEST: extend the rank ladder past Polymath (feature)
 Owner asked "should we have higher rank than polymath?" — investigated and found the ladder was **mis-scaled**: top rank Polymath = 8,500 XP, but realistic engagement earns far more (188 lessons × 50 = 9,400 XP from lessons alone; quizzes ~13k; +code +daily reviews → 25k–100k+), and the achievements already assume 100k (Luminary badge). Once maxed, the rank carrot died for the entire long tail — against the "want to come back" north star. Owner chose **finite named ranks**.
 Added **4 ranks** to `Store.LEVELS` (10 → 14): **Grandmaster (12,000)**, **Oracle (18,000)**, **Laureate (26,000)**, **Magnum (32,000, final)**. Pinned the "Polymath" achievement to the Polymath *rank* (xp ≥ 8,500) instead of "final level" so it keeps its meaning, and updated its description. Mirrored the fallback rank curve in `index.html`.
