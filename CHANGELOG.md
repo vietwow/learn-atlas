@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 954 — NEW viz: cointegration — random walks on a leash (visualizations)
+Promoted cointegration (953 glossary) into a taught, visual concept — the **161st widget, `ts-cointegration`** in `ts-stationarity`, with a framing paragraph: two non-stationary series wander (top panel) yet their **spread stays bounded** (bottom)
+when they share a common trend — a stationary combination of non-stationary series. Slide link strength λ: at λ=1 the spread hugs zero (range 1.0, cointegrated, the basis of pairs trading); at λ=0 it drifts like a random walk (range 9.8).
+Verified: spread behavior re-derived in Node (0.98 → 9.77); gate ALL GREEN (now **161 widgets**); **headless** — lab mounts, spread range 1.0 at λ=1 vs 9.8 at λ=0 (tethers), kErr=0, errs=0; screenshot shows two series wandering together with a flat spread. SW cache `atlas-v885` → `atlas-v886`.
+
 ## iter 953 — Glossary: multivariate time-series terms (reference)
 Completed the Granger thread + covered the last flagged TS gap with **3 glossary terms** — **Granger causality**, **Vector autoregression (VAR)**, and **Cointegration**. Glossary **410 → 413** (0 holes).
 Verified: glossary parses; gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), kErr=0, errs=0. SW cache `atlas-v884` → `atlas-v885`.

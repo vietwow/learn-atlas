@@ -8480,4 +8480,47 @@
     draw();
   });
 
+
+  /* ========================================================
+     161. Cointegration: series that wander together (time series)
+     ======================================================== */
+  register({ id: 'ts-cointegration', topic: 'time-series', title: 'Cointegration: two random walks on a leash', blurb: 'Two non-stationary series (top) each wander like a random walk. What matters is their spread (bottom). When they are cointegrated they share a common stochastic trend, so the spread stays bounded and mean-reverting — a stationary combination of two non-stationary series. Slide the link strength λ: at λ=1 the spread hugs zero (cointegrated, the basis of pairs trading); drop λ and the two series drift apart and the spread itself becomes a random walk.' },
+  function (root) {
+    const W = 500, H = 320, padL = 32, padR = 12;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    const N = 120;
+    let lam = 1.0, seed = 7;
+    function mk(s) { return () => { s = (s * 1103515245 + 12345) & 0x7fffffff; return s / 0x7fffffff; }; }
+    function sim() {
+      const r = mk(seed); let C = 0, C2 = 0; const A = [], B = [], sp = [];
+      for (let t = 0; t < N; t++) { C += (r() - 0.5); C2 += (r() - 0.5); const na = (r() - 0.5) * 0.6, nb = (r() - 0.5) * 0.6; const a = C + na, b = lam * C + (1 - lam) * C2 + nb; A.push(a); B.push(b); sp.push(a - b); }
+      return { A, B, sp };
+    }
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const { A, B, sp } = sim();
+      const all = A.concat(B); const lo = Math.min.apply(null, all), hi = Math.max.apply(null, all), pad = (hi - lo) * 0.1 + 0.5;
+      const plotW = W - padL - padR, X = i => padL + i / (N - 1) * plotW;
+      // top: series A & B (y in [0,150])
+      const Yt = v => 18 + (1 - (v - lo + pad) / (hi - lo + 2 * pad)) * 120;
+      ctx.fillStyle = p.mute; ctx.font = '10px ' + (cssVar('--font-mono') || 'monospace'); ctx.textAlign = 'left'; ctx.fillText('series A, B', padL, 14);
+      ctx.strokeStyle = p.gold; ctx.beginPath(); A.forEach((v, i) => { i ? ctx.lineTo(X(i), Yt(v)) : ctx.moveTo(X(i), Yt(v)); }); ctx.stroke();
+      ctx.strokeStyle = p.violet; ctx.beginPath(); B.forEach((v, i) => { i ? ctx.lineTo(X(i), Yt(v)) : ctx.moveTo(X(i), Yt(v)); }); ctx.stroke();
+      // bottom: spread A-B around a fixed zero line (y in [180,300]), fixed scale so drift is visible
+      const baseS = 250, scS = 7;
+      ctx.strokeStyle = p.line; ctx.beginPath(); ctx.moveTo(padL, baseS); ctx.lineTo(W - padR, baseS); ctx.stroke();
+      ctx.fillStyle = p.mute; ctx.fillText('spread A − B (0 line)', padL, 176);
+      ctx.strokeStyle = p.sage; ctx.lineWidth = 2; ctx.beginPath(); sp.forEach((v, i) => { const yy = Math.max(184, Math.min(312, baseS - v * scS)); i ? ctx.lineTo(X(i), yy) : ctx.moveTo(X(i), yy); }); ctx.stroke(); ctx.lineWidth = 1;
+      const rng = Math.max.apply(null, sp) - Math.min.apply(null, sp);
+      info.innerHTML = 'link strength λ = <b style="color:' + p.sage + '">' + lam.toFixed(2) + '</b>. Spread range = <b>' + rng.toFixed(1) + '</b>. ' +
+        (lam >= 0.9 ? 'Cointegrated — the spread stays bounded and mean-reverting even as A and B wander.' : lam <= 0.2 ? 'Not cointegrated — the spread itself drifts like a random walk.' : 'Weakly linked — the spread wanders more the lower λ goes.');
+    }
+    slider(ctl, { label: 'link strength λ', min: 0, max: 1, step: 0.05, value: lam, fmt: v => v.toFixed(2), onInput: v => { lam = v; draw(); } });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Cointegration. Top panel: two wandering random-walk series A (gold) and B (violet). Bottom panel: their spread A minus B against a fixed zero line. A link-strength slider lambda controls how much they share a common trend: near lambda=1 the spread stays bounded and mean-reverting (cointegrated), and as lambda drops the spread drifts away like a random walk.');
+    draw();
+  });
+
 })();
