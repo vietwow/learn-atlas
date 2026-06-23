@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 930 — Step-back (clean) + code-parity: statistical power (step-back / content-parity)
+Step-back **kErr-aware 188-lesson sweep** across all 11 topics: errs=0, **kErrLessons=NONE**, mapNodes=883 — zero regressions since iter 920 (validates code injections 921–929 + Kolmogorov/reservoir/NTK content).
+**Ship:** code backlog — added a code exercise to `ps-errors-and-power` (had none), completing the hypothesis-testing trio (p-values 915 + power 930): **power n=20: 0.72, n=50: 0.97** — power rising with sample size (one-sample z-test, d=0.5, α=0.05, normal CDF by Abramowitz–Stegun). Backlog now 14 lessons.
+Verified: re-derived in Node; byte-stable JSON inject (no `<`/`>`); gate ALL GREEN (now 179 code-exercises); full sweep clean; **headless** — Run executes, output exactly right, kErr=0, errs=0. SW cache `atlas-v861` → `atlas-v862`.
+
 ## iter 929 — Code-parity backlog: verifying the special-function derivative rules (examples / content-parity)
 Backlog, fresh topic (calculus). Added a code exercise to `c-derivatives-special-functions` (had none), before its chain-rule section: a central-difference derivative checks all three headline rules at once → **e^x@1=2.718 sin@0=1.000 ln@2=0.500**
 (confirming d/dx eˣ=eˣ, d/dx sin=cos, d/dx ln=1/x). Backlog now 15 lessons.
