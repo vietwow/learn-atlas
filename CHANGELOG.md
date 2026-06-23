@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 893 — Wire SVM dual ↔ Lagrangian duality: ML ↔ calculus (understandability)
+After confirming multiple-comparisons, LP/duality, and the foundational glossary are all covered (gap-hunting exhausted), made a deep unmade bridge: the **SVM's kernel trick comes from its Lagrangian dual**. `ml-svm` (§6 kernel trick)
+and `c-lagrange-multipliers` (§8 why-this-matters-for-ML) both discuss it but never linked — now bidirectional. The constrained-optimization machinery (calc) is literally what produces the SVM's dual problem (ML).
+Verified: both byte-stable injects; gate ALL GREEN (internal-links lint confirms both); **headless** — both routes render ("Lagrange multipliers" / "support vector machine"), errs=0. SW cache `atlas-v824` → `atlas-v825`.
+
 ## iter 892 — NEW code exercise: LoRA's parameter savings (examples / hands-on)
 Confirmed the stats/progress page is mature (no engagement gaps), then added a code exercise to `l-peft-lora`, which had none, in its "Counting Parameters and Memory" worked-example section. Full fine-tuning of a 4096×4096 layer trains
 all d² params; LoRA trains two thin factors (2·d·r) → **LoRA trains 65536 of 16777216 params (0.39%)** — the whole point of LoRA, made concrete (change d/r and watch the fraction).
