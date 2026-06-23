@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 913 — Glossary: diffusion generative terms (reference)
+Completed the iter-912 thread (and the diffusion lesson's score-matching dive) with **2 glossary terms** — **Classifier-free guidance** and **Score matching** ($\nabla_x\log p(x)$). Glossary **384 → 386** (0 holes).
+Verified: glossary parses with `\varepsilon`/`\nabla` intact (JSON-form); gate ALL GREEN; **headless** — both render on `#/glossary` (2/2), 353 KaTeX, kErr=0, errs=0. SW cache `atlas-v844` → `atlas-v845`.
+
 ## iter 912 — Hard-concept: classifier-free guidance (content)
 Filled a genuine modern gap. Added a deep-dive to `dl-diffusion-models` (its 4th): **classifier-free guidance** — the "guidance scale" knob behind every text-to-image generator. Train one network with and without the
 condition, then at sampling extrapolate $\tilde{\varepsilon}=\varepsilon_{\text{uncond}}+w(\varepsilon_{\text{cond}}-\varepsilon_{\text{uncond}})$. The scale $w$ trades prompt fidelity vs diversity ($w{=}1$ ordinary conditional, $w{>}1$ exaggerates prompt pull) — exactly the CFG slider in Stable Diffusion / Imagen / DALL·E.
