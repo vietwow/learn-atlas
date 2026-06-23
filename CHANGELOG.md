@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 916 — Code-parity backlog: transformer-block parameter count (examples / content-parity)
+Third of the iter-914 backlog (working the biggest-value vein — read-only lessons → hands-on — rotating topics). Added a code exercise to `l-transformer-block` (had none) in its "parameters in one block" worked-example: counts a GPT-2-base pre-LN block →
+**attn 2359296 + ffn 4718592 + ln 3072 = 7080960**, confirming the lesson's own worked numbers and making the "FFN holds ~2× the weights of attention" point runnable. Backlog now 22 lessons.
+Verified: re-derived in Node (matches the lesson's 2.36M/4.72M); byte-stable JSON inject (no `<`/`>`); **gate ALL GREEN — code-exercises verified (now 171)**; **headless** — Run executes, output exactly right, entities decoded, kErr=0, errs=0. SW cache `atlas-v847` → `atlas-v848`.
+
 ## iter 915 — Code-parity backlog: p-value from scratch (examples / content-parity)
 Second of the iter-914 backlog (25 lessons lacked code). Added a code exercise to `ps-p-values` (had none) in its §7 worked-example: a **one-sample z-test** computing a **two-tailed p-value from scratch**, including the standard-normal CDF via the Abramowitz–Stegun approximation → **z = 2.00, two-tailed p = 0.0455**. A learner can now *run* the p-value, not just read about it. Backlog now 23 lessons.
 Verified: re-derived in Node; byte-stable JSON inject (no `<`/`>`); **gate ALL GREEN — code-exercises verified (now 170)**; **headless** — Run executes, output exactly right, entities decoded, kErr=0, errs=0. SW cache `atlas-v846` → `atlas-v847`.
