@@ -8794,4 +8794,53 @@
     draw();
   });
 
+
+  /* ========================================================
+     169. James-Stein shrinkage: error is lowest at an interior shrinkage (probability & statistics)
+     ======================================================== */
+  register({ id: 'ps-shrinkage', topic: 'probability-statistics', title: 'Shrinkage: why pulling toward the mean wins', blurb: 'Twelve noisy estimates of twelve true values. Shrink each toward the global mean by a factor λ — λ=0 keeps the raw estimates, λ=1 collapses everything to the mean. The curve is the total squared error vs λ, and its minimum sits strictly between 0 and 1: a little shrinkage beats both the raw estimates and full pooling. That dip below the λ=0 line is the James-Stein effect — borrowing strength across estimates lowers error even though it adds bias.' },
+  function (root) {
+    const W = 500, H = 300, padL = 48, padR = 16, padT = 18, padB = 34;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    const N = 12; let lam = 0.4, seed = 11;
+    function mk(s) { return function () { s = (s * 1103515245 + 12345) & 0x7fffffff; return s / 0x7fffffff; }; }
+    function build() {
+      const r = mk(seed); const theta = [], x = [];
+      for (let i = 0; i < N; i++) { const th = 2 * Math.sin(i); theta.push(th); x.push(th + 1.9 * (r() + r() + r() + r() - 2)); }
+      const xbar = x.reduce((a, b) => a + b, 0) / N;
+      const mse = L => { let s = 0; for (let i = 0; i < N; i++) { const e = (1 - L) * x[i] + L * xbar - theta[i]; s += e * e; } return s / N; };
+      return mse;
+    }
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const mse = build();
+      const plotW = W - padL - padR, plotH = H - padT - padB, baseY = padT + plotH;
+      const ys = []; for (let k = 0; k <= 100; k++) ys.push(mse(k / 100));
+      const ymax = Math.max.apply(null, ys) * 1.05, ymin = 0;
+      const X = L => padL + L * plotW, Y = v => baseY - (v - ymin) / (ymax - ymin) * plotH;
+      // axes
+      ctx.strokeStyle = p.line; ctx.fillStyle = p.mute; ctx.font = '10px ' + (cssVar('--font-mono') || 'monospace'); ctx.textAlign = 'right';
+      [0, ymax / 2, ymax].forEach(v => { const yy = Y(v); ctx.beginPath(); ctx.moveTo(padL, yy); ctx.lineTo(W - padR, yy); ctx.stroke(); ctx.fillText(v.toFixed(1), padL - 4, yy + 3); });
+      ctx.textAlign = 'center'; [0, 0.5, 1].forEach(v => ctx.fillText('λ=' + v, X(v), baseY + 14));
+      // raw (lam=0) reference line
+      ctx.strokeStyle = p.gold; ctx.setLineDash([4, 3]); ctx.beginPath(); ctx.moveTo(padL, Y(mse(0))); ctx.lineTo(W - padR, Y(mse(0))); ctx.stroke(); ctx.setLineDash([]);
+      // MSE curve
+      ctx.strokeStyle = p.violet; ctx.lineWidth = 2.5; ctx.beginPath(); ys.forEach((v, k) => { const px = X(k / 100), py = Y(v); k ? ctx.lineTo(px, py) : ctx.moveTo(px, py); }); ctx.stroke(); ctx.lineWidth = 1;
+      // optimum
+      let best = 0, bv = 1e9; for (let k = 0; k <= 100; k++) { if (ys[k] < bv) { bv = ys[k]; best = k / 100; } }
+      ctx.fillStyle = p.sage; ctx.beginPath(); ctx.arc(X(best), Y(bv), 4, 0, 2 * Math.PI); ctx.fill();
+      // slider marker
+      ctx.fillStyle = p.ink; ctx.beginPath(); ctx.arc(X(lam), Y(mse(lam)), 4.5, 0, 2 * Math.PI); ctx.fill();
+      info.innerHTML = 'shrink λ = <b style="color:' + p.ink + '">' + lam.toFixed(2) + '</b> → error <b>' + mse(lam).toFixed(3) + '</b> vs raw (λ=0) <b style="color:' + p.gold + '">' + mse(0).toFixed(3) + '</b>. ' +
+        'Minimum error at λ* = <b style="color:' + p.sage + '">' + best.toFixed(2) + '</b> — shrinkage beats the raw estimates.';
+    }
+    slider(ctl, { label: 'shrinkage λ', min: 0, max: 1, step: 0.02, value: lam, fmt: v => v.toFixed(2), onInput: v => { lam = v; draw(); } });
+    button(controls(root), '🎲 New noise', () => { seed = (seed * 16807 + 5) & 0x7fffffff; draw(); });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'James-Stein shrinkage. The curve plots total squared error against the shrinkage factor lambda from 0 to 1, with a dashed gold line at the raw lambda-equals-0 error. The curve dips below that line to a minimum at an interior lambda (sage dot) before rising again, showing that some shrinkage toward the mean lowers error. A slider moves a marker along the curve; a reseed button redraws the noise.');
+    draw();
+  });
+
 })();

@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1050 — Step-back (clean) + NEW viz: James-Stein shrinkage U-curve (step-back / visualizations)
+Step-back **kErr + visible-newline-aware 188-lesson sweep**: errs=0, **kErrLessons=NONE**, **visNlessons=NONE**, mapNodes=883 — zero regressions since iter 1040.
+**Ship:** gave the iter-1042 empirical-Bayes dive its visual — the **169th widget, `ps-shrinkage`** in `ps-point-estimation`: total squared error vs shrinkage λ for 12 noisy estimates. The violet curve dips **below** the dashed raw-error (λ=0) line to an interior minimum (λ*≈0.35) before rising to λ=1 — the **James-Stein** effect made visible: a little shrinkage beats both raw estimates and full pooling. Slider + reseed.
+Verified: shrinkage MSE re-derived in Node; gate ALL GREEN (now **169 widgets**); full sweep clean; **headless** — lab mounts, optimum interior (λ*=0.35) below raw (1.055), reseed present, kErr=0, errs=0; screenshot shows the U-curve dipping under the raw line. SW cache `atlas-v981` → `atlas-v982`.
+
 ## iter 1049 — Glossary: successor-representation terms (reference) — glossary hits 500 🎯
 Completed the iter-1048 thread with **2 glossary terms** — **Successor representation (SR)** and **Successor features**. Glossary **498 → 500** (0 holes) — milestone: **500 glossary terms**.
 Verified: glossary parses with `\mathbb`/`\sum` intact (JSON-form); gate ALL GREEN; **headless** — both render on `#/glossary` (2/2), 476 KaTeX, kErr=0, errs=0. SW cache `atlas-v980` → `atlas-v981`.
