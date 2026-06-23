@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 901 — Wire VQ-VAE → language models: DL → LLM (understandability)
+Threaded the iter-900 VQ-VAE deep-dive into the LLM topic: its closing idea — quantize a signal into tokens, then "model that sequence autoregressively, exactly like text" — now links to `l-what-is-a-language-model`. This makes the
+DALL·E/VQGAN/audio-codec insight navigable: the *same* next-token machinery a learner studies for text powers image and audio generation once VQ turns them into tokens.
+Verified: byte-stable JSON re-serialize; gate ALL GREEN (internal-links lint); **headless** — link renders as "exactly like text", kErr=0, errs=0. SW cache `atlas-v832` → `atlas-v833`.
+
 ## iter 900 — Step-back (clean) + NEW hard-concept: VQ-VAE (step-back / content)
 **Milestone iter 900.** Step-back **kErr-aware 188-lesson sweep** across all 11 topics: errs=0, **kErrLessons=NONE**, mapNodes=883 — zero regressions since iter 890 (validates the HMM/Viterbi/Fisher/Gumbel injections of 891–899).
 **Ship:** filled a genuine gap with a **VQ-VAE** deep-dive in `dl-autoencoders-vae` (its 6th), completing the discrete-latent thread: VQ-VAE snaps the encoder output to a learned **codebook** entry (a token), backprops through the non-differentiable $\arg\min$ with the **straight-through estimator** (iter 899), and adds codebook + commitment losses. It's the *other* route to discrete latents vs **Gumbel-softmax** (iter 897) — hard lookup + straight-through vs a soft temperature relaxation — and is the engine behind VQGAN / DALL·E image tokens / neural audio codecs.
