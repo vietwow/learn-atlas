@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1048 — Hard-concept: the successor representation (content)
+Rotated to RL and filled the noted gap. Added a deep-dive to `rl-value-approximation` (its 4th): the **successor representation** splits value into dynamics × reward — $M(s,s')=\mathbb{E}[\sum_t\gamma^t\mathbb{1}(s_t=s')]$ (expected discounted visits), so $V=Mr$ and $M=I+\gamma PM$ (learned by TD, cross-linked to value functions). Reward changes → keep $M$, re-multiply (instant transfer); **successor features** scale it to deep nets; hippocampal place/grid cells encode an SR-like predictive map.
+Verified: g()-guarded (proseInMath on the SR/Bellman math); byte-stable JSON re-serialize; gate ALL GREEN (internal-links lint); **headless** — 4 deep-dives, successor-representation/features/transfer/hippocampal + cross-link, 124 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v979` → `atlas-v980`.
+
 ## iter 1047 — Glossary: skip-list & data-structure terms (reference)
 Completed the iter-1046 thread plus two core terms — **3 glossary terms**: **Skip list**, **Randomized algorithm**, and **Binary search tree (BST)**. Glossary **495 → 498** (0 holes) — nearing 500.
 Verified: glossary parses with `\log` intact (JSON-form); gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), 474 KaTeX, kErr=0, errs=0. SW cache `atlas-v978` → `atlas-v979`.
