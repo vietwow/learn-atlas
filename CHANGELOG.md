@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 978 — Hard-concept: Gaussian mixture models (content)
+Rotated to machine learning and caught a teach-gap: GMM was name-dropped in `ml-kmeans` but never taught. Added a deep-dive (its 4th): a **Gaussian mixture model** assigns soft *responsibilities* $r_{ik}\propto\pi_k\mathcal{N}(x_i\mid\mu_k,\Sigma_k)$, fit by EM (E-step: responsibilities; M-step: responsibility-weighted means/covariances/weights).
+k-means is the limiting case (spherical equal-variance, hard 0/1 assignments — "hard EM"); GMM captures elliptical/overlapping clusters and is a generative density model (sample, score, flag anomalies).
+Verified: g()-guarded (proseInMath on the EM math); byte-stable JSON re-serialize; gate ALL GREEN; **headless** — 4 deep-dives, GMM/responsibilities/E-step/hard-EM/generative-density present, 42 KaTeX, kErr=0, rawDollar=0, errs=0. SW cache `atlas-v909` → `atlas-v910`.
+
 ## iter 977 — Glossary: autodiff terms (reference)
 Completed the iter-975/976 autodiff thread with **2 glossary terms** — **Automatic differentiation (autodiff)** and **Dual number**. Glossary **424 → 426** (0 holes).
 Verified: glossary parses with `\epsilon` intact (JSON-form); gate ALL GREEN; **headless** — both render on `#/glossary` (2/2), 384 KaTeX, kErr=0, errs=0. SW cache `atlas-v908` → `atlas-v909`.
