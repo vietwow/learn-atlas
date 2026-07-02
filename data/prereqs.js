@@ -260,5 +260,8 @@ window.PREREQS = {
   ],
   "ml-trustworthy-models": [
     "ml-model-selection"
+  ],
+  "ps-estimation-theory": [
+    "ps-point-estimation"
   ]
 };
