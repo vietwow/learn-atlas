@@ -5,7 +5,7 @@ Owner-directed (2026-07-02): review and refine all existing content and visualiz
 
 Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 
-**Progress: 31/193 lessons · 11/177 widgets**
+**Progress: 33/193 lessons · 11/177 widgets**
 
 ## linear-algebra — lessons
 - [x] la-vectors-operations — ✔ iter-1158 — added magnitude/norm preview section (examples used it before it was defined); aligned q11 terminology (tip-to-tail); all 16 MCQs + 3 hw + 3 examples arithmetic re-verified
@@ -54,8 +54,8 @@ Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 - [x] c-extrema-curve-sketching — ✔ iter-1175 — h0 assigned the exact function e1 fully works (x⁴−4x³, same −27/inflections); replaced with x⁴−8x² (mins ±2→−16, max 0, inflections ±2/√3→−80/9, all Node-verified, even-symmetry cross-check). h1 (max 3/2, min −3), MVT-Lipschitz h2, e0/e2 verified. Noted: e2 supersets q8 (x³−3x on [0,2]) — tolerated reinforcement
 - [x] c-optimization — ✔ iter-1176 clean — river-fence 5000 m², AM-GM min 4 at x=2, gradient-descent η<2/k geometric-recursion homework, e0-e2 (incl. 5×5 square) all verified; h0 (3-sided) vs e2 (4-sided) are distinct constraint structures, not dups; no changes
 - [x] c-linearization-lhopital — ✔ iter-1176 clean — tan46°≈1.0349 underestimate (concave-up justification), pendulum 1%, ∞−∞→0 with Taylor cross-check, ∛8.12≈2.01, x^x→1, √4.1≈2.025 all verified; q2 (L'Hôpital inconclusive on oscillation) is a standout question. Noted: e1(a) near-dups q10 (sphere dV, different dr) — tolerated; no changes
-- [ ] c-antiderivatives — pending
-- [ ] c-definite-integral-riemann — pending
+- [x] c-antiderivatives — ✔ iter-1177 clean — two-stage IVP s(t)=t³+4t+1, disconnected-domain q10 (per-piece constants), sec²−tan²=1 constancy check, all integrals verified; e2 (n=−1 exception) reinforces q1/q15/c2 — intentional emphasis on the lesson's central subtlety; no changes
+- [x] c-definite-integral-riemann — ✔ iter-1177 clean — h0 (definition→12, trapezoid check), h1 (net 4 vs total 5), h2 (−3 m, 23/3 m), e1 (definition→14), L/R/M comparison (1/5/2.5 vs 8/3), midpoint-concavity q9 all verified. Noted: ∫₀²x² runs through e0/e2/q8 as a running example — tolerated; no changes
 - [ ] c-fundamental-theorem — pending
 - [ ] c-integration-techniques — pending
 - [ ] c-area-volume — pending

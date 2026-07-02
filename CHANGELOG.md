@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1177 — Review: c-antiderivatives + c-definite-integral-riemann — both clean (review)
+**`c-antiderivatives`: clean** — the two-stage IVP ($s(t)=t^3+4t+1$ with all conditions re-checked), the disconnected-domain subtlety (q10: per-piece constants on $\mathbb{R}\setminus\{0\}$, correctly resolving apparently-contradictory conditions), and the $\sec^2-\tan^2=1$ constant-difference check all verified. The $n=-1$ exception is deliberately emphasized across q1/q15/c2/e2 — intentional, not duplication.
+**`c-definite-integral-riemann`: clean** — both from-the-definition evaluations (h0 → 12, e1 → 14, each with an independent trapezoid check), displacement-vs-distance ($-3$ m net, $\frac{23}{3}$ m total), the L/R/M comparison ($1/5/2.5$ vs $\frac83$), and the subtle midpoint-under-concave-up q9 all verified. $\int_0^2 x^2\,dx$ threads e0/e2/q8 as a running example — tolerated by design.
+Zero defects this unit — the ledger update is the ship; no SW bump. **Progress: 33/193 lessons · 11/177 widgets.**
+
 ## iter 1176 — Review: c-optimization + c-linearization-lhopital — both clean (review)
 **`c-optimization`: clean** — the river-fence problem (5000 m² at 50×100), the AM-GM-confirmed minimum ($x+4/x\ge4$), and the standout h2 (gradient descent on $\frac12 kw^2$ reduced to a geometric recursion, deriving the $\eta<2/k$ stability bound — curvature capping step size) all verified. h0's 3-sided fence vs e2's 4-sided perimeter are distinct constraint structures, not duplicates.
 **`c-linearization-lhopital`: clean** — $\tan46°\approx1.0349$ with the concave-up underestimate justification, the pendulum's halved relative error, the double-L'Hôpital $\infty-\infty\to0$ with a Taylor cross-check, $\sqrt[3]{8.12}\approx2.01$, $x^x\to1$, and $\sqrt{4.1}\approx2.025$ all verified. q2 — where L'Hôpital is *eligible but inconclusive* because $1-\sin x$ oscillates — is one of the best questions on the site. Noted (tolerated): e1(a) near-dups q10 with a different $dr$.
