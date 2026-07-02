@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1107 — NEW LESSON: Auctions & Mechanism Design — first dive split (new functionality)
+Wildcard ship per the revised cadence: **split-watch fired** on `gt-foundations` (8 dives — the bloat ceiling). Promoted its three market-design dives (second-price auction, revenue equivalence, price of anarchy) into a **new lesson `gt-auctions-mechanism-design`** ("Auctions & Mechanism Design", 12 min, prereq gt-foundations, inserted between gt-foundations and gt-mixed-zero-sum). The dive bodies became numbered sections wrapped in a fresh inverse-game-theory intro + real-world close (spectrum/ad auctions, kidney exchange); authored **4 MCQs, 5 flashcards, 2 homework** (Vickrey dominance case-split; Pigou routing — eq cost 1, optimum 3/4, PoA **4/3**, hand-verified). `gt-foundations` slims to 5 dives (16→13 min) with a *Gone deeper* pointer link. **Lessons 188 → 189.**
+Verified: authored strings g()-guarded; byte-stable JSON re-serialize; **gate ALL GREEN — 189 lessons**, internal-links lint validates the pointer; **headless** — new lesson renders all three sections, quiz pool "of 4", gt-foundations shows 5 dives + pointer, **map re-derived to 888 nodes** (was 883), kErr=0, errs=0. SW cache `atlas-v1038` → `atlas-v1039`.
+
 ## iter 1106 — NEW viz: rectified-flow transport (visualizations)
 Interactive ship per the revised cadence (completes the iter-1094/95 flow-matching thread) — the **172nd widget, `dl-rectified-flow`** in `dl-diffusion-models`: a violet noise cloud and sage data ring joined by faint **straight trajectories** $x(t)=(1{-}t)x_0+t\,x_1$; dragging the **time slider** carries every point along its line from noise (t=0) to data (t=1), recoloring en route. Straight lines = few-step sampling — the rectified-flow speed win, made draggable. Reseed button; KaTeX note.
 Verified: gate ALL GREEN (now **172 widgets**); **headless** — lab mounts, slider drives t=0.00→1.00 (note updates at both ends), kErr=0, errs=0; screenshot READ shows mid-transport (t=0.55) with trajectory lines and dispersing cloud. SW cache `atlas-v1037` → `atlas-v1038`.
