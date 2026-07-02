@@ -390,6 +390,18 @@
           ],
           "prereqs": [
             "gt-foundations"
+          ],
+          "examples": [
+            {
+              "title": "Second-price: check every deviation",
+              "body": "Your value is $v=40$ in a second-price auction. Let $r$ be the highest rival bid. Work the payoff table for bidding $b=50$ (overbid) and $b=35$ (shade) against $r=30$ and $r=45$, and compare with bidding truthfully.",
+              "solution": "Bidding $50$: at $r=30$ you win and pay $30$ — payoff $10$, same as truthful. At $r=45$ you win and pay $45$ — payoff $\\mathbf{-5}$; truthful bidding loses and gets $0$. Overbidding only changed the outcome when winning was <em>bad</em>.\n\nShading to $35$: at $r=30$ payoff $10$ (unchanged); at $r=45$ you lose — $0$, same as truthful. But at any $r$ between $35$ and $40$ you would lose a profitable win that truth-telling captures.\n\nEvery deviation either matches truth-telling or does strictly worse — because your bid never sets your price, only whether you win. That is dominance, checked case by case."
+            },
+            {
+              "title": "Revenue equivalence, verified with two uniform bidders",
+              "body": "Two bidders have values drawn independently from Uniform$[0,1]$. Compute the seller's expected revenue in (a) a second-price auction and (b) a first-price auction where each bids $b(v)=v/2$.",
+              "solution": "(a) Second-price: revenue is the second-highest value. For two uniforms, $\\mathbb{E}[\\min]=\\tfrac13$.\n\n(b) First-price: revenue is the winner's bid, $\\max(v_1,v_2)/2$. Since $\\mathbb{E}[\\max]=\\tfrac23$, expected revenue $=\\tfrac13$.\n\nIdentical — exactly what the revenue equivalence theorem promises: the allocation rule (highest value wins) and the zero-value bidder's payoff pin down expected revenue, and the pricing details wash out. (Break risk neutrality and the tie breaks too: risk-averse bidders shade less in first-price, pushing its revenue above second-price.)"
+            }
           ]
         },
         {

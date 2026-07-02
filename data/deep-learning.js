@@ -2095,6 +2095,18 @@
           ],
           "prereqs": [
             "dl-overfitting-and-regularization"
+          ],
+          "examples": [
+            {
+              "title": "Reading a double-descent curve",
+              "body": "A regression family is fit to $n=20$ points with parameter counts sweeping $p=2$ to $200$. Measured test error: low around $p=10$, astronomically high near $p=20$, then <em>lower again</em> by $p=200$. Explain each of the three regions.",
+              "solution": "$p\\lt 20$: the classical regime — error follows the bias-variance U, bottoming out near $p=10$.\n\n$p\\approx n=20$: the <b>interpolation threshold</b>. The model has barely enough capacity to fit every point, so it contorts wildly between them — variance explodes and test error spikes by orders of magnitude.\n\n$p\\gg 20$: many interpolating solutions now exist, and the fitting procedure returns the <b>minimum-norm</b> one — the smoothest curve through the data. That implicit regularization brings error back down: the second descent. (The site&#x27;s double-descent widget computes this live with Chebyshev features — the spike near $p=n$ reaches $\\sim 10^6$.)"
+            },
+            {
+              "title": "Diagnose this training curve (grokking)",
+              "body": "A small transformer learns modular addition. Training accuracy hits $100$ percent by step $300$; test accuracy sits at $55$ percent for tens of thousands of steps — then jumps to $99$ percent. What happened, and what ingredient made the jump possible?",
+              "solution": "This is <b>grokking</b>: the network first <em>memorizes</em> (perfect train, chance-level test), then — long after the loss looks converged — abruptly <em>generalizes</em>.\n\nDuring the flat stretch, weight decay is quietly doing the work: the memorizing solution has large, sprawling weights, while the general solution (a Fourier-like circuit for modular arithmetic) is <em>smaller in norm</em>. Regularization slowly trades the former for the latter, and when the circuit completes, test accuracy snaps up.\n\nThe diagnostic lesson: \"converged\" training loss says nothing about what the weights are still becoming — and without weight decay (or another simplicity pressure), the jump typically never comes."
+            }
           ]
         },
         {

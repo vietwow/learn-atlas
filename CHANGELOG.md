@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1155 — Worked examples: auctions & the generalization mysteries (content/retention)
+Probe batches 7–8 (MCTS, max-flow, Krylov/CG, MoE, martingales, matrix exponential, Kolmogorov/MDL, IFT) came back **all covered** — coverage is genuinely deep — so the slot went to the remaining 0/3-examples parity flags. Authored 2 worked examples each:
+**`gt-auctions-mechanism-design`:** *Check every deviation* — the $v{=}40$ second-price payoff table worked case-by-case (overbid to 50 → the only changed outcome is a **−5** win at $r{=}45$; dominance by enumeration) · *Revenue equivalence with two uniform bidders* — $\mathbb E[\min]=\tfrac13$ vs $b(v){=}v/2 \Rightarrow \mathbb E[\max]/2=\tfrac13$, **identical** (Monte-Carlo-checked to 4 decimals).
+**`dl-generalization-mysteries`:** *Reading a double-descent curve* — the three regions explained at $n{=}20$, tied to the live widget · *Diagnose this training curve* — grokking: memorize → weight decay slowly trades the sprawling solution for the small-norm circuit → test snaps up; "converged loss says nothing about what the weights are still becoming."
+Verified: guarded; byte-stable ×2; gate ALL GREEN (only one 0/3-examples flag remains site-wide); **headless** — both examples tabs render the new titles, kErr=0, errs=0. SW cache `atlas-v1085` → `atlas-v1086`.
+
 ## iter 1154 — Accessibility: canvas-less widgets get full descriptions (accessibility)
 Audited all 177 widgets for screen-reader labels. First finding: the site was **already centrally accessible** — two mechanisms I initially missed: the `register()` wrapper fills `role=img` + title+blurb on every unlabeled canvas, and `hydrateViz` labels every widget container. (A 35-widget "missing labels" batch-fix I drafted turned out to duplicate central behavior — reverted rather than shipped as source noise.)
 The **one real gap**: the two **canvas-less DOM widgets** (`llm-react-loop`, `llm-bpe`) got title-only labels — no canvas exists to carry the blurb detail, and `hydrateViz` overwrites container labels unconditionally. **Fix (one line, central):** `hydrateViz` now appends the blurb to the container label when the widget has no canvas. Screen-reader result: react-loop 77 → **428 chars** of real description, BPE 58 → **211**; canvased widgets unchanged (canvas keeps the detail).
