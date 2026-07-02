@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1128 — Code: run deferred acceptance (examples)
+Completed the iter-1127 thread with a runnable in `gt-cooperative-games`: **deferred acceptance on a 3×3 market** — proposers work down their lists, receivers tentatively hold the best offer (rank comparison done comparison-free via `Math.min` on rank indices for the no-`<>` guard), losers rejoin the queue → **stable match: m2-w1, m3-w2, m1-w3 (5 proposals)** with two visible rejections along the way. Stability of the output hand-verified (no blocking pair).
+Verified: re-derived in Node (matches the hand-trace); byte-stable JSON inject; **gate ALL GREEN — code-exercises verified (now 199)**; **headless** — Run executes, exact matching shown, entities decoded, kErr=0, errs=0. SW cache `atlas-v1059` → `atlas-v1060`.
+
 ## iter 1127 — Hard-concept: Gale-Shapley stable matching — full bundle (content)
 Probed new territory (A*, HMM/Viterbi, t-SNE all already have dives) and found **Gale-Shapley entirely untaught**. Full bundle into `gt-cooperative-games` (its first dive): **stability** = no blocking pair; **deferred acceptance** — propose / tentatively hold / reject, always stable in ≤ $n^2$ proposals (a blocking pair would already have proposed); **proposer-optimal** across all stable matchings (receiver-pessimal — who proposes matters) and **strategy-proof for proposers**. The stable matchings are exactly the *core* of the market — closing the loop with this lesson's core section; NRMP residency match, school choice, 2012 Nobel (Roth & Shapley). Same ship: **2 glossary terms** (578 → **580**), **1 MCQ** (6 → 7), **2 flashcards** (5 → 7).
 Verified: guarded; byte-stable re-serialize ×2; gate ALL GREEN; one combined headless driver — dive renders (GS/blocking-pair/DA/proposer-optimal), quiz "of 7", glossary 2/2, kErr=0, errs=0. SW cache `atlas-v1058` → `atlas-v1059`.
