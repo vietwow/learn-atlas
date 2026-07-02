@@ -3,7 +3,7 @@
 Owner-directed (2026-07-02): review and refine all existing content and visualizations.
 Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 
-**Progress: 19/193 lessons · 4/177 widgets**
+**Progress: 19/193 lessons · 11/177 widgets — ALL LA content reviewed**
 
 ## linear-algebra — lessons
 - [x] la-vectors-operations — ✔ iter-1158 — added magnitude/norm preview section (examples used it before it was defined); aligned q11 terminology (tip-to-tail); all 16 MCQs + 3 hw + 3 examples arithmetic re-verified
@@ -29,15 +29,15 @@ Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 ## linear-algebra — widgets
 - [x] la-vector-add — ✔ iter-1167 clean — drag widget, 540px, note renders, errs=0 under drive
 - [x] la-linear-transform — ✔ iter-1167 clean — 6 buttons + 4 sliders driven to extremes, errs=0
-- [ ] la-eigen — pending
-- [ ] la-pca — pending
-- [ ] la-svd — pending
-- [ ] la-projection — pending
+- [x] la-eigen — ✔ iter-1168 clean — 4 buttons, note 87ch, errs=0
+- [x] la-pca — ✔ iter-1168 clean — 1 button + 2 sliders driven, note 119ch, errs=0
+- [x] la-svd — ✔ iter-1168 clean — stage buttons + 4 sliders driven; constructive widget (ellipse-semi-axes claim true by construction), errs=0
+- [x] la-projection — ✔ iter-1168 clean — drag widget, 520px, note 345ch, errs=0
 - [x] la-dot-product — ✔ iter-1167 clean — 4 buttons hammered, note 138ch, errs=0
 - [x] la-determinant — ✔ iter-1167 clean — 5 buttons hammered, note 148ch, errs=0
-- [ ] la-gram-schmidt — pending
-- [ ] la-power-iteration — pending
-- [ ] la-phase-portrait — pending
+- [x] la-gram-schmidt — ✔ iter-1168 clean — 2 buttons, note 165ch, errs=0
+- [x] la-power-iteration — ✔ iter-1168 clean — numeric honesty verified — note claims 43.9° after 3 iters from v0=(cos .3, sin .3); Node re-derivation gives 43.88° exactly
+- [x] la-phase-portrait — ✔ iter-1168 clean — 2 sliders driven, 360px, note 114ch, errs=0
 
 ## calculus — lessons
 - [ ] c-functions-and-graphs — pending

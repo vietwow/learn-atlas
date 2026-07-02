@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1168 — Review: LA widget batch 2 — ALL Linear Algebra content reviewed (review)
+Drove the remaining 7 LA widgets headless (every button double-clicked, sliders slammed to extremes): `la-eigen`, `la-pca`, `la-svd`, `la-projection`, `la-gram-schmidt`, `la-power-iteration`, `la-phase-portrait` — **all clean**, errs=0, canvases 360–540px (mobile-safe), notes render.
+**Numeric honesty spot-checks:** `la-power-iteration`'s note claims "after 3 iterations the vector points at 43.9°, swinging toward the 45° dominant eigendirection" — re-derived in Node from the widget's actual $v_0=(\cos 0.3,\sin 0.3)$: 35.03° → 41.64° → **43.88°**. Exact. `la-svd` is constructive (the user builds $A$ from the $\sigma$/angle sliders), so its ellipse-semi-axes claim is true by construction.
+**Linear Algebra is now fully reviewed: 19/19 lessons + 11/11 widgets.** No changes needed this unit — ledger is the ship; no SW bump. **Progress: 19/193 lessons · 11/177 widgets.** Next block: step-back at 1170, then Calculus.
+
 ## iter 1167 — Review: la-matrix-calculus-backprop (ALL 19 LA lessons done) + first widget batch (review)
 **`la-matrix-calculus-backprop`: clean** — code exercise [3 4 6 8], q11's outer product $[[3,6],[0,0]]$, e0's hand-computed $(\partial L/\partial W, \partial L/\partial x)=([[1,2],[0,0],[2,4]], (7,4))$, e2's two-layer transpose chain $(2,3)$, all 16 MCQs verified. No changes. **That completes all 19 Linear Algebra lessons** — final LA tally: 8 lessons needed fixes (duplicate examples ×5, index-reference explains ×3, 3-choice MCQs ×2, forward refs ×2, muddled explain, trivial code exercise), 11 were clean, and *zero arithmetic errors* were found in ~500 hand-checked computations.
 **Widget batch 1 (4 of 11 LA widgets): all clean** — `la-vector-add`, `la-dot-product`, `la-linear-transform`, `la-determinant` behaviorally driven headless (every button double-clicked, every slider slammed to min/max): canvases exactly 540px logical (mobile-safe), notes render and update, errs=0 throughout. Aria covered by the central fallback (iter 1154).
