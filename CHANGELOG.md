@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1143 — Code: fit a Bradley-Terry leaderboard (examples)
+Second interactive of the block, completing the iter-1139 judge thread — a runnable in `l-hallucination-and-evaluation`: three models, ten judged games per pair with **slightly intransitive** win rates (0.80/0.70/0.60); the **Zermelo MM algorithm** fits ratings → **A=1.76 B=0.87 C=0.65, fitted A-B 0.67 / B-C 0.57 / A-C 0.73** — Bradley-Terry reconciles inconsistent head-to-heads onto ONE transitive scale. Structural MLE check done: each model's expected total wins exactly equals its observed total (14/9/7).
+**Self-caught ×2:** an unescaped apostrophe in the injector string, then a multi-line `data-expected` (gate compares the attribute literally — `&#10;` doesn't decode); restored from HEAD and re-injected with single-line output.
+Verified: fit re-derived in Node incl. the MLE win-conservation property; byte-stable inject; **gate ALL GREEN — 202 code exercises executed**; **headless** — Run shows the exact line, kErr=0, errs=0. SW cache `atlas-v1074` → `atlas-v1075`.
+
 ## iter 1142 — ⌘K search: weak/fading lessons rank first (UI/UX)
 Second backlog wildcard shipped ("recency/mastery-weighted search ranking"): within a textual-relevance tier, lesson results now carry a **$+0.4\cdot$`effectiveMastery` bias** — weak or *fading* lessons float to the top of their tier while mastered ones drift down; a tier gap is 1.0, so **relevance always wins across tiers**. Since `effectiveMastery` decays with a half-life, this is recency-weighting for free: material you haven't touched in weeks resurfaces. Palette footer copy updated ("weak/fading topics rank first"). Pairs with iter-1133's adaptive tests — search and testing now share the same "what needs you" signal.
 Verified: reordering unit-tested standalone (tier-1 stays first; weak beats mastered within tier-2); app.js parses; gate ALL GREEN; **headless** — ⌘K opens, new footer shown, "entropy" returns results, errs=0. SW cache `atlas-v1073` → `atlas-v1074`. Backlog item marked shipped.
