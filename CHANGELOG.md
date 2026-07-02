@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1111 — NEW viz: the convex hull, live (visualizations)
+Opened block 1111–1120 with an interactive (completes the iter-1101/02 thread) — the **173rd widget, `a-convex-hull`** in `a-divide-and-conquer`: 40 points with their hull drawn as a translucent sage rubber band, hull vertices glowing, interior points dim. **Click to add a point**: inside the band nothing moves; outside, the band snaps out — recomputed live by Andrew's monotone chain. Reseed button.
+Verified: monotone chain re-derived in Node (40 pts → 11-vertex hull, extremes on hull); gate ALL GREEN (now **173 widgets**); **headless with a synthetic click** — point count 40→41 and the hull recomputed 11→**8** (a far-corner point shadows old vertices — Node confirms 8 exactly for that configuration), errs=0; screenshot READ shows the rubber band + glowing vertices. SW cache `atlas-v1042` → `atlas-v1043`.
+
 ## iter 1110 — Step-back (clean, new baselines) + retention wave 2 (step-back / retention)
 Step-back **kErr + visible-newline-aware sweep at the new baselines**: **n=189 lessons** (was 188), errs=0, **kErrLessons=NONE**, **visNlessons=NONE**, **mapNodes=888** (was 883) — the iter-1107 lesson split fully healthy; zero regressions since iter 1100.
 **Ship (retention wave 2):** +8 MCQs for the remaining unquizzed dives, across 8 more topics — green-list watermark detection (z-test), zero-sum stochastic-game backup (minimax per state), wavelets vs STFT (scalable windows), coordinate-descent separability ($\ell_1$ → soft-threshold), CP uniqueness vs PCA rotation, the orientation cross-product, doubly-robust either-or consistency, uncertainty-sampling bias. Home lessons 16 → **17 MCQs**; answers hand-verified; varied positions. Nearly every hard-concept dive from the recent run now has quiz coverage.

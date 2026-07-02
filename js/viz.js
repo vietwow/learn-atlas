@@ -9009,4 +9009,51 @@
     build(); draw();
   });
 
+
+  /* ========================================================
+     173. Convex hull: click to add points, watch the rubber band snap (algorithms)
+     ======================================================== */
+  register({ id: 'a-convex-hull', topic: 'algorithms', title: 'The convex hull, live', blurb: 'Forty random points and their convex hull — the rubber band around the outermost ones. Click anywhere to add a point: land inside and nothing changes; land outside and the hull snaps out to include you (recomputed instantly by Andrew’s monotone chain, the sort-and-sweep O(n log n) algorithm from the deep dive). Hull vertices glow; interior points stay dim.' },
+  function (root) {
+    const W = 460, H = 360;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    let seed = 13, pts = [];
+    function mk(s) { return function () { s = (s * 1103515245 + 12345) & 0x7fffffff; return s / 0x7fffffff; }; }
+    function reset() { const r = mk(seed); pts = []; for (let i = 0; i < 40; i++) pts.push([60 + r() * (W - 120), 50 + r() * (H - 110)]); }
+    function hull(P) {
+      const s = P.slice().sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+      const cross = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+      const lo = []; s.forEach(p => { while (lo.length >= 2 && cross(lo[lo.length - 2], lo[lo.length - 1], p) <= 0) lo.pop(); lo.push(p); });
+      const up = []; s.slice().reverse().forEach(p => { while (up.length >= 2 && cross(up[up.length - 2], up[up.length - 1], p) <= 0) up.pop(); up.push(p); });
+      return lo.slice(0, -1).concat(up.slice(0, -1));
+    }
+    function draw() {
+      const p = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+      const h = hull(pts), hset = new Set(h.map(q => q[0] + "," + q[1]));
+      // hull polygon
+      ctx.beginPath(); h.forEach((q, i) => i ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1])); ctx.closePath();
+      ctx.fillStyle = p.sage; ctx.globalAlpha = 0.10; ctx.fill(); ctx.globalAlpha = 1;
+      ctx.strokeStyle = p.sage; ctx.lineWidth = 2; ctx.stroke(); ctx.lineWidth = 1;
+      // points
+      pts.forEach(q => {
+        const onHull = hset.has(q[0] + "," + q[1]);
+        ctx.fillStyle = onHull ? p.sage : p.violet; ctx.globalAlpha = onHull ? 1 : 0.55;
+        ctx.beginPath(); ctx.arc(q[0], q[1], onHull ? 4.5 : 3, 0, 2 * Math.PI); ctx.fill(); ctx.globalAlpha = 1;
+      });
+      info.innerHTML = '<b>' + pts.length + '</b> points, <b style="color:' + p.sage + '">' + h.length + '</b> on the hull. Click inside the band — nothing moves. Click outside — the band snaps out to you.';
+    }
+    c.style.cursor = 'crosshair';
+    c.addEventListener('click', e => {
+      const r = c.getBoundingClientRect();
+      const x = (e.clientX - r.left) * (W / r.width), y = (e.clientY - r.top) * (H / r.height);
+      if (x > 6 && x < W - 6 && y > 6 && y < H - 6) { pts.push([x, y]); draw(); }
+    });
+    button(ctl, '🎲 Reseed', () => { seed = (seed * 16807 + 5) & 0x7fffffff; reset(); draw(); });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Interactive convex hull. Forty scattered points with the hull drawn as a sage polygon through the glowing outermost vertices; interior points are dim violet. Clicking the canvas adds a point: inside the hull nothing changes, outside the hull the polygon snaps outward to include it. A reseed button redraws the points.');
+    reset(); draw();
+  });
+
 })();
