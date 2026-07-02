@@ -257,5 +257,8 @@ window.PREREQS = {
   ],
   "dl-generalization-mysteries": [
     "dl-overfitting-and-regularization"
+  ],
+  "ml-trustworthy-models": [
+    "ml-model-selection"
   ]
 };
