@@ -570,7 +570,7 @@
                 "$\\lim_{x\\to 0}\\left(\\dfrac{1}{x} - 5\\right)$"
               ],
               "answer": 1,
-              "explain": "As $x\\to 0^+$ both $\\frac{1}{x}$ and $\\frac{1}{x^2}$ tend to $+\\infty$, so option 0 is the genuine $\\infty-\\infty$ pattern (it resolves to $-\\infty$ after combining). In option 1 the subtracted $\\frac{1}{x}\\to 0$ giving $\\infty-0$; option 2 is $\\infty+\\infty$, not a difference; option 3 is $\\infty-5$ with a finite term."
+              "explain": "As $x\\to 0^+$ both $\\frac{1}{x}$ and $\\frac{1}{x^2}$ blow up to $+\\infty$, so their difference is a genuine $\\infty-\\infty$ (combining over a common denominator gives $\\frac{x-1}{x^2}\\to-\\infty$). The others fail the pattern: in $x-\\frac{1}{x}$ the subtracted term goes to $0$, giving $\\infty-0$; $x+x^2$ is $\\infty+\\infty$, a determinate $+\\infty$; and $\\frac{1}{x}-5$ merely subtracts a constant."
             },
             {
               "q": "A student computes $\\lim_{x\\to 2}\\dfrac{x^2-4}{x-2}$ by canceling to get $\\lim_{x\\to 2}(x+2)=4$. Why does this give the correct limit even though $\\dfrac{x^2-4}{x-2}$ is undefined at $x=2$?",

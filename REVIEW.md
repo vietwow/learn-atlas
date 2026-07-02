@@ -3,7 +3,7 @@
 Owner-directed (2026-07-02): review and refine all existing content and visualizations.
 Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 
-**Progress: 21/193 lessons · 11/177 widgets**
+**Progress: 23/193 lessons · 11/177 widgets**
 
 ## linear-algebra — lessons
 - [x] la-vectors-operations — ✔ iter-1158 — added magnitude/norm preview section (examples used it before it was defined); aligned q11 terminology (tip-to-tail); all 16 MCQs + 3 hw + 3 examples arithmetic re-verified
@@ -42,8 +42,8 @@ Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 ## calculus — lessons
 - [x] c-functions-and-graphs — ✔ iter-1169 — e2 composed to the exact function e0 already analyzed (√(x−4), same domain twice in one tab); replaced with 1/(x²−9) — composition punching isolated holes vs an interval; inverse worked example, code, h0-h2 all verified
 - [x] c-limits-intuition — ✔ iter-1169 clean — piecewise worked example (3 vs g(2)=7), δ=ε/2 and δ=ε/3 proofs, conjugate h0=1/4, (1+1/n)^n code table, squeeze e2 all verified; no changes
-- [ ] c-computing-limits — pending
-- [ ] c-continuity — pending
+- [x] c-computing-limits — ✔ iter-1171 — q5 explain had its option numbering shifted by one (called the correct answer "option 0" and mislabeled the rest — the 4th and worst index-disease case, actively misleading); rewritten content-first; all limits/hw/examples verified (worked 6, 1/4, 2; h1=1/2; q9=3; q11=−2)
+- [x] c-continuity — ✔ iter-1171 clean — three-part continuity contract, IVT examples (Dottie number h1, bisection e1 with g(1.5)=−0.125), jump classifications (h2, e2), q9 Darboux counterexample all verified; no changes
 - [ ] c-derivative-definition — pending
 - [ ] c-differentiation-rules — pending
 - [ ] c-chain-rule — pending

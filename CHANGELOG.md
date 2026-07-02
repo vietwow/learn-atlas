@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1171 — Review: c-computing-limits + c-continuity (review)
+**`c-computing-limits`** — all limits verified (worked 6, 1/4, 2; the conjugate h1 $=1/2$; the $\sqrt{x^2+6x}-x\to3$ MCQ; the sign-trap q11 $=-2$; the numeric code table). One defect, and the worst of its kind so far: **q5's explain had its option numbering shifted by one** — it called the *correct answer* "option 0" and described the wrong choices under wrong labels, actively teaching confusion (4th occurrence of the index-reference disease). Rewritten content-first ("in $x-\frac1x$ the subtracted term goes to 0, giving $\infty-0$…").
+**`c-continuity`: clean** — the three-part continuity contract, IVT usage (the Dottie-number root h1, the bisection example with $g(1.5)=-0.125$), jump classifications, and q9's Darboux-property counterexample all verified. No changes.
+Verified: guarded; byte-stable; gate ALL GREEN; headless — kErr=0, errs=0. SW `atlas-v1097` → `atlas-v1098`. **Progress: 23/193 lessons · 11/177 widgets.**
+
 ## iter 1170 — Step-back (clean at 193/905) — first review block complete (step-back)
 Full kErr + visible-newline sweep: **n=193, errs=0, kErrLessons=NONE, visNlessons=NONE, mapNodes=905** — every fix of the review phase so far is regression-free.
 **Review block 1161–1170 recap (the phase's first full block):** 21 lessons + 11 widgets reviewed. **All of Linear Algebra done** (19 lessons, 11 widgets) plus the first two Calculus lessons. Defect taxonomy so far: duplicate examples ×7 (the dominant early-era flaw — every one replaced with a complementary example), index-based explain references ×3 (all rewritten content-first), 3-choice MCQs ×2 (distractors added), forward references ×2 (inline glosses), muddled explain ×1, trivial code exercise ×1 (upgraded to a Fundamental-Theorem verification). **Zero arithmetic errors in ~700 hand-checked computations**; widgets all behaviorally robust, with `la-power-iteration`'s on-screen numbers re-derived exactly. Roughly half of reviewed units needed no changes at all.
