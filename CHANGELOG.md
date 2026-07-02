@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1209 — Review: dl-rnn-lstm-gru + dl-embeddings-and-tokenization — both clean (review)
+**`dl-rnn-lstm-gru`: clean** — both audit flags (q9, q11) verified **false alarms** (correct 0-based references, including q9's sharp "same number, wrong reason" distractor). The $0.7^{50}\approx1.8\times10^{-8}$ vanishing computation, the LSTM highway derivation ($\partial c_t/\partial c_{t-1}=\text{diag}(f_t)$ with the constant-error-carousel condition and the $b_f$-initialization tip), the GRU deployment argument (capability → cost → data-scale), and the cell-step arithmetic ($c_t=1.9+0.1=2.0$) all verified.
+**`dl-embeddings-and-tokenization`: clean** — the cosine comparison ($0.96$ vs $0.80$), the embedding≡one-hot-linear equivalence ($15\text{M}=15\text{M}$, with the 49,999-wasted-multiplies observation), the COVID-19 OOV/subword homework, and the analogy arithmetic ($\text{king}-\text{man}+\text{woman}=(2,4)=\text{queen}$) all verified.
+Ledger is the ship; no SW bump. **Progress: 85/193 lessons · 53/177 widgets.**
+
 ## iter 1208 — Review: dl-pooling-and-cnn-architectures + dl-transfer-learning — both clean (review)
 **`dl-pooling-and-cnn-architectures`: clean** — the four-step shape pipeline ($224\to112\to56$), the VGG parameter comparison at $C{=}128$ (409,600 vs 294,912 — deepening the conv lesson's per-channel version, good cross-lesson design), the residual-gradient argument ($\partial y/\partial x=\partial F/\partial x+I$ turning a product of Jacobians into a sum over paths), and both pooling grids (max and average re-computed cell by cell) all verified.
 **`dl-transfer-learning`: clean** — the 10,245-parameter head, the striking examples-per-parameter contrast (0.06 per param frozen vs ~38,000 params per example fine-tuned), the discriminative learning-rate table ($10^{-3}$ halving down to $6.25\times10^{-5}$), and the two-mistakes fine-tuning diagnosis all verified. h0(a) repeats e0's head count but its (b)/(c) parts are fresh analysis — extension, not spoiler.
