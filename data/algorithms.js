@@ -1430,6 +1430,17 @@
               ],
               "answer": 0,
               "explain": "A heap gives $O(1)$ access to the highest- (or lowest-) priority element plus $O(\\log n)$ insert and extract — exactly the priority-queue operations. Stacks and FIFO queues order by insertion, not priority, and a hash map is unordered."
+            },
+            {
+              "q": "A skip list reaches $O(\\log n)$ expected search without rotations by:",
+              "choices": [
+                "Promoting each element to higher \"express lanes\" by independent coin flips, so each level skips about half the remaining elements",
+                "Keeping the list perfectly balanced with red-black rules",
+                "Hashing elements into buckets",
+                "Storing the list in a heap"
+              ],
+              "answer": 0,
+              "explain": "About $\\log_2 n$ probabilistic levels replace deterministic rebalancing — simpler code, concurrency-friendly, and the reason Redis and LevelDB use it."
             }
           ],
           "flashcards": [

@@ -194,6 +194,17 @@
               ],
               "explain": "Independence makes information additive: $H(X,Y)=H(X)+H(Y)$ (with dependence it is strictly less).",
               "answer": 3
+            },
+            {
+              "q": "English has per-letter marginal entropy of about 4.7 bits, yet Shannon estimated its entropy rate near 1 bit per character. Why the gap?",
+              "choices": [
+                "Compression algorithms distort the measurement",
+                "Entropy rate is the limiting conditional entropy: given everything before it, most letters are nearly determined by context",
+                "The alphabet is too small for the marginal to matter",
+                "Entropy rate counts words rather than letters"
+              ],
+              "answer": 1,
+              "explain": "For a process with memory, $H=\\lim_n H(X_n\\mid X_1,\\dots,X_{n-1})$ — context predicts, so the per-symbol surprise falls far below the marginal. That gap is exactly what compression exploits."
             }
           ],
           "flashcards": [

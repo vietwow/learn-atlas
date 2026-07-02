@@ -5852,6 +5852,17 @@
               ],
               "answer": 2,
               "explain": "First-order methods rely solely on the gradient (first derivatives). Second-order methods like Newton's also use the Hessian (curvature) to take smarter steps, but at much higher cost per step — which is why gradient descent dominates large-scale deep learning."
+            },
+            {
+              "q": "The Armijo (sufficient-decrease) condition in line search rejects step sizes that:",
+              "choices": [
+                "Barely decrease the function relative to the step length and the initial slope",
+                "Are smaller than machine precision",
+                "Increase the Hessian's condition number",
+                "Fail to reach the exact one-dimensional minimum"
+              ],
+              "answer": 0,
+              "explain": "$f(x+\\alpha p)\\le f(x)+c_1\\alpha\\nabla f^\\top p$ demands a drop proportional to both step and slope; the curvature (Wolfe) condition then rules out stopping while still descending steeply."
             }
           ],
           "flashcards": [

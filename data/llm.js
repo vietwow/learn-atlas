@@ -3139,6 +3139,17 @@
               ],
               "answer": 2,
               "explain": "Rearranging the KL-constrained optimum lets the reward be written as $r(x,y)=\\beta\\log\\frac{\\pi(y|x)}{\\pi_{\\text{ref}}(y|x)}+\\beta\\log Z(x)$. DPO drops the prompt-only $Z(x)$ term (it cancels in preference differences) and trains the policy so this implicit reward $\\beta\\log\\frac{\\pi_\\theta}{\\pi_{\\text{ref}}}$ orders winners above losers — the LM scores itself."
+            },
+            {
+              "q": "A process reward model (PRM) differs from an outcome reward model by:",
+              "choices": [
+                "Being trained without any human labels",
+                "Scoring only safety, not correctness",
+                "Requiring no reward at all",
+                "Scoring each intermediate reasoning step rather than just the final answer"
+              ],
+              "answer": 3,
+              "explain": "Step-level signal enables search over reasoning paths and sharp credit assignment — and it refuses to reward a lucky right answer built on broken steps."
             }
           ],
           "flashcards": [

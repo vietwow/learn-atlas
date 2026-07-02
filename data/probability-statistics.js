@@ -3642,6 +3642,17 @@
                 "Regularization increases both bias and variance simultaneously."
               ],
               "explain": "The same decomposition governs estimators and models: a too-simple model has high bias (systematically wrong), a too-flexible one has high variance (fits noise, varies wildly with the training sample), and regularization (shrinkage) accepts slightly more bias to cut variance — usually lowering total error. It is why \"most flexible / unbiased\" is not automatically \"best.\""
+            },
+            {
+              "q": "The James-Stein result says that when estimating three or more means at once:",
+              "choices": [
+                "The MLE has the lowest possible risk",
+                "Shrinkage only helps if the true means are equal",
+                "Shrinkage removes bias entirely",
+                "Shrinking the sample means toward a common point gives strictly lower total squared error for every true value"
+              ],
+              "answer": 3,
+              "explain": "The \"Stein paradox\": a deliberate bias-variance trade — a little bias, a large variance cut — dominates the raw sample means uniformly in three or more dimensions."
             }
           ],
           "flashcards": [

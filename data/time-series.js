@@ -207,6 +207,17 @@
               ],
               "answer": 0,
               "explain": "The STFT fixes one window, hence one resolution everywhere; wavelets dilate a mother wavelet so each scale gets an appropriately sized window — multi-resolution analysis."
+            },
+            {
+              "q": "Dynamic time warping scores a series and its time-stretched copy as distance $\\approx 0$ because:",
+              "choices": [
+                "It ignores the amplitude of the signal",
+                "Its monotone warping path can match one point to several, aligning the shapes before comparing them",
+                "It compares only the endpoints",
+                "It applies the Fourier transform first"
+              ],
+              "answer": 1,
+              "explain": "The DP finds the best nonlinear alignment — \"advance in one series, the other, or both\" — so equal shapes at different speeds align perfectly where Euclidean distance fails."
             }
           ],
           "flashcards": [

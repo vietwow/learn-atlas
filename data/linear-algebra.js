@@ -3644,6 +3644,17 @@
               ],
               "answer": 0,
               "explain": "An outer product $u_i v_i^\\top$ of two nonzero vectors is rank-1 (every column is a multiple of $u_i$), and scaling by $\\sigma_i$ doesn't change that. So the SVD expresses $A$ as a weighted sum of rank-1 pieces ordered by importance ($\\sigma_1 \\ge \\sigma_2 \\ge \\cdots$) — and keeping only the first $k$ gives the best rank-$k$ approximation."
+            },
+            {
+              "q": "Randomized SVD recovers the top-$k$ singular factors cheaply by:",
+              "choices": [
+                "Deleting all but $k$ rows at random",
+                "Running power iteration $k$ separate times",
+                "Multiplying by a random Gaussian matrix to sample the dominant range, orthonormalizing, and taking a small SVD in that subspace",
+                "Quantizing the matrix entries"
+              ],
+              "answer": 2,
+              "explain": "$Y=A\\Omega$ spans close to the top-$k$ subspace with high probability (Johnson-Lindenstrauss concentration); projecting there shrinks the problem to $(k{+}p)\\times n$ at near-optimal Eckart-Young error."
             }
           ],
           "flashcards": [

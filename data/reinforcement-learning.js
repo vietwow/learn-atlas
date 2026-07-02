@@ -2407,6 +2407,17 @@
               ],
               "answer": 1,
               "explain": "A deep net is a <em>learned</em> feature constructor: its hidden layers transform the raw state into useful features and its last linear layer combines them into a value. This is the modern, scalable answer to feature design and the foundation of value-based deep RL (DQN)."
+            },
+            {
+              "q": "The successor representation $M(s,s')$ stores:",
+              "choices": [
+                "The one-step transition probabilities",
+                "The reward at each state",
+                "The expected discounted number of future visits to $s'$ starting from $s$ — so $V=Mr$ and a changed reward needs no relearning",
+                "The optimal action at each state"
+              ],
+              "answer": 2,
+              "explain": "Value factorizes into dynamics times reward: keep $M$, re-multiply by the new reward vector — instant revaluation, the middle ground between model-free and model-based."
             }
           ],
           "flashcards": [
