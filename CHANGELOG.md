@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1158 — REVIEW PHASE begins: la lessons 1–2 + ledger bootstrap (review)
+**Review & Refine phase (owner-directed, ~100 iters) starts here.** Bootstrapped **REVIEW.md** (193 lessons + 177 widgets, per-item status; the phase's progress bar).
+**Reviewed `la-vectors-operations`** (deep-read: content, 16 MCQs, 6 cards, 3 hw, 3 examples — all arithmetic re-verified by hand): one real defect — **all three worked examples use magnitude/norm/unit vectors, which the lesson never defined** (forward reference to lesson 2). Fixed with a short "A first look at length" section (Pythagoras on components, distance = norm of difference, unit vector) placed before the takeaways, flagged as a preview of the next lesson. Also aligned q11's explain to the lesson's own term (tip-to-tail).
+**Reviewed `la-dot-product-norms`: clean** — every number re-verified (worked example incl. the orthogonal-residual check, cat/kitten cosines, all 16 MCQs, homework incl. the $2-2\cos$ identity, examples incl. arccos values). No changes.
+Verified: guarded; byte-stable; gate ALL GREEN; headless — new section renders, kErr=0, errs=0. SW `atlas-v1088` → `atlas-v1089`. **Progress: 2/193 lessons.**
+
 ## iter 1157 — MCQ wave: mechanisms, not curve shapes (retention)
 +2 MCQs each for the three newest lessons (6 → 8 each, 3093 total), targeting *mechanisms* their existing stems don't cover: **efficiency** = attaining the Cramér-Rao floor asymptotically, and **MoM Gamma mechanics** ($\bar x{=}4, s^2{=}2 \Rightarrow \hat\alpha{=}8, \hat\beta{=}0.5$, check shown) · conformal's one assumption — **exchangeability, broken by distribution shift** — and **recall-vs-precision by cost structure** (screening vs spam) · the second descent's mechanism — **minimum-norm implicit regularization** — and grokking's enabling ingredient — **weight decay trading the sprawling memorizer for the small-norm circuit**. Hand-verified, varied positions.
 Verified: guarded; byte-stable ×3; gate ALL GREEN — **3093 MCQs**; headless — quiz "of 8", kErr=0, errs=0. SW cache `atlas-v1087` → `atlas-v1088`.
