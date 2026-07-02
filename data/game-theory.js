@@ -524,6 +524,17 @@
               ],
               "answer": 3,
               "explain": "Lower-envelope peak = crossing = indifference."
+            },
+            {
+              "q": "In a two-player zero-sum stochastic (Markov) game, each value-iteration backup solves:",
+              "choices": [
+                "A maximization over the agent's own actions",
+                "A one-shot minimax (matrix-game) problem at that state",
+                "A linear regression onto successor values",
+                "A shortest-path problem"
+              ],
+              "answer": 1,
+              "explain": "With an opponent, the max of an MDP backup becomes a minimax solve over the joint action matrix at each state — this is minimax-Q, Shapley's 1953 algorithm."
             }
           ],
           "flashcards": [

@@ -196,6 +196,17 @@
               ],
               "answer": 3,
               "explain": "A window of w yields n − w + 1 outputs."
+            },
+            {
+              "q": "What do wavelets offer that the short-time Fourier transform cannot?",
+              "choices": [
+                "Windows whose width scales with frequency — fine time resolution for transients and fine frequency resolution for slow trends",
+                "Exact frequencies for stationary signals",
+                "A faster FFT",
+                "Guaranteed noise removal"
+              ],
+              "answer": 0,
+              "explain": "The STFT fixes one window, hence one resolution everywhere; wavelets dilate a mother wavelet so each scale gets an appropriately sized window — multi-resolution analysis."
             }
           ],
           "flashcards": [

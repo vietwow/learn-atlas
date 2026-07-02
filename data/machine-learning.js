@@ -932,6 +932,17 @@
               ],
               "answer": 3,
               "explain": "The boundary $z=0$ is a hyperplane, yet the probability bends smoothly from 0 to 1 through the sigmoid."
+            },
+            {
+              "q": "A known failure mode of pure uncertainty sampling in active learning is:",
+              "choices": [
+                "It requires calibrated probabilities to run at all",
+                "It cannot be used with neural networks",
+                "It always queries duplicate points",
+                "The labeled set becomes a biased, boundary-hugging sample that can chase outliers and miss whole regions"
+              ],
+              "answer": 3,
+              "explain": "Greedy querying breaks the i.i.d. assumption; diversity- and density-weighted acquisition counteract the bias."
             }
           ],
           "flashcards": [

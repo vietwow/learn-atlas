@@ -2418,6 +2418,17 @@
               ],
               "answer": 2,
               "explain": "Divide-and-conquer breaks a problem into independent subproblems that don't depend on each other's results, so they can run concurrently on different cores/machines — only the final combine step needs their outputs."
+            },
+            {
+              "q": "The orientation test at the heart of convex-hull algorithms computes:",
+              "choices": [
+                "The sign of the cross product $(b-a)\\times(c-a)$ — left turn, right turn, or collinear",
+                "The angle at $b$ via arctangent",
+                "All pairwise distances",
+                "The area of the triangle exactly"
+              ],
+              "answer": 0,
+              "explain": "One subtraction and a cross product, no trigonometry — Graham scan and monotone chain pop points whenever the turn has the wrong sign."
             }
           ],
           "flashcards": [

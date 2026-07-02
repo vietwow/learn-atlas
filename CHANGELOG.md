@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1110 — Step-back (clean, new baselines) + retention wave 2 (step-back / retention)
+Step-back **kErr + visible-newline-aware sweep at the new baselines**: **n=189 lessons** (was 188), errs=0, **kErrLessons=NONE**, **visNlessons=NONE**, **mapNodes=888** (was 883) — the iter-1107 lesson split fully healthy; zero regressions since iter 1100.
+**Ship (retention wave 2):** +8 MCQs for the remaining unquizzed dives, across 8 more topics — green-list watermark detection (z-test), zero-sum stochastic-game backup (minimax per state), wavelets vs STFT (scalable windows), coordinate-descent separability ($\ell_1$ → soft-threshold), CP uniqueness vs PCA rotation, the orientation cross-product, doubly-robust either-or consistency, uncertainty-sampling bias. Home lessons 16 → **17 MCQs**; answers hand-verified; varied positions. Nearly every hard-concept dive from the recent run now has quiz coverage.
+Verified: math-guarded; 8 byte-stable JSON re-serializations; all parse; **gate ALL GREEN — 3028 MCQs**; full sweep clean; **headless** — wave-2 quiz renders with pool "of 17", kErr=0, errs=0. SW cache `atlas-v1041` → `atlas-v1042`.
+**Block 1101–1110 recap (first under the revised loop):** 5 prose (incl. first bundled ship) · 2 retention · 2 interactive (rectified-flow viz, Gumbel-max code) · 1 wildcard (**new lesson** via dive split) — all quotas met, all green.
+
 ## iter 1109 — Hard-concept: Stein's lemma + its glossary, first BUNDLED ship (content)
 First bundled ship under the revised loop — dive **and** glossary in one iteration. Added a deep-dive to `ps-normal-distribution` (its 5th): **Stein's lemma** — $\mathbb{E}[(X-\mu)f(X)]=\sigma^2\mathbb{E}[f'(X)]$, Gaussian integration by parts that *characterizes* the Gaussian. **SURE** turns it into an observable risk formula (no $\mu$, no validation set) — how **James-Stein** dominance is proved (cross-linked) and how thresholds get tuned; **Stein's method** turns the characterization into quantitative CLTs (Berry-Esseen bounds, dependence-tolerant) and modern Stein discrepancies/SVGD. Plus **3 glossary terms** in the same ship: Stein's lemma, SURE, Stein's method — glossary **564 → 567** (0 holes).
 Verified: g()-guarded; byte-stable JSON re-serialize ×2; gate ALL GREEN (internal-links lint); **one combined headless driver** — 5 dives, lemma/SURE/method/SVGD + cross-link, 112 KaTeX, glossary 3/3 render, kErr=0, errs=0. SW cache `atlas-v1040` → `atlas-v1041`.

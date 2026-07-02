@@ -5347,6 +5347,17 @@
               ],
               "answer": 2,
               "explain": "Negative definite means the surface curves downward in every direction — a dome — so the critical point is a local maximum (the analogue of $f''(c) < 0$). Mixed-sign eigenvalues give a saddle; any zero eigenvalue makes the test inconclusive."
+            },
+            {
+              "q": "Coordinate descent on $f=g+h$ ($g$ smooth) is guaranteed to reach the optimum only when the nonsmooth part $h$ is:",
+              "choices": [
+                "Bounded below",
+                "Twice differentiable",
+                "Convex in every pair of coordinates",
+                "Separable across coordinates, like the $\\ell_1$ penalty"
+              ],
+              "answer": 3,
+              "explain": "A separable $h=\\sum_j h_j(w_j)$ doesn't couple the variables, so per-coordinate minimization can't get stuck — the $\\ell_1$ case gives soft-thresholding (LASSO/glmnet). Non-separable nonsmooth terms can strand it at a non-stationary point."
             }
           ],
           "flashcards": [

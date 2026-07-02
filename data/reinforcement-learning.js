@@ -4632,6 +4632,17 @@
               ],
               "answer": 3,
               "explain": "Online RL's safety net — try a bad guess, see it fail, correct it — is gone offline, so an over-estimated unseen action becomes a permanent delusion the $\\max$ actively chases. Conservatism (policy constraints like BCQ, or value penalties like CQL) keeps the policy to what the data supports. Pessimism, not optimism, is the right default when you can't test your beliefs."
+            },
+            {
+              "q": "The doubly-robust off-policy estimator is consistent when:",
+              "choices": [
+                "Both the value model and the propensities are correct",
+                "The horizon is short enough",
+                "Either the value model or the logged propensities is correct",
+                "The behaviour policy equals the target policy"
+              ],
+              "answer": 2,
+              "explain": "That's the \"doubly\" — the value model acts as a baseline and the importance-sampling term corrects its residual; each side covers the other's misspecification."
             }
           ],
           "flashcards": [

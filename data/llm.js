@@ -3633,6 +3633,17 @@
               ],
               "answer": 3,
               "explain": "Self-consistency samples several diverse chains-of-thought (higher temperature for diversity) and returns the majority answer. Independent mistakes scatter across different wrong answers while correct reasoning converges, so the vote concentrates on the right answer — diversity becomes the mechanism, not a bug."
+            },
+            {
+              "q": "How does green-list watermark detection decide a text is machine-generated?",
+              "choices": [
+                "It runs a separately trained classifier over the text",
+                "It measures the text's perplexity under the original model",
+                "It re-derives each position's green list from the hash key and z-tests whether green tokens are over-represented",
+                "It searches for repeated n-grams"
+              ],
+              "answer": 2,
+              "explain": "Detection needs only the hash key, not the model: re-split the vocabulary at each position, count greens, and test against the chance rate $\\gamma$ — human text scores $z\\approx 0$, watermarked text scores high."
             }
           ],
           "flashcards": [

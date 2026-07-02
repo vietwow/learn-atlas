@@ -3888,6 +3888,17 @@
               ],
               "answer": 2,
               "explain": "The pseudoinverse *generalizes* the inverse: whenever $A$ is square and invertible, $A^{+} = A^{-1}$. Its power is that it is also defined when $A$ is rectangular or rank-deficient (built as $A^{+} = V\\Sigma^{+}U^\\top$, inverting only the nonzero singular values), where it returns the minimum-norm least-squares solution instead of a true inverse."
+            },
+            {
+              "q": "Why are CP tensor-decomposition factors often more interpretable than PCA components?",
+              "choices": [
+                "They are always sparse",
+                "CP decompositions are essentially unique — there is no rotational ambiguity to hide the true factors",
+                "They are constrained to be orthogonal",
+                "They minimize reconstruction entropy"
+              ],
+              "answer": 1,
+              "explain": "Matrix factorizations can be rotated without changing the fit, so factors are arbitrary; CP (for three or more modes) is essentially unique, so the recovered components are genuinely meaningful."
             }
           ],
           "flashcards": [
