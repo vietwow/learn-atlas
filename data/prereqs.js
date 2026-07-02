@@ -254,5 +254,8 @@ window.PREREQS = {
   ],
   "gt-auctions-mechanism-design": [
     "gt-foundations"
+  ],
+  "dl-generalization-mysteries": [
+    "dl-overfitting-and-regularization"
   ]
 };
