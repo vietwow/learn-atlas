@@ -9206,4 +9206,72 @@
     build(); draw();
   });
 
+
+  /* ========================================================
+     176. Spectral clustering vs k-means on two rings (machine learning)
+     ======================================================== */
+  register({ id: 'ml-spectral', topic: 'machine-learning', title: 'Spectral clustering vs k-means', blurb: 'Two concentric rings. Plain k-means partitions by closeness to centroids, so it slices straight through both rings (purity ≈ 50%). Spectral clustering builds a nearest-neighbour graph (shown faintly), takes the Fiedler direction of its normalized Laplacian, and clusters by SIGN — connectivity, not proximity — recovering the rings perfectly. Toggle the two methods on the same data.' },
+  function (root) {
+    const W = 460, H = 400, N = 80;
+    const { c, ctx } = canvas(root, W, H);
+    const ctl = controls(root);
+    const info = note(root);
+    let seed = 11, mode = 'spectral';
+    let pts, lab, Wg, km, spec;
+    function mk(s) { return function () { s = (s * 1103515245 + 12345) & 0x7fffffff; return s / 0x7fffffff; }; }
+    function d2(a, b) { const dx = a[0] - b[0], dy = a[1] - b[1]; return dx * dx + dy * dy; }
+    function build() {
+      const r = mk(seed);
+      pts = []; lab = [];
+      for (let i = 0; i < N; i++) { const ring = (i < 40) ? 0 : 1, k = i % 40;
+        const th = 2 * Math.PI * k / 40 + 0.5 * (r() - 0.5) * (2 * Math.PI / 40);
+        const rad = (ring ? 2.2 : 1) + 0.06 * (r() + r() - 1);
+        pts.push([rad * Math.cos(th), rad * Math.sin(th)]); lab.push(ring); }
+      // kNN graph (k=4, symmetrized)
+      Wg = []; for (let i = 0; i < N; i++) Wg.push(new Array(N).fill(0));
+      for (let i = 0; i < N; i++) { const ds = [];
+        for (let j = 0; j < N; j++) if (j !== i) ds.push([d2(pts[i], pts[j]), j]);
+        ds.sort((a, b) => a[0] - b[0]);
+        for (let k = 0; k < 4; k++) { const j = ds[k][1]; Wg[i][j] = 1; Wg[j][i] = 1; } }
+      // spectral: Fiedler direction of normalized Laplacian via deflated power iteration on A
+      const deg = Wg.map(row => row.reduce((a, b) => a + b, 0));
+      const sd = deg.map(Math.sqrt), un = Math.sqrt(deg.reduce((a, b) => a + b, 0));
+      const u = sd.map(t => t / un);
+      const mv = x => { const y = new Array(N).fill(0);
+        for (let i = 0; i < N; i++) { const xi = x[i] / sd[i]; for (let j = 0; j < N; j++) if (Wg[i][j]) y[j] += xi; }
+        return y.map((t, i) => t / sd[i]); };
+      const r2 = mk(seed + 7); let v = []; for (let i = 0; i < N; i++) v.push(r2() - 0.5);
+      for (let it = 0; it < 1500; it++) { let dot = 0; for (let i = 0; i < N; i++) dot += v[i] * u[i];
+        v = v.map((t, i) => t - dot * u[i]); v = mv(v);
+        const nrm = Math.sqrt(v.reduce((a, b) => a + b * b, 0)); v = v.map(t => t / nrm); }
+      spec = v.map(t => t > 0 ? 1 : 0);
+      // k-means (2 clusters)
+      let c0 = pts[0].slice(), c1 = pts[45].slice();
+      for (let it = 0; it < 25; it++) { const s0 = [0, 0], s1 = [0, 0]; let n0 = 0, n1 = 0;
+        pts.forEach(p => { if (d2(p, c0) < d2(p, c1)) { s0[0] += p[0]; s0[1] += p[1]; n0++; } else { s1[0] += p[0]; s1[1] += p[1]; n1++; } });
+        if (n0) c0 = [s0[0] / n0, s0[1] / n0]; if (n1) c1 = [s1[0] / n1, s1[1] / n1]; }
+      km = pts.map(p => d2(p, c0) < d2(p, c1) ? 0 : 1);
+    }
+    function purity(asg) { let a = 0; for (let i = 0; i < N; i++) if (asg[i] === lab[i]) a++; return Math.max(a, N - a) / N; }
+    function draw() {
+      const pal = P(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = pal.bg; ctx.fillRect(0, 0, W, H);
+      const X = x => W / 2 + x * 78, Y = y => H / 2 - 12 + y * 78;
+      const asg = mode === 'spectral' ? spec : km;
+      if (mode === 'spectral') { ctx.strokeStyle = pal.line; ctx.globalAlpha = 0.5;
+        for (let i = 0; i < N; i++) for (let j = i + 1; j < N; j++) if (Wg[i][j]) { ctx.beginPath(); ctx.moveTo(X(pts[i][0]), Y(pts[i][1])); ctx.lineTo(X(pts[j][0]), Y(pts[j][1])); ctx.stroke(); }
+        ctx.globalAlpha = 1; }
+      pts.forEach((p, i) => { ctx.fillStyle = asg[i] ? pal.sage : pal.violet;
+        ctx.beginPath(); ctx.arc(X(p[0]), Y(p[1]), 4, 0, 2 * Math.PI); ctx.fill(); });
+      ctx.fillStyle = pal.mute; ctx.font = '11px ' + (cssVar('--font-mono') || 'monospace'); ctx.textAlign = 'center';
+      ctx.fillText(mode === 'spectral' ? 'spectral: colour = sign of the Fiedler direction (graph shown)' : 'k-means: colour = nearest centroid', W / 2, H - 8);
+      info.innerHTML = '<b>' + (mode === 'spectral' ? 'Spectral' : 'K-means') + '</b> — agreement with the true rings: <b>' + (100 * purity(asg)).toFixed(0) + '%</b>. ' + (mode === 'spectral' ? 'Connectivity finds the rings exactly.' : 'Centroid proximity slices through both rings — try Spectral.');
+    }
+    button(ctl, '◇ K-means', () => { mode = 'kmeans'; draw(); });
+    button(ctl, '◆ Spectral', () => { mode = 'spectral'; draw(); });
+    button(controls(root), '🎲 Reseed', () => { seed = (seed * 16807 + 13) & 0x7fffffff; build(); draw(); });
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Two concentric rings of points. In k-means mode the colouring splits both rings straight down the middle, about fifty percent agreement with the true rings. In spectral mode a faint nearest-neighbour graph appears and the colouring follows the rings exactly, one hundred percent agreement — the sign of the Fiedler vector of the graph Laplacian. Buttons toggle the two methods and reseed the data.');
+    build(); draw();
+  });
+
 })();
