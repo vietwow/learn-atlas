@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1210 — Step-back (clean at 193/905) — review block 5 recap (step-back)
+Full kErr + visible-newline sweep: **n=193, errs=0, kErrLessons=NONE, visNlessons=NONE, mapNodes=905** — all phase fixes regression-free.
+**Block 1201–1210 recap:** 16 lessons + 10 widgets reviewed — Algorithms' widgets finished and **Deep Learning's first 16 lessons done, 14 clean**. Block defects: just 3 — one maligning explain (LR-schedules q11), one fully-spoiled homework (the affine-collapse/XOR h0, replaced with the site's first tanh exercise), one partially-spoiled homework (the MLP collapse h1, extended with fresh numerics). Four audit flags verified false alarms — DL's authoring batch uses correct 0-based references throughout. Honesty spot-checks passed on `algo-dp-editdistance` and `a-reservoir-sampling`.
+**Cumulative: 85/193 lessons · 53/177 widgets (~48% of review units at 53 iterations).** Hand-verified computations ~3,400 with still exactly **one** arithmetic error ever found. DL's surprising cleanliness (its homework favors variation instances — the pattern early topics lacked) means the remaining risk concentrates in the mid-era RL/LLM lessons and the early-era MCQ explains still carrying flags. No data changes — sweep + recap is the ship; no SW bump.
+
 ## iter 1209 — Review: dl-rnn-lstm-gru + dl-embeddings-and-tokenization — both clean (review)
 **`dl-rnn-lstm-gru`: clean** — both audit flags (q9, q11) verified **false alarms** (correct 0-based references, including q9's sharp "same number, wrong reason" distractor). The $0.7^{50}\approx1.8\times10^{-8}$ vanishing computation, the LSTM highway derivation ($\partial c_t/\partial c_{t-1}=\text{diag}(f_t)$ with the constant-error-carousel condition and the $b_f$-initialization tip), the GRU deployment argument (capability → cost → data-scale), and the cell-step arithmetic ($c_t=1.9+0.1=2.0$) all verified.
 **`dl-embeddings-and-tokenization`: clean** — the cosine comparison ($0.96$ vs $0.80$), the embedding≡one-hot-linear equivalence ($15\text{M}=15\text{M}$, with the 49,999-wasted-multiplies observation), the COVID-19 OOV/subword homework, and the analogy arithmetic ($\text{king}-\text{man}+\text{woman}=(2,4)=\text{queen}$) all verified.
