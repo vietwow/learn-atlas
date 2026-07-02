@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1213 — Review: dl-vision-transformers + dl-graph-neural-networks — both clean (review)
+**`dl-vision-transformers`: clean** — the patch-count arithmetic (h0's $8\times8+1=65$; e0's $14\times14+1=197$ with patch dimension $16\times16\times3=768$), the first-layer-global-context contrast with CNNs, the CLIP zero-shot mechanism, the data-regime CNN-vs-ViT decision, and the multimodal chart-reading pipeline all verified.
+**`dl-graph-neural-networks`: clean** — the mean-aggregation step ($A{=}3, B{=}4, C{=}5$), the permutation-invariance argument against flattened adjacency matrices, the over-smoothing depth limit, the molecule representation, GCN-vs-GAT selection, and the transformer-as-complete-graph-GNN framing all verified.
+Both are compact later-era lessons in the sketches style — accurate throughout. Ledger is the ship; no SW bump. **Progress: 91/193 lessons · 53/177 widgets.**
+
 ## iter 1212 — Review: dl-pretraining-and-finetuning-paradigm + dl-practical-training-and-debugging (review)
 **`dl-pretraining-and-finetuning-paradigm`: clean** — the BERT-vs-GPT task mapping, the LoRA arithmetic ($131{,}072$ vs $16{,}777{,}216 = 0.78\%$, with the low-intrinsic-rank justification), and the Chinchilla budget homework ($D=5\times10^{11}$ tokens; the colleague's plan requiring $3\times10^{22}$ FLOPs — 10× over) all verified.
 **`dl-practical-training-and-debugging`** — q9's explain contained the garbled reference "(option D/A)" — letter-consistent but pure noise; de-indexed to name the summing mistake directly. The NaN-debugging priority plan, the $(B,1)$-vs-$(B,)$ broadcasting-bug homework, the Adam memory estimate (16 bytes/param → 20.8 GB with the lower-bound reasoning and ZeRO/checkpointing reductions), the dead-ReLU counter, and the finite-difference gradient check all verified.

@@ -5,7 +5,7 @@ Owner-directed (2026-07-02): review and refine all existing content and visualiz
 
 Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 
-**Progress: 89/193 lessons · 53/177 widgets**
+**Progress: 91/193 lessons · 53/177 widgets**
 
 ## linear-algebra — lessons
 - [x] la-vectors-operations — ✔ iter-1158 — added magnitude/norm preview section (examples used it before it was defined); aligned q11 terminology (tip-to-tail); all 16 MCQs + 3 hw + 3 examples arithmetic re-verified
@@ -162,8 +162,8 @@ Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 - [x] dl-transformer-architecture — ✔ iter-1211 — both audit flags (q8/q9) FALSE ALARMS (correct letter refs). e0 shared an identical title with the attention lesson's e0 (different instance — spaced repetition, kept); retitled for search clarity. d_k=4 trace (Z=11.107, weights 0.665/0.090/0.245), −∞ masking q9, multi-head h0, residual h2 all verified
 - [x] dl-pretraining-and-finetuning-paradigm — ✔ iter-1212 clean — BERT-vs-GPT task mapping h0, LoRA h1 (131,072 vs 16,777,216 = 0.78%), Chinchilla h2 (D=5×10¹¹, the 10× overshoot to 3×10²²), all examples verified; no changes
 - [x] dl-practical-training-and-debugging — ✔ iter-1212 — q9's explain contained the garbled reference "(option D/A)" (letter-consistent but noise); de-indexed. NaN-debugging plan h0, broadcasting-bug h1, Adam-memory h2 (16 B/param → 20.8 GB, lower-bound reasoning), dead-ReLU e1, gradient-check e2 all verified
-- [ ] dl-vision-transformers — pending
-- [ ] dl-graph-neural-networks — pending
+- [x] dl-vision-transformers — ✔ iter-1213 clean — patch counts h0 (64+1=65) and e0 (196+1=197, patch dim 768), global-context h1, CLIP zero-shot h2, CNN-vs-ViT data-regime e1, multimodal pipeline e2 all verified; no changes
+- [x] dl-graph-neural-networks — ✔ iter-1213 clean — mean-aggregation h0 (A=3,B=4,C=5), permutation-invariance h1, over-smoothing h2, molecule e0, GCN-vs-GAT e1, transformer-as-complete-graph-GNN e2 all verified; no changes
 - [ ] dl-self-supervised-contrastive — pending
 - [ ] dl-autoencoders-vae — pending
 - [ ] dl-gans — pending
