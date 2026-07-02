@@ -30,6 +30,8 @@ function unesc(s) { return String(s).replace(/&lt;/g, "<").replace(/&gt;/g, ">")
 
 const C = global.window.COURSES || [];
 const vizIds = new Set((global.window.VIZ_CATALOG || []).map(v => v.id));
+// a widget id registered twice silently shadows the earlier one and duplicates its Lab card (iter-1148 bug)
+{ const _l = (global.window.VIZ_CATALOG || []).map(v => v.id); const _d = [...new Set(_l.filter((x, i) => _l.indexOf(x) !== i))]; if (_d.length) { console.error("FAIL: duplicate viz registration(s): " + _d.join(", ")); process.exit(1); } }
 const ids = new Set(), topicOf = {};
 let lessons = 0, mcq = 0, cards = 0, hw = 0, ex = 0, codeChecked = 0, errors = [], warnings = [], skew = [];
 const pyExercises = [];   // python code-exercises collected for a post-pass (run via python3 if available)
@@ -137,7 +139,7 @@ C.forEach(c => c.modules.forEach(m => m.lessons.forEach(l => {
   (l.flashcards || []).forEach((f, i) => { cards++; if (!f.front || !f.back) errors.push("flashcard missing front/back: " + l.id + " #" + i); checkRender(f.front, l.id + " card#" + i + ".front"); checkRender(f.back, l.id + " card#" + i + ".back"); });
   (l.homework || []).forEach((h, i) => { hw++; if (h) { if (!((h.prompt || h.q || "").trim())) errors.push("homework missing prompt in " + l.id + " hw#" + i); Object.keys(h).forEach(k => checkRender(h[k], l.id + " hw#" + i + "." + k)); } });
   (l.examples || []).forEach((e, i) => { ex++; if (e) { if (!((e.body || e.scenario || e.prompt || "").trim())) errors.push("example missing body/scenario in " + l.id + " ex#" + i); Object.keys(e).forEach(k => checkRender(e[k], l.id + " ex#" + i + "." + k)); } });
-  ((l.content || "").match(/data-viz="([^"]+)"/g) || []).forEach(s => { const id = s.slice(10, -1); if (!vizIds.has(id)) errors.push("unknown data-viz id '" + id + "' in " + l.id); });
+  ((l.content || "").match(/data-viz=["']([^"']+)["']/g) || []).forEach(s => { const id = s.slice(10, -1); if (!vizIds.has(id)) errors.push("unknown data-viz id '" + id + "' in " + l.id); });
   // content-parity warnings (non-blocking): every lesson should reach the site standard of 16 MCQ /
   // 6 flashcards / 3 examples / 3 homework / 3 deeper-dives. Surfaces gaps in new content automatically
   // (e.g. the iter-668 catch where a freshly-built module shipped with 0 deep-dives).
