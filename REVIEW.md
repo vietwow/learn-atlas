@@ -5,7 +5,7 @@ Owner-directed (2026-07-02): review and refine all existing content and visualiz
 
 Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 
-**Progress: 41/193 lessons · 11/177 widgets**
+**Progress: 43/193 lessons · 11/177 widgets**
 
 ## linear-algebra — lessons
 - [x] la-vectors-operations — ✔ iter-1158 — added magnitude/norm preview section (examples used it before it was defined); aligned q11 terminology (tip-to-tail); all 16 MCQs + 3 hw + 3 examples arithmetic re-verified
@@ -64,8 +64,8 @@ Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 - [x] c-partial-derivatives — ✔ iter-1181 clean — h0 Clairaut, h1 (0.2 vs ln1.22≈0.1989), Laplace h2, e0 (7/24), e1 (tangent plane L=y, 0.2196), e2 (D_u=4.4, |∇f|=√20) all verified. Watch: e2 teaches directional derivatives (next lesson's topic) — check for collision when reviewing c-gradient-directional
 - [x] c-gradient-directional — ✔ iter-1182 clean — e0 (52/5), e1 (steepest descent −2√58, step (0.4,0.6) with loss 17→1.72 check), zero-direction e2, h0 (5√2/2), h1 (2√5), q8 (36/5) all verified. Collision check vs lesson-20 e2: that example previews this material on the canonical bowl — tolerated as motivation (q13 here is a 5-second sanity check, not a duplicate lesson); no changes
 - [x] c-multivariable-optimization — ✔ iter-1182 clean — e0 ((0,3) min −9), e1 (cubic: (0,0) saddle, (1,1) min −1, det H=36xy−9), e2 (Lagrange xy→25), h0 (saddle w/ eigenvalues 6,−2), h1 (√5 on the circle), h2 (quartic: inconclusive Hessian, direct-reasoning min) all verified; e2/h1 are complementary Lagrange problems, not dups; no changes
-- [ ] c-convexity — pending
-- [ ] c-gradient-descent-convergence — pending
+- [x] c-convexity — ✔ iter-1183 clean — chord-definition proof of x² (the −λ(1−λ)(x−y)² identity), MSE-convexity via operations, Jensen e2 (gap = variance), E[1/X]≥1/E[X] h1, two-random-starts diagnostic h2 all verified; no changes
+- [x] c-gradient-descent-convergence — ✔ iter-1183 — SEVEN explains de-indexed/fixed, densest cluster on the site: q0/q1/q5/q6/q7/q9 maligned their own correct answers under scrambled numbering, q3 self-referenced. All arithmetic verified (κ=25, x₁=0.4/3.2, η-window (0,2/a), e0's 0.8^k contraction, e1's learning-rate sweep, h0-h2)
 - [ ] c-lagrange-multipliers — pending
 - [ ] c-duality-kkt — pending
 - [ ] c-proximal-projected — pending

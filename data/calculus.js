@@ -5686,7 +5686,7 @@
                 "It reaches a point where the Hessian is positive definite."
               ],
               "answer": 0,
-              "explain": "Gradient descent only zeros the gradient; on a general landscape such a stationary point could be a saddle, plateau, or local dip. The global-minimum guarantee (choice 0) requires convexity, which the question explicitly excludes."
+              "explain": "Gradient descent only zeros the gradient; on a general landscape such a stationary point could be a saddle, plateau, or local dip. The global-minimum guarantee requires convexity, which the question explicitly excludes — and a vanishing gradient implies neither strict decrease nor a positive-definite Hessian."
             },
             {
               "q": "Why does convexity make gradient descent's output trustworthy, when on a general function reaching $\\nabla f = 0$ proves nothing?",
@@ -5697,7 +5697,7 @@
                 "Convexity guarantees the Hessian is the identity matrix."
               ],
               "answer": 1,
-              "explain": "For a convex function a stationary point is a global minimum, so converging to $\\nabla f = 0$ converges to the global optimum. Choice 1 is false (descent still requires a small enough $\\eta$), and choice 0 misstates the role of convexity."
+              "explain": "For a convex function a stationary point is a global minimum, so converging to $\\nabla f = 0$ converges to the global optimum. The every-step-decreases claim is false — descent still requires a small enough $\\eta$ — and convexity neither prevents the gradient from vanishing before the minimum nor makes the Hessian the identity."
             },
             {
               "q": "A loss is $L$-smooth and convex. Which constant step size is guaranteed to make the loss decrease every step and converge?",
@@ -5719,7 +5719,7 @@
                 "$1/L^2$"
               ],
               "answer": 0,
-              "explain": "Steps beyond about $2/L$ overshoot the valley and the loss oscillates with growing amplitude. The safe-descent ceiling is $1/L$; the strict divergence boundary is $\\sim 2/L$, so choice 0 is correct."
+              "explain": "Steps beyond about $2/L$ overshoot the valley and the loss oscillates with growing amplitude — that is the divergence boundary. The safe-descent ceiling $1/L$ is a different, smaller threshold: between $1/L$ and $2/L$ convergence can still occur non-monotonically, but past $\\sim 2/L$ it is lost."
             },
             {
               "q": "For $f(x)=\\tfrac12 a x^2$ with $a>0$, gradient descent gives $x_{k+1}=(1-\\eta a)x_k$. Which step size sends $x_1=0$ in a single step?",
@@ -5741,7 +5741,7 @@
                 "It upgrades the convergence from sublinear $O(1/k)$ to a linear (geometric) rate $O((1-\\mu/L)^k)$."
               ],
               "answer": 3,
-              "explain": "Strong convexity gives a unique minimum and a linear/geometric error decay $O((1-\\mu/L)^k)$, far faster than the sublinear $O(1/k)$ of plain convexity. It does not relax the step-size ceiling (choice 3) nor remove the need to pick $\\eta$."
+              "explain": "Strong convexity gives a unique minimum and a linear/geometric error decay $O((1-\\mu/L)^k)$, far faster than the sublinear $O(1/k)$ of plain convexity. It does NOT relax the step-size ceiling — steps beyond $2/L$ still diverge — nor does it remove the need to pick $\\eta$ or imply smoothness."
             },
             {
               "q": "A loss has Hessian eigenvalues ranging from $\\mu = 2$ (flattest direction) to $L = 50$ (steepest). What is the condition number $\\kappa$?",
@@ -5752,7 +5752,7 @@
                 "$48$"
               ],
               "answer": 0,
-              "explain": "The condition number is $\\kappa = L/\\mu = 50/2 = 25$. Choices 0 and 1 wrongly subtract or add the eigenvalues; choice 2 inverts the ratio."
+              "explain": "The condition number is $\\kappa = L/\\mu = 50/2 = 25$. Adding or subtracting the eigenvalues ($52$ or $48$) confuses the ratio with a sum, and $0.04$ inverts the ratio ($\\mu/L$ instead of $L/\\mu$)."
             },
             {
               "q": "Minimize $f(x)=x^2-4x+5$ with gradient descent from $x_0=0$ and $\\eta=0.1$. What is $x_1$?",
@@ -5763,7 +5763,7 @@
                 "$-4$"
               ],
               "answer": 1,
-              "explain": "$f'(x)=2x-4$, so $f'(0)=-4$ and $x_1 = 0 - 0.1(-4) = 0.4$. Choice 1 flips the sign of the update, and choice 3 forgets to multiply by $\\eta$."
+              "explain": "$f'(x)=2x-4$, so $f'(0)=-4$ and $x_1 = 0 - 0.1(-4) = 0.4$. The $-0.4$ answer flips the sign of the update (stepping uphill), and $-4$ forgets to multiply by $\\eta$ (taking the raw gradient as the step)."
             },
             {
               "q": "Why does a large condition number $\\kappa = L/\\mu$ slow gradient descent down?",
@@ -5785,7 +5785,7 @@
                 "Making the loss strongly convex when it was only convex."
               ],
               "answer": 2,
-              "explain": "Scaling and normalization round out the bowl, lowering $\\kappa = L/\\mu$, which makes GD race straight to the bottom instead of zig-zagging. They don't change the algorithm (choice 2) or manufacture strong convexity from nowhere (choice 3)."
+              "explain": "Scaling and normalization round out the bowl, lowering $\\kappa = L/\\mu$, which makes GD race straight to the bottom instead of zig-zagging. They don't swap in a different algorithm — that would be Newton's method — and they don't manufacture strong convexity from nowhere; they improve the conditioning of the bowl you already have."
             },
             {
               "q": "Neural-network losses are non-convex, yet gradient descent works well in practice. Which explanation is consistent with the lesson?",

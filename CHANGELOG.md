@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1183 — Review: c-convexity + c-gradient-descent-convergence (review)
+**`c-convexity`: clean** — the chord-definition proof of $x^2$ (via the $-\lambda(1-\lambda)(x-y)^2$ identity), MSE-convexity from convexity-preserving operations, Jensen's inequality with the gap-equals-variance observation, $E[1/X]\ge1/E[X]$, and the two-random-starts diagnostic homework all verified. No changes.
+**`c-gradient-descent-convergence`** — the site's densest broken-explain cluster, all fixed: **seven MCQ explains de-indexed** — q0, q1, q5, q6, q7, and q9 each *maligned their own correct answer* under scrambled numbering ("Choice 1 flips the sign" where choice 1 IS the right 0.4; "Choices 0 and 1 wrongly subtract" where 0 IS the right κ=25; …), and q3 self-referenced. Clearly one bad authoring batch. All arithmetic verified: κ=25, both one-step computations (0.4, 3.2), the $(0, 2/a)$ convergence window with the η=2/a oscillation boundary, e0's $0.8^k$ contraction, e1's three-learning-rate sweep, and all homework.
+Verified: guarded ×7; byte-stable; gate ALL GREEN; headless kErr=0/errs=0. SW `atlas-v1105` → `atlas-v1106`. **Progress: 43/193 lessons · 11/177 widgets.**
+
 ## iter 1182 — Review: c-gradient-directional + c-multivariable-optimization — both clean (review)
 **`c-gradient-directional`: clean** — e0's directional derivative ($\frac{52}{5}$), e1's full descent workflow (unit direction $-\frac{(3,7)}{\sqrt{58}}$, step to $(0.4,0.6)$ with the loss-drop check $17\to1.72$), the zero-direction/level-curve e2, and all homework verified. The queued collision check resolved: lesson 20's e2 previews this material on the canonical bowl — kept as motivation; this lesson's q13 is a quick sanity check, not a duplicate lesson.
 **`c-multivariable-optimization`: clean** — e0 ($(0,3)$ min, $-9$), the cubic-surface e1 ($(0,0)$ saddle, $(1,1)$ min $-1$, $\det H=36xy-9$), the Lagrange e2 ($xy\to25$), h0's saddle (eigenvalues $6,-2$), h1's $\sqrt5$ on the circle, and h2's quartic (inconclusive Hessian resolved by direct reasoning) all verified. The two Lagrange problems are complementary, not duplicates. Notably strong lesson — the $\lambda=0$ inactive-constraint q11 and semidefinite-Hessian q9 are graduate-quality distractors.
