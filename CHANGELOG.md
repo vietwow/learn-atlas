@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1207 — Review: dl-initialization-and-vanishing-gradients + dl-convolution-operation — both clean (review)
+**`dl-initialization-and-vanishing-gradients`: clean** — Xavier/He variance arithmetic ($\text{std}\approx0.0395$ vs $0.0442$ with the ReLU-compensation reason), the gain-compounding homework ($0.6^{19}\approx6.1\times10^{-5}$, $1.3^{19}\approx146$ — both re-computed), the clip-by-global-norm remedy with its direction-preservation argument, and the Xavier derivation ($\kappa=n\sigma^2$) all verified.
+**`dl-convolution-operation`: clean** — the ResNet-stem shape homework ($(64,64,64)$, 9,472 params), the dense-vs-conv comparison (584 vs 4.2M — a ~7,185× ratio), the receptive-field chain ($RF=11$), and the VGG two-3×3s-beat-one-5×5 example (18 vs 25 weights plus the interposed nonlinearity) all verified.
+Ledger is the ship; no SW bump. **Progress: 81/193 lessons · 53/177 widgets.**
+
 ## iter 1206 — Review: dl-generalization-mysteries + dl-dropout-and-normalization — both clean (review)
 **`dl-generalization-mysteries`: clean** — the double-descent three-regime reading (with the $\sim10^6$ spike at $p{=}n$ matching the site's own widget), the grokking diagnosis (weight decay as the mechanism, not just the delay), the label-noise-sharpens-the-peak homework, the lottery-ticket rewind-step analysis, and the NTK/lazy-training questions all verified. Later-authored and tight.
 **`dl-dropout-and-normalization`: clean** — inverted-dropout computations verified on both instances (homework $[2,0,6,0]$; example $[4,0,12,16,0]$ with the expectation check — parallel practice, correctly designed); the full BatchNorm pass ($\mu_B{=}4$, $\sigma_B^2{=}5$, running-stat update, and the left-in-train-mode trap simulated on a single test point); and the batch-size-1 LayerNorm recommendation h2. e2's train/eval overlap with e1/h2 is tolerated — its determinism/batch-mates argument is the one framing the others lack.
