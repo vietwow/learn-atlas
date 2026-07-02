@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1201 — Review: Algo widget batch 2 — ALL Algorithms content reviewed (review)
+Drove the remaining 10 Algo widgets headless: `algo-dp-editdistance`, `algo-dijkstra`, `algo-stack-queue`, `algo-trie`, `algo-maxflow`, `algo-pnp`, `a-reservoir-sampling`, `a-consistent-hashing`, `a-convex-hull`, `a-hll` — **all clean**, errs=0, canvases 414–540px, notes render.
+**Honesty spot-checks:** `algo-dp-editdistance`'s on-screen cell rule ($1+\min(1,1,0)=1$, source shading) is self-consistent; `a-reservoir-sampling`'s "ideal 0.125 per position, spread 0.033 at 2000 trials" checks out ($1/8$ exactly, and the spread is a few binomial standard deviations — appropriately noisy, with the note itself telling the user to raise trials).
+**Algorithms fully reviewed: 23/23 lessons + 21/21 widgets** — three topics done (LA, Calc, Algos = 69 lessons, 53 widgets). No data changes — ledger is the ship; no SW bump. **Progress: 69/193 lessons · 53/177 widgets.**
+
 ## iter 1200 — Step-back (clean at 193/905) — review block 4 recap (step-back)
 Full kErr + visible-newline sweep: **n=193, errs=0, kErrLessons=NONE, visNlessons=NONE, mapNodes=905** — all phase fixes regression-free.
 **Block 1191–1200 recap:** 17 lessons + 11 widgets reviewed — **all 23 Algorithms lessons completed** (20 clean) plus the first 11 Algo widgets. Block defects: just 4 — one maligning explain (invariants q11), two **answers-in-the-quiz/example** dups (the newly-identified subspecies: coin-change q10 spoiling h0's construction; the worker-job reduction spelled out by e2+c5 before h2 asked for it — both replaced with fresh instances teaching un-worked skills), one cosmetic title. Three audit flags verified as false alarms — the Algorithms authoring batch used correct references throughout.

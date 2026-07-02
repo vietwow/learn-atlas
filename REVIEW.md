@@ -5,7 +5,7 @@ Owner-directed (2026-07-02): review and refine all existing content and visualiz
 
 Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 
-**Progress: 69/193 lessons · 43/177 widgets**
+**Progress: 69/193 lessons · 53/177 widgets — ALL Algorithms content reviewed (23 lessons + 21 widgets)**
 
 ## linear-algebra — lessons
 - [x] la-vectors-operations — ✔ iter-1158 — added magnitude/norm preview section (examples used it before it was defined); aligned q11 terminology (tip-to-tail); all 16 MCQs + 3 hw + 3 examples arithmetic re-verified
@@ -130,16 +130,16 @@ Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 - [x] algo-graph-traversal — ✔ iter-1199 clean — 3 btns, 560px, errs=0 under drive
 - [x] algo-hashing — ✔ iter-1199 clean — 4 btns + slider, note 347ch, errs=0 under drive
 - [x] algo-binary-search — ✔ iter-1199 clean — 4 btns, note 251ch, errs=0 under drive
-- [ ] algo-dp-editdistance — pending
-- [ ] algo-dijkstra — pending
-- [ ] algo-stack-queue — pending
-- [ ] algo-trie — pending
-- [ ] algo-maxflow — pending
-- [ ] algo-pnp — pending
-- [ ] a-reservoir-sampling — pending
-- [ ] a-consistent-hashing — pending
-- [ ] a-convex-hull — pending
-- [ ] a-hll — pending
+- [x] algo-dp-editdistance — ✔ iter-1201 clean — 4 btns, cell-rule note verified (1+min(1,1,0)=1), errs=0 under drive
+- [x] algo-dijkstra — ✔ iter-1201 clean — 4 btns, note 123ch, errs=0 under drive
+- [x] algo-stack-queue — ✔ iter-1201 clean — 3 btns, errs=0 under drive
+- [x] algo-trie — ✔ iter-1201 clean — 6 btns, note 120ch, errs=0 under drive
+- [x] algo-maxflow — ✔ iter-1201 clean — slider, note 183ch, errs=0 under drive
+- [x] algo-pnp — ✔ iter-1201 clean — 2 btns, note 233ch, errs=0 under drive
+- [x] a-reservoir-sampling — ✔ iter-1201 clean — honesty verified — ideal 1/8=0.125, spread 0.033 @2000 trials ≈ few binomial σ, errs=0 under drive
+- [x] a-consistent-hashing — ✔ iter-1201 clean — 3 btns, errs=0 under drive
+- [x] a-convex-hull — ✔ iter-1201 clean — btn, note 108ch, errs=0 under drive
+- [x] a-hll — ✔ iter-1201 clean — slider, note 124ch, errs=0 under drive
 
 ## deep-learning — lessons
 - [ ] dl-ml-recap-and-the-learning-problem — pending
