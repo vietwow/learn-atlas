@@ -5,7 +5,7 @@ Owner-directed (2026-07-02): review and refine all existing content and visualiz
 
 Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 
-**Progress: 85/193 lessons · 53/177 widgets**
+**Progress: 87/193 lessons · 53/177 widgets**
 
 ## linear-algebra — lessons
 - [x] la-vectors-operations — ✔ iter-1158 — added magnitude/norm preview section (examples used it before it was defined); aligned q11 terminology (tip-to-tail); all 16 MCQs + 3 hw + 3 examples arithmetic re-verified
@@ -158,8 +158,8 @@ Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 - [x] dl-transfer-learning — ✔ iter-1208 clean — head count 10,245, examples-per-parameter contrast (0.06 vs ~38,000 per), discriminative LR table (10⁻³ halving to 6.25×10⁻⁵), two-mistakes diagnosis h2 all verified. h0(a) repeats e0's head count but (b,c) are fresh analysis — tolerated as extension; no changes
 - [x] dl-rnn-lstm-gru — ✔ iter-1209 clean — both audit flags (q9/q11) FALSE ALARMS (correct 0-based refs). 0.7⁵⁰≈1.8×10⁻⁸ h0, LSTM highway derivation h1 (∂c_t/∂c_{t−1}=diag(f_t), constant-error-carousel condition), GRU deployment argument h2, LSTM cell-step q9 (c_t=2.0 via 1.9+0.1) all verified; no changes
 - [x] dl-embeddings-and-tokenization — ✔ iter-1209 clean — cosine h0 (0.96 vs 0.80), embedding≡one-hot-linear h1 (15M=15M with the 49,999-wasted-multiplies point), COVID-19 OOV h2, analogy e2 (king−man+woman=(2,4)=queen) all verified; no changes
-- [ ] dl-attention-mechanism — pending
-- [ ] dl-transformer-architecture — pending
+- [x] dl-attention-mechanism — ✔ iter-1211 clean — h0 trace (weights 0.768/0.187/0.045 → output (0.813, 0.232), re-computed), softmax-saturation h1, convex-hull h2 (interpolate-never-extrapolate), e0 ([6.70, 3.30]), numeric √d_k demo e2 all verified; no changes
+- [x] dl-transformer-architecture — ✔ iter-1211 — both audit flags (q8/q9) FALSE ALARMS (correct letter refs). e0 shared an identical title with the attention lesson's e0 (different instance — spaced repetition, kept); retitled for search clarity. d_k=4 trace (Z=11.107, weights 0.665/0.090/0.245), −∞ masking q9, multi-head h0, residual h2 all verified
 - [ ] dl-pretraining-and-finetuning-paradigm — pending
 - [ ] dl-practical-training-and-debugging — pending
 - [ ] dl-vision-transformers — pending

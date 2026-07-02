@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1211 — Review: dl-attention-mechanism + dl-transformer-architecture (review)
+**`dl-attention-mechanism`: clean** — the full attention hand-trace (weights $0.768/0.187/0.045$ → output $(0.813, 0.232)$, every exponential re-computed), the softmax-saturation h1, the elegant convex-hull h2 (attention interpolates, never extrapolates — extrapolation lives in the projections), and the numeric $\sqrt{d_k}$ demo all verified.
+**`dl-transformer-architecture`** — both audit flags (q8, q9) verified **false alarms** (correct letter references; q9's $e^0=1$ masking trap is a well-made distractor). The $d_k{=}4$ trace ($Z=11.107$, weights $0.665/0.090/0.245$), the multi-head cost check, and the residual-connection h2 all verified. The lesson's three examples deliberately revisit the attention lesson's trio with new instances/angles — spaced repetition, kept — but e0 shared an *identical title* with its counterpart; **retitled** for palette/search clarity.
+Verified: byte-stable; gate ALL GREEN; headless kErr=0/errs=0. SW `atlas-v1114` → `atlas-v1115`. **Progress: 87/193 lessons · 53/177 widgets.**
+
 ## iter 1210 — Step-back (clean at 193/905) — review block 5 recap (step-back)
 Full kErr + visible-newline sweep: **n=193, errs=0, kErrLessons=NONE, visNlessons=NONE, mapNodes=905** — all phase fixes regression-free.
 **Block 1201–1210 recap:** 16 lessons + 10 widgets reviewed — Algorithms' widgets finished and **Deep Learning's first 16 lessons done, 14 clean**. Block defects: just 3 — one maligning explain (LR-schedules q11), one fully-spoiled homework (the affine-collapse/XOR h0, replaced with the site's first tanh exercise), one partially-spoiled homework (the MLP collapse h1, extended with fresh numerics). Four audit flags verified false alarms — DL's authoring batch uses correct 0-based references throughout. Honesty spot-checks passed on `algo-dp-editdistance` and `a-reservoir-sampling`.
