@@ -3,7 +3,7 @@
 Owner-directed (2026-07-02): review and refine all existing content and visualizations.
 Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 
-**Progress: 10/193 lessons · 0/177 widgets**
+**Progress: 12/193 lessons · 0/177 widgets**
 
 ## linear-algebra — lessons
 - [x] la-vectors-operations — ✔ iter-1158 — added magnitude/norm preview section (examples used it before it was defined); aligned q11 terminology (tip-to-tail); all 16 MCQs + 3 hw + 3 examples arithmetic re-verified
@@ -16,8 +16,8 @@ Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 - [x] la-four-subspaces-rank — ✔ iter-1161 — code exercise was trivial (nullity = n − rank, one subtraction); replaced with a real computation verifying row-space ⊥ null-space on the lesson's own worked bases (4 dot products → 0,0,0,0); all subspace computations re-verified
 - [x] la-determinants — ✔ iter-1162 clean — worked det=60 double-checked via column expansion, h2 cubic factored correctly, all MCQs/code verified; no changes
 - [x] la-eigenvalues-eigenvectors — ✔ iter-1162 — all 3 examples were duplicates (e0+e1 redid the in-content worked example on the same matrix; e2 shear appears in content+h2+q2); replaced with fresh complementary trio: non-symmetric full analysis, Markov λ=1 + mixing rate, complex 1±i rotation-scale — all hand-verified
-- [ ] la-diagonalization — pending
-- [ ] la-symmetric-spectral — pending
+- [x] la-diagonalization — ✔ iter-1163 — e2 duplicated the in-content defective-shear example (same matrix; h1 already does the variant); replaced with a matrix-exponential stability example (decoupled modes, e^{λt}, x(t)→0) that gives the e^{At} dive worked numbers; A⁵/h0-A³/e0/e1 all re-multiplied
+- [x] la-symmetric-spectral — ✔ iter-1163 clean — spectral proofs, worked example, rank-1 reconstruction, h2 Gram product, all MCQs (incl. Rayleigh, 1/√λ axes) re-verified; no changes
 - [ ] la-orthonormal-gram-schmidt — pending
 - [ ] la-projection-least-squares — pending
 - [ ] la-svd — pending
