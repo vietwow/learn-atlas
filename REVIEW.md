@@ -5,7 +5,7 @@ Owner-directed (2026-07-02): review and refine all existing content and visualiz
 
 Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 
-**Progress: 27/193 lessons · 11/177 widgets**
+**Progress: 29/193 lessons · 11/177 widgets**
 
 ## linear-algebra — lessons
 - [x] la-vectors-operations — ✔ iter-1158 — added magnitude/norm preview section (examples used it before it was defined); aligned q11 terminology (tip-to-tail); all 16 MCQs + 3 hw + 3 examples arithmetic re-verified
@@ -50,8 +50,8 @@ Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 - [x] c-differentiation-rules — ✔ iter-1173 — e2 used x²sin x, forward-referencing cos (taught 2 lessons later) AND duplicating that lesson's q8; replaced with √x(x²−4) differentiated two ways (product rule vs expand-first, agreeing at (5x²−4)/(2√x), spot-checked at x=4→19); h1 re-expanded, all MCQs verified
 - [x] c-chain-rule — ✔ iter-1174 — q8 explain maligned its own correct answer ("Choice 0 forgets the inner derivative" — choice 0 IS 6x·e^{3x²}); de-indexed. Code exercises (54 54; dual numbers 10/7), h0-h2 (incl. (7x³+3x²)/√(2x+1)), gradient-flow arithmetic (0.7³⁰≈2e−5) all verified
 - [x] c-derivatives-special-functions — ✔ iter-1174 — q8 explain blamed "choices 0 and 3" with 3 its own answer (should be the product-of-derivatives and dropped-term distractors); de-indexed. Softplus→sigmoid h2, x^x e2 (4(ln2+1)≈6.77), P′(1)=120ln2≈83.2, sec²(π/4)=2 all verified. Note: e2 overlaps lesson-6 log-diff dive (same x^x) — tolerated, the h1 x^{sin x} complement differs
-- [ ] c-implicit-related-rates — pending
-- [ ] c-extrema-curve-sketching — pending
+- [x] c-implicit-related-rates — ✔ iter-1175 clean — ladder −1.5 ft/s, cone 9/(4π), two-cars 50 mph, folium y′, origin slope −1, circle-slope perpendicularity check, code −0.75 all verified; no changes
+- [x] c-extrema-curve-sketching — ✔ iter-1175 — h0 assigned the exact function e1 fully works (x⁴−4x³, same −27/inflections); replaced with x⁴−8x² (mins ±2→−16, max 0, inflections ±2/√3→−80/9, all Node-verified, even-symmetry cross-check). h1 (max 3/2, min −3), MVT-Lipschitz h2, e0/e2 verified. Noted: e2 supersets q8 (x³−3x on [0,2]) — tolerated reinforcement
 - [ ] c-optimization — pending
 - [ ] c-linearization-lhopital — pending
 - [ ] c-antiderivatives — pending

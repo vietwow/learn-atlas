@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1175 — Review: c-implicit-related-rates + c-extrema-curve-sketching (review)
+**`c-implicit-related-rates`: clean** — every number verified: the sliding ladder ($-1.5$ ft/s), the conical tank ($\frac{9}{4\pi}\approx0.716$ ft/min), the two-cars problem (50 mph), the folium $y'$, the $\sin(xy)=x+y$ origin slope ($-1$), the circle-slope example with its radius-perpendicularity sanity check, and the code exercise ($-0.75$). No changes.
+**`c-extrema-curve-sketching`** — h1 (global max $\frac32$, min $-3$ on $[0,2\pi]$), the MVT-Lipschitz proof h2, and both derivative-test examples verified. One defect: **h0 assigned the exact function e1 already fully works** ($x^4-4x^3$ — a learner would redo the same analysis with the answers one tab away). Replaced with $x^4-8x^2$: three critical points (mins at $\pm2\to-16$, max at $0$), inflections at $\pm\frac{2}{\sqrt3}\to-\frac{80}{9}$, all Node-verified, plus an even-symmetry cross-check the old function couldn't teach. Noted (tolerated): e2 supersets q8.
+Verified: guarded; byte-stable; gate ALL GREEN; headless kErr=0/errs=0 (hint text is click-to-reveal, per the known smoke limitation). SW `atlas-v1101` → `atlas-v1102`. **Progress: 29/193 lessons · 11/177 widgets.**
+
 ## iter 1174 — Review: c-chain-rule + c-derivatives-special-functions (review)
 Both lessons carried flagged cases from the iter-1172 audit, both confirmed and fixed:
 **`c-chain-rule`** — q8's explain maligned its own correct answer ("Choice 0 forgets the inner derivative" — choice 0 *is* the correct $6x\,e^{3x^2}$); de-indexed. Everything else verified: both code exercises (chain-rule check `54 54`; the dual-number forward-mode autodiff `f(2)=10, f'(2)=7`), h1's $(7x^3+3x^2)/\sqrt{2x+1}$, and the gradient-flow arithmetic ($0.7^{30}\approx2\times10^{-5}$).
