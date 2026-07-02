@@ -3639,6 +3639,17 @@
               ],
               "answer": 0,
               "explain": "UCB adds an exploration bonus that shrinks as an arm is pulled more. It tries arms that <em>could plausibly</em> be best given current uncertainty — directed exploration, unlike $\\varepsilon$-greedy's blind coin flip — which earns it logarithmic (sublinear) regret."
+            },
+            {
+              "q": "Hindsight experience replay (HER) makes a failed episode useful by:",
+              "choices": [
+                "Increasing the intrinsic exploration bonus",
+                "Discarding it from the replay buffer",
+                "Re-running the episode with extra action noise",
+                "Relabeling its transitions as a success for the goal it actually reached"
+              ],
+              "answer": 3,
+              "explain": "Because the value function is goal-conditioned ($Q(s,a,g)$), a trajectory that ended at $g'$ is a genuine success for $g'$ — real reward signal from a \"failure,\" no reward shaping needed."
             }
           ],
           "flashcards": [

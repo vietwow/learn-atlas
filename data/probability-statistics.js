@@ -2405,6 +2405,17 @@
                 "It requires the marginals only; the joint is never used."
               ],
               "explain": "Predicting $y$ from $x$ means evaluating $p(y\\mid x)=\\frac{p(x,y)}{p(x)}$ — fix the observed $x$ (slice), renormalize over $y$. Generative models learn the joint $p(x,y)$; inference reads a conditional off it. That slice-and-renormalize move is the same one used throughout the lesson."
+            },
+            {
+              "q": "Why did pricing mortgage CDOs with a Gaussian copula understate risk before 2008?",
+              "choices": [
+                "It over-weighted the marginals' heavy tails",
+                "It assumed defaults were perfectly correlated",
+                "The Gaussian copula has zero tail dependence, so it treats extreme losses as not clustering",
+                "Copulas cannot model more than two assets"
+              ],
+              "answer": 2,
+              "explain": "The Gaussian copula's extremes decouple — zero tail dependence — so clustered joint defaults in the tail were priced as nearly impossible. A $t$- or Clayton copula keeps tail risk."
             }
           ],
           "flashcards": [

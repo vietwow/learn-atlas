@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1105 — LOOP REVISION + retention: MCQ backfill for recent dives, wave 1 (retention)
+**Owner asked for a loop review.** Audit of iters ~1040–1104: 85% of ships were the content→glossary two-beat (each concept split across TWO iterations), while the ~70 hard-concept dives added since ~iter 960 had **zero quiz coverage** — "remember longer" wasn't being served for the newest material. Revised the playbook (SKILL.md): **(1)** a hard-concept ship now bundles the dive + its glossary terms in ONE iteration; **(2)** per-10-block lane quotas (≤5 prose, ≥2 interactive, ≥1 retention, ≥1 wildcard); **(3)** new first-class **retention lane** (MCQ/flashcard backfill for dive concepts); **(4)** split-watch: lessons at ≥7 dives are split candidates before adding more.
+**Ship (retention wave 1):** +8 MCQs, one per recent dive, across all 8 touched topics — Kelly stake ($f^\ast{=}0.2$), Schur-complement conditional covariance, Gaussian-copula tail dependence (2008), CUSUM threshold trade, rectified-flow velocity target ($x_1{-}x_0$), consistent-hashing ~$K/N$ remap, HER relabeling, MLA latent cache. Each home lesson 16 → **17 MCQs**; answers hand-verified; varied answer positions.
+Verified: math-guarded (even-$, no bare `<`); 8 byte-stable JSON re-serializations; all files parse; **gate ALL GREEN — 3016 MCQs validated** (answer ranges, dup stems); **headless** — quiz tab renders with pool "of 17", kErr=0, rawDollar=0, errs=0. SW cache `atlas-v1036` → `atlas-v1037`.
+
 ## iter 1104 — Glossary: reward-model terms (reference)
 Completed the iter-1103 thread with **3 glossary terms** — **Process reward model (PRM)**, **Outcome reward model (ORM)**, and **Reward model** (the RLHF base term, also previously undefined). Glossary **561 → 564** (0 holes).
 Verified: glossary parses; gate ALL GREEN; **headless** — all 3 render on `#/glossary` (3/3), kErr=0, errs=0. SW cache `atlas-v1035` → `atlas-v1036`.

@@ -440,6 +440,17 @@
               ],
               "answer": 3,
               "explain": "Fixed coefficients only make sense if the process is time-invariant."
+            },
+            {
+              "q": "In CUSUM change-point detection, raising the alarm threshold $h$:",
+              "choices": [
+                "Detects changes sooner but adds false alarms",
+                "Delays detection but reduces false alarms",
+                "Leaves detection delay unchanged",
+                "Only rescales the CUSUM statistic"
+              ],
+              "answer": 1,
+              "explain": "$h$ is the sensitivity dial: the statistic must climb further before alarming, so true changes are caught later while noise rarely crosses — the delay-vs-false-alarm trade."
             }
           ],
           "flashcards": [

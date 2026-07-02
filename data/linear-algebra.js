@@ -1657,6 +1657,17 @@
               ],
               "answer": 2,
               "explain": "Setting $\\mathbf{x}=\\mathbf{0}$ gives $A\\mathbf{0}=\\mathbf{0}$, so the trivial solution always works — a homogeneous system is $\\textit{never}$ inconsistent. Whether it has $\\textit{other}$ (nonzero) solutions depends on $A$: a free column (e.g. more unknowns than pivots) yields infinitely many, while a pivot in every column leaves only the trivial solution."
+            },
+            {
+              "q": "For jointly Gaussian $x,y$ with covariance blocks $\\Sigma_{xx},\\Sigma_{xy},\\Sigma_{yy}$, the conditional covariance of $x$ given $y$ is:",
+              "choices": [
+                "$\\Sigma_{xx}$ — conditioning changes nothing",
+                "$\\Sigma_{xy}\\Sigma_{yy}^{-1}$",
+                "$\\Sigma_{xx}-\\Sigma_{xy}\\Sigma_{yy}^{-1}\\Sigma_{yx}$ — a Schur complement",
+                "$\\Sigma_{xx}+\\Sigma_{yy}$"
+              ],
+              "answer": 2,
+              "explain": "Conditioning a Gaussian is exactly taking the Schur complement of $\\Sigma_{yy}$ — and it never increases variance."
             }
           ],
           "flashcards": [

@@ -4121,6 +4121,17 @@
               ],
               "answer": 0,
               "explain": "One decode step is dominated by reading the big model's weights once; the FLOPs are mostly idle. Running the target over $k$ drafted tokens in parallel reads those weights once too, so it costs ~one step of wall-clock time but verifies up to $k$ tokens. You trade wasted FLOPs for fewer sequential weight reads — pure roofline arbitrage."
+            },
+            {
+              "q": "Multi-head latent attention (MLA) shrinks the KV cache by:",
+              "choices": [
+                "Caching one low-rank latent per token and reconstructing per-head K/V via up-projections",
+                "Sharing a single K/V head across all query heads",
+                "Quantizing the cache to 4 bits",
+                "Truncating the context window"
+              ],
+              "answer": 0,
+              "explain": "MLA compresses instead of shares: only the small latent is cached, and the up-projections fold into the query/output maps — full multi-head quality at roughly MQA cache size."
             }
           ],
           "flashcards": [

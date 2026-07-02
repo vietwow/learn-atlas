@@ -6090,6 +6090,17 @@
               ],
               "answer": 3,
               "explain": "Training is a plain regression: take a clean $x_0$, a random $t$, form $x_t$ with the one-shot formula, and have the network predict the added noise, minimizing $\\lVert\\varepsilon-\\varepsilon_\\theta(x_t,t)\\rVert^2$. One smoothly-descending loss — no adversarial game — is why diffusion trains far more stably than a GAN."
+            },
+            {
+              "q": "In rectified flow (flow matching along straight paths $x_t=(1-t)x_0+t\\,x_1$), the regression target for the velocity at $(x_t,t)$ is:",
+              "choices": [
+                "$x_1-x_0$",
+                "$x_t$ itself",
+                "The score $\\nabla\\log p_t(x_t)$",
+                "$x_0+x_1$"
+              ],
+              "answer": 0,
+              "explain": "The straight path's velocity is its constant slope $x_1-x_0$ — a plain MSE regression, no score estimation or ODE solves during training."
             }
           ],
           "flashcards": [

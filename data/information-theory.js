@@ -938,6 +938,17 @@
               ],
               "answer": 3,
               "explain": "Mutual information is the drop in uncertainty about $X$ from learning $Y$: $I(X;Y)=H(X)-H(X\\mid Y)$."
+            },
+            {
+              "q": "You're offered even-money bets ($b=1$) you win with probability $p=0.6$. What bankroll fraction does the Kelly criterion stake?",
+              "choices": [
+                "$0.10$",
+                "$0.20$",
+                "$0.40$",
+                "$0.60$"
+              ],
+              "answer": 1,
+              "explain": "Kelly: $f^\\ast=p-\\frac{1-p}{b}=0.6-0.4=0.2$ — your edge at even money. Staking more (say $0.40$) raises variance and actually lowers long-run growth."
             }
           ],
           "flashcards": [

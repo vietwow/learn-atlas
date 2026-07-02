@@ -1175,6 +1175,17 @@
               ],
               "answer": 1,
               "explain": "Lookup cost with chaining is $\\Theta(1+\\alpha)$. Inserting without resizing lets $\\alpha=n/m$ grow without bound, so chains lengthen and performance drifts toward $O(n)$. Doubling $m$ restores a small constant $\\alpha$ and keeps operations expected $O(1)$ (collisions can never be fully eliminated)."
+            },
+            {
+              "q": "With consistent hashing of $K$ keys over $N$ servers, adding one server remaps about:",
+              "choices": [
+                "All $K$ keys",
+                "$K/N$ of the keys — just the new server's arc",
+                "Exactly one key",
+                "No keys at all"
+              ],
+              "answer": 1,
+              "explain": "Only keys on the arc between the new server and its predecessor change owner — unlike $\\operatorname{hash}\\bmod N$, which remaps almost everything when $N$ changes."
             }
           ],
           "flashcards": [
