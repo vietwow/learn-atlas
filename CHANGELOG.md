@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1166 — Review: la-gradients-jacobians + la-matrix-derivative-identities (review)
+**`la-gradients-jacobians`: clean** — code gradient $(8,7)$, q6's $J\Delta=(0.1,0.6)$, q9's shape-only refutation, e0's positive-definite Hessian ($\det=7$), all 16 MCQs verified. No changes.
+**`la-matrix-derivative-identities`** — every identity, the ridge derivation, $\nabla\|x\|=x/\|x\|$, the worked minimizers, and the code exercise (6 6) all verify. One defect: **q6's explain misnumbered its choice references** — the *third* occurrence of the index-reference disease this phase. Rewritten content-first ("forgetting the factor of 2 gives $\mathbf a+B\mathbf x$; writing the row $\mathbf a^\top$ instead of the column…").
+Verified: guarded; byte-stable; gate ALL GREEN; headless — kErr=0, errs=0. SW `atlas-v1095` → `atlas-v1096`. **Progress: 18/193 lessons — LA lessons done next iteration.**
+
 ## iter 1165 — Review: la-svd + la-low-rank-pca — first fully-clean unit (review)
 **`la-svd`: clean.** The worked 2×2 SVD fully re-derived by hand ($u_1=(1,3)/\sqrt{10}$ from $Av_1/\sigma_1$; the $\sigma_1\sigma_2=|\det|=15$ identity), h0's sign-absorption into $U$ ($\sigma_i=|\lambda_i|$ for symmetric matrices, shown concretely), h2's proof that $A^\top A$ and $AA^\top$ share nonzero eigenvalues, e0/e1/e2, and all 17 MCQs verified. No changes.
 **`la-low-rank-pca`: clean.** The worked PCA is a gem — its per-point reconstruction error sums to exactly $\sigma_2^2 = 2$, matching Eckart–Young numerically in the same example. h0's 95%-energy budget (146.16, k=3, 8.9% relative error), h1's diag(6, 2/3)/90%, the pseudoinverse h2 with the minimum-norm argument, and all 17 MCQs verified. No changes.

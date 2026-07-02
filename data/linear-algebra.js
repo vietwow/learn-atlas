@@ -4306,7 +4306,7 @@
                 "$\\mathbf{a}^\\top+B\\,\\mathbf{x}$"
               ],
               "answer": 0,
-              "explain": "Term by term: $\\nabla(\\mathbf{a}^\\top\\mathbf{x})=\\mathbf{a}$ and $\\nabla(\\mathbf{x}^\\top B\\mathbf{x})=2B\\mathbf{x}$ since $B$ is symmetric, giving $\\mathbf{a}+2B\\mathbf{x}$. Forgetting the factor of 2 (option 1) or writing the linear term as the row $\\mathbf{a}^\\top$ instead of the column gradient $\\mathbf{a}$ (options 3 and 4) are the common slips."
+              "explain": "Term by term: $\\nabla(\\mathbf{a}^\\top\\mathbf{x})=\\mathbf{a}$ and $\\nabla(\\mathbf{x}^\\top B\\mathbf{x})=2B\\mathbf{x}$ since $B$ is symmetric, giving $\\mathbf{a}+2B\\mathbf{x}$. The common slips are forgetting the factor of 2 (giving $\\mathbf{a}+B\\mathbf{x}$) and writing the linear term as the row $\\mathbf{a}^\\top$ instead of the denominator-layout column $\\mathbf{a}$."
             },
             {
               "q": "A linear layer maps $\\mathbf{x}\\in\\mathbb{R}^n$ to $\\mathbf{z}=W\\mathbf{x}\\in\\mathbb{R}^m$ (so $W$ is $m\\times n$). Forward you multiply by $W$. What do you multiply the upstream gradient by on the backward pass to get $\\partial L/\\partial\\mathbf{x}$?",

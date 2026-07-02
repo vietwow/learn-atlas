@@ -3,7 +3,7 @@
 Owner-directed (2026-07-02): review and refine all existing content and visualizations.
 Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 
-**Progress: 16/193 lessons · 0/177 widgets**
+**Progress: 18/193 lessons · 0/177 widgets**
 
 ## linear-algebra — lessons
 - [x] la-vectors-operations — ✔ iter-1158 — added magnitude/norm preview section (examples used it before it was defined); aligned q11 terminology (tip-to-tail); all 16 MCQs + 3 hw + 3 examples arithmetic re-verified
@@ -22,8 +22,8 @@ Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 - [x] la-projection-least-squares — ✔ iter-1164 — q9 explain misnumbered its choice references (rewritten content-first); worked 7/6+t/2 fit, e1 4-point fit (det=20, C=D=9/10), projections, h2 projector proof — all verified
 - [x] la-svd — ✔ iter-1165 clean — worked 2×2 SVD fully re-derived (u₁=(1,3)/√10, σ₁σ₂=|det|=15), h0 sign-absorption, h2 eigenvalue-sharing proof, e0/e1/e2, all 17 MCQs verified; no changes
 - [x] la-low-rank-pca — ✔ iter-1165 clean — worked PCA (λ=8/3, 80%, reconstruction error 2=σ₂² matching Eckart–Young exactly), h0 energy budget 146.16, h1 diag(6,2/3), pseudoinverse h2, all 17 MCQs verified; no changes
-- [ ] la-gradients-jacobians — pending
-- [ ] la-matrix-derivative-identities — pending
+- [x] la-gradients-jacobians — ✔ iter-1166 clean — code grad (8,7), q6 JΔ, q9 shape reasoning, e0 PD Hessian det=7, all verified; no changes
+- [x] la-matrix-derivative-identities — ✔ iter-1166 — q6 explain had misnumbered choice references (3rd occurrence of the index disease; rewritten content-first); all identities/ridge/norm gradients/code verified
 - [ ] la-matrix-calculus-backprop — pending
 
 ## linear-algebra — widgets
