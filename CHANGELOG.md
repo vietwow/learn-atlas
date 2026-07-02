@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1115 — Code: compute a Shapley value — the glove game (examples)
+Second interactive of the block, giving the brand-new `gt-cooperative-games` lesson its runnable: the **glove game** (player 1 holds the only left glove; 2 and 3 hold right gloves; a coalition is worth 1 iff it can pair). Enumerate all six joining orders, average marginal contributions → **Shapley [0.67, 0.17, 0.17]** — scarcity earns a 4× premium, computed before the learner's eyes.
+Verified: re-derived in Node ($\phi_1=\tfrac23,\phi_2=\phi_3=\tfrac16$, sums to 1); byte-stable JSON inject; **gate ALL GREEN — code-exercises verified (now 198)**; **headless** — Run executes, exact split shown, entities decoded, kErr=0, errs=0. SW cache `atlas-v1046` → `atlas-v1047`.
+
 ## iter 1114 — Hard-concept: average-reward RL — dive + glossary + MCQ in one bundle (content)
 Filled the twice-noted RL gap with the loop's first **triple-bundled** ship. Deep-dive in `rl-mdp-formalism` (its 5th): **average-reward RL** — for continuing tasks, $\gamma$ is a knob with teeth; judge policies by the **gain** $\rho(\pi)=\lim\tfrac1T\mathbb{E}[\sum r_t]$ instead. **Bias** $h(s)$ = transient bonus; Bellman with the gain subtracted, $\rho+h(s)=\max_a[r+\sum p\,h(s')]$ (R-learning / differential Q-learning); the **Laurent bridge** $V_\gamma\approx\rho/(1-\gamma)+h$ and **Blackwell optimality** (optimal for all $\gamma$ near 1). Cross-linked to discounted values. Same ship: **2 glossary terms** (Average-reward RL, Blackwell optimality — 567 → **569**, 0 holes) + **1 MCQ** (gain is start-state-independent; 16 → 17).
 Verified: g()-guarded; byte-stable re-serialize ×2; gate ALL GREEN (**3041 MCQs**, internal-links); **one combined headless driver** — 5 dives, avg-reward/Blackwell/R-learning/Laurent + link, quiz "of 17", glossary 2/2, kErr=0, errs=0. SW cache `atlas-v1045` → `atlas-v1046`.
