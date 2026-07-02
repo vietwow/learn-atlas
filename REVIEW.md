@@ -5,7 +5,7 @@ Owner-directed (2026-07-02): review and refine all existing content and visualiz
 
 Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 
-**Progress: 60/193 lessons · 32/177 widgets**
+**Progress: 62/193 lessons · 32/177 widgets**
 
 ## linear-algebra — lessons
 - [x] la-vectors-operations — ✔ iter-1158 — added magnitude/norm preview section (examples used it before it was defined); aligned q11 terminology (tip-to-tail); all 16 MCQs + 3 hw + 3 examples arithmetic re-verified
@@ -108,8 +108,8 @@ Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 - [x] a-dynamic-programming — ✔ iter-1193 — e1 printed h0's exact instance and table ({1,3,4}/6); retargeted to 10 (dp=3 via 3+3+4 vs greedy 4, Node-verified) so h0's hand-fill stays honest work. sunday→saturday=3 h1, LCS=4 BCAB h2, knapsack e2 verified. The {1,3,4} arc from the greedy lesson is deliberate and kept
 - [x] a-backtracking-branch-bound — ✔ iter-1194 clean — audit flag q4 FALSE ALARM (correct 0-based ref). Knapsack fractional bound h1 (19.667 vs integer 18, all combos checked), prune-vs-incumbent h2, full B&B trace e1 (bounds 85/80/55, L=70, node-H subtree kill), 4-queens e0 all verified; no changes
 - [x] a-graph-representations-traversal — ✔ iter-1194 clean — BFS/DFS h0 (forward edges classified), m=n single-cycle h1, dense/sparse representation h2 (2m/n=1000 vs 16), BFS layers e0, DFS timestamps e1 (0:1/8…4:9/10 with parenthesis-theorem check), gray-vertex cycle e2 all verified; no changes
-- [ ] a-shortest-paths-topo — pending
-- [ ] a-mst-union-find — pending
+- [x] a-shortest-paths-topo — ✔ iter-1195 clean — Dijkstra h0 (d[T]=8 via S→A→C→B→T), 3-edge negative counterexample h1, DAG relaxation h2 (d[E]=−4), Bellman-Ford e0 (negative cycle −5 caught by detection pass, every relaxation re-checked), critical-path e1 (10 via S→B→D→T), Dijkstra-fails e2 all verified. e2/h1 shape overlap tolerated (h1's hint reveals it anyway; its work is the explanation)
+- [x] a-mst-union-find — ✔ iter-1195 clean — Kruskal h0 (MST 8, 2-3 rejected), union-by-rank+compression h1 (root 1 rank 3, chain 8→7→5 flattened), cycle-property proof h2, Kruskal e0 (MST 11), union-find + cut-property e1 (02 unique-max on 2,4,2,9 cycle → no MST), exchange-argument e2 all verified; e0/h0 and e1/h1 are parallel practice on distinct instances, not dups
 - [ ] a-np-completeness — pending
 - [ ] a-approximation-randomized — pending
 - [ ] a-string-algorithms — pending

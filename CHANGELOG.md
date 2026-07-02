@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1195 — Review: a-shortest-paths-topo + a-mst-union-find — both clean (review)
+**`a-shortest-paths-topo`: clean** — Dijkstra h0 ($d[T]=8$ via $S{\to}A{\to}C{\to}B{\to}T$, with the double-improvement of $d[B]$), the minimal 3-edge negative counterexample h1, DAG relaxation h2 (down to $d[E]=-4$), the full Bellman-Ford e0 (every relaxation of all three passes re-checked; the $-5$ cycle correctly caught by the detection pass), and the critical-path e1 (Kahn trace + max-relaxation to 10) all verified. The e2/h1 counterexample-shape overlap is tolerated — h1's own hint reveals the shape; its real work is the explanation.
+**`a-mst-union-find`: clean** — Kruskal h0 (MST weight 8, edge 2-3 rejected), the union-by-rank + path-compression h1 (root 1 at rank 3, the $8{\to}7{\to}5$ chain flattened), the cycle-property proof h2, and e1's combined union-find trace + cut-property verdict (edge 02, unique max on the $2,4,2,9$ cycle → in no MST) all verified. The paired traces (e0/h0, e1/h1) are parallel practice on distinct instances — exactly what homework should be.
+Sixth consecutive clean unit. Ledger is the ship; no SW bump. **Progress: 62/193 lessons · 32/177 widgets.**
+
 ## iter 1194 — Review: a-backtracking-branch-bound + a-graph-representations-traversal — both clean (review)
 **`a-backtracking-branch-bound`: clean** — the audit flag on q4 verified a false alarm (correct 0-based reference to the completeness distractor). The knapsack fractional root bound (19.667 vs integer optimum 18, all feasible combinations enumerated), the prune-vs-incumbent test, and the full branch-and-bound trace (bounds 85/80/55, incumbent 70, the node-H one-comparison subtree kill) all verified.
 **`a-graph-representations-traversal`: clean** — the directed BFS/DFS homework with forward-edge classification, the $m=n$ single-cycle identity with its back-edge recovery algorithm, the dense-vs-sparse representation tradeoff ($2m/n = 1000$ vs $16$), and the exemplary DFS-timestamps example ($0{:}1/8 \ldots 4{:}9/10$, every edge classified, cross-checked against the parenthesis theorem) all verified.
