@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1197 — Review: a-string-algorithms + a-algorithms-for-ml (review)
+**`a-string-algorithms`** — both KMP prefix-function tables hand-verified ($[0,1,0,1,2,0,1,2,3,4,5]$ for AABAACAABAA; $[0,0,1,2,3,0,1]$ for ababaca), the Rabin-Karp mod-13 window sequence (10, 9, 7, 12, 2 — every roll re-computed), the trie structure, and the 28-vs-14 comparison count all correct. One cosmetic defect: **e1's title promised "a Spurious Hit" but the trace contains only a true match** (the collision demonstration is an aside using different strings); retitled to "Rabin-Karp rolling hash, and why matches must be verified."
+**`a-algorithms-for-ml`: clean** — the $\kappa{=}25$ convergence window ($\eta<0.08$; divergence factor $-1.5$ at $\eta{=}0.1$), the Viterbi trace (Rainy-Rainy at $0.3402$, re-derived), the brute-force-vs-HNSW estimate (2 Pflop/s vs 5.6 Gflop/s — ratio ≈360,000×, arithmetic checked), the $0.8^t$ contraction, batch-vs-SGD accounting, and the k-means step all verified.
+Verified: byte-stable; gate ALL GREEN; headless — new title renders, kErr=0/errs=0. SW `atlas-v1109` → `atlas-v1110`. **Progress: 66/193 lessons · 32/177 widgets.**
+
 ## iter 1196 — Review: a-np-completeness + a-approximation-randomized — both clean (review)
 **`a-np-completeness`: clean** — the P/NPC boundary classification (2-vs-3 coloring, shortest-vs-longest path), the independent-set↔vertex-cover complement reduction, the superb worst-case-vs-practice homework (what a fast SAT solver does and does not prove), the subset-sum certificate check ($11+7+14=32$), and the concrete 3-SAT→Independent-Set gadget (triangles plus conflict edges, structure verified) all correct.
 **`a-approximation-randomized`: clean** — greedy Set Cover hand-run (3 sets, instance ratio 1 vs the $H_8\approx2.718$ guarantee), the Chernoff majority-vote amplification ($t\approx50\ln(1/\delta)$; ≈1036 runs for $10^{-9}$ error — re-computed), the tight-factor-2 matching lower bound, the vertex-cover trace hitting exactly 2×OPT, and the MAX-SAT $7/8$ analysis with **all 8 assignments brute-force re-checked** (mean exactly 3.5) all verified.

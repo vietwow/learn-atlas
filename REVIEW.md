@@ -5,7 +5,7 @@ Owner-directed (2026-07-02): review and refine all existing content and visualiz
 
 Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 
-**Progress: 64/193 lessons · 32/177 widgets**
+**Progress: 66/193 lessons · 32/177 widgets**
 
 ## linear-algebra — lessons
 - [x] la-vectors-operations — ✔ iter-1158 — added magnitude/norm preview section (examples used it before it was defined); aligned q11 terminology (tip-to-tail); all 16 MCQs + 3 hw + 3 examples arithmetic re-verified
@@ -112,8 +112,8 @@ Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 - [x] a-mst-union-find — ✔ iter-1195 clean — Kruskal h0 (MST 8, 2-3 rejected), union-by-rank+compression h1 (root 1 rank 3, chain 8→7→5 flattened), cycle-property proof h2, Kruskal e0 (MST 11), union-find + cut-property e1 (02 unique-max on 2,4,2,9 cycle → no MST), exchange-argument e2 all verified; e0/h0 and e1/h1 are parallel practice on distinct instances, not dups
 - [x] a-np-completeness — ✔ iter-1196 clean — P/NPC classification h0 (2-vs-3 coloring, shortest-vs-longest), IS↔VC complement reduction h1, worst-case-vs-practice h2 (superb), subset-sum certificate e0 (11+7+14=32), 3-SAT→IS gadget e1 (triangles + conflict edges, verified) all correct. e0/e2 both touch Subset-Sum but complementarily — tolerated
 - [x] a-approximation-randomized — ✔ iter-1196 clean — greedy Set Cover h0 (3 sets, ratio 1 vs H₈≈2.718), Chernoff majority-vote h1 (t≈50·ln(1/δ), 1036 runs for 10⁻⁹), tight-2 matching h2, VC 2-approx trace e0 (6 vs OPT 3), MAX-SAT e1 (all 8 assignments re-checked, mean 3.5 = 7/8·4), MAX-CUT e2 all verified; no changes
-- [ ] a-string-algorithms — pending
-- [ ] a-algorithms-for-ml — pending
+- [x] a-string-algorithms — ✔ iter-1197 — e1's title promised "a Spurious Hit" but its trace contains only a true match (the collision is an aside); retitled to match content. KMP π tables h0/e0 hand-verified ([0,1,0,1,2,0,1,2,3,4,5]; [0,0,1,2,3,0,1]), Rabin-Karp mod-13 windows h1 (10,9,7,12,2), trie h2, 28-vs-14 comparison e2 all verified
+- [x] a-algorithms-for-ml — ✔ iter-1197 clean — κ=25 convergence window h0 (η<0.08, factor −1.5 divergence at 0.1), Viterbi h1 (Rainy-Rainy 0.3402, re-derived), brute-vs-HNSW h2 (2 Pflop/s vs 5.6 Gflop/s, ratio ~360k×), 0.8^t contraction e0, batch-vs-SGD e1, k-means e2 all verified; h0 cross-reinforces the calc convergence lesson — fine
 - [ ] a-amortized-analysis — pending
 - [ ] a-network-flow — pending
 - [ ] a-union-find-range — pending
