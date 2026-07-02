@@ -1571,7 +1571,8 @@
           const m = meta(id);
           if (m) {
             node.setAttribute("role", "group");
-            node.setAttribute("aria-label", "Interactive visualization: " + m.title);
+            // canvas-less widgets have no canvas to carry the blurb detail — put it on the container
+            node.setAttribute("aria-label", "Interactive visualization: " + m.title + (m.blurb && !node.querySelector("canvas") ? ". " + m.blurb : ""));
             const cv = node.querySelector("canvas");
             if (cv) { cv.setAttribute("role", "img"); cv.setAttribute("aria-label", m.title + " — " + m.blurb); }
           }

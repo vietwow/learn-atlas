@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1154 — Accessibility: canvas-less widgets get full descriptions (accessibility)
+Audited all 177 widgets for screen-reader labels. First finding: the site was **already centrally accessible** — two mechanisms I initially missed: the `register()` wrapper fills `role=img` + title+blurb on every unlabeled canvas, and `hydrateViz` labels every widget container. (A 35-widget "missing labels" batch-fix I drafted turned out to duplicate central behavior — reverted rather than shipped as source noise.)
+The **one real gap**: the two **canvas-less DOM widgets** (`llm-react-loop`, `llm-bpe`) got title-only labels — no canvas exists to carry the blurb detail, and `hydrateViz` overwrites container labels unconditionally. **Fix (one line, central):** `hydrateViz` now appends the blurb to the container label when the widget has no canvas. Screen-reader result: react-loop 77 → **428 chars** of real description, BPE 58 → **211**; canvased widgets unchanged (canvas keeps the detail).
+Verified: app.js parses; gate ALL GREEN; **headless across 3 widget types** — canvas-less labels now full (428/211), canvased unchanged (container title-only + canvas 125-char detail), errs=0. SW cache `atlas-v1084` → `atlas-v1085`.
+
 ## iter 1153 — Code: build a count-min sketch (examples)
 Second interactive of the block — the sketches thread now has all three surfaces (dive + viz + code). Runnable inside the `a-hash-tables` sketches dive: **4×16 counter grid**, one modulo-hash seed per row (no bit ops — the no-`<>` guard rules out shifts); stream 175 items (50 alpha / 20 beta / 5 gamma / 100 one-offs), query with min-over-rows → **`true/estimate: alpha 50/53, beta 20/24, gamma 5/12, noise0 1/4`** — every estimate at or above the truth, the heavy hitter sharp, the small counts absorbing collision noise. One-sided error, watched happening. (Authored single-line output up front this time — the iter-1143 multi-line-expected lesson applied.)
 Verified: re-derived in Node; byte-stable inject; **gate ALL GREEN — 203 code exercises executed**; **headless** — Run shows the exact line, kErr=0, errs=0. SW cache `atlas-v1083` → `atlas-v1084`.
