@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1120 — Step-back (clean at 191/897) + retention top-up for the split lessons (step-back / retention)
+Step-back **kErr + visible-newline sweep at the new baselines**: **n=191 lessons**, errs=0, **kErrLessons=NONE**, **visNlessons=NONE**, **mapNodes=897** — all three split lessons healthy sitewide; zero regressions since iter 1110. (Also verified the four mysteries already have glossary terms — no gap.)
+**Ship:** the three new split lessons had 4 MCQs vs 16+ elsewhere — topped each up **+2** (→ 6): Pigou **PoA = 4/3**, Vickrey over-bidding wins only losses; glove-game **4-of-6 orderings**, Shapley efficiency axiom; double-descent **peak at the interpolation threshold**, finite nets beat NTK via **feature learning**. All hand-verified.
+Verified: guarded; byte-stable re-serialize ×2; **gate ALL GREEN — 3054 MCQs**; full sweep clean; **headless** — quiz renders "of 6", kErr=0, errs=0. SW cache `atlas-v1051` → `atlas-v1052`.
+**Block 1111–1120 recap:** 4 prose (all triple-bundled: Stein…Frank-Wolfe) · **2 new lessons** (Cooperative Games; Four Mysteries) · 2 interactive (hull click-viz, Shapley glove code) · 2 retention — quotas exceeded, every ship green, noted-gap backlog fully drained.
+
 ## iter 1119 — NEW LESSON: Why Deep Nets Generalize — third dive split (new functionality)
 Probed fresh gaps (GP/Kalman/Bloom/SSM/MCMC/VI all already covered — the curriculum is dense) and took the biggest-value ship instead: split-watch on `dl-overfitting-and-regularization` (7 dives). Promoted its four modern-generalization dives into **`dl-generalization-mysteries`** — **"Why Deep Nets Generalize: Four Mysteries"** (14 min): double descent, grokking, lottery tickets, the NTK, wrapped in an intro (classical theory says they should overfit; they don't) and a **common-thread close on SGD's implicit regularization**. Authored **4 MCQs, 5 flashcards, 2 homework** (label noise sharpens the peak; the rewind step is the lottery). Source slims 7 → 3 dives + pointer; **retargeted the ml-model-selection "grokking/lottery" link** (it pointed at the dives that moved); prereqs.js edge added. **Lessons 190 → 191.**
 Verified: authored strings guarded; byte-stable re-serialize ×3; **gate ALL GREEN — 191 lessons**, internal-links lint; **headless** — new lesson renders all four mysteries, quiz "of 4", source shows 3 dives + pointer, map re-derived to **897 nodes**, kErr=0, errs=0. SW cache `atlas-v1050` → `atlas-v1051`.

@@ -303,6 +303,28 @@
               ],
               "answer": 3,
               "explain": "Analysis goes rules $\\to$ behaviour; design goes desired behaviour $\\to$ rules. The second-price auction is the classic success: truth-telling made a dominant strategy by construction."
+            },
+            {
+              "q": "In the Pigou routing example (road 1 always 1 hour; road 2 takes $x$ hours at fraction $x$), the price of anarchy is:",
+              "choices": [
+                "$1$ — selfishness costs nothing here",
+                "$4/3$ — equilibrium cost 1 vs optimal average cost $3/4$",
+                "$2$",
+                "Unbounded"
+              ],
+              "answer": 1,
+              "explain": "Everyone piles onto road 2 (cost 1); the optimum splits traffic at $x=\\tfrac12$ for average $\\tfrac34$. The ratio $4/3$ is in fact the worst case for any linear-latency network."
+            },
+            {
+              "q": "Bidding above your true value in a second-price auction can only change the outcome by:",
+              "choices": [
+                "Lowering the price you pay when you win",
+                "Making you win exactly the cases where the price exceeds your value — a loss",
+                "Scaring off other bidders",
+                "Increasing the seller's reserve"
+              ],
+              "answer": 1,
+              "explain": "Your bid never sets your price — it only decides whether you win. The extra wins you pick up are precisely those where the second-highest bid (your price) is above your value."
             }
           ],
           "flashcards": [
@@ -897,6 +919,28 @@
               ],
               "answer": 0,
               "explain": "The prediction is the \"coalition value\"; each feature's attribution is its average marginal contribution — inheriting the Shapley fairness axioms."
+            },
+            {
+              "q": "In the glove game (player 1 has the only left glove), player 1's Shapley value is $2/3$ because:",
+              "choices": [
+                "Player 1 contributes the marginal pair in 4 of the 6 joining orders",
+                "Player 1 always joins first",
+                "The gloves are worth different amounts",
+                "Players 2 and 3 refuse to cooperate"
+              ],
+              "answer": 0,
+              "explain": "Whenever player 1 arrives after at least one right glove — 4 of 6 orders — their arrival completes the pair and adds 1. Average: $4/6=2/3$. Scarcity IS the marginal contribution."
+            },
+            {
+              "q": "The efficiency axiom of the Shapley value guarantees that:",
+              "choices": [
+                "Every player gets at least their standalone value",
+                "No coalition wants to secede",
+                "The allocations sum exactly to the grand coalition's value $v(N)$",
+                "All players receive equal shares"
+              ],
+              "answer": 2,
+              "explain": "Efficiency means the whole pie is distributed — nothing wasted, nothing invented. (Coalition-proofness is the CORE's property, and it can fail even when Shapley exists.)"
             }
           ],
           "flashcards": [

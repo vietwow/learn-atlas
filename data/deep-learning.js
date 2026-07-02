@@ -2030,6 +2030,28 @@
               ],
               "answer": 3,
               "explain": "Width freezes the features: the network is a linear model in its (fixed) tangent features. Real finite nets outperform their NTK precisely because features DO move — feature learning is the gap."
+            },
+            {
+              "q": "In double descent, test error typically peaks:",
+              "choices": [
+                "At very small model capacity",
+                "Exactly at the interpolation threshold, where the model can just barely fit the training data",
+                "At infinite capacity",
+                "Only when using dropout"
+              ],
+              "answer": 1,
+              "explain": "With capacity to spare there are many interpolating solutions and SGD picks a smooth one; at the threshold there is essentially one, and it contorts to fit every noisy point."
+            },
+            {
+              "q": "Finite-width networks usually outperform their infinite-width NTK limit because:",
+              "choices": [
+                "Finite nets have less noise",
+                "The NTK overfits more",
+                "Kernel regression cannot use GPUs",
+                "Features actually move during training — feature learning is exactly what the frozen-kernel limit gives up"
+              ],
+              "answer": 3,
+              "explain": "In the NTK limit the network is a linear model in fixed tangent features (\"lazy training\"). Real training adapts the features to the data — the ingredient the kernel picture lacks."
             }
           ],
           "flashcards": [
