@@ -2639,15 +2639,15 @@
               "explain": "The exchange argument substitutes $g$ for $O$'s first element and shows the swap keeps the solution feasible and no worse, so an optimal solution containing $g$ exists. Adding $g$ as extra (choice C) would violate feasibility/budget, and optimal solutions need not be unique (choice D)."
             },
             {
-              "q": "For making change with coin denominations $\\{1, 3, 4\\}$ and target amount $6$, the greedy 'take the largest coin that fits' algorithm gives which result, and is it optimal?",
+              "q": "For making change with coin denominations $\\{1, 4, 5\\}$ and target amount $8$, the greedy 'take the largest coin that fits' algorithm gives which result, and is it optimal?",
               "choices": [
-                "Greedy gives $4+1+1$ (3 coins), which is optimal",
-                "Greedy gives $3+3$ (2 coins), which is optimal",
-                "Greedy gives $4+1+1$ (3 coins), but the optimum is $3+3$ (2 coins), so greedy is not optimal here",
-                "Greedy gives $4+1+1$ (3 coins) and no 2-coin solution exists"
+                "Greedy gives $5+1+1+1$ (4 coins), which is optimal",
+                "Greedy gives $4+4$ (2 coins), which is optimal",
+                "Greedy gives $5+1+1+1$ (4 coins), but the optimum is $4+4$ (2 coins), so greedy is not optimal here",
+                "Greedy gives $5+1+1+1$ (4 coins) and no 2-coin solution exists"
               ],
               "answer": 2,
-              "explain": "Greedy grabs $4$, then $1+1$, using 3 coins, but $3+3$ uses only 2. This denomination set lacks the structure that makes the greedy coin-change choice safe, so greedy is suboptimal even though it always terminates with a valid answer."
+              "explain": "Greedy grabs $5$, then must cover $3$ with three $1$s, using 4 coins — but $4+4$ uses only 2. This denomination set lacks the structure that makes the greedy coin-change choice safe, so greedy is suboptimal even though it always terminates with a valid answer."
             },
             {
               "q": "Greedy gave the correct answer on every test case a student tried for their new problem. What is the most accurate conclusion they can draw about whether greedy is actually optimal?",
@@ -3000,8 +3000,8 @@
             },
             {
               "title": "Coin change (fewest coins)",
-              "body": "With coins $\\{1,3,4\\}$, what is the minimum number of coins to make 6?",
-              "solution": "Let $dp[a]=1+\\min_{c}dp[a-c]$. Then $dp[0..6]=0,1,2,1,1,2,2$. For $a=6$: $1+\\min(dp[5],dp[3],dp[2])=1+\\min(2,1,2)=2$ — e.g. $3+3$. Answer: 2 coins. (Greedy '4 then 1+1' would give 3, which is why DP is needed.)"
+              "body": "With coins $\\{1,3,4\\}$, what is the minimum number of coins to make 10?",
+              "solution": "Let $dp[a]=1+\\min_{c}dp[a-c]$ with $dp[0]=0$. Building up: $dp[0..6]=0,1,2,1,1,2,2$, then $dp[7]=1+\\min(dp[6],dp[4],dp[3])=1+1=2$ (e.g. $3+4$), $dp[8]=1+\\min(dp[7],dp[5],dp[4])=1+1=2$ ($4+4$), $dp[9]=1+\\min(dp[8],dp[6],dp[5])=1+2=3$, and $dp[10]=1+\\min(dp[9],dp[7],dp[6])=1+2=3$ — e.g. $3+3+4$. Answer: 3 coins. (Greedy '$4+4$ then $1+1$' would give 4 coins, which is why DP is needed.)"
             },
             {
               "title": "0/1 Knapsack: the flagship 2-D table",

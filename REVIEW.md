@@ -5,7 +5,7 @@ Owner-directed (2026-07-02): review and refine all existing content and visualiz
 
 Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 
-**Progress: 56/193 lessons · 32/177 widgets**
+**Progress: 58/193 lessons · 32/177 widgets**
 
 ## linear-algebra — lessons
 - [x] la-vectors-operations — ✔ iter-1158 — added magnitude/norm preview section (examples used it before it was defined); aligned q11 terminology (tip-to-tail); all 16 MCQs + 3 hw + 3 examples arithmetic re-verified
@@ -104,8 +104,8 @@ Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 - [x] a-linear-sorts-selection — ✔ iter-1191 clean — quickselect trace h1 (partition [1,2,8,6,9,3] hand-verified), groups-of-3 median-of-medians failure h2 (1/3+2/3=1), counting-sort placement walk e0 (every index checked), E[n_i²]<2 bucket analysis q5, radix r≈log n balance q9 all verified; no changes
 - [x] a-binary-search — ✔ iter-1192 clean — upper_bound + range-count h0, Koko feasibility-predicate h1 (monotonicity proof + bounds), the three-bug lower_bound debugging h2 (infinite loop/overflow/convention mix), lower_bound trace e2 (index 1) all verified; no changes
 - [x] a-divide-and-conquer — ✔ iter-1192 clean — audit flag q0 verified FALSE ALARM (correct 0-based reference). Strassen h0 (8→7, n^2.807), fixed-point h1 (A[i]−i monotone), inversions-via-merge h2, merge trace e0 (24 moves), Case-3 e1 (with regularity check), Karatsuba e2 (408) all verified; no changes
-- [ ] a-greedy — pending
-- [ ] a-dynamic-programming — pending
+- [x] a-greedy — ✔ iter-1193 — q10 handed learners the exact {1,3,4}/6 counterexample h0 asks them to CONSTRUCT (hint even names the set); q10 moved to a fresh instance {1,4,5}/8 (greedy 4 coins vs optimal 2, Node-verified). q9 letter-refs verified correct (false alarm). EDF exchange h1, Huffman h2, activity-selection e0, {25,20,1}/40 e1 (16 vs 2), fractional-knapsack e2 all verified
+- [x] a-dynamic-programming — ✔ iter-1193 — e1 printed h0's exact instance and table ({1,3,4}/6); retargeted to 10 (dp=3 via 3+3+4 vs greedy 4, Node-verified) so h0's hand-fill stays honest work. sunday→saturday=3 h1, LCS=4 BCAB h2, knapsack e2 verified. The {1,3,4} arc from the greedy lesson is deliberate and kept
 - [ ] a-backtracking-branch-bound — pending
 - [ ] a-graph-representations-traversal — pending
 - [ ] a-shortest-paths-topo — pending

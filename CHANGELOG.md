@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1193 — Review: a-greedy + a-dynamic-programming (review)
+A new dup subspecies: **answers-in-the-quiz**.
+**`a-greedy`** — q10 handed learners the exact $\{1,3,4\}$/6 counterexample that h0 asks them to *construct* (h0's hint even names the set). Moved q10 to a fresh instance: $\{1,4,5\}$/8, where greedy's $5+1+1+1$ (4 coins) loses to $4+4$ (2) — Node-verified. The q9 letter references verified correct (another audit false alarm). The EDF exchange-argument h1, Huffman h2, activity-selection trace e0, the $\{25,20,1\}$/40 example (16 vs 2 coins), and fractional knapsack e2 all verified.
+**`a-dynamic-programming`** — e1 printed h0's exact instance and full table ($\{1,3,4\}$/6, $dp=[0,1,2,1,1,2,2]$), giving away h0's parts (b) and (c). Retargeted e1 to amount 10 ($dp[10]=3$ via $3+3+4$ vs greedy's 4 — Node-verified), so h0's hand-fill stays honest work while the greedy-vs-DP contrast survives. The deliberate cross-lesson $\{1,3,4\}$ arc (greedy fails → DP solves) is kept. sunday→saturday $=3$, LCS $=4$ ('BCAB'), and the knapsack table all verified.
+Verified: guarded; byte-stable; gate ALL GREEN; headless kErr=0/errs=0 both lessons. SW `atlas-v1108` → `atlas-v1109`. **Progress: 58/193 lessons · 32/177 widgets.**
+
 ## iter 1192 — Review: a-binary-search + a-divide-and-conquer — both clean (review)
 **`a-binary-search`: clean** — the upper_bound/range-count h0, the Koko-eats-bananas feasibility-predicate h1 (with monotonicity proof and bound justification), the excellent three-bug lower_bound debugging h2 (infinite loop from `lo = mid`, midpoint overflow, closed/half-open convention mix), and the lower_bound trace all verified.
 **`a-divide-and-conquer`: clean** — the audit flag on q0 verified a **false alarm** (its "choice 0 is false" is a correct 0-based reference). Strassen's 8→7 recurrences ($\Theta(n^3)$ vs $\Theta(n^{2.807})$), the sorted-array fixed-point search ($A[i]-i$ monotone → $\Theta(\log n)$), inversions-via-mergesort, the full merge-sort trace (24 element-moves matching $n\log n$), the Case-3 recursion tree with regularity check, and Karatsuba's $12\times34=408$ all verified.
