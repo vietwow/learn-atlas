@@ -2,6 +2,10 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1117 — Hard-concept: prompt compression — bundled dive + glossary + MCQ (content)
+Filled the last noted LLM gap, triple-bundled. Deep-dive in `l-prompting-and-in-context-learning` (its 5th): **prompt compression** at three levels — **hard pruning** (LLMLingua: a small LM scores token surprisal, drop the predictable ones), **gist tokens** (learned virtual tokens standing in for whole instruction blocks — the compressive cousin of soft prompts, cross-linked to PEFT), and **context distillation** (move the prompt into the weights). Framed as lossy **source coding** of context (cross-linked): rate = tokens kept, distortion = answer quality; composes with prompt/KV caching and RAG. Same ship: **2 glossary terms** (571 → **573**) + **1 MCQ** (gist tokens; 16 → 17).
+Verified: guarded; byte-stable re-serialize ×2; gate ALL GREEN (**3043 MCQs**, internal-links); one combined headless driver — 5 dives, compression/LLMLingua/gist/distillation + both links, quiz "of 17", glossary 2/2, kErr=0, errs=0. SW cache `atlas-v1048` → `atlas-v1049`.
+
 ## iter 1116 — Hard-concept: Rényi entropy — bundled dive + glossary + MCQ (content)
 Filled the noted IT gap, triple-bundled. Deep-dive in `it-entropy` (its 6th): the **Rényi family** $H_\alpha=\tfrac{1}{1-\alpha}\log\sum p_i^\alpha$ — Shannon at $\alpha\to1$, Hartley at 0, **collision entropy** at 2 (birthday/hash-collision bounds, cross-linked to hash tables), **min-entropy** at $\infty$ (the adversary's best guess). The ordering $H_\infty\le H_1$ explains why crypto rates keys by min-entropy, not Shannon; Rényi-DP composition; Hill diversity numbers. Same ship: **2 glossary terms** (Rényi entropy, Min-entropy — 569 → **571**) + **1 MCQ** (high Shannon ≠ strong key; 17 → 18).
 Verified: g()-guarded; byte-stable re-serialize ×2; gate ALL GREEN (**3042 MCQs**, internal-links); one combined headless driver — 6 dives, Rényi/min-entropy/collision/Hill + link, quiz "of 18", glossary 2/2, kErr=0, errs=0. SW cache `atlas-v1047` → `atlas-v1048`.
