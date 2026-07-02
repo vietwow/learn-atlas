@@ -5,7 +5,7 @@ Owner-directed (2026-07-02): review and refine all existing content and visualiz
 
 Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 
-**Progress: 75/193 lessons · 53/177 widgets**
+**Progress: 77/193 lessons · 53/177 widgets**
 
 ## linear-algebra — lessons
 - [x] la-vectors-operations — ✔ iter-1158 — added magnitude/norm preview section (examples used it before it was defined); aligned q11 terminology (tip-to-tail); all 16 MCQs + 3 hw + 3 examples arithmetic re-verified
@@ -148,8 +148,8 @@ Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 - [x] dl-loss-functions — ✔ iter-1203 clean — h0 softmax (0.114/0.844/0.042, loss 2.17, gradient ŷ−y), BCE-gradient cancellation h1, Gaussian/Laplace MLE h2, e0 (0.705/0.259/0.035 with first-principles check), MSE-as-NLL e1 (2.0, step to 2.933), confident-mistakes e2 (0.105/0.693/2.303) all verified; h0/e0 are parallel practice (h0 adds max-subtraction) — good design; no changes
 - [x] dl-backpropagation — ✔ iter-1204 clean — h0's closed-gate mirror instance (all gradients 0 except b̄₂=−1 — excellent variation design), h1's index-calculus W̄=XᵀȲ proof, h2's cached-sigmoid (0.3932/0.1966), e3's Lab-matched full pass (4/24) all verified; no changes
 - [x] dl-gradient-descent-and-optimizers — ✔ iter-1204 clean — h0 (0<η<2, diverges at 2.5), momentum fixed point h1 (v*=g/(1−β)=10g), Adam first step h2 (θ₁=+0.01, sign handled), e2 (ratio exactly 1) all verified. Noted: h2/e2 share the scale-cancellation punchline (computation differs — tolerated); e0 repeats the (w−3)² instance from a-algorithms-for-ml e0 cross-topic (canonical, shallower here — tolerated); no changes
-- [ ] dl-learning-rate-schedules-and-tuning — pending
-- [ ] dl-overfitting-and-regularization — pending
+- [x] dl-learning-rate-schedules-and-tuning — ✔ iter-1205 — q11 explain maligned its own answer ("option 0 is the tempting but wrong diagnosis" — 0 IS the correct exploding-gradient choice); de-indexed. q9's reference verified correct (false alarm). Warmup-cosine h0 (6000 steps, W=300, midpoint 0.001), linear-scaling h1, LR-range-test h2, all examples verified
+- [x] dl-overfitting-and-regularization — ✔ iter-1205 clean — (1−ηλ) shrinkage proof h0 (with the ηλ>1 instability), two-model diagnosis h1, early-stopping≈L2 h2 (λ≈1/(ηt)), learning-curve e0 (gaps 0.03/0.44 + the deploy-B-anyway nuance), w*=5/(1+λ) e1, L1-vs-L2 gradient e2 (0.1 vs 0.02) all verified; no changes
 - [ ] dl-generalization-mysteries — pending
 - [ ] dl-dropout-and-normalization — pending
 - [ ] dl-initialization-and-vanishing-gradients — pending

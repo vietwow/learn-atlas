@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1205 — Review: dl-learning-rate-schedules-and-tuning + dl-overfitting-and-regularization (review)
+**`dl-learning-rate-schedules-and-tuning`** — q11's explain maligned its own correct answer ("option 0 is the tempting but wrong diagnosis" — option 0 IS the correct exploding-gradient choice); de-indexed. q9's flag verified a false alarm. The warmup-cosine schedule homework (6,000 steps, $W=300$, cosine midpoint exactly $0.001$), the linear-scaling-rule scenario, and the LR-range-test all verified.
+**`dl-overfitting-and-regularization`: clean** — the $(1-\eta\lambda)$ multiplicative-shrinkage proof (with the $\eta\lambda>1$ instability analysis), the two-model diagnosis, the early-stopping$\approx$L2 argument ($\lambda\approx1/(\eta t)$ with the capacity-dial prediction), e0's learning-curve reading (including the sharp deploy-B-anyway nuance), $w^\star=5/(1+\lambda)$, and the L1-vs-L2 gradient comparison ($0.1$ constant vs $0.02$ vanishing) all verified.
+Verified: guarded; byte-stable; gate ALL GREEN; headless kErr=0/errs=0. SW `atlas-v1113` → `atlas-v1114`. **Progress: 77/193 lessons · 53/177 widgets.**
+
 ## iter 1204 — Review: dl-backpropagation + dl-gradient-descent-and-optimizers — both clean (review)
 **`dl-backpropagation`: clean** — h0 is variation design at its best: same network as the content's worked example but with $x=-3$ closing the ReLU gate, so every gradient dies except $\bar b_2=-1$ (each step re-verified). h1's index-calculus derivation of $\bar W=X^\top\bar Y$, h2's cached-sigmoid gradients ($0.3932/0.1966$), and e3's Lab-matched full pass ($\bar w_2=4$, $\bar w_1=24$) all verified.
 **`dl-gradient-descent-and-optimizers`: clean** — the $(0,2)$ stability window with divergence at $\eta=2.5$, momentum's fixed point $v^*=g/(1-\beta)=10g$, and both Adam first-steps (ratio exactly $\pm1$, $\theta_1=+0.01$ with the sign handled) all verified. Two tolerated notes: h2/e2 share the scale-cancellation punchline (the computations differ, sign-handling is fresh); e0 repeats the canonical $(w-3)^2$ instance from `a-algorithms-for-ml` cross-topic (shallower here).

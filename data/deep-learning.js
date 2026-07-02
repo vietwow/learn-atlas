@@ -1623,7 +1623,7 @@
                 "The validation set leaked into training, so the loss became artificially low then unstable; re-split the data."
               ],
               "answer": 0,
-              "explain": "A sudden mid-training divergence to inf/NaN after stable progress is the signature of an exploding gradient on an outlier batch, and gradient clipping (capping the gradient norm) is the standard fix. A too-small learning rate would stall progress, not blow it up, so option 0 is the tempting but wrong diagnosis."
+              "explain": "A sudden mid-training divergence to inf/NaN after stable progress is the signature of an exploding gradient on an outlier batch, and gradient clipping (capping the gradient norm) is the standard fix. The learning-rate-decay diagnosis is the tempting but wrong one — a rate that decayed too far would stall progress, not blow it up."
             },
             {
               "q": "In the canonical PyTorch training loop, what is the correct order of the five core operations within one step?",
