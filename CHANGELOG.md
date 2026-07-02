@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1185 — Review: c-proximal-projected (ALL 27 Calculus lessons done) + first Calc widget batch (review)
+**`c-proximal-projected`: clean** — the soft-thresholding code exercise ($[1.5,0,0,-0.8,0]$, 3 of 5 zeroed), the ISTA step e1, h1's $(0.7,0,0)$, the $\ell_1$-vs-$\ell_2$ dead-zone h2, and the Frank-Wolfe/mirror-descent dives all verified. No changes. **That completes all 27 Calculus lessons** — final tally: 12 needed fixes, 15 clean, one arithmetic error (the 210.125 fence check) in ~1,600 verified computations.
+**Calc widget batch 1 (10 of 21): all clean** — `calc-derivative`, `calc-gradient-descent`, `calc-bayes`, `calc-gd2d`, `calc-limit-epsilon`, `calc-newton`, `calc-area`, `calc-saddle`, `calc-gd`, `calc-chain` driven headless (buttons double-clicked, sliders slammed): canvases 380–540px, notes render (79–379 chars), errs=0 throughout.
+No data changes — ledger is the ship; no SW bump. **Progress: 46/193 lessons · 21/177 widgets.**
+
 ## iter 1184 — Review: c-lagrange-multipliers + c-duality-kkt (review)
 **`c-lagrange-multipliers`** — the **first genuine arithmetic error of the review phase** (after ~1,500 verified computations): e0's shadow-price sanity check claimed re-solving with 41 m of fence gives $A\approx210.25$; actually $\lambda=\frac{41}{4}=10.25$ and $A=2\lambda^2=210.125$ (increase $10.125$, matching $\lambda=10$ to first order). Corrected with the computation shown. Everything else verified: h0 (min 5 at $(1,2)$), h1 ($f=13$, $\lambda=\frac12$ with budget interpretation), the SVM/KKT support-vector example, and the envelope-theorem e2. Noted (tolerated): e2 deepens lesson 22's $xy$ problem — spaced deepening with the envelope theorem added, not duplication.
 **`c-duality-kkt`: clean** — the dual derivation h1 ($g(\lambda)=2\lambda-\lambda^2/4$, $d^\star=4=p^\star$), the worked dual with its zero-gap code exercise, the any-problem weak-duality proof h0, the KKT-verification e0, and the convex-conjugate dive all verified. Later-authored and tight throughout.

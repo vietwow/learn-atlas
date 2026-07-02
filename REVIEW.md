@@ -5,7 +5,7 @@ Owner-directed (2026-07-02): review and refine all existing content and visualiz
 
 Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 
-**Progress: 45/193 lessons · 11/177 widgets**
+**Progress: 46/193 lessons · 21/177 widgets**
 
 ## linear-algebra — lessons
 - [x] la-vectors-operations — ✔ iter-1158 — added magnitude/norm preview section (examples used it before it was defined); aligned q11 terminology (tip-to-tail); all 16 MCQs + 3 hw + 3 examples arithmetic re-verified
@@ -68,19 +68,19 @@ Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 - [x] c-gradient-descent-convergence — ✔ iter-1183 — SEVEN explains de-indexed/fixed, densest cluster on the site: q0/q1/q5/q6/q7/q9 maligned their own correct answers under scrambled numbering, q3 self-referenced. All arithmetic verified (κ=25, x₁=0.4/3.2, η-window (0,2/a), e0's 0.8^k contraction, e1's learning-rate sweep, h0-h2)
 - [x] c-lagrange-multipliers — ✔ iter-1184 — FIRST ARITHMETIC ERROR of the phase: e0's re-solve check claimed 41 m of fence gives A≈210.25; actually λ=41/4=10.25, A=2λ²=210.125 (increase 10.125 ≈ λ=10 to first order). Corrected with the full computation. h0 (min 5), h1 (13, λ=½), SVM/KKT e1, envelope-theorem e2 all verified. Noted: e2 deepens lesson-22's xy problem (envelope theorem added) — tolerated as spaced deepening
 - [x] c-duality-kkt — ✔ iter-1184 clean — dual derivation h1 (g(λ)=2λ−λ²/4→d*=4=p*), the worked dual + code (gap 0), weak-duality proof h0, KKT verification e0, conjugate dive all verified; later-authored, tight throughout; no changes
-- [ ] c-proximal-projected — pending
+- [x] c-proximal-projected — ✔ iter-1185 clean — soft-threshold code ([1.5,0,0,−0.8,0], 3 zeros), ISTA e1 ((0.6,0,−0.8)), h1 ((0.7,0,0)), ℓ1-vs-ℓ2 prox h2, Frank-Wolfe/mirror-descent dives all verified; no changes. ALL 27 CALCULUS LESSONS DONE.
 
 ## calculus — widgets
-- [ ] calc-derivative — pending
-- [ ] calc-gradient-descent — pending
-- [ ] calc-bayes — pending
-- [ ] calc-gd2d — pending
-- [ ] calc-limit-epsilon — pending
-- [ ] calc-newton — pending
-- [ ] calc-area — pending
-- [ ] calc-saddle — pending
-- [ ] calc-gd — pending
-- [ ] calc-chain — pending
+- [x] calc-derivative — ✔ iter-1185 clean — slider driven, note 79ch, errs=0 under drive
+- [x] calc-gradient-descent — ✔ iter-1185 clean — 3 btns + 2 sliders, errs=0 under drive
+- [x] calc-bayes — ✔ iter-1185 clean — 3 sliders, note 195ch, errs=0 under drive
+- [x] calc-gd2d — ✔ iter-1185 clean — 3 btns + slider, errs=0 under drive
+- [x] calc-limit-epsilon — ✔ iter-1185 clean — 2 btns + slider, note 233ch, errs=0 under drive
+- [x] calc-newton — ✔ iter-1185 clean — 3 btns, note 236ch, errs=0 under drive
+- [x] calc-area — ✔ iter-1185 clean — slider, note 271ch, errs=0 under drive
+- [x] calc-saddle — ✔ iter-1185 clean — 3 btns, 380px, note 366ch, errs=0 under drive
+- [x] calc-gd — ✔ iter-1185 clean — slider, note 379ch, errs=0 under drive
+- [x] calc-chain — ✔ iter-1185 clean — slider, note 319ch, errs=0 under drive
 - [ ] calc-ivt — pending
 - [ ] calc-curve-sketch — pending
 - [ ] calc-convex-landscape — pending
