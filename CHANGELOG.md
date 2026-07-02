@@ -2,6 +2,12 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1172 — Cross-cutting audit: the index-reference disease, hunted globally (review)
+After 4 per-lesson catches, ran a **sitewide audit of MCQ explains that reference answer options by index/letter: 88 occurrences**, with mixed 0-based/1-based/letter conventions — and the quiz UI shows no option numbers at all, so every such reference is at best noise. Built a detector for the *actively harmful* subclass (out-of-range indices, or explains that malign their own correct answer) → **6 confirmed-broken explains, all fixed content-first**:
+`la-matrix-derivative-identities` q10, `ps-random-variables-distributions` q7 (doubly wrong — its "choice 3" pointed at the wrong option under every convention), `l-peft-lora` q1 (mixed conventions in one sentence), `c-area-volume` q7 (**called the correct answer "the secant slope"** — a distractor's description), `rl-policies-values` q8, `rl-value-approximation` q0 (labeled the Monte-Carlo distractor with the answer's number). Detector now reports **zero out-of-range references sitewide**.
+The remaining ~82 mostly-harmless references are recorded as a **standing audit in REVIEW.md** — each gets verified/de-indexed when its lesson's review turn arrives.
+Verified: guarded; byte-stable ×5; gate ALL GREEN; SW `atlas-v1098` → `atlas-v1099`. **Progress: 23/193 lessons · 11/177 widgets (+6 cross-cutting fixes).**
+
 ## iter 1171 — Review: c-computing-limits + c-continuity (review)
 **`c-computing-limits`** — all limits verified (worked 6, 1/4, 2; the conjugate h1 $=1/2$; the $\sqrt{x^2+6x}-x\to3$ MCQ; the sign-trap q11 $=-2$; the numeric code table). One defect, and the worst of its kind so far: **q5's explain had its option numbering shifted by one** — it called the *correct answer* "option 0" and described the wrong choices under wrong labels, actively teaching confusion (4th occurrence of the index-reference disease). Rewritten content-first ("in $x-\frac1x$ the subtracted term goes to 0, giving $\infty-0$…").
 **`c-continuity`: clean** — the three-part continuity contract, IVT usage (the Dottie-number root h1, the bisection example with $g(1.5)=-0.125$), jump classifications, and q9's Darboux-property counterexample all verified. No changes.

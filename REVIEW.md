@@ -1,6 +1,8 @@
 # REVIEW.md — Review & Refine phase ledger (iters 1158–~1257)
 
 Owner-directed (2026-07-02): review and refine all existing content and visualizations.
+**Standing audit (iter 1172):** 88 MCQ explains reference answer options by index/letter; numbering conventions are mixed (0-based/1-based/letters) and the quiz UI shows no numbers. The 6 worst (out-of-range or answer-maligning: la-matrix-derivative-identities q10, ps-random-variables q7, l-peft-lora q1, c-area-volume q7, rl-policies-values q8, rl-value-approximation q0) are fixed content-first as of iter 1172; the rest get verified/de-indexed when each lesson's review turn arrives.
+
 Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 
 **Progress: 23/193 lessons · 11/177 widgets**

@@ -592,7 +592,7 @@
                 "$F_X$ is right-continuous everywhere"
               ],
               "answer": 0,
-              "explain": "Every CDF is nondecreasing, has the correct limits, and is right-continuous, but it need not be continuous: a discrete random variable's CDF is a staircase with jumps. Right-continuity (choice 4) always holds, but full continuity (choice 3) does not."
+              "explain": "Every CDF is nondecreasing, has the correct limits, and is right-continuous — but it need NOT be continuous: a discrete random variable's CDF is a staircase that jumps at each atom. Right-continuity always holds by construction; full (two-sided) continuity fails exactly at points with positive probability mass."
             },
             {
               "q": "A continuous random variable has CDF $F_X(x)=x^2$ for $0\\le x\\le 1$ (and 0 below, 1 above). What is its density $f_X(x)$ on $(0,1)$?",

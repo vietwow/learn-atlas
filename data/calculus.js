@@ -4032,7 +4032,7 @@
                 "$\\dfrac{1}{b-a}\\int_a^b f(x)\\,dx$"
               ],
               "answer": 3,
-              "explain": "The theorem guarantees the function actually attains its average value $\\bar f = \\frac{1}{b-a}\\int_a^b f\\,dx$ at some interior point $c$; choice 3 is the average of the endpoints and choice 4 is the secant slope from the derivative MVT."
+              "explain": "The theorem guarantees the function actually attains its average value $\\bar f = \\frac{1}{b-a}\\int_a^b f\\,dx$ at some interior point $c$. The endpoint average $\\frac{f(a)+f(b)}{2}$ only samples two points; the secant slope $\\frac{f(b)-f(a)}{b-a}$ belongs to the derivative MVT, not the integral one; and the bare integral omits the $\\frac{1}{b-a}$ that makes it an average."
             },
             {
               "q": "You computed the average value of $f$ on $[a,b]$ as $\\bar f=\\frac{1}{b-a}\\int_a^b f\\,dx$. A student claims the Mean Value Theorem for Integrals guarantees the function actually hits $\\bar f$ somewhere on the interval. For which function does this guarantee FAIL?",

@@ -633,7 +633,7 @@
                 "$q_*(A,\\text{go}) = 16.2$, since $0 + 0.9\\cdot 18 = 16.2$."
               ],
               "answer": 1,
-              "explain": "Plug in: $q_*(A,\\text{go}) = 0 + 0.9\\,v_*(B) = 0 + 0.9\\cdot 20 = 18$. Option 3 forgets the $\\gamma$ factor, and option 4 mistakenly uses $v_*(A)$ instead of the value of the successor state $B$."
+              "explain": "Plug in: $q_*(A,\\text{go}) = 0 + 0.9\\,v_*(B) = 0 + 0.9\\cdot 20 = 18$. The tempting $20$ forgets the $\\gamma$ factor entirely, and $16.2$ mistakenly discounts $v_*(A)$ instead of the successor state's $v_*(B)$."
             },
             {
               "q": "In the same 2-state MDP, $A$ offers <code>stay</code> (reward $+1$, stay in $A$) or <code>go</code> (reward $0$, move to $B$). With $\\gamma=0.9$ the optimal action in $A$ is <code>go</code>. If we instead set $\\gamma=0$ (a fully myopic agent), what is the optimal action in $A$, and why does this reveal a subtlety?",
@@ -2271,7 +2271,7 @@
                 "$\\mathbf{w} \\leftarrow \\mathbf{w} - \\alpha\\,[R_{t+1} + \\gamma\\hat{v}(S_{t+1},\\mathbf{w}) - \\hat{v}(S_t,\\mathbf{w})]\\,\\mathbf{x}(S_t)$"
               ],
               "answer": 2,
-              "explain": "The semi-gradient uses only the gradient of the prediction $\\nabla\\hat{v}(S_t)=\\mathbf{x}(S_t)$, scaled by the TD error and a positive $+\\alpha$ (choice 1). Choice 2 differentiates through the target (a residual-style term with $\\gamma\\mathbf{x}(S_{t+1})$), choice 3 is Monte Carlo (target $G_t$), and choice 4 has the wrong sign $-\\alpha$."
+              "explain": "The semi-gradient uses only the gradient of the prediction, $\\nabla\\hat{v}(S_t)=\\mathbf{x}(S_t)$, scaled by the TD error and a positive $+\\alpha$. The variant with $\\gamma\\mathbf{x}(S_{t+1})$ inside the update differentiates through the target — that is residual-gradient, a different algorithm; the $G_t$-target version is Monte Carlo, not TD(0); and the $-\\alpha$ version steps up the error instead of down it."
             },
             {
               "q": "Why is semi-gradient TD called 'semi'-gradient rather than a full gradient method?",

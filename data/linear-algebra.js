@@ -4350,7 +4350,7 @@
                 "$\\mathbf{x}=(A^\\top A+\\lambda I)^{-1}A^\\top\\mathbf{b}$"
               ],
               "answer": 3,
-              "explain": "$\\nabla f=2A^\\top(A\\mathbf{x}-\\mathbf{b})+2\\lambda\\mathbf{x}=\\mathbf{0}$ gives $(A^\\top A+\\lambda I)\\mathbf{x}=A^\\top\\mathbf{b}$, so $\\mathbf{x}=(A^\\top A+\\lambda I)^{-1}A^\\top\\mathbf{b}$. The $\\lambda I$ term must be inside the inverse, and the right side stays $A^\\top\\mathbf{b}$ (option 3 wrongly drops the $A^\\top$)."
+              "explain": "$\\nabla f=2A^\\top(A\\mathbf{x}-\\mathbf{b})+2\\lambda\\mathbf{x}=\\mathbf{0}$ gives $(A^\\top A+\\lambda I)\\mathbf{x}=A^\\top\\mathbf{b}$, so $\\mathbf{x}=(A^\\top A+\\lambda I)^{-1}A^\\top\\mathbf{b}$. The $\\lambda I$ term must sit inside the inverse, and the right side stays $A^\\top\\mathbf{b}$ — dropping the $A^\\top$ is the tempting slip."
             },
             {
               "q": "Composite map $\\mathbf{h}(\\mathbf{x})=\\mathbf{g}(\\mathbf{f}(\\mathbf{x}))$ with $\\mathbf{f}:\\mathbb{R}^4\\to\\mathbb{R}^3$ and $\\mathbf{g}:\\mathbb{R}^3\\to\\mathbb{R}^2$. What is the shape of the full Jacobian $J_\\mathbf{h}=J_\\mathbf{g}J_\\mathbf{f}$?",

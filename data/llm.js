@@ -3269,7 +3269,7 @@
                 "$4dr$, which is double the actual adapter size"
               ],
               "answer": 2,
-              "explain": "$B$ is $d\\times r$ and $A$ is $r\\times d$, giving $dr + dr = 2dr$ parameters, versus $d^2$ for a dense update. Choice 2 ($dr$) counts only one factor; choice 3 ($r^2$) confuses the bottleneck with its square; choice 4 ($4dr$) double-counts."
+              "explain": "$B$ is $d\\times r$ and $A$ is $r\\times d$, giving $dr + dr = 2dr$ parameters, versus $d^2$ for a dense update. The tempting wrong counts: $dr$ counts only one of the two factors; $r^2$ confuses the bottleneck dimension with its square; $4dr$ double-counts the adapter."
             },
             {
               "q": "What is the primary memory advantage that QLoRA adds on top of standard LoRA?",
