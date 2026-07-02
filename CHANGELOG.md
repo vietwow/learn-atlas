@@ -2,6 +2,11 @@
 
 Prepend new entries under this header. Include the loop-iteration number in the heading.
 
+## iter 1203 — Review: dl-activation-functions + dl-loss-functions (review)
+**`dl-activation-functions`** — h1 ($\sigma'$ derivation, max $\frac14$ at 0), h2 ($0.25^{10}\approx9.5\times10^{-7}$ attenuation), the XOR tent-network trace, and the saturation comparison (38× at $z{=}5$) all verified. One defect: **h0 was fully spoiled** — its affine-collapse proof is e0 (numerically) *and* the previous lesson's h1, while its XOR-impossibility part is e1's Step 1 verbatim (7th answers-in-example case, this one doubly covered). Replaced with the **tanh exercise**: prove $\tanh(z)=2\sigma(2z)-1$, derive max slope 1 (4× sigmoid's), connect to the pre-ReLU "prefer tanh" advice — nothing else on the site works tanh; identity Node-verified at three points.
+**`dl-loss-functions`: clean** — h0's softmax with max-subtraction ($0.114/0.844/0.042$, loss 2.17), the BCE-gradient cancellation proof ($p-y$, with the why-not-MSE punchline), the Gaussian/Laplace MLE argument, e0's first-principles gradient check, the MSE-as-NLL derivation, and the confident-mistakes triple ($0.105/0.693/2.303$) all verified. h0/e0 are parallel practice with a new wrinkle — exactly right.
+Verified: guarded; byte-stable; gate ALL GREEN; headless kErr=0/errs=0. SW `atlas-v1112` → `atlas-v1113`. **Progress: 73/193 lessons · 53/177 widgets.**
+
 ## iter 1202 — Review: Deep Learning begins — dl-ml-recap + dl-the-artificial-neuron-and-mlp (review)
 **`dl-ml-recap-and-the-learning-problem`: clean** — training-risk e0 ($\frac23$), the memorizing-classifier gap e1 ($\hat R=0$ vs $R=0.2$ in the noisy world), the bias-variance U-curve arithmetic ($6$ vs $7.5$), the 200-configs test-set-reuse protocol h1, and the learned-representations h2 all verified.
 **`dl-the-artificial-neuron-and-mlp`** — forward pass h0 ($\hat y=4$ with the ReLU gating), the 115-parameter count, and all three examples verified. One defect: **h1 asked learners to derive the exact linear-collapse formulas that e1's closing paragraph spells out** ($W'=W^{(2)}W^{(1)}$, $\mathbf b'=W^{(2)}\mathbf b^{(1)}+\mathbf b^{(2)}$ — same derivation, renamed symbols; 6th answers-in-the-example case). Extended h1 with a concrete numeric part the example can't spoil: $W'=[2\;3]$, $b'=5$, both forms verified to produce 10 at $(1,1)$.

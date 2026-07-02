@@ -5,7 +5,7 @@ Owner-directed (2026-07-02): review and refine all existing content and visualiz
 
 Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 
-**Progress: 71/193 lessons · 53/177 widgets**
+**Progress: 73/193 lessons · 53/177 widgets**
 
 ## linear-algebra — lessons
 - [x] la-vectors-operations — ✔ iter-1158 — added magnitude/norm preview section (examples used it before it was defined); aligned q11 terminology (tip-to-tail); all 16 MCQs + 3 hw + 3 examples arithmetic re-verified
@@ -144,8 +144,8 @@ Status legend: `pending` · `✔ iter-N — what changed` · `✔ iter-N clean`
 ## deep-learning — lessons
 - [x] dl-ml-recap-and-the-learning-problem — ✔ iter-1202 clean — training risk e0 (2/3), memorizer 0-vs-0.2 gap e1, bias-variance U-curve e2 (6 vs 7.5), test-set-reuse protocol h1, parametric/representation h2 all verified; no changes
 - [x] dl-the-artificial-neuron-and-mlp — ✔ iter-1202 — h1 asked to derive the exact collapse formulas e1's final paragraph spells out (W′=W⁽²⁾W⁽¹⁾, b′=W⁽²⁾b⁽¹⁾+b⁽²⁾ — 6th answers-in-the-example case); extended h1 with a numeric part (W′=[2,3], b′=5, both forms → 10 at (1,1), Node-verified). Forward pass h0 (ŷ=4), 115-param count h2, all examples verified
-- [ ] dl-activation-functions — pending
-- [ ] dl-loss-functions — pending
+- [x] dl-activation-functions — ✔ iter-1203 — h0 was fully spoiled: its collapse proof is e0 (numeric) + the previous lesson's h1, and its XOR-impossibility part is e1's Step 1 verbatim (7th answers-in-example case). Replaced with the tanh=2σ(2z)−1 identity + max-slope-1 exercise (4× sigmoid; nothing else works tanh; Node-verified). h1 (σ′ max ¼ at 0), h2 (0.25¹⁰≈9.5×10⁻⁷), XOR tent-trace e1, saturation e2 (38×) all verified
+- [x] dl-loss-functions — ✔ iter-1203 clean — h0 softmax (0.114/0.844/0.042, loss 2.17, gradient ŷ−y), BCE-gradient cancellation h1, Gaussian/Laplace MLE h2, e0 (0.705/0.259/0.035 with first-principles check), MSE-as-NLL e1 (2.0, step to 2.933), confident-mistakes e2 (0.105/0.693/2.303) all verified; h0/e0 are parallel practice (h0 adds max-subtraction) — good design; no changes
 - [ ] dl-backpropagation — pending
 - [ ] dl-gradient-descent-and-optimizers — pending
 - [ ] dl-learning-rate-schedules-and-tuning — pending
